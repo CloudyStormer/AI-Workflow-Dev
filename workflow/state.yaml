@@ -1,0 +1,15 @@
+schema_version: 1
+project_id: "workflow-control-center"
+structure_status: normalized
+stage: ui-design
+status: awaiting-ui-prompt-review
+current_role: null
+blocked: false
+next_approval:
+  artifact: ui/01-control-center-ui-design-prompt.md
+  decision_owner: 齐总
+  decision: pending
+runtime:
+  live_url: "https://ai-workflow-control-center.honest-flute-5906.chatgpt.site"
+  data_status: demo
+updated_at: "2026-07-31T22:02:27+08:00"

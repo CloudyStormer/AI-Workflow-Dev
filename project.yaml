@@ -1,0 +1,41 @@
+schema_version: 1
+project:
+  id: "workflow-control-center"
+  name: "AI Workflow Control Center"
+  kind: "governance"
+  profile: "sites-fullstack"
+governance:
+  project_skill: "skills/project-workflow-control-center/SKILL.md"
+  shared_skills_source: "../skill"
+  workflow_state: "workflow/state.yaml"
+  approvals: "workflow/approvals.yaml"
+  artifacts: "workflow/artifacts.yaml"
+  events: "workflow/events.jsonl"
+entrypoints:
+  dev:
+    cwd: "."
+    command: "npm run dev"
+  build:
+    cwd: "."
+    command: "npm run build"
+  test:
+    cwd: "."
+    command: "npm test"
+  lint:
+    cwd: "."
+    command: "npm run lint"
+modules:
+  - name: "web"
+    path: "app"
+  - name: "data"
+    path: "db"
+  - name: "worker"
+    path: "worker"
+  - name: "static"
+    path: "public"
+  - name: "hosting"
+    path: ".openai"
+  - name: "design"
+    path: "ui"
+  - name: "tests"
+    path: "tests"

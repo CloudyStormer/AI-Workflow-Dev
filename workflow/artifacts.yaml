@@ -1,0 +1,31 @@
+schema_version: 1
+artifacts:
+  - id: artifact-project-manifest-001
+    type: project-manifest
+    path: project.yaml
+    status: active
+    owner: package-contractor
+    sha256: a1b22d5dc1657bbbc114e314f870b6732bb9f5eaafb55cc1209744903cb235e2
+    updated_at: "2026-07-31T22:02:27+08:00"
+  - id: artifact-project-skill-001
+    type: project-skill
+    path: skills/project-workflow-control-center/SKILL.md
+    status: active
+    owner: package-contractor
+    sha256: 70e3cef8e948ef5986aed4353680c412ed42a70bb9388202939042f7a005253b
+    updated_at: "2026-07-31T22:02:27+08:00"
+  - id: artifact-ui-prompt-001
+    type: ui-design-prompt
+    path: ui/01-control-center-ui-design-prompt.md
+    version: "1.0"
+    status: ready-for-review
+    owner: role-ui-designer
+    sha256: d4357c1fbf96091334307ef9170059995282ea9c622fd6632103edd8730fa69c
+  - id: artifact-private-deployment-002
+    type: deployment
+    path: .openai/hosting.json
+    version: "2"
+    status: live-demo
+    owner: package-contractor
+    url: "https://ai-workflow-control-center.honest-flute-5906.chatgpt.site"
+    data_status: demo
