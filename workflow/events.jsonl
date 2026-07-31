@@ -1,3 +1,3 @@
 {"event_id":"event-20260731-001","run_id":"run-20260731-intake-001","time":"2026-07-31T17:57:24+08:00","actor":"package-contractor","type":"project_scaffolded","result":"ready","next":"market_research"}
 {"event_id":"event-20260731-002","run_id":"run-20260731-intake-001","time":"2026-07-31T17:57:24+08:00","actor":"齐总","type":"role_entry_approved","role":"role-market-researcher","scope":"market/source/competitor/compliance research"}
-
+{"event_id":"event-20260731-003","run_id":"run-20260731-intake-001","time":"2026-07-31T18:15:10+08:00","actor":"role-market-researcher","type":"artifact_ready_for_review","artifact":"docs/00-market-research.md","version":"1.0","sha256":"dab02c74665a2436b2854bec62a8d8ad7ef158bfc10d507f32ac78a455ef7659","result":"ready-for-review","known_limits":["no_30_day_backtest","unstable_or_unverified_sources_downgraded"],"next":"market_research_review_by_齐总"}

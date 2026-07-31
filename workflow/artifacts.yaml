@@ -11,6 +11,8 @@ artifacts:
     run_id: run-20260731-intake-001
     type: market-research
     path: docs/00-market-research.md
-    status: in-progress
+    status: ready-for-review
     owner: role-market-researcher
-
+    version: "1.0"
+    sha256: dab02c74665a2436b2854bec62a8d8ad7ef158bfc10d507f32ac78a455ef7659
+    completed_at: "2026-07-31T18:15:10+08:00"
