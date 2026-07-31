@@ -1,32 +1,49 @@
-# React + TypeScript + Vite
+# AI English Learning 前端
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+基于 React、TypeScript、Vite 和 Tailwind CSS 的 AI 英语学习前端。
 
-Currently, two official plugins are available:
+## 环境要求
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Node.js 22.12.0 或更高版本
+- npm 10.9.0 或兼容版本
 
-## React Compiler
+项目提供了 `.nvmrc`。使用 nvm 时先执行：
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+nvm use
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+如果本机尚未安装对应版本：
+
+```bash
+nvm install
+nvm use
+```
+
+## 安装与运行
+
+```bash
+npm install
+npm run dev
+```
+
+开发服务启动后，访问终端显示的本地地址。
+
+## 质量检查与构建
+
+```bash
+npm run lint
+npm run build
+```
+
+## 常见启动问题
+
+### `node:util` 没有导出 `styleText`
+
+当前 Node.js 版本过低。执行 `node --version`，确认版本不低于
+`22.12.0`，然后重新安装依赖。
+
+### PostCSS 提示不能直接使用 `tailwindcss`
+
+Tailwind CSS 4 必须通过 `@tailwindcss/postcss` 接入。确认依赖已安装，
+并重新执行 `npm install`。
