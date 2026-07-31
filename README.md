@@ -1,14 +1,14 @@
-# vinext-starter
+# AI Workflow Control Center
 
-A clean full-stack starter running on
-[vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
-Drizzle support.
+AI 工作流学习与验证项目的可视化控制中心。第一版用于验证信息架构和视觉表达，当前项目、阶段、角色、缺陷与成熟度仍是演示数据，不是实时事实源。
+
+在接入 `workflow/state.yaml`、`approvals.yaml`、`artifacts.yaml` 与事件流以前，界面不得宣称状态已实时同步。
 
 ## Prerequisites
 
 - Node.js `>=22.13.0`
 
-## Quick Start
+## 本地运行
 
 ```bash
 npm install
@@ -18,14 +18,22 @@ npm run build
 
 This starter does not use `wrangler.jsonc`.
 
-## Included Shape
+## 当前实现
 
-- edit site code under `app/`
+- 界面代码位于 `app/`
 - `.openai/hosting.json` declares optional Sites D1 and R2 bindings
 - `vite.config.ts` simulates declared bindings for local development
 - `db/schema.ts` starts intentionally empty
 - `examples/d1/` contains an optional D1 example surface
 - `drizzle.config.ts` supports local migration generation when needed
+
+## 已知边界
+
+- 6 个导航入口尚未形成独立页面。
+- 缺陷状态只保存在 React 内存，刷新后恢复。
+- 数据库 Schema 为空，所有管理数据尚未持久化。
+- 当前测试只覆盖服务端渲染和基础响应式标记。
+- 下一版图表化设计必须先通过齐总对 UI/UX 设计提示词的审核。
 
 ## Workspace Auth Headers
 
