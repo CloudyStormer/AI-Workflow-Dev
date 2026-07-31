@@ -11,5 +11,7 @@ next_approval:
   decision: pending
 runtime:
   live_url: "https://ai-workflow-control-center.honest-flute-5906.chatgpt.site"
+  deployed_version: 3
+  deployed_source_commit: bbf3c0d7dc889f8e8ca9e05a9409c0b0dce7d187
   data_status: demo
-updated_at: "2026-07-31T22:15:09+08:00"
+updated_at: "2026-07-31T22:20:32+08:00"

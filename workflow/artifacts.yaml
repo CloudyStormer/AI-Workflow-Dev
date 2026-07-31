@@ -25,8 +25,10 @@ artifacts:
   - id: artifact-private-deployment-002
     type: deployment
     path: .openai/hosting.json
-    version: "2"
+    version: "3"
     status: live-demo
     owner: package-contractor
     url: "https://ai-workflow-control-center.honest-flute-5906.chatgpt.site"
     data_status: demo
+    source_commit: bbf3c0d7dc889f8e8ca9e05a9409c0b0dce7d187
+    deployed_at: "2026-07-31T22:20:32+08:00"
