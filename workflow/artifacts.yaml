@@ -31,5 +31,5 @@ artifacts:
     path: skills/project-ai-model-radar/SKILL.md
     status: active
     owner: package-contractor
-    sha256: 77e51aca13df3b737949ddae1e49293830364234ae2adbd56790ae6a17c897c4
-    updated_at: "2026-07-31T22:15:09+08:00"
+    sha256: 17d410f7e4d9231e1feb7c69179ca93f62b3cc064202113b31716bcf5ed86447
+    updated_at: "2026-08-01T00:02:05+08:00"
