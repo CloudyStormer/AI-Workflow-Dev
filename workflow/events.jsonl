@@ -1,0 +1,3 @@
+{"event_id":"event-20260731-001","run_id":"run-20260731-intake-001","time":"2026-07-31T17:57:24+08:00","actor":"package-contractor","type":"project_scaffolded","result":"ready","next":"market_research"}
+{"event_id":"event-20260731-002","run_id":"run-20260731-intake-001","time":"2026-07-31T17:57:24+08:00","actor":"齐总","type":"role_entry_approved","role":"role-market-researcher","scope":"market/source/competitor/compliance research"}
+

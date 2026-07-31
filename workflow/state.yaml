@@ -1,0 +1,13 @@
+schema_version: 1
+project_id: ai-model-radar
+run_id: run-20260731-intake-001
+stage: market-research
+status: role-approved-in-progress
+current_role: role-market-researcher
+blocked: false
+next_approval:
+  artifact: docs/00-market-research.md
+  decision_owner: 齐总
+  decision: pending
+updated_at: "2026-07-31T17:57:24+08:00"
+
