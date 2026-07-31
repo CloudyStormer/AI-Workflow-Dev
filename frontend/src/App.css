@@ -465,7 +465,67 @@
   min-width: 112px;
   margin: 0 5px;
   color: var(--purple);
-  letter-spacing: .06em;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.cloze-letter-pattern {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: flex-end;
+  gap: clamp(1px, .5vw, 4px);
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  scrollbar-width: none;
+}
+
+.cloze-letter-pattern::-webkit-scrollbar {
+  display: none;
+}
+
+.cloze-letter-pattern__slot {
+  display: inline-grid;
+  min-width: .62em;
+  height: 1.28em;
+  place-items: center;
+  border-bottom: 2px solid color-mix(in srgb, var(--muted) 44%, transparent);
+  color: color-mix(in srgb, var(--muted) 66%, transparent);
+  font-size: .94em;
+  font-weight: 680;
+  line-height: 1;
+}
+
+.cloze-letter-pattern__slot.is-hinted {
+  border-color: var(--purple);
+  color: var(--purple);
+  font-weight: 850;
+}
+
+.cloze-letter-pattern__slot.is-separator {
+  min-width: .35em;
+  border-color: transparent;
+}
+
+.cloze-letter-meta {
+  display: flex;
+  width: 100%;
+  margin-top: 16px;
+  padding-top: 12px;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  border-top: 1px solid var(--border-subtle);
+  color: var(--muted);
+  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 12px;
+  font-weight: 680;
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+
+.cloze-letter-meta span::before {
+  margin-right: 14px;
+  color: color-mix(in srgb, var(--muted) 48%, transparent);
+  content: "·";
 }
 
 .cloze-translation {
@@ -568,6 +628,25 @@
   text-decoration: underline;
   text-underline-offset: 3px;
   cursor: pointer;
+}
+
+.cloze-hint-actions {
+  display: flex;
+  min-height: 32px;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px 18px;
+}
+
+.hint-button--secondary {
+  color: var(--muted);
+}
+
+.hint-button:disabled {
+  color: var(--muted);
+  cursor: default;
+  opacity: .7;
+  text-decoration: none;
 }
 
 .examples-panel {
@@ -1418,6 +1497,11 @@
     gap: clamp(28px, 4vw, 55px);
   }
 
+  .word-layout--cloze {
+    grid-template-columns: minmax(0, 720px);
+    justify-content: center;
+  }
+
   .word-card {
     min-height: clamp(590px, calc(100vh - 270px), 680px);
     padding: 43px 38px 92px;
@@ -2233,6 +2317,12 @@
 
 :root[data-theme="dark"] :is(.cloze-card__instruction, .cloze-translation, .cloze-feedback) {
   color: var(--muted);
+}
+
+:root[data-theme="dark"] .cloze-letter-pattern__slot.is-hinted,
+:root[data-theme="dark"] .hint-button:not(:disabled) {
+  border-color: var(--accent-text);
+  color: var(--accent-text);
 }
 
 :root[data-theme="dark"] .cloze-input-row input {

@@ -54,6 +54,8 @@ Device frames, operating-system status bars, monitor bezels, and home indicators
 
 - Home “背单词” action navigates to `/word`.
 - Word offers explicit “单词 / 填空” modes; the fill-in input reports incorrect spelling, accepts the correct answer, and advances from `12/50` to `13/50`.
+- Fill-in mode now generates stable, randomized letter scaffolds from prefix, suffix, middle-pair, or scattered positions. “再提示一些” progressively reveals more letters without exposing the full answer, while “换一组字母” rerolls the visible positions without changing the question.
+- Study-only examples are not rendered in fill-in mode, so desktop learners cannot see the target word elsewhere on the page.
 - Word pronunciation and tutor-message playback use the browser speech engine.
 - Repeated mastery of the same word no longer increases the vocabulary total more than once.
 - Each chat contact has an independent title, avatar, and message thread; typed messages do not leak between contacts.
@@ -67,11 +69,14 @@ Additional fill-in evidence:
 
 - `design-qa/implementation-mobile-word-cloze.png`
 - `design-qa/implementation-desktop-word-cloze.png`
+- `design-qa/implementation-mobile-word-random-hints.jpg`
+- `design-qa/implementation-desktop-word-random-hints.jpg`
 
 ## Engineering verification
 
 - TypeScript project check: passed
 - Production Vite build: passed
 - Oxlint: passed
+- Hint invariants: passed across 80,160 word/variant combinations, including one-letter, short-word, hyphenated-word, progressive-reveal, and reroll cases
 
 final result: passed

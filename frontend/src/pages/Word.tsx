@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import cherryBlossoms from '../assets/ui/cherry-blossoms.png'
 import Icon from '../components/Icon'
 import { learningWords } from '../data/content'
 import { useLearningStore } from '../store/useLearningStore'
 import { speakText } from '../utils/speech'
+import { buildLetterHint, createHintVariant, getNextHintVariant } from '../utils/wordHints'
 
 function escapeRegExp(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -61,15 +62,21 @@ function Word() {
   const [mode, setMode] = useState<PracticeMode>('study')
   const [answer, setAnswer] = useState('')
   const [result, setResult] = useState<AnswerResult>('idle')
-  const [showHint, setShowHint] = useState(false)
+  const [hintLevel, setHintLevel] = useState(1)
+  const [hintVariant, setHintVariant] = useState(createHintVariant)
   const answerInputRef = useRef<HTMLInputElement>(null)
   const word = learningWords[wordIndex]
   const progress = `${Math.round((completed / 50) * 100)}%`
+  const letterHint = useMemo(
+    () => buildLetterHint(word.word, hintLevel, hintVariant),
+    [hintLevel, hintVariant, word.word],
+  )
 
   useEffect(() => {
     setAnswer('')
     setResult('idle')
-    setShowHint(false)
+    setHintLevel(1)
+    setHintVariant(createHintVariant())
 
     if (mode === 'cloze') {
       answerInputRef.current?.focus()
@@ -86,6 +93,14 @@ function Word() {
 
     const normalizedAnswer = answer.trim().toLocaleLowerCase()
     setResult(normalizedAnswer === word.word.toLocaleLowerCase() ? 'correct' : 'incorrect')
+  }
+
+  function handleMoreHint() {
+    setHintLevel((currentLevel) => Math.min(currentLevel + 1, letterHint.maxLevel))
+  }
+
+  function handleNewHintPattern() {
+    setHintVariant((currentVariant) => getNextHintVariant(word.word, hintLevel, currentVariant))
   }
 
   const [beforeBlank, afterBlank] = word.clozeSentence.split('{{blank}}')
@@ -118,7 +133,7 @@ function Word() {
         </div>
       </header>
 
-      <main className="word-layout">
+      <main className={`word-layout${mode === 'cloze' ? ' word-layout--cloze' : ''}`}>
         {mode === 'study' ? (
           <article className="word-card">
             <ModeSwitch mode={mode} onChange={setMode} />
@@ -148,15 +163,32 @@ function Word() {
             <h1>拼写填空</h1>
             <p className="cloze-card__instruction">根据句意，填写缺少的英文单词。</p>
 
-            <div id="cloze-question" className="cloze-sentence" aria-label="填空题">
+            <div id="cloze-question" className="cloze-sentence">
               <span>{beforeBlank}</span>
               <strong>
-                <span aria-hidden="true">________</span>
+                <span className="cloze-letter-pattern" aria-hidden="true">
+                  {letterHint.characters.map(({ character, isHinted, isSeparator }, index) => (
+                    <span
+                      key={`${character}-${index}`}
+                      className={`cloze-letter-pattern__slot${isHinted ? ' is-hinted' : ''}${isSeparator ? ' is-separator' : ''}`}
+                    >
+                      {isHinted ? character : '_'}
+                    </span>
+                  ))}
+                </span>
                 <span className="visually-hidden">空格</span>
               </strong>
               <span>{afterBlank}</span>
+              <span className="cloze-letter-meta" aria-hidden="true">
+                共 {letterHint.letterCount} 个字母
+                <span>随机显示 {letterHint.revealedCount} 个</span>
+                <span>提示 {letterHint.level}/{letterHint.maxLevel}</span>
+              </span>
             </div>
             <p id="cloze-translation" className="cloze-translation">{word.clozeTranslation}</p>
+            <p id="cloze-hint-status" className="cloze-hint-status visually-hidden" aria-live="polite">
+              {letterHint.ariaLabel}
+            </p>
 
             <form className="cloze-form" onSubmit={handleAnswerSubmit}>
               <label htmlFor="cloze-answer">请输入答案</label>
@@ -170,10 +202,11 @@ function Word() {
                     if (result !== 'idle') setResult('idle')
                   }}
                   aria-invalid={result === 'incorrect'}
-                  aria-describedby="cloze-question cloze-translation cloze-feedback"
+                  aria-describedby="cloze-question cloze-translation cloze-hint-status cloze-feedback"
                   autoComplete="off"
                   spellCheck={false}
-                  placeholder="在这里输入英文单词"
+                  maxLength={word.word.length}
+                  placeholder={`请输入 ${letterHint.letterCount} 个字母`}
                 />
                 <button type="submit" disabled={!answer.trim() && result !== 'correct'}>
                   {result === 'correct' ? '下一题' : '检查答案'}
@@ -187,21 +220,33 @@ function Word() {
                 {result === 'incorrect' && (
                   <p className="is-incorrect">答案还不对，请检查拼写后再试一次。</p>
                 )}
-                {result === 'idle' && showHint && (
-                  <p>提示：答案以 <strong>{word.word[0].toUpperCase()}</strong> 开头，共 {word.word.length} 个字母。</p>
-                )}
               </div>
 
               {result !== 'correct' && (
-                <button type="button" className="hint-button" onClick={() => setShowHint(true)}>
-                  显示提示
-                </button>
+                <div className="cloze-hint-actions">
+                  <button
+                    type="button"
+                    className="hint-button"
+                    onClick={handleMoreHint}
+                    disabled={hintLevel >= letterHint.maxLevel}
+                  >
+                    {hintLevel >= letterHint.maxLevel ? '提示已到当前上限' : '再提示一些'}
+                  </button>
+                  <button
+                    type="button"
+                    className="hint-button hint-button--secondary"
+                    onClick={handleNewHintPattern}
+                    disabled={!letterHint.hasAlternatePattern}
+                  >
+                    {letterHint.hasAlternatePattern ? '换一组字母' : '暂无其他字母组合'}
+                  </button>
+                </div>
               )}
             </form>
           </article>
         )}
 
-        <aside className="examples-panel">
+        {mode === 'study' && <aside className="examples-panel">
           <h2>Examples</h2>
           <div className="examples-panel__body">
             <article className="image-example-card">
@@ -232,7 +277,7 @@ function Word() {
               </section>
             </div>
           </div>
-        </aside>
+        </aside>}
       </main>
 
       {mode === 'study' && (
