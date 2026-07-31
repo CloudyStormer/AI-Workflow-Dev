@@ -8,7 +8,7 @@ proposed_role: role-frontend-dev
 blocked: false
 next_approval:
   scope: "填空练习的三段式字母提示交互"
-  decision_owner: 齐总
+  decision_owner: 超级无敌帅超超总
   decision: pending
 state_limit: "旧文档任务状态尚未与当前代码和Git完成全面对账"
-updated_at: "2026-07-31T22:02:27+08:00"
+updated_at: "2026-07-31T22:15:09+08:00"

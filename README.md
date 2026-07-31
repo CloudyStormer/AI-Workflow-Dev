@@ -38,5 +38,5 @@ npm run build
 
 ## 工作边界
 
-开始任务前读取 `AGENTS.md`、`project.yaml`、项目级 Skill 和 `workflow/`。任何专业角色入场都要经齐总明确批准；涉及 UI 时必须先审提示词、再审设计、最后实现。
+开始任务前读取 `AGENTS.md`、`project.yaml`、项目级 Skill 和 `workflow/`。任何专业角色入场都要经超级无敌帅超超总明确批准；涉及 UI 时必须先审提示词、再审设计、最后实现。
 

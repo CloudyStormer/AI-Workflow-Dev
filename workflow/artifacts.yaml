@@ -12,5 +12,5 @@ artifacts:
     path: skills/project-ai-english-learning/SKILL.md
     status: active
     owner: package-contractor
-    sha256: a8713abfc731bf5f5892fba55bb00b8e6c3e4bfd0376ac56f0947acd5461fac1
-    updated_at: "2026-07-31T22:02:27+08:00"
+    sha256: 0d087343beced7bbaa95971e8e91c6f87560f19d7c9df21c22cd0f8d5862a410
+    updated_at: "2026-07-31T22:15:09+08:00"
