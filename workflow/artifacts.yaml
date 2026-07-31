@@ -13,9 +13,10 @@ artifacts:
     path: docs/00-market-research.md
     status: ready-for-review
     owner: role-market-researcher
-    version: "1.0"
-    sha256: dab02c74665a2436b2854bec62a8d8ad7ef158bfc10d507f32ac78a455ef7659
+    version: "1.0.1"
+    sha256: 0501bd7950dd9201def4fadc3dcd5830ef149ba0450d880ed3a7591a370bbbc1
     completed_at: "2026-07-31T18:15:10+08:00"
+    updated_at: "2026-07-31T22:15:09+08:00"
   - id: artifact-project-manifest-001
     run_id: run-20260731-intake-001
     type: project-manifest
@@ -30,5 +31,5 @@ artifacts:
     path: skills/project-ai-model-radar/SKILL.md
     status: active
     owner: package-contractor
-    sha256: 9a3775dee86a9ad975d8117b2a4ec3e882c1aff4d8479696f7c92e42e74c09af
-    updated_at: "2026-07-31T22:02:27+08:00"
+    sha256: 77e51aca13df3b737949ddae1e49293830364234ae2adbd56790ae6a17c897c4
+    updated_at: "2026-07-31T22:15:09+08:00"
