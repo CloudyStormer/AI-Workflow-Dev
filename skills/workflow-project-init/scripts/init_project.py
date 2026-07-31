@@ -139,6 +139,10 @@ def render_agents(args: argparse.Namespace) -> str:
 5. Do not move or rename the entrypoints declared in `project.yaml` without separate approval.
 6. Keep `workflow/state.yaml`, approvals, artifacts, events, and the Skill lock aligned with real state.
 7. Preserve unrelated and uncommitted user changes; never commit them with project-governance edits.
+8. 下游收到产品逻辑或 UI/UX 变更时，当前角色立即冻结；不得由开发直接代改。
+9. 固定回退链是“产品独立交付并审核 → UI/UX 独立交付并审核 → 开发重新获批”；每站使用独立任务/对话，禁止自动连续推进或继承审批。
+10. 全局角色 Agent 池永久固定为现有 `00 包工头` 与 `01` 至 `11` 角色任务；无论项目多少都不得新增项目专属或重复角色任务。
+11. 每个固定角色负责所有项目；项目上下文只通过本项目的 `project.yaml`、项目级 Skill、`docs/` 和 `workflow/` 隔离。
 """
 
 
@@ -195,6 +199,18 @@ description: '{description}'
 ## 角色路由
 
 按任务调用对应子 Skill：市场调研、项目管理、产品、UI/UX、架构、前端、后端、数据、代码审查、QA 和 DevOps。上一角色通过不代表下一角色自动获准。
+
+## 固定角色 Agent 池（强制）
+
+- 无论创建多少项目，始终只使用现有 `00 包工头` 与 `01` 至 `11` 固定角色任务；不得创建项目专属、需求专属或重复角色 Agent/任务。
+- 每个固定角色负责所有项目。本项目只通过 `project.yaml`、本项目 Skill、`docs/` 和 `workflow/` 提供上下文隔离。
+- “对应角色的独立任务/对话”是指复用已有固定角色任务，例如产品工作统一交给 `03 产品经理`，不表示为本项目另建一次角色对话。
+
+## 下游变更回退门（强制）
+
+- 项目进入架构、开发、审查、测试或发布后，只要超级无敌帅超超总提出产品逻辑或 UI/UX 变更，当前角色立即冻结受影响工作并登记完成点、未提交改动、阻塞与恢复点；开发不得直接代改。
+- 固定顺序是：产品经理在独立任务中交付并等待明确审核 → 审核通过后 UI/UX 在独立任务中交付并等待明确审核 → 再次通过后对应开发角色重新获批并解冻。
+- 每一站的任务、产物、审批、冻结和恢复事件都写入 `workflow/`；禁止自动跑完整链路，也禁止把上一站批准推定为下一站批准。
 
 ## 完成门
 

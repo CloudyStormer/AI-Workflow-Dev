@@ -12,8 +12,8 @@ artifacts:
     path: skills/project-workflow-control-center/SKILL.md
     status: active
     owner: package-contractor
-    sha256: cc0cc9c8e5b47e8525e4a3fb4ab7a617d7efd8b30863d16960f539b973033758
-    updated_at: "2026-07-31T22:15:09+08:00"
+    sha256: 7fe8aa5553955d8dfd02a75d22479e06cc425044929715b86e7701ea579d8ab8
+    updated_at: "2026-08-01T00:02:05+08:00"
   - id: artifact-ui-prompt-001
     type: ui-design-prompt
     path: ui/01-control-center-ui-design-prompt.md
