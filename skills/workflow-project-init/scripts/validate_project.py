@@ -201,6 +201,10 @@ def main() -> int:
                 errors.append("project-level Skill frontmatter name does not match project id")
             if "超级无敌帅超超总" not in body:
                 errors.append("project-level Skill does not contain the 超级无敌帅超超总 address rule")
+            if "下游变更回退门（强制）" not in body:
+                errors.append("project-level Skill does not contain the downstream change rollback gate")
+            if "固定角色 Agent 池（强制）" not in body:
+                errors.append("project-level Skill does not contain the fixed global role-agent pool rule")
         project_metadata = project_skill.parent / "agents" / "openai.yaml"
         if not project_metadata.is_file():
             errors.append(
@@ -232,6 +236,10 @@ def main() -> int:
             errors.append("AGENTS.md does not route to the manifest and project Skill")
         if "超级无敌帅超超总" not in agents:
             errors.append("AGENTS.md does not contain the 超级无敌帅超超总 address rule")
+        if "产品独立交付并审核 → UI/UX 独立交付并审核 → 开发重新获批" not in agents:
+            errors.append("AGENTS.md does not contain the downstream change rollback sequence")
+        if "全局角色 Agent 池永久固定" not in agents:
+            errors.append("AGENTS.md does not contain the fixed global role-agent pool rule")
 
     events_path = root / "workflow" / "events.jsonl"
     if events_path.is_file():
@@ -275,6 +283,25 @@ def main() -> int:
             errors.append(f"invalid Skill frontmatter fence: {skill_file.relative_to(root)}")
         if "name:" not in text.split("---", 2)[1] or "description:" not in text.split("---", 2)[1]:
             errors.append(f"Skill missing name/description: {skill_file.relative_to(root)}")
+        skill_name = skill_file.parent.name
+        if (
+            skill_name == "ai-dev-workflow"
+            or skill_name == "workflow-project-init"
+            or skill_name.startswith("role-")
+            or skill_name.startswith("project-")
+        ) and "下游变更回退门（强制）" not in text:
+            errors.append(
+                f"Skill missing downstream change rollback gate: {skill_file.relative_to(root)}"
+            )
+        if (
+            skill_name == "ai-dev-workflow"
+            or skill_name == "workflow-project-init"
+            or skill_name.startswith("role-")
+            or skill_name.startswith("project-")
+        ) and "固定角色 Agent 池（强制）" not in text:
+            errors.append(
+                f"Skill missing fixed global role-agent pool rule: {skill_file.relative_to(root)}"
+            )
 
     for warning in warnings:
         print(f"WARN  {warning}")
