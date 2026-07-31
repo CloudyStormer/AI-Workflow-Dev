@@ -12,15 +12,16 @@ artifacts:
     path: skills/project-workflow-control-center/SKILL.md
     status: active
     owner: package-contractor
-    sha256: 70e3cef8e948ef5986aed4353680c412ed42a70bb9388202939042f7a005253b
-    updated_at: "2026-07-31T22:02:27+08:00"
+    sha256: cc0cc9c8e5b47e8525e4a3fb4ab7a617d7efd8b30863d16960f539b973033758
+    updated_at: "2026-07-31T22:15:09+08:00"
   - id: artifact-ui-prompt-001
     type: ui-design-prompt
     path: ui/01-control-center-ui-design-prompt.md
-    version: "1.0"
+    version: "1.0.1"
     status: ready-for-review
     owner: role-ui-designer
-    sha256: d4357c1fbf96091334307ef9170059995282ea9c622fd6632103edd8730fa69c
+    sha256: 6b7335068417f2402c7672b9d233a4b739142116af4671b442b9ddf578c7650e
+    updated_at: "2026-07-31T22:15:09+08:00"
   - id: artifact-private-deployment-002
     type: deployment
     path: .openai/hosting.json

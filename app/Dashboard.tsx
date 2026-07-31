@@ -169,7 +169,7 @@ export default function Dashboard() {
         <div className="sidebar-foot">
           <div className="operator-avatar">齐</div>
           <div>
-            <strong>齐总</strong>
+            <strong>超级无敌帅超超总</strong>
             <span>项目所有者</span>
           </div>
           <button aria-label="账户设置">•••</button>

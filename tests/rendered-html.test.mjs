@@ -34,7 +34,7 @@ test("server-renders the AI workflow control center", async () => {
   assert.match(html, /摸清、走通、验证一套真正可复用的 AI 软件工程工作流/);
   assert.match(html, /角色协作与当前入场顺序/);
   assert.match(html, /缺陷、修复与复测/);
-  assert.match(html, /齐总/);
+  assert.match(html, /超级无敌帅超超总/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|Building your site/i);
 });
 

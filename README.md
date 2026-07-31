@@ -39,7 +39,7 @@ This starter does not use `wrangler.jsonc`.
 - 缺陷状态只保存在 React 内存，刷新后恢复。
 - 数据库 Schema 为空，所有管理数据尚未持久化。
 - 当前测试只覆盖服务端渲染和基础响应式标记。
-- 下一版图表化设计必须先通过齐总对 UI/UX 设计提示词的审核。
+- 下一版图表化设计必须先通过超级无敌帅超超总对 UI/UX 设计提示词的审核。
 
 ## Workspace Auth Headers
 

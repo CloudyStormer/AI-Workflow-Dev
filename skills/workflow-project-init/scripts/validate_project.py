@@ -199,8 +199,8 @@ def main() -> int:
             body = project_skill.read_text(encoding="utf-8")
             if f"name: project-{project_id}" not in body:
                 errors.append("project-level Skill frontmatter name does not match project id")
-            if "齐总" not in body:
-                errors.append("project-level Skill does not contain the 齐总 address rule")
+            if "超级无敌帅超超总" not in body:
+                errors.append("project-level Skill does not contain the 超级无敌帅超超总 address rule")
         project_metadata = project_skill.parent / "agents" / "openai.yaml"
         if not project_metadata.is_file():
             errors.append(
@@ -230,8 +230,8 @@ def main() -> int:
         agents = agents_path.read_text(encoding="utf-8")
         if "project.yaml" not in agents or "SKILL.md" not in agents:
             errors.append("AGENTS.md does not route to the manifest and project Skill")
-        if "齐总" not in agents:
-            errors.append("AGENTS.md does not contain the 齐总 address rule")
+        if "超级无敌帅超超总" not in agents:
+            errors.append("AGENTS.md does not contain the 超级无敌帅超超总 address rule")
 
     events_path = root / "workflow" / "events.jsonl"
     if events_path.is_file():

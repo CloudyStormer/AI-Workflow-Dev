@@ -134,8 +134,8 @@ def render_agents(args: argparse.Namespace) -> str:
 
 1. Before substantive work, read `project.yaml` and `skills/project-{args.id}/SKILL.md` completely.
 2. Treat the project-level Skill as the project router and the other folders under `skills/` as professional sub Skills.
-3. Every conversation with the user must address the user as “齐总”.
-4. A role may enter only after 齐总 explicitly approves that role and scope.
+3. Every conversation with the user must address the user as “超级无敌帅超超总”.
+4. A role may enter only after 超级无敌帅超超总 explicitly approves that role and scope.
 5. Do not move or rename the entrypoints declared in `project.yaml` without separate approval.
 6. Keep `workflow/state.yaml`, approvals, artifacts, events, and the Skill lock aligned with real state.
 7. Preserve unrelated and uncommitted user changes; never commit them with project-governance edits.
@@ -156,8 +156,8 @@ description: '{description}'
 
 ## 用户称呼与审批
 
-- 每次对话必须称呼用户为“齐总”。
-- 专业角色首次入场或重新进入新阶段前，必须得到齐总对该角色和范围的明确批准。
+- 每次对话必须称呼用户为“超级无敌帅超超总”。
+- 专业角色首次入场或重新进入新阶段前，必须得到超级无敌帅超超总对该角色和范围的明确批准。
 - 本 Skill 只路由项目上下文，不代替市场、产品、UI、架构、开发、审查、测试或部署 Skill。
 
 ## 项目身份
@@ -173,7 +173,7 @@ description: '{description}'
 2. 读取 `workflow/state.yaml`、`approvals.yaml`、`artifacts.yaml` 和最近事件。
 3. 读取任务所需的 `docs/` 文档和对应专业子 Skill。
 4. 检查 Git 状态，隔离其他任务的未提交改动。
-5. 涉及 UI、Demo、原型、图表或界面实现时，先调用 UI/UX Skill 提交提示词给齐总审核。
+5. 涉及 UI、Demo、原型、图表或界面实现时，先调用 UI/UX Skill 提交提示词给超级无敌帅超超总审核。
 
 ## 真实入口
 
@@ -182,7 +182,7 @@ description: '{description}'
 - 测试：在 `{args.test_cwd}` 执行 `{args.test_command or "尚未定义"}`
 - Lint：在 `{args.lint_cwd}` 执行 `{args.lint_command or "尚未定义"}`
 
-不得为了目录外观改变这些入口。需要迁移时先提交迁移方案、回滚方案和前后验证结果，等待齐总批准。
+不得为了目录外观改变这些入口。需要迁移时先提交迁移方案、回滚方案和前后验证结果，等待超级无敌帅超超总批准。
 
 ## 权威信息
 
@@ -198,7 +198,7 @@ description: '{description}'
 
 ## 完成门
 
-修改后运行项目声明的验证命令，更新工作流状态与产物登记，向齐总报告真实结果并停在审核门。不得把未运行、演示数据或推断描述成已验证事实。
+修改后运行项目声明的验证命令，更新工作流状态与产物登记，向超级无敌帅超超总报告真实结果并停在审核门。不得把未运行、演示数据或推断描述成已验证事实。
 """
 
 
