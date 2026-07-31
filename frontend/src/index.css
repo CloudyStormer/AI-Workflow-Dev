@@ -1,11 +1,110 @@
 @import "tailwindcss";
 
+:root {
+  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: var(--app-bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --app-bg: #eee8de;
+  --cream: #ead3ab;
+  --cream-deep: #dfc292;
+  --paper: #fffdf8;
+  --paper-soft: #f8eddb;
+  --aqua: #20d4c4;
+  --purple: #4c0c91;
+  --purple-dark: #25075f;
+  --accent-text: #4c0c91;
+  --ink: #17131b;
+  --muted: #776c69;
+  --surface-translucent: rgb(255 250 240 / 72%);
+  --surface-muted: #eadbc7;
+  --border-subtle: rgb(75 44 26 / 8%);
+  --shadow-color: rgb(79 50 31 / 12%);
+}
+
+:root[data-theme="dark"] {
+  --app-bg: #17131a;
+  --cream: #211a26;
+  --cream-deep: #2c2231;
+  --paper: #302737;
+  --paper-soft: #392f40;
+  --aqua: #39d6c8;
+  --purple: #5b178f;
+  --purple-dark: #301046;
+  --accent-text: #ddb4ff;
+  --ink: #f8f2fa;
+  --muted: #c4b7c7;
+  --surface-translucent: rgb(52 42 58 / 92%);
+  --surface-muted: #463a4d;
+  --border-subtle: rgb(255 255 255 / 10%);
+  --shadow-color: rgb(0 0 0 / 32%);
+}
+
 * {
   box-sizing: border-box;
 }
 
+html {
+  min-width: 320px;
+  min-height: 100%;
+  background: var(--app-bg);
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background: var(--app-bg);
+  color: var(--ink);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  border: 0;
+}
+
+button,
+input {
+  color: inherit;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+input[type="range"]:focus-visible {
+  outline: 3px solid #1abbb3;
+  outline-offset: 3px;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+#root {
+  min-height: 100vh;
 }
