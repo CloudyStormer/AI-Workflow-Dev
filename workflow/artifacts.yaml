@@ -1,0 +1,16 @@
+schema_version: 1
+artifacts:
+  - id: artifact-project-manifest-001
+    type: project-manifest
+    path: project.yaml
+    status: active
+    owner: package-contractor
+    sha256: 15ca77c89d921fbf3a99208e7913c85dfe9d108a8c3d2f5ae2baa682816caf48
+    updated_at: "2026-07-31T22:02:27+08:00"
+  - id: artifact-project-skill-001
+    type: project-skill
+    path: skills/project-ai-english-learning/SKILL.md
+    status: active
+    owner: package-contractor
+    sha256: a8713abfc731bf5f5892fba55bb00b8e6c3e4bfd0376ac56f0947acd5461fac1
+    updated_at: "2026-07-31T22:02:27+08:00"

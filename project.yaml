@@ -1,0 +1,37 @@
+schema_version: 1
+project:
+  id: "ai-english-learning"
+  name: "AI English Learning"
+  kind: "practice"
+  profile: "split-web"
+governance:
+  project_skill: "skills/project-ai-english-learning/SKILL.md"
+  shared_skills_source: "../../skill"
+  workflow_state: "workflow/state.yaml"
+  approvals: "workflow/approvals.yaml"
+  artifacts: "workflow/artifacts.yaml"
+  events: "workflow/events.jsonl"
+entrypoints:
+  dev:
+    cwd: "frontend"
+    command: "npm run dev"
+  build:
+    cwd: "frontend"
+    command: "npm run build"
+  test:
+    cwd: "frontend"
+    command: ""
+  lint:
+    cwd: "frontend"
+    command: "npm run lint"
+modules:
+  - name: "frontend"
+    path: "frontend"
+  - name: "backend"
+    path: "backend"
+  - name: "deployment"
+    path: "docker"
+  - name: "design-reference"
+    path: "ui"
+  - name: "visual-qa"
+    path: "design-qa"

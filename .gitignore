@@ -18,7 +18,8 @@ pnpm-lock.yaml
 # Build outputs
 dist/
 build/
-output/
+output/*
+!output/.gitkeep
 */dist/
 */build/
 

@@ -1,0 +1,9 @@
+schema_version: 1
+approvals:
+  - id: approval-20260731-structure-normalization
+    gate: structure-adoption
+    scope: "在不移动现有前端入口的前提下，统一项目治理外壳并增加项目级 Skill"
+    decision: approved
+    decided_by: 齐总
+    decided_at: "2026-07-31T22:02:27+08:00"
+    evidence: "齐总明确要求三个项目按统一项目初始化 Skill 整理，且不得影响正常启动。"
