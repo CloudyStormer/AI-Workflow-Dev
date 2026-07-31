@@ -14,3 +14,30 @@ artifacts:
     owner: package-contractor
     sha256: 0d087343beced7bbaa95971e8e91c6f87560f19d7c9df21c22cd0f8d5862a410
     updated_at: "2026-07-31T22:15:09+08:00"
+  - id: artifact-random-letter-hints-001
+    type: frontend-delivery
+    path: frontend/src/utils/wordHints.ts
+    related_paths:
+      - frontend/src/pages/Word.tsx
+      - frontend/src/App.css
+      - design-qa.md
+      - design-qa/implementation-desktop-word-random-hints.jpg
+      - design-qa/implementation-mobile-word-random-hints.jpg
+    status: ready-for-review
+    owner: role-frontend-dev
+    source_commit: 3c181efff4a4cd3950b0373f6c05ab9e6cb38e9a
+    sha256: 133db791cf452bb69ff80088245f72987a0daff22b895dd24783e5d6f6b3ae44
+    validation:
+      - npm run lint
+      - npm run build
+      - browser interaction and responsive QA
+      - independent code review: Blocker 0, Major 0
+    completed_at: "2026-07-31T22:12:44+08:00"
+  - id: artifact-inline-cloze-ui-prompt-001
+    type: ui-design-prompt
+    path: docs/03-ui-prompt.md
+    status: ready-for-review
+    owner: role-ui-designer
+    version: "1.0"
+    sha256: 8de1ea024f10fec0d75c281ec7a4c0db0a62d0931ccb83b69e4a76c19e938d31
+    created_at: "2026-07-31T22:24:02+08:00"

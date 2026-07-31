@@ -1,14 +1,22 @@
 schema_version: 1
 project_id: "ai-english-learning"
 structure_status: normalized
-stage: development
-status: awaiting-role-entry-approval
-current_role: null
-proposed_role: role-frontend-dev
+stage: ui-design
+status: awaiting-ui-prompt-review
+current_role: role-ui-designer
+approved_roles:
+  - role-ui-designer
+  - role-frontend-dev
 blocked: false
 next_approval:
-  scope: "填空练习的三段式字母提示交互"
+  artifact: docs/03-ui-prompt.md
+  scope: "把答案直接输入句子中的字母槽，移除下方独立输入框"
   decision_owner: 超级无敌帅超超总
   decision: pending
-state_limit: "旧文档任务状态尚未与当前代码和Git完成全面对账"
-updated_at: "2026-07-31T22:15:09+08:00"
+implementation_gate: "提示词获批后先出设计；设计再次获批后前端才能编码"
+latest_delivery:
+  scope: "随机字母提示"
+  commit: 3c181efff4a4cd3950b0373f6c05ab9e6cb38e9a
+  status: ready-for-review
+state_limit: "旧版计划与任务表仍需单独对账；本状态只声明已核实的最新交付和审批门"
+updated_at: "2026-07-31T22:24:02+08:00"
