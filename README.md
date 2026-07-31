@@ -6,6 +6,19 @@
 
 当前只完成项目骨架和调研入场。市场调研、项目计划、PRD、UI 提示词、架构、开发、测试和发布必须按根目录 `skill/ai-dev-workflow/SKILL.md` 的角色审批门逐步推进。
 
+## 统一结构
+
+本项目已由 `workflow-project-init` 收编：
+
+- `project.yaml` 声明项目身份、`split-web` Profile、模块和入口。
+- `skills/project-ai-model-radar/SKILL.md` 是项目级 Skill。
+- `skills/` 中其他 Skill 是项目级 Skill 调用的专业子 Skill。
+- `workflow/` 保存状态、审批、产物、事件和 Skill 锁。
+- `docs/` 保存需求与调研证据。
+- `frontend/`、`backend/`、`docker/` 只是预留实现目录；技术栈尚未批准。
+
+治理外壳与另外两个项目一致；尚未实现代码，所以没有伪造启动、构建或测试命令。
+
 ## 预期信息范围
 
 - 国内外模型厂商官方博客、发布页、文档与状态页
@@ -20,4 +33,3 @@
 - 当前角色：市场调研员
 - 数据、界面和自动抓取：尚未设计或实现
 - 下一门：齐总审核 `docs/00-market-research.md`
-

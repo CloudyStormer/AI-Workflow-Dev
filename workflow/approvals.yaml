@@ -9,4 +9,11 @@ approvals:
     decided_by: 齐总
     decided_at: "2026-07-31T17:57:24+08:00"
     evidence: "齐总在本任务中明确要求：其他事项完成后，先让新增调研角色做市场调研，再按流程推进。"
-
+  - id: approval-20260731-structure-normalization
+    run_id: run-20260731-intake-001
+    gate: structure-adoption
+    scope: "统一项目治理外壳并增加 AI Model Radar 项目级 Skill"
+    decision: approved
+    decided_by: 齐总
+    decided_at: "2026-07-31T22:02:27+08:00"
+    evidence: "齐总明确要求三个项目按统一项目初始化 Skill 整理，且不得影响未来启动入口。"

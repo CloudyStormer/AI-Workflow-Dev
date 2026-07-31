@@ -16,3 +16,19 @@ artifacts:
     version: "1.0"
     sha256: dab02c74665a2436b2854bec62a8d8ad7ef158bfc10d507f32ac78a455ef7659
     completed_at: "2026-07-31T18:15:10+08:00"
+  - id: artifact-project-manifest-001
+    run_id: run-20260731-intake-001
+    type: project-manifest
+    path: project.yaml
+    status: active
+    owner: package-contractor
+    sha256: 70c632d880a645a8bb4fa66e34d5ec03fb9789558311383f9921cdcb8c151348
+    updated_at: "2026-07-31T22:02:27+08:00"
+  - id: artifact-project-skill-001
+    run_id: run-20260731-intake-001
+    type: project-skill
+    path: skills/project-ai-model-radar/SKILL.md
+    status: active
+    owner: package-contractor
+    sha256: 9a3775dee86a9ad975d8117b2a4ec3e882c1aff4d8479696f7c92e42e74c09af
+    updated_at: "2026-07-31T22:02:27+08:00"

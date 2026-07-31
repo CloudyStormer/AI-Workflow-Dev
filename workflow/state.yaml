@@ -1,6 +1,8 @@
 schema_version: 1
 project_id: ai-model-radar
 run_id: run-20260731-intake-001
+structure_status: normalized
+project_skill: skills/project-ai-model-radar/SKILL.md
 stage: market-research
 status: awaiting-market-research-review
 current_role: role-market-researcher
@@ -9,4 +11,4 @@ next_approval:
   artifact: docs/00-market-research.md
   decision_owner: 齐总
   decision: pending
-updated_at: "2026-07-31T18:15:10+08:00"
+updated_at: "2026-07-31T22:02:27+08:00"
