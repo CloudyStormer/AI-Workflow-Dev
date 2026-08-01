@@ -5,12 +5,24 @@ script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(cd "$script_dir/.." && pwd)"
 actual_root="$(git -C "$repo_root" rev-parse --show-toplevel)"
 
-if [[ "$actual_root" != "$repo_root" ]]; then
+canonical_dir() {
+  local path="$1"
+  if command -v cygpath >/dev/null 2>&1; then
+    cygpath -am "$path"
+  else
+    (cd "$path" && pwd -P)
+  fi
+}
+
+expected_root="$(canonical_dir "$repo_root")"
+actual_root_canonical="$(canonical_dir "$actual_root")"
+
+if [[ "$actual_root_canonical" != "$expected_root" ]]; then
   echo "Git boundary mismatch: expected $repo_root, got $actual_root" >&2
   exit 1
 fi
 
-nested_git="$(find "$repo_root" -mindepth 2 -type d -name .git -prune -print)"
+nested_git="$(find "$repo_root" -path "$repo_root/.git" -prune -o -mindepth 2 -name .git -print)"
 if [[ -n "$nested_git" ]]; then
   echo "Nested Git metadata is forbidden:" >&2
   echo "$nested_git" >&2
