@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI Model Radar 项目 Skill"
+  short_description: "AI Model Radar 的项目结构、入口、状态与专业角色路由"
+  default_prompt: "Use $project-ai-model-radar to inspect this project's current state and route the next approved role."
