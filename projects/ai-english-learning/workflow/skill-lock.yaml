@@ -42,4 +42,4 @@ skills:
     sha256: "142bd257be83c32091dbf381f296af528f797a1bcc82291f858e23cc7627f8eb"
   - name: "workflow-project-init"
     path: "skills/workflow-project-init/SKILL.md"
-    sha256: "d913ec12b6d0eb1cb274b672e620d94aff171a43ce84095b095a7a0e97680bf6"
+    sha256: "30298fc9dbd5040d935aa849f0f8d8dbbe9c57ded8b6b156a4ceae4e9b64851b"

@@ -14,6 +14,13 @@ description: '统一初始化、收编或整理 AIWorkFlow 下的软件项目，
 
 统一项目的治理外壳，不强迫不同技术栈使用相同实现目录。
 
+## 唯一 Git 仓库边界（强制）
+
+- `AIWorkFlow` 是唯一 Git 根项目，唯一标准 GitHub 仓库是 `git@github.com:CloudyStormer/AI-Workflow-Dev.git`。
+- `projects/` 下全部现在和未来的子项目以及 `control-center/` 只能作为根仓普通目录；禁止在子项目执行 `git init`、保留嵌套 `.git`、配置独立 remote、创建 submodule 或单独推送。
+- 初始化或收编前后必须运行根级 `scripts/check-git-boundary.sh`。若仓库顶层不是 `AIWorkFlow`、存在嵌套 `.git`、额外 remote 或 gitlink，立即停止，不能自行把异常解释成多仓架构。
+- 项目级 Skill、共享 Skill 快照和 Profile 只定义治理与实现差异，不改变唯一 Git 边界。
+
 ## 固定角色 Agent 池（强制）
 
 - 初始化多少项目都不得创建新的角色 Agent、侧边栏任务或项目专属角色对话；全局只使用既有 `00 包工头` 与 `01` 至 `11` 固定角色任务。
@@ -55,7 +62,7 @@ project-root/
 
 ## 强制规则
 
-1. 先检查现有目录、Git 状态、启动/构建/测试命令和外部托管约束。
+1. 先运行根级 Git 边界检查，再检查现有目录、Git 状态、启动/构建/测试命令和外部托管约束。
 2. 先向超级无敌帅超超总提交初始化或收编方案；只有超级无敌帅超超总明确批准后才能写入。
 3. 不移动、删除或重命名已有入口，除非超级无敌帅超超总单独批准迁移。
 4. 默认只创建缺失文件；已有 README、状态、Skill 或代码不得覆盖。
@@ -81,6 +88,7 @@ project-root/
 - 项目用途：实践样本、实际产品或治理工具。
 - 当前 Profile、模块和真实入口。
 - Git 仓库、远端、分支及未提交改动。
+- 确认 `git rev-parse --show-toplevel` 为 `AIWorkFlow`，并确认项目目录内没有 `.git` 或 gitlink。
 - 启动、构建、测试、Lint 命令。
 - 已有文档、workflow、skills、tests、scripts 和 output。
 
@@ -128,6 +136,7 @@ python scripts/init_project.py PROJECT_DIR \
 运行：
 
 ```bash
+scripts/check-git-boundary.sh
 python scripts/validate_project.py PROJECT_DIR
 ```
 
@@ -165,4 +174,5 @@ python scripts/validate_project.py PROJECT_DIR
 - 需要移动或删除现有代码才能“统一”。
 - 现有任务正在修改同一路径。
 - 项目 Git 状态无法区分本任务与他人改动。
+- Git 顶层不是 `AIWorkFlow`，或发现子项目 `.git`、独立 remote、submodule/gitlink。
 - 结构整理后原启动、构建或测试命令失败，且无法证明失败与本次无关。
