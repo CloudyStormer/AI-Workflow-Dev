@@ -1,0 +1,4 @@
+interface:
+  display_name: "市场调研员"
+  short_description: "调研行业、竞品、用户与市场证据，形成可追溯的立项输入"
+  default_prompt: "Use $role-market-researcher to research the market evidence before product planning."

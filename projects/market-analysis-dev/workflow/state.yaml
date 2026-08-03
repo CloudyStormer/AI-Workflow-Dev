@@ -1,0 +1,43 @@
+schema_version: 1
+project_id: "market-analysis-dev"
+run_id: "run-20260803-market-analysis-dev-init-001"
+structure_status: normalized
+project_skill: "skills/project-market-analysis-dev/SKILL.md"
+stage: project-initialization
+status: initialization-ready-for-review
+current_role: package-contractor
+blocked: false
+active_assignment:
+  change_id: "init-20260803-market-analysis-dev-adoption-plan"
+  role: package-contractor
+  role_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+  role_task_title: "00 包工头"
+  scope: "只完成嵌套 Git 元数据可恢复迁出、统一治理初始化与验证；不启动业务调研、产品、UI、架构或开发"
+next_approval:
+  gate: initialization-review
+  scope: "Frontend Career Radar 根仓收编、统一治理外壳及项目级 Skill"
+  decision_owner: 超级无敌帅超超总
+  decision: pending
+  delivery_status: ready-for-review
+  on_approved:
+    authorize_next_role: role-market-researcher
+    role_task_title: "01 市场调研员"
+    scope: "独立研究前端技术趋势与招聘市场证据，技术栈全景作为第二信息层；交付后再次停止审核"
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+workflow_policy:
+  pass_semantics: approve-current-and-authorize-unique-next
+  next_stage_requirements:
+    unique: true
+    input_ready: true
+    non_high_risk: true
+  max_auto_advance_steps: 1
+  next_delivery_requires_review: true
+  high_risk_actions_require_separate_authorization:
+    production_release: true
+    destructive_or_irreversible: true
+    paid_purchase_or_expansion: true
+    account_or_credentials: true
+    privacy_or_real_user_data: true
+    external_message_or_publication: true
+updated_at: "2026-08-03T16:31:21+08:00"

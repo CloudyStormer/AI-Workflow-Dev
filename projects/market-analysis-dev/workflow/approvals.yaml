@@ -1,0 +1,25 @@
+schema_version: 1
+approvals:
+  - id: "approval-20260803-adoption-plan"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: artifact-review
+    role: role-pm
+    artifact: "02 项目经理任务中的《初始化/收编方案》"
+    change_id: "init-20260803-market-analysis-dev-adoption-plan"
+    scope: "按 product/split-web 参数收编 Frontend Career Radar，并安全迁出空子仓库的 Git 元数据"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-03T15:20:52+08:00"
+    source_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
+    evidence: "超级无敌帅超超总在固定 02 项目经理任务中对该方案明确回复‘通过’。"
+  - id: "approval-20260803-package-contractor-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-entry
+    role: package-contractor
+    change_id: "init-20260803-market-analysis-dev-adoption-plan"
+    scope: "仅执行一次机械收编、治理初始化和验证；完成后停在初始化审核门"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-03T15:20:52+08:00"
+    source_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
+    evidence: "通过当前方案同时授权唯一下一站 00 包工头，但不授权业务阶段。"

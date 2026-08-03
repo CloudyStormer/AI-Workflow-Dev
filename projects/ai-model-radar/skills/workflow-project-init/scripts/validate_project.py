@@ -193,12 +193,14 @@ def main() -> int:
 
     manifest_path = root / "project.yaml"
     project_id = None
+    project_name = None
     if manifest_path.is_file():
         manifest = manifest_path.read_text(encoding="utf-8")
         for section in ("project:", "governance:", "entrypoints:", "modules:"):
             if section not in manifest:
                 errors.append(f"project.yaml missing section: {section}")
         project_id = parse_manifest_scalar(manifest, "id")
+        project_name = parse_manifest_scalar(manifest, "name")
         profile = parse_manifest_scalar(manifest, "profile")
         if not project_id:
             errors.append("project.yaml missing project id")
@@ -256,12 +258,16 @@ def main() -> int:
                 errors.append("project-level Skill does not contain the fixed global role-agent pool rule")
             if "通过即授权唯一下一站" not in body:
                 errors.append("project-level Skill does not contain the pass-auto-continue rule")
+            if "项目模块化汇报格式（强制）" not in body:
+                errors.append("project-level Skill does not contain the project-module reporting rule")
             required_project_skill_phrases = (
                 "无需再等“继续”",
                 "自动续行只覆盖下一站一个交付单元",
                 "生产发布、删除或不可逆覆盖、强制 Git、付费采购、账号权限、隐私数据和对外发送",
                 "`00 包工头`",
                 "`01` 至 `11`",
+                f"【{project_name} 项目】",
+                "【AIWorkFlow 总体协调】",
             )
             for phrase in required_project_skill_phrases:
                 if phrase not in body:
@@ -344,6 +350,8 @@ def main() -> int:
             errors.append("AGENTS.md does not contain the fixed global role-agent pool rule")
         if "通过即授权唯一下一站" not in agents:
             errors.append("AGENTS.md does not contain the pass-auto-continue rule")
+        if "项目】" not in agents or "【AIWorkFlow 总体协调】" not in agents:
+            errors.append("AGENTS.md does not contain the project-module reporting rule")
         required_agents_phrases = (
             "无需再等“继续”",
             "一次最多前进一步",
@@ -423,6 +431,15 @@ def main() -> int:
         ) and "通过即授权唯一下一站" not in text:
             errors.append(
                 f"Skill missing pass-auto-continue rule: {skill_file.relative_to(root)}"
+            )
+        if (
+            skill_name == "ai-dev-workflow"
+            or skill_name == "workflow-project-init"
+            or skill_name.startswith("role-")
+            or skill_name.startswith("project-")
+        ) and "项目模块化汇报格式（强制）" not in text:
+            errors.append(
+                f"Skill missing project-module reporting rule: {skill_file.relative_to(root)}"
             )
         if skill_name.startswith("role-"):
             for phrase in ("无需再等“继续”", "自动续行"):

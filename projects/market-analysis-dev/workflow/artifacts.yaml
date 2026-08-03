@@ -1,0 +1,55 @@
+schema_version: 1
+artifacts:
+  - id: "artifact-project-manifest-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: project-manifest
+    path: project.yaml
+    status: ready-for-review
+    owner: package-contractor
+    sha256: ea74ef189ff0bc30445dfb09fd56e7b0d52a3fcc1c0a7d7631aec1ca21ce7501
+    completed_at: "2026-08-03T16:25:18+08:00"
+  - id: "artifact-project-agents-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: project-instructions
+    path: AGENTS.md
+    status: ready-for-review
+    owner: package-contractor
+    sha256: 3b4d6179539847bcbf46092c240ddc8b3af15cad50b2066b6d1dcd56f84ff2cd
+    completed_at: "2026-08-03T16:25:18+08:00"
+  - id: "artifact-project-readme-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: project-readme
+    path: README.md
+    status: ready-for-review
+    owner: package-contractor
+    sha256: ddfe3a7d83331e9d00f348610d93e18bb4741bcd4630f4f160a0e0221bcb5702
+    completed_at: "2026-08-03T16:25:18+08:00"
+  - id: "artifact-project-skill-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: project-skill
+    path: skills/project-market-analysis-dev/SKILL.md
+    status: ready-for-review
+    owner: package-contractor
+    sha256: b96be7188f2e9cc5711b87b0519dce35be74c82cca94e2ca93d0b8c0b8322d64
+    completed_at: "2026-08-03T16:25:18+08:00"
+  - id: "artifact-skill-lock-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: shared-skill-lock
+    path: workflow/skill-lock.yaml
+    status: ready-for-review
+    owner: package-contractor
+    sha256: bd640a699693995587270eb4da3c248783d7f36b6da8a05f34ff1760324c213a
+    completed_at: "2026-08-03T16:29:33+08:00"
+  - id: "artifact-git-metadata-backup-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: external-git-metadata-backup
+    external_path: "/Users/qichao/Desktop/DEV/Lenovo/AIWorkFlow-Git-Backups/market-analysis-dev/init-20260803-market-analysis-dev-adoption-plan/original.git"
+    manifest_path: "/Users/qichao/Desktop/DEV/Lenovo/AIWorkFlow-Git-Backups/market-analysis-dev/init-20260803-market-analysis-dev-adoption-plan/MANIFEST.sha256"
+    metadata_path: "/Users/qichao/Desktop/DEV/Lenovo/AIWorkFlow-Git-Backups/market-analysis-dev/init-20260803-market-analysis-dev-adoption-plan/metadata.txt"
+    status: verified
+    owner: package-contractor
+    regular_file_count: 15
+    regular_file_bytes: 16203
+    manifest_sha256: 280cd4296d5b5468192f6ea8e19a18512f5a8fb0af0d099c1b5184a8d68da420
+    metadata_sha256: d1dcd4af5961eb78239166eec5f20c35bc25107f94c37e7ab8772ed46af7e708
+    verified_at: "2026-08-03T16:25:18+08:00"

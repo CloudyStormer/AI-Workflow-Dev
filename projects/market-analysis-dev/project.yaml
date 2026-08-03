@@ -1,0 +1,33 @@
+schema_version: 1
+project:
+  id: "market-analysis-dev"
+  name: "Frontend Career Radar（前端职业成长雷达）"
+  kind: "product"
+  profile: "split-web"
+governance:
+  project_skill: "skills/project-market-analysis-dev/SKILL.md"
+  shared_skills_source: "../../skill"
+  workflow_state: "workflow/state.yaml"
+  approvals: "workflow/approvals.yaml"
+  artifacts: "workflow/artifacts.yaml"
+  events: "workflow/events.jsonl"
+entrypoints:
+  dev:
+    cwd: "."
+    command: ""
+  build:
+    cwd: "."
+    command: ""
+  test:
+    cwd: "."
+    command: ""
+  lint:
+    cwd: "."
+    command: ""
+modules:
+  - name: "frontend"
+    path: "frontend"
+  - name: "backend"
+    path: "backend"
+  - name: "deployment"
+    path: "docker"

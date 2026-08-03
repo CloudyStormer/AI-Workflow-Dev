@@ -1,0 +1,4 @@
+interface:
+  display_name: "Frontend Career Radar（前端职业成长雷达） 项目 Skill"
+  short_description: "Frontend Career Radar（前端职业成长雷达） 的项目结构、入口、状态与专业角色路由"
+  default_prompt: "Use $project-market-analysis-dev to inspect this project's current state and route the unique next role authorized by the current approval."

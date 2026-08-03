@@ -1,0 +1,4 @@
+interface:
+  display_name: "工作流项目初始化"
+  short_description: "统一初始化或整理项目结构，生成项目级 Skill 与可验证治理契约"
+  default_prompt: "Use $workflow-project-init to initialize or normalize an AI workflow project without breaking its entrypoints."
