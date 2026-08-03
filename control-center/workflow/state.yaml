@@ -6,12 +6,36 @@ status: awaiting-ui-prompt-review
 current_role: null
 blocked: false
 next_approval:
+  gate: artifact-review
   artifact: ui/01-control-center-ui-design-prompt.md
+  scope: "Control Center 下一版图表化 UI/UX 设计提示词"
   decision_owner: 超级无敌帅超超总
   decision: pending
+  delivery_status: ready-for-review
+  on_approved:
+    authorize_next_role: role-ui-designer
+    role_task_title: "04 UI/UX设计师"
+    scope: "基于已批准提示词生成并交付 Control Center UI 设计，不修改界面代码、不发布"
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
 runtime:
   live_url: "https://ai-workflow-control-center.honest-flute-5906.chatgpt.site"
   deployed_version: 3
   deployed_source_commit: bbf3c0d7dc889f8e8ca9e05a9409c0b0dce7d187
   data_status: demo
-updated_at: "2026-07-31T22:20:32+08:00"
+workflow_policy:
+  pass_semantics: approve-current-and-authorize-unique-next
+  next_stage_requirements:
+    unique: true
+    input_ready: true
+    non_high_risk: true
+  max_auto_advance_steps: 1
+  next_delivery_requires_review: true
+  high_risk_actions_require_separate_authorization:
+    production_release: true
+    destructive_or_irreversible: true
+    paid_purchase_or_expansion: true
+    account_or_credentials: true
+    privacy_or_real_user_data: true
+    external_message_or_publication: true
+updated_at: "2026-08-03T11:50:11+08:00"

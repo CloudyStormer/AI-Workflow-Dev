@@ -30,4 +30,19 @@ latest_approved_artifact:
   path: docs/00-market-research.md
   version: "1.0.1"
   approval: approval-20260803-market-research-v1-0-1
-updated_at: "2026-08-03T11:36:20+08:00"
+workflow_policy:
+  pass_semantics: approve-current-and-authorize-unique-next
+  next_stage_requirements:
+    unique: true
+    input_ready: true
+    non_high_risk: true
+  max_auto_advance_steps: 1
+  next_delivery_requires_review: true
+  high_risk_actions_require_separate_authorization:
+    production_release: true
+    destructive_or_irreversible: true
+    paid_purchase_or_expansion: true
+    account_or_credentials: true
+    privacy_or_real_user_data: true
+    external_message_or_publication: true
+updated_at: "2026-08-03T11:50:11+08:00"

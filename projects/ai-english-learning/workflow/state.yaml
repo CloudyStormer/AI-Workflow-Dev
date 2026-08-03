@@ -16,13 +16,19 @@ next_approval:
   decision_owner: 超级无敌帅超超总
   decision: pending
   delivery_status: ready-for-review
+  on_approved:
+    authorize_next_role: role-ui-designer
+    role_task_title: "04 UI/UX设计师"
+    scope: "基于已批准 UI 提示词 v1.1 生成并交付 UI 设计；不得修改前端"
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
 active_assignment:
   change_id: chg-20260803-inline-cloze-ui-prompt-v1-1
   role: role-ui-designer
   role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
   role_task_title: "04 UI/UX设计师"
   scope: "只修订 UI/UX 提示词并交付审核，不生成设计稿、不修改前端"
-implementation_gate: "PRD v1.1 与 UI/UX 重新入场已获批；当前只等待 UI 提示词审核。提示词通过后仍须生成并审核设计产物，再重新批准前端才能编码"
+implementation_gate: "当前只等待 UI 提示词审核；提示词‘通过’自动授权同一 UI/UX 角色生成设计，设计交付后再次停门。设计‘通过’在架构不受影响时自动授权固定前端恢复，影响架构时先路由架构师"
 latest_approved_artifact:
   path: docs/01-prd.md
   version: "1.1"
@@ -37,6 +43,21 @@ frontend_freeze:
   status: frozen
   baseline_commit: 3c181efff4a4cd3950b0373f6c05ab9e6cb38e9a
   reason: "行内字母槽产品与 UI/UX 变更正在执行回退门；不得直接修改前端"
-  resume_gate: "UI 提示词通过 → 设计产物生成并再次通过 → 前端角色重新获批"
+  resume_gate: "UI 提示词‘通过’自动生成设计 → 设计再次‘通过’自动授权唯一明确的前端恢复或架构评估"
+workflow_policy:
+  pass_semantics: approve-current-and-authorize-unique-next
+  next_stage_requirements:
+    unique: true
+    input_ready: true
+    non_high_risk: true
+  max_auto_advance_steps: 1
+  next_delivery_requires_review: true
+  high_risk_actions_require_separate_authorization:
+    production_release: true
+    destructive_or_irreversible: true
+    paid_purchase_or_expansion: true
+    account_or_credentials: true
+    privacy_or_real_user_data: true
+    external_message_or_publication: true
 state_limit: "旧版计划与任务表仍需单独对账；本状态只声明已核实的最新交付和审批门"
-updated_at: "2026-08-03T11:34:59+08:00"
+updated_at: "2026-08-03T11:50:11+08:00"

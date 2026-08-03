@@ -135,14 +135,16 @@ def render_agents(args: argparse.Namespace) -> str:
 1. Before substantive work, read `project.yaml` and `skills/project-{args.id}/SKILL.md` completely.
 2. Treat the project-level Skill as the project router and the other folders under `skills/` as professional sub Skills.
 3. Every conversation with the user must address the user as “超级无敌帅超超总”.
-4. A role may enter only after 超级无敌帅超超总 explicitly approves that role and scope.
+4. A role may enter after a separate explicit approval, or after 超级无敌帅超超总 says “通过” to the current artifact when that role is the unique, input-ready, non-high-risk next step.
 5. Do not move or rename the entrypoints declared in `project.yaml` without separate approval.
 6. Keep `workflow/state.yaml`, approvals, artifacts, events, and the Skill lock aligned with real state.
 7. Preserve unrelated and uncommitted user changes; never commit them with project-governance edits.
 8. 下游收到产品逻辑或 UI/UX 变更时，当前角色立即冻结；不得由开发直接代改。
-9. 固定回退链是“产品独立交付并审核 → UI/UX 独立交付并审核 → 开发重新获批”；每站使用独立任务/对话，禁止自动连续推进或继承审批。
+9. 固定回退链是“产品独立交付并审核 → UI/UX 独立交付并审核 → 开发重新获批”；每站使用已有固定角色任务，禁止开发越级代改。
 10. 全局角色 Agent 池永久固定为现有 `00 包工头` 与 `01` 至 `11` 角色任务；无论项目多少都不得新增项目专属或重复角色任务。
 11. 每个固定角色负责所有项目；项目上下文只通过本项目的 `project.yaml`、项目级 Skill、`docs/` 和 `workflow/` 隔离。
+12. 通过即授权唯一下一站：超级无敌帅超超总对当前明确交付回复“通过”时，同时批准当前交付并授权唯一明确、输入完整且非高风险的下一站立即入场，无需再等“继续”；一次最多前进一步，下一站交付后重新停门。
+13. 生产发布、删除或不可逆覆盖、强制 Git、付费采购、账号权限、隐私数据和对外发送等高风险动作不因普通“通过”自动实质执行，仍须单独明确授权。
 """
 
 
@@ -161,7 +163,7 @@ description: '{description}'
 ## 用户称呼与审批
 
 - 每次对话必须称呼用户为“超级无敌帅超超总”。
-- 专业角色首次入场或重新进入新阶段前，必须得到超级无敌帅超超总对该角色和范围的明确批准。
+- 专业角色通过单独明确批准入场；若上一站交付已声明其为唯一明确、输入完整且非高风险的下一站，超级无敌帅超超总回复“通过”即同时批准该范围入场。
 - 本 Skill 只路由项目上下文，不代替市场、产品、UI、架构、开发、审查、测试或部署 Skill。
 
 ## 项目身份
@@ -198,7 +200,13 @@ description: '{description}'
 
 ## 角色路由
 
-按任务调用对应子 Skill：市场调研、项目管理、产品、UI/UX、架构、前端、后端、数据、代码审查、QA 和 DevOps。上一角色通过不代表下一角色自动获准。
+按任务调用对应子 Skill：市场调研、项目管理、产品、UI/UX、架构、前端、后端、数据、代码审查、QA 和 DevOps。
+
+## 通过即授权唯一下一站（强制）
+
+- 超级无敌帅超超总对当前明确交付回复“通过”时，同时批准当前产物，并授权唯一明确、输入完整且非高风险的下一站立即入场，无需再等“继续”。
+- 自动续行只覆盖下一站一个交付单元；下一站交付后重新停在审核门。下一站不唯一时先拆分或请示，不能同时启动多个角色。
+- 生产发布、删除或不可逆覆盖、强制 Git、付费采购、账号权限、隐私数据和对外发送等高风险动作只允许自动进入方案准备，实质执行仍须单独授权。
 
 ## 固定角色 Agent 池（强制）
 
@@ -209,12 +217,12 @@ description: '{description}'
 ## 下游变更回退门（强制）
 
 - 项目进入架构、开发、审查、测试或发布后，只要超级无敌帅超超总提出产品逻辑或 UI/UX 变更，当前角色立即冻结受影响工作并登记完成点、未提交改动、阻塞与恢复点；开发不得直接代改。
-- 固定顺序是：产品经理在独立任务中交付并等待明确审核 → 审核通过后 UI/UX 在独立任务中交付并等待明确审核 → 再次通过后对应开发角色重新获批并解冻。
-- 每一站的任务、产物、审批、冻结和恢复事件都写入 `workflow/`；禁止自动跑完整链路，也禁止把上一站批准推定为下一站批准。
+- 固定顺序是：产品经理在独立任务中交付并等待明确审核 → 产品“通过”自动授权 UI/UX 完成提示词交付 → 提示词“通过”自动授权同一 UI/UX 角色完成设计交付 → 设计“通过”自动授权唯一明确的开发恢复或架构评估。
+- 每一站的任务、产物、审批、冻结和恢复事件都写入 `workflow/`；一次“通过”最多自动前进一步，下一站交付后再次停门，禁止自动跑完整链路。
 
 ## 完成门
 
-修改后运行项目声明的验证命令，更新工作流状态与产物登记，向超级无敌帅超超总报告真实结果并停在审核门。不得把未运行、演示数据或推断描述成已验证事实。
+修改后运行项目声明的验证命令，更新工作流状态与产物登记，向超级无敌帅超超总报告真实结果并停在审核门。若超级无敌帅超超总回复“通过”，立即路由唯一下一站一个交付单元，无需再等“继续”。不得把未运行、演示数据或推断描述成已验证事实。
 """
 
 
@@ -223,7 +231,7 @@ def render_project_metadata(args: argparse.Namespace) -> str:
     return f"""interface:
   display_name: {quoted(args.name + " 项目 Skill")}
   short_description: {quoted(short)}
-  default_prompt: {quoted(f"Use $project-{args.id} to inspect this project's current state and route the next approved role.")}
+  default_prompt: {quoted(f"Use $project-{args.id} to inspect this project's current state and route the unique next role authorized by the current approval.")}
 """
 
 
@@ -353,7 +361,28 @@ def main() -> int:
     now = datetime.now(timezone.utc).isoformat()
     write_missing(
         project_dir / "workflow" / "state.yaml",
-        f'schema_version: 1\nproject_id: {quoted(args.id)}\nstage: adoption\nstatus: needs-reconciliation\ncurrent_role: package-contractor\nupdated_at: {quoted(now)}\n',
+        f'''schema_version: 1
+project_id: {quoted(args.id)}
+stage: adoption
+status: needs-reconciliation
+current_role: package-contractor
+workflow_policy:
+  pass_semantics: approve-current-and-authorize-unique-next
+  next_stage_requirements:
+    unique: true
+    input_ready: true
+    non_high_risk: true
+  max_auto_advance_steps: 1
+  next_delivery_requires_review: true
+  high_risk_actions_require_separate_authorization:
+    production_release: true
+    destructive_or_irreversible: true
+    paid_purchase_or_expansion: true
+    account_or_credentials: true
+    privacy_or_real_user_data: true
+    external_message_or_publication: true
+updated_at: {quoted(now)}
+''',
         args.dry_run,
     )
     write_missing(
@@ -374,6 +403,10 @@ def main() -> int:
                 "time": now,
                 "actor": "workflow-project-init",
                 "type": "project_adopted",
+                "workflow_policy": "pass-auto-continue-one-hop",
+                "max_auto_advance_steps": 1,
+                "next_delivery_requires_review": True,
+                "high_risk_actions_require_separate_authorization": True,
                 "result": "governance-envelope-created",
             },
             ensure_ascii=False,

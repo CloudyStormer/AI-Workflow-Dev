@@ -94,6 +94,55 @@ def parse_scalar(raw: str) -> str:
     return str(value)
 
 
+def parse_policy_scalar(raw: str) -> str | bool | int | None:
+    value = raw.strip()
+    try:
+        return json.loads(value)
+    except json.JSONDecodeError:
+        return value.strip("'\"")
+
+
+def parse_workflow_policy(text: str) -> dict[str, object]:
+    """Parse the small, fixed workflow_policy mapping without accepting comment decoys."""
+    policy: dict[str, object] = {}
+    current_section: str | None = None
+    in_policy = False
+
+    for original in text.splitlines():
+        line = original.split("#", 1)[0].rstrip()
+        if not line.strip():
+            continue
+        indent = len(line) - len(line.lstrip(" "))
+        stripped = line.strip()
+
+        if not in_policy:
+            if indent == 0 and stripped == "workflow_policy:":
+                in_policy = True
+            continue
+        if indent == 0:
+            break
+
+        if indent == 2:
+            key, separator, raw = stripped.partition(":")
+            if not separator:
+                continue
+            if not raw.strip():
+                current_section = key
+                policy[current_section] = {}
+            else:
+                current_section = None
+                policy[key] = parse_policy_scalar(raw)
+            continue
+
+        if indent == 4 and current_section:
+            key, separator, raw = stripped.partition(":")
+            section = policy.get(current_section)
+            if separator and isinstance(section, dict):
+                section[key] = parse_policy_scalar(raw)
+
+    return policy
+
+
 def parse_artifact_paths(path: Path) -> list[str]:
     paths = []
     for line in path.read_text(encoding="utf-8").splitlines():
@@ -205,6 +254,20 @@ def main() -> int:
                 errors.append("project-level Skill does not contain the downstream change rollback gate")
             if "固定角色 Agent 池（强制）" not in body:
                 errors.append("project-level Skill does not contain the fixed global role-agent pool rule")
+            if "通过即授权唯一下一站" not in body:
+                errors.append("project-level Skill does not contain the pass-auto-continue rule")
+            required_project_skill_phrases = (
+                "无需再等“继续”",
+                "自动续行只覆盖下一站一个交付单元",
+                "生产发布、删除或不可逆覆盖、强制 Git、付费采购、账号权限、隐私数据和对外发送",
+                "`00 包工头`",
+                "`01` 至 `11`",
+            )
+            for phrase in required_project_skill_phrases:
+                if phrase not in body:
+                    errors.append(
+                        f"project-level Skill missing required pass-policy semantics: {phrase}"
+                    )
         project_metadata = project_skill.parent / "agents" / "openai.yaml"
         if not project_metadata.is_file():
             errors.append(
@@ -221,13 +284,52 @@ def main() -> int:
 
         state_path = root / "workflow" / "state.yaml"
         if state_path.is_file():
-            state_project_id = parse_manifest_scalar(
-                state_path.read_text(encoding="utf-8"), "project_id"
-            )
+            state = state_path.read_text(encoding="utf-8")
+            state_project_id = parse_manifest_scalar(state, "project_id")
             if state_project_id != project_id:
                 errors.append(
                     f"workflow/state.yaml project_id is {state_project_id!r}, expected {project_id!r}"
                 )
+            policy = parse_workflow_policy(state)
+            required_policy_scalars = {
+                "pass_semantics": "approve-current-and-authorize-unique-next",
+                "max_auto_advance_steps": 1,
+                "next_delivery_requires_review": True,
+            }
+            for key, expected in required_policy_scalars.items():
+                if policy.get(key) != expected:
+                    errors.append(
+                        f"workflow/state.yaml workflow_policy.{key} must be {expected!r}"
+                    )
+
+            required_sections = {
+                "next_stage_requirements": {
+                    "unique": True,
+                    "input_ready": True,
+                    "non_high_risk": True,
+                },
+                "high_risk_actions_require_separate_authorization": {
+                    "production_release": True,
+                    "destructive_or_irreversible": True,
+                    "paid_purchase_or_expansion": True,
+                    "account_or_credentials": True,
+                    "privacy_or_real_user_data": True,
+                    "external_message_or_publication": True,
+                },
+            }
+            for section_name, required_values in required_sections.items():
+                section = policy.get(section_name)
+                if not isinstance(section, dict):
+                    errors.append(
+                        f"workflow/state.yaml workflow_policy.{section_name} must be a mapping"
+                    )
+                    continue
+                for key, expected in required_values.items():
+                    if section.get(key) != expected:
+                        errors.append(
+                            "workflow/state.yaml "
+                            f"workflow_policy.{section_name}.{key} must be {expected!r}"
+                        )
 
     agents_path = root / "AGENTS.md"
     if agents_path.is_file():
@@ -240,6 +342,17 @@ def main() -> int:
             errors.append("AGENTS.md does not contain the downstream change rollback sequence")
         if "全局角色 Agent 池永久固定" not in agents:
             errors.append("AGENTS.md does not contain the fixed global role-agent pool rule")
+        if "通过即授权唯一下一站" not in agents:
+            errors.append("AGENTS.md does not contain the pass-auto-continue rule")
+        required_agents_phrases = (
+            "无需再等“继续”",
+            "一次最多前进一步",
+            "全局角色 Agent 池永久固定为现有 `00 包工头` 与 `01` 至 `11`",
+            "生产发布、删除或不可逆覆盖、强制 Git、付费采购、账号权限、隐私数据和对外发送",
+        )
+        for phrase in required_agents_phrases:
+            if phrase not in agents:
+                errors.append(f"AGENTS.md missing required pass-policy semantics: {phrase}")
 
     events_path = root / "workflow" / "events.jsonl"
     if events_path.is_file():
@@ -302,6 +415,22 @@ def main() -> int:
             errors.append(
                 f"Skill missing fixed global role-agent pool rule: {skill_file.relative_to(root)}"
             )
+        if (
+            skill_name == "ai-dev-workflow"
+            or skill_name == "workflow-project-init"
+            or skill_name.startswith("role-")
+            or skill_name.startswith("project-")
+        ) and "通过即授权唯一下一站" not in text:
+            errors.append(
+                f"Skill missing pass-auto-continue rule: {skill_file.relative_to(root)}"
+            )
+        if skill_name.startswith("role-"):
+            for phrase in ("无需再等“继续”", "自动续行"):
+                if phrase not in text:
+                    errors.append(
+                        f"role Skill missing pass-policy semantics ({phrase}): "
+                        f"{skill_file.relative_to(root)}"
+                    )
 
     for warning in warnings:
         print(f"WARN  {warning}")

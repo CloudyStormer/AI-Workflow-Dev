@@ -1,4 +1,4 @@
 interface:
   display_name: "AI Workflow Control Center 项目 Skill"
   short_description: "AI Workflow Control Center 的项目结构、入口、状态与专业角色路由"
-  default_prompt: "Use $project-workflow-control-center to inspect this project's current state and route the next approved role."
+  default_prompt: "Use $project-workflow-control-center to inspect this project's current state and route the unique next role authorized by the current approval."
