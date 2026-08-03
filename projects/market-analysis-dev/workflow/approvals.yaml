@@ -23,3 +23,25 @@ approvals:
     decided_at: "2026-08-03T15:20:52+08:00"
     source_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
     evidence: "通过当前方案同时授权唯一下一站 00 包工头，但不授权业务阶段。"
+  - id: "approval-20260803-initialization-delivery"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: artifact-review
+    role: package-contractor
+    change_id: "init-20260803-market-analysis-dev-adoption-plan"
+    scope: "Frontend Career Radar 根仓收编、统一治理外壳、项目级 Skill、共享 Skill 快照与可恢复 Git 元数据备份"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-03T17:16:08+08:00"
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    evidence: "超级无敌帅超超总对 00 包工头展示的初始化交付明确回复‘通过’。"
+  - id: "approval-20260803-market-research-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-entry
+    role: role-market-researcher
+    change_id: "research-20260803-frontend-career-radar-001"
+    scope: "调研 AI 互联网时代前端技术趋势与当前招聘证据；形成技术栈全景、能力需求、机会风险和待验证项"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-03T17:16:08+08:00"
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    evidence: "初始化交付中的唯一下一站已明确为固定 01 市场调研员；‘通过’同时授权该站一个调研交付单元。"
