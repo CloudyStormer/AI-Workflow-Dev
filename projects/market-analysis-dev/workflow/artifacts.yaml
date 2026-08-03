@@ -63,3 +63,39 @@ artifacts:
     manifest_sha256: 280cd4296d5b5468192f6ea8e19a18512f5a8fb0af0d099c1b5184a8d68da420
     metadata_sha256: d1dcd4af5961eb78239166eec5f20c35bc25107f94c37e7ab8772ed46af7e708
     verified_at: "2026-08-03T16:25:18+08:00"
+  - id: "artifact-market-research-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: market-research-report
+    change_id: "research-20260803-frontend-career-radar-001"
+    path: docs/00-market-research.md
+    status: ready-for-review
+    owner: role-market-researcher
+    version: "1.0"
+    sha256: 79ce60b6aeb4fa227f5da02bf5d230092575340b20ae91aa95a04b18a0b33165
+    evidence_cutoff: "2026-08-03"
+    completed_at: "2026-08-03T17:48:18+08:00"
+    evidence_summary:
+      core_recruitment_samples: 10
+      mainland_china_samples: 4
+      public_remote_samples: 6
+      boundary_samples: 2
+      discovered_not_coded: 5
+      direct_https_links: 133
+    validation:
+      independent_evidence_audits: "3-of-3-passed"
+      markdown_structure: passed
+      table_column_integrity: passed
+      fact_inference_source_labels: passed
+      yaml: passed
+      jsonl: passed
+      project_validator: "passed-with-4-intentional-empty-command-warnings"
+      git_boundary: passed
+      git_diff_check: passed
+    known_limits:
+      - "purpose-sampled-cross-section-not-market-share"
+      - "china-core-sample-covers-beijing-shanghai-shenzhen-only"
+      - "junior-core-sample-one-of-ten"
+      - "remote-sample-biased-to-greenhouse-and-mid-senior-roles"
+      - "restricted-platforms-not-bypassed"
+      - "no-user-skill-evidence-or-user-interviews"
+      - "production-data-rights-require-per-source-review"
