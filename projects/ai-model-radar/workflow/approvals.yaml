@@ -17,3 +17,16 @@ approvals:
     decided_by: 齐总
     decided_at: "2026-07-31T22:02:27+08:00"
     evidence: "齐总明确要求三个项目按统一项目初始化 Skill 整理，且不得影响未来启动入口。"
+  - id: approval-20260803-market-research-v1-0-1
+    run_id: run-20260731-intake-001
+    gate: artifact-review
+    role: role-market-researcher
+    artifact: docs/00-market-research.md
+    version: "1.0.1"
+    sha256: 0501bd7950dd9201def4fadc3dcd5830ef149ba0450d880ed3a7591a370bbbc1
+    scope: "大模型动态聚合项目的行业、来源、竞品、合规边界与可行方案"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-03T11:01:32+08:00"
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    evidence: "超级无敌帅超超总在 00 包工头任务中明确回复‘AI Model Radar通过’。该通过只适用于市场调研交付，不继承为项目经理入场批准。"
