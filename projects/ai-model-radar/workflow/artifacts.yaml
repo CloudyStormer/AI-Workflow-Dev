@@ -35,3 +35,12 @@ artifacts:
     owner: package-contractor
     sha256: 17d410f7e4d9231e1feb7c69179ca93f62b3cc064202113b31716bcf5ed86447
     updated_at: "2026-08-01T00:02:05+08:00"
+  - id: artifact-project-plan-001
+    run_id: run-20260731-intake-001
+    type: project-plan
+    path: docs/01-project-plan.md
+    status: ready-for-review
+    owner: role-pm
+    version: "1.0"
+    sha256: 9320c2908843c69a5e754f66d786d7093a8ebd6e35b961c6d09366e290313166
+    completed_at: "2026-08-03T11:36:20+08:00"
