@@ -1,20 +1,27 @@
 schema_version: 1
 project_id: "ai-english-learning"
 structure_status: normalized
-stage: product-definition
-status: product-change-approved-awaiting-ui-entry-approval
-current_role: null
+stage: ui-design
+status: ui-prompt-in-progress
+current_role: role-ui-designer
 approved_roles:
   - role-product-manager
   - role-ui-designer
   - role-frontend-dev
 blocked: false
 next_approval:
-  gate: role-entry
-  role: role-ui-designer
-  scope: "基于已批准的 PRD v1.1 重新开展行内字母槽 UI/UX 提示词与设计"
+  gate: artifact-review
+  artifact: docs/03-ui-prompt.md
+  scope: "基于已批准 PRD v1.1 修订的行内字母槽 UI/UX 提示词"
   decision_owner: 超级无敌帅超超总
   decision: pending
+  delivery_status: in-progress
+active_assignment:
+  change_id: chg-20260803-inline-cloze-ui-prompt-v1-1
+  role: role-ui-designer
+  role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+  role_task_title: "04 UI/UX设计师"
+  scope: "只修订 UI/UX 提示词并交付审核，不生成设计稿、不修改前端"
 implementation_gate: "PRD v1.1 已获批；仍须单独批准 UI/UX 入场、审核 UI 产物并重新批准前端后才能编码"
 latest_approved_artifact:
   path: docs/01-prd.md
@@ -25,4 +32,4 @@ latest_delivery:
   commit: 3c181efff4a4cd3950b0373f6c05ab9e6cb38e9a
   status: ready-for-review
 state_limit: "旧版计划与任务表仍需单独对账；本状态只声明已核实的最新交付和审批门"
-updated_at: "2026-08-03T11:01:32+08:00"
+updated_at: "2026-08-03T11:26:03+08:00"

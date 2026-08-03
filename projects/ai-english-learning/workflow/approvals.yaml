@@ -43,3 +43,12 @@ approvals:
     decided_at: "2026-08-03T11:01:32+08:00"
     source_task_id: 019fb746-5875-77b3-809a-08a16100d950
     evidence: "超级无敌帅超超总在 00 包工头任务中明确回复‘AI English Learning 通过’。该通过只适用于 PRD v1.1，不继承为 UI/UX 入场或前端重启批准。"
+  - id: approval-20260803-inline-cloze-ui-reentry
+    gate: role-entry
+    role: role-ui-designer
+    scope: "基于已批准 PRD v1.1 修订行内字母槽 UI/UX 提示词；不包含提示词审核通过、设计稿生成或前端重启"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-03T11:26:03+08:00"
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    evidence: "在当前等待 UI/UX 重新入场门上，超级无敌帅超超总明确回复‘前两个继续’。该继续只批准本项目当前下一站 UI/UX 提示词工作。"

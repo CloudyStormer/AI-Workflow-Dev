@@ -30,3 +30,13 @@ approvals:
     decided_at: "2026-08-03T11:01:32+08:00"
     source_task_id: 019fb746-5875-77b3-809a-08a16100d950
     evidence: "超级无敌帅超超总在 00 包工头任务中明确回复‘AI Model Radar通过’。该通过只适用于市场调研交付，不继承为项目经理入场批准。"
+  - id: approval-20260803-radar-pm-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    role: role-pm
+    scope: "基于已批准市场调研 v1.0.1 制定 AI Model Radar 项目计划；不包含项目计划审核通过或后续角色入场"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-03T11:26:03+08:00"
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    evidence: "在当前等待项目经理入场门上，超级无敌帅超超总明确回复‘前两个继续’。该继续只批准本项目当前下一站项目计划工作。"

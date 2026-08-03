@@ -3,18 +3,25 @@ project_id: ai-model-radar
 run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
-stage: market-research
-status: market-research-approved-awaiting-pm-entry-approval
-current_role: null
+stage: project-initialization
+status: project-plan-in-progress
+current_role: role-pm
 blocked: false
 next_approval:
-  gate: role-entry
-  role: role-pm
-  scope: "基于已批准的市场调研制定 AI Model Radar 项目计划"
+  gate: artifact-review
+  artifact: docs/01-project-plan.md
+  scope: "AI Model Radar 项目计划 v1.0"
   decision_owner: 超级无敌帅超超总
   decision: pending
+  delivery_status: in-progress
+active_assignment:
+  change_id: run-20260803-radar-project-plan-001
+  role: role-pm
+  role_task_id: 019fb738-5706-7552-849f-35c8a124e2f0
+  role_task_title: "02 项目经理"
+  scope: "只制定项目计划并交付审核，不启动产品、UI/UX、架构或开发"
 latest_approved_artifact:
   path: docs/00-market-research.md
   version: "1.0.1"
   approval: approval-20260803-market-research-v1-0-1
-updated_at: "2026-08-03T11:01:32+08:00"
+updated_at: "2026-08-03T11:26:03+08:00"
