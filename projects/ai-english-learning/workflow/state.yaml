@@ -31,7 +31,7 @@ latest_delivery:
   path: docs/03-ui-prompt.md
   version: "1.1"
   change_id: chg-20260803-inline-cloze-ui-prompt-v1-1
-  sha256: 7630f905432b37755e5ec5ecc63c3aa01dd5ef8d9e3f05e734de9b040ee233a8
+  sha256: 2e882df4029a098bc8679a628b70379fddbb88c2ebc01df5c26e9062a19e3038
   status: ready-for-review
 frontend_freeze:
   status: frozen
@@ -39,4 +39,4 @@ frontend_freeze:
   reason: "行内字母槽产品与 UI/UX 变更正在执行回退门；不得直接修改前端"
   resume_gate: "UI 提示词通过 → 设计产物生成并再次通过 → 前端角色重新获批"
 state_limit: "旧版计划与任务表仍需单独对账；本状态只声明已核实的最新交付和审批门"
-updated_at: "2026-08-03T11:32:32+08:00"
+updated_at: "2026-08-03T11:34:59+08:00"

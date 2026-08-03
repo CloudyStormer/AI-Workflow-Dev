@@ -66,6 +66,7 @@ artifacts:
     upstream_version: "1.1"
     upstream_sha256: 26042b9a2db6fd7505c194ce1c6918786ee816216b84529c3eb067fa7a0681d9
     previous_artifact: artifact-inline-cloze-ui-prompt-001
-    sha256: 7630f905432b37755e5ec5ecc63c3aa01dd5ef8d9e3f05e734de9b040ee233a8
+    sha256: 2e882df4029a098bc8679a628b70379fddbb88c2ebc01df5c26e9062a19e3038
     review_scope: "句中行内字母槽、提示与输入合并、编辑、退格、粘贴、提交、错误修正、移动键盘、无障碍与边界状态"
     created_at: "2026-08-03T11:32:32+08:00"
+    revised_at: "2026-08-03T11:34:59+08:00"
