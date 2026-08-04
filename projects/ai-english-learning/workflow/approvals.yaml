@@ -111,3 +111,33 @@ approvals:
     decided_at: "2026-08-04T15:13:01+08:00"
     source_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
     evidence: "PRD v1.2 的‘通过’按单步推进规则自动授权唯一、输入完整且非高风险的下一站固定 04 UI/UX设计师。"
+  - id: approval-20260804-reveal-answer-ui-minimal-direct-frontend
+    gate: ui-stage-review
+    role: role-ui-designer
+    artifacts:
+      - path: docs/03-ui-prompt.md
+        artifact_id: artifact-reveal-answer-ui-prompt-001
+        version: "1.2"
+        sha256: c30be1da6e120a524976420c8c6b8d5dfaf62f0af444a4284708c96fa2094af1
+      - path: ui/
+        type: user-provided-authoritative-visual-baseline
+        asset_count: 13
+        index: ui/README.md
+    change_id: chg-20260804-reveal-answer-ui-prompt-v1-2
+    scope: "沿用现有页面与用户提供的权威视觉母版，不做大改；只在当前单词学习页增加清晰可见、低强调的‘查看答案’，确认后在原句行内字母槽展示完整答案，不新增句下答案框；其余状态、计分和无障碍语义遵守已批准 PRD v1.2 与 Prompt v1.2"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-04T15:53:01+08:00"
+    source_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+    evidence: "超级无敌帅超超总明确指示：‘AI English Learning 项目 ui不大改，直接让前端页面加个看答案就行了’。"
+    effect: "批准 Prompt v1.2，并明确免除本次独立设计稿/原型/图片生成；直接授权唯一下一站固定 06 前端工程师实施一个最小‘查看答案’变更单元。前端交付后仍须停门审核。"
+    design_generation_required: false
+    ui_assets_modified: false
+    architecture_impact: none
+    frontend_authorized: true
+    next_role: role-frontend-dev
+    next_role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
+    next_role_task_title: "06 前端工程师"
+    frontend_change_id: chg-20260804-reveal-answer-frontend-implementation-v1
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false

@@ -168,7 +168,7 @@ artifacts:
   - id: artifact-inline-cloze-frontend-001
     type: frontend-delivery
     path: frontend/src/pages/Word.tsx
-    status: on-hold
+    status: resumed-as-implementation-base
     owner: role-frontend-dev
     change_id: chg-20260804-inline-cloze-frontend-implementation-v1
     authorization: approval-20260804-inline-cloze-ui-prompt-and-user-baseline
@@ -213,9 +213,12 @@ artifacts:
       - independent final code review: P0 0, P1 0
     result: inline-cloze-ready-for-frontend-delivery-review
     completed_at: "2026-08-04T12:30:26+08:00"
-    hold_reason: "新增‘查看答案’产品行为/UI 状态触发回退门；该前端交付未被批准、拒绝或覆盖"
+    hold_reason: "原回退门已由 PRD v1.2、Prompt v1.2 与最小 UI 裁决闭合；该交付仍未被批准、拒绝或覆盖，现仅作为‘查看答案’增量实现的安全基线"
     safe_recovery_commit: 479090f1d8dfeb93da2b7444c9645bcf03b8357e
     reopened_by: chg-20260804-reveal-answer-product-change-v1
+    resumed_by: approval-20260804-reveal-answer-ui-minimal-direct-frontend
+    resumed_for: chg-20260804-reveal-answer-frontend-implementation-v1
+    resumed_at: "2026-08-04T15:53:01+08:00"
   - id: artifact-reveal-answer-prd-001
     type: product-requirements
     path: docs/01-prd.md
@@ -245,7 +248,7 @@ artifacts:
   - id: artifact-reveal-answer-ui-prompt-001
     type: ui-design-prompt
     path: docs/03-ui-prompt.md
-    status: ready-for-review
+    status: approved
     owner: role-ui-designer
     version: "1.2"
     change_id: chg-20260804-reveal-answer-ui-prompt-v1-2
@@ -274,10 +277,16 @@ artifacts:
     generated_new_ui: false
     modified_ui_assets: false
     modified_frontend: false
-    frontend_status: frozen-by-product-change
+    frontend_status: released-for-approved-reveal-answer-scope
     safe_recovery_commit: 479090f1d8dfeb93da2b7444c9645bcf03b8357e
     completed_at: "2026-08-04T15:22:24+08:00"
     stop_gate: ui-prompt-review
+    approval: approval-20260804-reveal-answer-ui-minimal-direct-frontend
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-04T15:53:01+08:00"
+    design_generation_required: false
+    frontend_authorized: true
+    frontend_change_id: chg-20260804-reveal-answer-frontend-implementation-v1
     validation:
       upstream_prd_sha256_match: passed
       previous_prompt_sha256_match: passed
