@@ -55,3 +55,43 @@ artifacts:
     approved_at: "2026-08-04T11:34:40+08:00"
     approved_by: 超级无敌帅超超总
     approval: approval-20260804-radar-project-plan-delivery
+  - id: artifact-prd-001
+    run_id: run-20260731-intake-001
+    type: product-requirements
+    path: docs/02-prd.md
+    status: ready-for-review
+    owner: role-product-manager
+    version: "1.0"
+    change_id: prd-20260804-ai-model-radar-001
+    entry_approval: approval-20260804-radar-prd-entry
+    upstream:
+      market_research:
+        path: docs/00-market-research.md
+        version: "1.0.1"
+        sha256: 0501bd7950dd9201def4fadc3dcd5830ef149ba0450d880ed3a7591a370bbbc1
+      project_plan:
+        path: docs/01-project-plan.md
+        version: "1.0"
+        sha256: 9320c2908843c69a5e754f66d786d7093a8ebd6e35b961c6d09366e290313166
+        approval: approval-20260804-radar-project-plan-delivery
+    sha256: 4d08c008bf0b2cd73d89a7771851bddd87b5b34a7b1e1465ec0e801fe12306fc
+    review_scope: "可浏览 Web 内容优先、日榜与事件证据链、事实/观点/推断分层、搜索筛选偏好、来源与刷新状态、质量门槛、合规版权、响应式与无障碍、MVP 与不做项"
+    acceptance_criteria:
+      count: 42
+      range: AC-01..AC-42
+      format: Given-When-Then
+    known_limits:
+      - no-business-code-or-runtime
+      - no-live-data-or-automatic-collection
+      - no-user-interviews-beyond-primary-user
+      - no-shadow-run-or-measured-quality-baseline
+      - no-ui-design-architecture-backend-or-deployment
+    validation:
+      - approved upstream market research and project plan SHA256 verified
+      - 42 Given-When-Then acceptance criteria present and contiguous
+      - YAML 5-of-5 valid before validation event
+      - JSONL 21-of-21 valid before validation event
+      - project structure passed with 4 expected empty-command warnings
+      - Git boundary and Skill drift checks passed
+      - diff check passed
+    completed_at: "2026-08-04T15:22:07+08:00"

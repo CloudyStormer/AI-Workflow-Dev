@@ -4,7 +4,7 @@ run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
 stage: product-definition
-status: prd-queued
+status: prd-ready-for-review
 current_role: role-product-manager
 blocked: false
 ui_assets:
@@ -19,12 +19,12 @@ delivery_priority:
     - production-deployment
   approval_gates_unchanged: true
 next_approval:
-  gate: artifact-review
+  gate: prd-review
   artifact: docs/02-prd.md
   scope: "AI Model Radar PRD v1.0"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: queued
+  delivery_status: ready-for-review
   on_approved:
     authorize_next_role: role-ui-designer
     role_task_title: "04 UI/UX设计师"
@@ -36,8 +36,25 @@ active_assignment:
   role: role-product-manager
   role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
   role_task_title: "03 产品经理"
-  scheduling: queued-after-frontend-career-radar
+  scheduling: completed-awaiting-review
   scope: "基于已批准调研与项目计划创建 docs/02-prd.md；优先定义可浏览 Web 内容，后端服务与正式部署后置；只交付 PRD"
+  started_at: "2026-08-04T15:17:59+08:00"
+  output:
+    artifact: artifact-prd-001
+    path: docs/02-prd.md
+    version: "1.0"
+    sha256: 4d08c008bf0b2cd73d89a7771851bddd87b5b34a7b1e1465ec0e801fe12306fc
+  result: prd-ready-for-review
+  completed_at: "2026-08-04T15:22:07+08:00"
+latest_delivery:
+  artifact: artifact-prd-001
+  path: docs/02-prd.md
+  version: "1.0"
+  sha256: 4d08c008bf0b2cd73d89a7771851bddd87b5b34a7b1e1465ec0e801fe12306fc
+  change_id: prd-20260804-ai-model-radar-001
+  status: ready-for-review
+  completed_by: role-product-manager
+  completed_at: "2026-08-04T15:22:07+08:00"
 latest_approved_artifact:
   path: docs/01-project-plan.md
   version: "1.0"
@@ -62,4 +79,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-04T11:34:40+08:00"
+updated_at: "2026-08-04T15:22:07+08:00"
