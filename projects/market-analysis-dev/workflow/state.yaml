@@ -3,33 +3,33 @@ project_id: "market-analysis-dev"
 run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
-stage: market-research
-status: market-research-ready-for-review
-current_role: role-market-researcher
+stage: project-planning
+status: project-plan-in-progress
+current_role: role-pm
 blocked: false
 active_assignment:
-  change_id: "research-20260803-frontend-career-radar-001"
-  role: role-market-researcher
-  role_task_id: "019fb799-5686-7571-ab7f-25bf816128b0"
-  role_task_title: "01 市场调研员"
-  scope: "调研 AI 互联网时代的前端技术趋势与当前招聘证据，技术栈全景作为第二信息层；只交付调研报告"
+  change_id: "plan-20260804-frontend-career-radar-001"
+  role: role-pm
+  role_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
+  role_task_title: "02 项目经理"
+  scope: "基于获批市场调研编制项目计划，明确范围、里程碑、风险、角色分工与验收；只交付项目计划"
 next_approval:
   gate: artifact-review
-  artifact: "docs/00-market-research.md"
-  scope: "前端技术趋势、招聘需求证据、技术栈全景、机会风险与未知项调研 v1.0"
+  artifact: "docs/01-project-plan.md"
+  scope: "Frontend Career Radar 项目计划 v1.0"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
+  delivery_status: in-progress
   on_approved:
-    authorize_next_role: role-pm
-    role_task_title: "02 项目经理"
-    scope: "基于已批准调研制定项目计划；交付后再次停止审核"
+    authorize_next_role: role-product-manager
+    role_task_title: "03 产品经理"
+    scope: "基于已批准调研与项目计划编制 PRD；交付后再次停止审核"
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
 latest_approved_delivery:
-  approval: "approval-20260803-initialization-delivery"
-  scope: "Frontend Career Radar 根仓收编、统一治理外壳及项目级 Skill"
-  approved_at: "2026-08-03T17:16:08+08:00"
+  approval: "approval-20260804-market-research-delivery"
+  scope: "Frontend Career Radar 市场调研 v1.0"
+  approved_at: "2026-08-04T10:57:41+08:00"
 workflow_policy:
   pass_semantics: approve-current-and-authorize-unique-next
   next_stage_requirements:
@@ -45,4 +45,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-03T17:48:18+08:00"
+updated_at: "2026-08-04T10:57:41+08:00"

@@ -45,3 +45,29 @@ approvals:
     decided_at: "2026-08-03T17:16:08+08:00"
     source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
     evidence: "初始化交付中的唯一下一站已明确为固定 01 市场调研员；‘通过’同时授权该站一个调研交付单元。"
+  - id: "approval-20260804-market-research-delivery"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: artifact-review
+    role: role-market-researcher
+    artifact: "docs/00-market-research.md"
+    change_id: "research-20260803-frontend-career-radar-001"
+    scope: "Frontend Career Radar 市场调研 v1.0"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-04T10:57:41+08:00"
+    source_task_id: "019fb799-5686-7571-ab7f-25bf816128b0"
+    evidence: "超级无敌帅超超总对固定 01 市场调研员重新展示的市场调研 v1.0 明确回复‘通过’。"
+  - id: "approval-20260804-project-plan-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-entry
+    role: role-pm
+    change_id: "plan-20260804-frontend-career-radar-001"
+    scope: "基于已批准市场调研 v1.0 制定项目计划；完成后停在项目计划审核门"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-04T10:57:41+08:00"
+    source_task_id: "019fb799-5686-7571-ab7f-25bf816128b0"
+    upstream_approval: "approval-20260804-market-research-delivery"
+    upstream_artifact: "docs/00-market-research.md"
+    upstream_sha256: 79ce60b6aeb4fa227f5da02bf5d230092575340b20ae91aa95a04b18a0b33165
+    evidence: "已批准当前产物，并自动授权唯一下一站固定 02 项目经理。本次只覆盖该站一个交付单元；该角色交付后停止等待审核，不代表其产物或后续角色已获批准。"
