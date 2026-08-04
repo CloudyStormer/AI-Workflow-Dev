@@ -5,11 +5,13 @@ script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(cd "$script_dir/.." && pwd)"
 canonical_dir="$repo_root/skill"
 global_dir="${AI_WORKFLOW_GLOBAL_SKILLS:-$HOME/.agents/skills}"
-project_skill_dirs=(
-  "$repo_root/projects/ai-english-learning/skills"
-  "$repo_root/projects/ai-model-radar/skills"
-  "$repo_root/control-center/skills"
-)
+project_skill_dirs=()
+while IFS= read -r project_skill_dir; do
+  project_skill_dirs+=("$project_skill_dir")
+done < <(find "$repo_root/projects" -mindepth 2 -maxdepth 2 -type d -name skills | sort)
+if [[ -d "$repo_root/control-center/skills" ]]; then
+  project_skill_dirs+=("$repo_root/control-center/skills")
+fi
 drift_count=0
 
 check_target() {
