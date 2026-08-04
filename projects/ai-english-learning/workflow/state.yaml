@@ -9,6 +9,11 @@ approved_roles:
   - role-ui-designer
   - role-frontend-dev
 blocked: false
+ui_assets:
+  directory: ui
+  index: ui/README.md
+  new_deliveries: required
+  preserve_active_legacy_paths: true
 next_approval:
   gate: artifact-review
   artifact: docs/03-ui-prompt.md
@@ -46,6 +51,10 @@ frontend_freeze:
   resume_gate: "UI 提示词‘通过’自动生成设计 → 设计再次‘通过’自动授权唯一明确的前端恢复或架构评估"
 workflow_policy:
   pass_semantics: approve-current-and-authorize-unique-next
+  role_reporting:
+    current_role_reports_in_own_fixed_task: true
+    next_role_announces_after_authorization: true
+    package_contractor: supervise-and-summarize
   next_stage_requirements:
     unique: true
     input_ready: true
@@ -60,4 +69,4 @@ workflow_policy:
     privacy_or_real_user_data: true
     external_message_or_publication: true
 state_limit: "旧版计划与任务表仍需单独对账；本状态只声明已核实的最新交付和审批门"
-updated_at: "2026-08-03T11:50:11+08:00"
+updated_at: "2026-08-04T11:13:14+08:00"

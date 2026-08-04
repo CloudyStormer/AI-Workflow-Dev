@@ -14,6 +14,7 @@ project-root/
 ├── README.md
 ├── project.yaml
 ├── docs/
+├── ui/                         # UI/UX 提示词、设计与生成界面
 ├── workflow/
 │   ├── state.yaml
 │   ├── approvals.yaml
@@ -30,6 +31,8 @@ project-root/
 
 `project.yaml` 是项目身份、Profile、真实启动命令和模块路径的机器可读事实源。`workflow/` 记录当前状态、超级无敌帅超超总审批、产物、事件和 Skill 哈希。项目级 Skill 负责项目边界与路由，专业角色 Skill 负责具体工作。
 
+`ui/` 是所有项目都必须具备的 UI 资产目录，不随 Profile 变化。新的 UI/UX 提示词、设计说明、原型、生成界面与视觉审核产物统一写入该目录，并在 `workflow/artifacts.yaml` 登记。已经进入审核门的历史产物在审批闭环前保留原路径，只在 `ui/README.md` 建索引，避免路径与哈希失效。
+
 项目模板只复制 Skill 规则快照，不复制角色 Agent。侧边栏全局角色任务永久固定为 `00 包工头` 与 `01` 至 `11`；每个固定角色负责所有项目。新增、收编或迭代项目时，禁止创建项目专属、需求专属或重复角色任务；“独立角色任务”一律指复用现有编号角色任务。
 
 每个项目的 `AGENTS.md`、项目级 Skill 和共享角色 Skill 快照必须包含“下游变更回退门（强制）”：进入下游后收到产品逻辑或 UI/UX 变更，当前角色冻结，严格按“产品独立交付并审核 → UI/UX 独立交付并审核 → 开发重新获批”推进。每站使用已有固定角色的独立任务/对话并登记产物、审批、冻结和恢复事件；不得由开发代改。超级无敌帅超超总对当前交付明确回复“通过”时，自动授权唯一明确、输入完整且非高风险的下一站，无需再等“继续”；一次最多前进一步，下一站交付后重新停门。
@@ -43,15 +46,16 @@ project-root/
 | `service` | `backend/` | API、任务或后台服务 |
 | `custom` | 在 `project.yaml` 显式声明 | 不适合前三类的工程 |
 
-## 当前三个项目
+## 当前四个项目
 
 | 项目 | 类型 | Profile | 真实入口状态 |
 |---|---|---|---|
 | `projects/ai-english-learning` | 工作流实践样本 | `split-web` | 在 `frontend/` 运行 npm 命令；保留现有前端结构 |
 | `projects/ai-model-radar` | 可继续使用的产品样本 | `split-web` | 当前停在市场调研审核门，尚未批准技术入口 |
 | `control-center` | 跨项目治理工具 | `sites-fullstack` | 在项目根目录运行 npm 命令；保留 Sites 目录和托管配置 |
+| `projects/market-analysis-dev` | 前端职业成长产品 | `split-web` | 当前完成项目计划，尚未批准技术入口 |
 
-三者的代码目录不同是 Profile 的真实差异，不再是缺少规则的随意差异。
+四者的代码目录不同是 Profile 的真实差异，不再是缺少规则的随意差异；`ui/` 则是跨 Profile 的统一目录。
 
 ## 初始化与收编
 

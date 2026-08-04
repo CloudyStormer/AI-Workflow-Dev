@@ -25,16 +25,24 @@ artifacts:
     path: project.yaml
     status: active
     owner: package-contractor
-    sha256: 70c632d880a645a8bb4fa66e34d5ec03fb9789558311383f9921cdcb8c151348
-    updated_at: "2026-07-31T22:02:27+08:00"
+    sha256: e8b76d73167d06306e12aaf0b87fba2bb03b2ab92463f20d61ea3dfec0f4c873
+    updated_at: "2026-08-04T11:13:14+08:00"
   - id: artifact-project-skill-001
     run_id: run-20260731-intake-001
     type: project-skill
     path: skills/project-ai-model-radar/SKILL.md
     status: active
     owner: package-contractor
-    sha256: 17d410f7e4d9231e1feb7c69179ca93f62b3cc064202113b31716bcf5ed86447
-    updated_at: "2026-08-01T00:02:05+08:00"
+    sha256: 16709c3a0028d98ef5c63a546138d5d2ee9bb89bd44d431776da99a40b7a437f
+    updated_at: "2026-08-04T11:13:14+08:00"
+  - id: artifact-ui-index-001
+    run_id: run-20260731-intake-001
+    type: ui-asset-index
+    path: ui/README.md
+    status: active
+    owner: package-contractor
+    sha256: 574e600151e34c173359ccd83cd7f11bcd57e1c4091b6b9098b446137c8484b2
+    updated_at: "2026-08-04T11:13:14+08:00"
   - id: artifact-project-plan-001
     run_id: run-20260731-intake-001
     type: project-plan

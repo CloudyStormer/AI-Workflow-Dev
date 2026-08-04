@@ -31,3 +31,5 @@ modules:
     path: "backend"
   - name: "deployment"
     path: "docker"
+  - name: "ui"
+    path: "ui"

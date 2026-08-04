@@ -12,7 +12,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-COMMON_DIRS = ("docs", "workflow", "skills", "scripts", "tests", "output")
+COMMON_DIRS = ("docs", "ui", "workflow", "skills", "scripts", "tests", "output")
 PROFILE_DIRS = {
     "split-web": ("frontend", "backend", "docker"),
     "sites-fullstack": ("app", "db", "worker", "public"),
@@ -94,6 +94,7 @@ def render_manifest(args: argparse.Namespace, shared_source: str) -> str:
         "service": [("service", "backend")],
         "custom": [],
     }[args.profile]
+    profile_modules.append(("ui", "ui"))
     modules = "\n".join(
         f"  - name: {quoted(name)}\n    path: {quoted(path)}" for name, path in profile_modules
     )
@@ -146,6 +147,8 @@ def render_agents(args: argparse.Namespace) -> str:
 12. 通过即授权唯一下一站：超级无敌帅超超总对当前明确交付回复“通过”时，同时批准当前交付并授权唯一明确、输入完整且非高风险的下一站立即入场，无需再等“继续”；一次最多前进一步，下一站交付后重新停门。
 13. 生产发布、删除或不可逆覆盖、强制 Git、付费采购、账号权限、隐私数据和对外发送等高风险动作不因普通“通过”自动实质执行，仍须单独明确授权。
 14. 每次面向用户的回复第一行必须先写 `【{args.name} 项目】`，下一行再完整称呼“超级无敌帅超超总”；多项目分别成块，跨项目事项单列 `【AIWorkFlow 总体协调】`。
+15. 阶段状态由对应固定角色本人报告：当前角色在自己的固定任务独立交付；获批路由后，下一角色在自己的固定任务宣布入场、范围和停止门；`00 包工头`只监督汇总，不代替角色报到或交付。
+16. 每个项目必须保留 `ui/` 目录，专门承载 UI/UX 提示词、设计说明和后续生成的界面产物；不得把新的 UI 交付散落到未登记目录。
 """
 
 
@@ -171,6 +174,18 @@ description: '{description}'
 
 - 每次面向用户的回复，第一行先写 `【{args.name} 项目】`，下一行再完整称呼“超级无敌帅超超总”。
 - 多项目按项目分别成块；跨项目治理、根仓或角色协调事项单列 `【AIWorkFlow 总体协调】`。不得用角色名或阶段名代替项目标题。
+
+## 角色本人报到与交付通知（强制）
+
+- 当前角色完成后，必须在自己的固定角色任务中产生独立用户可见交付；`00 包工头`可以汇总，但不得代替对应角色交付。
+- 当前产物获批并路由后，下一角色必须在自己的固定任务宣布已入场、获批范围、预期产物和停止门，再开始执行。
+- 未获授权的角色不得提前报到；对应任务不可达或繁忙时，包工头只报告真实阻塞。
+
+## UI 资产目录（强制）
+
+- `ui/` 是本项目 UI/UX 提示词、设计说明、原型、生成界面和视觉审核产物的统一目录；新交付必须在 `workflow/artifacts.yaml` 登记路径、版本、状态与哈希。
+- 已进入审核门的旧产物保持原路径至审批闭环，并在 `ui/README.md` 建立索引；不得为整理目录破坏审核链。
+- 目录或文件存在不表示已经通过提示词、设计或实现审批。
 
 ## 项目身份
 
@@ -200,6 +215,7 @@ description: '{description}'
 
 - 项目说明：`README.md`
 - 产品和工程文档：`docs/`
+- UI/UX 提示词与生成界面：`ui/`
 - 工作流事实：`workflow/`
 - 共享角色规则：`skills/`
 - 运行代码：以 `project.yaml` 的 modules 和 entrypoints 为准
@@ -363,6 +379,15 @@ def main() -> int:
         f"# {args.name}\n\n项目结构、真实入口和工作流状态分别见 `project.yaml`、项目级 Skill 与 `workflow/`。\n",
         args.dry_run,
     )
+    write_missing(
+        project_dir / "ui" / "README.md",
+        "# UI/UX 资产目录\n\n"
+        "本目录统一存放本项目的 UI/UX 提示词、设计说明、原型、生成界面和视觉审核产物。\n\n"
+        "- 新提示词与生成界面默认写入 `ui/`，并在 `workflow/artifacts.yaml` 登记权威路径与哈希。\n"
+        "- 已进入审核门的历史产物在审核结束前保持原路径，通过索引引用，避免中途移动导致审批失效。\n"
+        "- 设计产物通过后才可路由架构或开发；目录存在不代表 UI 已获批准。\n",
+        args.dry_run,
+    )
 
     now = datetime.now(timezone.utc).isoformat()
     write_missing(
@@ -372,8 +397,17 @@ project_id: {quoted(args.id)}
 stage: adoption
 status: needs-reconciliation
 current_role: package-contractor
+ui_assets:
+  directory: ui
+  index: ui/README.md
+  new_deliveries: required
+  preserve_active_legacy_paths: true
 workflow_policy:
   pass_semantics: approve-current-and-authorize-unique-next
+  role_reporting:
+    current_role_reports_in_own_fixed_task: true
+    next_role_announces_after_authorization: true
+    package_contractor: supervise-and-summarize
   next_stage_requirements:
     unique: true
     input_ready: true

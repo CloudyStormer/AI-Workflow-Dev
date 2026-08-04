@@ -6,7 +6,7 @@ AI 工作流学习与验证项目的可视化控制中心。第一版用于验�
 
 ## 统一结构
 
-本项目已由 `workflow-project-init` 收编，和两个 `projects/` 项目共享 `project.yaml`、`workflow/`、项目级 `skills/`、`docs/`、`scripts/`、`tests/` 与 `output/` 治理外壳。
+本项目已由 `workflow-project-init` 收编，和三个 `projects/` 项目共享 `project.yaml`、`workflow/`、项目级 `skills/`、`docs/`、`ui/`、`scripts/`、`tests/` 与 `output/` 治理外壳。`ui/` 统一保存 UI/UX 提示词与后续生成界面。
 
 实现采用 `sites-fullstack` Profile，因此保留 Sites 所需的根目录 `app/`、`db/`、`worker/`、`public/` 与 `.openai/`。它不会为了表面一致被搬进 `frontend/`；真正统一的是治理契约和项目 Skill，不是技术入口的文件夹名字。
 

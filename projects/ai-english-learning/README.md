@@ -11,6 +11,7 @@ AIWorkFlow 的首个实践样本，用于走通多角色 AI 软件工程工作�
 - `skills/`：项目 Skill 调用的共享专业子 Skill
 - `workflow/`：状态、审批、产物、事件和 Skill 锁
 - `docs/`：项目计划、PRD、架构和任务文档
+- `ui/`：UI/UX 提示词索引、设计参考、原型和后续生成界面
 - `scripts/`、`tests/`、`output/`：脚本、测试与输出边界
 
 实现采用 `split-web` Profile，因此保留 `frontend/`、`backend/` 和 `docker/`。这与 control-center 的 Sites 根目录实现不同，但治理外壳相同。

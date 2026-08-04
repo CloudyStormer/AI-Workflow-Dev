@@ -12,8 +12,16 @@ artifacts:
     path: skills/project-ai-english-learning/SKILL.md
     status: active
     owner: package-contractor
-    sha256: f3dcb48c5e5afbbb461e32d8f7f61164b7bba6fbd12a07a5cdbb871ffe1cd029
-    updated_at: "2026-08-01T00:02:05+08:00"
+    sha256: 4e2de1d8a5e1193ffb1692a4eb21410252ef8b02223da354a9ff5c5290fe2bf8
+    updated_at: "2026-08-04T11:13:14+08:00"
+  - id: artifact-ui-index-001
+    type: ui-asset-index
+    path: ui/README.md
+    status: active
+    owner: package-contractor
+    sha256: d184a06c9fcbe72be2ced6f86629372f29efdd20f8ef02214512eebc48d39ea0
+    legacy_active_artifact: docs/03-ui-prompt.md
+    updated_at: "2026-08-04T11:13:14+08:00"
   - id: artifact-random-letter-hints-001
     type: frontend-delivery
     path: frontend/src/utils/wordHints.ts

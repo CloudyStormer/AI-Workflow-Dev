@@ -12,8 +12,15 @@ artifacts:
     path: skills/project-workflow-control-center/SKILL.md
     status: active
     owner: package-contractor
-    sha256: 7fe8aa5553955d8dfd02a75d22479e06cc425044929715b86e7701ea579d8ab8
-    updated_at: "2026-08-01T00:02:05+08:00"
+    sha256: a3b34d4094ceb44e0128f727b324dfc23e0f94544d248853e46e10fa7d2c62b2
+    updated_at: "2026-08-04T11:13:14+08:00"
+  - id: artifact-ui-index-001
+    type: ui-asset-index
+    path: ui/README.md
+    status: active
+    owner: package-contractor
+    sha256: 89fc837098acc92e82630fd052d4bdd77216ab87f9fea7facf62386a7d95389c
+    updated_at: "2026-08-04T11:13:14+08:00"
   - id: artifact-ui-prompt-001
     type: ui-design-prompt
     path: ui/01-control-center-ui-design-prompt.md

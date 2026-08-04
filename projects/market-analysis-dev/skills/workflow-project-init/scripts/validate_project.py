@@ -10,11 +10,12 @@ import re
 import sys
 from pathlib import Path
 
-REQUIRED_DIRS = ("docs", "workflow", "skills", "scripts", "tests", "output")
+REQUIRED_DIRS = ("docs", "ui", "workflow", "skills", "scripts", "tests", "output")
 REQUIRED_FILES = (
     "AGENTS.md",
     "README.md",
     "project.yaml",
+    "ui/README.md",
     "workflow/state.yaml",
     "workflow/approvals.yaml",
     "workflow/artifacts.yaml",
@@ -213,6 +214,8 @@ def main() -> int:
         modules = parse_modules(manifest)
         if profile != "custom" and not modules:
             errors.append(f"project.yaml has no modules for Profile: {profile}")
+        if not any(module_path == "ui" for _, module_path in modules):
+            errors.append("project.yaml modules must declare the required ui/ directory")
         for module_name, module_path in modules:
             if not (root / module_path).exists():
                 errors.append(f"module path does not exist: {module_name} -> {module_path}")
@@ -260,6 +263,10 @@ def main() -> int:
                 errors.append("project-level Skill does not contain the pass-auto-continue rule")
             if "项目模块化汇报格式（强制）" not in body:
                 errors.append("project-level Skill does not contain the project-module reporting rule")
+            if "角色本人报到与交付通知（强制）" not in body:
+                errors.append("project-level Skill does not contain the role-self-reporting rule")
+            if "UI 资产目录（强制）" not in body or "`ui/`" not in body:
+                errors.append("project-level Skill does not contain the required ui/ asset rule")
             required_project_skill_phrases = (
                 "无需再等“继续”",
                 "自动续行只覆盖下一站一个交付单元",
@@ -268,6 +275,8 @@ def main() -> int:
                 "`01` 至 `11`",
                 f"【{project_name} 项目】",
                 "【AIWorkFlow 总体协调】",
+                "下一角色必须在自己的固定任务",
+                "包工头",
             )
             for phrase in required_project_skill_phrases:
                 if phrase not in body:
@@ -296,6 +305,18 @@ def main() -> int:
                 errors.append(
                     f"workflow/state.yaml project_id is {state_project_id!r}, expected {project_id!r}"
                 )
+            required_ui_state = (
+                "ui_assets:",
+                "directory: ui",
+                "index: ui/README.md",
+                "new_deliveries: required",
+                "preserve_active_legacy_paths: true",
+            )
+            for phrase in required_ui_state:
+                if phrase not in state:
+                    errors.append(
+                        f"workflow/state.yaml missing required ui asset contract: {phrase}"
+                    )
             policy = parse_workflow_policy(state)
             required_policy_scalars = {
                 "pass_semantics": "approve-current-and-authorize-unique-next",
@@ -309,6 +330,11 @@ def main() -> int:
                     )
 
             required_sections = {
+                "role_reporting": {
+                    "current_role_reports_in_own_fixed_task": True,
+                    "next_role_announces_after_authorization": True,
+                    "package_contractor": "supervise-and-summarize",
+                },
                 "next_stage_requirements": {
                     "unique": True,
                     "input_ready": True,
@@ -352,6 +378,10 @@ def main() -> int:
             errors.append("AGENTS.md does not contain the pass-auto-continue rule")
         if "项目】" not in agents or "【AIWorkFlow 总体协调】" not in agents:
             errors.append("AGENTS.md does not contain the project-module reporting rule")
+        if "对应固定角色本人报告" not in agents or "下一角色在自己的固定任务宣布入场" not in agents:
+            errors.append("AGENTS.md does not contain the role-self-reporting rule")
+        if "`ui/`" not in agents or "UI/UX 提示词" not in agents:
+            errors.append("AGENTS.md does not contain the required ui/ asset rule")
         required_agents_phrases = (
             "无需再等“继续”",
             "一次最多前进一步",
@@ -441,6 +471,76 @@ def main() -> int:
             errors.append(
                 f"Skill missing project-module reporting rule: {skill_file.relative_to(root)}"
             )
+        if (
+            skill_name == "ai-dev-workflow"
+            or skill_name == "workflow-project-init"
+            or skill_name.startswith("role-")
+            or skill_name.startswith("project-")
+        ) and "角色本人报到与交付通知（强制）" not in text:
+            errors.append(
+                f"Skill missing role-self-reporting rule: {skill_file.relative_to(root)}"
+            )
+        if (
+            skill_name == "ai-dev-workflow"
+            or skill_name == "workflow-project-init"
+            or skill_name.startswith("role-")
+            or skill_name.startswith("project-")
+        ):
+            reporting_semantics = {
+                "current role produces an independent delivery in its own fixed task": (
+                    "自己的固定" in text
+                    and "独立" in text
+                    and ("交付" in text or "用户可见" in text)
+                ),
+                "unauthorized role cannot announce early": (
+                    "未获授权" in text and "不得提前报到" in text
+                ),
+                "package contractor cannot replace the role delivery": (
+                    "包工头" in text
+                    and any(
+                        phrase in text
+                        for phrase in ("不得代替", "不得替代", "不能只由", "不代替角色")
+                    )
+                ),
+            }
+            for semantic, present in reporting_semantics.items():
+                if not present:
+                    errors.append(
+                        "Skill missing role-self-reporting semantics "
+                        f"({semantic}): {skill_file.relative_to(root)}"
+                    )
+        if (
+            skill_name == "workflow-project-init"
+            or skill_name == "role-ui-designer"
+            or skill_name.startswith("project-")
+        ) and ("UI 资产目录（强制）" not in text or "`ui/`" not in text):
+            errors.append(
+                f"Skill missing required ui/ asset rule: {skill_file.relative_to(root)}"
+            )
+        if (
+            skill_name == "workflow-project-init"
+            or skill_name == "role-ui-designer"
+            or skill_name.startswith("project-")
+        ):
+            ui_semantics = {
+                "UI assets are registered in workflow/artifacts.yaml": (
+                    "workflow/artifacts.yaml" in text
+                ),
+                "ui/README.md is the asset index": ("ui/README.md" in text),
+                "active review paths are preserved": (
+                    "审核" in text
+                    and any(
+                        phrase in text
+                        for phrase in ("保持原路径", "不得为整理目录而中途移动", "不得为整理目录破坏审核链")
+                    )
+                ),
+            }
+            for semantic, present in ui_semantics.items():
+                if not present:
+                    errors.append(
+                        f"Skill missing ui/ asset semantics ({semantic}): "
+                        f"{skill_file.relative_to(root)}"
+                    )
         if skill_name.startswith("role-"):
             for phrase in ("无需再等“继续”", "自动续行"):
                 if phrase not in text:

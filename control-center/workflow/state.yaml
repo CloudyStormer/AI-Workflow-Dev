@@ -5,6 +5,11 @@ stage: ui-design
 status: awaiting-ui-prompt-review
 current_role: null
 blocked: false
+ui_assets:
+  directory: ui
+  index: ui/README.md
+  new_deliveries: required
+  preserve_active_legacy_paths: true
 next_approval:
   gate: artifact-review
   artifact: ui/01-control-center-ui-design-prompt.md
@@ -25,6 +30,10 @@ runtime:
   data_status: demo
 workflow_policy:
   pass_semantics: approve-current-and-authorize-unique-next
+  role_reporting:
+    current_role_reports_in_own_fixed_task: true
+    next_role_announces_after_authorization: true
+    package_contractor: supervise-and-summarize
   next_stage_requirements:
     unique: true
     input_ready: true
@@ -38,4 +47,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-03T11:50:11+08:00"
+updated_at: "2026-08-04T11:13:14+08:00"
