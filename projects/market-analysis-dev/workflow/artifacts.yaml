@@ -102,3 +102,32 @@ artifacts:
       - "restricted-platforms-not-bypassed"
       - "no-user-skill-evidence-or-user-interviews"
       - "production-data-rights-require-per-source-review"
+  - id: "artifact-project-plan-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: project-plan
+    change_id: "plan-20260804-frontend-career-radar-001"
+    path: docs/01-project-plan.md
+    status: ready-for-review
+    owner: role-pm
+    version: "1.0"
+    sha256: f9c5a5e2010425758c2c38e033e8ddfb7f41b28ebb593919b36d0ccf915f98d7
+    upstream_approval: "approval-20260804-market-research-delivery"
+    upstream_artifact: docs/00-market-research.md
+    upstream_version: "1.0"
+    upstream_sha256: 79ce60b6aeb4fa227f5da02bf5d230092575340b20ae91aa95a04b18a0b33165
+    completed_at: "2026-08-04T11:05:32+08:00"
+    validation:
+      plan_sha256_match: passed
+      markdown_table_integrity: "3-of-3-passed"
+      yaml: "5-of-5-valid"
+      jsonl: "19-of-19-valid"
+      workflow_consistency: passed
+      project_validator: "passed-with-4-intentional-empty-command-warnings"
+      git_boundary: passed
+      git_diff_check: passed
+    known_limits:
+      - "docs-00-intake-missing"
+      - "no-business-code-or-runtime-commands"
+      - "purpose-sampled-recruitment-evidence-not-market-share"
+      - "same-day-web-preview-depends-on-sequential-approval-gates"
+      - "backend-services-and-production-deployment-deferred"

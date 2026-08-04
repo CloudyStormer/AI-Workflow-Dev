@@ -4,7 +4,7 @@ run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
 stage: project-planning
-status: project-plan-in-progress
+status: project-plan-ready-for-review
 current_role: role-pm
 blocked: false
 active_assignment:
@@ -19,7 +19,7 @@ next_approval:
   scope: "Frontend Career Radar 项目计划 v1.0"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: in-progress
+  delivery_status: ready-for-review
   on_approved:
     authorize_next_role: role-product-manager
     role_task_title: "03 产品经理"
@@ -32,6 +32,10 @@ latest_approved_delivery:
   approved_at: "2026-08-04T10:57:41+08:00"
 workflow_policy:
   pass_semantics: approve-current-and-authorize-unique-next
+  role_reporting:
+    current_role_reports_in_own_fixed_task: true
+    next_role_announces_after_authorization: true
+    package_contractor: supervise-and-summarize
   next_stage_requirements:
     unique: true
     input_ready: true
@@ -45,4 +49,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-04T10:57:41+08:00"
+updated_at: "2026-08-04T11:06:59+08:00"
