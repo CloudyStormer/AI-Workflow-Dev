@@ -2,7 +2,7 @@ schema_version: 1
 project_id: "ai-english-learning"
 structure_status: normalized
 stage: product-definition
-status: product-change-in-progress
+status: product-change-ready-for-review
 current_role: role-product-manager
 approved_roles:
   - role-product-manager
@@ -26,7 +26,7 @@ next_approval:
   scope: "定义‘查看答案，能直接看正确答案’的触发条件、展示方式、答题与计分/进度语义、修改与下一题状态、验收标准及不做项"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: in-progress
+  delivery_status: ready-for-review
   on_approved:
     authorize_next_role: role-ui-designer
     role_task_title: "04 UI/UX设计师"
@@ -41,6 +41,14 @@ active_assignment:
   authorized_by: approval-20260804-reveal-answer-product-reentry
   scope: "只定义‘查看答案’产品行为、状态语义、验收标准与不做项；不得修改 UI 提示词、设计稿或前端代码"
   started_at: "2026-08-04T14:31:46+08:00"
+  output:
+    artifact: artifact-reveal-answer-prd-001
+    path: docs/01-prd.md
+    version: "1.2"
+    sha256: d2512d352c2694953bfaa9e7513258440304ee4925c8b4c9bf29a0003fdd7d3a
+  result: ready-for-product-change-review
+  delivery_status: ready-for-review
+  completed_at: "2026-08-04T15:00:16+08:00"
 completed_assignment:
   change_id: chg-20260804-inline-cloze-frontend-implementation-v1
   role: role-frontend-dev
@@ -63,6 +71,15 @@ latest_approved_artifact:
   path: docs/01-prd.md
   version: "1.1"
   approval: approval-20260803-inline-cloze-prd-v1-1
+pending_product_delivery:
+  artifact: artifact-reveal-answer-prd-001
+  path: docs/01-prd.md
+  version: "1.2"
+  sha256: d2512d352c2694953bfaa9e7513258440304ee4925c8b4c9bf29a0003fdd7d3a
+  change_id: chg-20260804-reveal-answer-product-change-v1
+  status: ready-for-review
+  approval_gate: product-change-review
+  decision_owner: 超级无敌帅超超总
 latest_delivery:
   path: frontend/src/pages/Word.tsx
   type: frontend-delivery
@@ -116,4 +133,4 @@ workflow_policy:
     privacy_or_real_user_data: true
     external_message_or_publication: true
 state_limit: "旧版计划与任务表仍需单独对账；本状态只声明已核实的最新交付和审批门"
-updated_at: "2026-08-04T14:31:46+08:00"
+updated_at: "2026-08-04T15:00:16+08:00"
