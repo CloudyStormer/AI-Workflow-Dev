@@ -2,7 +2,7 @@ schema_version: 1
 project_id: "ai-english-learning"
 structure_status: normalized
 stage: ui-ux
-status: ui-prompt-in-progress
+status: ui-prompt-ready-for-review
 current_role: role-ui-designer
 approved_roles:
   - role-product-manager
@@ -27,12 +27,13 @@ next_approval:
   scope: "仅基于已批准 PRD v1.2 修订‘查看答案’UI/UX 提示词；覆盖触发确认、行内直接揭晓、状态切换、重试与下一题、误触保护、移动端/键盘/无障碍"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: in-progress
+  delivery_status: ready-for-review
   on_approved:
-    authorize_next_role: role-ui-designer
-    role_task_title: "04 UI/UX设计师"
-    scope: "仅基于已批准的‘查看答案’UI/UX 提示词制作对应设计状态并单独交付审核"
-    next_gate: ui-design-review
+    authorize_next_role: null
+    next_owner: 超级无敌帅超超总
+    next_action: "依据已批准 Prompt 使用专业 UI 设计大模型补充必要状态，或另行裁决后续 UI 路由"
+    role_ui_designer_auto_generation: false
+    frontend_authorized: false
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
 active_assignment:
@@ -50,8 +51,10 @@ active_assignment:
     path: docs/03-ui-prompt.md
     version: "1.2"
   scope: "仅修订‘查看答案’UI/UX 提示词并交付审核；不得生成设计稿、修改 ui/ 资产或前端代码"
-  delivery_status: in-progress
+  delivery_status: ready-for-review
   started_at: "2026-08-04T15:13:01+08:00"
+  completed_at: "2026-08-04T15:22:24+08:00"
+  output_sha256: c30be1da6e120a524976420c8c6b8d5dfaf62f0af444a4284708c96fa2094af1
 completed_product_assignment:
   change_id: chg-20260804-reveal-answer-product-change-v1
   role: role-product-manager
@@ -80,7 +83,7 @@ held_downstream_delivery:
   status: on-hold
   hold_reason: "新增‘查看答案’产品行为/UI 状态触发回退门；既有前端交付未被批准、拒绝或覆盖"
   reopened_by: chg-20260804-reveal-answer-product-change-v1
-implementation_gate: "PRD v1.2 已获批准；固定 06 前端工程师继续冻结在 commit 479090f1d8dfeb93da2b7444c9645bcf03b8357e。当前只授权固定 04 UI/UX 设计师交付提示词；提示词和设计依次获批后，才可重新授权固定 06，禁止自动跑完整回退链。"
+implementation_gate: "PRD v1.2 已获批准，Prompt v1.2 已交付待审；固定 06 前端工程师继续冻结在 commit 479090f1d8dfeb93da2b7444c9645bcf03b8357e。提示词通过不自动生成设计、不修改 ui/、不解冻固定 06；后续 UI 状态和前端恢复仍须分别审核与路由。"
 latest_approved_artifact:
   path: docs/01-prd.md
   version: "1.2"
@@ -96,6 +99,18 @@ approved_product_delivery:
   approval: approval-20260804-reveal-answer-prd-v1-2
   approved_by: 超级无敌帅超超总
   approved_at: "2026-08-04T15:13:01+08:00"
+latest_ui_prompt_delivery:
+  artifact: artifact-reveal-answer-ui-prompt-001
+  path: docs/03-ui-prompt.md
+  version: "1.2"
+  sha256: c30be1da6e120a524976420c8c6b8d5dfaf62f0af444a4284708c96fa2094af1
+  change_id: chg-20260804-reveal-answer-ui-prompt-v1-2
+  status: ready-for-review
+  entry_approval: approval-20260804-reveal-answer-ui-prompt-entry
+  upstream_approval: approval-20260804-reveal-answer-prd-v1-2
+  frontend_status: frozen-by-product-change
+  generated_new_ui: false
+  completed_at: "2026-08-04T15:22:24+08:00"
 latest_delivery:
   path: frontend/src/pages/Word.tsx
   type: frontend-delivery
@@ -149,4 +164,4 @@ workflow_policy:
     privacy_or_real_user_data: true
     external_message_or_publication: true
 state_limit: "旧版计划与任务表仍需单独对账；本状态只声明已核实的最新交付和审批门"
-updated_at: "2026-08-04T15:13:01+08:00"
+updated_at: "2026-08-04T15:22:24+08:00"

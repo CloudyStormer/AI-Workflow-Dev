@@ -65,7 +65,7 @@ artifacts:
   - id: artifact-inline-cloze-ui-prompt-002
     type: ui-design-prompt
     path: docs/03-ui-prompt.md
-    status: approved
+    status: superseded
     owner: role-ui-designer
     version: "1.1"
     change_id: chg-20260803-inline-cloze-ui-prompt-v1-1
@@ -81,6 +81,7 @@ artifacts:
     approval: approval-20260804-inline-cloze-ui-prompt-and-user-baseline
     approved_by: 超级无敌帅超超总
     approved_at: "2026-08-04T11:42:10+08:00"
+    superseded_by: artifact-reveal-answer-ui-prompt-001
   - id: artifact-user-ui-visual-baseline-001
     type: ui-visual-baseline
     path: ui/
@@ -241,3 +242,51 @@ artifacts:
     approval: approval-20260804-reveal-answer-prd-v1-2
     approved_by: 超级无敌帅超超总
     approved_at: "2026-08-04T15:13:01+08:00"
+  - id: artifact-reveal-answer-ui-prompt-001
+    type: ui-design-prompt
+    path: docs/03-ui-prompt.md
+    status: ready-for-review
+    owner: role-ui-designer
+    version: "1.2"
+    change_id: chg-20260804-reveal-answer-ui-prompt-v1-2
+    entry_approval: approval-20260804-reveal-answer-ui-prompt-entry
+    upstream_approval: approval-20260804-reveal-answer-prd-v1-2
+    upstream_artifact: docs/01-prd.md
+    upstream_version: "1.2"
+    upstream_sha256: d2512d352c2694953bfaa9e7513258440304ee4925c8b4c9bf29a0003fdd7d3a
+    previous_artifact: artifact-inline-cloze-ui-prompt-002
+    previous_version: "1.1"
+    previous_sha256: 2e882df4029a098bc8679a628b70379fddbb88c2ebc01df5c26e9062a19e3038
+    sha256: c30be1da6e120a524976420c8c6b8d5dfaf62f0af444a4284708c96fa2094af1
+    review_scope: "仅修订‘查看答案’触发确认、行内直接揭晓、只读状态、重试/下一题、计分反馈、移动端/键盘/无障碍、防泄露与边界；继承用户提供 ui/ 视觉母版"
+    coverage:
+      reveal_answer_states: [unanswered, partial, incomplete, incorrect, independent-correct, revealed, correct-after-reveal]
+      confirmation_and_cancel: true
+      inline_reveal_only: true
+      readonly_after_reveal: true
+      retry_and_next: true
+      scoring_and_mastery_copy: true
+      keyboard_mobile_accessibility: true
+      answer_leak_prevention: true
+      short_words_and_separators: true
+      idempotency_refresh_and_leave: true
+      user_visual_baseline_inherited: true
+    generated_new_ui: false
+    modified_ui_assets: false
+    modified_frontend: false
+    frontend_status: frozen-by-product-change
+    safe_recovery_commit: 479090f1d8dfeb93da2b7444c9645bcf03b8357e
+    completed_at: "2026-08-04T15:22:24+08:00"
+    stop_gate: ui-prompt-review
+    validation:
+      upstream_prd_sha256_match: passed
+      previous_prompt_sha256_match: passed
+      required_reveal_sections: "9-of-9-present"
+      state_matrix: "1-to-48-contiguous"
+      reveal_acceptance_checks: "20-of-20-present"
+      yaml: "5-of-5-valid"
+      jsonl: "34-of-34-valid-after-validation-event"
+      project_validator: "passed-with-existing-missing-test-command-warning"
+      git_boundary: passed
+      skill_drift: passed
+      diff_check: passed
