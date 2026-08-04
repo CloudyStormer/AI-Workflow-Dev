@@ -299,3 +299,47 @@ artifacts:
       git_boundary: passed
       skill_drift: passed
       diff_check: passed
+  - id: artifact-spaced-recall-prd-001
+    type: product-requirements
+    path: docs/01-prd.md
+    status: ready-for-review
+    owner: role-product-manager
+    version: "1.3"
+    change_id: chg-20260804-spaced-recall-loop-product-v1
+    authorization: approval-20260804-spaced-recall-product-reentry
+    previous_artifact: artifact-reveal-answer-prd-001
+    previous_version: "1.2"
+    previous_sha256: d2512d352c2694953bfaa9e7513258440304ee4925c8b4c9bf29a0003fdd7d3a
+    read_only_ui_context:
+      path: docs/03-ui-prompt.md
+      version: "1.2"
+      sha256: c30be1da6e120a524976420c8c6b8d5dfaf62f0af444a4284708c96fa2094af1
+    sha256: 0b065ec4ffb4881d6893ec23a1d9c4ec57627fe173f43ada73cdf5c3f4b02385
+    review_scope: "查看/答错薄弱证据、日内两次受控穿插、D+1/D+3/D+7/D+14 跨日掌握、D+30 维护、提醒与时区、独立拼写、计分历史、暂停/跳过/重置、状态机与异常"
+    acceptance_criteria:
+      new_prefix: AC-SR
+      new_count: 36
+      new_range: AC-SR-01..AC-SR-36
+      inherited_prefix: AC-RA
+      inherited_count: 20
+      inherited_range: AC-RA-01..AC-RA-20
+    product_limits:
+      - no-permanent-memory-guarantee
+      - no-personalized-machine-learning-scheduler
+      - no-cross-device-review-sync
+      - no-offline-answer-settlement
+      - no-ui-visual-architecture-or-implementation
+    validation:
+      - previous approved PRD v1.2 SHA256 verified
+      - read-only UI Prompt v1.2 SHA256 verified and unchanged
+      - AC-SR-01..AC-SR-36 present and contiguous
+      - inherited AC-RA-01..AC-RA-20 present and contiguous
+      - required spaced-recall rules and state machine present
+      - YAML 5-of-5 valid before validation event
+      - JSONL 40-of-40 valid before validation event
+      - project structure passed with existing missing-test-command warning
+      - Git boundary and Skill drift checks passed
+      - diff check passed
+      - concurrent frontend and other-project worktree changes preserved and excluded
+    completed_at: "2026-08-04T17:02:03+08:00"
+    stop_gate: product-change-review

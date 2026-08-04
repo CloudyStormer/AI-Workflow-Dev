@@ -2,7 +2,7 @@ schema_version: 1
 project_id: "ai-english-learning"
 structure_status: normalized
 stage: product-definition
-status: spaced-recall-product-in-progress
+status: spaced-recall-prd-ready-for-review
 current_role: role-product-manager
 approved_roles:
   - role-product-manager
@@ -29,7 +29,7 @@ next_approval:
   scope: "定义查看答案后的薄弱词记录、日内随机复现、跨日定时复习、记忆曲线调度、独立拼写成功判定、掌握退出与异常恢复；不修改 UI/UX 或代码"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: assigned
+  delivery_status: ready-for-review
   on_approved:
     authorize_next_role: role-ui-designer
     next_owner: role-ui-designer
@@ -56,8 +56,18 @@ active_assignment:
     path: docs/01-prd.md
     version: "1.3"
   scope: "只定义以记住为目标的闭环：查看答案即登记薄弱词；当天在后续题目中随机复现；跨日按可解释的记忆曲线定时推送；仅在无查看答案情况下独立正确拼写并满足掌握规则后退出；同时覆盖重复查看、漏学、时区、离线、上限、防骚扰、计分与历史记录"
-  delivery_status: assigned
+  delivery_status: ready-for-review
   assigned_at: "2026-08-04T16:50:50+08:00"
+  output:
+    artifact: artifact-spaced-recall-prd-001
+    path: docs/01-prd.md
+    version: "1.3"
+    sha256: 0b065ec4ffb4881d6893ec23a1d9c4ec57627fe173f43ada73cdf5c3f4b02385
+    acceptance_criteria:
+      new: AC-SR-01..AC-SR-36
+      inherited: AC-RA-01..AC-RA-20
+  result: ready-for-product-change-review
+  completed_at: "2026-08-04T17:02:03+08:00"
 frozen_frontend_assignment:
   change_id: chg-20260804-reveal-answer-frontend-implementation-v1
   role: role-frontend-dev
@@ -164,21 +174,30 @@ latest_ui_prompt_delivery:
   generated_new_ui: false
   design_generation_required: false
   completed_at: "2026-08-04T15:22:24+08:00"
+latest_product_delivery:
+  artifact: artifact-spaced-recall-prd-001
+  path: docs/01-prd.md
+  version: "1.3"
+  sha256: 0b065ec4ffb4881d6893ec23a1d9c4ec57627fe173f43ada73cdf5c3f4b02385
+  change_id: chg-20260804-spaced-recall-loop-product-v1
+  status: ready-for-review
+  authorization: approval-20260804-spaced-recall-product-reentry
+  completed_by: role-product-manager
+  completed_at: "2026-08-04T17:02:03+08:00"
+  stop_gate: product-change-review
 latest_delivery:
-  path: frontend/src/pages/Word.tsx
-  type: frontend-delivery
-  change_id: chg-20260804-inline-cloze-frontend-implementation-v1
-  artifact: artifact-inline-cloze-frontend-001
-  sha256: 1043cd1c1e6b51beaeab3bc9d6eca037c3f224de6f66dece4085775f8a8a7ea9
-  status: resumed-as-implementation-base
-  approval: approval-20260804-inline-cloze-ui-prompt-and-user-baseline
-  completed_by: role-frontend-dev
-  completed_at: "2026-08-04T12:30:26+08:00"
-  hold_reason: "原回退门已闭合；该既有交付不等于已通过，仅作为‘查看答案’增量实现的安全基线"
-  safe_recovery_commit: 479090f1d8dfeb93da2b7444c9645bcf03b8357e
-  reopened_by: chg-20260804-reveal-answer-product-change-v1
-  resumed_by: approval-20260804-reveal-answer-ui-minimal-direct-frontend
-  resumed_for: chg-20260804-reveal-answer-frontend-implementation-v1
+  path: docs/01-prd.md
+  type: product-requirements
+  change_id: chg-20260804-spaced-recall-loop-product-v1
+  artifact: artifact-spaced-recall-prd-001
+  version: "1.3"
+  sha256: 0b065ec4ffb4881d6893ec23a1d9c4ec57627fe173f43ada73cdf5c3f4b02385
+  status: ready-for-review
+  authorization: approval-20260804-spaced-recall-product-reentry
+  completed_by: role-product-manager
+  completed_at: "2026-08-04T17:02:03+08:00"
+  frontend_status: frozen-uncommitted-worktree-preserved
+  stop_gate: product-change-review
 ui_visual_baseline:
   path: ui/
   status: approved
@@ -222,4 +241,4 @@ workflow_policy:
     privacy_or_real_user_data: true
     external_message_or_publication: true
 state_limit: "旧版计划与任务表仍需单独对账；本状态只声明已核实的最新交付和审批门"
-updated_at: "2026-08-04T16:50:50+08:00"
+updated_at: "2026-08-04T17:02:03+08:00"
