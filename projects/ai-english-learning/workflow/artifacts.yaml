@@ -167,7 +167,7 @@ artifacts:
   - id: artifact-inline-cloze-frontend-001
     type: frontend-delivery
     path: frontend/src/pages/Word.tsx
-    status: ready-for-review
+    status: on-hold
     owner: role-frontend-dev
     change_id: chg-20260804-inline-cloze-frontend-implementation-v1
     authorization: approval-20260804-inline-cloze-ui-prompt-and-user-baseline
@@ -212,3 +212,6 @@ artifacts:
       - independent final code review: P0 0, P1 0
     result: inline-cloze-ready-for-frontend-delivery-review
     completed_at: "2026-08-04T12:30:26+08:00"
+    hold_reason: "新增‘查看答案’产品行为/UI 状态触发回退门；该前端交付未被批准、拒绝或覆盖"
+    safe_recovery_commit: 479090f1d8dfeb93da2b7444c9645bcf03b8357e
+    reopened_by: chg-20260804-reveal-answer-product-change-v1

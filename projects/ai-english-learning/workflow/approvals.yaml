@@ -70,3 +70,13 @@ approvals:
     source_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
     source_coordination_task_id: 019fb746-5875-77b3-809a-08a16100d950
     evidence: "超级无敌帅超超总明确回复‘ui的我都批准’，并进一步裁决‘里面的 ui 是我给你的，你直接按照那个 ui 来就行’。该批准结束固定 04 的 Prompt 职责，不授权重新生成 UI；唯一下一站为 00 路由固定 06 前端工程师恢复本次变更。"
+  - id: approval-20260804-reveal-answer-product-reentry
+    gate: role-entry
+    role: role-product-manager
+    scope: "只定义‘查看答案，能直接看正确答案’的触发条件、展示方式、答题与计分/进度语义、修改与下一题状态、验收标准及不做项；不含 UI/UX 或前端实现"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-04T14:31:46+08:00"
+    source_task_id: 019fb74a-a427-7101-9941-442c34b157e3
+    source_coordination_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    evidence: "超级无敌帅超超总在固定 06 前端工程师任务中提出‘查看答案，能直接看正确答案’。这是新增产品行为/UI 状态，不是对 artifact-inline-cloze-frontend-001 的通过；因此固定 06 冻结并唯一回退固定 03 产品经理。"
