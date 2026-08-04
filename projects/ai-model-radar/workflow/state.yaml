@@ -3,8 +3,8 @@ project_id: ai-model-radar
 run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
-stage: architecture
-status: architecture-queued
+stage: architecture-review
+status: awaiting-architecture-review
 current_role: role-architect
 blocked: false
 ui_assets:
@@ -25,7 +25,7 @@ next_approval:
   scope: "基于已批准 PRD、Prompt 与 9 张用户视觉基线，定义 Web 优先的技术选型、模块、数据证据链、接口、安全、来源合规、失败恢复、成本和部署边界"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: queued
+  delivery_status: ready-for-review
   on_approved:
     authorize_next_role: role-pm
     role_task_title: "02 项目经理"
@@ -61,7 +61,7 @@ active_assignment:
   role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
   role_task_title: "05 架构师"
   authorization: approval-20260804-radar-architecture-entry
-  scheduling: queued-after-frontend-career-radar
+  scheduling: active-after-frontend-career-radar-completed
   upstream:
     prd:
       path: docs/02-prd.md
@@ -78,8 +78,17 @@ active_assignment:
   expected_output:
     path: docs/04-architecture.md
   scope: "只交付架构设计；浏览器可见内容优先，后端服务和生产部署后置；不实现代码或接入真实来源"
-  delivery_status: queued
+  delivery_status: ready-for-review
   queued_at: "2026-08-04T16:41:52+08:00"
+  started_at: "2026-08-04T17:12:23+08:00"
+  output:
+    path: docs/04-architecture.md
+    version: "1.0"
+    sha256: 155e734351c753cd9a51878f9b1549f0d7aaf4db18872c35f8763ff39903db04
+  result: architecture-ready-for-review
+  completed_at: "2026-08-04T17:12:23+08:00"
+  stop_gate: architecture-review
+  auto_route_on_approval: false
 completed_product_assignment:
   change_id: prd-20260804-ai-model-radar-001
   role: role-product-manager
@@ -136,4 +145,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-04T16:41:52+08:00"
+updated_at: "2026-08-04T17:12:23+08:00"

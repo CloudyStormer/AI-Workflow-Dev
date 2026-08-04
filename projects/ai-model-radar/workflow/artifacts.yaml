@@ -172,3 +172,54 @@ artifacts:
       - "tablet-dark-and-full-state-coverage-incomplete"
       - "visual-live-status-and-dates-are-placeholders"
     approved_at: "2026-08-04T16:41:52+08:00"
+  - id: artifact-architecture-001
+    run_id: run-20260731-intake-001
+    type: system-architecture
+    path: docs/04-architecture.md
+    status: ready-for-review
+    owner: role-architect
+    version: "1.0"
+    change_id: arch-20260804-ai-model-radar-001
+    entry_approval: approval-20260804-radar-architecture-entry
+    upstream:
+      prd:
+        path: docs/02-prd.md
+        version: "1.0"
+        sha256: 4d08c008bf0b2cd73d89a7771851bddd87b5b34a7b1e1465ec0e801fe12306fc
+        approval: approval-20260804-radar-prd-delivery
+      ui_prompt:
+        path: ui/03-ui-prompt.md
+        version: "1.0"
+        sha256: d001cea2e85c36317ca1e38c657a32527b3705a3f276f8d938b8b0ac6e450318
+      visual_baseline:
+        path: ui/
+        asset_count: 9
+        approval: approval-20260804-radar-ui-baseline
+    sha256: 155e734351c753cd9a51878f9b1549f0d7aaf4db18872c35f8763ff39903db04
+    review_scope: "Web 优先技术选型、采集/规范化/证据链/去重/排序模块、真实性标签、来源与版权边界、接口、安全、失败恢复、成本和后续部署边界"
+    architecture:
+      current_milestone: static-demo-manual-snapshot-web
+      future_candidate: modular-monolith-with-isolated-workers
+      live_sources_connected: false
+      backend_implemented: false
+      database_deployed: false
+      production_deployed: false
+      auto_route_on_approval: false
+    known_limits:
+      - no-business-code-or-runtime
+      - no-live-source-connection-or-shadow-run
+      - no-measured-quality-or-cost-baseline
+      - no-backend-database-queue-or-deployment
+      - visual-live-status-source-counts-dates-and-real-company-events-are-placeholders
+    validation:
+      - approved PRD, UI Prompt and 9 visual baseline asset SHA256 values verified
+      - static demo/manual snapshot and future source control plane boundaries defined
+      - collection, normalization, claim evidence, four-layer deduplication and versioned ranking covered
+      - source policy separates robots, terms, copyright, API, login, retention and third-party transfer gates
+      - truth labels, API contracts, security, failure recovery, cost and deployment boundaries covered
+      - architecture document contains 5 Mermaid diagrams and valid Markdown tables
+      - YAML 5-of-5 valid before validation event
+      - JSONL 31-of-31 valid before validation event
+      - project structure passed with 4 expected empty-command warnings
+      - Git boundary, Skill drift and scoped diff checks passed
+    completed_at: "2026-08-04T17:12:23+08:00"
