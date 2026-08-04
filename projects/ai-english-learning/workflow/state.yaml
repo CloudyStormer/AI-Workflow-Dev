@@ -1,9 +1,9 @@
 schema_version: 1
 project_id: "ai-english-learning"
 structure_status: normalized
-stage: ui-design
-status: ui-approved-awaiting-frontend-route
-current_role: null
+stage: frontend-development
+status: frontend-authorized-in-progress
+current_role: role-frontend-dev
 approved_roles:
   - role-product-manager
   - role-ui-designer
@@ -20,17 +20,28 @@ delivery_priority:
     - backend-services
     - production-deployment
   approval_gates_unchanged: true
-next_approval: null
-next_route:
-  status: pending-package-contractor-route
-  route_owner: package-contractor
-  authorized_by: approval-20260804-inline-cloze-ui-prompt-and-user-baseline
+next_approval:
+  gate: frontend-delivery-review
+  artifact: pending
+  scope: "按照用户提供的 ui/ 权威视觉母版实现行内字母槽，并移除句子下方独立输入框"
+  decision_owner: 超级无敌帅超超总
+  decision: pending
+  delivery_status: in-progress
+  on_approved:
+    authorize_next_role: role-code-reviewer
+    role_task_title: "09 代码审查员"
+    scope: "审查本次行内字母槽前端交付"
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+active_assignment:
+  change_id: chg-20260804-inline-cloze-frontend-implementation-v1
   role: role-frontend-dev
+  role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
   role_task_title: "06 前端工程师"
+  authorized_by: approval-20260804-inline-cloze-ui-prompt-and-user-baseline
   scope: "按照 ui/ 权威视觉母版，并同时遵守 docs/01-prd.md v1.1 与 docs/03-ui-prompt.md v1.1，恢复行内字母槽前端变更；不得恢复句子下方独立输入框"
   architecture_impact: none
-  advance_limit: unique-next-stage-only
-  auto_advance_beyond_next: false
+  started_at: "2026-08-04T11:49:30+08:00"
 completed_assignment:
   change_id: chg-20260803-inline-cloze-ui-prompt-v1-1
   role: role-ui-designer
@@ -39,7 +50,7 @@ completed_assignment:
   scope: "修订并交付 UI/UX Prompt，登记用户提供的权威视觉母版；不生成设计稿、不修改前端"
   result: ui-prompt-and-user-visual-baseline-approved
   completed_at: "2026-08-04T11:42:10+08:00"
-implementation_gate: "UI Prompt v1.1 与用户提供的 ui/ 权威视觉母版均已确认；无需重新生成 UI，架构边界不受影响。前端仍冻结，直到 00 包工头向固定 06 前端工程师完成本次唯一下一站路由。"
+implementation_gate: "UI Prompt v1.1 与用户提供的 ui/ 权威视觉母版均已确认；无需重新生成 UI，架构边界不受影响。00 包工头已完成唯一下一站路由，固定 06 前端工程师只执行本批行内字母槽交付，完成后停在前端交付审核门。"
 latest_approved_artifact:
   path: docs/01-prd.md
   version: "1.1"
@@ -65,10 +76,11 @@ ui_visual_baseline:
   missing_inline_cloze_states: governed-by-prd-and-ui-prompt
   new_design_generation_required: false
 frontend_freeze:
-  status: frozen-pending-package-contractor-route
+  status: released-for-approved-scope
   baseline_commit: 3c181efff4a4cd3950b0373f6c05ab9e6cb38e9a
-  reason: "UI 阶段已经批准，但固定 06 前端工程师尚未由 00 包工头完成正式路由；当前角色不得直接修改前端"
-  resume_gate: "00 包工头向固定 06 前端工程师路由 approval-20260804-inline-cloze-ui-prompt-and-user-baseline 后恢复"
+  released_by: approval-20260804-inline-cloze-ui-prompt-and-user-baseline
+  released_at: "2026-08-04T11:49:30+08:00"
+  scope: "仅恢复行内字母槽前端变更；任何新增产品或 UI/UX 变更再次触发回退门"
 workflow_policy:
   pass_semantics: approve-current-and-authorize-unique-next
   role_reporting:
@@ -89,4 +101,4 @@ workflow_policy:
     privacy_or_real_user_data: true
     external_message_or_publication: true
 state_limit: "旧版计划与任务表仍需单独对账；本状态只声明已核实的最新交付和审批门"
-updated_at: "2026-08-04T11:42:10+08:00"
+updated_at: "2026-08-04T11:49:30+08:00"
