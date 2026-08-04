@@ -6,6 +6,7 @@ export type LetterHintCharacter = {
 
 export type LetterHint = {
   characters: LetterHintCharacter[]
+  revealedIndexes: number[]
   revealedCount: number
   letterCount: number
   level: number
@@ -159,6 +160,7 @@ export function buildLetterHint(word: string, requestedLevel: number, variant: n
   if (letterCount === 0) {
     return {
       characters: characters.map((character) => ({ character, isHinted: true, isSeparator: true })),
+      revealedIndexes: [],
       revealedCount: 0,
       letterCount: 0,
       level: 1,
@@ -194,6 +196,7 @@ export function buildLetterHint(word: string, requestedLevel: number, variant: n
 
   return {
     characters: hintCharacters,
+    revealedIndexes: [...revealedIndexes],
     revealedCount: revealedIndexes.length,
     letterCount,
     level,
@@ -219,4 +222,185 @@ export function getNextHintVariant(word: string, level: number, currentVariant: 
   }
 
   return currentVariant
+}
+
+export type CompatibleHintUpdate = {
+  revealedIndexes: number[]
+  level: number
+  variant: number
+}
+
+function getEffectiveMaxLevel(letterCount: number) {
+  return Math.max(1, Math.min(getMaxLevel(letterCount), getRevealLimit(letterCount)))
+}
+
+function normalizeIndexes(indexes: Iterable<number>, allowedIndexes: number[], limit: number) {
+  const allowedSet = new Set(allowedIndexes)
+  return [...new Set(indexes)]
+    .filter((index) => allowedSet.has(index))
+    .sort((left, right) => left - right)
+    .slice(0, limit)
+}
+
+function areSameIndexes(leftIndexes: Iterable<number>, rightIndexes: Iterable<number>) {
+  const left = [...leftIndexes].sort((first, second) => first - second)
+  const right = [...rightIndexes].sort((first, second) => first - second)
+  return left.length === right.length && left.every((index, position) => index === right[position])
+}
+
+function getCompatibleCandidateOrder(word: string, variant: number) {
+  const { letterIndexes, plans } = createHintContext(word)
+  const plan = plans[normalizeVariant(variant, plans.length)]
+  const planIndexes = plan.levels.at(-1) ?? []
+  const fallbackIndexes = shuffleIndexes(letterIndexes, hashText(`${word.toLocaleLowerCase()}:${variant}:compatible`))
+
+  return [...new Set([...planIndexes, ...fallbackIndexes])]
+}
+
+export function buildLetterHintFromIndexes(
+  word: string,
+  revealedIndexes: Iterable<number>,
+  requestedLevel: number,
+): LetterHint {
+  const characters = Array.from(word)
+  const letterIndexes = getLetterIndexes(characters)
+  const letterCount = letterIndexes.length
+
+  if (letterCount === 0) {
+    return {
+      characters: characters.map((character) => ({ character, isHinted: true, isSeparator: true })),
+      revealedIndexes: [],
+      revealedCount: 0,
+      letterCount: 0,
+      level: 1,
+      maxLevel: 1,
+      pattern: word,
+      ariaLabel: '答案中没有需要提示的英文字母',
+      hasAlternatePattern: false,
+    }
+  }
+
+  const revealLimit = getRevealLimit(letterCount)
+  const normalizedRevealedIndexes = normalizeIndexes(revealedIndexes, letterIndexes, revealLimit)
+  const revealedSet = new Set(normalizedRevealedIndexes)
+  const maxLevel = getEffectiveMaxLevel(letterCount)
+  const level = Math.min(Math.max(Math.round(requestedLevel), 1), maxLevel)
+  const hintCharacters = characters.map((character, index) => {
+    const isSeparator = !/[a-z]/i.test(character)
+    return {
+      character,
+      isHinted: isSeparator || revealedSet.has(index),
+      isSeparator,
+    }
+  })
+  const pattern = characters
+    .map((character, index) => !/[a-z]/i.test(character) || revealedSet.has(index) ? character : '_')
+    .join('')
+  const revealedPositions = letterIndexes
+    .map((characterIndex, letterIndex) => ({ characterIndex, letterIndex }))
+    .filter(({ characterIndex }) => revealedSet.has(characterIndex))
+    .map(({ characterIndex, letterIndex }) => `第 ${letterIndex + 1} 位 ${characters[characterIndex].toUpperCase()}`)
+  const ariaLabel = revealedPositions.length > 0
+    ? `答案共 ${letterCount} 个字母，随机提示：${revealedPositions.join('、')}`
+    : `答案共 ${letterCount} 个字母，当前不显示字母提示`
+
+  return {
+    characters: hintCharacters,
+    revealedIndexes: normalizedRevealedIndexes,
+    revealedCount: normalizedRevealedIndexes.length,
+    letterCount,
+    level,
+    maxLevel,
+    pattern,
+    ariaLabel,
+    hasAlternatePattern: normalizedRevealedIndexes.length > 0
+      && letterIndexes.length > normalizedRevealedIndexes.length,
+  }
+}
+
+export function getMoreCompatibleHint(
+  word: string,
+  currentRevealedIndexes: Iterable<number>,
+  blockedIndexes: Iterable<number>,
+  currentLevel: number,
+  currentVariant: number,
+): CompatibleHintUpdate | null {
+  const characters = Array.from(word)
+  const letterIndexes = getLetterIndexes(characters)
+  const revealLimit = getRevealLimit(letterIndexes.length)
+  const normalizedCurrentIndexes = normalizeIndexes(currentRevealedIndexes, letterIndexes, revealLimit)
+  const maxLevel = getEffectiveMaxLevel(letterIndexes.length)
+
+  if (normalizedCurrentIndexes.length >= revealLimit || currentLevel >= maxLevel) return null
+
+  const blockedSet = new Set(blockedIndexes)
+  const currentSet = new Set(normalizedCurrentIndexes)
+  const nextLevel = currentLevel + 1
+  const plannedCount = buildLetterHint(word, nextLevel, currentVariant).revealedCount
+  const requestedAddCount = Math.max(1, plannedCount - normalizedCurrentIndexes.length)
+  const availableCapacity = revealLimit - normalizedCurrentIndexes.length
+  const candidates = getCompatibleCandidateOrder(word, currentVariant)
+    .filter((index) => !blockedSet.has(index) && !currentSet.has(index))
+  const addedIndexes = candidates.slice(0, Math.min(requestedAddCount, availableCapacity))
+
+  if (addedIndexes.length === 0) return null
+
+  return {
+    revealedIndexes: [...normalizedCurrentIndexes, ...addedIndexes].sort((left, right) => left - right),
+    level: nextLevel,
+    variant: currentVariant,
+  }
+}
+
+export function getRerolledCompatibleHint(
+  word: string,
+  currentRevealedIndexes: Iterable<number>,
+  blockedIndexes: Iterable<number>,
+  currentLevel: number,
+  currentVariant: number,
+): CompatibleHintUpdate | null {
+  const { letterIndexes, plans } = createHintContext(word)
+  const revealLimit = getRevealLimit(letterIndexes.length)
+  const normalizedCurrentIndexes = normalizeIndexes(currentRevealedIndexes, letterIndexes, revealLimit)
+  const blockedSet = new Set(blockedIndexes)
+  const availableIndexes = letterIndexes.filter((index) => !blockedSet.has(index))
+
+  if (normalizedCurrentIndexes.length === 0 || availableIndexes.length <= normalizedCurrentIndexes.length) return null
+
+  for (let offset = 1; offset <= plans.length; offset += 1) {
+    const candidateVariant = currentVariant + offset
+    const candidateIndexes = buildLetterHint(word, currentLevel, candidateVariant).revealedIndexes
+      .filter((index) => !blockedSet.has(index))
+
+    if (
+      candidateIndexes.length === normalizedCurrentIndexes.length
+      && !areSameIndexes(candidateIndexes, normalizedCurrentIndexes)
+    ) {
+      return {
+        revealedIndexes: candidateIndexes,
+        level: currentLevel,
+        variant: candidateVariant,
+      }
+    }
+  }
+
+  const fallbackOrder = shuffleIndexes(
+    availableIndexes,
+    hashText(`${word.toLocaleLowerCase()}:${currentVariant + 1}:reroll`),
+  )
+  let candidateIndexes = fallbackOrder.slice(0, normalizedCurrentIndexes.length).sort((left, right) => left - right)
+
+  if (areSameIndexes(candidateIndexes, normalizedCurrentIndexes)) {
+    candidateIndexes = [...fallbackOrder.slice(1), fallbackOrder[0]]
+      .slice(0, normalizedCurrentIndexes.length)
+      .sort((left, right) => left - right)
+  }
+
+  if (areSameIndexes(candidateIndexes, normalizedCurrentIndexes)) return null
+
+  return {
+    revealedIndexes: candidateIndexes,
+    level: currentLevel,
+    variant: currentVariant + 1,
+  }
 }

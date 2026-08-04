@@ -10,6 +10,7 @@ export type LearningWord = {
   imageCaption: string
   tags: string[]
   synonyms: string[]
+  acceptedAnswers?: string[]
 }
 
 export const learningWords: LearningWord[] = [

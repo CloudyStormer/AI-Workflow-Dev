@@ -1,8 +1,8 @@
 schema_version: 1
 project_id: "ai-english-learning"
 structure_status: normalized
-stage: frontend-development
-status: frontend-authorized-in-progress
+stage: frontend-delivery-review
+status: frontend-ready-for-review
 current_role: role-frontend-dev
 approved_roles:
   - role-product-manager
@@ -22,18 +22,19 @@ delivery_priority:
   approval_gates_unchanged: true
 next_approval:
   gate: frontend-delivery-review
-  artifact: pending
+  artifact: artifact-inline-cloze-frontend-001
   scope: "按照用户提供的 ui/ 权威视觉母版实现行内字母槽，并移除句子下方独立输入框"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: in-progress
+  delivery_status: ready-for-review
   on_approved:
     authorize_next_role: role-code-reviewer
     role_task_title: "09 代码审查员"
     scope: "审查本次行内字母槽前端交付"
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
-active_assignment:
+active_assignment: null
+completed_assignment:
   change_id: chg-20260804-inline-cloze-frontend-implementation-v1
   role: role-frontend-dev
   role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
@@ -42,28 +43,23 @@ active_assignment:
   scope: "按照 ui/ 权威视觉母版，并同时遵守 docs/01-prd.md v1.1 与 docs/03-ui-prompt.md v1.1，恢复行内字母槽前端变更；不得恢复句子下方独立输入框"
   architecture_impact: none
   started_at: "2026-08-04T11:49:30+08:00"
-completed_assignment:
-  change_id: chg-20260803-inline-cloze-ui-prompt-v1-1
-  role: role-ui-designer
-  role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
-  role_task_title: "04 UI/UX设计师"
-  scope: "修订并交付 UI/UX Prompt，登记用户提供的权威视觉母版；不生成设计稿、不修改前端"
-  result: ui-prompt-and-user-visual-baseline-approved
-  completed_at: "2026-08-04T11:42:10+08:00"
-implementation_gate: "UI Prompt v1.1 与用户提供的 ui/ 权威视觉母版均已确认；无需重新生成 UI，架构边界不受影响。00 包工头已完成唯一下一站路由，固定 06 前端工程师只执行本批行内字母槽交付，完成后停在前端交付审核门。"
+  result: inline-cloze-ready-for-frontend-delivery-review
+  completed_at: "2026-08-04T12:30:26+08:00"
+implementation_gate: "固定 06 前端工程师已完成获批范围并停在前端交付审核门。超级无敌帅超超总明确回复通过后，才按唯一下一站规则授权固定 09 代码审查员；当前不得自行继续。"
 latest_approved_artifact:
   path: docs/01-prd.md
   version: "1.1"
   approval: approval-20260803-inline-cloze-prd-v1-1
 latest_delivery:
-  path: docs/03-ui-prompt.md
-  version: "1.1"
-  change_id: chg-20260803-inline-cloze-ui-prompt-v1-1
-  sha256: 2e882df4029a098bc8679a628b70379fddbb88c2ebc01df5c26e9062a19e3038
-  status: approved
+  path: frontend/src/pages/Word.tsx
+  type: frontend-delivery
+  change_id: chg-20260804-inline-cloze-frontend-implementation-v1
+  artifact: artifact-inline-cloze-frontend-001
+  sha256: 1043cd1c1e6b51beaeab3bc9d6eca037c3f224de6f66dece4085775f8a8a7ea9
+  status: ready-for-review
   approval: approval-20260804-inline-cloze-ui-prompt-and-user-baseline
-  approved_by: 超级无敌帅超超总
-  approved_at: "2026-08-04T11:42:10+08:00"
+  completed_by: role-frontend-dev
+  completed_at: "2026-08-04T12:30:26+08:00"
 ui_visual_baseline:
   path: ui/
   status: approved
@@ -76,11 +72,11 @@ ui_visual_baseline:
   missing_inline_cloze_states: governed-by-prd-and-ui-prompt
   new_design_generation_required: false
 frontend_freeze:
-  status: released-for-approved-scope
+  status: review-hold
   baseline_commit: 3c181efff4a4cd3950b0373f6c05ab9e6cb38e9a
   released_by: approval-20260804-inline-cloze-ui-prompt-and-user-baseline
   released_at: "2026-08-04T11:49:30+08:00"
-  scope: "仅恢复行内字母槽前端变更；任何新增产品或 UI/UX 变更再次触发回退门"
+  scope: "本批实现已完成并冻结在前端交付审核门；任何新增产品或 UI/UX 变更再次触发回退门"
 workflow_policy:
   pass_semantics: approve-current-and-authorize-unique-next
   role_reporting:
@@ -101,4 +97,4 @@ workflow_policy:
     privacy_or_real_user_data: true
     external_message_or_publication: true
 state_limit: "旧版计划与任务表仍需单独对账；本状态只声明已核实的最新交付和审批门"
-updated_at: "2026-08-04T11:49:30+08:00"
+updated_at: "2026-08-04T12:30:26+08:00"

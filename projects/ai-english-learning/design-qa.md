@@ -11,6 +11,7 @@ Device frames, operating-system status bars, monitor bezels, and home indicators
 
 ## Test viewports
 
+- Narrow mobile boundary: 320 × 844
 - Mobile: 390 × 844
 - Desktop: 1440 × 960
 
@@ -20,10 +21,12 @@ Device frames, operating-system status bars, monitor bezels, and home indicators
 | --- | --- | --- | --- |
 | Mobile Home | `ui/grok-516bcb59-f561-4bad-ab24-c193fc273f1b.jpg` | `design-qa/implementation-mobile-home.png` | `design-qa/comparison-mobile-home.jpg` |
 | Mobile Word | `ui/grok-87dc603b-d470-4823-8480-831f528ed8bb.jpg` | `design-qa/implementation-mobile-word.png` | `design-qa/comparison-mobile-word.jpg` |
+| Mobile Word — inline cloze | `ui/grok-87dc603b-d470-4823-8480-831f528ed8bb.jpg` + `docs/03-ui-prompt.md` v1.1 | `design-qa/implementation-mobile-word-inline-cloze.png` | `design-qa/comparison-mobile-word-inline-cloze.jpg` |
 | Mobile Chat | `ui/grok-43e26fb0-5391-4019-a6d7-6b0be8ff77fb.jpg` | `design-qa/implementation-mobile-chat.png` | `design-qa/comparison-mobile-chat.jpg` |
 | Mobile Profile | `ui/grok-6db4f2f7-7e3c-46f6-a1ba-8c8ce7d1620f.jpg` | `design-qa/implementation-mobile-profile.png` | `design-qa/comparison-mobile-profile.jpg` |
 | Desktop Home | `ui/grok-627ebad4-4d53-457f-8a1c-75ed30f290cf.jpg` | `design-qa/implementation-desktop-home.png` | `design-qa/comparison-desktop-home.jpg` |
 | Desktop Word | `ui/grok-bf161d3c-2cd6-4157-b122-c9caf36a1c2a.jpg` | `design-qa/implementation-desktop-word.png` | `design-qa/comparison-desktop-word.jpg` |
+| Desktop Word — inline cloze | `ui/grok-bf161d3c-2cd6-4157-b122-c9caf36a1c2a.jpg` + `docs/03-ui-prompt.md` v1.1 | `design-qa/implementation-desktop-word-inline-cloze.png` | `design-qa/comparison-desktop-word-inline-cloze.jpg` |
 | Desktop Chat | `ui/grok-8b28d84e-22dc-4afc-a824-26718782a5ca.jpg` | `design-qa/implementation-desktop-chat.png` | `design-qa/comparison-desktop-chat.jpg` |
 | Desktop Settings | `ui/grok-96fc26d8-2f0d-4114-8b4d-297e8690c1e7.jpg` | `design-qa/implementation-desktop-profile.png` | `design-qa/comparison-desktop-profile.jpg` |
 
@@ -53,8 +56,16 @@ Device frames, operating-system status bars, monitor bezels, and home indicators
 ## Interaction verification
 
 - Home “背单词” action navigates to `/word`.
-- Word offers explicit “单词 / 填空” modes; the fill-in input reports incorrect spelling, accepts the correct answer, and advances from `12/50` to `13/50`.
+- Word offers explicit “单词 / 填空” modes; the sentence-level letter slots are the only answer input and there is no separate answer box below the sentence.
+- The slot group has one semantic textbox and one Tab stop. Clicking a slot, ArrowLeft/ArrowRight, Backspace, replacement, continuous typing, and desktop/mobile focus all operate on the target character-index model.
+- Full-answer and remaining-letter paste work; unsupported digits and emoji are filtered, while incompatible supported separators are rejected without destroying existing input.
+- Incomplete submission focuses the first remaining slot; a complete wrong answer stays editable; editing clears the error state; a correct answer changes the primary action to “下一题”. The first Enter confirms correctness and the second advances exactly once from `12/50` to `13/50`.
+- Mode switching preserves the current answer and hint pattern. “再提示一些” and “换一组字母” avoid user-filled slots and preserve typed letters.
 - Fill-in mode now generates stable, randomized letter scaffolds from prefix, suffix, middle-pair, or scattered positions. “再提示一些” progressively reveals more letters without exposing the full answer, while “换一组字母” rerolls the visible positions without changing the question.
+- One- and two-letter words, hyphens, apostrophes, spaces, optional compatible answers, and mixed separator paste boundaries are covered by deterministic tests.
+- At 320px the nine-letter example wraps to 7 + 2 slots with no horizontal overflow; each visual slot remains 32 × 44px and the whole group remains a single touch/focus target.
+- The real input remains focusable at 18 × 32px inside the larger slot group, is not `display:none`, zero-sized, or `aria-hidden`, and exposes mobile keyboard attributes. The live status region is independent from the textbox description to avoid stale repeated announcements.
+- Dark mode retains the approved teal/beige/purple hierarchy; reduced-motion CSS removes nonessential transitions and animations.
 - Study-only examples are not rendered in fill-in mode, so desktop learners cannot see the target word elsewhere on the page.
 - Word pronunciation and tutor-message playback use the browser speech engine.
 - Repeated mastery of the same word no longer increases the vocabulary total more than once.
@@ -71,6 +82,11 @@ Additional fill-in evidence:
 - `design-qa/implementation-desktop-word-cloze.png`
 - `design-qa/implementation-mobile-word-random-hints.jpg`
 - `design-qa/implementation-desktop-word-random-hints.jpg`
+- `design-qa/implementation-mobile-320-word-inline-cloze.png`
+- `design-qa/implementation-mobile-word-inline-cloze.png`
+- `design-qa/implementation-desktop-word-inline-cloze.png`
+- `design-qa/comparison-mobile-word-inline-cloze.jpg`
+- `design-qa/comparison-desktop-word-inline-cloze.jpg`
 
 ## Engineering verification
 
@@ -78,5 +94,6 @@ Additional fill-in evidence:
 - Production Vite build: passed
 - Oxlint: passed
 - Hint invariants: passed across 80,160 word/variant combinations, including one-letter, short-word, hyphenated-word, progressive-reveal, and reroll cases
+- Inline cloze invariants: passed across 1,200 randomized hint cases plus input, replacement, deletion, complete/remaining paste, illegal-character filtering, one/two-letter words, hyphen, apostrophe, and space boundaries
 
 final result: passed

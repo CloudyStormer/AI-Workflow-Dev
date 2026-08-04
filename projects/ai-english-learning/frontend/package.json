@@ -11,6 +11,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
+    "test:cloze": "node --experimental-strip-types scripts/verify-inline-cloze.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
