@@ -1,9 +1,9 @@
 schema_version: 1
 project_id: "ai-english-learning"
 structure_status: normalized
-stage: product-definition
-status: product-change-ready-for-review
-current_role: role-product-manager
+stage: ui-ux
+status: ui-prompt-in-progress
+current_role: role-ui-designer
 approved_roles:
   - role-product-manager
   - role-ui-designer
@@ -21,34 +21,48 @@ delivery_priority:
     - production-deployment
   approval_gates_unchanged: true
 next_approval:
-  gate: product-change-review
-  artifact: docs/01-prd.md
-  scope: "定义‘查看答案，能直接看正确答案’的触发条件、展示方式、答题与计分/进度语义、修改与下一题状态、验收标准及不做项"
+  gate: ui-prompt-review
+  artifact: docs/03-ui-prompt.md
+  expected_version: "1.2"
+  scope: "仅基于已批准 PRD v1.2 修订‘查看答案’UI/UX 提示词；覆盖触发确认、行内直接揭晓、状态切换、重试与下一题、误触保护、移动端/键盘/无障碍"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
+  delivery_status: in-progress
   on_approved:
     authorize_next_role: role-ui-designer
     role_task_title: "04 UI/UX设计师"
-    scope: "仅基于已批准的‘查看答案’产品变更修订 UI/UX 提示词并单独交付审核"
+    scope: "仅基于已批准的‘查看答案’UI/UX 提示词制作对应设计状态并单独交付审核"
+    next_gate: ui-design-review
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
 active_assignment:
-  change_id: chg-20260804-reveal-answer-product-change-v1
-  role: role-product-manager
-  role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
-  role_task_title: "03 产品经理"
-  authorized_by: approval-20260804-reveal-answer-product-reentry
-  scope: "只定义‘查看答案’产品行为、状态语义、验收标准与不做项；不得修改 UI 提示词、设计稿或前端代码"
-  started_at: "2026-08-04T14:31:46+08:00"
-  output:
-    artifact: artifact-reveal-answer-prd-001
+  change_id: chg-20260804-reveal-answer-ui-prompt-v1-2
+  role: role-ui-designer
+  role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+  role_task_title: "04 UI/UX设计师"
+  authorized_by: approval-20260804-reveal-answer-ui-prompt-entry
+  upstream_approval: approval-20260804-reveal-answer-prd-v1-2
+  upstream_artifact:
     path: docs/01-prd.md
     version: "1.2"
     sha256: d2512d352c2694953bfaa9e7513258440304ee4925c8b4c9bf29a0003fdd7d3a
-  result: ready-for-product-change-review
-  delivery_status: ready-for-review
-  completed_at: "2026-08-04T15:00:16+08:00"
+  expected_output:
+    path: docs/03-ui-prompt.md
+    version: "1.2"
+  scope: "仅修订‘查看答案’UI/UX 提示词并交付审核；不得生成设计稿、修改 ui/ 资产或前端代码"
+  delivery_status: in-progress
+  started_at: "2026-08-04T15:13:01+08:00"
+completed_product_assignment:
+  change_id: chg-20260804-reveal-answer-product-change-v1
+  role: role-product-manager
+  role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+  artifact: artifact-reveal-answer-prd-001
+  path: docs/01-prd.md
+  version: "1.2"
+  sha256: d2512d352c2694953bfaa9e7513258440304ee4925c8b4c9bf29a0003fdd7d3a
+  approval: approval-20260804-reveal-answer-prd-v1-2
+  result: approved-and-routed-to-ui-prompt
+  completed_at: "2026-08-04T15:13:01+08:00"
 completed_assignment:
   change_id: chg-20260804-inline-cloze-frontend-implementation-v1
   role: role-frontend-dev
@@ -66,20 +80,22 @@ held_downstream_delivery:
   status: on-hold
   hold_reason: "新增‘查看答案’产品行为/UI 状态触发回退门；既有前端交付未被批准、拒绝或覆盖"
   reopened_by: chg-20260804-reveal-answer-product-change-v1
-implementation_gate: "固定 06 前端工程师已立即冻结在 commit 479090f1d8dfeb93da2b7444c9645bcf03b8357e。固定 03 产品经理独立交付并获批后，只能进入固定 04 UI/UX 设计师；UI 提示词/设计依次获批后，才可重新授权固定 06，禁止自动跑完整回退链。"
+implementation_gate: "PRD v1.2 已获批准；固定 06 前端工程师继续冻结在 commit 479090f1d8dfeb93da2b7444c9645bcf03b8357e。当前只授权固定 04 UI/UX 设计师交付提示词；提示词和设计依次获批后，才可重新授权固定 06，禁止自动跑完整回退链。"
 latest_approved_artifact:
   path: docs/01-prd.md
-  version: "1.1"
-  approval: approval-20260803-inline-cloze-prd-v1-1
-pending_product_delivery:
+  version: "1.2"
+  sha256: d2512d352c2694953bfaa9e7513258440304ee4925c8b4c9bf29a0003fdd7d3a
+  approval: approval-20260804-reveal-answer-prd-v1-2
+approved_product_delivery:
   artifact: artifact-reveal-answer-prd-001
   path: docs/01-prd.md
   version: "1.2"
   sha256: d2512d352c2694953bfaa9e7513258440304ee4925c8b4c9bf29a0003fdd7d3a
   change_id: chg-20260804-reveal-answer-product-change-v1
-  status: ready-for-review
-  approval_gate: product-change-review
-  decision_owner: 超级无敌帅超超总
+  status: approved
+  approval: approval-20260804-reveal-answer-prd-v1-2
+  approved_by: 超级无敌帅超超总
+  approved_at: "2026-08-04T15:13:01+08:00"
 latest_delivery:
   path: frontend/src/pages/Word.tsx
   type: frontend-delivery
@@ -133,4 +149,4 @@ workflow_policy:
     privacy_or_real_user_data: true
     external_message_or_publication: true
 state_limit: "旧版计划与任务表仍需单独对账；本状态只声明已核实的最新交付和审批门"
-updated_at: "2026-08-04T15:00:16+08:00"
+updated_at: "2026-08-04T15:13:01+08:00"

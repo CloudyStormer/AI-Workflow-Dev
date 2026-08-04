@@ -80,3 +80,34 @@ approvals:
     source_task_id: 019fb74a-a427-7101-9941-442c34b157e3
     source_coordination_task_id: 019fb746-5875-77b3-809a-08a16100d950
     evidence: "超级无敌帅超超总在固定 06 前端工程师任务中提出‘查看答案，能直接看正确答案’。这是新增产品行为/UI 状态，不是对 artifact-inline-cloze-frontend-001 的通过；因此固定 06 冻结并唯一回退固定 03 产品经理。"
+  - id: approval-20260804-reveal-answer-prd-v1-2
+    gate: product-change-review
+    role: role-product-manager
+    artifact: docs/01-prd.md
+    artifact_id: artifact-reveal-answer-prd-001
+    version: "1.2"
+    sha256: d2512d352c2694953bfaa9e7513258440304ee4925c8b4c9bf29a0003fdd7d3a
+    change_id: chg-20260804-reveal-answer-product-change-v1
+    scope: "批准‘查看答案’的触发与确认、行内直接揭晓、全答题状态、揭晓后重试与下一题、计分进度复习语义、移动端/键盘/无障碍、边界及不做项"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-04T15:13:01+08:00"
+    source_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+    evidence: "超级无敌帅超超总对固定 03 产品经理明确交付的 AI English Learning PRD v1.2 回复‘通过’。"
+    effect: "已批准当前产物，并自动授权唯一下一站固定 04 UI/UX设计师修订‘查看答案’UI/UX 提示词。本次只覆盖该站一个交付单元；该角色交付后停止等待审核，不代表提示词、设计或前端已获批准。"
+  - id: approval-20260804-reveal-answer-ui-prompt-entry
+    gate: role-entry
+    role: role-ui-designer
+    role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+    role_task_title: "04 UI/UX设计师"
+    change_id: chg-20260804-reveal-answer-ui-prompt-v1-2
+    scope: "仅基于已批准 PRD v1.2 修订‘查看答案’UI/UX 提示词并单独交付审核；不得生成设计稿、修改 UI 资产或前端代码"
+    upstream_approval: approval-20260804-reveal-answer-prd-v1-2
+    upstream_artifact: docs/01-prd.md
+    upstream_version: "1.2"
+    upstream_sha256: d2512d352c2694953bfaa9e7513258440304ee4925c8b4c9bf29a0003fdd7d3a
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-04T15:13:01+08:00"
+    source_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+    evidence: "PRD v1.2 的‘通过’按单步推进规则自动授权唯一、输入完整且非高风险的下一站固定 04 UI/UX设计师。"

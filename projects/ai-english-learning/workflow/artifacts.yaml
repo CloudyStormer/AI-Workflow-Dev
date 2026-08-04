@@ -218,7 +218,7 @@ artifacts:
   - id: artifact-reveal-answer-prd-001
     type: product-requirements
     path: docs/01-prd.md
-    status: ready-for-review
+    status: approved
     owner: role-product-manager
     version: "1.2"
     change_id: chg-20260804-reveal-answer-product-change-v1
@@ -238,3 +238,6 @@ artifacts:
       - product behavior covers unanswered, partial, incomplete, wrong, correct, and revealed states
       - frontend, UI prompt, UI assets, and backend unchanged
     completed_at: "2026-08-04T15:00:16+08:00"
+    approval: approval-20260804-reveal-answer-prd-v1-2
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-04T15:13:01+08:00"
