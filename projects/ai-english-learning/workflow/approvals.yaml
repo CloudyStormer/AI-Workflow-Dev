@@ -141,3 +141,18 @@ approvals:
     frontend_change_id: chg-20260804-reveal-answer-frontend-implementation-v1
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: approval-20260804-spaced-recall-product-reentry
+    gate: role-entry
+    role: role-product-manager
+    role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+    role_task_title: "03 产品经理"
+    change_id: chg-20260804-spaced-recall-loop-product-v1
+    scope: "只定义查看答案后的薄弱词记录、日内随机复现、跨日定时复习、记忆曲线调度、独立正确拼写与掌握退出、计分历史、异常和验收标准；不含 UI/UX 或实现"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-04T16:50:50+08:00"
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    evidence: "超级无敌帅超超总明确要求：点击查看代表未记住或不会拼写，系统必须记录；当天随机穿插复现，之后每天按记忆曲线定时推出，直到真正记住或能独立拼写。该要求构成新的产品逻辑变更并直接授权固定 03 入场。"
+    effect: "立即冻结固定 06 当前未提交的查看答案前端现场；唯一下一站为固定 03 产品经理交付 PRD v1.3，交付后停在产品审核门。"
+    advance_limit: current-product-unit-only
+    auto_advance_beyond_next: false

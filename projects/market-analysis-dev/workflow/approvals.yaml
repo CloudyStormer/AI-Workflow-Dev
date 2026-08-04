@@ -130,3 +130,38 @@ approvals:
     upstream_version: "1.1"
     upstream_sha256: 8842f2c7c974bb9ac5fef2ad47f0d35e068a66cfd510ce0088c092ab884ce1e9
     evidence: "已批准当前 PRD，并自动授权唯一下一站固定 04 UI/UX设计师。本次只覆盖 UI 提示词一个交付单元；该角色交付后停止等待审核，不代表提示词、设计、架构、开发或发布已获批准。"
+  - id: "approval-20260804-career-ui-baseline"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: ui-design-review
+    role: role-ui-designer
+    artifacts:
+      - path: "ui/03-ui-prompt.md"
+        version: "1.0"
+        sha256: f75762b14b5cdcb536cdb58801cd77380ea4a3a276aa906515c137e129ad33b0
+      - id: "artifact-career-user-ui-baseline-001"
+        path: "ui/"
+        asset_count: 10
+        type: user-provided-ui-visual-baseline
+    scope: "批准 Frontend Career Radar Prompt v1.0 与用户生成并选定的 10 张 UI 视觉基线"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-04T16:41:52+08:00"
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    evidence: "超级无敌帅超超总明确说明‘四个项目的ui全部放进去了，分别开始下一步’，对当前待审 Prompt 及目录中唯一新增的 10 张图片作出直接批准与推进裁决。"
+    known_limits:
+      - "图片未逐项证明 1024px、320px、24 个信息源状态和移动键盘覆盖"
+      - "生成图存在重复技术名、错误日期、乱码和英文标题，最终实现必须服从 PRD、Prompt 与完整简体中文版规则"
+  - id: "approval-20260804-career-architecture-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-entry
+    role: role-architect
+    role_task_id: "019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db"
+    role_task_title: "05 架构师"
+    change_id: "arch-20260804-frontend-career-radar-001"
+    scope: "基于已批准 PRD、Prompt 与 10 张视觉基线交付 docs/04-architecture.md；不实现代码、不传输或持久化用户输入、不部署"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-04T16:41:52+08:00"
+    upstream_approval: "approval-20260804-career-ui-baseline"
+    scheduling: active-first
+    evidence: "用户明确要求分别开始下一步；新项目 UI 设计批准后的唯一下一站为固定 05 架构师。"

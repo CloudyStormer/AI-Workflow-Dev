@@ -102,3 +102,38 @@ approvals:
     decided_at: "2026-08-04T15:30:39+08:00"
     source_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
     evidence: "PRD 通过后，下一站唯一、输入完整且非高风险，依根工作流规则自动授权固定 04 执行一个 UI/UX 提示词交付单元。"
+  - id: approval-20260804-radar-ui-baseline
+    run_id: run-20260731-intake-001
+    gate: ui-design-review
+    role: role-ui-designer
+    artifacts:
+      - path: ui/03-ui-prompt.md
+        version: "1.0"
+        sha256: d001cea2e85c36317ca1e38c657a32527b3705a3f276f8d938b8b0ac6e450318
+      - id: artifact-radar-user-ui-baseline-001
+        path: ui/
+        asset_count: 9
+        type: user-provided-ui-visual-baseline
+    scope: "批准 AI Model Radar Prompt v1.0 与用户生成并选定的 9 张 UI 视觉基线"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-04T16:41:52+08:00"
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    evidence: "超级无敌帅超超总明确说明‘四个项目的ui全部放进去了，分别开始下一步’，对当前待审 Prompt 及目录中唯一新增的 9 张图片作出直接批准与推进裁决。"
+    known_limits:
+      - "图片未逐项证明平板、深色及 36 个状态覆盖"
+      - "图片中的真实连接、活动源、运行状态和混用日期仅为视觉占位"
+  - id: approval-20260804-radar-architecture-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    role: role-architect
+    role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
+    role_task_title: "05 架构师"
+    change_id: arch-20260804-ai-model-radar-001
+    scope: "基于已批准 PRD、Prompt 与 9 张视觉基线交付 docs/04-architecture.md；不实现代码、不接入真实来源、不部署"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-04T16:41:52+08:00"
+    upstream_approval: approval-20260804-radar-ui-baseline
+    scheduling: queued-after-frontend-career-radar
+    evidence: "用户明确要求分别开始下一步；新项目 UI 设计批准后的唯一下一站为固定 05 架构师。"

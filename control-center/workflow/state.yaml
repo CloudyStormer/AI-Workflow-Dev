@@ -1,9 +1,9 @@
 schema_version: 1
 project_id: "workflow-control-center"
 structure_status: normalized
-stage: ui-design
-status: ui-prompt-approved-awaiting-user-generated-ui
-current_role: null
+stage: development
+status: control-center-frontend-queued
+current_role: role-frontend-dev
 blocked: false
 ui_assets:
   directory: ui
@@ -16,8 +16,21 @@ delivery_priority:
     - backend-services
     - production-deployment
   approval_gates_unchanged: true
-next_approval: null
-latest_delivery:
+next_approval:
+  gate: frontend-delivery-review
+  artifact: artifact-control-center-frontend-redesign-001
+  expected_change_id: chg-20260804-control-center-ui-frontend-001
+  scope: "按 Prompt v1.0.1 与用户批准的 9 张视觉基线实现 Control Center 完整简体中文版；保持演示/待接入数据真实性边界，不接入服务、不部署"
+  decision_owner: 超级无敌帅超超总
+  decision: pending
+  delivery_status: queued
+  on_approved:
+    authorize_next_role: role-code-reviewer
+    role_task_title: "09 代码审查员"
+    scope: "审查 Control Center 本批前端视觉改版"
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+latest_approved_artifact:
   path: ui/01-control-center-ui-design-prompt.md
   version: "1.0.1"
   sha256: 6b7335068417f2402c7672b9d233a4b739142116af4671b442b9ddf578c7650e
@@ -25,15 +38,48 @@ latest_delivery:
   approval: approval-20260804-control-center-ui-prompt
   approved_by: 超级无敌帅超超总
   approved_at: "2026-08-04T11:46:11+08:00"
+ui_visual_baseline:
+  artifact: artifact-control-center-user-ui-baseline-001
+  path: ui/
+  asset_count: 9
+  status: approved
+  approval: approval-20260804-control-center-ui-baseline
+  provided_by: 超级无敌帅超超总
+  approved_at: "2026-08-04T16:41:52+08:00"
+  authority_order:
+    - ui/01-control-center-ui-design-prompt.md
+    - global-simplified-chinese-rule
+    - user-provided-images
 next_input:
-  status: awaiting-user-generated-ui
+  status: completed
   owner: 超级无敌帅超超总
   source_prompt: ui/01-control-center-ui-design-prompt.md
   target_directory: ui/
   generation_owner: user-professional-ui-design-model
   role_ui_designer_generation_required: false
-  frontend_authorized: false
-implementation_gate: "Prompt 已批准，固定 04 UI/UX设计师职责结束；等待超级无敌帅超超总使用专业 UI 设计模型生成并把真实产物放入 ui/。在产物登记和后续裁决前，不启动前端、不发布。"
+  frontend_authorized: true
+  completed_at: "2026-08-04T16:41:52+08:00"
+active_assignment:
+  change_id: chg-20260804-control-center-ui-frontend-001
+  role: role-frontend-dev
+  role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
+  role_task_title: "06 前端工程师"
+  authorization: approval-20260804-control-center-frontend-entry
+  scheduling: queued-after-ai-english-learning
+  upstream:
+    prompt:
+      path: ui/01-control-center-ui-design-prompt.md
+      version: "1.0.1"
+      sha256: 6b7335068417f2402c7672b9d233a4b739142116af4671b442b9ddf578c7650e
+    visual_baseline:
+      path: ui/
+      asset_count: 9
+      approval: approval-20260804-control-center-ui-baseline
+  scope: "只实现浏览器可见的 Control Center 中文前端改版；沿用现有 Sites/Vinext 技术边界，所有非实时内容标演示或待接入；不改 API/DB 边界，不部署"
+  architecture_impact: none
+  delivery_status: queued
+  queued_at: "2026-08-04T16:41:52+08:00"
+implementation_gate: "用户生成的 9 张 UI 已登记并批准，架构边界不受影响；固定 06 在完成当前 AI English Learning 前端单元后处理本批 Control Center 改版。该批交付后停在 frontend-delivery-review，不自动审查或部署。"
 runtime:
   live_url: "https://ai-workflow-control-center.honest-flute-5906.chatgpt.site"
   deployed_version: 3
@@ -58,4 +104,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-04T11:46:11+08:00"
+updated_at: "2026-08-04T16:41:52+08:00"

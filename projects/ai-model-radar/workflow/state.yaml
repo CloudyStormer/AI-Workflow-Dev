@@ -3,9 +3,9 @@ project_id: ai-model-radar
 run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
-stage: ui-ux
-status: ui-prompt-ready-for-review
-current_role: role-ui-designer
+stage: architecture
+status: architecture-queued
+current_role: role-architect
 blocked: false
 ui_assets:
   directory: ui
@@ -19,20 +19,20 @@ delivery_priority:
     - production-deployment
   approval_gates_unchanged: true
 next_approval:
-  gate: ui-prompt-review
-  artifact: ui/03-ui-prompt.md
-  expected_version: "1.0"
-  scope: "基于已批准 PRD 编制 UI/UX 提示词，覆盖今日雷达、全部事件、证据详情、来源、偏好反馈、质量说明、筛选搜索、刷新与失败状态、演示/真实连接边界、响应式与无障碍"
+  gate: architecture-review
+  artifact: docs/04-architecture.md
+  expected_change_id: arch-20260804-ai-model-radar-001
+  scope: "基于已批准 PRD、Prompt 与 9 张用户视觉基线，定义 Web 优先的技术选型、模块、数据证据链、接口、安全、来源合规、失败恢复、成本和部署边界"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
+  delivery_status: queued
   on_approved:
-    next_action: user-routes-approved-prompt-to-professional-ui-design-model
-    fixed_role_auto_generates_design: false
-    scope: "只批准当前 Prompt；专业 UI 设计生成由超级无敌帅超超总另行使用，生成结果仍须独立审核"
-    authorize_architecture_or_development: false
+    authorize_next_role: role-pm
+    role_task_title: "02 项目经理"
+    scope: "基于已批准架构拆解首批任务"
+    advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
-active_assignment:
+completed_ui_assignment:
   change_id: ui-prompt-20260804-ai-model-radar-001
   role: role-ui-designer
   role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
@@ -53,6 +53,33 @@ active_assignment:
   result: ui-prompt-ready-for-review
   completed_at: "2026-08-04T15:39:04+08:00"
   stop_gate: ui-prompt-review
+  approval: approval-20260804-radar-ui-baseline
+  visual_baseline_asset_count: 9
+active_assignment:
+  change_id: arch-20260804-ai-model-radar-001
+  role: role-architect
+  role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
+  role_task_title: "05 架构师"
+  authorization: approval-20260804-radar-architecture-entry
+  scheduling: queued-after-frontend-career-radar
+  upstream:
+    prd:
+      path: docs/02-prd.md
+      version: "1.0"
+      sha256: 4d08c008bf0b2cd73d89a7771851bddd87b5b34a7b1e1465ec0e801fe12306fc
+    ui_prompt:
+      path: ui/03-ui-prompt.md
+      version: "1.0"
+      sha256: d001cea2e85c36317ca1e38c657a32527b3705a3f276f8d938b8b0ac6e450318
+    visual_baseline:
+      path: ui/
+      asset_count: 9
+      approval: approval-20260804-radar-ui-baseline
+  expected_output:
+    path: docs/04-architecture.md
+  scope: "只交付架构设计；浏览器可见内容优先，后端服务和生产部署后置；不实现代码或接入真实来源"
+  delivery_status: queued
+  queued_at: "2026-08-04T16:41:52+08:00"
 completed_product_assignment:
   change_id: prd-20260804-ai-model-radar-001
   role: role-product-manager
@@ -63,16 +90,28 @@ completed_product_assignment:
   approval: approval-20260804-radar-prd-delivery
   result: approved-and-routed
   completed_at: "2026-08-04T15:30:39+08:00"
-latest_delivery:
+latest_approved_ui_delivery:
   artifact: artifact-ui-prompt-001
   path: ui/03-ui-prompt.md
   version: "1.0"
   sha256: d001cea2e85c36317ca1e38c657a32527b3705a3f276f8d938b8b0ac6e450318
   change_id: ui-prompt-20260804-ai-model-radar-001
-  status: ready-for-review
+  status: approved
   completed_by: role-ui-designer
   completed_at: "2026-08-04T15:39:04+08:00"
-  stop_gate: ui-prompt-review
+  approval: approval-20260804-radar-ui-baseline
+  visual_baseline_asset_count: 9
+ui_visual_baseline:
+  artifact: artifact-radar-user-ui-baseline-001
+  path: ui/
+  asset_count: 9
+  status: approved
+  approval: approval-20260804-radar-ui-baseline
+  provided_by: 超级无敌帅超超总
+  approved_at: "2026-08-04T16:41:52+08:00"
+  known_limits:
+    - "缺少完整平板、深色及 36 个状态的逐项视觉覆盖"
+    - "真实连接、活动源、运行状态和混用日期均为视觉占位，PRD 与 Prompt 的真实性边界优先"
 latest_approved_artifact:
   path: docs/02-prd.md
   version: "1.0"
@@ -97,4 +136,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-04T15:39:04+08:00"
+updated_at: "2026-08-04T16:41:52+08:00"

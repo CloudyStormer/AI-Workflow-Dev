@@ -19,8 +19,8 @@ artifacts:
     path: ui/README.md
     status: active
     owner: package-contractor
-    sha256: c81188223819d68b7b876608bd6d1b8655b1d8b8da6901e770b0e46dcd48c1e8
-    updated_at: "2026-08-04T11:46:11+08:00"
+    sha256: f7ae9c52c78bf89543007301277014f61931a77a28346b121c41d9390cbb0b31
+    updated_at: "2026-08-04T16:41:52+08:00"
   - id: artifact-ui-prompt-001
     type: ui-design-prompt
     path: ui/01-control-center-ui-design-prompt.md
@@ -42,3 +42,28 @@ artifacts:
     data_status: demo
     source_commit: bbf3c0d7dc889f8e8ca9e05a9409c0b0dce7d187
     deployed_at: "2026-07-31T22:20:32+08:00"
+  - id: artifact-control-center-user-ui-baseline-001
+    type: user-provided-ui-visual-baseline
+    path: ui/
+    status: approved
+    owner: 超级无敌帅超超总
+    asset_count: 9
+    approval: approval-20260804-control-center-ui-baseline
+    source_prompt:
+      path: ui/01-control-center-ui-design-prompt.md
+      version: "1.0.1"
+      sha256: 6b7335068417f2402c7672b9d233a4b739142116af4671b442b9ddf578c7650e
+    assets:
+      - {path: ui/grok-29fd09f5-3ea7-4f6d-a674-dcd84d8817fa.jpg, dimensions: "1728x1152", sha256: f56856dc5adf4439b56fda1c2c679b7813ca674aa9e6f2ed587602a34d7fb3a5}
+      - {path: ui/grok-2ee1ea02-5590-4aa1-a1e9-ddf49d846bb5.jpg, dimensions: "1728x1152", sha256: 5b9c3ecbe8cbf40e650f282367031d699f3154ed547c1f2a3f7da17126d1e73d}
+      - {path: ui/grok-47a2acfb-3a3e-4801-a8da-ee607db474c0.jpg, dimensions: "1728x1152", sha256: eb14329c4452ecba87e92a7e28a0c3cc41496ab9f39bdb52de1d06e1a73daeb9}
+      - {path: ui/grok-56ef1a49-10ac-412b-81c2-02fbc50b100d.jpg, dimensions: "1728x1152", sha256: 6e9bfcc7b6baeae05957a513b4489aaf34d3ff1cf8628e2429857588dba9fef3}
+      - {path: ui/grok-57c76d46-07b4-41be-b456-c6da299c2bd2.jpg, dimensions: "1728x1152", sha256: 964313509944d7b2fd1bd120236023cee2253a566c08375349b5ec6c856408ae}
+      - {path: ui/grok-a40f0801-bc2c-4e38-aea2-72db6a1b0139.jpg, dimensions: "1008x1792", sha256: a2813bc8862d7d1e5959ef832b7df07409e43eabacb81aacfe393bc888b9ec2a}
+      - {path: ui/grok-af2d6a2c-41e6-4c6a-9e16-9662229c3516.jpg, dimensions: "1728x1152", sha256: fbb8ff91682edd0936e0d7f9ef5d3d1a384d795be58db4cd8b4e4d8710aac260}
+      - {path: ui/grok-e4607bd9-e6d5-479e-9cb5-e53f08b57625.jpg, dimensions: "1792x1008", sha256: 480c526066c46b9a384888680f1fa0f6cc6b3aa722dc4be46d2a805f6c95302a}
+      - {path: ui/grok-eea5ba37-569b-42c0-b733-992c153b7b80.jpg, dimensions: "1728x1152", sha256: 6a1f6c86947a7b4273fa773d9a258d9b3eb00b2f749081dee68146c0a5b1d91e}
+    known_limits:
+      - "visual-details-may-conflict-prompt-governs"
+      - "demo-data-not-live-state"
+    approved_at: "2026-08-04T16:41:52+08:00"

@@ -19,3 +19,34 @@ approvals:
     decided_at: "2026-08-04T11:46:11+08:00"
     source_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
     evidence: "超级无敌帅超超总在固定 04 UI/UX设计师任务中明确回复‘ui的我都批准’。根据用户最新职责边界，该批准结束固定 04 的 Prompt 职责；后续 UI 由用户使用专业 UI 设计模型生成并放入 ui/，不授权本角色生成图片、原型或修改前端。"
+  - id: approval-20260804-control-center-ui-baseline
+    gate: ui-design-review
+    role: role-ui-designer
+    artifact: artifact-control-center-user-ui-baseline-001
+    path: ui/
+    asset_count: 9
+    prompt: ui/01-control-center-ui-design-prompt.md
+    prompt_version: "1.0.1"
+    prompt_sha256: 6b7335068417f2402c7672b9d233a4b739142116af4671b442b9ddf578c7650e
+    scope: "用户生成并选定的 Control Center 9 张 UI 视觉基线"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-04T16:41:52+08:00"
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    evidence: "超级无敌帅超超总明确说明‘四个项目的ui全部放进去了，分别开始下一步’，对本目录唯一新增的 9 张图片作出直接推进裁决。"
+    known_limits:
+      - "图片间导航命名、阶段编号与视觉细节存在不一致，以已批准 Prompt 和全局简体中文版规则为准"
+      - "图片示例数据不代表实时事实，继续使用演示/待接入标识"
+  - id: approval-20260804-control-center-frontend-entry
+    gate: role-entry
+    role: role-frontend-dev
+    role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
+    role_task_title: "06 前端工程师"
+    change_id: chg-20260804-control-center-ui-frontend-001
+    scope: "按已批准 Prompt 与 9 张视觉基线实现完整简体中文版；只做浏览器可见前端，服务与生产部署后置"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-04T16:41:52+08:00"
+    upstream_approval: approval-20260804-control-center-ui-baseline
+    scheduling: queued-after-ai-english-learning
+    evidence: "用户明确要求四个项目分别开始下一步；Control Center 是现有 Sites v3 的前端视觉改版，未改变 API、数据库或系统边界，唯一下一站为固定 06。"

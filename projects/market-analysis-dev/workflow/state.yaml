@@ -3,9 +3,9 @@ project_id: "market-analysis-dev"
 run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
-stage: ui-ux
-status: ui-prompt-ready-for-review
-current_role: role-ui-designer
+stage: architecture
+status: architecture-in-progress
+current_role: role-architect
 blocked: false
 ui_assets:
   directory: ui
@@ -18,7 +18,7 @@ delivery_priority:
     - backend-services
     - production-deployment
   approval_gates_unchanged: true
-active_assignment:
+completed_ui_assignment:
   change_id: "ui-prompt-20260804-frontend-career-radar-001"
   role: role-ui-designer
   role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
@@ -30,30 +30,69 @@ active_assignment:
   delivery_status: ready-for-review
   sha256: f75762b14b5cdcb536cdb58801cd77380ea4a3a276aa906515c137e129ad33b0
   completed_at: "2026-08-04T15:00:58+08:00"
+  approval: "approval-20260804-career-ui-baseline"
+  visual_baseline_asset_count: 10
+active_assignment:
+  change_id: "arch-20260804-frontend-career-radar-001"
+  role: role-architect
+  role_task_id: "019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db"
+  role_task_title: "05 架构师"
+  authorization: "approval-20260804-career-architecture-entry"
+  scheduling: active-first
+  upstream:
+    prd:
+      path: docs/02-prd.md
+      version: "1.1"
+      sha256: 8842f2c7c974bb9ac5fef2ad47f0d35e068a66cfd510ce0088c092ab884ce1e9
+    ui_prompt:
+      path: ui/03-ui-prompt.md
+      version: "1.0"
+      sha256: f75762b14b5cdcb536cdb58801cd77380ea4a3a276aa906515c137e129ad33b0
+    visual_baseline:
+      path: ui/
+      asset_count: 10
+      approval: "approval-20260804-career-ui-baseline"
+  expected_output:
+    path: docs/04-architecture.md
+  scope: "只交付架构设计；保证职业方向总览后第二层为技术栈全景，定义 Web 优先模块、数据与证据边界、用户输入隐私、API、安全、失败恢复和后置服务边界；不实现代码"
+  delivery_status: in-progress
+  started_at: "2026-08-04T16:41:52+08:00"
 next_approval:
-  gate: ui-prompt-review
-  artifact: "ui/03-ui-prompt.md"
-  scope: "Frontend Career Radar UI/UX 提示词 v1.0"
+  gate: architecture-review
+  artifact: "docs/04-architecture.md"
+  expected_change_id: "arch-20260804-frontend-career-radar-001"
+  scope: "Frontend Career Radar 技术架构 v1.0"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
+  delivery_status: in-progress
   on_approved:
-    authorize_next_role: null
-    next_owner: 超级无敌帅超超总
-    next_action: "使用专业 UI 设计大模型基于已批准 Prompt 生成 UI，并把生成结果放入 ui/"
-    source_prompt: "ui/03-ui-prompt.md"
-    output_directory: "ui/"
-    role_ui_designer_auto_generation: false
-    frontend_authorized: false
+    authorize_next_role: role-pm
+    role_task_title: "02 项目经理"
+    next_action: "基于已批准架构拆解首批任务"
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
 latest_approved_delivery:
-  approval: "approval-20260804-prd-delivery"
-  artifact: "docs/02-prd.md"
-  version: "1.1"
-  sha256: 8842f2c7c974bb9ac5fef2ad47f0d35e068a66cfd510ce0088c092ab884ce1e9
-  scope: "Frontend Career Radar PRD v1.1（含用户信息源输入、分类与研究整合）"
-  approved_at: "2026-08-04T14:51:56+08:00"
+  approval: "approval-20260804-career-ui-baseline"
+  artifacts:
+    - path: "ui/03-ui-prompt.md"
+      version: "1.0"
+      sha256: f75762b14b5cdcb536cdb58801cd77380ea4a3a276aa906515c137e129ad33b0
+    - id: "artifact-career-user-ui-baseline-001"
+      path: "ui/"
+      asset_count: 10
+  scope: "Frontend Career Radar Prompt v1.0 与用户选定 UI 视觉基线"
+  approved_at: "2026-08-04T16:41:52+08:00"
+ui_visual_baseline:
+  artifact: "artifact-career-user-ui-baseline-001"
+  path: "ui/"
+  asset_count: 10
+  status: approved
+  approval: "approval-20260804-career-ui-baseline"
+  provided_by: 超级无敌帅超超总
+  approved_at: "2026-08-04T16:41:52+08:00"
+  known_limits:
+    - "仅 2 张竖版图，未逐项证明 1024px、320px、24 个信息源状态与移动键盘场景"
+    - "存在生成文字瑕疵、错误日期与英文标题，最终实现必须遵守完整简体中文版规则"
 workflow_policy:
   pass_semantics: approve-current-and-authorize-unique-next
   role_reporting:
@@ -73,4 +112,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-04T15:00:58+08:00"
+updated_at: "2026-08-04T16:41:52+08:00"

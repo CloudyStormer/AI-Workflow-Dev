@@ -24,7 +24,7 @@ skills:
     sha256: "76525f538e4e1b1324cd848f9b69be1e1fe7a6260f77f739a4f2cd15836ab851"
   - name: "role-frontend-dev"
     path: "skills/role-frontend-dev/SKILL.md"
-    sha256: "011c63b07d687dbba80cc27a5b44ad8b12e46885d3fb576d66f54c4dd2587d7c"
+    sha256: "2b33d8152485a5e78cb6111206d43e4e1448cc3501f206ea104d1c77af48f408"
   - name: "role-market-researcher"
     path: "skills/role-market-researcher/SKILL.md"
     sha256: "0328bf92adf7bdf5c85f8bc86d6deb1e6e7e18b8f5eccd86b6a69eb56ce2abb0"
