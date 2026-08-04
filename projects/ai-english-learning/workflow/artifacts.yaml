@@ -19,9 +19,9 @@ artifacts:
     path: ui/README.md
     status: active
     owner: package-contractor
-    sha256: d184a06c9fcbe72be2ced6f86629372f29efdd20f8ef02214512eebc48d39ea0
+    sha256: 0e1ed9867fa37b690ca2d22b3aeb564466a6fc4310ea6b298273a55ebcf520de
     legacy_active_artifact: docs/03-ui-prompt.md
-    updated_at: "2026-08-04T11:13:14+08:00"
+    updated_at: "2026-08-04T11:42:10+08:00"
   - id: artifact-random-letter-hints-001
     type: frontend-delivery
     path: frontend/src/utils/wordHints.ts
@@ -65,7 +65,7 @@ artifacts:
   - id: artifact-inline-cloze-ui-prompt-002
     type: ui-design-prompt
     path: docs/03-ui-prompt.md
-    status: ready-for-review
+    status: approved
     owner: role-ui-designer
     version: "1.1"
     change_id: chg-20260803-inline-cloze-ui-prompt-v1-1
@@ -78,3 +78,89 @@ artifacts:
     review_scope: "句中行内字母槽、提示与输入合并、编辑、退格、粘贴、提交、错误修正、移动键盘、无障碍与边界状态"
     created_at: "2026-08-03T11:32:32+08:00"
     revised_at: "2026-08-03T11:34:59+08:00"
+    approval: approval-20260804-inline-cloze-ui-prompt-and-user-baseline
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-04T11:42:10+08:00"
+  - id: artifact-user-ui-visual-baseline-001
+    type: ui-visual-baseline
+    path: ui/
+    status: approved
+    owner: 超级无敌帅超超总
+    provided_by: 超级无敌帅超超总
+    approval: approval-20260804-inline-cloze-ui-prompt-and-user-baseline
+    asset_count: 13
+    index: ui/README.md
+    index_sha256: 0e1ed9867fa37b690ca2d22b3aeb564466a6fc4310ea6b298273a55ebcf520de
+    authority:
+      visual_language: ui/
+      product_logic: docs/01-prd.md
+      inline_cloze_interaction: docs/03-ui-prompt.md
+      architecture_impact: none
+    assets:
+      - path: ui/Gemini_Generated_Image_fbckyffbckyffbck.png
+        purpose: "移动端与桌面端整套视觉总览、跨端构图基准"
+        width: 1536
+        height: 2730
+        sha256: 694259c810ab017ac9f59abdf0bdb618e7291e2ab145ad8d970d29d73f030c59
+      - path: ui/grok-516bcb59-f561-4bad-ab24-c193fc273f1b.jpg
+        purpose: "移动端首页：背单词 / 练口语双入口"
+        width: 976
+        height: 2016
+        sha256: cd1fc057ff730e91c835089c405e632441e0d08ac48f85a98c55bf4f53aa2efc
+      - path: ui/grok-87dc603b-d470-4823-8480-831f528ed8bb.jpg
+        purpose: "移动端单词学习页：进度、单词卡与主操作"
+        width: 960
+        height: 2048
+        sha256: c1edb8e43cc01e139fb646055908ed27e5e929fdb07dab952f76bd1bbd5ca540
+      - path: ui/grok-43e26fb0-5391-4019-a6d7-6b0be8ff77fb.jpg
+        purpose: "移动端口语聊天页：会话气泡与输入区"
+        width: 960
+        height: 2048
+        sha256: cdd4d826c298374461d867512e7cd250093c847e5611dbab6844bf49e8440de7
+      - path: ui/grok-6db4f2f7-7e3c-46f6-a1ba-8c8ce7d1620f.jpg
+        purpose: "移动端个人中心 / 设置页"
+        width: 976
+        height: 2016
+        sha256: b0efdddc1d4ed500ec4ba577bb012d60b6d1040417a0d68aa8975b607ab2deb5
+      - path: ui/grok-627ebad4-4d53-457f-8a1c-75ed30f290cf.jpg
+        purpose: "桌面端首页 / 学习驾驶舱"
+        width: 1424
+        height: 1392
+        sha256: a1f7c938d9fbf0825b7a33d101173a64fba7f810a5409683c86e73eee0dab313
+      - path: ui/grok-bf161d3c-2cd6-4157-b122-c9caf36a1c2a.jpg
+        purpose: "桌面端单词学习详情页"
+        width: 1424
+        height: 1392
+        sha256: 038f49a1f64cc2eeff18c733676fa0edc39afa1e3f99eebb36ebd8a83e734dcc
+      - path: ui/grok-8b28d84e-22dc-4afc-a824-26718782a5ca.jpg
+        purpose: "桌面端口语聊天页"
+        width: 1552
+        height: 1264
+        sha256: 2c46abc2222cf9051ee1ef1ebb9f3f5589c4a46e348619c4084fb95ae5eb70cd
+      - path: ui/grok-96fc26d8-2f0d-4114-8b4d-297e8690c1e7.jpg
+        purpose: "桌面端设置 / 学习统计页"
+        width: 1552
+        height: 1264
+        sha256: 7be5eefb79aa4062044b400e69036268c06bc4f57dc041954ad88d61ce06e9b3
+      - path: ui/grok-15e94385-0b3f-4b4d-9ab6-ff2b2468f8da.png
+        purpose: "紫色圆形与青绿色菱形装饰资产"
+        width: 180
+        height: 180
+        sha256: d5e8fe15d08b69aa81b9c9573d53d50ccef00d8675c4731a76fa2bd598c21ad9
+      - path: ui/grok-49c5cc49-777e-437a-ae86-7f13515d5cc0.png
+        purpose: "青绿色多边形与紫色三角装饰资产"
+        width: 186
+        height: 150
+        sha256: e55708a23beb7839d1faf42754a5a0b30a1dd75c4e5f768b35f6d02bf4e38e7b
+      - path: ui/grok-7651d951-60be-42e4-a963-34408ae33c94.png
+        purpose: "用户头像 / 个人信息裁切参考"
+        width: 120
+        height: 120
+        sha256: 90ab7330decb2fa994ca1f504d6f5d5c56ff86a2bd89cb8bf9da68d4f1c6a1d2
+      - path: ui/grok-87c3416e-73d3-42e9-81ab-c0eafc48f065.png
+        purpose: "核心色板参考"
+        width: 500
+        height: 80
+        sha256: f295e14406d0ebdcbd9481306169947c4f5b33143f37fe44cb651bef182fbdee
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-04T11:42:10+08:00"

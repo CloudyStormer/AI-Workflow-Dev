@@ -52,3 +52,21 @@ approvals:
     decided_at: "2026-08-03T11:26:03+08:00"
     source_task_id: 019fb746-5875-77b3-809a-08a16100d950
     evidence: "在当前等待 UI/UX 重新入场门上，超级无敌帅超超总明确回复‘前两个继续’。该继续只批准本项目当前下一站 UI/UX 提示词工作。"
+  - id: approval-20260804-inline-cloze-ui-prompt-and-user-baseline
+    gate: ui-stage-review
+    role: role-ui-designer
+    artifacts:
+      - path: docs/03-ui-prompt.md
+        version: "1.1"
+        sha256: 2e882df4029a098bc8679a628b70379fddbb88c2ebc01df5c26e9062a19e3038
+      - path: ui/
+        type: user-provided-authoritative-visual-baseline
+        asset_count: 13
+        index: ui/README.md
+    scope: "批准行内字母槽 UI Prompt v1.1，并确认 ui/ 中用户提供的 13 项图片为本次实现的权威视觉母版；图片未展示的行内字母槽状态由 PRD v1.1 与 Prompt v1.1 约束"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-04T11:42:10+08:00"
+    source_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+    source_coordination_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    evidence: "超级无敌帅超超总明确回复‘ui的我都批准’，并进一步裁决‘里面的 ui 是我给你的，你直接按照那个 ui 来就行’。该批准结束固定 04 的 Prompt 职责，不授权重新生成 UI；唯一下一站为 00 路由固定 06 前端工程师恢复本次变更。"
