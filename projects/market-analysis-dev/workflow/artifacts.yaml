@@ -147,3 +147,41 @@ artifacts:
       - "purpose-sampled-recruitment-evidence-not-market-share"
       - "same-day-web-preview-depends-on-sequential-approval-gates"
       - "backend-services-and-production-deployment-deferred"
+  - id: "artifact-prd-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: product-requirements
+    change_id: "prd-20260804-frontend-career-radar-001"
+    path: docs/02-prd.md
+    status: ready-for-review
+    owner: role-product-manager
+    version: "1.0"
+    sha256: b2b609657c30368e6d128c52c136df5c594e7f5caee84e87abacb937130caac1
+    entry_approval: "approval-20260804-prd-entry"
+    upstream_market_research:
+      artifact: docs/00-market-research.md
+      version: "1.0"
+      sha256: 79ce60b6aeb4fa227f5da02bf5d230092575340b20ae91aa95a04b18a0b33165
+      approval: "approval-20260804-market-research-delivery"
+    upstream_project_plan:
+      artifact: docs/01-project-plan.md
+      version: "1.0"
+      sha256: f9c5a5e2010425758c2c38e033e8ddfb7f41b28ebb593919b36d0ccf915f98d7
+      approval: "approval-20260804-project-plan-delivery"
+    completed_at: "2026-08-04T11:42:31+08:00"
+    validation:
+      prd_sha256_match: passed
+      required_sections: passed
+      acceptance_criteria: "30-of-30-present"
+      markdown_table_rows: "39-valid"
+      yaml: "project-and-workflow-valid"
+      jsonl: "25-of-25-valid-before-validation-event"
+      workflow_consistency: passed
+      project_validator: "passed-with-4-intentional-empty-command-warnings"
+      git_boundary: passed
+      skill_drift: passed
+    known_limits:
+      - "docs-00-intake-missing"
+      - "no-user-interviews-or-personal-skill-evidence"
+      - "purpose-sampled-recruitment-evidence-not-market-share"
+      - "browser-viewable-content-first"
+      - "backend-services-and-production-deployment-deferred"

@@ -4,7 +4,7 @@ run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
 stage: product-definition
-status: prd-entry-authorized
+status: prd-ready-for-review
 current_role: role-product-manager
 blocked: false
 ui_assets:
@@ -25,13 +25,17 @@ active_assignment:
   role_task_title: "03 产品经理"
   scheduling: active-first
   scope: "基于已批准调研与项目计划编制 docs/02-prd.md；优先定义可浏览 Web 内容，后端服务与正式部署后置；只交付 PRD"
+  output: "docs/02-prd.md"
+  version: "1.0"
+  sha256: b2b609657c30368e6d128c52c136df5c594e7f5caee84e87abacb937130caac1
+  delivery_status: ready-for-review
 next_approval:
   gate: artifact-review
   artifact: "docs/02-prd.md"
   scope: "Frontend Career Radar PRD v1.0"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: authorized
+  delivery_status: ready-for-review
   on_approved:
     authorize_next_role: role-ui-designer
     role_task_title: "04 UI/UX设计师"
@@ -64,4 +68,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-04T11:34:40+08:00"
+updated_at: "2026-08-04T11:42:31+08:00"
