@@ -7,3 +7,15 @@ approvals:
     decided_by: 齐总
     decided_at: "2026-07-31T22:02:27+08:00"
     evidence: "齐总明确要求三个项目按统一项目初始化 Skill 整理，且不得影响正常启动。"
+  - id: approval-20260804-control-center-ui-prompt
+    gate: artifact-review
+    role: role-ui-designer
+    artifact: ui/01-control-center-ui-design-prompt.md
+    version: "1.0.1"
+    sha256: 6b7335068417f2402c7672b9d233a4b739142116af4671b442b9ddf578c7650e
+    scope: "Control Center 下一版图表化、极简、干净且逻辑清晰的完整 UI 设计 Prompt"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-04T11:46:11+08:00"
+    source_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+    evidence: "超级无敌帅超超总在固定 04 UI/UX设计师任务中明确回复‘ui的我都批准’。根据用户最新职责边界，该批准结束固定 04 的 Prompt 职责；后续 UI 由用户使用专业 UI 设计模型生成并放入 ui/，不授权本角色生成图片、原型或修改前端。"

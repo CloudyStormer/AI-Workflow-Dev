@@ -2,7 +2,7 @@ schema_version: 1
 project_id: "workflow-control-center"
 structure_status: normalized
 stage: ui-design
-status: awaiting-ui-prompt-review
+status: ui-prompt-approved-awaiting-user-generated-ui
 current_role: null
 blocked: false
 ui_assets:
@@ -16,19 +16,24 @@ delivery_priority:
     - backend-services
     - production-deployment
   approval_gates_unchanged: true
-next_approval:
-  gate: artifact-review
-  artifact: ui/01-control-center-ui-design-prompt.md
-  scope: "Control Center 下一版图表化 UI/UX 设计提示词"
-  decision_owner: 超级无敌帅超超总
-  decision: pending
-  delivery_status: ready-for-review
-  on_approved:
-    authorize_next_role: role-ui-designer
-    role_task_title: "04 UI/UX设计师"
-    scope: "基于已批准提示词生成并交付 Control Center UI 设计，不修改界面代码、不发布"
-    advance_limit: unique-next-stage-only
-    auto_advance_beyond_next: false
+next_approval: null
+latest_delivery:
+  path: ui/01-control-center-ui-design-prompt.md
+  version: "1.0.1"
+  sha256: 6b7335068417f2402c7672b9d233a4b739142116af4671b442b9ddf578c7650e
+  status: approved
+  approval: approval-20260804-control-center-ui-prompt
+  approved_by: 超级无敌帅超超总
+  approved_at: "2026-08-04T11:46:11+08:00"
+next_input:
+  status: awaiting-user-generated-ui
+  owner: 超级无敌帅超超总
+  source_prompt: ui/01-control-center-ui-design-prompt.md
+  target_directory: ui/
+  generation_owner: user-professional-ui-design-model
+  role_ui_designer_generation_required: false
+  frontend_authorized: false
+implementation_gate: "Prompt 已批准，固定 04 UI/UX设计师职责结束；等待超级无敌帅超超总使用专业 UI 设计模型生成并把真实产物放入 ui/。在产物登记和后续裁决前，不启动前端、不发布。"
 runtime:
   live_url: "https://ai-workflow-control-center.honest-flute-5906.chatgpt.site"
   deployed_version: 3
@@ -53,4 +58,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-04T11:25:10+08:00"
+updated_at: "2026-08-04T11:46:11+08:00"

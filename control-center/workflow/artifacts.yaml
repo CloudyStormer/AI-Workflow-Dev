@@ -19,16 +19,19 @@ artifacts:
     path: ui/README.md
     status: active
     owner: package-contractor
-    sha256: 89fc837098acc92e82630fd052d4bdd77216ab87f9fea7facf62386a7d95389c
-    updated_at: "2026-08-04T11:13:14+08:00"
+    sha256: c81188223819d68b7b876608bd6d1b8655b1d8b8da6901e770b0e46dcd48c1e8
+    updated_at: "2026-08-04T11:46:11+08:00"
   - id: artifact-ui-prompt-001
     type: ui-design-prompt
     path: ui/01-control-center-ui-design-prompt.md
     version: "1.0.1"
-    status: ready-for-review
+    status: approved
     owner: role-ui-designer
     sha256: 6b7335068417f2402c7672b9d233a4b739142116af4671b442b9ddf578c7650e
-    updated_at: "2026-07-31T22:15:09+08:00"
+    approval: approval-20260804-control-center-ui-prompt
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-04T11:46:11+08:00"
+    updated_at: "2026-08-04T11:46:11+08:00"
   - id: artifact-private-deployment-002
     type: deployment
     path: .openai/hosting.json
