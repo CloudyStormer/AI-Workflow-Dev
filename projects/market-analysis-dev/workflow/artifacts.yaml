@@ -272,3 +272,57 @@ artifacts:
       - "responsive-and-full-state-coverage-incomplete"
       - "generated-copy-date-and-localization-defects"
     approved_at: "2026-08-04T16:41:52+08:00"
+  - id: "artifact-architecture-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: technical-architecture
+    change_id: "arch-20260804-frontend-career-radar-001"
+    path: docs/04-architecture.md
+    status: ready-for-review
+    owner: role-architect
+    version: "1.0"
+    sha256: bcc782409ebde28e003c9e4a1c20d45ddcb3b787f8a2de020c451ef05957d144
+    entry_approval: "approval-20260804-career-architecture-entry"
+    upstream:
+      prd:
+        path: docs/02-prd.md
+        version: "1.1"
+        sha256: 8842f2c7c974bb9ac5fef2ad47f0d35e068a66cfd510ce0088c092ab884ce1e9
+      ui_prompt:
+        path: ui/03-ui-prompt.md
+        version: "1.0"
+        sha256: f75762b14b5cdcb536cdb58801cd77380ea4a3a276aa906515c137e129ad33b0
+      visual_baseline:
+        artifact: artifact-career-user-ui-baseline-001
+        asset_count: 10
+        approval: "approval-20260804-career-ui-baseline"
+    completed_at: "2026-08-04T17:02:27+08:00"
+    stop_gate: architecture-review
+    scope:
+      web_first: true
+      backend_deferred: true
+      production_deployment_deferred: true
+      third_party_user_input_transfer: blocked
+      user_input_persistence: memory_only
+      information_architecture:
+        - career-direction-overview
+        - technology-stack-landscape
+    validation:
+      architecture_sha256_match: passed
+      upstream_prd_sha256_match: passed
+      upstream_ui_prompt_sha256_match: passed
+      required_sections: passed
+      mermaid_diagrams: "3-of-3-present"
+      markdown_table_integrity: "16-of-16-passed"
+      workflow_yaml: "4-of-4-valid"
+      jsonl_before_validation_event: "37-of-37-valid"
+      project_validator: "passed-with-4-intentional-empty-command-warnings"
+      git_boundary: passed
+      git_diff_check: passed
+      skill_drift: passed
+    validated_at: "2026-08-04T17:03:58+08:00"
+    known_limits:
+      - "no-business-code-or-runtime-entrypoints"
+      - "no-backend-database-model-provider-or-deployment"
+      - "local-deterministic-source-analysis-has-limited-semantic-recall"
+      - "visual-baseline-copy-and-placeholder-data-are-not-system-facts"
+      - "wcag-2.2-aa-is-a-target-not-an-audit-claim"

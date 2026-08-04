@@ -4,7 +4,7 @@ run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
 stage: architecture
-status: architecture-in-progress
+status: awaiting-architecture-review
 current_role: role-architect
 blocked: false
 ui_assets:
@@ -54,9 +54,12 @@ active_assignment:
       approval: "approval-20260804-career-ui-baseline"
   expected_output:
     path: docs/04-architecture.md
+    version: "1.0"
+    sha256: bcc782409ebde28e003c9e4a1c20d45ddcb3b787f8a2de020c451ef05957d144
   scope: "只交付架构设计；保证职业方向总览后第二层为技术栈全景，定义 Web 优先模块、数据与证据边界、用户输入隐私、API、安全、失败恢复和后置服务边界；不实现代码"
-  delivery_status: in-progress
+  delivery_status: ready-for-review
   started_at: "2026-08-04T16:41:52+08:00"
+  completed_at: "2026-08-04T17:02:27+08:00"
 next_approval:
   gate: architecture-review
   artifact: "docs/04-architecture.md"
@@ -64,7 +67,7 @@ next_approval:
   scope: "Frontend Career Radar 技术架构 v1.0"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: in-progress
+  delivery_status: ready-for-review
   on_approved:
     authorize_next_role: role-pm
     role_task_title: "02 项目经理"
@@ -112,4 +115,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-04T16:41:52+08:00"
+updated_at: "2026-08-04T17:02:27+08:00"
