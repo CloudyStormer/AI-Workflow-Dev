@@ -61,8 +61,8 @@ artifacts:
     path: ui/README.md
     status: active
     owner: package-contractor
-    sha256: 62eadae2b306987059ce59c71fe25cff8de452cd24e807ccf29cf110a234adfb
-    updated_at: "2026-08-04T11:13:14+08:00"
+    sha256: dc10a13ce20b03c31839974347cf9287a9e2c361a8f0800f30893ca108770dc4
+    updated_at: "2026-08-04T15:00:58+08:00"
   - id: "artifact-git-metadata-backup-001"
     run_id: "run-20260803-market-analysis-dev-init-001"
     type: external-git-metadata-backup
@@ -194,3 +194,56 @@ artifacts:
       - "purpose-sampled-recruitment-evidence-not-market-share"
       - "browser-viewable-content-first"
       - "backend-services-and-production-deployment-deferred"
+  - id: "artifact-ui-prompt-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: ui-ux-design-prompt
+    change_id: "ui-prompt-20260804-frontend-career-radar-001"
+    path: ui/03-ui-prompt.md
+    status: ready-for-review
+    owner: role-ui-designer
+    version: "1.0"
+    sha256: f75762b14b5cdcb536cdb58801cd77380ea4a3a276aa906515c137e129ad33b0
+    entry_approval: "approval-20260804-ui-prompt-entry"
+    upstream_approval: "approval-20260804-prd-delivery"
+    upstream_artifact: docs/02-prd.md
+    upstream_version: "1.1"
+    upstream_sha256: 8842f2c7c974bb9ac5fef2ad47f0d35e068a66cfd510ce0088c092ab884ce1e9
+    completed_at: "2026-08-04T15:00:58+08:00"
+    stop_gate: ui-prompt-review
+    output_purpose: "供超级无敌帅超超总的专业 UI 设计大模型生成界面"
+    role_boundary:
+      ui_prompt_only: true
+      generated_designs: false
+      prototype_or_images: false
+      frontend_authorized: false
+    coverage:
+      information_architecture: "career-direction-overview-then-technology-stack-landscape"
+      key_pages: 6
+      source_workbench_states: 24
+      chart_data_mappings: 10
+      responsive_viewports: [1440, 1024, 390, 320]
+      accessibility: "wcag-2.2-aa-design-target-not-a-compliance-claim"
+      user_source_input: "1-to-100000-unicode-characters"
+      source_classification: "source-channel-and-content-type-dual-axis"
+      research_relationships: 6
+    validation:
+      upstream_prd_sha256_match: passed
+      prompt_sha256_match: passed
+      required_sections: passed
+      key_pages: "6-of-6-present"
+      source_workbench_states: "24-of-24-present"
+      chart_data_mappings: "10-of-10-present"
+      responsive_viewports: "4-of-4-present"
+      ui_prompt_acceptance_checks: "26-of-26-present"
+      yaml: "5-of-5-valid"
+      jsonl: "34-of-34-valid-after-validation-event"
+      project_validator: "passed-with-4-intentional-empty-command-warnings"
+      git_boundary: passed
+      skill_drift: passed
+    known_limits:
+      - "prompt-not-yet-approved"
+      - "no-generated-ui-design-prototype-or-images"
+      - "no-user-interviews-or-submitted-user-sources-yet"
+      - "purpose-sampled-recruitment-evidence-not-market-share"
+      - "third-party-model-transfer-and-persistent-user-data-require-separate-authorization"
+      - "frontend-implementation-not-authorized"

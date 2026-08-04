@@ -4,7 +4,7 @@ run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
 stage: ui-ux
-status: ui-prompt-dispatched
+status: ui-prompt-ready-for-review
 current_role: role-ui-designer
 blocked: false
 ui_assets:
@@ -27,18 +27,24 @@ active_assignment:
   scope: "基于已批准 PRD v1.1 在 ui/ 交付数据大屏／数据看板导向的完整 UI/UX 提示词；覆盖用户信息源输入、分类、研究整合、响应式与可访问性；只交付提示词"
   output: "ui/03-ui-prompt.md"
   version: "1.0"
-  delivery_status: dispatched
+  delivery_status: ready-for-review
+  sha256: f75762b14b5cdcb536cdb58801cd77380ea4a3a276aa906515c137e129ad33b0
+  completed_at: "2026-08-04T15:00:58+08:00"
 next_approval:
-  gate: artifact-review
+  gate: ui-prompt-review
   artifact: "ui/03-ui-prompt.md"
   scope: "Frontend Career Radar UI/UX 提示词 v1.0"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: not-started
+  delivery_status: ready-for-review
   on_approved:
-    authorize_next_role: role-ui-designer
-    role_task_title: "04 UI/UX设计师"
-    scope: "基于已批准 UI/UX 提示词在 ui/ 交付设计说明、原型或视觉稿；交付后再次停止审核"
+    authorize_next_role: null
+    next_owner: 超级无敌帅超超总
+    next_action: "使用专业 UI 设计大模型基于已批准 Prompt 生成 UI，并把生成结果放入 ui/"
+    source_prompt: "ui/03-ui-prompt.md"
+    output_directory: "ui/"
+    role_ui_designer_auto_generation: false
+    frontend_authorized: false
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
 latest_approved_delivery:
@@ -67,4 +73,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-04T14:53:46+08:00"
+updated_at: "2026-08-04T15:00:58+08:00"
