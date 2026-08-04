@@ -24,15 +24,15 @@ active_assignment:
   role_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
   role_task_title: "03 产品经理"
   scheduling: active-first
-  scope: "基于已批准调研与项目计划编制 docs/02-prd.md；优先定义可浏览 Web 内容，后端服务与正式部署后置；只交付 PRD"
+  scope: "修订 docs/02-prd.md，新增用户信息源文本输入、双轴分类、摘要与既有调研对照；可浏览 Web 内容仍优先，后端服务与正式部署后置；只交付 PRD"
   output: "docs/02-prd.md"
-  version: "1.0"
-  sha256: b2b609657c30368e6d128c52c136df5c594e7f5caee84e87abacb937130caac1
+  version: "1.1"
+  sha256: 8842f2c7c974bb9ac5fef2ad47f0d35e068a66cfd510ce0088c092ab884ce1e9
   delivery_status: ready-for-review
 next_approval:
   gate: artifact-review
   artifact: "docs/02-prd.md"
-  scope: "Frontend Career Radar PRD v1.0"
+  scope: "Frontend Career Radar PRD v1.1（含用户信息源输入、分类与研究整合）"
   decision_owner: 超级无敌帅超超总
   decision: pending
   delivery_status: ready-for-review
@@ -68,4 +68,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-04T11:42:31+08:00"
+updated_at: "2026-08-04T14:42:23+08:00"
