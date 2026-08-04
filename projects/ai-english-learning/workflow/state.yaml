@@ -201,7 +201,7 @@ frontend_freeze:
   previous_release: approval-20260804-reveal-answer-ui-minimal-direct-frontend
   resume_gate: "PRD v1.3 通过 → 固定 04 UI/UX 提示词通过 → 固定 06 重新获批"
   preserve_uncommitted_worktree: true
-  scope: "固定 06 不得继续修改、测试、提交或交付当前业务实现；不得启动 Control Center 队列"
+  scope: "固定 06 不得继续修改、测试、提交或交付当前英语业务实现；其他项目已独立获批的工作按固定角色队列和精确文件隔离规则处理"
 workflow_policy:
   pass_semantics: approve-current-and-authorize-unique-next
   role_reporting:
