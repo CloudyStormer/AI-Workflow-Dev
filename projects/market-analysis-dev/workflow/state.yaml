@@ -12,6 +12,12 @@ ui_assets:
   index: ui/README.md
   new_deliveries: required
   preserve_active_legacy_paths: true
+delivery_priority:
+  current: browser-viewable-content-first
+  deferred:
+    - backend-services
+    - production-deployment
+  approval_gates_unchanged: true
 active_assignment:
   change_id: "plan-20260804-frontend-career-radar-001"
   role: role-pm
@@ -54,4 +60,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-04T11:13:14+08:00"
+updated_at: "2026-08-04T11:25:10+08:00"
