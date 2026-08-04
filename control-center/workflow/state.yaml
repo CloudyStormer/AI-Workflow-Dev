@@ -2,7 +2,7 @@ schema_version: 1
 project_id: "workflow-control-center"
 structure_status: normalized
 stage: development
-status: control-center-frontend-queued
+status: control-center-frontend-ready-for-review
 current_role: role-frontend-dev
 blocked: false
 ui_assets:
@@ -23,7 +23,7 @@ next_approval:
   scope: "按 Prompt v1.0.1 与用户批准的 9 张视觉基线实现 Control Center 完整简体中文版；保持演示/待接入数据真实性边界，不接入服务、不部署"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: queued
+  delivery_status: ready-for-review
   on_approved:
     authorize_next_role: role-code-reviewer
     role_task_title: "09 代码审查员"
@@ -65,7 +65,7 @@ active_assignment:
   role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
   role_task_title: "06 前端工程师"
   authorization: approval-20260804-control-center-frontend-entry
-  scheduling: queued-after-ai-english-learning
+  scheduling: completed
   upstream:
     prompt:
       path: ui/01-control-center-ui-design-prompt.md
@@ -77,9 +77,18 @@ active_assignment:
       approval: approval-20260804-control-center-ui-baseline
   scope: "只实现浏览器可见的 Control Center 中文前端改版；沿用现有 Sites/Vinext 技术边界，所有非实时内容标演示或待接入；不改 API/DB 边界，不部署"
   architecture_impact: none
-  delivery_status: queued
+  delivery_status: ready-for-review
   queued_at: "2026-08-04T16:41:52+08:00"
-implementation_gate: "用户生成的 9 张 UI 已登记并批准，架构边界不受影响；固定 06 在完成当前 AI English Learning 前端单元后处理本批 Control Center 改版。该批交付后停在 frontend-delivery-review，不自动审查或部署。"
+  started_at: "2026-08-04T17:13:00+08:00"
+  completed_at: "2026-08-04T17:45:00+08:00"
+  output:
+    artifact: artifact-control-center-frontend-redesign-001
+    design_qa: design-qa.md
+    preview: "http://127.0.0.1:4175/?view=overview"
+  result: control-center-frontend-ready-for-review
+  stop_gate: frontend-delivery-review
+  auto_route_on_approval: false
+implementation_gate: "固定 06 已完成 Control Center 浏览器可见完整简体中文版前端改版、工程验证与设计 QA，当前停在 frontend-delivery-review。未修改 API、数据库、账号或生产部署；用户通过前不得进入固定 09。"
 runtime:
   live_url: "https://ai-workflow-control-center.honest-flute-5906.chatgpt.site"
   deployed_version: 3
@@ -104,4 +113,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-04T16:41:52+08:00"
+updated_at: "2026-08-04T17:45:00+08:00"

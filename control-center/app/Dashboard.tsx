@@ -1,442 +1,313 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import Image from "next/image";
+import { useEffect, useRef, useState, type FormEvent } from "react";
+import type { Icon } from "@phosphor-icons/react";
+import {
+  Bell,
+  CaretDown,
+  ChartPolar,
+  DownloadSimple,
+  Flask,
+  FolderOpen,
+  List,
+  MagnifyingGlass,
+  RocketLaunch,
+  ShieldCheck,
+  SquaresFour,
+  UsersThree,
+  X,
+} from "@phosphor-icons/react";
+import { NAV_ITEMS, PROJECTS, type ViewId } from "./dashboard-data";
+import { SearchResults, ViewContent, type DrawerPayload } from "./dashboard-views";
 
-type View = "overview" | "projects" | "roles" | "quality" | "releases" | "governance";
-type IssueStatus = "待修复" | "修复中" | "待复测" | "已关闭";
-
-const navItems: Array<{ id: View; label: string; glyph: string }> = [
-  { id: "overview", label: "总览", glyph: "⌂" },
-  { id: "projects", label: "项目与阶段", glyph: "◇" },
-  { id: "roles", label: "角色协作", glyph: "◎" },
-  { id: "quality", label: "质量与缺陷", glyph: "△" },
-  { id: "releases", label: "版本与上线", glyph: "↗" },
-  { id: "governance", label: "工作流治理", glyph: "⌘" },
-];
-
-const stages = [
-  { name: "项目启动", owner: "项目经理", state: "done", evidence: "项目计划已落盘" },
-  { name: "产品定义", owner: "产品经理", state: "done", evidence: "PRD v1.0 已完成" },
-  { name: "体验设计", owner: "UI/UX", state: "risk", evidence: "设计稿存在，正式审批证据缺失" },
-  { name: "技术架构", owner: "架构师", state: "done", evidence: "架构文档已完成" },
-  { name: "任务拆解", owner: "项目经理", state: "done", evidence: "26 项任务已拆分" },
-  { name: "并行开发", owner: "研发组", state: "active", evidence: "T01 已交付，状态表待同步" },
-  { name: "代码审查", owner: "审查员", state: "waiting", evidence: "等待 P0 功能完成" },
-  { name: "系统测试", owner: "测试工程师", state: "waiting", evidence: "尚未进入提测" },
-  { name: "部署上线", owner: "DevOps", state: "waiting", evidence: "尚无候选版本" },
-  { name: "项目验收", owner: "项目经理", state: "waiting", evidence: "等待上线版本" },
-];
-
-const roles = [
-  { order: "01", name: "项目经理", skill: "role-pm", lane: "管理", status: "在线", current: "维护计划、风险与阶段审批" },
-  { order: "02", name: "产品经理", skill: "role-product-manager", lane: "产品", status: "待命", current: "产品范围与验收标准" },
-  { order: "03", name: "UI/UX 设计师", skill: "role-ui-designer", lane: "设计", status: "待命", current: "设计系统与交互状态" },
-  { order: "04", name: "架构师", skill: "role-architect", lane: "技术", status: "待命", current: "架构决策与接口契约" },
-  { order: "05", name: "前端工程师", skill: "role-frontend-dev", lane: "研发", status: "工作中", current: "T01 前端骨架已完成" },
-  { order: "06", name: "后端工程师", skill: "role-backend-dev", lane: "研发", status: "阻塞", current: "等待 T02 启动" },
-  { order: "07", name: "数据工程师", skill: "role-data-engineer", lane: "数据", status: "待命", current: "数据模型与迁移策略" },
-  { order: "08", name: "代码审查员", skill: "role-code-reviewer", lane: "质量", status: "待命", current: "等待首个可审查模块" },
-  { order: "09", name: "测试工程师", skill: "role-qa", lane: "质量", status: "待命", current: "等待提测版本" },
-  { order: "10", name: "DevOps 工程师", skill: "role-devops", lane: "交付", status: "待命", current: "等待发布候选版本" },
-];
-
-const initialIssues: Array<{
-  id: string;
-  severity: "Blocker" | "Major" | "Minor";
-  title: string;
-  owner: string;
-  status: IssueStatus;
-  area: string;
-}> = [
-  {
-    id: "WF-001",
-    severity: "Blocker",
-    title: "构建链路缺少 Node 版本锁定，当前环境无法构建",
-    owner: "DevOps",
-    status: "待修复",
-    area: "工程环境",
-  },
-  {
-    id: "WF-002",
-    severity: "Major",
-    title: "阶段审批只写在文档中，没有可恢复的状态记录",
-    owner: "架构师",
-    status: "待修复",
-    area: "工作流引擎",
-  },
-  {
-    id: "WF-003",
-    severity: "Major",
-    title: "架构文档与实际依赖版本不一致",
-    owner: "架构师",
-    status: "修复中",
-    area: "技术基线",
-  },
-  {
-    id: "WF-004",
-    severity: "Major",
-    title: "开发任务表仍标记 T01 待开始，与 Git 事实冲突",
-    owner: "项目经理",
-    status: "待复测",
-    area: "项目状态",
-  },
-  {
-    id: "WF-005",
-    severity: "Minor",
-    title: "角色模板、项目副本、全局 Skill 存在三套重复来源",
-    owner: "项目经理",
-    status: "待修复",
-    area: "配置治理",
-  },
-];
-
-const stateLabels: Record<string, string> = {
-  done: "已完成",
-  risk: "有风险",
-  active: "进行中",
-  waiting: "未开始",
+const NAV_ICONS: Record<ViewId, Icon> = {
+  overview: SquaresFour,
+  projects: FolderOpen,
+  roles: UsersThree,
+  quality: ShieldCheck,
+  releases: RocketLaunch,
+  governance: ChartPolar,
 };
 
-const nextIssueStatus: Record<IssueStatus, IssueStatus> = {
-  待修复: "修复中",
-  修复中: "待复测",
-  待复测: "已关闭",
-  已关闭: "已关闭",
-};
+const MOBILE_PRIMARY_NAV: ViewId[] = ["overview", "projects", "quality"];
+const MOBILE_MORE_NAV: ViewId[] = ["roles", "releases", "governance"];
 
 export default function Dashboard() {
-  const [view, setView] = useState<View>("overview");
-  const [selectedStage, setSelectedStage] = useState(5);
-  const [selectedRole, setSelectedRole] = useState(roles[0]);
-  const [issues, setIssues] = useState(initialIssues);
-  const [severity, setSeverity] = useState("全部");
-  const [notice, setNotice] = useState("");
+  const [view, setView] = useState<ViewId>("overview");
+  const [selectedProjectId, setSelectedProjectId] = useState(PROJECTS[0].id);
+  const [timeRange, setTimeRange] = useState("当前迭代");
+  const [iteration, setIteration] = useState("MVP v1.0");
+  const [dataSource, setDataSource] = useState("全部来源");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [drawer, setDrawer] = useState<DrawerPayload | null>(null);
+  const [toast, setToast] = useState("");
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
 
-  const visibleIssues = useMemo(
-    () => issues.filter((issue) => severity === "全部" || issue.severity === severity),
-    [issues, severity],
-  );
+  const drawerRef = useRef<HTMLDialogElement>(null);
+  const drawerCloseRef = useRef<HTMLButtonElement>(null);
+  const moreRef = useRef<HTMLDialogElement>(null);
+  const moreCloseRef = useRef<HTMLButtonElement>(null);
+  const lastFocusRef = useRef<HTMLElement | null>(null);
+  const pageTitleRef = useRef<HTMLHeadingElement>(null);
+  const toastTimerRef = useRef<number | null>(null);
 
-  const activeStage = stages[selectedStage];
+  const currentNav = NAV_ITEMS.find((item) => item.id === view) ?? NAV_ITEMS[0];
 
-  function advanceIssue(id: string) {
-    setIssues((current) =>
-      current.map((issue) =>
-        issue.id === id ? { ...issue, status: nextIssueStatus[issue.status] } : issue,
-      ),
-    );
-  }
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const requestedView = params.get("view") as ViewId | null;
+    const requestedProject = params.get("project");
+    const frame = window.requestAnimationFrame(() => {
+      if (requestedView && NAV_ITEMS.some((item) => item.id === requestedView)) setView(requestedView);
+      if (requestedProject && PROJECTS.some((project) => project.id === requestedProject)) setSelectedProjectId(requestedProject);
+      setHydrated(true);
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    const params = new URLSearchParams(window.location.search);
+    params.set("view", view);
+    params.set("project", selectedProjectId);
+    params.set("range", timeRange);
+    window.history.replaceState({}, "", `${window.location.pathname}?${params.toString()}`);
+  }, [hydrated, selectedProjectId, timeRange, view]);
+
+  useEffect(() => {
+    const dialog = drawerRef.current;
+    if (!dialog) return;
+    if (drawer && !dialog.open) {
+      dialog.showModal();
+      window.requestAnimationFrame(() => drawerCloseRef.current?.focus({ preventScroll: true }));
+    }
+    if (!drawer && dialog.open) dialog.close();
+  }, [drawer]);
+
+  useEffect(() => {
+    const dialog = moreRef.current;
+    if (!dialog) return;
+    if (moreOpen && !dialog.open) {
+      dialog.showModal();
+      window.requestAnimationFrame(() => moreCloseRef.current?.focus({ preventScroll: true }));
+    }
+    if (!moreOpen && dialog.open) dialog.close();
+  }, [moreOpen]);
+
+  useEffect(() => () => {
+    if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current);
+  }, []);
 
   function showNotice(message: string) {
-    setNotice(message);
-    window.setTimeout(() => setNotice(""), 2800);
+    setToast(message);
+    if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current);
+    toastTimerRef.current = window.setTimeout(() => setToast(""), 3600);
+  }
+
+  function navigate(nextView: ViewId) {
+    setView(nextView);
+    setMoreOpen(false);
+    window.requestAnimationFrame(() => pageTitleRef.current?.focus({ preventScroll: true }));
+    window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  }
+
+  function openDrawer(payload: DrawerPayload) {
+    lastFocusRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    setDrawer(payload);
+  }
+
+  function closeDrawer() {
+    drawerRef.current?.close();
+    setDrawer(null);
+    window.requestAnimationFrame(() => lastFocusRef.current?.focus({ preventScroll: true }));
+  }
+
+  function closeMore() {
+    moreRef.current?.close();
+    setMoreOpen(false);
+  }
+
+  function handleSearch(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const normalized = searchQuery.trim();
+    if (!normalized) {
+      showNotice("请输入项目、角色或缺陷关键词");
+      return;
+    }
+    openDrawer({
+      eyebrow: "全局搜索 · 演示数据",
+      title: `“${normalized}”的搜索结果`,
+      content: <SearchResults query={normalized} onNavigate={(nextView) => {
+        closeDrawer();
+        navigate(nextView);
+      }} />,
+    });
+  }
+
+  function exportDemoReport() {
+    const report = {
+      title: "AI Workflow Control Center 演示报告",
+      warning: "演示数据 · 非实时 · 不应用于业务决策",
+      generatedAt: new Date().toISOString(),
+      selectedProject: selectedProjectId,
+      currentView: view,
+      projects: PROJECTS.map(({ id, name, kind, stage, progress, risk, openIssues, nextApproval }) => ({ id, name, kind, stage, progress, risk, openIssues, nextApproval })),
+    };
+    const blob = new Blob([JSON.stringify(report, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = "ai-workflow-control-center-demo-report.json";
+    anchor.click();
+    URL.revokeObjectURL(url);
+    showNotice("演示报告已导出；文件不包含实时数据或账号信息");
   }
 
   return (
-    <div className="app-shell">
-      <aside className="sidebar">
-        <div className="brand">
-          <div className="brand-mark">AW</div>
-          <div>
-            <strong>AI Workflow</strong>
-            <span>Control Center</span>
-          </div>
+    <div className={`control-shell ${sidebarCollapsed ? "sidebar-is-collapsed" : ""}`}>
+      <aside className="sidebar" aria-label="桌面导航">
+        <div className="brand-block">
+          <Image src="/favicon.svg" alt="" aria-hidden="true" width={44} height={44} priority />
+          <div><strong>AI Workflow</strong><span>Control Center</span></div>
         </div>
 
-        <div className="lab-badge">
-          <span className="pulse" />
-          <div>
-            <strong>实验室模式</strong>
-            <small>方法论优先，样例项目验证</small>
-          </div>
+        <div className="lab-mode">
+          <Flask aria-hidden="true" weight="fill" />
+          <div><strong>实验室模式</strong><span>方法治理 · 样本验证</span></div>
         </div>
 
         <nav className="side-nav" aria-label="主导航">
-          <p>工作台</p>
-          {navItems.map((item) => (
-            <button
-              key={item.id}
-              className={view === item.id ? "active" : ""}
-              onClick={() => setView(item.id)}
-            >
-              <span>{item.glyph}</span>
-              {item.label}
-              {item.id === "quality" && <b>{issues.filter((item) => item.status !== "已关闭").length}</b>}
-            </button>
-          ))}
+          <span className="nav-section-label">控制中心</span>
+          {NAV_ITEMS.map((item) => {
+            const NavIcon = NAV_ICONS[item.id];
+            return (
+              <button
+                type="button"
+                key={item.id}
+                className={view === item.id ? "active" : ""}
+                aria-current={view === item.id ? "page" : undefined}
+                title={sidebarCollapsed ? item.label : undefined}
+                onClick={() => navigate(item.id)}
+              >
+                <NavIcon aria-hidden="true" weight={view === item.id ? "fill" : "regular"} />
+                <span><strong>{item.label}</strong><small>{item.description}</small></span>
+                {item.id === "quality" && <b aria-label="5 项开放缺陷">5</b>}
+              </button>
+            );
+          })}
         </nav>
 
-        <div className="sidebar-foot">
-          <div className="operator-avatar">齐</div>
-          <div>
-            <strong>超级无敌帅超超总</strong>
-            <span>项目所有者</span>
-          </div>
-          <button aria-label="账户设置">•••</button>
+        <div className="sidebar-user">
+          <span className="owner-avatar" aria-hidden="true">超</span>
+          <div><strong>超级无敌帅超超总</strong><small>项目所有者</small></div>
+          <button type="button" aria-label="通知，演示状态" onClick={() => showNotice("通知中心为演示状态，真实消息尚未接入")}><Bell aria-hidden="true" /></button>
         </div>
+
+        <button type="button" className="collapse-sidebar" onClick={() => setSidebarCollapsed((value) => !value)} aria-label={sidebarCollapsed ? "展开侧边栏" : "收起侧边栏"}>
+          <List aria-hidden="true" />
+          <span>{sidebarCollapsed ? "展开" : "收起菜单"}</span>
+        </button>
       </aside>
 
-      <main className="main">
-        <header className="topbar">
-          <div>
-            <p className="eyebrow">AI 工作流实验与验证平台</p>
-            <h1>{navItems.find((item) => item.id === view)?.label}</h1>
+      <main className="main-content" id="main-content">
+        <header className="page-header">
+          <div className="mobile-brand">
+            <Image src="/favicon.svg" alt="" aria-hidden="true" width={36} height={36} />
+            <div><strong>AI Workflow</strong><span>Control Center</span></div>
           </div>
-          <div className="top-actions">
-            <div className="sync-state">
-              <span />
-              上下文已同步
-              <small>今天 16:28</small>
-            </div>
-            <button className="ghost-button" onClick={() => showNotice("工作流报告已加入导出队列")}>
-              导出报告
-            </button>
-            <button className="primary-button" onClick={() => showNotice("新实验入口将在下一版接入")}>
-              ＋ 新建实验项目
-            </button>
+          <div className="page-heading">
+            <span>AI 工作流实验与验证平台</span>
+            <h1 id="page-title" ref={pageTitleRef} tabIndex={-1}>{currentNav.label}</h1>
+            <p>{currentNav.description}</p>
+          </div>
+          <div className="header-status">
+            <span><DatabaseIcon />演示数据</span>
+            <small>演示快照 · 2026-08-04 16:41</small>
           </div>
         </header>
 
-        <section className="mission-card">
-          <div>
-            <span className="section-kicker">PROJECT POSITIONING</span>
-            <h2>摸清、走通、验证一套真正可复用的 AI 软件工程工作流</h2>
-            <p>
-              根项目负责方法、角色、状态与质量治理；projects 下的业务项目只承担流程实验、结果验证与真实交付体验。
-            </p>
-          </div>
-          <div className="mission-meter">
-            <div className="meter-ring">
-              <strong>42</strong>
-              <span>/ 100</span>
-            </div>
-            <div>
-              <strong>工作流成熟度</strong>
-              <span>已具备 SOP，执行引擎待建设</span>
-            </div>
-          </div>
-        </section>
-
-        <section className="metric-grid" aria-label="项目关键指标">
-          <article>
-            <span>实验项目</span>
-            <strong>01</strong>
-            <small className="positive">● 1 个正在验证</small>
-          </article>
-          <article>
-            <span>当前阶段</span>
-            <strong>并行开发</strong>
-            <small>第 6 / 10 阶段</small>
-          </article>
-          <article>
-            <span>任务完成度</span>
-            <strong>1 / 26</strong>
-            <div className="mini-progress"><i style={{ width: "4%" }} /></div>
-          </article>
-          <article>
-            <span>开放缺陷</span>
-            <strong>{issues.filter((issue) => issue.status !== "已关闭").length}</strong>
-            <small className="danger">● 1 个 Blocker</small>
-          </article>
-          <article>
-            <span>上线就绪度</span>
-            <strong>18%</strong>
-            <small>环境基线未通过</small>
-          </article>
-        </section>
-
-        <div className="content-grid">
-          <section className="panel workflow-panel">
-            <div className="panel-head">
-              <div>
-                <span className="section-kicker">LIVE PIPELINE</span>
-                <h3>AI 英语学习 · 端到端工作流</h3>
-              </div>
-              <button onClick={() => setView("projects")}>查看完整项目 →</button>
-            </div>
-
-            <div className="workflow-track">
-              {stages.map((stage, index) => (
-                <button
-                  key={stage.name}
-                  className={`stage-node ${stage.state} ${selectedStage === index ? "selected" : ""}`}
-                  onClick={() => setSelectedStage(index)}
-                  aria-label={`${stage.name}，${stateLabels[stage.state]}`}
-                >
-                  <span className="stage-dot">{index + 1}</span>
-                  <strong>{stage.name}</strong>
-                  <small>{stage.owner}</small>
-                </button>
-              ))}
-            </div>
-
-            <div className="stage-detail">
-              <div className={`state-icon ${activeStage.state}`}>
-                {activeStage.state === "done" ? "✓" : activeStage.state === "active" ? "→" : activeStage.state === "risk" ? "!" : "·"}
-              </div>
-              <div>
-                <span>{stateLabels[activeStage.state]} · 阶段 {selectedStage + 1}</span>
-                <h4>{activeStage.name}</h4>
-                <p>{activeStage.evidence}</p>
-              </div>
-              <div className="stage-owner">
-                <span>责任角色</span>
-                <strong>{activeStage.owner}</strong>
-              </div>
-              <button
-                className="outline-button"
-                onClick={() => showNotice(`${activeStage.name}的证据清单已展开`)}
-              >
-                查看证据
-              </button>
-            </div>
-          </section>
-
-          <section className="panel health-panel">
-            <div className="panel-head">
-              <div>
-                <span className="section-kicker">SYSTEM HEALTH</span>
-                <h3>工作流健康度</h3>
-              </div>
-              <span className="trend">较基线 +8</span>
-            </div>
-            {[
-              ["角色与职责", 90, "good"],
-              ["阶段与审批", 62, "warn"],
-              ["产物可追溯", 55, "warn"],
-              ["自动化执行", 18, "bad"],
-              ["测试与评测", 12, "bad"],
-              ["可观测与成本", 8, "bad"],
-            ].map(([label, value, tone]) => (
-              <div className="health-row" key={String(label)}>
-                <div>
-                  <span>{label}</span>
-                  <strong>{value}%</strong>
-                </div>
-                <div className="health-bar">
-                  <i className={String(tone)} style={{ width: `${value}%` }} />
-                </div>
-              </div>
-            ))}
-            <div className="health-note">
-              <span>核心判断</span>
-              <p>目前是专业的 SOP 原型，但还不是可恢复、可观测、可评测的工作流系统。</p>
-            </div>
-          </section>
+        <div className="demo-banner" role="status">
+          <Flask aria-hidden="true" weight="fill" />
+          <strong>演示数据 · 非实时 · 待接入真实工作流状态源</strong>
+          <span>当前页面中的数字、状态和操作仅用于验证界面，不应用于业务决策。</span>
         </div>
 
-        <div className="content-grid lower">
-          <section className="panel roles-panel">
-            <div className="panel-head">
-              <div>
-                <span className="section-kicker">TEAM ORCHESTRATION</span>
-                <h3>角色协作与当前入场顺序</h3>
-              </div>
-              <button onClick={() => setView("roles")}>全部角色 →</button>
-            </div>
-            <div className="role-list">
-              {roles.slice(0, 6).map((role) => (
-                <button
-                  key={role.name}
-                  className={selectedRole.name === role.name ? "selected" : ""}
-                  onClick={() => setSelectedRole(role)}
-                >
-                  <span className="role-order">{role.order}</span>
-                  <div className="role-copy">
-                    <strong>{role.name}</strong>
-                    <small>{role.current}</small>
-                  </div>
-                  <span className={`role-status ${role.status}`}>{role.status}</span>
-                </button>
-              ))}
-            </div>
-            <div className="role-detail">
-              <div>
-                <span>当前选中</span>
-                <strong>{selectedRole.name}</strong>
-              </div>
-              <code>{selectedRole.skill}</code>
-              <p>{selectedRole.lane}泳道 · 独立任务对话已建立</p>
-              <button onClick={() => showNotice(`${selectedRole.name}任务已定位`)}>定位任务</button>
-            </div>
-          </section>
-
-          <section className="panel issue-panel">
-            <div className="panel-head">
-              <div>
-                <span className="section-kicker">QUALITY GATE</span>
-                <h3>缺陷、修复与复测</h3>
-              </div>
-              <select value={severity} onChange={(event) => setSeverity(event.target.value)} aria-label="缺陷等级筛选">
-                <option>全部</option>
-                <option>Blocker</option>
-                <option>Major</option>
-                <option>Minor</option>
-              </select>
-            </div>
-            <div className="issue-list">
-              {visibleIssues.slice(0, 4).map((issue) => (
-                <article key={issue.id}>
-                  <div className="issue-topline">
-                    <span className={`severity ${issue.severity}`}>{issue.severity}</span>
-                    <code>{issue.id}</code>
-                    <small>{issue.area}</small>
-                  </div>
-                  <h4>{issue.title}</h4>
-                  <div className="issue-bottom">
-                    <span>负责人：{issue.owner}</span>
-                    <button
-                      disabled={issue.status === "已关闭"}
-                      onClick={() => advanceIssue(issue.id)}
-                    >
-                      {issue.status} {issue.status !== "已关闭" && "→"}
-                    </button>
-                  </div>
-                </article>
-              ))}
-            </div>
-            <button className="full-link" onClick={() => setView("quality")}>进入质量工作台</button>
-          </section>
-        </div>
-
-        <section className="bottom-board">
-          <article>
-            <span className="section-kicker">PRODUCT ITERATION</span>
-            <h3>产品迭代</h3>
-            <strong>MVP v1.0</strong>
-            <p>AI 英语学习：验证从 PRD 到交付的首条链路</p>
-            <div className="tag-row"><span>26 项任务</span><span>6 个 P0 模块</span></div>
-          </article>
-          <article>
-            <span className="section-kicker">TEST CYCLE</span>
-            <h3>测试周期</h3>
-            <strong>尚未提测</strong>
-            <p>需要先建立测试计划、用例基线和自动化冒烟集。</p>
-            <div className="tag-row"><span>测试 0</span><span>复测 1 待排</span></div>
-          </article>
-          <article>
-            <span className="section-kicker">RELEASE TRAIN</span>
-            <h3>发布列车</h3>
-            <strong>无候选版本</strong>
-            <p>构建环境、CI、回滚与运行监控尚未形成闭环。</p>
-            <div className="tag-row"><span>就绪度 18%</span><span>Blocker 1</span></div>
-          </article>
-          <article className="decision-card">
-            <span className="section-kicker">NEXT DECISION</span>
-            <h3>下一项总包决策</h3>
-            <strong>先补执行底座，再扩角色</strong>
-            <p>优先建立状态、审批证据、质量门和追踪机制。</p>
-            <button onClick={() => showNotice("决策已标记为下一阶段优先项")}>标记为优先项</button>
-          </article>
+        <section className="global-toolbar" aria-label="全局筛选工具栏">
+          <label className="toolbar-select"><span>项目范围</span><select value={selectedProjectId} onChange={(event) => setSelectedProjectId(event.target.value)}>{PROJECTS.map((project) => <option value={project.id} key={project.id}>{project.name}</option>)}</select><CaretDown aria-hidden="true" /></label>
+          <label className="toolbar-select"><span>时间范围</span><select value={timeRange} onChange={(event) => setTimeRange(event.target.value)}><option>当前迭代</option><option>最近 7 天</option><option>最近 30 天</option></select><CaretDown aria-hidden="true" /></label>
+          <label className="toolbar-select"><span>当前迭代</span><select value={iteration} onChange={(event) => setIteration(event.target.value)}><option>MVP v1.0</option><option>工作流治理 v0.3</option><option>待接入</option></select><CaretDown aria-hidden="true" /></label>
+          <label className="toolbar-select"><span>数据来源</span><select value={dataSource} onChange={(event) => { setDataSource(event.target.value); showNotice(`${event.target.value}筛选已应用；真实数据仍未接入`); }}><option>全部来源</option><option>演示数据</option><option>待接入</option></select><CaretDown aria-hidden="true" /></label>
+          <form className="global-search" role="search" onSubmit={handleSearch}>
+            <MagnifyingGlass aria-hidden="true" />
+            <input value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} aria-label="全局搜索" placeholder="搜索项目、角色或缺陷" />
+            <button type="submit">搜索</button>
+          </form>
+          <button type="button" className="export-button" onClick={exportDemoReport}><DownloadSimple aria-hidden="true" />导出演示报告</button>
         </section>
 
-        <footer>
-          <span>AI Workflow Control Center · 实验数据快照</span>
-          <span>根项目负责方法论，样例项目负责验证</span>
+        <ViewContent
+          view={view}
+          selectedProjectId={selectedProjectId}
+          onProjectChange={setSelectedProjectId}
+          openDrawer={openDrawer}
+          showNotice={showNotice}
+        />
+
+        <footer className="page-footer">
+          <span>AI Workflow Control Center · 浏览器可见中文前端</span>
+          <span>数据状态：演示 / 待接入 · 当前批次不连接 API、数据库或生产环境</span>
         </footer>
       </main>
 
-      {notice && <div className="toast" role="status">{notice}</div>}
+      <nav className="mobile-bottom-nav" aria-label="移动端主导航">
+        {MOBILE_PRIMARY_NAV.map((id) => {
+          const item = NAV_ITEMS.find((nav) => nav.id === id)!;
+          const NavIcon = NAV_ICONS[id];
+          return <button type="button" key={id} className={view === id ? "active" : ""} aria-current={view === id ? "page" : undefined} onClick={() => navigate(id)}><NavIcon aria-hidden="true" weight={view === id ? "fill" : "regular"} /><span>{item.shortLabel}</span></button>;
+        })}
+        <button type="button" className={MOBILE_MORE_NAV.includes(view) ? "active" : ""} onClick={() => setMoreOpen(true)}><List aria-hidden="true" /><span>更多</span></button>
+      </nav>
+
+      <dialog
+        ref={drawerRef}
+        className="detail-drawer"
+        aria-labelledby="drawer-title"
+        onCancel={(event) => { event.preventDefault(); closeDrawer(); }}
+        onClose={() => setDrawer(null)}
+      >
+        <div className="drawer-header">
+          <div><span>{drawer?.eyebrow}</span><h2 id="drawer-title">{drawer?.title}</h2></div>
+          <button ref={drawerCloseRef} type="button" onClick={closeDrawer} aria-label="关闭详情"><X aria-hidden="true" /></button>
+        </div>
+        <div className="drawer-body">{drawer?.content}</div>
+        <div className="drawer-footer"><span>演示数据 · 非实时</span><button type="button" onClick={closeDrawer}>关闭</button></div>
+      </dialog>
+
+      <dialog
+        ref={moreRef}
+        className="mobile-more-sheet"
+        aria-labelledby="more-title"
+        onCancel={(event) => { event.preventDefault(); closeMore(); }}
+        onClose={() => setMoreOpen(false)}
+      >
+        <div className="more-sheet-header"><h2 id="more-title">更多页面</h2><button ref={moreCloseRef} type="button" onClick={closeMore} aria-label="关闭更多页面"><X aria-hidden="true" /></button></div>
+        <div className="more-sheet-list">
+          {MOBILE_MORE_NAV.map((id) => {
+            const item = NAV_ITEMS.find((nav) => nav.id === id)!;
+            const NavIcon = NAV_ICONS[id];
+            return <button type="button" key={id} className={view === id ? "active" : ""} onClick={() => navigate(id)}><NavIcon aria-hidden="true" /><span><strong>{item.label}</strong><small>{item.description}</small></span></button>;
+          })}
+        </div>
+      </dialog>
+
+      {toast && <div className="toast" role="status" aria-live="polite">{toast}</div>}
     </div>
   );
+}
+
+function DatabaseIcon() {
+  return <Flask aria-hidden="true" weight="fill" />;
 }

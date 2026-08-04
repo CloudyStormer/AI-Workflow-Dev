@@ -67,3 +67,54 @@ artifacts:
       - "visual-details-may-conflict-prompt-governs"
       - "demo-data-not-live-state"
     approved_at: "2026-08-04T16:41:52+08:00"
+  - id: artifact-control-center-frontend-redesign-001
+    type: frontend-implementation
+    path: app/
+    status: ready-for-review
+    owner: role-frontend-dev
+    change_id: chg-20260804-control-center-ui-frontend-001
+    authorization: approval-20260804-control-center-frontend-entry
+    source:
+      prompt:
+        path: ui/01-control-center-ui-design-prompt.md
+        version: "1.0.1"
+        sha256: 6b7335068417f2402c7672b9d233a4b739142116af4671b442b9ddf578c7650e
+      visual_baseline:
+        path: ui/
+        asset_count: 9
+        approval: approval-20260804-control-center-ui-baseline
+    files:
+      - {path: app/Dashboard.tsx, sha256: f2d2724ebed5ab2e31ffe94b5f29ecdefb15b709fb096a142b913a2523a5df4d}
+      - {path: app/dashboard-data.ts, sha256: 628c7a080b6596204c77744131eddca133eda39447f08587a56dce4a03878678}
+      - {path: app/dashboard-views.tsx, sha256: 43a6cc9b6114d025178e0da77459bee53e312789a9f71df359ea1643d8c0f69c}
+      - {path: app/globals.css, sha256: 89fb889a9b8a033d66bed55aa75f7b6cc3a139d54232442e07d66b7ac6f20111}
+      - {path: package.json, sha256: fb232699e589decd945d4beb8a84a5af29026109a15f365febc297b62e398c07}
+      - {path: package-lock.json, sha256: a47b08c27719f02938c3441dd3c13ad14eee403bb917d4caa040919ab8f8729f}
+      - {path: tests/rendered-html.test.mjs, sha256: 58f0a43e0f580f2b1b27140962936c1d8fec96468a674dfa2874ea23c6140261}
+      - {path: design-qa.md, sha256: 2b6b73e7acb80e6f95e61fc87d4e610b9d7e704e2a3d4acca07936be4e8ddcdc}
+    evidence:
+      directory: design-qa/
+      viewport_screenshots:
+        - {path: design-qa/implementation-desktop-overview-viewport.png, sha256: 774932dcfde6e6a4d52435a8f89825a3e268a358da1c009fc1002c267a701a2c}
+        - {path: design-qa/implementation-desktop-projects-viewport.png, sha256: 8fc76a54c09df576a45a55c58ca93c785ea1907ff0c74464e4e71a5ed91d1563}
+        - {path: design-qa/implementation-desktop-roles-viewport.png, sha256: a91cb324047656f20227fbaa3cb83b59dc01f9cbbcc61d5495b2e4a1cc642336}
+        - {path: design-qa/implementation-desktop-quality-viewport.png, sha256: 74b6e08667416bb49782aeef9853889e29d03378894b13a667b45c047ae929d0}
+        - {path: design-qa/implementation-desktop-releases-viewport.png, sha256: 03661d1a5880fef39e1d624873ed89670fb5442de93c25634cadbc3077ac72a2}
+        - {path: design-qa/implementation-desktop-governance-viewport.png, sha256: 08fa50edc3bcf0c4616d65cdd30b33c97963f2c6b8ef822e81e95cc0167dd58c}
+      full_page_screenshot_count: 6
+      design_qa_result: passed
+    validation:
+      node: "24.14.0"
+      lint: passed
+      build: passed-with-nonblocking-chunk-size-warning
+      tests: "3/3 passed"
+      browser_views: 6
+      browser_console_errors: 0
+      visible_controls_without_accessible_name: 0
+      page_level_horizontal_overflow: 0
+    simplified_chinese_complete: true
+    data_status: demo-and-pending-only
+    architecture_impact: none
+    services_modified: false
+    production_deployment: not-authorized
+    completed_at: "2026-08-04T17:45:00+08:00"
