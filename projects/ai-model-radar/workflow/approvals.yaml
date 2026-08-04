@@ -69,3 +69,36 @@ approvals:
     upstream_artifact: docs/01-project-plan.md
     upstream_sha256: 9320c2908843c69a5e754f66d786d7093a8ebd6e35b961c6d09366e290313166
     evidence: "已批准当前项目计划，并自动授权唯一下一站固定 03 产品经理。本次只覆盖该站一个 PRD 交付单元；因固定角色串行处理，本项目排在 Frontend Career Radar PRD 后；该角色交付后停止等待审核。"
+  - id: approval-20260804-radar-prd-delivery
+    run_id: run-20260731-intake-001
+    gate: prd-review
+    role: role-product-manager
+    artifact: docs/02-prd.md
+    artifact_id: artifact-prd-001
+    version: "1.0"
+    sha256: 4d08c008bf0b2cd73d89a7771851bddd87b5b34a7b1e1465ec0e801fe12306fc
+    change_id: prd-20260804-ai-model-radar-001
+    scope: "AI Model Radar PRD v1.0"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-04T15:30:39+08:00"
+    source_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+    evidence: "超级无敌帅超超总在固定 03 产品经理任务中明确回复‘AI Model Radar 项目通过’，批准本次 PRD v1.0 交付。"
+    effect: "批准当前 PRD，并按一跳规则授权唯一下一站固定 04 UI/UX设计师只编制 UI/UX 提示词；该提示词交付后停在 ui-prompt-review，不批准任何更下游工作。"
+  - id: approval-20260804-radar-ui-prompt-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    role: role-ui-designer
+    role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+    role_task_title: "04 UI/UX设计师"
+    change_id: ui-prompt-20260804-ai-model-radar-001
+    scope: "基于已批准 PRD v1.0 编制 ui/03-ui-prompt.md v1.0；不创建界面设计、原型、图片、架构或代码；完成后停在 ui-prompt-review"
+    upstream_approval: approval-20260804-radar-prd-delivery
+    upstream_artifact: docs/02-prd.md
+    upstream_version: "1.0"
+    upstream_sha256: 4d08c008bf0b2cd73d89a7771851bddd87b5b34a7b1e1465ec0e801fe12306fc
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-04T15:30:39+08:00"
+    source_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+    evidence: "PRD 通过后，下一站唯一、输入完整且非高风险，依根工作流规则自动授权固定 04 执行一个 UI/UX 提示词交付单元。"

@@ -3,9 +3,9 @@ project_id: ai-model-radar
 run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
-stage: product-definition
-status: prd-ready-for-review
-current_role: role-product-manager
+stage: ui-ux
+status: ui-prompt-in-progress
+current_role: role-ui-designer
 blocked: false
 ui_assets:
   directory: ui
@@ -19,47 +19,64 @@ delivery_priority:
     - production-deployment
   approval_gates_unchanged: true
 next_approval:
-  gate: prd-review
-  artifact: docs/02-prd.md
-  scope: "AI Model Radar PRD v1.0"
+  gate: ui-prompt-review
+  artifact: ui/03-ui-prompt.md
+  expected_version: "1.0"
+  scope: "基于已批准 PRD 编制 UI/UX 提示词，覆盖今日雷达、全部事件、证据详情、来源、偏好反馈、质量说明、筛选搜索、刷新与失败状态、演示/真实连接边界、响应式与无障碍"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
+  delivery_status: in-progress
   on_approved:
     authorize_next_role: role-ui-designer
     role_task_title: "04 UI/UX设计师"
-    scope: "基于已批准 PRD 在 ui/ 交付 UI/UX 提示词；交付后再次停止审核"
+    scope: "基于已批准 UI/UX 提示词在 ui/ 创建实际设计或原型；交付后停在 ui-design-review"
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
 active_assignment:
-  change_id: prd-20260804-ai-model-radar-001
-  role: role-product-manager
-  role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
-  role_task_title: "03 产品经理"
-  scheduling: completed-awaiting-review
-  scope: "基于已批准调研与项目计划创建 docs/02-prd.md；优先定义可浏览 Web 内容，后端服务与正式部署后置；只交付 PRD"
-  started_at: "2026-08-04T15:17:59+08:00"
-  output:
-    artifact: artifact-prd-001
-    path: docs/02-prd.md
+  change_id: ui-prompt-20260804-ai-model-radar-001
+  role: role-ui-designer
+  role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+  role_task_title: "04 UI/UX设计师"
+  authorization: approval-20260804-radar-ui-prompt-entry
+  scheduling: dispatched
+  upstream:
+    approval: approval-20260804-radar-prd-delivery
+    artifact: docs/02-prd.md
     version: "1.0"
     sha256: 4d08c008bf0b2cd73d89a7771851bddd87b5b34a7b1e1465ec0e801fe12306fc
-  result: prd-ready-for-review
-  completed_at: "2026-08-04T15:22:07+08:00"
+  scope: "只编制 ui/03-ui-prompt.md v1.0；不创建设计、原型、图片、架构、前后端或部署产物"
+  started_at: "2026-08-04T15:30:39+08:00"
+  output:
+    path: ui/03-ui-prompt.md
+    version: "1.0"
+  result: ui-prompt-work-dispatched
+  stop_gate: ui-prompt-review
+completed_product_assignment:
+  change_id: prd-20260804-ai-model-radar-001
+  role: role-product-manager
+  artifact: artifact-prd-001
+  path: docs/02-prd.md
+  version: "1.0"
+  sha256: 4d08c008bf0b2cd73d89a7771851bddd87b5b34a7b1e1465ec0e801fe12306fc
+  approval: approval-20260804-radar-prd-delivery
+  result: approved-and-routed
+  completed_at: "2026-08-04T15:30:39+08:00"
 latest_delivery:
   artifact: artifact-prd-001
   path: docs/02-prd.md
   version: "1.0"
   sha256: 4d08c008bf0b2cd73d89a7771851bddd87b5b34a7b1e1465ec0e801fe12306fc
   change_id: prd-20260804-ai-model-radar-001
-  status: ready-for-review
+  status: approved
   completed_by: role-product-manager
   completed_at: "2026-08-04T15:22:07+08:00"
+  approval: approval-20260804-radar-prd-delivery
+  approved_at: "2026-08-04T15:30:39+08:00"
 latest_approved_artifact:
-  path: docs/01-project-plan.md
+  path: docs/02-prd.md
   version: "1.0"
-  sha256: 9320c2908843c69a5e754f66d786d7093a8ebd6e35b961c6d09366e290313166
-  approval: approval-20260804-radar-project-plan-delivery
+  sha256: 4d08c008bf0b2cd73d89a7771851bddd87b5b34a7b1e1465ec0e801fe12306fc
+  approval: approval-20260804-radar-prd-delivery
 workflow_policy:
   pass_semantics: approve-current-and-authorize-unique-next
   role_reporting:
@@ -79,4 +96,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-04T15:22:07+08:00"
+updated_at: "2026-08-04T15:30:39+08:00"
