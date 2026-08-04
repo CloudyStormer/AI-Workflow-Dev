@@ -152,7 +152,7 @@ artifacts:
     type: product-requirements
     change_id: "prd-20260804-frontend-career-radar-001"
     path: docs/02-prd.md
-    status: ready-for-review
+    status: approved
     owner: role-product-manager
     version: "1.1"
     sha256: 8842f2c7c974bb9ac5fef2ad47f0d35e068a66cfd510ce0088c092ab884ce1e9
@@ -172,6 +172,9 @@ artifacts:
       approval: "approval-20260804-project-plan-delivery"
     completed_at: "2026-08-04T14:40:53+08:00"
     validated_at: "2026-08-04T14:42:23+08:00"
+    approved_at: "2026-08-04T14:51:56+08:00"
+    approved_by: 超级无敌帅超超总
+    approval: "approval-20260804-prd-delivery"
     validation:
       prd_sha256_match: passed
       required_sections: passed

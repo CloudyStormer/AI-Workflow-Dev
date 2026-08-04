@@ -100,3 +100,33 @@ approvals:
     upstream_artifact: "docs/01-project-plan.md"
     upstream_sha256: f9c5a5e2010425758c2c38e033e8ddfb7f41b28ebb593919b36d0ccf915f98d7
     evidence: "已批准当前项目计划，并自动授权唯一下一站固定 03 产品经理。本次只覆盖该站一个 PRD 交付单元；该角色交付后停止等待审核，不代表 PRD 或后续角色已获批准。"
+  - id: "approval-20260804-prd-delivery"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: artifact-review
+    role: role-product-manager
+    artifact: "docs/02-prd.md"
+    version: "1.1"
+    sha256: 8842f2c7c974bb9ac5fef2ad47f0d35e068a66cfd510ce0088c092ab884ce1e9
+    change_id: "prd-20260804-frontend-career-radar-001"
+    scope: "Frontend Career Radar PRD v1.1（含用户信息源输入、分类与研究整合）"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-04T14:51:56+08:00"
+    source_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
+    evidence: "超级无敌帅超超总在固定 03 产品经理任务中对 PRD v1.1 明确回复‘通过’。"
+  - id: "approval-20260804-ui-prompt-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-entry
+    role: role-ui-designer
+    artifact: "ui/03-ui-prompt.md"
+    change_id: "ui-prompt-20260804-frontend-career-radar-001"
+    scope: "基于已批准 PRD v1.1 在 ui/ 交付数据大屏／数据看板导向的完整 UI/UX 提示词；覆盖用户信息源输入、双轴分类、研究整合、响应式与可访问性；完成后停在 UI 提示词审核门"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-04T14:51:56+08:00"
+    source_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
+    upstream_approval: "approval-20260804-prd-delivery"
+    upstream_artifact: "docs/02-prd.md"
+    upstream_version: "1.1"
+    upstream_sha256: 8842f2c7c974bb9ac5fef2ad47f0d35e068a66cfd510ce0088c092ab884ce1e9
+    evidence: "已批准当前 PRD，并自动授权唯一下一站固定 04 UI/UX设计师。本次只覆盖 UI 提示词一个交付单元；该角色交付后停止等待审核，不代表提示词、设计、架构、开发或发布已获批准。"

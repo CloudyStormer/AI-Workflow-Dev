@@ -3,9 +3,9 @@ project_id: "market-analysis-dev"
 run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
-stage: product-definition
-status: prd-ready-for-review
-current_role: role-product-manager
+stage: ui-ux
+status: ui-prompt-authorized
+current_role: role-ui-designer
 blocked: false
 ui_assets:
   directory: ui
@@ -19,36 +19,35 @@ delivery_priority:
     - production-deployment
   approval_gates_unchanged: true
 active_assignment:
-  change_id: "prd-20260804-frontend-career-radar-001"
-  role: role-product-manager
-  role_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
-  role_task_title: "03 产品经理"
+  change_id: "ui-prompt-20260804-frontend-career-radar-001"
+  role: role-ui-designer
+  role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+  role_task_title: "04 UI/UX设计师"
   scheduling: active-first
-  scope: "修订 docs/02-prd.md，新增用户信息源文本输入、双轴分类、摘要与既有调研对照；可浏览 Web 内容仍优先，后端服务与正式部署后置；只交付 PRD"
-  output: "docs/02-prd.md"
-  version: "1.1"
-  sha256: 8842f2c7c974bb9ac5fef2ad47f0d35e068a66cfd510ce0088c092ab884ce1e9
-  delivery_status: ready-for-review
+  scope: "基于已批准 PRD v1.1 在 ui/ 交付数据大屏／数据看板导向的完整 UI/UX 提示词；覆盖用户信息源输入、分类、研究整合、响应式与可访问性；只交付提示词"
+  output: "ui/03-ui-prompt.md"
+  version: "1.0"
+  delivery_status: authorized
 next_approval:
   gate: artifact-review
-  artifact: "docs/02-prd.md"
-  scope: "Frontend Career Radar PRD v1.1（含用户信息源输入、分类与研究整合）"
+  artifact: "ui/03-ui-prompt.md"
+  scope: "Frontend Career Radar UI/UX 提示词 v1.0"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
+  delivery_status: not-started
   on_approved:
     authorize_next_role: role-ui-designer
     role_task_title: "04 UI/UX设计师"
-    scope: "基于已批准 PRD 在 ui/ 交付 UI/UX 提示词；交付后再次停止审核"
+    scope: "基于已批准 UI/UX 提示词在 ui/ 交付设计说明、原型或视觉稿；交付后再次停止审核"
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
 latest_approved_delivery:
-  approval: "approval-20260804-project-plan-delivery"
-  artifact: "docs/01-project-plan.md"
-  version: "1.0"
-  sha256: f9c5a5e2010425758c2c38e033e8ddfb7f41b28ebb593919b36d0ccf915f98d7
-  scope: "Frontend Career Radar 项目计划 v1.0"
-  approved_at: "2026-08-04T11:34:40+08:00"
+  approval: "approval-20260804-prd-delivery"
+  artifact: "docs/02-prd.md"
+  version: "1.1"
+  sha256: 8842f2c7c974bb9ac5fef2ad47f0d35e068a66cfd510ce0088c092ab884ce1e9
+  scope: "Frontend Career Radar PRD v1.1（含用户信息源输入、分类与研究整合）"
+  approved_at: "2026-08-04T14:51:56+08:00"
 workflow_policy:
   pass_semantics: approve-current-and-authorize-unique-next
   role_reporting:
@@ -68,4 +67,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-04T14:42:23+08:00"
+updated_at: "2026-08-04T14:51:56+08:00"
