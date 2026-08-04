@@ -71,3 +71,32 @@ approvals:
     upstream_artifact: "docs/00-market-research.md"
     upstream_sha256: 79ce60b6aeb4fa227f5da02bf5d230092575340b20ae91aa95a04b18a0b33165
     evidence: "已批准当前产物，并自动授权唯一下一站固定 02 项目经理。本次只覆盖该站一个交付单元；该角色交付后停止等待审核，不代表其产物或后续角色已获批准。"
+  - id: "approval-20260804-project-plan-delivery"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: artifact-review
+    role: role-pm
+    artifact: "docs/01-project-plan.md"
+    version: "1.0"
+    sha256: f9c5a5e2010425758c2c38e033e8ddfb7f41b28ebb593919b36d0ccf915f98d7
+    change_id: "plan-20260804-frontend-career-radar-001"
+    scope: "Frontend Career Radar 项目计划 v1.0"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-04T11:34:40+08:00"
+    source_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
+    evidence: "超级无敌帅超超总在固定 02 项目经理任务中针对两份待审项目计划明确回复‘都’，确认本项目计划通过。"
+  - id: "approval-20260804-prd-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-entry
+    role: role-product-manager
+    artifact: "docs/02-prd.md"
+    change_id: "prd-20260804-frontend-career-radar-001"
+    scope: "基于已批准调研与项目计划编制 PRD；先定义可浏览 Web 内容，后端服务与正式部署后置；完成后停在 PRD 审核门"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-04T11:34:40+08:00"
+    source_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
+    upstream_approval: "approval-20260804-project-plan-delivery"
+    upstream_artifact: "docs/01-project-plan.md"
+    upstream_sha256: f9c5a5e2010425758c2c38e033e8ddfb7f41b28ebb593919b36d0ccf915f98d7
+    evidence: "已批准当前项目计划，并自动授权唯一下一站固定 03 产品经理。本次只覆盖该站一个 PRD 交付单元；该角色交付后停止等待审核，不代表 PRD 或后续角色已获批准。"

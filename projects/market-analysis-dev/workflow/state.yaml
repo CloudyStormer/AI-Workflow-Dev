@@ -3,9 +3,9 @@ project_id: "market-analysis-dev"
 run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
-stage: project-planning
-status: project-plan-ready-for-review
-current_role: role-pm
+stage: product-definition
+status: prd-entry-authorized
+current_role: role-product-manager
 blocked: false
 ui_assets:
   directory: ui
@@ -19,28 +19,32 @@ delivery_priority:
     - production-deployment
   approval_gates_unchanged: true
 active_assignment:
-  change_id: "plan-20260804-frontend-career-radar-001"
-  role: role-pm
-  role_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
-  role_task_title: "02 项目经理"
-  scope: "基于获批市场调研编制项目计划，明确范围、里程碑、风险、角色分工与验收；只交付项目计划"
+  change_id: "prd-20260804-frontend-career-radar-001"
+  role: role-product-manager
+  role_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
+  role_task_title: "03 产品经理"
+  scheduling: active-first
+  scope: "基于已批准调研与项目计划编制 docs/02-prd.md；优先定义可浏览 Web 内容，后端服务与正式部署后置；只交付 PRD"
 next_approval:
   gate: artifact-review
-  artifact: "docs/01-project-plan.md"
-  scope: "Frontend Career Radar 项目计划 v1.0"
+  artifact: "docs/02-prd.md"
+  scope: "Frontend Career Radar PRD v1.0"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
+  delivery_status: authorized
   on_approved:
-    authorize_next_role: role-product-manager
-    role_task_title: "03 产品经理"
-    scope: "基于已批准调研与项目计划编制 PRD；交付后再次停止审核"
+    authorize_next_role: role-ui-designer
+    role_task_title: "04 UI/UX设计师"
+    scope: "基于已批准 PRD 在 ui/ 交付 UI/UX 提示词；交付后再次停止审核"
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
 latest_approved_delivery:
-  approval: "approval-20260804-market-research-delivery"
-  scope: "Frontend Career Radar 市场调研 v1.0"
-  approved_at: "2026-08-04T10:57:41+08:00"
+  approval: "approval-20260804-project-plan-delivery"
+  artifact: "docs/01-project-plan.md"
+  version: "1.0"
+  sha256: f9c5a5e2010425758c2c38e033e8ddfb7f41b28ebb593919b36d0ccf915f98d7
+  scope: "Frontend Career Radar 项目计划 v1.0"
+  approved_at: "2026-08-04T11:34:40+08:00"
 workflow_policy:
   pass_semantics: approve-current-and-authorize-unique-next
   role_reporting:
@@ -60,4 +64,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-04T11:25:10+08:00"
+updated_at: "2026-08-04T11:34:40+08:00"

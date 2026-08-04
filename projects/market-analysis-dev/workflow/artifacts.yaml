@@ -120,7 +120,7 @@ artifacts:
     type: project-plan
     change_id: "plan-20260804-frontend-career-radar-001"
     path: docs/01-project-plan.md
-    status: ready-for-review
+    status: approved
     owner: role-pm
     version: "1.0"
     sha256: f9c5a5e2010425758c2c38e033e8ddfb7f41b28ebb593919b36d0ccf915f98d7
@@ -129,6 +129,9 @@ artifacts:
     upstream_version: "1.0"
     upstream_sha256: 79ce60b6aeb4fa227f5da02bf5d230092575340b20ae91aa95a04b18a0b33165
     completed_at: "2026-08-04T11:05:32+08:00"
+    approved_at: "2026-08-04T11:34:40+08:00"
+    approved_by: 超级无敌帅超超总
+    approval: "approval-20260804-project-plan-delivery"
     validation:
       plan_sha256_match: passed
       markdown_table_integrity: "3-of-3-passed"

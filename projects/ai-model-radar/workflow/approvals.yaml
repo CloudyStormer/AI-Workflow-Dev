@@ -40,3 +40,32 @@ approvals:
     decided_at: "2026-08-03T11:26:03+08:00"
     source_task_id: 019fb746-5875-77b3-809a-08a16100d950
     evidence: "在当前等待项目经理入场门上，超级无敌帅超超总明确回复‘前两个继续’。该继续只批准本项目当前下一站项目计划工作。"
+  - id: approval-20260804-radar-project-plan-delivery
+    run_id: run-20260731-intake-001
+    gate: artifact-review
+    role: role-pm
+    artifact: docs/01-project-plan.md
+    version: "1.0"
+    sha256: 9320c2908843c69a5e754f66d786d7093a8ebd6e35b961c6d09366e290313166
+    change_id: run-20260803-radar-project-plan-001
+    scope: "AI Model Radar 项目计划 v1.0"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-04T11:34:40+08:00"
+    source_task_id: 019fb738-5706-7552-849f-35c8a124e2f0
+    evidence: "超级无敌帅超超总在固定 02 项目经理任务中针对两份待审项目计划明确回复‘都’，确认本项目计划通过。"
+  - id: approval-20260804-radar-prd-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    role: role-product-manager
+    artifact: docs/02-prd.md
+    change_id: prd-20260804-ai-model-radar-001
+    scope: "基于已批准调研与项目计划编制 PRD；先定义可浏览 Web 内容，后端服务与正式部署后置；完成后停在 PRD 审核门"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-04T11:34:40+08:00"
+    source_task_id: 019fb738-5706-7552-849f-35c8a124e2f0
+    upstream_approval: approval-20260804-radar-project-plan-delivery
+    upstream_artifact: docs/01-project-plan.md
+    upstream_sha256: 9320c2908843c69a5e754f66d786d7093a8ebd6e35b961c6d09366e290313166
+    evidence: "已批准当前项目计划，并自动授权唯一下一站固定 03 产品经理。本次只覆盖该站一个 PRD 交付单元；因固定角色串行处理，本项目排在 Frontend Career Radar PRD 后；该角色交付后停止等待审核。"

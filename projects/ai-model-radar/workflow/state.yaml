@@ -3,9 +3,9 @@ project_id: ai-model-radar
 run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
-stage: project-initialization
-status: project-plan-ready-for-review
-current_role: role-pm
+stage: product-definition
+status: prd-queued
+current_role: role-product-manager
 blocked: false
 ui_assets:
   directory: ui
@@ -20,27 +20,29 @@ delivery_priority:
   approval_gates_unchanged: true
 next_approval:
   gate: artifact-review
-  artifact: docs/01-project-plan.md
-  scope: "AI Model Radar 项目计划 v1.0"
+  artifact: docs/02-prd.md
+  scope: "AI Model Radar PRD v1.0"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
+  delivery_status: queued
   on_approved:
-    authorize_next_role: role-product-manager
-    role_task_title: "03 产品经理"
-    scope: "基于已批准调研与项目计划创建 docs/02-prd.md；交付后再次停止审核"
+    authorize_next_role: role-ui-designer
+    role_task_title: "04 UI/UX设计师"
+    scope: "基于已批准 PRD 在 ui/ 交付 UI/UX 提示词；交付后再次停止审核"
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
 active_assignment:
-  change_id: run-20260803-radar-project-plan-001
-  role: role-pm
-  role_task_id: 019fb738-5706-7552-849f-35c8a124e2f0
-  role_task_title: "02 项目经理"
-  scope: "只制定项目计划并交付审核，不启动产品、UI/UX、架构或开发"
+  change_id: prd-20260804-ai-model-radar-001
+  role: role-product-manager
+  role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+  role_task_title: "03 产品经理"
+  scheduling: queued-after-frontend-career-radar
+  scope: "基于已批准调研与项目计划创建 docs/02-prd.md；优先定义可浏览 Web 内容，后端服务与正式部署后置；只交付 PRD"
 latest_approved_artifact:
-  path: docs/00-market-research.md
-  version: "1.0.1"
-  approval: approval-20260803-market-research-v1-0-1
+  path: docs/01-project-plan.md
+  version: "1.0"
+  sha256: 9320c2908843c69a5e754f66d786d7093a8ebd6e35b961c6d09366e290313166
+  approval: approval-20260804-radar-project-plan-delivery
 workflow_policy:
   pass_semantics: approve-current-and-authorize-unique-next
   role_reporting:
@@ -60,4 +62,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-04T11:25:10+08:00"
+updated_at: "2026-08-04T11:34:40+08:00"
