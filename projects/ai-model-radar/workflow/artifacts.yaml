@@ -41,8 +41,8 @@ artifacts:
     path: ui/README.md
     status: active
     owner: package-contractor
-    sha256: 574e600151e34c173359ccd83cd7f11bcd57e1c4091b6b9098b446137c8484b2
-    updated_at: "2026-08-04T11:13:14+08:00"
+    sha256: 07998159278226022b075f8ebdefd36b9e75386b2f39f0b1e11630414a133cc6
+    updated_at: "2026-08-04T15:39:04+08:00"
   - id: artifact-project-plan-001
     run_id: run-20260731-intake-001
     type: project-plan
@@ -98,3 +98,53 @@ artifacts:
     approval: approval-20260804-radar-prd-delivery
     approved_by: 超级无敌帅超超总
     approved_at: "2026-08-04T15:30:39+08:00"
+  - id: artifact-ui-prompt-001
+    run_id: run-20260731-intake-001
+    type: ui-ux-design-prompt
+    path: ui/03-ui-prompt.md
+    status: ready-for-review
+    owner: role-ui-designer
+    version: "1.0"
+    change_id: ui-prompt-20260804-ai-model-radar-001
+    entry_approval: approval-20260804-radar-ui-prompt-entry
+    upstream:
+      prd:
+        path: docs/02-prd.md
+        version: "1.0"
+        sha256: 4d08c008bf0b2cd73d89a7771851bddd87b5b34a7b1e1465ec0e801fe12306fc
+        approval: approval-20260804-radar-prd-delivery
+      market_research:
+        path: docs/00-market-research.md
+        version: "1.0.1"
+        sha256: 0501bd7950dd9201def4fadc3dcd5830ef149ba0450d880ed3a7591a370bbbc1
+      project_plan:
+        path: docs/01-project-plan.md
+        version: "1.0"
+        sha256: 9320c2908843c69a5e754f66d786d7093a8ebd6e35b961c6d09366e290313166
+    sha256: d001cea2e85c36317ca1e38c657a32527b3705a3f276f8d938b8b0ac6e450318
+    review_scope: "极简内容优先的 AI Model Radar 响应式 Web 提示词，覆盖今日雷达、全部事件、事件证据详情、来源目录、偏好反馈、质量说明、图表映射、真实/演示边界、状态、无障碍和合规"
+    coverage:
+      core_pages: 6
+      state_matrix: 36
+      prd_acceptance_range: AC-01..AC-42
+      design_themes:
+        - light
+        - dark
+      responsive_range: 320px..2560px
+    generated_ui_design: false
+    generated_prototype: false
+    generated_images: false
+    modified_business_code: false
+    authorized_architecture_or_development: false
+    validation:
+      - approved upstream market research, project plan and PRD SHA256 verified
+      - 6 core pages and 36 contiguous UI states present
+      - PRD acceptance mapping covers AC-01..AC-42
+      - truthful demo/manual snapshot and real connection boundaries present
+      - YAML 5-of-5 valid before validation event
+      - JSONL 26-of-26 valid before validation event
+      - project structure passed with 4 expected empty-command warnings
+      - Git boundary and Skill drift checks passed
+      - scoped diff check passed
+    completed_at: "2026-08-04T15:39:04+08:00"
+    stop_gate: ui-prompt-review
