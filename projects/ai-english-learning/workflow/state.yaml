@@ -2,7 +2,7 @@ schema_version: 1
 project_id: "ai-english-learning"
 structure_status: normalized
 stage: code-review
-status: spaced-recall-code-review-routed
+status: spaced-recall-code-review-queued
 current_role: role-code-reviewer
 approved_roles:
   - role-product-manager
@@ -29,7 +29,7 @@ next_approval:
   scope: "只读审查提交 159815d59c2efb885317bbaebfa1e1981fd8c2fa 中的记忆曲线 v1.3 前端交付，覆盖正确性、安全、性能、可维护性、测试、无障碍、中文完整性、数据真实性边界与已批准产品/UI规则；不得代修代码，不进入 QA 或部署"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: pending-role-delivery
+  delivery_status: queued-role-busy
   on_approved: pending-review-conclusion
 completed_spaced_recall_product_assignment:
   change_id: chg-20260804-spaced-recall-loop-product-v1
@@ -151,7 +151,7 @@ active_assignment:
   role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
   role_task_title: "09 代码审查员"
   authorization: approval-20260806-spaced-recall-code-review-entry
-  scheduling: routed
+  scheduling: queued-after-control-center-code-review
   input:
     artifact: artifact-spaced-recall-frontend-001
     source_commit: 159815d59c2efb885317bbaebfa1e1981fd8c2fa
@@ -161,8 +161,8 @@ active_assignment:
   output:
     artifact: artifact-spaced-recall-code-review-001
     path: docs/06-code-review.md
-  routed_at: "2026-08-06T15:34:22+08:00"
-  delivery_status: pending-role-delivery
+  queued_at: "2026-08-06T15:34:22+08:00"
+  delivery_status: queued-role-busy
   stop_gate: code-review-conclusion-review
   auto_route_on_delivery: false
 completed_ui_assignment:
@@ -211,7 +211,7 @@ held_downstream_delivery:
   resumed_again_by: approval-20260806-spaced-recall-ui-prompt-and-direct-frontend
   resumed_for: chg-20260806-spaced-recall-frontend-implementation-v1-3
   resumed_at: "2026-08-06T14:23:53+08:00"
-implementation_gate: "记忆曲线 v1.3 前端交付已获超级无敌帅超超总批准；固定 09 代码审查员是唯一当前角色，完成 docs/06-code-review.md 后必须停在 code-review-conclusion-review。不得自动进入 QA、修复或生产部署。"
+implementation_gate: "记忆曲线 v1.3 前端交付已获超级无敌帅超超总批准，固定 09 代码审查员已获唯一下一站授权；但该固定角色当前正在完成 Control Center 代码审查，本项目安全排队，待其交付并停门后再由本人宣布入场。不得中断既有审查，也不得自动进入 QA、修复或生产部署。"
 latest_approved_artifact:
   artifact: artifact-spaced-recall-frontend-001
   path: frontend/src/pages/Word.tsx
@@ -344,4 +344,4 @@ workflow_policy:
     privacy_or_real_user_data: true
     external_message_or_publication: true
 state_limit: "旧版计划与任务表仍需单独对账；本状态只声明已核实的最新交付和审批门"
-updated_at: "2026-08-06T15:34:22+08:00"
+updated_at: "2026-08-06T15:36:57+08:00"
