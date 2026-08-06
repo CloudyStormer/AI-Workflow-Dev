@@ -3,9 +3,9 @@ project_id: "market-analysis-dev"
 run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
-stage: task-breakdown
-status: task-breakdown-ready-for-review
-current_role: role-pm
+stage: implementation
+status: frontend-entry-approved-queued-after-ai-model-radar
+current_role: role-frontend-dev
 blocked: false
 ui_assets:
   directory: ui
@@ -62,7 +62,7 @@ completed_architecture_assignment:
   completed_at: "2026-08-04T17:02:27+08:00"
   approval: "approval-20260806-career-architecture-v1"
   result: approved
-active_assignment:
+completed_task_breakdown_assignment:
   change_id: "plan-20260806-frontend-career-radar-task-breakdown-001"
   role: role-pm
   role_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
@@ -80,35 +80,66 @@ active_assignment:
     version: "1.0"
     sha256: 954869415b1a7f1a52c80ef0ee2b098bc5e4d28f011e23bd73be86e1d9eccc13
   scope: "基于已批准架构拆解首批可执行任务；优先浏览器可见的简体中文 Web 内容，后端服务与生产部署继续后置；不实现业务代码"
-  delivery_status: ready-for-review
+  delivery_status: approved
   routed_at: "2026-08-06T11:42:43+08:00"
   completed_at: "2026-08-06T11:50:45+08:00"
+  approval: "approval-20260806-career-task-breakdown-v1"
+  approved_at: "2026-08-06T15:37:30+08:00"
+  result: "task-breakdown-approved-and-routed"
+active_assignment:
+  change_id: "dev-20260806-career-fe-001"
+  work_item: "CFR-FE-001"
+  role: role-frontend-dev
+  role_task_id: "019fb74a-a427-7101-9941-442c34b157e3"
+  role_task_title: "06 前端工程师"
+  authorization: "approval-20260806-career-fe-001-entry"
+  scheduling: "queued-after-ai-model-radar-amr-fe-001"
+  upstream:
+    approval: "approval-20260806-career-task-breakdown-v1"
+    artifact: docs/05-task-breakdown.md
+    version: "1.0"
+    sha256: 954869415b1a7f1a52c80ef0ee2b098bc5e4d28f011e23bd73be86e1d9eccc13
+  expected_output:
+    - runnable-react-typescript-vite-foundation
+    - complete-simplified-chinese-app-shell
+    - evidence-snapshot-status-bar
+    - directions-first-browser-visible-vertical-slice
+  scope: "只建立可运行工程、完整简体中文应用壳、证据快照状态条和 /directions 首条真实可见纵切；不启动 CFR-FE-002 或以后任务、后端、真实来源、用户数据持久化或部署"
+  exclusions:
+    - CFR-FE-002-and-later-work-items
+    - backend-services
+    - real-source-integration
+    - persistent-user-data
+    - third-party-models
+    - production-deployment
+  delivery_status: authorized-queued
+  authorized_at: "2026-08-06T15:37:30+08:00"
+  stop_gate: frontend-delivery-review
+  auto_advance_beyond_next: false
 next_approval:
-  gate: task-breakdown-review
-  artifact: "docs/05-task-breakdown.md"
-  expected_change_id: "plan-20260806-frontend-career-radar-task-breakdown-001"
-  scope: "Frontend Career Radar 首批任务拆解 v1.0"
+  gate: frontend-delivery-review
+  expected_change_id: "dev-20260806-career-fe-001"
+  work_item: "CFR-FE-001"
+  scope: "只建立可运行工程、完整简体中文应用壳、证据快照状态条和 /directions 首条真实可见纵切；不启动后续任务、后端、真实来源、持久化或部署"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
-  on_approved:
-    authorize_next_role: role-frontend-dev
-    role_task_id: "019fb74a-a427-7101-9941-442c34b157e3"
-    role_task_title: "06 前端工程师"
-    change_id: "dev-20260806-career-fe-001"
-    work_item: "CFR-FE-001"
-    scope: "只建立可运行工程、完整简体中文应用壳和 /directions 首条真实可见纵切；不启动后续任务、后端、数据或部署"
-    stop_gate: frontend-delivery-review
-    advance_limit: unique-next-work-item-only
-    auto_advance_beyond_next: false
+  delivery_status: authorized-queued
+  authorization: "approval-20260806-career-fe-001-entry"
+  upstream:
+    approval: "approval-20260806-career-task-breakdown-v1"
+    artifact: docs/05-task-breakdown.md
+    version: "1.0"
+    sha256: 954869415b1a7f1a52c80ef0ee2b098bc5e4d28f011e23bd73be86e1d9eccc13
+  advance_limit: unique-next-work-item-only
+  auto_advance_beyond_next: false
 latest_approved_delivery:
-  approval: "approval-20260806-career-architecture-v1"
+  approval: "approval-20260806-career-task-breakdown-v1"
   artifacts:
-    - path: "docs/04-architecture.md"
+    - path: "docs/05-task-breakdown.md"
       version: "1.0"
-      sha256: bcc782409ebde28e003c9e4a1c20d45ddcb3b787f8a2de020c451ef05957d144
-  scope: "Frontend Career Radar 技术架构 v1.0"
-  approved_at: "2026-08-06T11:42:43+08:00"
+      sha256: 954869415b1a7f1a52c80ef0ee2b098bc5e4d28f011e23bd73be86e1d9eccc13
+  scope: "Frontend Career Radar 首批任务拆解 v1.0"
+  approved_at: "2026-08-06T15:37:30+08:00"
 ui_visual_baseline:
   artifact: "artifact-career-user-ui-baseline-001"
   path: "ui/"
@@ -151,4 +182,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-06T12:01:02+08:00"
+updated_at: "2026-08-06T15:37:30+08:00"

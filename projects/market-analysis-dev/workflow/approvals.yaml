@@ -198,3 +198,40 @@ approvals:
     upstream_sha256: bcc782409ebde28e003c9e4a1c20d45ddcb3b787f8a2de020c451ef05957d144
     scheduling: active-first
     evidence: "依据通过即批准当前交付并单步授权唯一下一站规则，固定 02 项目经理获准进入一次任务拆解交付单元；不得自动启动开发。"
+  - id: "approval-20260806-career-task-breakdown-v1"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: task-breakdown-review
+    role: role-pm
+    artifact_id: "artifact-task-breakdown-001"
+    artifact: "docs/05-task-breakdown.md"
+    version: "1.0"
+    sha256: 954869415b1a7f1a52c80ef0ee2b098bc5e4d28f011e23bd73be86e1d9eccc13
+    change_id: "plan-20260806-frontend-career-radar-task-breakdown-001"
+    scope: "Frontend Career Radar 首批任务拆解 v1.0"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-06T15:37:30+08:00"
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    evidence: "超级无敌帅超超总在固定 00 包工头任务中明确要求‘项目继续推进’；本项目当前唯一待审产物是首批任务拆解 v1.0，故批准当前产物并只授权唯一下一站 CFR-FE-001。"
+    effect: "批准当前任务拆解，并按一跳规则只授权固定 06 前端工程师执行 CFR-FE-001；该项排在已先获批的 AI Model Radar AMR-FE-001 之后，交付后停在 frontend-delivery-review，CFR-FE-002 及以后未授权。"
+  - id: "approval-20260806-career-fe-001-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-entry
+    role: role-frontend-dev
+    role_task_id: "019fb74a-a427-7101-9941-442c34b157e3"
+    role_task_title: "06 前端工程师"
+    change_id: "dev-20260806-career-fe-001"
+    work_item: "CFR-FE-001"
+    scope: "只建立可运行工程、完整简体中文应用壳、证据快照状态条和 /directions 首条真实可见纵切；不启动后续任务、后端、真实来源、持久化或部署"
+    upstream_approval: "approval-20260806-career-task-breakdown-v1"
+    upstream_artifact: "docs/05-task-breakdown.md"
+    upstream_version: "1.0"
+    upstream_sha256: 954869415b1a7f1a52c80ef0ee2b098bc5e4d28f011e23bd73be86e1d9eccc13
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-06T15:37:30+08:00"
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    scheduling: "queued-after-ai-model-radar-amr-fe-001"
+    advance_limit: unique-next-work-item-only
+    auto_advance_beyond_next: false
+    evidence: "任务拆解通过后的下一站唯一、输入完整且非高风险；固定 06 已有更早授权的 AMR-FE-001，因此本项安全排队，不复制角色任务、不打断当前工作。"

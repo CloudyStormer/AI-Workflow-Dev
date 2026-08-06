@@ -333,7 +333,7 @@ artifacts:
     type: task-breakdown
     change_id: "plan-20260806-frontend-career-radar-task-breakdown-001"
     path: docs/05-task-breakdown.md
-    status: ready-for-review
+    status: approved
     owner: role-pm
     version: "1.0"
     sha256: 954869415b1a7f1a52c80ef0ee2b098bc5e4d28f011e23bd73be86e1d9eccc13
@@ -363,6 +363,9 @@ artifacts:
       change_id: "dev-20260806-career-fe-001"
       stop_gate: frontend-delivery-review
     validated_at: "2026-08-06T11:54:48+08:00"
+    approval: "approval-20260806-career-task-breakdown-v1"
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-06T15:37:30+08:00"
     validation:
       task_breakdown_sha256_match: passed
       upstream_architecture_sha256_match: passed
