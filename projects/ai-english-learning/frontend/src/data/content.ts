@@ -1,4 +1,5 @@
 export type LearningWord = {
+  id: string
   word: string
   phonetic: string
   part: string
@@ -15,6 +16,7 @@ export type LearningWord = {
 
 export const learningWords: LearningWord[] = [
   {
+    id: 'lexeme-ephemeral-adjective-transient',
     word: 'ephemeral',
     phonetic: "/ɪˈfemərəl/",
     part: 'adj.',
@@ -32,6 +34,7 @@ export const learningWords: LearningWord[] = [
     synonyms: ['temporary', 'transient', 'momentary'],
   },
   {
+    id: 'lexeme-serendipity-noun-fortunate-discovery',
     word: 'serendipity',
     phonetic: "/ˌserənˈdɪpəti/",
     part: 'n.',
@@ -49,6 +52,7 @@ export const learningWords: LearningWord[] = [
     synonyms: ['fortune', 'luck', 'happenstance'],
   },
   {
+    id: 'lexeme-resilient-adjective-recover',
     word: 'resilient',
     phonetic: "/rɪˈzɪliənt/",
     part: 'adj.',

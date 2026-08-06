@@ -88,11 +88,46 @@ Additional fill-in evidence:
 - `design-qa/comparison-mobile-word-inline-cloze.jpg`
 - `design-qa/comparison-desktop-word-inline-cloze.jpg`
 
+## Spaced recall / 记忆曲线 v1.3
+
+### Approved sources
+
+- Product rules: `docs/01-prd.md` v1.3 (`0b065ec4ffb4881d6893ec23a1d9c4ec57627fe173f43ada73cdf5c3f4b02385`).
+- Interaction and state rules: `ui/04-spaced-recall-ui-prompt-v1.3.md` (`72791c27d60851710868ea5f5c30deb4215dea61c0628b287252a9843ad08017`).
+- Inherited inline-slot rules: `docs/03-ui-prompt.md` v1.2 (`c30be1da6e120a524976420c8c6b8d5dfaf62f0af444a4284708c96fa2094af1`).
+- Visual baseline: the 13 user-provided assets registered by `ui/README.md`; generated copy defects and device chrome were not copied.
+
+### Visual evidence
+
+| View / state | Implementation | Combined source comparison |
+| --- | --- | --- |
+| Desktop review center | `design-qa/implementation-desktop-word-spaced-recall.png` | `design-qa/comparison-desktop-word-spaced-recall.jpg` |
+| Desktop revealed answer | `design-qa/implementation-desktop-word-spaced-recall-revealed.png` | — |
+| Desktop reveal confirmation | `design-qa/implementation-desktop-word-reveal-confirm.png` | — |
+| Desktop inline revealed answer | `design-qa/implementation-desktop-word-reveal-answer.png` | — |
+| Mobile 390 × 844 | `design-qa/implementation-mobile-word-spaced-recall-viewport.png` | `design-qa/comparison-mobile-word-spaced-recall.jpg` |
+| Mobile full page / queue | `design-qa/implementation-mobile-word-spaced-recall.png`; `design-qa/implementation-mobile-word-spaced-recall-queue.png` | — |
+| Narrow mobile 320 × 844 | `design-qa/implementation-mobile-320-word-spaced-recall.png` | — |
+
+### Functional and accessibility verification
+
+- “查看答案” first opens a cancellable confirmation. Confirming reveals the complete standard answer only in the existing inline letter slots, makes the answer read-only, and exposes “重新作答本题” and “下一题”; no sentence-below answer input is introduced.
+- Reveal and complete-wrong evidence are recorded idempotently as weak-word events. Same-day reinforcement is capped at two appearances with a randomized three-to-seven-other-item gap, and waiting items truthfully show the remaining gap instead of being served early.
+- Cross-day S0–S4 progression, mastered exit, D+30 maintenance, assisted/revealed outcomes, overdue ordering, pause/resume, missed-session recovery, timezone changes, corrupt-storage preservation, and revision-conflict handling are covered by deterministic engine verification.
+- Hint use is persisted as assisted evidence and cannot advance mastery. Conflicting or stale state blocks settlement instead of silently overwriting newer browser data.
+- Notification copy distinguishes browser permission, in-app status, and external SMS/email channels. A browser notification is requested only when enabled, permission is granted, a genuine item is due, and quiet-hour rules allow it; the UI never claims delivery. Data remains local to the current browser/device.
+- Queue details disclose remaining overdue and due-today items; keyboard users can move tabs with ArrowLeft/ArrowRight/Home/End. Reset confirmation traps focus, supports Escape, and returns focus to its trigger.
+- At 390 × 844 and 320 × 844 there is no horizontal overflow. All visible buttons are at least 44 × 44px, and the final clean browser session reported zero warnings or errors. Desktop verification used 1440 × 960 evidence and a clean 1280 × 720 final preview.
+- Offline progression is verified at the deterministic engine boundary; browser network emulation was not used. The interface states the offline limitation and never advances mastery while offline.
+- Chinese completeness: navigation, actions, status feedback, dialogs, validation, empty/waiting/error states, reminder copy, queue details, accessibility labels, and mobile UI are available in coherent Simplified Chinese. Learning targets and pronunciations remain English by product intent.
+
 ## Engineering verification
 
+- Runtime: Node.js 24.14.0 (satisfies the declared Node.js 22.12+ baseline)
 - TypeScript project check: passed
 - Production Vite build: passed
 - Oxlint: passed
+- Spaced-recall deterministic verification: passed
 - Hint invariants: passed across 80,160 word/variant combinations, including one-letter, short-word, hyphenated-word, progressive-reveal, and reroll cases
 - Inline cloze invariants: passed across 1,200 randomized hint cases plus input, replacement, deletion, complete/remaining paste, illegal-character filtering, one/two-letter words, hyphen, apostrophe, and space boundaries
 

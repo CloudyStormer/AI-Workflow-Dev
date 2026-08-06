@@ -12,6 +12,7 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "test:cloze": "node --experimental-strip-types scripts/verify-inline-cloze.mjs",
+    "test:spaced-recall": "node scripts/verify-spaced-recall.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

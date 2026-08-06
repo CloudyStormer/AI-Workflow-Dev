@@ -27,7 +27,7 @@ type LearningState = {
   chatThreads: Record<ChatContactId, ChatMessage[]>
   isRecording: boolean
   settings: Record<SettingKey, boolean>
-  nextWord: (known: boolean) => void
+  nextWord: (known: boolean, nextIndex?: number) => void
   sendMessage: (contactId: ChatContactId, text: string) => void
   clearChat: (contactId: ChatContactId) => void
   restartChat: (contactId: ChatContactId) => void
@@ -54,13 +54,13 @@ export const useLearningStore = create<LearningState>((set) => ({
     autoPlay: true,
     showTranslations: true,
   },
-  nextWord: (known) =>
+  nextWord: (known, nextIndex) =>
     set((state) => {
-      const currentWordId = learningWords[state.wordIndex].word
+      const currentWordId = learningWords[state.wordIndex].id
       const isNewMastery = known && !state.masteredWordIds.includes(currentWordId)
 
       return {
-        wordIndex: (state.wordIndex + 1) % learningWords.length,
+        wordIndex: nextIndex ?? (state.wordIndex + 1) % learningWords.length,
         learnedToday: state.learnedToday + 1,
         sessionCompleted: Math.min(50, state.sessionCompleted + 1),
         masteredWordIds: isNewMastery

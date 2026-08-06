@@ -409,3 +409,57 @@ artifacts:
       git_boundary: passed
       skill_drift: passed
       diff_check: passed
+  - id: artifact-spaced-recall-frontend-001
+    type: frontend-implementation
+    path: frontend/src/pages/Word.tsx
+    status: ready-for-review
+    owner: role-frontend-dev
+    version: "1.3"
+    change_id: chg-20260806-spaced-recall-frontend-implementation-v1-3
+    authorization: approval-20260806-spaced-recall-ui-prompt-and-direct-frontend
+    upstream:
+      product: {path: docs/01-prd.md, version: "1.3", sha256: 0b065ec4ffb4881d6893ec23a1d9c4ec57627fe173f43ada73cdf5c3f4b02385}
+      ui_prompt: {path: ui/04-spaced-recall-ui-prompt-v1.3.md, version: "1.3", sha256: 72791c27d60851710868ea5f5c30deb4215dea61c0628b287252a9843ad08017}
+      inline_prompt: {path: docs/03-ui-prompt.md, version: "1.2", sha256: c30be1da6e120a524976420c8c6b8d5dfaf62f0af444a4284708c96fa2094af1}
+      visual_baseline: {path: ui/, asset_count: 13}
+    implementation:
+      primary_sha256: 9bf78f892cb76e999bb8dfe3724a82eef90caf0323ef75e4bfbdfe2370bc87bf
+      recall_center: {path: frontend/src/components/RecallCenter.tsx, sha256: a417aa9e4e1a3c8aa0751231a018ecc66ec4f2b60e936600de18eacf568553f7}
+      spaced_recall_engine: {path: frontend/src/utils/spacedRecall.ts, sha256: f15412a1a9aae7df4f2ba8066519a5a334bfd06c3d06042b8e944939d3de288c}
+      reveal_answer: {path: frontend/src/utils/revealAnswer.ts, sha256: c7d43d8ccd959a9d069f37722f7b1364b84e5b80a2bf65db5356f3f8094c519d}
+      spaced_recall_test: {path: frontend/scripts/verify-spaced-recall.mjs, sha256: d8421ff2f0675c38e2cfddde987daa000e9233f5e60e03f6ee20893e32bba2df}
+      inline_cloze_test: {path: frontend/scripts/verify-inline-cloze.mjs, sha256: c5769e1561e8315bb3f37bc4e4bb4e7208d9eb9bc9b9f4736b45c4b938030b47}
+    design_qa:
+      report: {path: design-qa.md, sha256: 2f713b55c59173182657bc3590a48a31ef62f209e5e6b73eb664506e8c500db3}
+      desktop: {path: design-qa/implementation-desktop-word-spaced-recall.png, sha256: 70eaca6e43910de19766f6633e112b42766b1f2c18d956825c4254b4918e3c82}
+      mobile: {path: design-qa/implementation-mobile-word-spaced-recall-viewport.png, sha256: 95c58b23d7d286cfb929e06a960cc341353412fd88c3f600f58e3c91b37a0b3f}
+      desktop_comparison: {path: design-qa/comparison-desktop-word-spaced-recall.jpg, sha256: 21f7827ba0f46a9c1c0a4e4e82f8d66a11e89661986a28f1d91203d6fca4216d}
+      mobile_comparison: {path: design-qa/comparison-mobile-word-spaced-recall.jpg, sha256: ced13dc60e9cda3086a375d49cd55e5a871655e8656db5e9390351d2ae55db03}
+    coverage:
+      inline_reveal_and_retry: true
+      idempotent_weak_evidence: true
+      same_day_and_cross_day_recall: true
+      reminders_timezone_quiet_hours: true
+      offline_and_conflict_safety: true
+      keyboard_mobile_screen_reader_reduced_motion: true
+      simplified_chinese_complete: true
+    validation:
+      runtime: Node.js-24.14.0
+      lint: passed
+      build: passed
+      spaced_recall_test: passed
+      inline_cloze_test: passed-1200-randomized-cases
+      browser_desktop_mobile_390_mobile_320: passed
+      horizontal_overflow: none
+      minimum_visible_button_target: 44px
+      clean_console_warnings_and_errors: 0
+    truth_boundary:
+      storage: current-browser-current-device-only
+      cross_device_sync: not-supported
+      external_sms_email: pending-integration
+      browser_notification: permission-and-real-due-dependent-no-delivery-claim
+      offline_settlement: disabled
+    result: spaced-recall-frontend-ready-for-review
+    completed_at: "2026-08-06T15:27:02+08:00"
+    stop_gate: frontend-delivery-review
+    auto_route_on_delivery: false
