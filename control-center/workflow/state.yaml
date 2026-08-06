@@ -1,9 +1,9 @@
 schema_version: 1
 project_id: "workflow-control-center"
 structure_status: normalized
-stage: development
-status: control-center-frontend-ready-for-review
-current_role: role-frontend-dev
+stage: code-review
+status: control-center-code-review-routed
+current_role: role-code-reviewer
 blocked: false
 ui_assets:
   directory: ui
@@ -17,27 +17,23 @@ delivery_priority:
     - production-deployment
   approval_gates_unchanged: true
 next_approval:
-  gate: frontend-delivery-review
-  artifact: artifact-control-center-frontend-redesign-001
-  expected_change_id: chg-20260804-control-center-ui-frontend-001
-  scope: "按 Prompt v1.0.1 与用户批准的 9 张视觉基线实现 Control Center 完整简体中文版；保持演示/待接入数据真实性边界，不接入服务、不部署"
+  gate: code-review-conclusion-review
+  artifact: artifact-control-center-code-review-001
+  expected_path: docs/06-code-review.md
+  expected_change_id: review-20260806-control-center-frontend-001
+  scope: "只读审查提交 a35316d 中的 Control Center 中文前端交付，覆盖正确性、可维护性、可访问性、性能、安全、数据真实性边界与现有架构契约；不得代修代码，不进入测试或部署"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
-  on_approved:
-    authorize_next_role: role-code-reviewer
-    role_task_title: "09 代码审查员"
-    scope: "审查 Control Center 本批前端视觉改版"
-    advance_limit: unique-next-stage-only
-    auto_advance_beyond_next: false
+  delivery_status: pending-role-delivery
+  on_approved: pending-review-conclusion
 latest_approved_artifact:
-  path: ui/01-control-center-ui-design-prompt.md
-  version: "1.0.1"
-  sha256: 6b7335068417f2402c7672b9d233a4b739142116af4671b442b9ddf578c7650e
+  artifact: artifact-control-center-frontend-redesign-001
+  path: app/
+  source_commit: a35316d
   status: approved
-  approval: approval-20260804-control-center-ui-prompt
+  approval: approval-20260806-control-center-frontend-delivery
   approved_by: 超级无敌帅超超总
-  approved_at: "2026-08-04T11:46:11+08:00"
+  approved_at: "2026-08-06T12:03:00+08:00"
 ui_visual_baseline:
   artifact: artifact-control-center-user-ui-baseline-001
   path: ui/
@@ -59,7 +55,7 @@ next_input:
   role_ui_designer_generation_required: false
   frontend_authorized: true
   completed_at: "2026-08-04T16:41:52+08:00"
-active_assignment:
+completed_frontend_assignment:
   change_id: chg-20260804-control-center-ui-frontend-001
   role: role-frontend-dev
   role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
@@ -87,8 +83,28 @@ active_assignment:
     preview: "http://127.0.0.1:4175/?view=overview"
   result: control-center-frontend-ready-for-review
   stop_gate: frontend-delivery-review
-  auto_route_on_approval: false
-implementation_gate: "固定 06 已完成 Control Center 浏览器可见完整简体中文版前端改版、工程验证与设计 QA，当前停在 frontend-delivery-review。未修改 API、数据库、账号或生产部署；用户通过前不得进入固定 09。"
+  approval: approval-20260806-control-center-frontend-delivery
+  review_decision: approved
+active_assignment:
+  change_id: review-20260806-control-center-frontend-001
+  role: role-code-reviewer
+  role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
+  role_task_title: "09 代码审查员"
+  authorization: approval-20260806-control-center-code-review-entry
+  scheduling: routed
+  input:
+    artifact: artifact-control-center-frontend-redesign-001
+    source_commit: a35316d
+    path: app/
+  scope: "只读审查 Control Center 本批中文前端交付；形成分级问题、证据、结论与下一步建议，不代修代码、不进入 QA 或部署"
+  output:
+    artifact: artifact-control-center-code-review-001
+    path: docs/06-code-review.md
+  routed_at: "2026-08-06T12:03:00+08:00"
+  delivery_status: pending-role-delivery
+  stop_gate: code-review-conclusion-review
+  auto_route_on_delivery: false
+implementation_gate: "Control Center 前端交付已获用户继续授权并批准；固定 09 代码审查员是唯一当前角色，完成 docs/06-code-review.md 后必须停在 code-review-conclusion-review。不得自动进入 QA、修复或生产部署。"
 runtime:
   live_url: "https://ai-workflow-control-center.honest-flute-5906.chatgpt.site"
   deployed_version: 3
@@ -125,4 +141,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-06T12:01:02+08:00"
+updated_at: "2026-08-06T12:03:00+08:00"

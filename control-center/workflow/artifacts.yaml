@@ -70,7 +70,7 @@ artifacts:
   - id: artifact-control-center-frontend-redesign-001
     type: frontend-implementation
     path: app/
-    status: ready-for-review
+    status: approved
     owner: role-frontend-dev
     change_id: chg-20260804-control-center-ui-frontend-001
     authorization: approval-20260804-control-center-frontend-entry
@@ -117,4 +117,8 @@ artifacts:
     architecture_impact: none
     services_modified: false
     production_deployment: not-authorized
+    source_commit: a35316d
+    approval: approval-20260806-control-center-frontend-delivery
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-06T12:03:00+08:00"
     completed_at: "2026-08-04T17:45:00+08:00"

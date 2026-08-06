@@ -50,3 +50,27 @@ approvals:
     upstream_approval: approval-20260804-control-center-ui-baseline
     scheduling: queued-after-ai-english-learning
     evidence: "用户明确要求四个项目分别开始下一步；Control Center 是现有 Sites v3 的前端视觉改版，未改变 API、数据库或系统边界，唯一下一站为固定 06。"
+  - id: approval-20260806-control-center-frontend-delivery
+    gate: frontend-delivery-review
+    role: role-frontend-dev
+    artifact: artifact-control-center-frontend-redesign-001
+    source_commit: a35316d
+    scope: "Control Center 浏览器可见完整简体中文版前端改版"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-06T12:03:00+08:00"
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    evidence: "超级无敌帅超超总明确表示‘这两个走到前端进度的项目也可以继续了’；Control Center 当前唯一待审交付就是固定 06 的前端交付，因此批准当前交付并仅授权唯一下一站。"
+  - id: approval-20260806-control-center-code-review-entry
+    gate: role-entry
+    role: role-code-reviewer
+    role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
+    role_task_title: "09 代码审查员"
+    change_id: review-20260806-control-center-frontend-001
+    scope: "只读审查提交 a35316d 的 Control Center 中文前端交付并形成 docs/06-code-review.md"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-06T12:03:00+08:00"
+    upstream_approval: approval-20260806-control-center-frontend-delivery
+    advance_limit: unique-next-stage-only
+    evidence: "前端交付批准后，固定 09 是唯一明确、输入完整且非高风险的下一站；不授权 QA、修复或部署。"

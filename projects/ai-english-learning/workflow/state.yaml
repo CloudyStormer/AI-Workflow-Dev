@@ -1,9 +1,9 @@
 schema_version: 1
 project_id: "ai-english-learning"
 structure_status: normalized
-stage: product-definition
-status: spaced-recall-prd-ready-for-review
-current_role: role-product-manager
+stage: ui-ux
+status: spaced-recall-ui-prompt-routed
+current_role: role-ui-designer
 approved_roles:
   - role-product-manager
   - role-ui-designer
@@ -21,22 +21,17 @@ delivery_priority:
     - production-deployment
   approval_gates_unchanged: true
 next_approval:
-  gate: product-change-review
-  artifact: artifact-spaced-recall-prd-001
-  expected_change_id: chg-20260804-spaced-recall-loop-product-v1
-  expected_path: docs/01-prd.md
+  gate: ui-prompt-review
+  artifact: artifact-spaced-recall-ui-prompt-001
+  expected_change_id: chg-20260806-spaced-recall-ui-prompt-v1-3
+  expected_path: ui/04-spaced-recall-ui-prompt-v1.3.md
   expected_version: "1.3"
-  scope: "定义查看答案后的薄弱词记录、日内随机复现、跨日定时复习、记忆曲线调度、独立拼写成功判定、掌握退出与异常恢复；不修改 UI/UX 或代码"
+  scope: "基于已批准 PRD v1.3，为查看/答错后的薄弱词登记、日内随机复现、跨日记忆曲线日程、独立拼写成功、掌握退出、提醒与异常状态形成中文 UI/UX 提示词；沿用用户提供的 ui/ 视觉母版，不修改前端"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
-  on_approved:
-    authorize_next_role: role-ui-designer
-    next_owner: role-ui-designer
-    next_action: "固定 04 UI/UX设计师基于批准后的 PRD 修订复习反馈、日程入口与薄弱词状态提示词"
-    advance_limit: unique-next-stage-only
-    auto_advance_beyond_next: false
-active_assignment:
+  delivery_status: pending-role-delivery
+  on_approved: pending-ui-prompt-decision
+completed_spaced_recall_product_assignment:
   change_id: chg-20260804-spaced-recall-loop-product-v1
   role: role-product-manager
   role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
@@ -68,6 +63,34 @@ active_assignment:
       inherited: AC-RA-01..AC-RA-20
   result: ready-for-product-change-review
   completed_at: "2026-08-04T17:02:03+08:00"
+  approval: approval-20260806-spaced-recall-prd-v1-3
+  review_decision: approved
+active_assignment:
+  change_id: chg-20260806-spaced-recall-ui-prompt-v1-3
+  role: role-ui-designer
+  role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+  role_task_title: "04 UI/UX设计师"
+  authorization: approval-20260806-spaced-recall-ui-prompt-entry
+  upstream:
+    artifact: artifact-spaced-recall-prd-001
+    path: docs/01-prd.md
+    version: "1.3"
+    sha256: 0b065ec4ffb4881d6893ec23a1d9c4ec57627fe173f43ada73cdf5c3f4b02385
+    approval: approval-20260806-spaced-recall-prd-v1-3
+  inherited_ui:
+    path: docs/03-ui-prompt.md
+    version: "1.2"
+    sha256: c30be1da6e120a524976420c8c6b8d5dfaf62f0af444a4284708c96fa2094af1
+    visual_baseline: ui/
+  scope: "只交付记忆曲线闭环的中文 UI/UX 提示词增量，覆盖薄弱词、今日复现、跨日复习、提醒、掌握状态与异常恢复；沿用现有视觉母版，不生成或修改前端代码"
+  output:
+    artifact: artifact-spaced-recall-ui-prompt-001
+    path: ui/04-spaced-recall-ui-prompt-v1.3.md
+    version: "1.3"
+  routed_at: "2026-08-06T12:03:00+08:00"
+  delivery_status: pending-role-delivery
+  stop_gate: ui-prompt-review
+  auto_route_on_delivery: false
 frozen_frontend_assignment:
   change_id: chg-20260804-reveal-answer-frontend-implementation-v1
   role: role-frontend-dev
@@ -142,22 +165,25 @@ held_downstream_delivery:
   resumed_by: approval-20260804-reveal-answer-ui-minimal-direct-frontend
   resumed_for: chg-20260804-reveal-answer-frontend-implementation-v1
   frozen_again_by: chg-20260804-spaced-recall-loop-product-v1
-implementation_gate: "固定 06 已因新的记忆曲线产品逻辑再次冻结。固定 03 必须先独立交付 PRD v1.3 并等待审核；通过后仅自动授权固定 04 修订 UI/UX 提示词，UI 再通过后才可重新授权固定 06。禁止跨站直接实现。"
+implementation_gate: "PRD v1.3 已获批准，固定 04 是当前唯一角色，只能交付 ui/04-spaced-recall-ui-prompt-v1.3.md 并停在 ui-prompt-review。固定 06 及其未提交现场继续冻结；只有 UI 提示词再获明确通过，才可重新授权固定 06。"
 latest_approved_artifact:
-  path: docs/03-ui-prompt.md
-  version: "1.2"
-  sha256: c30be1da6e120a524976420c8c6b8d5dfaf62f0af444a4284708c96fa2094af1
-  approval: approval-20260804-reveal-answer-ui-minimal-direct-frontend
-approved_product_delivery:
-  artifact: artifact-reveal-answer-prd-001
+  artifact: artifact-spaced-recall-prd-001
   path: docs/01-prd.md
-  version: "1.2"
-  sha256: d2512d352c2694953bfaa9e7513258440304ee4925c8b4c9bf29a0003fdd7d3a
-  change_id: chg-20260804-reveal-answer-product-change-v1
-  status: approved
-  approval: approval-20260804-reveal-answer-prd-v1-2
+  version: "1.3"
+  sha256: 0b065ec4ffb4881d6893ec23a1d9c4ec57627fe173f43ada73cdf5c3f4b02385
+  approval: approval-20260806-spaced-recall-prd-v1-3
   approved_by: 超级无敌帅超超总
-  approved_at: "2026-08-04T15:13:01+08:00"
+  approved_at: "2026-08-06T12:03:00+08:00"
+approved_product_delivery:
+  artifact: artifact-spaced-recall-prd-001
+  path: docs/01-prd.md
+  version: "1.3"
+  sha256: 0b065ec4ffb4881d6893ec23a1d9c4ec57627fe173f43ada73cdf5c3f4b02385
+  change_id: chg-20260804-spaced-recall-loop-product-v1
+  status: approved
+  approval: approval-20260806-spaced-recall-prd-v1-3
+  approved_by: 超级无敌帅超超总
+  approved_at: "2026-08-06T12:03:00+08:00"
 latest_ui_prompt_delivery:
   artifact: artifact-reveal-answer-ui-prompt-001
   path: docs/03-ui-prompt.md
@@ -180,11 +206,12 @@ latest_product_delivery:
   version: "1.3"
   sha256: 0b065ec4ffb4881d6893ec23a1d9c4ec57627fe173f43ada73cdf5c3f4b02385
   change_id: chg-20260804-spaced-recall-loop-product-v1
-  status: ready-for-review
+  status: approved-and-routed-to-ui-prompt
   authorization: approval-20260804-spaced-recall-product-reentry
+  approval: approval-20260806-spaced-recall-prd-v1-3
   completed_by: role-product-manager
   completed_at: "2026-08-04T17:02:03+08:00"
-  stop_gate: product-change-review
+  stop_gate: completed
 latest_delivery:
   path: docs/01-prd.md
   type: product-requirements
@@ -192,12 +219,13 @@ latest_delivery:
   artifact: artifact-spaced-recall-prd-001
   version: "1.3"
   sha256: 0b065ec4ffb4881d6893ec23a1d9c4ec57627fe173f43ada73cdf5c3f4b02385
-  status: ready-for-review
+  status: approved-and-routed-to-ui-prompt
   authorization: approval-20260804-spaced-recall-product-reentry
+  approval: approval-20260806-spaced-recall-prd-v1-3
   completed_by: role-product-manager
   completed_at: "2026-08-04T17:02:03+08:00"
   frontend_status: frozen-uncommitted-worktree-preserved
-  stop_gate: product-change-review
+  stop_gate: ui-prompt-review
 ui_visual_baseline:
   path: ui/
   status: approved
@@ -218,7 +246,7 @@ frontend_freeze:
   frozen_at: "2026-08-04T16:50:50+08:00"
   reason: "查看答案后新增薄弱词、日内随机复现、跨日定时复习与掌握退出逻辑，现有 PRD v1.2 和 Prompt v1.2 输入已不足"
   previous_release: approval-20260804-reveal-answer-ui-minimal-direct-frontend
-  resume_gate: "PRD v1.3 通过 → 固定 04 UI/UX 提示词通过 → 固定 06 重新获批"
+  resume_gate: "PRD v1.3 已通过 → 当前固定 04 UI/UX 提示词待交付与审核 → 通过后才可重新授权固定 06"
   preserve_uncommitted_worktree: true
   scope: "固定 06 不得继续修改、测试、提交或交付当前英语业务实现；其他项目已独立获批的工作按固定角色队列和精确文件隔离规则处理"
 workflow_policy:
@@ -253,4 +281,4 @@ workflow_policy:
     privacy_or_real_user_data: true
     external_message_or_publication: true
 state_limit: "旧版计划与任务表仍需单独对账；本状态只声明已核实的最新交付和审批门"
-updated_at: "2026-08-06T12:01:02+08:00"
+updated_at: "2026-08-06T12:03:00+08:00"

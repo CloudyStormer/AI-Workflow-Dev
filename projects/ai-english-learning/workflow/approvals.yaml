@@ -156,3 +156,33 @@ approvals:
     effect: "立即冻结固定 06 当前未提交的查看答案前端现场；唯一下一站为固定 03 产品经理交付 PRD v1.3，交付后停在产品审核门。"
     advance_limit: current-product-unit-only
     auto_advance_beyond_next: false
+  - id: approval-20260806-spaced-recall-prd-v1-3
+    gate: product-change-review
+    role: role-product-manager
+    artifact: artifact-spaced-recall-prd-001
+    path: docs/01-prd.md
+    version: "1.3"
+    sha256: 0b065ec4ffb4881d6893ec23a1d9c4ec57627fe173f43ada73cdf5c3f4b02385
+    change_id: chg-20260804-spaced-recall-loop-product-v1
+    scope: "批准查看/答错后的薄弱词记录、日内随机复现、跨日记忆曲线复习、独立拼写成功与掌握退出的产品闭环"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-06T12:03:00+08:00"
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    evidence: "超级无敌帅超超总要求两个已走到前端进度的项目继续；AI English Learning 的前端因本产品变更冻结，当前唯一待审上游是 PRD v1.3，因此该继续批准 PRD，并只授权唯一下一站固定 04。"
+  - id: approval-20260806-spaced-recall-ui-prompt-entry
+    gate: role-entry
+    role: role-ui-designer
+    role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+    role_task_title: "04 UI/UX设计师"
+    change_id: chg-20260806-spaced-recall-ui-prompt-v1-3
+    scope: "基于已批准 PRD v1.3 和现有视觉母版，交付记忆曲线闭环的中文 UI/UX 提示词 ui/04-spaced-recall-ui-prompt-v1.3.md"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-06T12:03:00+08:00"
+    upstream_approval: approval-20260806-spaced-recall-prd-v1-3
+    upstream_artifact: docs/01-prd.md
+    upstream_version: "1.3"
+    upstream_sha256: 0b065ec4ffb4881d6893ec23a1d9c4ec57627fe173f43ada73cdf5c3f4b02385
+    advance_limit: unique-next-stage-only
+    evidence: "产品批准后固定 04 是唯一明确、输入完整且非高风险的下一站；前端及其未提交现场继续冻结，不授权实现。"
