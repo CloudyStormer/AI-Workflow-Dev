@@ -3,9 +3,9 @@ project_id: ai-model-radar
 run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
-stage: task-breakdown
-status: task-breakdown-ready-for-review
-current_role: role-pm
+stage: implementation
+status: frontend-entry-approved-awaiting-role-report
+current_role: role-frontend-dev
 blocked: false
 ui_assets:
   directory: ui
@@ -20,24 +20,21 @@ delivery_priority:
     - production-deployment
   approval_gates_unchanged: true
 next_approval:
-  gate: task-breakdown-review
-  artifact: docs/05-task-breakdown.md
-  expected_change_id: plan-20260806-ai-model-radar-task-breakdown-001
-  scope: "AI Model Radar 首批任务拆解 v1.0"
+  gate: frontend-delivery-review
+  expected_change_id: dev-20260806-ai-model-radar-fe-001
+  work_item: AMR-FE-001
+  scope: "只建立可运行工程、完整简体中文应用壳、真实性状态条和 /today 首条可见纵切；不启动后续任务、后端、真实来源、影子运行或部署"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
-  artifact_sha256: 073dbd6cd22af998733dd044afeb3c12abd4de588cb05c276387759b5838c372
-  on_approved:
-    authorize_next_role: role-frontend-dev
-    role_task_id: "019fb74a-a427-7101-9941-442c34b157e3"
-    role_task_title: "06 前端工程师"
-    change_id: "dev-20260806-ai-model-radar-fe-001"
-    work_item: "AMR-FE-001"
-    scope: "只建立可运行工程、完整简体中文应用壳、真实性状态条和 /today 首条可见纵切；不启动后续任务、后端、真实来源、影子运行或部署"
-    stop_gate: frontend-delivery-review
-    advance_limit: unique-next-work-item-only
-    auto_advance_beyond_next: false
+  delivery_status: authorized-awaiting-role-report
+  authorization: approval-20260806-radar-fe-001-entry
+  upstream:
+    approval: approval-20260806-radar-task-breakdown-v1
+    artifact: docs/05-task-breakdown.md
+    version: "1.0"
+    sha256: 073dbd6cd22af998733dd044afeb3c12abd4de588cb05c276387759b5838c372
+  advance_limit: unique-next-work-item-only
+  auto_advance_beyond_next: false
 completed_ui_assignment:
   change_id: ui-prompt-20260804-ai-model-radar-001
   role: role-ui-designer
@@ -97,7 +94,7 @@ completed_architecture_assignment:
   auto_route_on_approval: false
   approval: approval-20260806-radar-architecture-v1
   result: approved
-active_assignment:
+completed_task_breakdown_assignment:
   change_id: plan-20260806-ai-model-radar-task-breakdown-001
   role: role-pm
   role_task_id: 019fb738-5706-7552-849f-35c8a124e2f0
@@ -142,14 +139,46 @@ active_assignment:
     implemented_in_current_batch: "AC-01..27, AC-30, AC-32..36, AC-38..40"
     ui_or_field_contract_only: "AC-28..29, AC-37"
     deferred_runtime_validation: "AC-31, AC-41..42"
-  delivery_status: ready-for-review
+  delivery_status: approved
   queued_at: "2026-08-06T11:42:43+08:00"
   started_at: "2026-08-06T12:12:56+08:00"
   completed_at: "2026-08-06T12:41:09+08:00"
   validation_status: passed
   validated_at: "2026-08-06T12:42:33+08:00"
-  result: task-breakdown-ready-for-review
+  approval: approval-20260806-radar-task-breakdown-v1
+  approved_at: "2026-08-06T14:24:08+08:00"
+  result: task-breakdown-approved-and-routed
   stop_gate: task-breakdown-review
+active_assignment:
+  change_id: dev-20260806-ai-model-radar-fe-001
+  work_item: AMR-FE-001
+  role: role-frontend-dev
+  role_task_id: "019fb74a-a427-7101-9941-442c34b157e3"
+  role_task_title: "06 前端工程师"
+  authorization: approval-20260806-radar-fe-001-entry
+  scheduling: authorized-awaiting-fixed-role-report
+  upstream:
+    approval: approval-20260806-radar-task-breakdown-v1
+    artifact: docs/05-task-breakdown.md
+    version: "1.0"
+    sha256: 073dbd6cd22af998733dd044afeb3c12abd4de588cb05c276387759b5838c372
+  expected_output:
+    - runnable-react-typescript-vite-foundation
+    - complete-simplified-chinese-app-shell
+    - truth-status-bar
+    - today-first-browser-visible-vertical-slice
+  scope: "只建立可运行工程、完整简体中文应用壳、真实性状态条和 /today 首条可见纵切；不启动后续任务、后端、真实来源、影子运行或部署"
+  exclusions:
+    - AMR-FE-002-and-later-work-items
+    - backend-services
+    - live-source-integration
+    - third-party-models
+    - shadow-run
+    - production-deployment
+  delivery_status: authorized-awaiting-role-report
+  authorized_at: "2026-08-06T14:24:08+08:00"
+  stop_gate: frontend-delivery-review
+  auto_advance_beyond_next: false
 completed_product_assignment:
   change_id: prd-20260804-ai-model-radar-001
   role: role-product-manager
@@ -183,10 +212,10 @@ ui_visual_baseline:
     - "缺少完整平板、深色及 36 个状态的逐项视觉覆盖"
     - "真实连接、活动源、运行状态和混用日期均为视觉占位，PRD 与 Prompt 的真实性边界优先"
 latest_approved_artifact:
-  path: docs/04-architecture.md
+  path: docs/05-task-breakdown.md
   version: "1.0"
-  sha256: 155e734351c753cd9a51878f9b1549f0d7aaf4db18872c35f8763ff39903db04
-  approval: approval-20260806-radar-architecture-v1
+  sha256: 073dbd6cd22af998733dd044afeb3c12abd4de588cb05c276387759b5838c372
+  approval: approval-20260806-radar-task-breakdown-v1
 workflow_policy:
   pass_semantics: approve-current-and-authorize-unique-next
   direct_user_role_commands:
@@ -218,4 +247,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-06T12:42:33+08:00"
+updated_at: "2026-08-06T14:24:08+08:00"
