@@ -4,7 +4,7 @@ run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
 stage: task-breakdown
-status: task-breakdown-routed
+status: task-breakdown-ready-for-review
 current_role: role-pm
 blocked: false
 ui_assets:
@@ -78,9 +78,11 @@ active_assignment:
   expected_output:
     path: docs/05-task-breakdown.md
     version: "1.0"
+    sha256: 954869415b1a7f1a52c80ef0ee2b098bc5e4d28f011e23bd73be86e1d9eccc13
   scope: "基于已批准架构拆解首批可执行任务；优先浏览器可见的简体中文 Web 内容，后端服务与生产部署继续后置；不实现业务代码"
-  delivery_status: routed
+  delivery_status: ready-for-review
   routed_at: "2026-08-06T11:42:43+08:00"
+  completed_at: "2026-08-06T11:50:45+08:00"
 next_approval:
   gate: task-breakdown-review
   artifact: "docs/05-task-breakdown.md"
@@ -88,7 +90,17 @@ next_approval:
   scope: "Frontend Career Radar 首批任务拆解 v1.0"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: pending-role-delivery
+  delivery_status: ready-for-review
+  on_approved:
+    authorize_next_role: role-frontend-dev
+    role_task_id: "019fb74a-a427-7101-9941-442c34b157e3"
+    role_task_title: "06 前端工程师"
+    change_id: "dev-20260806-career-fe-001"
+    work_item: "CFR-FE-001"
+    scope: "只建立可运行工程、完整简体中文应用壳和 /directions 首条真实可见纵切；不启动后续任务、后端、数据或部署"
+    stop_gate: frontend-delivery-review
+    advance_limit: unique-next-work-item-only
+    auto_advance_beyond_next: false
 latest_approved_delivery:
   approval: "approval-20260806-career-architecture-v1"
   artifacts:
@@ -127,4 +139,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-06T11:42:43+08:00"
+updated_at: "2026-08-06T11:50:45+08:00"

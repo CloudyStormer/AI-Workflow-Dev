@@ -328,3 +328,60 @@ artifacts:
       - "local-deterministic-source-analysis-has-limited-semantic-recall"
       - "visual-baseline-copy-and-placeholder-data-are-not-system-facts"
       - "wcag-2.2-aa-is-a-target-not-an-audit-claim"
+  - id: "artifact-task-breakdown-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: task-breakdown
+    change_id: "plan-20260806-frontend-career-radar-task-breakdown-001"
+    path: docs/05-task-breakdown.md
+    status: ready-for-review
+    owner: role-pm
+    version: "1.0"
+    sha256: 954869415b1a7f1a52c80ef0ee2b098bc5e4d28f011e23bd73be86e1d9eccc13
+    entry_approval: "approval-20260806-career-task-breakdown-entry"
+    upstream:
+      artifact: docs/04-architecture.md
+      version: "1.0"
+      sha256: bcc782409ebde28e003c9e4a1c20d45ddcb3b787f8a2de020c451ef05957d144
+      approval: "approval-20260806-career-architecture-v1"
+    completed_at: "2026-08-06T11:50:45+08:00"
+    scope:
+      browser_visible_content_first: true
+      complete_simplified_chinese_frontend: true
+      backend_deferred: true
+      real_source_integration_deferred: true
+      production_deployment_deferred: true
+      business_code_written_by_pm: false
+    task_count: 11
+    atomic_effort_hours:
+      minimum: 3
+      maximum: 4
+    first_downstream:
+      work_item: CFR-FE-001
+      role: role-frontend-dev
+      role_task_id: "019fb74a-a427-7101-9941-442c34b157e3"
+      role_task_title: "06 前端工程师"
+      change_id: "dev-20260806-career-fe-001"
+      stop_gate: frontend-delivery-review
+    validated_at: "2026-08-06T11:54:48+08:00"
+    validation:
+      task_breakdown_sha256_match: passed
+      upstream_architecture_sha256_match: passed
+      atomic_task_count: "11-of-11"
+      atomic_effort_range: "3-to-4-hours"
+      dependency_cycles: none
+      unique_first_downstream: passed
+      complete_simplified_chinese_requirement: passed
+      backend_and_production_deferred: passed
+      workflow_yaml: "3-of-3-valid"
+      jsonl_before_validation_event: "41-of-41-valid"
+      project_validator: "passed-with-4-intentional-empty-command-warnings"
+      git_boundary: passed
+      git_diff_check: passed
+      skill_drift: passed
+      frozen_english_paths_preserved: "6-of-6-unstaged"
+    known_limits:
+      - "no-business-code-or-runtime-entrypoints-yet"
+      - "project-commands-remain-empty-until-cfr-fe-001"
+      - "effort-estimates-exclude-review-waiting-and-rework"
+      - "only-cfr-fe-001-is-the-unique-next-work-item"
+      - "backend-real-sources-third-party-models-and-production-deployment-deferred"
