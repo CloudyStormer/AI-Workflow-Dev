@@ -176,11 +176,13 @@ artifacts:
     run_id: run-20260731-intake-001
     type: system-architecture
     path: docs/04-architecture.md
-    status: ready-for-review
+    status: approved
     owner: role-architect
     version: "1.0"
     change_id: arch-20260804-ai-model-radar-001
     entry_approval: approval-20260804-radar-architecture-entry
+    approval: approval-20260806-radar-architecture-v1
+    approved_at: "2026-08-06T11:42:43+08:00"
     upstream:
       prd:
         path: docs/02-prd.md

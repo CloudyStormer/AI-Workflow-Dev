@@ -137,3 +137,36 @@ approvals:
     upstream_approval: approval-20260804-radar-ui-baseline
     scheduling: queued-after-frontend-career-radar
     evidence: "用户明确要求分别开始下一步；新项目 UI 设计批准后的唯一下一站为固定 05 架构师。"
+  - id: approval-20260806-radar-architecture-v1
+    run_id: run-20260731-intake-001
+    gate: artifact-review
+    role: role-architect
+    artifact: docs/04-architecture.md
+    version: "1.0"
+    sha256: 155e734351c753cd9a51878f9b1549f0d7aaf4db18872c35f8763ff39903db04
+    change_id: arch-20260804-ai-model-radar-001
+    scope: "AI Model Radar 技术架构 v1.0"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-06T11:42:43+08:00"
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    evidence: "超级无敌帅超超总在 00 包工头任务中明确回复‘AI Model Radar 通过’。"
+  - id: approval-20260806-radar-task-breakdown-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    role: role-pm
+    role_task_id: 019fb738-5706-7552-849f-35c8a124e2f0
+    role_task_title: "02 项目经理"
+    change_id: plan-20260806-ai-model-radar-task-breakdown-001
+    artifact: docs/05-task-breakdown.md
+    scope: "基于已批准架构拆解首批任务；浏览器可见简体中文 Web 内容优先，后端服务、真实来源接入与生产部署后置；完成后停在任务拆解审核门"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-06T11:42:43+08:00"
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    upstream_approval: approval-20260806-radar-architecture-v1
+    upstream_artifact: docs/04-architecture.md
+    upstream_version: "1.0"
+    upstream_sha256: 155e734351c753cd9a51878f9b1549f0d7aaf4db18872c35f8763ff39903db04
+    scheduling: queued-after-frontend-career-radar
+    evidence: "依据通过即批准当前交付并单步授权唯一下一站规则，固定 02 项目经理获准进入一次任务拆解交付单元；因同一固定角色先处理 Frontend Career Radar，本项目排队等待，不得自动启动开发。"

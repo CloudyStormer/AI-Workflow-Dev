@@ -3,9 +3,9 @@ project_id: ai-model-radar
 run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
-stage: architecture-review
-status: awaiting-architecture-review
-current_role: role-architect
+stage: task-breakdown
+status: task-breakdown-queued
+current_role: role-pm
 blocked: false
 ui_assets:
   directory: ui
@@ -19,19 +19,13 @@ delivery_priority:
     - production-deployment
   approval_gates_unchanged: true
 next_approval:
-  gate: architecture-review
-  artifact: docs/04-architecture.md
-  expected_change_id: arch-20260804-ai-model-radar-001
-  scope: "基于已批准 PRD、Prompt 与 9 张用户视觉基线，定义 Web 优先的技术选型、模块、数据证据链、接口、安全、来源合规、失败恢复、成本和部署边界"
+  gate: task-breakdown-review
+  artifact: docs/05-task-breakdown.md
+  expected_change_id: plan-20260806-ai-model-radar-task-breakdown-001
+  scope: "AI Model Radar 首批任务拆解 v1.0"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
-  on_approved:
-    authorize_next_role: role-pm
-    role_task_title: "02 项目经理"
-    scope: "基于已批准架构拆解首批任务"
-    advance_limit: unique-next-stage-only
-    auto_advance_beyond_next: false
+  delivery_status: pending-role-delivery
 completed_ui_assignment:
   change_id: ui-prompt-20260804-ai-model-radar-001
   role: role-ui-designer
@@ -55,7 +49,7 @@ completed_ui_assignment:
   stop_gate: ui-prompt-review
   approval: approval-20260804-radar-ui-baseline
   visual_baseline_asset_count: 9
-active_assignment:
+completed_architecture_assignment:
   change_id: arch-20260804-ai-model-radar-001
   role: role-architect
   role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
@@ -89,6 +83,27 @@ active_assignment:
   completed_at: "2026-08-04T17:12:23+08:00"
   stop_gate: architecture-review
   auto_route_on_approval: false
+  approval: approval-20260806-radar-architecture-v1
+  result: approved
+queued_assignment:
+  change_id: plan-20260806-ai-model-radar-task-breakdown-001
+  role: role-pm
+  role_task_id: 019fb738-5706-7552-849f-35c8a124e2f0
+  role_task_title: "02 项目经理"
+  authorization: approval-20260806-radar-task-breakdown-entry
+  scheduling: queued-after-frontend-career-radar
+  upstream:
+    architecture:
+      path: docs/04-architecture.md
+      version: "1.0"
+      sha256: 155e734351c753cd9a51878f9b1549f0d7aaf4db18872c35f8763ff39903db04
+      approval: approval-20260806-radar-architecture-v1
+  expected_output:
+    path: docs/05-task-breakdown.md
+    version: "1.0"
+  scope: "基于已批准架构拆解首批可执行任务；优先浏览器可见的简体中文 Web 内容，后端服务、真实来源接入与生产部署继续后置；不实现业务代码"
+  delivery_status: queued
+  queued_at: "2026-08-06T11:42:43+08:00"
 completed_product_assignment:
   change_id: prd-20260804-ai-model-radar-001
   role: role-product-manager
@@ -122,10 +137,10 @@ ui_visual_baseline:
     - "缺少完整平板、深色及 36 个状态的逐项视觉覆盖"
     - "真实连接、活动源、运行状态和混用日期均为视觉占位，PRD 与 Prompt 的真实性边界优先"
 latest_approved_artifact:
-  path: docs/02-prd.md
+  path: docs/04-architecture.md
   version: "1.0"
-  sha256: 4d08c008bf0b2cd73d89a7771851bddd87b5b34a7b1e1465ec0e801fe12306fc
-  approval: approval-20260804-radar-prd-delivery
+  sha256: 155e734351c753cd9a51878f9b1549f0d7aaf4db18872c35f8763ff39903db04
+  approval: approval-20260806-radar-architecture-v1
 workflow_policy:
   pass_semantics: approve-current-and-authorize-unique-next
   role_reporting:
@@ -145,4 +160,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-04T17:12:23+08:00"
+updated_at: "2026-08-06T11:42:43+08:00"

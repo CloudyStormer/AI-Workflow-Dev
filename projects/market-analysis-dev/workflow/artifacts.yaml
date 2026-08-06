@@ -277,11 +277,13 @@ artifacts:
     type: technical-architecture
     change_id: "arch-20260804-frontend-career-radar-001"
     path: docs/04-architecture.md
-    status: ready-for-review
+    status: approved
     owner: role-architect
     version: "1.0"
     sha256: bcc782409ebde28e003c9e4a1c20d45ddcb3b787f8a2de020c451ef05957d144
     entry_approval: "approval-20260804-career-architecture-entry"
+    approval: "approval-20260806-career-architecture-v1"
+    approved_at: "2026-08-06T11:42:43+08:00"
     upstream:
       prd:
         path: docs/02-prd.md
