@@ -186,3 +186,28 @@ approvals:
     upstream_sha256: 0b065ec4ffb4881d6893ec23a1d9c4ec57627fe173f43ada73cdf5c3f4b02385
     advance_limit: unique-next-stage-only
     evidence: "产品批准后固定 04 是唯一明确、输入完整且非高风险的下一站；前端及其未提交现场继续冻结，不授权实现。"
+  - id: approval-20260806-spaced-recall-ui-prompt-and-direct-frontend
+    gate: ui-stage-review
+    role: role-ui-designer
+    artifact: artifact-spaced-recall-ui-prompt-001
+    path: ui/04-spaced-recall-ui-prompt-v1.3.md
+    version: "1.3"
+    sha256: 72791c27d60851710868ea5f5c30deb4215dea61c0628b287252a9843ad08017
+    change_id: chg-20260806-spaced-recall-ui-prompt-v1-3
+    scope: "批准记忆曲线 Prompt v1.3；免除独立设计稿、原型和图片生成；固定 06 可在已批准 PRD v1.3、Prompt v1.3、行内字母槽 Prompt v1.2 与用户视觉母版范围内自主完成前端细节"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-06T14:23:53+08:00"
+    source_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+    evidence: "超级无敌帅超超总明确指示：‘英语的项目直接让前端去发挥吧’。"
+    effect: "Prompt v1.3 已批准且不再生成独立 UI 设计；直接授权唯一下一站固定 06 前端工程师恢复既有冻结现场并实现记忆曲线前端单元。前端可自主决定不影响产品规则和视觉基准的界面细节，交付后必须停在 frontend-delivery-review。"
+    design_generation_required: false
+    ui_assets_modified: false
+    architecture_impact: none
+    frontend_authorized: true
+    next_role: role-frontend-dev
+    next_role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
+    next_role_task_title: "06 前端工程师"
+    frontend_change_id: chg-20260806-spaced-recall-frontend-implementation-v1-3
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false

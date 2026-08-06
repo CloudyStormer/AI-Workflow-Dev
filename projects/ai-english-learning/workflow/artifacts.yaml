@@ -19,9 +19,9 @@ artifacts:
     path: ui/README.md
     status: active
     owner: package-contractor
-    sha256: 32d3874340ca0939685e522b0108f80ecaa2f2e7db3216f07df2bd4efefb1056
+    sha256: 4f239ef27f01d2b0a66c1104b052707c32fe6a718474e9f315a664d1981a5f39
     legacy_active_artifact: docs/03-ui-prompt.md
-    updated_at: "2026-08-06T12:15:54+08:00"
+    updated_at: "2026-08-06T14:23:53+08:00"
   - id: artifact-random-letter-hints-001
     type: frontend-delivery
     path: frontend/src/utils/wordHints.ts
@@ -31,7 +31,7 @@ artifacts:
       - design-qa.md
       - design-qa/implementation-desktop-word-random-hints.jpg
       - design-qa/implementation-mobile-word-random-hints.jpg
-    status: ready-for-review
+    status: approved
     owner: role-frontend-dev
     source_commit: 3c181efff4a4cd3950b0373f6c05ab9e6cb38e9a
     sha256: 133db791cf452bb69ff80088245f72987a0daff22b895dd24783e5d6f6b3ae44
@@ -367,7 +367,7 @@ artifacts:
       path: ui/
       asset_count: 13
       index: ui/README.md
-      index_sha256: 32d3874340ca0939685e522b0108f80ecaa2f2e7db3216f07df2bd4efefb1056
+      index_sha256: 4f239ef27f01d2b0a66c1104b052707c32fe6a718474e9f315a664d1981a5f39
       authority: user-provided-assets
     sha256: 72791c27d60851710868ea5f5c30deb4215dea61c0628b287252a9843ad08017
     review_scope: "薄弱词登记、当天受控复现、D+1/D+3/D+7/D+14/D+30 跨日复习、提醒与时区、独立拼写、掌握退出、计分状态、跳过/暂停/重置、异常恢复、完整简体中文、响应式与无障碍"
@@ -390,7 +390,13 @@ artifacts:
     modified_frontend: false
     frontend_status: frozen-uncommitted-worktree-preserved
     completed_at: "2026-08-06T12:15:54+08:00"
-    stop_gate: ui-prompt-review
+    stop_gate: completed
+    approval: approval-20260806-spaced-recall-ui-prompt-and-direct-frontend
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-06T14:23:53+08:00"
+    design_generation_required: false
+    frontend_authorized: true
+    frontend_change_id: chg-20260806-spaced-recall-frontend-implementation-v1-3
     validation:
       upstream_prd_sha256_match: passed
       inherited_prompt_sha256_match: passed
