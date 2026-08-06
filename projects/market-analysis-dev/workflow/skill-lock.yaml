@@ -3,7 +3,7 @@ algorithm: sha256
 skills:
   - name: "ai-dev-workflow"
     path: "skills/ai-dev-workflow/SKILL.md"
-    sha256: "a080db07312e0d97769ba97404a96da0cda1561e7d6813613ef596aee7163fe5"
+    sha256: "437a523fea0fd4583df3f208f39a4080af62da65544ae2fa9d3a6a046994d46e"
   - name: "project-market-analysis-dev"
     path: "skills/project-market-analysis-dev/SKILL.md"
     sha256: "fedd64ee09ec7de05587ed6a6f9f0e0303833c69fa54d59efe165afbfe3e4233"
