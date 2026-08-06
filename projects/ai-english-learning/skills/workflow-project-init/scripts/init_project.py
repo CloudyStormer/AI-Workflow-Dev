@@ -149,6 +149,7 @@ def render_agents(args: argparse.Namespace) -> str:
 14. 每次面向用户的回复第一行必须先写 `【{args.name} 项目】`，下一行再完整称呼“超级无敌帅超超总”；多项目分别成块，跨项目事项单列 `【AIWorkFlow 总体协调】`。
 15. 阶段状态由对应固定角色本人报告：当前角色在自己的固定任务独立交付；获批路由后，下一角色在自己的固定任务宣布入场、范围和停止门；`00 包工头`只监督汇总，不代替角色报到或交付。
 16. 每个项目必须保留 `ui/` 目录，专门承载 UI/UX 提示词、设计说明和后续生成的界面产物；不得把新的 UI 交付散落到未登记目录。
+17. 超级无敌帅超超总在固定角色本人任务中明确项目、范围和动作时，视为该角色该工作单元的一次性入场或继续授权，无需 `00 包工头`转发，并具有内部最高业务调度优先级；但不得自动批准待审产物、解冻其他工作、授权下游或跳过原流程。执行前记录安全恢复点和返回点，完成后回原队列或审核门；高风险动作仍须本次具体授权。
 """
 
 
@@ -169,6 +170,13 @@ description: '{description}'
 - 每次对话必须称呼用户为“超级无敌帅超超总”。
 - 专业角色通过单独明确批准入场；若上一站交付已声明其为唯一明确、输入完整且非高风险的下一站，超级无敌帅超超总回复“通过”即同时批准该范围入场。
 - 本 Skill 只路由项目上下文，不代替市场、产品、UI、架构、开发、审查、测试或部署 Skill。
+
+## 用户直达固定角色的临时指令（强制）
+
+- 超级无敌帅超超总在某个固定角色本人任务中明确本项目、范围和动作后，视为该角色该工作单元的一次性入场或继续授权，无需 `00 包工头`转发，并具有 AIWorkFlow 内部最高业务调度优先级。
+- 直达指令不自动批准待审产物、不解冻其他工作、不授权下游、不产生级联；角色先登记原阶段、审核门、未提交现场、安全恢复点和返回点，完成后回到原队列或规定审核门。
+- 指令跨角色、冲突冻结现场或属于下游产品/UI 变更时，接收角色直接路由正确固定角色并保留现场，不得越权代做或跳过回退链。
+- 生产发布、不可逆操作、付费、账号权限、隐私数据和对外发送仍须本次具体动作的单独明确授权。
 
 ## 项目模块化汇报格式（强制）
 
@@ -404,6 +412,18 @@ ui_assets:
   preserve_active_legacy_paths: true
 workflow_policy:
   pass_semantics: approve-current-and-authorize-unique-next
+  direct_user_role_commands:
+    explicit_scope_is_authorization: true
+    package_contractor_relay_required: false
+    highest_business_priority: true
+    preserves_original_workflow: true
+    implicit_artifact_approval: false
+    implicit_unfreeze: false
+    implicit_downstream_authorization: false
+    implicit_cascade: false
+    role_boundary_preserved: true
+    safe_checkpoint_and_return_required: true
+    high_risk_requires_separate_authorization: true
   role_reporting:
     current_role_reports_in_own_fixed_task: true
     next_role_announces_after_authorization: true
@@ -444,6 +464,7 @@ updated_at: {quoted(now)}
                 "actor": "workflow-project-init",
                 "type": "project_adopted",
                 "workflow_policy": "pass-auto-continue-one-hop",
+                "direct_user_role_commands": "enabled-with-workflow-preservation",
                 "max_auto_advance_steps": 1,
                 "next_delivery_requires_review": True,
                 "high_risk_actions_require_separate_authorization": True,

@@ -143,6 +143,18 @@ latest_approved_artifact:
   approval: approval-20260806-radar-architecture-v1
 workflow_policy:
   pass_semantics: approve-current-and-authorize-unique-next
+  direct_user_role_commands:
+    explicit_scope_is_authorization: true
+    package_contractor_relay_required: false
+    highest_business_priority: true
+    preserves_original_workflow: true
+    implicit_artifact_approval: false
+    implicit_unfreeze: false
+    implicit_downstream_authorization: false
+    implicit_cascade: false
+    role_boundary_preserved: true
+    safe_checkpoint_and_return_required: true
+    high_risk_requires_separate_authorization: true
   role_reporting:
     current_role_reports_in_own_fixed_task: true
     next_role_announces_after_authorization: true
@@ -160,4 +172,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-06T11:42:43+08:00"
+updated_at: "2026-08-06T12:01:02+08:00"

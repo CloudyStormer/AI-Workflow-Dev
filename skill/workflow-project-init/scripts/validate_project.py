@@ -265,6 +265,8 @@ def main() -> int:
                 errors.append("project-level Skill does not contain the project-module reporting rule")
             if "角色本人报到与交付通知（强制）" not in body:
                 errors.append("project-level Skill does not contain the role-self-reporting rule")
+            if "用户直达固定角色的临时指令（强制）" not in body:
+                errors.append("project-level Skill does not contain the direct-user-role-command rule")
             if "UI 资产目录（强制）" not in body or "`ui/`" not in body:
                 errors.append("project-level Skill does not contain the required ui/ asset rule")
             required_project_skill_phrases = (
@@ -277,6 +279,10 @@ def main() -> int:
                 "【AIWorkFlow 总体协调】",
                 "下一角色必须在自己的固定任务",
                 "包工头",
+                "无需 `00 包工头`转发",
+                "不自动批准待审产物",
+                "安全恢复点",
+                "返回点",
             )
             for phrase in required_project_skill_phrases:
                 if phrase not in body:
@@ -335,6 +341,19 @@ def main() -> int:
                     "next_role_announces_after_authorization": True,
                     "package_contractor": "supervise-and-summarize",
                 },
+                "direct_user_role_commands": {
+                    "explicit_scope_is_authorization": True,
+                    "package_contractor_relay_required": False,
+                    "highest_business_priority": True,
+                    "preserves_original_workflow": True,
+                    "implicit_artifact_approval": False,
+                    "implicit_unfreeze": False,
+                    "implicit_downstream_authorization": False,
+                    "implicit_cascade": False,
+                    "role_boundary_preserved": True,
+                    "safe_checkpoint_and_return_required": True,
+                    "high_risk_requires_separate_authorization": True,
+                },
                 "next_stage_requirements": {
                     "unique": True,
                     "input_ready": True,
@@ -382,11 +401,18 @@ def main() -> int:
             errors.append("AGENTS.md does not contain the role-self-reporting rule")
         if "`ui/`" not in agents or "UI/UX 提示词" not in agents:
             errors.append("AGENTS.md does not contain the required ui/ asset rule")
+        if "无需 `00 包工头`转发" not in agents or "不得自动批准待审产物" not in agents:
+            errors.append("AGENTS.md does not contain the direct-user-role-command rule")
         required_agents_phrases = (
             "无需再等“继续”",
             "一次最多前进一步",
             "全局角色 Agent 池永久固定为现有 `00 包工头` 与 `01` 至 `11`",
             "生产发布、删除或不可逆覆盖、强制 Git、付费采购、账号权限、隐私数据和对外发送",
+            "最高业务调度优先级",
+            "解冻其他工作",
+            "授权下游或跳过原流程",
+            "安全恢复点和返回点",
+            "高风险动作仍须本次具体授权",
         )
         for phrase in required_agents_phrases:
             if phrase not in agents:
