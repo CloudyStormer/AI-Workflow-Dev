@@ -225,3 +225,70 @@ artifacts:
       - project structure passed with 4 expected empty-command warnings
       - Git boundary, Skill drift and scoped diff checks passed
     completed_at: "2026-08-04T17:12:23+08:00"
+  - id: artifact-task-breakdown-001
+    run_id: run-20260731-intake-001
+    type: task-breakdown
+    path: docs/05-task-breakdown.md
+    status: ready-for-review
+    owner: role-pm
+    version: "1.0"
+    change_id: plan-20260806-ai-model-radar-task-breakdown-001
+    entry_approval: approval-20260806-radar-task-breakdown-entry
+    upstream:
+      artifact: docs/04-architecture.md
+      version: "1.0"
+      sha256: 155e734351c753cd9a51878f9b1549f0d7aaf4db18872c35f8763ff39903db04
+      approval: approval-20260806-radar-architecture-v1
+    sha256: 073dbd6cd22af998733dd044afeb3c12abd4de588cb05c276387759b5838c372
+    scope:
+      browser_visible_content_first: true
+      complete_simplified_chinese_frontend: true
+      static_demo_manual_snapshot_only: true
+      backend_deferred: true
+      live_source_integration_deferred: true
+      shadow_run_deferred: true
+      production_deployment_deferred: true
+      business_code_written_by_pm: false
+    task_count: 31
+    atomic_effort_hours:
+      minimum: 3
+      maximum: 4
+      total: 118
+    acceptance_verification_levels:
+      implemented_in_current_batch: "AC-01..27, AC-30, AC-32..36, AC-38..40"
+      ui_or_field_contract_only: "AC-28..29, AC-37"
+      deferred_runtime_validation: "AC-31, AC-41..42"
+    first_downstream:
+      work_item: AMR-FE-001
+      role: role-frontend-dev
+      role_task_id: "019fb74a-a427-7101-9941-442c34b157e3"
+      role_task_title: "06 前端工程师"
+      change_id: dev-20260806-ai-model-radar-fe-001
+      stop_gate: frontend-delivery-review
+    started_at: "2026-08-06T12:12:56+08:00"
+    completed_at: "2026-08-06T12:41:09+08:00"
+    validated_at: "2026-08-06T12:42:33+08:00"
+    known_limits:
+      - no-business-code-or-runtime-entrypoints-yet
+      - project-commands-remain-empty-until-amr-fe-001
+      - only-amr-fe-001-is-the-unique-next-work-item
+      - live-sources-backend-models-shadow-run-and-production-deferred
+      - visual-live-status-counts-dates-and-real-company-events-are-placeholders
+      - effort-estimates-exclude-review-waiting-and-rework
+    validation:
+      - task breakdown SHA256 matches workflow registration
+      - approved architecture SHA256 matches upstream registration
+      - 31-of-31 atomic tasks have owner, input, files, DoD, validation, risk and 3-to-4-hour estimates
+      - dependency order has no violations and independent review found no cycle
+      - total role effort is 118 hours and is not a calendar commitment
+      - unique first downstream is AMR-FE-001 assigned only to fixed role-frontend-dev
+      - acceptance criteria are separated into current implementation, UI or field contract, and deferred runtime validation levels
+      - immutable snapshot fallback, pagination and complete SourcePolicy requirements are mapped
+      - complete Simplified Chinese, language semantics, 36 page states and component eight-state requirements are mapped
+      - 9 visual baselines, responsive, accessibility, security, performance and recent-two-version browser matrices are mapped
+      - backend, live sources, third-party models, shadow run and production remain deferred
+      - YAML 4-of-4 valid before validation event
+      - JSONL 37-of-37 valid before validation event
+      - project structure passed with 4 intentional empty-command warnings
+      - Git boundary, Skill drift and scoped diff checks passed
+      - unrelated shared-worktree changes remained untouched

@@ -4,7 +4,7 @@ run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
 stage: task-breakdown
-status: task-breakdown-queued
+status: task-breakdown-ready-for-review
 current_role: role-pm
 blocked: false
 ui_assets:
@@ -16,6 +16,7 @@ delivery_priority:
   current: browser-viewable-content-first
   deferred:
     - backend-services
+    - real-source-integration
     - production-deployment
   approval_gates_unchanged: true
 next_approval:
@@ -25,7 +26,18 @@ next_approval:
   scope: "AI Model Radar 首批任务拆解 v1.0"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: pending-role-delivery
+  delivery_status: ready-for-review
+  artifact_sha256: 073dbd6cd22af998733dd044afeb3c12abd4de588cb05c276387759b5838c372
+  on_approved:
+    authorize_next_role: role-frontend-dev
+    role_task_id: "019fb74a-a427-7101-9941-442c34b157e3"
+    role_task_title: "06 前端工程师"
+    change_id: "dev-20260806-ai-model-radar-fe-001"
+    work_item: "AMR-FE-001"
+    scope: "只建立可运行工程、完整简体中文应用壳、真实性状态条和 /today 首条可见纵切；不启动后续任务、后端、真实来源、影子运行或部署"
+    stop_gate: frontend-delivery-review
+    advance_limit: unique-next-work-item-only
+    auto_advance_beyond_next: false
 completed_ui_assignment:
   change_id: ui-prompt-20260804-ai-model-radar-001
   role: role-ui-designer
@@ -85,13 +97,13 @@ completed_architecture_assignment:
   auto_route_on_approval: false
   approval: approval-20260806-radar-architecture-v1
   result: approved
-queued_assignment:
+active_assignment:
   change_id: plan-20260806-ai-model-radar-task-breakdown-001
   role: role-pm
   role_task_id: 019fb738-5706-7552-849f-35c8a124e2f0
   role_task_title: "02 项目经理"
   authorization: approval-20260806-radar-task-breakdown-entry
-  scheduling: queued-after-frontend-career-radar
+  scheduling: resumed-after-frontend-career-radar-delivery-and-global-policy-commit
   upstream:
     architecture:
       path: docs/04-architecture.md
@@ -101,9 +113,43 @@ queued_assignment:
   expected_output:
     path: docs/05-task-breakdown.md
     version: "1.0"
+    sha256: 073dbd6cd22af998733dd044afeb3c12abd4de588cb05c276387759b5838c372
   scope: "基于已批准架构拆解首批可执行任务；优先浏览器可见的简体中文 Web 内容，后端服务、真实来源接入与生产部署继续后置；不实现业务代码"
-  delivery_status: queued
+  original_state:
+    stage: task-breakdown
+    status: task-breakdown-queued
+    active_work: "Frontend Career Radar task breakdown already delivered and stopped at task-breakdown-review"
+  safe_checkpoint:
+    git_head: 6a1ae199c06be2d4941ae49bb281dfab5b213cc1
+    origin_main: 6a1ae199c06be2d4941ae49bb281dfab5b213cc1
+    index_lock: clear
+    target_scope: clean
+    unrelated_frozen_paths: 6
+  resume_recheck:
+    checked_at: "2026-08-06T12:24:49+08:00"
+    git_head: 96cb13a1151c41d82112872e7ba36ffb93e94240
+    origin_main: 96cb13a1151c41d82112872e7ba36ffb93e94240
+    index_lock: clear
+    target_overlap: none
+    unrelated_worktree_changes: preserved
+  return_point: task-breakdown-review
+  task_count: 31
+  atomic_effort_hours:
+    minimum: 3
+    maximum: 4
+    total: 118
+  acceptance_verification_levels:
+    implemented_in_current_batch: "AC-01..27, AC-30, AC-32..36, AC-38..40"
+    ui_or_field_contract_only: "AC-28..29, AC-37"
+    deferred_runtime_validation: "AC-31, AC-41..42"
+  delivery_status: ready-for-review
   queued_at: "2026-08-06T11:42:43+08:00"
+  started_at: "2026-08-06T12:12:56+08:00"
+  completed_at: "2026-08-06T12:41:09+08:00"
+  validation_status: passed
+  validated_at: "2026-08-06T12:42:33+08:00"
+  result: task-breakdown-ready-for-review
+  stop_gate: task-breakdown-review
 completed_product_assignment:
   change_id: prd-20260804-ai-model-radar-001
   role: role-product-manager
@@ -172,4 +218,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-06T12:01:02+08:00"
+updated_at: "2026-08-06T12:42:33+08:00"
