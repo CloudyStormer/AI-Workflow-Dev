@@ -19,9 +19,9 @@ artifacts:
     path: ui/README.md
     status: active
     owner: package-contractor
-    sha256: 0e1ed9867fa37b690ca2d22b3aeb564466a6fc4310ea6b298273a55ebcf520de
+    sha256: 32d3874340ca0939685e522b0108f80ecaa2f2e7db3216f07df2bd4efefb1056
     legacy_active_artifact: docs/03-ui-prompt.md
-    updated_at: "2026-08-04T11:42:10+08:00"
+    updated_at: "2026-08-06T12:15:54+08:00"
   - id: artifact-random-letter-hints-001
     type: frontend-delivery
     path: frontend/src/utils/wordHints.ts
@@ -346,3 +346,60 @@ artifacts:
     approved_by: 超级无敌帅超超总
     approved_at: "2026-08-06T12:03:00+08:00"
     stop_gate: completed
+  - id: artifact-spaced-recall-ui-prompt-001
+    type: ui-design-prompt
+    path: ui/04-spaced-recall-ui-prompt-v1.3.md
+    status: ready-for-review
+    owner: role-ui-designer
+    version: "1.3"
+    change_id: chg-20260806-spaced-recall-ui-prompt-v1-3
+    entry_approval: approval-20260806-spaced-recall-ui-prompt-entry
+    upstream_approval: approval-20260806-spaced-recall-prd-v1-3
+    upstream_artifact: artifact-spaced-recall-prd-001
+    upstream_path: docs/01-prd.md
+    upstream_version: "1.3"
+    upstream_sha256: 0b065ec4ffb4881d6893ec23a1d9c4ec57627fe173f43ada73cdf5c3f4b02385
+    inherited_ui_prompt:
+      path: docs/03-ui-prompt.md
+      version: "1.2"
+      sha256: c30be1da6e120a524976420c8c6b8d5dfaf62f0af444a4284708c96fa2094af1
+    visual_baseline:
+      path: ui/
+      asset_count: 13
+      index: ui/README.md
+      index_sha256: 32d3874340ca0939685e522b0108f80ecaa2f2e7db3216f07df2bd4efefb1056
+      authority: user-provided-assets
+    sha256: 72791c27d60851710868ea5f5c30deb4215dea61c0628b287252a9843ad08017
+    review_scope: "薄弱词登记、当天受控复现、D+1/D+3/D+7/D+14/D+30 跨日复习、提醒与时区、独立拼写、掌握退出、计分状态、跳过/暂停/重置、异常恢复、完整简体中文、响应式与无障碍"
+    coverage:
+      weak_capture: true
+      same_day_controlled_recurrence: true
+      cross_day_schedule: [D+1, D+3, D+7, D+14, D+30]
+      reminders_timezone_and_quiet_hours: true
+      clean_independent_spelling: true
+      mastery_exit_and_relapse: true
+      scoring_history_and_item_actions: true
+      error_recovery: true
+      simplified_chinese: true
+      responsive_and_accessibility: true
+      required_state_count: 50
+      acceptance_criteria: AC-SR-01..AC-SR-36
+    generated_new_ui: false
+    generated_prototype: false
+    modified_ui_assets: false
+    modified_frontend: false
+    frontend_status: frozen-uncommitted-worktree-preserved
+    completed_at: "2026-08-06T12:15:54+08:00"
+    stop_gate: ui-prompt-review
+    validation:
+      upstream_prd_sha256_match: passed
+      inherited_prompt_sha256_match: passed
+      required_sections: "15-of-15-present"
+      state_matrix: "1-to-50-contiguous"
+      acceptance_mapping: "AC-SR-01..AC-SR-36-present"
+      yaml: "5-of-5-valid"
+      jsonl: "46-of-46-valid-after-validation-event"
+      project_validator: "passed-with-existing-missing-test-command-warning"
+      git_boundary: passed
+      skill_drift: passed
+      diff_check: passed
