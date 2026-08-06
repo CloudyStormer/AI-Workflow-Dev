@@ -1,13 +1,14 @@
 schema_version: 1
 project_id: "ai-english-learning"
 structure_status: normalized
-stage: development
-status: spaced-recall-frontend-ready-for-review
-current_role: role-frontend-dev
+stage: code-review
+status: spaced-recall-code-review-routed
+current_role: role-code-reviewer
 approved_roles:
   - role-product-manager
   - role-ui-designer
   - role-frontend-dev
+  - role-code-reviewer
 blocked: false
 ui_assets:
   directory: ui
@@ -21,15 +22,15 @@ delivery_priority:
     - production-deployment
   approval_gates_unchanged: true
 next_approval:
-  gate: frontend-delivery-review
-  artifact: artifact-spaced-recall-frontend-001
-  expected_change_id: chg-20260806-spaced-recall-frontend-implementation-v1-3
-  expected_path: frontend/src/pages/Word.tsx
-  scope: "恢复既有查看答案前端现场，并依据 PRD v1.3 与 Prompt v1.3 实现薄弱词登记、日内复现、跨日复习、提醒、独立拼写、掌握退出与异常恢复；前端可自主决定不改变产品规则和视觉母版的表现细节"
+  gate: code-review-conclusion-review
+  artifact: artifact-spaced-recall-code-review-001
+  expected_change_id: review-20260806-spaced-recall-frontend-v1-3
+  expected_path: docs/06-code-review.md
+  scope: "只读审查提交 159815d59c2efb885317bbaebfa1e1981fd8c2fa 中的记忆曲线 v1.3 前端交付，覆盖正确性、安全、性能、可维护性、测试、无障碍、中文完整性、数据真实性边界与已批准产品/UI规则；不得代修代码，不进入 QA 或部署"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
-  on_approved: fixed-09-code-review
+  delivery_status: pending-role-delivery
+  on_approved: pending-review-conclusion
 completed_spaced_recall_product_assignment:
   change_id: chg-20260804-spaced-recall-loop-product-v1
   role: role-product-manager
@@ -95,7 +96,7 @@ completed_spaced_recall_ui_assignment:
   result: approved-with-design-generation-waived-and-frontend-authorized
   stop_gate: completed
   auto_route_on_delivery: false
-active_assignment:
+completed_frontend_assignment:
   change_id: chg-20260806-spaced-recall-frontend-implementation-v1-3
   role: role-frontend-dev
   role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
@@ -125,12 +126,12 @@ active_assignment:
     primary_path: frontend/src/pages/Word.tsx
   scope: "在保留现有查看答案未提交现场的基础上，实现记忆曲线前端闭环；可自主安排布局、组件和反馈细节，但不得更改 PRD 规则、恢复句下答案框、脱离视觉母版、修改后端或部署"
   architecture_impact: none
-  delivery_status: ready-for-review
+  delivery_status: approved
   authorized_at: "2026-08-06T14:23:53+08:00"
   preserved_frozen_change: chg-20260804-reveal-answer-frontend-implementation-v1
   preserved_file_count: 6
   safe_recovery_commit: 479090f1d8dfeb93da2b7444c9645bcf03b8357e
-  stop_gate: frontend-delivery-review
+  stop_gate: completed
   auto_route_on_delivery: false
   output:
     artifact: artifact-spaced-recall-frontend-001
@@ -140,6 +141,30 @@ active_assignment:
     design_qa_sha256: 2f713b55c59173182657bc3590a48a31ef62f209e5e6b73eb664506e8c500db3
   result: spaced-recall-frontend-ready-for-review
   completed_at: "2026-08-06T15:27:02+08:00"
+  source_commit: 159815d59c2efb885317bbaebfa1e1981fd8c2fa
+  approval: approval-20260806-spaced-recall-frontend-delivery
+  approved_at: "2026-08-06T15:34:22+08:00"
+  review_decision: approved
+active_assignment:
+  change_id: review-20260806-spaced-recall-frontend-v1-3
+  role: role-code-reviewer
+  role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
+  role_task_title: "09 代码审查员"
+  authorization: approval-20260806-spaced-recall-code-review-entry
+  scheduling: routed
+  input:
+    artifact: artifact-spaced-recall-frontend-001
+    source_commit: 159815d59c2efb885317bbaebfa1e1981fd8c2fa
+    path: frontend/
+    design_qa: design-qa.md
+  scope: "只读审查 AI English Learning 记忆曲线 v1.3 前端交付；形成分级问题、证据、结论与下一步建议，不代修代码、不进入 QA 或部署"
+  output:
+    artifact: artifact-spaced-recall-code-review-001
+    path: docs/06-code-review.md
+  routed_at: "2026-08-06T15:34:22+08:00"
+  delivery_status: pending-role-delivery
+  stop_gate: code-review-conclusion-review
+  auto_route_on_delivery: false
 completed_ui_assignment:
   change_id: chg-20260804-reveal-answer-ui-prompt-v1-2
   role: role-ui-designer
@@ -186,15 +211,17 @@ held_downstream_delivery:
   resumed_again_by: approval-20260806-spaced-recall-ui-prompt-and-direct-frontend
   resumed_for: chg-20260806-spaced-recall-frontend-implementation-v1-3
   resumed_at: "2026-08-06T14:23:53+08:00"
-implementation_gate: "超级无敌帅超超总已批准 Prompt v1.3、免除独立 UI 设计并明确授权固定 06 自主完成前端细节。前端仅获本实现单元授权，交付后必须停在 frontend-delivery-review，不含后端、部署或生产发布。"
+implementation_gate: "记忆曲线 v1.3 前端交付已获超级无敌帅超超总批准；固定 09 代码审查员是唯一当前角色，完成 docs/06-code-review.md 后必须停在 code-review-conclusion-review。不得自动进入 QA、修复或生产部署。"
 latest_approved_artifact:
-  artifact: artifact-spaced-recall-ui-prompt-001
-  path: ui/04-spaced-recall-ui-prompt-v1.3.md
+  artifact: artifact-spaced-recall-frontend-001
+  path: frontend/src/pages/Word.tsx
   version: "1.3"
-  sha256: 72791c27d60851710868ea5f5c30deb4215dea61c0628b287252a9843ad08017
-  approval: approval-20260806-spaced-recall-ui-prompt-and-direct-frontend
+  sha256: 9bf78f892cb76e999bb8dfe3724a82eef90caf0323ef75e4bfbdfe2370bc87bf
+  source_commit: 159815d59c2efb885317bbaebfa1e1981fd8c2fa
+  status: approved
+  approval: approval-20260806-spaced-recall-frontend-delivery
   approved_by: 超级无敌帅超超总
-  approved_at: "2026-08-06T14:23:53+08:00"
+  approved_at: "2026-08-06T15:34:22+08:00"
 approved_product_delivery:
   artifact: artifact-spaced-recall-prd-001
   path: docs/01-prd.md
@@ -246,12 +273,15 @@ latest_delivery:
   artifact: artifact-spaced-recall-frontend-001
   version: "1.3"
   sha256: 9bf78f892cb76e999bb8dfe3724a82eef90caf0323ef75e4bfbdfe2370bc87bf
-  status: ready-for-review
+  status: approved-and-routed-to-code-review
   authorization: approval-20260806-spaced-recall-ui-prompt-and-direct-frontend
   completed_by: role-frontend-dev
   completed_at: "2026-08-06T15:27:02+08:00"
   design_qa: design-qa.md
-  stop_gate: frontend-delivery-review
+  source_commit: 159815d59c2efb885317bbaebfa1e1981fd8c2fa
+  approval: approval-20260806-spaced-recall-frontend-delivery
+  approved_at: "2026-08-06T15:34:22+08:00"
+  stop_gate: completed
 ui_visual_baseline:
   path: ui/
   status: approved
@@ -264,7 +294,7 @@ ui_visual_baseline:
   missing_inline_cloze_states: governed-by-prd-and-ui-prompt
   new_design_generation_required: false
 frontend_resume:
-  status: implementation-completed-ready-for-review
+  status: approved-and-routed-to-code-review
   safe_recovery_commit: 479090f1d8dfeb93da2b7444c9645bcf03b8357e
   held_artifact: artifact-inline-cloze-frontend-001
   frozen_worktree_change: chg-20260804-reveal-answer-frontend-implementation-v1
@@ -279,6 +309,9 @@ frontend_resume:
   scope: "固定 06 可继续修改、测试并交付本次英语前端实现；必须先核对并保留 6 个既有未提交文件，只提交本项目本变更，其他项目按固定角色队列隔离"
   output_artifact: artifact-spaced-recall-frontend-001
   completed_at: "2026-08-06T15:27:02+08:00"
+  source_commit: 159815d59c2efb885317bbaebfa1e1981fd8c2fa
+  approval: approval-20260806-spaced-recall-frontend-delivery
+  review_change: review-20260806-spaced-recall-frontend-v1-3
 workflow_policy:
   pass_semantics: approve-current-and-authorize-unique-next
   direct_user_role_commands:
@@ -311,4 +344,4 @@ workflow_policy:
     privacy_or_real_user_data: true
     external_message_or_publication: true
 state_limit: "旧版计划与任务表仍需单独对账；本状态只声明已核实的最新交付和审批门"
-updated_at: "2026-08-06T15:27:02+08:00"
+updated_at: "2026-08-06T15:34:22+08:00"

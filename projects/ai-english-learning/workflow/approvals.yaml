@@ -211,3 +211,34 @@ approvals:
     frontend_change_id: chg-20260806-spaced-recall-frontend-implementation-v1-3
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: approval-20260806-spaced-recall-frontend-delivery
+    gate: frontend-delivery-review
+    role: role-frontend-dev
+    artifact: artifact-spaced-recall-frontend-001
+    path: frontend/src/pages/Word.tsx
+    version: "1.3"
+    sha256: 9bf78f892cb76e999bb8dfe3724a82eef90caf0323ef75e4bfbdfe2370bc87bf
+    source_commit: 159815d59c2efb885317bbaebfa1e1981fd8c2fa
+    change_id: chg-20260806-spaced-recall-frontend-implementation-v1-3
+    scope: "批准 AI English Learning 记忆曲线 v1.3 前端闭环，包括行内查看答案、薄弱词登记、日内加固、跨日复习、提醒、掌握退出、异常恢复、完整简体中文与响应式无障碍实现"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-06T15:34:22+08:00"
+    source_task_id: 019fb74a-a427-7101-9941-442c34b157e3
+    evidence: "超级无敌帅超超总对固定 06 前端工程师明确展示的 artifact-spaced-recall-frontend-001 回复‘通过’。"
+    effect: "已批准当前产物，并自动授权唯一下一站固定 09 代码审查员。本次只覆盖该站一个代码审查交付单元；审查员交付后停止等待审核，不代表审查结论、QA、修复或部署已获批准。"
+  - id: approval-20260806-spaced-recall-code-review-entry
+    gate: role-entry
+    role: role-code-reviewer
+    role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
+    role_task_title: "09 代码审查员"
+    change_id: review-20260806-spaced-recall-frontend-v1-3
+    scope: "只读审查提交 159815d59c2efb885317bbaebfa1e1981fd8c2fa 中的 AI English Learning 记忆曲线 v1.3 前端交付，形成 docs/06-code-review.md；不得代修代码，不进入 QA 或部署"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-06T15:34:22+08:00"
+    upstream_approval: approval-20260806-spaced-recall-frontend-delivery
+    upstream_artifact: artifact-spaced-recall-frontend-001
+    source_commit: 159815d59c2efb885317bbaebfa1e1981fd8c2fa
+    advance_limit: unique-next-stage-only
+    evidence: "前端交付批准后，固定 09 是唯一明确、输入完整且非高风险的下一站；不授权 QA、修复或部署。"

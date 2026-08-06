@@ -412,7 +412,7 @@ artifacts:
   - id: artifact-spaced-recall-frontend-001
     type: frontend-implementation
     path: frontend/src/pages/Word.tsx
-    status: ready-for-review
+    status: approved
     owner: role-frontend-dev
     version: "1.3"
     change_id: chg-20260806-spaced-recall-frontend-implementation-v1-3
@@ -461,5 +461,9 @@ artifacts:
       offline_settlement: disabled
     result: spaced-recall-frontend-ready-for-review
     completed_at: "2026-08-06T15:27:02+08:00"
-    stop_gate: frontend-delivery-review
+    source_commit: 159815d59c2efb885317bbaebfa1e1981fd8c2fa
+    approval: approval-20260806-spaced-recall-frontend-delivery
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-06T15:34:22+08:00"
+    stop_gate: completed
     auto_route_on_delivery: false
