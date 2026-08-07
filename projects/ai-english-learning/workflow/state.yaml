@@ -343,5 +343,53 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
+temporary_architecture_assignment:
+  change_id: arch-20260807-english-word-local-service-v1-3
+  role: role-architect
+  role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
+  role_task_title: "05 架构师"
+  authorization: approval-20260807-english-word-architecture-entry
+  authorized_via: "超级无敌帅超超总直接要求四个项目后端必须可用、必须有服务；固定 00 完成只读门禁并于 2026-08-07 明确解除固定 05 写入锁"
+  safe_checkpoint: 964c893834ac7c07aad5d3f9ebd10f05f874e10b
+  original_workflow:
+    stage: code-review
+    status: spaced-recall-code-review-queued
+    current_role: role-code-reviewer
+    next_gate: code-review-conclusion-review
+    active_change_id: review-20260806-spaced-recall-frontend-v1-3
+    preservation: "不覆盖、不解冻、不代替固定 09 的既有代码审查队列"
+  upstream:
+    product: {path: docs/01-prd.md, version: "1.3", sha256: 0b065ec4ffb4881d6893ec23a1d9c4ec57627fe173f43ada73cdf5c3f4b02385}
+    ui_prompt: {path: ui/04-spaced-recall-ui-prompt-v1.3.md, version: "1.3", sha256: 72791c27d60851710868ea5f5c30deb4215dea61c0628b287252a9843ad08017}
+  scope: "只交付 Word v1.3 本地后端服务架构契约：健康/就绪、游客主体、今日/逾期队列、attempt/reveal/incorrect 幂等结算、日内插题、S0-S4/D+30、history、skip/pause/reset、提醒偏好、SQLite、revision/idempotency/timezone、错误信封、启动/迁移/seed 和契约/集成测试边界"
+  exclusions:
+    - backend-business-code
+    - frontend-adapter
+    - login-and-account-system
+    - ai-chat-and-model-calls
+    - complete-word-library-and-statistics
+    - external-reminder-delivery
+    - production-deployment
+    - auto-start-role-backend-dev-or-role-data-engineer
+  output:
+    artifact: artifact-english-word-local-service-architecture-001
+    path: docs/02-architecture.md
+    version: "1.1"
+    sha256: 0f80bfd20820d795904893778f68f40a2366b29d13db2766d4f3dabd190b88c6
+  delivery_status: ready-for-review
+  result: word-v1-3-local-service-architecture-ready
+  stop_gate: architecture-review
+  return_point: "审核后仍返回既有 code-review 队列；未经新授权不得启动固定 02 或固定 07"
+  auto_route_on_delivery: false
+additional_pending_approval:
+  gate: architecture-review
+  artifact: artifact-english-word-local-service-architecture-001
+  expected_change_id: arch-20260807-english-word-local-service-v1-3
+  expected_path: docs/02-architecture.md
+  version: "1.1"
+  decision_owner: 超级无敌帅超超总
+  decision: pending
+  options: [通过, 修改, 打回]
+  on_approved: "只批准当前架构；不得在固定 05 任务自动启动固定 02 或固定 07"
 state_limit: "旧版计划与任务表仍需单独对账；本状态只声明已核实的最新交付和审批门"
-updated_at: "2026-08-06T15:36:57+08:00"
+updated_at: "2026-08-07T15:38:04+08:00"

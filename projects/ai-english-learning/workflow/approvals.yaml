@@ -242,3 +242,19 @@ approvals:
     source_commit: 159815d59c2efb885317bbaebfa1e1981fd8c2fa
     advance_limit: unique-next-stage-only
     evidence: "前端交付批准后，固定 09 是唯一明确、输入完整且非高风险的下一站；不授权 QA、修复或部署。"
+  - id: approval-20260807-english-word-architecture-entry
+    gate: role-entry
+    role: role-architect
+    role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
+    role_task_title: "05 架构师"
+    change_id: arch-20260807-english-word-local-service-v1-3
+    scope: "只形成 AI English Learning Word v1.3 本地后端服务架构契约并登记审核门；不得修改 backend 业务代码、启动固定 02/07 或部署"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-07T15:38:04+08:00"
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    safe_checkpoint: 964c893834ac7c07aad5d3f9ebd10f05f874e10b
+    write_lock: released
+    evidence: "超级无敌帅超超总已要求四个项目后端必须可用、必须有服务；固定 00 只读核查确认 PRD v1.3 足以定义 Word 最小切片，并在固定 11/06 独立提交推送后明确发送‘写入锁解除’，授权固定 05 更新架构和必要登记。"
+    effect: "固定 05 可交付 docs/02-architecture.md v1.1；交付后停在 architecture-review，保留既有固定 09 代码审查队列，不自动启动固定 02 或固定 07。"
+    auto_route_on_delivery: false

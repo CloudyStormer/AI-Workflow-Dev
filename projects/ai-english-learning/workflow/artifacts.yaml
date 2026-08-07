@@ -467,3 +467,55 @@ artifacts:
     approved_at: "2026-08-06T15:34:22+08:00"
     stop_gate: completed
     auto_route_on_delivery: false
+  - id: artifact-english-word-local-service-architecture-001
+    type: architecture-contract
+    path: docs/02-architecture.md
+    status: ready-for-review
+    owner: role-architect
+    version: "1.1"
+    change_id: arch-20260807-english-word-local-service-v1-3
+    authorization: approval-20260807-english-word-architecture-entry
+    previous:
+      version: "1.0"
+      sha256: f2137caa9ea34395724573203765649e70239ba39454994933d61c23ed88d6df
+    upstream:
+      product: {path: docs/01-prd.md, version: "1.3", sha256: 0b065ec4ffb4881d6893ec23a1d9c4ec57627fe173f43ada73cdf5c3f4b02385}
+      ui_prompt: {path: ui/04-spaced-recall-ui-prompt-v1.3.md, version: "1.3", sha256: 72791c27d60851710868ea5f5c30deb4215dea61c0628b287252a9843ad08017}
+    sha256: 0f80bfd20820d795904893778f68f40a2366b29d13db2766d4f3dabd190b88c6
+    coverage:
+      health_and_readiness: true
+      guest_subject: true
+      today_overdue_queue: true
+      idempotent_attempt_reveal_incorrect_settlement: true
+      same_day_insertion: true
+      stages_s0_s4_and_d30: true
+      history_and_item_actions: true
+      reminder_preferences_without_delivery: true
+      sqlite_revision_idempotency_timezone: true
+      error_envelope_and_api_contracts: true
+      startup_migrations_seed_and_tests: true
+      security_recovery_cost_and_deployment_boundaries: true
+    exclusions:
+      - backend-business-code
+      - frontend-adapter
+      - login-and-account-system
+      - ai-chat-and-model-calls
+      - complete-word-library-and-statistics
+      - external-reminder-delivery
+      - production-deployment
+    validation:
+      upstream_prd_sha256_match: passed
+      upstream_ui_prompt_sha256_match: passed
+      architecture_sha256_match: passed
+      mermaid_diagrams: 4
+      markdown_tables: consistent
+      yaml: "5-of-5-valid"
+      jsonl_before_validation_event: "55-of-55-valid"
+      project_validator: "passed-with-existing-missing-test-command-warning"
+      git_boundary: passed
+      skill_drift: passed
+      diff_check: passed
+      head_and_origin_checkpoint: 964c893834ac7c07aad5d3f9ebd10f05f874e10b
+    completed_at: "2026-08-07T15:38:04+08:00"
+    stop_gate: architecture-review
+    auto_route_on_delivery: false
