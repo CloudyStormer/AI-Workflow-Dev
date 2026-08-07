@@ -4,7 +4,7 @@ run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
 stage: implementation
-status: frontend-entry-approved-queued-after-ai-model-radar
+status: frontend-delivery-ready-for-review
 current_role: role-frontend-dev
 blocked: false
 ui_assets:
@@ -93,7 +93,7 @@ active_assignment:
   role_task_id: "019fb74a-a427-7101-9941-442c34b157e3"
   role_task_title: "06 前端工程师"
   authorization: "approval-20260806-career-fe-001-entry"
-  scheduling: "queued-after-ai-model-radar-amr-fe-001"
+  scheduling: "completed-awaiting-user-review"
   upstream:
     approval: "approval-20260806-career-task-breakdown-v1"
     artifact: docs/05-task-breakdown.md
@@ -112,8 +112,19 @@ active_assignment:
     - persistent-user-data
     - third-party-models
     - production-deployment
-  delivery_status: authorized-queued
+  delivery_status: ready-for-review
   authorized_at: "2026-08-06T15:37:30+08:00"
+  started_at: "2026-08-07T15:26:45+08:00"
+  completed_at: "2026-08-07T15:26:45+08:00"
+  validated_at: "2026-08-07T15:26:45+08:00"
+  output:
+    artifact: "artifact-career-frontend-001"
+    path: "frontend/src/app/App.tsx"
+    version: "0.1.0"
+    sha256: 8a7e919bd11bc51703fa9c111f3f9154d95405e28415f048e863671f9e01f5cc
+    design_qa: "design-qa.md"
+    browser_url: "http://127.0.0.1:4177/directions"
+  result: "ready-for-frontend-delivery-review"
   stop_gate: frontend-delivery-review
   auto_advance_beyond_next: false
 next_approval:
@@ -123,7 +134,8 @@ next_approval:
   scope: "只建立可运行工程、完整简体中文应用壳、证据快照状态条和 /directions 首条真实可见纵切；不启动后续任务、后端、真实来源、持久化或部署"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: authorized-queued
+  delivery_status: ready-for-review
+  artifact: "artifact-career-frontend-001"
   authorization: "approval-20260806-career-fe-001-entry"
   upstream:
     approval: "approval-20260806-career-task-breakdown-v1"
@@ -182,4 +194,4 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-06T15:37:30+08:00"
+updated_at: "2026-08-07T15:26:45+08:00"

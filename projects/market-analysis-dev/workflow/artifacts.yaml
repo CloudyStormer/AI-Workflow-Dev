@@ -388,3 +388,81 @@ artifacts:
       - "effort-estimates-exclude-review-waiting-and-rework"
       - "only-cfr-fe-001-is-the-unique-next-work-item"
       - "backend-real-sources-third-party-models-and-production-deployment-deferred"
+  - id: "artifact-career-frontend-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: frontend-implementation
+    change_id: "dev-20260806-career-fe-001"
+    work_item: "CFR-FE-001"
+    status: ready-for-review
+    owner: role-frontend-dev
+    role_task_id: "019fb74a-a427-7101-9941-442c34b157e3"
+    authorization: "approval-20260806-career-fe-001-entry"
+    version: "0.1.0"
+    path: "frontend/src/app/App.tsx"
+    sha256: 8a7e919bd11bc51703fa9c111f3f9154d95405e28415f048e863671f9e01f5cc
+    source_baseline_commit: df86675e730c19d36d03e866b14c58cac3389b53
+    upstream:
+      artifact: "docs/05-task-breakdown.md"
+      version: "1.0"
+      sha256: 954869415b1a7f1a52c80ef0ee2b098bc5e4d28f011e23bd73be86e1d9eccc13
+      approval: "approval-20260806-career-task-breakdown-v1"
+    scope:
+      runnable_react_typescript_vite_foundation: true
+      complete_simplified_chinese_app_shell: true
+      evidence_snapshot_status_bar: true
+      directions_first_visible_slice: true
+      directions_delivered: "1-of-8"
+      backend_or_real_source_integration: false
+      persistent_user_data: false
+      production_deployment: false
+    implementation_files:
+      - {path: project.yaml, sha256: 95138938af26868045ada335710764affe742849a99fbe2af599e952c7227565}
+      - {path: frontend/package.json, sha256: 6e6926047415dbb22cbaaddbecaa6f45aafc01e84d48377becd1761ada208ad8}
+      - {path: frontend/package-lock.json, sha256: 1704ef1f7b1a4933c6a3736a836e0a8312c084c30efff25ca675ca4bc1a56d1b}
+      - {path: frontend/index.html, sha256: ba2e561043a31ca7d7cd0cffe2e5cb4fa2cf65d0952d95ce6987727707c66a70}
+      - {path: frontend/src/app/App.tsx, sha256: 8a7e919bd11bc51703fa9c111f3f9154d95405e28415f048e863671f9e01f5cc}
+      - {path: frontend/src/app/App.module.css, sha256: 26e8425c06ff328ec49fbd8c2daa2b12e83381f74b708d5886f79f6d37538515}
+      - {path: frontend/src/app/router.tsx, sha256: 26de4792a8cb1236c8e793d1a330bddd76c847d99ccce8f8bd855b6c99e203c4}
+      - {path: frontend/src/features/career-directions/DirectionsPage.tsx, sha256: df160f517cbf9e2fe95340756b14988f845fbbc2c72aeba181e3bf3c1b3b646e}
+      - {path: frontend/src/features/career-directions/DirectionsPage.module.css, sha256: e5bd5440f4f2ae3a3c7d0b0b20e614b6014d910d62d1e872e361873fd7ffaece}
+      - {path: frontend/src/styles/global.css, sha256: e61668b430c7c89fafc82e04ac26abf7759ec06f220c52a6e0a05e56aa291745}
+      - {path: frontend/src/app/App.test.tsx, sha256: 22cc45bb32ab5eeb92bca8ff708d8217d3f7b02410533a94caf8970a3db04e01}
+      - {path: frontend/src/app/runtime-boundaries.test.ts, sha256: b2b4bb83e6094b37e0f24bfdb05e974be37a7f7045f0aa9f2dcbab570c262eaa}
+    design_qa:
+      report: {path: design-qa.md, sha256: 85ad4312f8249f8c0ebe97725b3fbf432a8d31c2f9a6faac5867a9ab1a7a57ab}
+      desktop: {path: design-qa/cfr-fe-001-desktop-1440.png, viewport: "1440x1024", sha256: d09f3a64777621863954bbe9de32a1308e983949a924f96076e71a91e8cf5978}
+      mobile: {path: design-qa/cfr-fe-001-mobile-320.png, viewport: "320x844", sha256: 84e74a33b912f4f65b617a0ef182e7a00f825038a152d9574585ed8260c4e459}
+    validation:
+      node: "v24.14.0"
+      lint: passed
+      typecheck: passed
+      component_and_boundary_tests: "8-of-8-passed"
+      build: passed
+      project_validator: "passed-with-0-warnings"
+      browser_desktop_1440: passed
+      browser_mobile_390: passed
+      browser_mobile_320: passed
+      horizontal_overflow: none
+      browser_console_warnings_or_errors: none
+      root_redirect: passed
+      chinese_404: passed
+      snapshot_expand_collapse: passed
+      keyboard_visible_focus: passed
+      minimum_touch_target: "48px-snapshot-and-56px-mobile-navigation"
+      complete_simplified_chinese_check: passed
+      git_ignored_dependencies_and_caches: passed
+    truth_boundary:
+      - "frozen-approved-research-snapshot-not-live-market-data"
+      - "purpose-sampled-counts-not-market-share"
+      - "role-inference-not-personal-career-matching"
+      - "unsupported-visual-baseline-scores-and-rankings-not-implemented"
+    known_limits:
+      - "only-cfr-fe-001-and-one-of-eight-direction-slice-delivered"
+      - "cfr-fe-002-and-later-work-items-not-authorized-or-implemented"
+      - "local-dependencies-were-isolated-and-ignored; clean-machine-npm-ci-remains-a-downstream-reproducibility-check"
+      - "no-backend-real-sources-third-party-models-persistence-or-production-deployment"
+      - "browserrouter-hosting-requires-history-fallback; local-service-provides-it"
+    browser_url: "http://127.0.0.1:4177/directions"
+    completed_at: "2026-08-07T15:26:45+08:00"
+    validated_at: "2026-08-07T15:26:45+08:00"
+    stop_gate: frontend-delivery-review

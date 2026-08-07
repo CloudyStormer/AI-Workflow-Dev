@@ -13,17 +13,17 @@ governance:
   events: "workflow/events.jsonl"
 entrypoints:
   dev:
-    cwd: "."
-    command: ""
+    cwd: "frontend"
+    command: "npm run dev -- --host 127.0.0.1"
   build:
-    cwd: "."
-    command: ""
+    cwd: "frontend"
+    command: "npm run build"
   test:
-    cwd: "."
-    command: ""
+    cwd: "frontend"
+    command: "npm run test"
   lint:
-    cwd: "."
-    command: ""
+    cwd: "frontend"
+    command: "npm run lint"
 modules:
   - name: "frontend"
     path: "frontend"
