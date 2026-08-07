@@ -222,3 +222,22 @@ approvals:
     safe_checkpoint: 609bb33e346286bac82dbb57bfb5c92932435051
     original_gate: frontend-delivery-review
     evidence: "超级无敌帅超超总明确要求四个项目后端必须可用；固定 00 确认原范围后置 backend，随后在根仓干净且 HEAD 与 origin/main 一致时解除固定 03 写入锁，只授权本产品增量。"
+  - id: approval-20260807-radar-live-daily-product-reentry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    role: role-product-manager
+    role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+    role_task_title: "03 产品经理"
+    change_id: prd-20260807-ai-model-radar-live-daily-intelligence-001
+    artifact: docs/02-prd.md
+    scope: "在前端交付审核门回退，只定义真实每日 AI 开发情报 PRD v1.2：今日／过去24h、真实来源、趋势、版本演进、开源语义、刷新降级与前后端产品边界；不修改 UI、架构、任务拆解或代码"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-07T17:50:51+08:00"
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    safe_checkpoint: 9d8af6c283914b4defb427551edbed09db92a70d
+    original_stage: implementation
+    original_gate: frontend-delivery-review
+    held_artifact: artifact-radar-frontend-001
+    supersedes_unapproved_artifact: artifact-radar-backend-prd-increment-001
+    evidence: "超级无敌帅超超总要求赶紧补齐截至当前的每日 AI 开发动态与趋势，并明确本轮先由固定 03 产品经理形成可审核产品定义；前后端开发表述只登记为加速意向，不构成产物通过或下游入场。"

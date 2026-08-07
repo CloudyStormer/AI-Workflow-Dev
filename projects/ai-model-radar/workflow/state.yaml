@@ -13,11 +13,14 @@ ui_assets:
   new_deliveries: required
   preserve_active_legacy_paths: true
 delivery_priority:
+  baseline_context: held-frontend-original-approved-scope
   current: browser-viewable-content-first
   deferred:
     - backend-services
     - real-source-integration
     - production-deployment
+  pending_product_change: artifact-radar-live-daily-prd-001
+  pending_product_change_effect: "若 v1.2 获批，真实来源与本地 live 服务升级为当前 MVP；本旧执行优先级不得继续授权后续实现"
   approval_gates_unchanged: true
 next_approval:
   gate: frontend-delivery-review
@@ -257,14 +260,26 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-temporary_product_assignment:
+superseded_product_increment:
   change_id: prd-20260807-ai-model-radar-backend-mvp-001
+  artifact: artifact-radar-backend-prd-increment-001
+  path: docs/02-prd.md
+  version: "1.1"
+  sha256: e00e7242d7c213840c2627f8f22b8d20f579af7cfcb008c891997b786fc2977f
+  prior_status: ready-for-review
+  current_status: superseded-before-approval
+  superseded_by: artifact-radar-live-daily-prd-001
+  superseded_at: "2026-08-07T17:50:51+08:00"
+  approval_received: false
+  preserved_compatibility: "seed_demo only; AC-43..AC-58 in v1.2"
+temporary_product_assignment:
+  change_id: prd-20260807-ai-model-radar-live-daily-intelligence-001
   role: role-product-manager
   role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
   role_task_title: "03 产品经理"
-  authorization: approval-20260807-radar-backend-product-entry
-  authorized_via: "超级无敌帅超超总要求后端必须可用；固定 00 确认原 backend 后置边界并于 2026-08-07 明确解除固定 03 写入锁"
-  safe_checkpoint: 609bb33e346286bac82dbb57bfb5c92932435051
+  authorization: approval-20260807-radar-live-daily-product-reentry
+  authorized_via: "超级无敌帅超超总直接要求补齐截至当前的真实每日 AI 开发动态与趋势；前后端开发仅登记为加速意向"
+  safe_checkpoint: 9d8af6c283914b4defb427551edbed09db92a70d
   original_workflow:
     stage: implementation
     status: frontend-delivery-ready-for-review
@@ -272,37 +287,49 @@ temporary_product_assignment:
     next_gate: frontend-delivery-review
     active_change_id: dev-20260806-ai-model-radar-fe-001
     held_artifact: artifact-radar-frontend-001
-    preservation: "现有前端产物继续待审；本产品增量不批准、不否决、不修改或解冻该交付"
-  scope: "定义 seed-only 本地查询服务 MVP：健康／就绪、已发布演示快照、事件与来源查询、真实性语义和失败降级"
+    preservation: "前端产物继续待审并冻结；本产品增量不批准、不否决、不修改或解冻该交付"
+  scope: "定义真实每日 AI 开发情报 v1.2：时间与新鲜度、官方主源、趋势与版本、开源语义、刷新降级、质量覆盖及前后端产品契约"
   exclusions:
-    - ui-or-frontend-change
-    - architecture-or-backend-code
-    - live-source-connectors-or-scheduler
-    - database-or-user-persistence
+    - network-news-collection-in-this-round
+    - ui-prompt-or-ui-design-change
+    - architecture-or-task-breakdown-change
+    - frontend-or-backend-code
+    - source-connector-implementation
     - shadow-run-or-production-deployment
-    - auto-start-role-ui-designer-architect-or-backend-dev
+    - auto-start-role-ui-designer-architect-frontend-or-backend
   output:
-    artifact: artifact-radar-backend-prd-increment-001
+    artifact: artifact-radar-live-daily-prd-001
     path: docs/02-prd.md
-    version: "1.1"
-    previous_sha256: 4d08c008bf0b2cd73d89a7771851bddd87b5b34a7b1e1465ec0e801fe12306fc
-    sha256: e00e7242d7c213840c2627f8f22b8d20f579af7cfcb008c891997b786fc2977f
+    version: "1.2"
+    approved_base_version: "1.0"
+    approved_base_sha256: 4d08c008bf0b2cd73d89a7771851bddd87b5b34a7b1e1465ec0e801fe12306fc
+    superseded_previous_version: "1.1"
+    superseded_previous_sha256: e00e7242d7c213840c2627f8f22b8d20f579af7cfcb008c891997b786fc2977f
+    sha256: 3ce842ef8e2b9661f2114b3b4a2b3361eeb8fac0f98a5071cd8e27c38a81a020
     acceptance_criteria:
-      inherited: AC-01..AC-42
-      new: AC-43..AC-58
+      retained: AC-01..AC-42
+      seed_demo_compatibility_only: AC-43..AC-58
+      live_daily_new: AC-59..AC-88
+      total: 88
+  impact:
+    ui_prompt: revision-required-after-product-approval
+    ui_design: reassessment-required-after-ui-prompt-approval
+    architecture_and_task_breakdown: reassessment-required-after-ui-approval
+    frontend_and_backend_development: not-authorized
   delivery_status: ready-for-review
-  result: radar-seed-only-backend-product-increment-ready
+  result: radar-live-daily-intelligence-product-change-ready
   stop_gate: product-change-review
-  return_point: "产品审核不改变 artifact-radar-frontend-001 的 frontend-delivery-review；任何下游角色仍需后续明确授权"
+  return_point: "产品审核不改变 artifact-radar-frontend-001 的 frontend-delivery-review；通过后仅可一跳授权固定 04 更新 UI Prompt"
   auto_route_on_delivery: false
 additional_pending_approval:
   gate: product-change-review
-  artifact: artifact-radar-backend-prd-increment-001
-  expected_change_id: prd-20260807-ai-model-radar-backend-mvp-001
+  artifact: artifact-radar-live-daily-prd-001
+  expected_change_id: prd-20260807-ai-model-radar-live-daily-intelligence-001
   expected_path: docs/02-prd.md
-  version: "1.1"
+  version: "1.2"
+  sha256: 3ce842ef8e2b9661f2114b3b4a2b3361eeb8fac0f98a5071cd8e27c38a81a020
   decision_owner: 超级无敌帅超超总
   decision: pending
   options: [通过, 修改, 打回]
-  on_approved: "只批准当前产品增量；不得自动启动固定 04、05 或 07"
-updated_at: "2026-08-07T15:48:43+08:00"
+  on_approved: "只一跳授权固定 04 UI/UX设计师更新 UI Prompt 并独立停门；不得同时启动 UI 设计、05、06 或 07"
+updated_at: "2026-08-07T17:53:17+08:00"

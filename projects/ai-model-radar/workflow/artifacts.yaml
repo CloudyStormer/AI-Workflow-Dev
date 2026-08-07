@@ -355,7 +355,7 @@ artifacts:
     run_id: run-20260731-intake-001
     type: product-requirements
     path: docs/02-prd.md
-    status: ready-for-review
+    status: superseded-before-approval
     owner: role-product-manager
     version: "1.1"
     previous_version: "1.0"
@@ -378,6 +378,9 @@ artifacts:
     completed_at: "2026-08-07T15:48:43+08:00"
     validated_at: "2026-08-07T15:52:00+08:00"
     stop_gate: product-change-review
+    superseded_by: artifact-radar-live-daily-prd-001
+    superseded_at: "2026-08-07T17:50:51+08:00"
+    superseded_reason: "用户在该未批准 seed-only 增量审核前提出真实每日 AI 开发情报新目标；v1.2 取代其终态，seed_demo 仅保留为隔离兼容模式。"
     validation:
       document_sha256_match: passed
       acceptance_criteria: "AC-01..AC-58-contiguous"
@@ -393,3 +396,67 @@ artifacts:
       - "seed-only-no-live-source-connectors-or-scheduler"
       - "no-database-write-user-persistence-shadow-run-or-production"
       - "existing-frontend-artifact-remains-pending-review"
+  - id: artifact-radar-live-daily-prd-001
+    run_id: run-20260731-intake-001
+    type: product-requirements
+    path: docs/02-prd.md
+    status: ready-for-review
+    owner: role-product-manager
+    version: "1.2"
+    previous_version: "1.1"
+    previous_sha256: e00e7242d7c213840c2627f8f22b8d20f579af7cfcb008c891997b786fc2977f
+    approved_base_version: "1.0"
+    approved_base_sha256: 4d08c008bf0b2cd73d89a7771851bddd87b5b34a7b1e1465ec0e801fe12306fc
+    change_id: prd-20260807-ai-model-radar-live-daily-intelligence-001
+    entry_approval: approval-20260807-radar-live-daily-product-reentry
+    sha256: 3ce842ef8e2b9661f2114b3b4a2b3361eeb8fac0f98a5071cd8e27c38a81a020
+    safe_checkpoint: 9d8af6c283914b4defb427551edbed09db92a70d
+    scope: "真实每日 AI 开发情报：今日／过去24h、官方主源、0–20条正式事件、7／30／90日样本趋势、版本演进、开源语义、调度刷新、失败降级、质量覆盖与前后端产品契约"
+    acceptance_criteria:
+      retained: AC-01..AC-42
+      seed_demo_compatibility_only: AC-43..AC-58
+      live_daily_new: AC-59..AC-88
+      new_count: 30
+      total_count: 88
+    truth_boundary:
+      target_data_mode: live
+      compatible_modes: [degraded_live, seed_demo]
+      current_live_backend_implemented: false
+      current_official_source_connectors: 0
+      current_real_daily_events: 0
+      seed_demo_may_prove_live: false
+      frontend_artifact_approved_by_this_change: false
+    product_contract:
+      default_timezone: Asia/Shanghai
+      freshness_thresholds: [24h-warning, 48h-no-longer-today]
+      trend_windows: [7d, 30d, 90d]
+      official_machine_source_baseline: every-1-to-2-hours-configurable
+      research_evaluation_baseline: once-or-twice-daily-configurable
+      daily_digest_baseline: "08:30-Asia/Shanghai-configurable"
+      all_ai_absolute_coverage_claim: forbidden
+    impact:
+      ui_prompt: must-be-revised-after-product-approval
+      ui_design: must-be-reassessed-after-ui-prompt-approval
+      architecture_and_task_breakdown: obsolete-for-this-increment-until-reassessed
+      held_frontend: preserved-pending-review-and-frozen
+      backend_and_frontend_development_authorized: false
+    original_return_point: frontend-delivery-review
+    completed_at: "2026-08-07T17:50:51+08:00"
+    validated_at: "2026-08-07T17:53:17+08:00"
+    stop_gate: product-change-review
+    validation:
+      document_sha256_match: passed
+      acceptance_criteria: "AC-01..AC-88-contiguous"
+      seed_demo_scope: "AC-43..AC-58-only"
+      workflow_yaml: "3-of-3-valid"
+      jsonl: "51-of-51-valid"
+      project_structure: "passed-with-0-warnings"
+      git_boundary: passed
+      skill_drift: passed
+      diff_check: passed
+      modified_scope: "docs/02-prd.md-and-four-workflow-files-only"
+    known_limits:
+      - "product-definition-only-no-ui-architecture-task-breakdown-or-code"
+      - "no-live-sources-are-connected-by-this-artifact"
+      - "local-service-must-run-continuously-for-scheduled-daily-delivery"
+      - "existing-frontend-artifact-remains-pending-review-and-frozen"
