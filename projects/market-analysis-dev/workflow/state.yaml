@@ -194,4 +194,52 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-07T15:26:45+08:00"
+temporary_product_assignment:
+  change_id: "prd-20260807-frontend-career-radar-backend-mvp-001"
+  role: role-product-manager
+  role_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
+  role_task_title: "03 产品经理"
+  authorization: "approval-20260807-career-backend-product-entry"
+  authorized_via: "超级无敌帅超超总要求后端必须可用并明确 F10 正文继续留在浏览器内存；固定 00 于 2026-08-07 解除固定 03 写入锁"
+  safe_checkpoint: 609bb33e346286bac82dbb57bfb5c92932435051
+  original_workflow:
+    stage: implementation
+    status: frontend-delivery-ready-for-review
+    current_role: role-frontend-dev
+    next_gate: frontend-delivery-review
+    active_change_id: dev-20260806-career-fe-001
+    held_artifact: artifact-career-frontend-001
+    preservation: "现有前端产物继续待审；本产品增量不批准、不否决、不修改或解冻该交付"
+  scope: "定义只读研究快照服务 MVP：健康／就绪、版本化快照、职业方向、能力、声明与证据元数据；F10 正文与个人材料禁止上传、持久化和日志记录"
+  exclusions:
+    - ui-or-frontend-change
+    - architecture-or-backend-code
+    - f10-server-upload-analysis-or-persistence
+    - live-recruitment-connectors-or-url-fetch
+    - account-database-or-production-deployment
+    - auto-start-role-ui-designer-architect-or-backend-dev
+  output:
+    artifact: artifact-career-backend-prd-increment-001
+    path: docs/02-prd.md
+    version: "1.2"
+    previous_sha256: 8842f2c7c974bb9ac5fef2ad47f0d35e068a66cfd510ce0088c092ab884ce1e9
+    sha256: 0c2fab0bc4083dc3c16034eafcf3ce2177a5adc1c334ce548b2da5698632958f
+    acceptance_criteria:
+      inherited: AC-01..AC-44
+      new: AC-CFR-BE-01..AC-CFR-BE-18
+  delivery_status: ready-for-review
+  result: career-read-only-backend-product-increment-ready
+  stop_gate: product-change-review
+  return_point: "产品审核不改变 artifact-career-frontend-001 的 frontend-delivery-review；任何下游角色仍需后续明确授权"
+  auto_route_on_delivery: false
+additional_pending_approval:
+  gate: product-change-review
+  artifact: artifact-career-backend-prd-increment-001
+  expected_change_id: "prd-20260807-frontend-career-radar-backend-mvp-001"
+  expected_path: docs/02-prd.md
+  version: "1.2"
+  decision_owner: 超级无敌帅超超总
+  decision: pending
+  options: [通过, 修改, 打回]
+  on_approved: "只批准当前产品增量；不得自动启动固定 04、05 或 07"
+updated_at: "2026-08-07T15:48:43+08:00"

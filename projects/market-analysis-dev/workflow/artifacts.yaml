@@ -466,3 +466,46 @@ artifacts:
     completed_at: "2026-08-07T15:26:45+08:00"
     validated_at: "2026-08-07T15:26:45+08:00"
     stop_gate: frontend-delivery-review
+  - id: "artifact-career-backend-prd-increment-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: product-requirements
+    path: docs/02-prd.md
+    status: ready-for-review
+    owner: role-product-manager
+    version: "1.2"
+    previous_version: "1.1"
+    previous_sha256: 8842f2c7c974bb9ac5fef2ad47f0d35e068a66cfd510ce0088c092ab884ce1e9
+    change_id: "prd-20260807-frontend-career-radar-backend-mvp-001"
+    entry_approval: "approval-20260807-career-backend-product-entry"
+    sha256: 0c2fab0bc4083dc3c16034eafcf3ce2177a5adc1c334ce548b2da5698632958f
+    safe_checkpoint: 609bb33e346286bac82dbb57bfb5c92932435051
+    scope: "只读研究快照服务 MVP：健康／就绪、版本化快照、职业方向、能力、声明和证据元数据；F10 正文与个人材料保持浏览器内存隔离"
+    acceptance_criteria:
+      inherited: AC-01..AC-44
+      new: AC-CFR-BE-01..AC-CFR-BE-18
+      new_count: 18
+      total_count: 62
+    privacy_boundary:
+      f10_browser_memory_only: true
+      user_text_upload: forbidden
+      user_text_persistence: forbidden
+      user_text_logging: forbidden
+    original_return_point: frontend-delivery-review
+    completed_at: "2026-08-07T15:48:43+08:00"
+    validated_at: "2026-08-07T15:52:00+08:00"
+    stop_gate: product-change-review
+    validation:
+      document_sha256_match: passed
+      acceptance_criteria: "AC-01..AC-44-and-AC-CFR-BE-01..AC-CFR-BE-18-contiguous"
+      workflow_yaml: "3-of-3-valid"
+      jsonl_before_validation_event: "51-of-51-valid"
+      project_structure: "passed-with-0-warnings"
+      git_boundary: passed
+      skill_drift: passed
+      diff_check: passed
+      modified_scope: "docs/02-prd.md-and-four-workflow-files-only"
+    known_limits:
+      - "product-definition-only-no-architecture-or-code"
+      - "approved-research-snapshot-only-no-live-market-collection"
+      - "purpose-sampled-recruitment-evidence-not-market-share"
+      - "existing-frontend-artifact-remains-pending-review"

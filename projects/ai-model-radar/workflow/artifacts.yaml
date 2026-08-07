@@ -351,3 +351,45 @@ artifacts:
     completed_at: "2026-08-07T14:50:10+08:00"
     validated_at: "2026-08-07T14:50:10+08:00"
     stop_gate: frontend-delivery-review
+  - id: artifact-radar-backend-prd-increment-001
+    run_id: run-20260731-intake-001
+    type: product-requirements
+    path: docs/02-prd.md
+    status: ready-for-review
+    owner: role-product-manager
+    version: "1.1"
+    previous_version: "1.0"
+    previous_sha256: 4d08c008bf0b2cd73d89a7771851bddd87b5b34a7b1e1465ec0e801fe12306fc
+    change_id: prd-20260807-ai-model-radar-backend-mvp-001
+    entry_approval: approval-20260807-radar-backend-product-entry
+    sha256: e00e7242d7c213840c2627f8f22b8d20f579af7cfcb008c891997b786fc2977f
+    safe_checkpoint: 609bb33e346286bac82dbb57bfb5c92932435051
+    scope: "seed-only 本地查询服务 MVP：健康／就绪、不可变已发布演示快照、事件与来源查询、真实性和失败降级"
+    acceptance_criteria:
+      inherited: AC-01..AC-42
+      new: AC-43..AC-58
+      new_count: 16
+      total_count: 58
+    truth_boundary:
+      data_mode: seed_demo
+      connection_state: not_connected
+      official_source_connectors: 0
+    original_return_point: frontend-delivery-review
+    completed_at: "2026-08-07T15:48:43+08:00"
+    validated_at: "2026-08-07T15:52:00+08:00"
+    stop_gate: product-change-review
+    validation:
+      document_sha256_match: passed
+      acceptance_criteria: "AC-01..AC-58-contiguous"
+      workflow_yaml: "3-of-3-valid"
+      jsonl_before_validation_event: "46-of-46-valid"
+      project_structure: "passed-with-0-warnings"
+      git_boundary: passed
+      skill_drift: passed
+      diff_check: passed
+      modified_scope: "docs/02-prd.md-and-four-workflow-files-only"
+    known_limits:
+      - "product-definition-only-no-architecture-or-code"
+      - "seed-only-no-live-source-connectors-or-scheduler"
+      - "no-database-write-user-persistence-shadow-run-or-production"
+      - "existing-frontend-artifact-remains-pending-review"

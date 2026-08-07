@@ -206,3 +206,19 @@ approvals:
     advance_limit: unique-next-work-item-only
     auto_advance_beyond_next: false
     evidence: "任务拆解通过后的下一站唯一、输入完整且非高风险，依根工作流规则自动授权固定 06 仅执行 AMR-FE-001；其独立交付后重新停门。"
+  - id: approval-20260807-radar-backend-product-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    role: role-product-manager
+    role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+    role_task_title: "03 产品经理"
+    change_id: prd-20260807-ai-model-radar-backend-mvp-001
+    artifact: docs/02-prd.md
+    scope: "只定义 seed-only 本地查询服务 MVP：健康、就绪、已发布演示快照、事件与来源查询及真实性语义；真实官方源连接器、架构、代码和部署均不在本轮"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-07T15:44:04+08:00"
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    safe_checkpoint: 609bb33e346286bac82dbb57bfb5c92932435051
+    original_gate: frontend-delivery-review
+    evidence: "超级无敌帅超超总明确要求四个项目后端必须可用；固定 00 确认原范围后置 backend，随后在根仓干净且 HEAD 与 origin/main 一致时解除固定 03 写入锁，只授权本产品增量。"

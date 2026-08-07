@@ -257,4 +257,52 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-07T14:50:10+08:00"
+temporary_product_assignment:
+  change_id: prd-20260807-ai-model-radar-backend-mvp-001
+  role: role-product-manager
+  role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+  role_task_title: "03 产品经理"
+  authorization: approval-20260807-radar-backend-product-entry
+  authorized_via: "超级无敌帅超超总要求后端必须可用；固定 00 确认原 backend 后置边界并于 2026-08-07 明确解除固定 03 写入锁"
+  safe_checkpoint: 609bb33e346286bac82dbb57bfb5c92932435051
+  original_workflow:
+    stage: implementation
+    status: frontend-delivery-ready-for-review
+    current_role: role-frontend-dev
+    next_gate: frontend-delivery-review
+    active_change_id: dev-20260806-ai-model-radar-fe-001
+    held_artifact: artifact-radar-frontend-001
+    preservation: "现有前端产物继续待审；本产品增量不批准、不否决、不修改或解冻该交付"
+  scope: "定义 seed-only 本地查询服务 MVP：健康／就绪、已发布演示快照、事件与来源查询、真实性语义和失败降级"
+  exclusions:
+    - ui-or-frontend-change
+    - architecture-or-backend-code
+    - live-source-connectors-or-scheduler
+    - database-or-user-persistence
+    - shadow-run-or-production-deployment
+    - auto-start-role-ui-designer-architect-or-backend-dev
+  output:
+    artifact: artifact-radar-backend-prd-increment-001
+    path: docs/02-prd.md
+    version: "1.1"
+    previous_sha256: 4d08c008bf0b2cd73d89a7771851bddd87b5b34a7b1e1465ec0e801fe12306fc
+    sha256: e00e7242d7c213840c2627f8f22b8d20f579af7cfcb008c891997b786fc2977f
+    acceptance_criteria:
+      inherited: AC-01..AC-42
+      new: AC-43..AC-58
+  delivery_status: ready-for-review
+  result: radar-seed-only-backend-product-increment-ready
+  stop_gate: product-change-review
+  return_point: "产品审核不改变 artifact-radar-frontend-001 的 frontend-delivery-review；任何下游角色仍需后续明确授权"
+  auto_route_on_delivery: false
+additional_pending_approval:
+  gate: product-change-review
+  artifact: artifact-radar-backend-prd-increment-001
+  expected_change_id: prd-20260807-ai-model-radar-backend-mvp-001
+  expected_path: docs/02-prd.md
+  version: "1.1"
+  decision_owner: 超级无敌帅超超总
+  decision: pending
+  options: [通过, 修改, 打回]
+  on_approved: "只批准当前产品增量；不得自动启动固定 04、05 或 07"
+updated_at: "2026-08-07T15:48:43+08:00"

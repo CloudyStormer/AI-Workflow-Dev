@@ -141,4 +141,48 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-updated_at: "2026-08-06T12:03:00+08:00"
+temporary_product_assignment:
+  change_id: prd-20260807-control-center-backend-mvp-001
+  role: role-product-manager
+  role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+  role_task_title: "03 产品经理"
+  authorization: approval-20260807-control-backend-product-entry
+  authorized_via: "超级无敌帅超超总要求真实监管后端，固定 00 于 2026-08-07 在根仓干净且 HEAD==origin/main 后明确解除写入锁"
+  safe_checkpoint: 609bb33e346286bac82dbb57bfb5c92932435051
+  original_workflow:
+    stage: code-review
+    status: control-center-code-review-routed
+    current_role: role-code-reviewer
+    next_gate: code-review-conclusion-review
+    active_change_id: review-20260806-control-center-frontend-001
+    preservation: "固定 09 既有代码审查输入、状态和返回点保持不变；本产品单元不代审、不解冻、不路由"
+  scope: "定义根仓只读真实监管服务 MVP，覆盖项目、角色、审批、产物、事件、问题、发布、健康／就绪、来源、新鲜度、错误和权限"
+  exclusions:
+    - ui-or-frontend-change
+    - architecture-or-backend-code
+    - workflow-or-git-write-actions
+    - database-persistence
+    - production-deployment
+    - auto-start-role-ui-designer-architect-or-backend-dev
+  output:
+    artifact: artifact-control-center-backend-product-increment-001
+    path: docs/02-prd.md
+    version: "1.0"
+    sha256: cb41e5e4184fd8df69b8bf1269ae0ef11b540f17f2cb621f6e5da484f9660b93
+    acceptance_criteria: AC-CC-BE-01..AC-CC-BE-28
+  delivery_status: ready-for-review
+  result: control-center-backend-product-increment-ready
+  stop_gate: product-change-review
+  return_point: "产品审核不改变既有 code-review 队列；任何下游角色仍需后续明确授权"
+  auto_route_on_delivery: false
+additional_pending_approval:
+  gate: product-change-review
+  artifact: artifact-control-center-backend-product-increment-001
+  expected_change_id: prd-20260807-control-center-backend-mvp-001
+  expected_path: docs/02-prd.md
+  version: "1.0"
+  decision_owner: 超级无敌帅超超总
+  decision: pending
+  options: [通过, 修改, 打回]
+  on_approved: "只批准当前产品增量；不得自动启动固定 04、05 或 07"
+updated_at: "2026-08-07T15:48:43+08:00"
