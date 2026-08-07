@@ -241,3 +241,39 @@ approvals:
     held_artifact: artifact-radar-frontend-001
     supersedes_unapproved_artifact: artifact-radar-backend-prd-increment-001
     evidence: "超级无敌帅超超总要求赶紧补齐截至当前的每日 AI 开发动态与趋势，并明确本轮先由固定 03 产品经理形成可审核产品定义；前后端开发表述只登记为加速意向，不构成产物通过或下游入场。"
+  - id: approval-20260807-radar-live-daily-prd-v1-2
+    run_id: run-20260731-intake-001
+    gate: product-change-review
+    role: role-product-manager
+    artifact: artifact-radar-live-daily-prd-001
+    path: docs/02-prd.md
+    version: "1.2"
+    sha256: 3ce842ef8e2b9661f2114b3b4a2b3361eeb8fac0f98a5071cd8e27c38a81a020
+    change_id: prd-20260807-ai-model-radar-live-daily-intelligence-001
+    scope: "批准真实每日 AI 开发情报：今日／过去24h、官方主源、趋势与版本演进、开源语义、刷新降级、质量覆盖和前后端产品边界"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-07T18:06:31+08:00"
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    evidence: "超级无敌帅超超总对当前唯一待审 PRD v1.2 明确回复：‘通过，直接开始开发’。‘通过’批准当前产品产物；‘直接开始开发’仅登记为最高优先级目标，不产生跨越 UI、架构和任务拆解的级联授权。"
+    effect: "已批准当前产物，并自动授权唯一下一站固定 04 UI/UX设计师更新 UI Prompt。本次只覆盖该站一个交付单元；该角色交付后停止等待审核，不代表 UI Prompt、UI 设计、架构或开发已经通过。"
+  - id: approval-20260807-radar-live-daily-ui-prompt-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    role: role-ui-designer
+    role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+    role_task_title: "04 UI/UX设计师"
+    change_id: ui-prompt-20260807-ai-model-radar-live-daily-001
+    scope: "只更新 ui/03-ui-prompt.md 承接 PRD v1.2 的真实每日 AI 开发情报页面、图表、真实性状态、响应式和无障碍；不生成设计图，不修改架构或代码"
+    upstream_approval: approval-20260807-radar-live-daily-prd-v1-2
+    upstream_artifact: artifact-radar-live-daily-prd-001
+    upstream_path: docs/02-prd.md
+    upstream_version: "1.2"
+    upstream_sha256: 3ce842ef8e2b9661f2114b3b4a2b3361eeb8fac0f98a5071cd8e27c38a81a020
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-07T18:06:31+08:00"
+    safe_checkpoint: e826766d554e9a81a468b3f86e4ce659d95256c0
+    held_artifact: artifact-radar-frontend-001
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false

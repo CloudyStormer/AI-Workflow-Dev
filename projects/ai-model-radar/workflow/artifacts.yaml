@@ -41,8 +41,8 @@ artifacts:
     path: ui/README.md
     status: active
     owner: package-contractor
-    sha256: 53f915ff7b1c1b893335ba96843277fc62653f7a899b0199c4f56b2da9f70f46
-    updated_at: "2026-08-04T16:41:52+08:00"
+    sha256: 403a3a3a2ddf2839582a2b3278e633d58ec5291f9f1c0caf5b165d2260f18600
+    updated_at: "2026-08-07T18:11:15+08:00"
   - id: artifact-project-plan-001
     run_id: run-20260731-intake-001
     type: project-plan
@@ -102,7 +102,7 @@ artifacts:
     run_id: run-20260731-intake-001
     type: ui-ux-design-prompt
     path: ui/03-ui-prompt.md
-    status: approved
+    status: superseded
     owner: role-ui-designer
     version: "1.0"
     change_id: ui-prompt-20260804-ai-model-radar-001
@@ -150,6 +150,82 @@ artifacts:
     approval: approval-20260804-radar-ui-baseline
     approved_by: 超级无敌帅超超总
     approved_at: "2026-08-04T16:41:52+08:00"
+    superseded_by: artifact-radar-live-daily-ui-prompt-001
+    superseded_at: "2026-08-07T18:11:15+08:00"
+    superseded_reason: "PRD v1.2 已将项目升级为真实每日 AI 开发情报；旧 Prompt 保留为已批准历史输入，但不足以覆盖 Live Daily 页面、时间、来源、趋势和故障状态。"
+  - id: artifact-radar-live-daily-ui-prompt-001
+    run_id: run-20260731-intake-001
+    type: ui-ux-design-prompt
+    path: ui/03-ui-prompt.md
+    status: ready-for-review
+    owner: role-ui-designer
+    version: "1.2"
+    previous_artifact: artifact-ui-prompt-001
+    previous_version: "1.0"
+    previous_sha256: d001cea2e85c36317ca1e38c657a32527b3705a3f276f8d938b8b0ac6e450318
+    change_id: ui-prompt-20260807-ai-model-radar-live-daily-001
+    entry_approval: approval-20260807-radar-live-daily-ui-prompt-entry
+    upstream:
+      approval: approval-20260807-radar-live-daily-prd-v1-2
+      artifact: artifact-radar-live-daily-prd-001
+      path: docs/02-prd.md
+      version: "1.2"
+      sha256: 3ce842ef8e2b9661f2114b3b4a2b3361eeb8fac0f98a5071cd8e27c38a81a020
+    historical_visual_reference:
+      artifact: artifact-radar-user-ui-baseline-001
+      path: ui/
+      asset_count: 9
+      role: historical-visual-reference-only
+      truth_and_new_function_priority: prd-v1.2-and-ui-prompt-v1.2
+    sha256: 967090f3ac97e0a0bb00070eb39a5af9b6efcd629ac1517e78bffa4f8f7605bd
+    ui_index_sha256: 403a3a3a2ddf2839582a2b3278e633d58ec5291f9f1c0caf5b165d2260f18600
+    review_scope: "真实每日 AI 开发情报 UI/UX 提示词：今日、全部事件、7/30/90 日趋势与版本、开源发布、证据详情、来源连接、质量覆盖、偏好反馈、真实性状态、响应式和无障碍"
+    coverage:
+      primary_navigation: 6
+      design_output_scenes: 14
+      chart_types: 7
+      state_matrix: 56
+      prd_acceptance_range: AC-01..AC-88
+      breakpoints: [1440px, 390px, 320px]
+      zoom: 200-percent
+      language: complete-simplified-chinese
+    truth_boundary:
+      target_mode: live
+      modes: [live, degraded_live, seed_demo]
+      current_live_sources_connected: false
+      design_may_prove_runtime: false
+      seed_demo_may_prove_live: false
+      trend_claim: "本雷达已接入来源样本趋势"
+    generated_ui_design: false
+    generated_prototype: false
+    generated_images: false
+    modified_frontend_backend_architecture_or_task_breakdown: false
+    network_news_collection: false
+    held_frontend:
+      artifact: artifact-radar-frontend-001
+      gate: frontend-delivery-review
+      status: pending-and-frozen
+    completed_at: "2026-08-07T18:11:15+08:00"
+    stop_gate: ui-prompt-review
+    validation:
+      upstream_prd_sha256: passed
+      prompt_sha256: passed
+      ui_index_sha256: passed
+      copy_boundary: start-and-end-markers-present
+      state_matrix: 56-contiguous
+      prd_acceptance_mapping: AC-01..AC-88-covered
+      workflow_yaml: 5-of-5-valid
+      jsonl: 56-of-56-valid
+      project_structure: passed
+      git_boundary: passed
+      skill_drift: passed
+      diff_check: passed
+      modified_scope: ui-prompt-ui-index-and-four-workflow-files-only
+    known_limits:
+      - "prompt-only-not-an-approved-ui-design"
+      - "no-live-source-is-connected-by-this-artifact"
+      - "historical-visual-reference-does-not-prove-runtime"
+      - "existing-frontend-artifact-remains-pending-review-and-frozen"
   - id: artifact-radar-user-ui-baseline-001
     run_id: run-20260731-intake-001
     type: user-provided-ui-visual-baseline
@@ -400,7 +476,7 @@ artifacts:
     run_id: run-20260731-intake-001
     type: product-requirements
     path: docs/02-prd.md
-    status: ready-for-review
+    status: approved
     owner: role-product-manager
     version: "1.2"
     previous_version: "1.1"
@@ -443,7 +519,10 @@ artifacts:
     original_return_point: frontend-delivery-review
     completed_at: "2026-08-07T17:50:51+08:00"
     validated_at: "2026-08-07T17:53:17+08:00"
-    stop_gate: product-change-review
+    stop_gate: completed
+    approval: approval-20260807-radar-live-daily-prd-v1-2
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-07T18:06:31+08:00"
     validation:
       document_sha256_match: passed
       acceptance_criteria: "AC-01..AC-88-contiguous"

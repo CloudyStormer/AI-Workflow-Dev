@@ -3,9 +3,9 @@ project_id: ai-model-radar
 run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
-stage: implementation
-status: frontend-delivery-ready-for-review
-current_role: role-frontend-dev
+stage: ui-ux
+status: radar-live-daily-ui-prompt-ready-for-review
+current_role: role-ui-designer
 blocked: false
 ui_assets:
   directory: ui
@@ -19,25 +19,31 @@ delivery_priority:
     - backend-services
     - real-source-integration
     - production-deployment
-  pending_product_change: artifact-radar-live-daily-prd-001
-  pending_product_change_effect: "若 v1.2 获批，真实来源与本地 live 服务升级为当前 MVP；本旧执行优先级不得继续授权后续实现"
+  approved_product_change: artifact-radar-live-daily-prd-001
+  development_priority: highest-after-required-ui-architecture-and-task-gates
+  held_frontend: artifact-radar-frontend-001
   approval_gates_unchanged: true
 next_approval:
-  gate: frontend-delivery-review
-  expected_change_id: dev-20260806-ai-model-radar-fe-001
-  work_item: AMR-FE-001
-  scope: "只建立可运行工程、完整简体中文应用壳、真实性状态条和 /today 首条可见纵切；不启动后续任务、后端、真实来源、影子运行或部署"
+  gate: ui-prompt-review
+  expected_change_id: ui-prompt-20260807-ai-model-radar-live-daily-001
+  scope: "更新 ui/03-ui-prompt.md，完整覆盖 PRD v1.2 的真实每日 AI 开发情报、趋势版本、开源发布、证据链、来源连接、质量覆盖和真实性状态"
   decision_owner: 超级无敌帅超超总
   decision: pending
   delivery_status: ready-for-review
-  artifact: artifact-radar-frontend-001
-  authorization: approval-20260806-radar-fe-001-entry
+  artifact: artifact-radar-live-daily-ui-prompt-001
+  expected_path: ui/03-ui-prompt.md
+  expected_version: "1.2"
+  sha256: 967090f3ac97e0a0bb00070eb39a5af9b6efcd629ac1517e78bffa4f8f7605bd
+  ui_index_sha256: 403a3a3a2ddf2839582a2b3278e633d58ec5291f9f1c0caf5b165d2260f18600
+  delivered_at: "2026-08-07T18:11:15+08:00"
+  authorization: approval-20260807-radar-live-daily-ui-prompt-entry
   upstream:
-    approval: approval-20260806-radar-task-breakdown-v1
-    artifact: docs/05-task-breakdown.md
-    version: "1.0"
-    sha256: 073dbd6cd22af998733dd044afeb3c12abd4de588cb05c276387759b5838c372
-  advance_limit: unique-next-work-item-only
+    approval: approval-20260807-radar-live-daily-prd-v1-2
+    artifact: artifact-radar-live-daily-prd-001
+    path: docs/02-prd.md
+    version: "1.2"
+    sha256: 3ce842ef8e2b9661f2114b3b4a2b3361eeb8fac0f98a5071cd8e27c38a81a020
+  advance_limit: unique-next-stage-only
   auto_advance_beyond_next: false
 completed_ui_assignment:
   change_id: ui-prompt-20260804-ai-model-radar-001
@@ -153,7 +159,7 @@ completed_task_breakdown_assignment:
   approved_at: "2026-08-06T14:24:08+08:00"
   result: task-breakdown-approved-and-routed
   stop_gate: task-breakdown-review
-active_assignment:
+held_frontend_assignment:
   change_id: dev-20260806-ai-model-radar-fe-001
   work_item: AMR-FE-001
   role: role-frontend-dev
@@ -213,6 +219,22 @@ latest_approved_ui_delivery:
   completed_at: "2026-08-04T15:39:04+08:00"
   approval: approval-20260804-radar-ui-baseline
   visual_baseline_asset_count: 9
+  current_status: superseded-by-live-daily-ui-prompt-v1.2
+latest_ui_prompt_delivery:
+  artifact: artifact-radar-live-daily-ui-prompt-001
+  path: ui/03-ui-prompt.md
+  version: "1.2"
+  sha256: 967090f3ac97e0a0bb00070eb39a5af9b6efcd629ac1517e78bffa4f8f7605bd
+  ui_index_sha256: 403a3a3a2ddf2839582a2b3278e633d58ec5291f9f1c0caf5b165d2260f18600
+  change_id: ui-prompt-20260807-ai-model-radar-live-daily-001
+  status: ready-for-review
+  completed_by: role-ui-designer
+  completed_at: "2026-08-07T18:11:15+08:00"
+  stop_gate: ui-prompt-review
+  generated_ui_design: false
+  generated_prototype: false
+  generated_images: false
+  historical_visual_reference_asset_count: 9
 ui_visual_baseline:
   artifact: artifact-radar-user-ui-baseline-001
   path: ui/
@@ -222,13 +244,16 @@ ui_visual_baseline:
   provided_by: 超级无敌帅超超总
   approved_at: "2026-08-04T16:41:52+08:00"
   known_limits:
-    - "缺少完整平板、深色及 36 个状态的逐项视觉覆盖"
-    - "真实连接、活动源、运行状态和混用日期均为视觉占位，PRD 与 Prompt 的真实性边界优先"
+    - "9 张图片只作为历史视觉参考，不是 PRD v1.2 的已批准新设计"
+    - "真实连接、活动源、运行状态和混用日期均为历史视觉占位，PRD v1.2 与 Prompt v1.2 的真实性边界优先"
 latest_approved_artifact:
-  path: docs/05-task-breakdown.md
-  version: "1.0"
-  sha256: 073dbd6cd22af998733dd044afeb3c12abd4de588cb05c276387759b5838c372
-  approval: approval-20260806-radar-task-breakdown-v1
+  artifact: artifact-radar-live-daily-prd-001
+  path: docs/02-prd.md
+  version: "1.2"
+  sha256: 3ce842ef8e2b9661f2114b3b4a2b3361eeb8fac0f98a5071cd8e27c38a81a020
+  approval: approval-20260807-radar-live-daily-prd-v1-2
+  approved_by: 超级无敌帅超超总
+  approved_at: "2026-08-07T18:06:31+08:00"
 workflow_policy:
   pass_semantics: approve-current-and-authorize-unique-next
   direct_user_role_commands:
@@ -272,7 +297,7 @@ superseded_product_increment:
   superseded_at: "2026-08-07T17:50:51+08:00"
   approval_received: false
   preserved_compatibility: "seed_demo only; AC-43..AC-58 in v1.2"
-temporary_product_assignment:
+completed_live_daily_product_assignment:
   change_id: prd-20260807-ai-model-radar-live-daily-intelligence-001
   role: role-product-manager
   role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
@@ -316,20 +341,56 @@ temporary_product_assignment:
     ui_design: reassessment-required-after-ui-prompt-approval
     architecture_and_task_breakdown: reassessment-required-after-ui-approval
     frontend_and_backend_development: not-authorized
+  delivery_status: approved
+  result: radar-live-daily-intelligence-approved-and-ui-prompt-routed
+  stop_gate: completed
+  approval: approval-20260807-radar-live-daily-prd-v1-2
+  approved_at: "2026-08-07T18:06:31+08:00"
+  return_point: "artifact-radar-frontend-001 继续待审冻结；新 UI Prompt 独立停在 ui-prompt-review"
+  auto_route_on_delivery: false
+active_assignment:
+  change_id: ui-prompt-20260807-ai-model-radar-live-daily-001
+  role: role-ui-designer
+  role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+  role_task_title: "04 UI/UX设计师"
+  authorization: approval-20260807-radar-live-daily-ui-prompt-entry
+  safe_checkpoint: e826766d554e9a81a468b3f86e4ce659d95256c0
+  upstream:
+    approval: approval-20260807-radar-live-daily-prd-v1-2
+    artifact: artifact-radar-live-daily-prd-001
+    path: docs/02-prd.md
+    version: "1.2"
+    sha256: 3ce842ef8e2b9661f2114b3b4a2b3361eeb8fac0f98a5071cd8e27c38a81a020
+  inherited_ui:
+    path: ui/03-ui-prompt.md
+    version: "1.0"
+    sha256: d001cea2e85c36317ca1e38c657a32527b3705a3f276f8d938b8b0ac6e450318
+    visual_baseline: ui/
+    visual_baseline_asset_count: 9
+  expected_output:
+    artifact: artifact-radar-live-daily-ui-prompt-001
+    path: ui/03-ui-prompt.md
+    version: "1.2"
+    sha256: 967090f3ac97e0a0bb00070eb39a5af9b6efcd629ac1517e78bffa4f8f7605bd
+    ui_index_sha256: 403a3a3a2ddf2839582a2b3278e633d58ec5291f9f1c0caf5b165d2260f18600
+  scope: "只更新真实每日 AI 开发情报 UI Prompt 与必要 UI 索引和 workflow；不生成设计图、原型或代码"
   delivery_status: ready-for-review
-  result: radar-live-daily-intelligence-product-change-ready
-  stop_gate: product-change-review
-  return_point: "产品审核不改变 artifact-radar-frontend-001 的 frontend-delivery-review；通过后仅可一跳授权固定 04 更新 UI Prompt"
+  started_at: "2026-08-07T18:06:31+08:00"
+  completed_at: "2026-08-07T18:11:15+08:00"
+  validation_status: passed
+  result: live-daily-ui-prompt-ready-for-review
+  stop_gate: ui-prompt-review
   auto_route_on_delivery: false
 additional_pending_approval:
-  gate: product-change-review
-  artifact: artifact-radar-live-daily-prd-001
-  expected_change_id: prd-20260807-ai-model-radar-live-daily-intelligence-001
-  expected_path: docs/02-prd.md
+  gate: ui-prompt-review
+  artifact: artifact-radar-live-daily-ui-prompt-001
+  expected_change_id: ui-prompt-20260807-ai-model-radar-live-daily-001
+  expected_path: ui/03-ui-prompt.md
   version: "1.2"
-  sha256: 3ce842ef8e2b9661f2114b3b4a2b3361eeb8fac0f98a5071cd8e27c38a81a020
+  sha256: 967090f3ac97e0a0bb00070eb39a5af9b6efcd629ac1517e78bffa4f8f7605bd
+  delivery_status: ready-for-review
   decision_owner: 超级无敌帅超超总
   decision: pending
   options: [通过, 修改, 打回]
-  on_approved: "只一跳授权固定 04 UI/UX设计师更新 UI Prompt 并独立停门；不得同时启动 UI 设计、05、06 或 07"
-updated_at: "2026-08-07T17:53:17+08:00"
+  on_approved: "批准 Prompt 后，超级无敌帅超超总可将其交给自己的专业 UI 设计大模型生成新设计，并在独立设计审核门确认；固定 04 不生成图片，不同时启动 05、06、07 或解冻既有前端"
+updated_at: "2026-08-08T01:21:15+08:00"
