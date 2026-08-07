@@ -17,6 +17,10 @@
 **/.cache/
 *.log
 
+# Local launchd supervision state (normally stored under ~/Library)
+.local-services/
+**/.local-services/
+
 # Local environments and credentials
 .env
 .env.*
