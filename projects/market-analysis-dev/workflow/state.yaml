@@ -127,6 +127,77 @@ active_assignment:
   result: "ready-for-frontend-delivery-review"
   stop_gate: frontend-delivery-review
   auto_advance_beyond_next: false
+temporary_frontend_assignment:
+  change_id: "dev-20260807-career-f10-input-ui-preview-001"
+  work_item: "CFR-FE-008-visible-slice"
+  role: role-frontend-dev
+  role_task_id: "019fb74a-a427-7101-9941-442c34b157e3"
+  role_task_title: "06 前端工程师"
+  authorization: "approval-20260807-career-f10-input-ui-preview-entry"
+  authorized_via: direct_user_command
+  source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+  safe_checkpoint: "044143043bb2165b97af6f78baa01ca8094af3f3"
+  scheduling: "completed-awaiting-user-review"
+  original_workflow:
+    stage: implementation
+    status: frontend-delivery-ready-for-review
+    current_role: role-frontend-dev
+    next_gate: frontend-delivery-review
+    active_change_id: "dev-20260806-career-fe-001"
+    held_artifact: "artifact-career-frontend-001"
+    preservation: "原 CFR-FE-001 交付继续待审；本临时单元不批准、不否决或替代该交付"
+  upstream:
+    prd_f10:
+      path: docs/02-prd.md
+      current_version: "1.2"
+      current_sha256: 0c2fab0bc4083dc3c16034eafcf3ce2177a5adc1c334ce548b2da5698632958f
+      approved_logic_version: "1.1"
+      inherited_logic_approval: "approval-20260804-prd-delivery"
+      usage: "只引用已批准 F10 逻辑及 v1.2 延续的浏览器内存边界；不批准待审后端产品增量"
+    ui_prompt:
+      path: ui/03-ui-prompt.md
+      version: "1.0"
+      sha256: f75762b14b5cdcb536cdb58801cd77380ea4a3a276aa906515c137e129ad33b0
+      approval: "approval-20260804-career-ui-baseline"
+    architecture:
+      path: docs/04-architecture.md
+      version: "1.0"
+      sha256: bcc782409ebde28e003c9e4a1c20d45ddcb3b787f8a2de020c451ef05957d144
+      approval: "approval-20260806-career-architecture-v1"
+  scope:
+    source_workbench_route_visible: true
+    desktop_and_mobile_navigation_enabled: true
+    simplified_chinese_input_ui: true
+    input_and_validation_states: true
+    optional_metadata_and_rights_confirmation: true
+    classification_confirmation_ui_preview: true
+    cfr_fe_008_complete: false
+    cfr_fe_007_dependency_complete: false
+  exclusions:
+    - complete-cfr-fe-008
+    - sensitive-information-detection-workflow
+    - cfr-fe-009-worker-analysis
+    - cfr-fe-010-summary-results-and-recovery
+    - real-classification-or-direction-generation
+    - backend-or-network
+    - persistence-or-telemetry
+    - code-review-qa-or-production-deployment
+  delivery_status: ready-for-review
+  output:
+    artifact: "artifact-career-f10-input-ui-preview-001"
+    path: "frontend/src/features/source-workbench/SourceWorkbenchPage.tsx"
+    version: "0.1.0-preview.1"
+    sha256: dbe053a8ebbce6a0e4b365aa261bd9f3b4e01ec5fcc8b18303acb1eb74043b5a
+    implementation_checkpoint_commit: "8a9feaa46fc670a729dd205c7c2a22039cbacf49"
+    design_qa: "design-qa/cfr-f10-input-ui-preview.md"
+    browser_url: "http://127.0.0.1:4177/source-workbench"
+  started_at: "2026-08-07T16:34:39+08:00"
+  completed_at: "2026-08-07T16:34:39+08:00"
+  validated_at: "2026-08-07T16:44:22+08:00"
+  result: "temporary-visible-slice-ready-for-review"
+  stop_gate: frontend-delivery-review
+  return_point: "artifact-career-frontend-001 / frontend-delivery-review"
+  auto_route_on_delivery: false
 next_approval:
   gate: frontend-delivery-review
   expected_change_id: "dev-20260806-career-fe-001"
@@ -242,4 +313,14 @@ additional_pending_approval:
   decision: pending
   options: [通过, 修改, 打回]
   on_approved: "只批准当前产品增量；不得自动启动固定 04、05 或 07"
-updated_at: "2026-08-07T15:48:43+08:00"
+additional_pending_frontend_approval:
+  gate: frontend-delivery-review
+  artifact: "artifact-career-f10-input-ui-preview-001"
+  expected_change_id: "dev-20260807-career-f10-input-ui-preview-001"
+  work_item: "CFR-FE-008-visible-slice"
+  decision_owner: 超级无敌帅超超总
+  decision: pending
+  options: [通过, 修改, 打回]
+  original_return_point: "artifact-career-frontend-001 / frontend-delivery-review"
+  on_approved: "只批准当前临时可见纵切并返回原审核点；不标记 CFR-FE-008 完成，不授权 CFR-FE-009、代码审查、QA 或部署"
+updated_at: "2026-08-07T16:44:22+08:00"

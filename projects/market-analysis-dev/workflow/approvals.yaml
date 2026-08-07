@@ -251,3 +251,24 @@ approvals:
     safe_checkpoint: 609bb33e346286bac82dbb57bfb5c92932435051
     original_gate: frontend-delivery-review
     evidence: "超级无敌帅超超总明确要求四个项目后端必须可用；固定 00 确认 F10 正文必须继续只留浏览器内存，并在并发角色提交推送完成、根仓干净后解除固定 03 写入锁。"
+  - id: "approval-20260807-career-f10-input-ui-preview-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-entry
+    role: role-frontend-dev
+    role_task_id: "019fb74a-a427-7101-9941-442c34b157e3"
+    role_task_title: "06 前端工程师"
+    change_id: "dev-20260807-career-f10-input-ui-preview-001"
+    work_item: "CFR-FE-008-visible-slice"
+    scope: "临时开放 /source-workbench 的完整简体中文输入、校验、可选元数据、权利确认与双轴分类确认 UI 预览；不完成 CFR-FE-008，不实现 Worker、摘要、研究关系、结果恢复、后端、持久化或第三方传输"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-07T16:34:39+08:00"
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    safe_checkpoint: "044143043bb2165b97af6f78baa01ca8094af3f3"
+    original_change_id: "dev-20260806-career-fe-001"
+    original_artifact: "artifact-career-frontend-001"
+    original_gate: frontend-delivery-review
+    return_point: "artifact-career-frontend-001 / frontend-delivery-review"
+    advance_limit: "temporary-visible-slice-only"
+    auto_advance_beyond_next: false
+    evidence: "超级无敌帅超超总明确要求立即打开用户输入功能 UI，使桌面和移动端可进入并实际使用；同时明确本批不得冒充完整 CFR-FE-008，不得进入 Worker、代码审查、QA 或部署。"

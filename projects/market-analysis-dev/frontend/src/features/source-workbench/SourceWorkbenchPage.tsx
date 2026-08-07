@@ -90,6 +90,15 @@ export function SourceWorkbenchPage() {
   const hasDraft = sourceBody.length > 0 || rightsConfirmed || stage !== 'editing'
 
   useEffect(() => {
+    const previousTitle = document.title
+    document.title = '前端职业成长雷达｜信息源工作台'
+
+    return () => {
+      document.title = previousTitle
+    }
+  }, [])
+
+  useEffect(() => {
     if (stage === 'classification-review') {
       classificationHeadingRef.current?.focus()
     }

@@ -509,3 +509,107 @@ artifacts:
       - "approved-research-snapshot-only-no-live-market-collection"
       - "purpose-sampled-recruitment-evidence-not-market-share"
       - "existing-frontend-artifact-remains-pending-review"
+  - id: "artifact-career-f10-input-ui-preview-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: frontend-implementation
+    change_id: "dev-20260807-career-f10-input-ui-preview-001"
+    work_item: "CFR-FE-008-visible-slice"
+    status: ready-for-review
+    owner: role-frontend-dev
+    role_task_id: "019fb74a-a427-7101-9941-442c34b157e3"
+    authorization: "approval-20260807-career-f10-input-ui-preview-entry"
+    version: "0.1.0-preview.1"
+    path: "frontend/src/features/source-workbench/SourceWorkbenchPage.tsx"
+    sha256: dbe053a8ebbce6a0e4b365aa261bd9f3b4e01ec5fcc8b18303acb1eb74043b5a
+    source_baseline_commit: "044143043bb2165b97af6f78baa01ca8094af3f3"
+    implementation_checkpoint_commit: "8a9feaa46fc670a729dd205c7c2a22039cbacf49"
+    original_return_point:
+      artifact: "artifact-career-frontend-001"
+      gate: frontend-delivery-review
+      status: ready-for-review
+    upstream:
+      prd_f10:
+        path: docs/02-prd.md
+        current_version: "1.2"
+        current_sha256: 0c2fab0bc4083dc3c16034eafcf3ce2177a5adc1c334ce548b2da5698632958f
+        approved_logic_version: "1.1"
+        inherited_logic_approval: "approval-20260804-prd-delivery"
+      ui_prompt:
+        path: ui/03-ui-prompt.md
+        version: "1.0"
+        sha256: f75762b14b5cdcb536cdb58801cd77380ea4a3a276aa906515c137e129ad33b0
+        approval: "approval-20260804-career-ui-baseline"
+      architecture:
+        path: docs/04-architecture.md
+        version: "1.0"
+        sha256: bcc782409ebde28e003c9e4a1c20d45ddcb3b787f8a2de020c451ef05957d144
+        approval: "approval-20260806-career-architecture-v1"
+    scope:
+      source_workbench_route_visible: true
+      desktop_and_mobile_navigation_enabled: true
+      complete_simplified_chinese_ui: true
+      unicode_input_1_to_100000: true
+      validation_and_rights_confirmation: true
+      optional_metadata: true
+      classification_confirmation_ui_preview: true
+      cfr_fe_008_complete: false
+      cfr_fe_009_worker: false
+      cfr_fe_010_results_and_recovery: false
+    privacy_boundary:
+      current_react_tab_memory_only: true
+      url_or_history_storage: false
+      persistent_storage: false
+      cache_or_service_worker: false
+      logging_or_telemetry: false
+      network_or_backend: false
+      third_party_transfer: false
+    implementation_files:
+      - {path: frontend/src/app/App.test.tsx, sha256: e0777cdbb6c3fa728d72b81945ded6b0cfaf73ff60aa9ed29ec7ad70bac08014}
+      - {path: frontend/src/app/App.tsx, sha256: 2d9bb64a717c8dff555a903f418d8b2ba72a6ea8af97e0d0d9e51e4beb1d27aa}
+      - {path: frontend/src/app/router.tsx, sha256: a1294d35749f6c8520e36dc70fb28a20c16cf4f712fe5479ae3fca91de98489c}
+      - {path: frontend/src/app/runtime-boundaries.test.ts, sha256: de44b9b3c9829f7d49ff17d476e3fc53ab5bb4125088f4f773be96f640b76dec}
+      - {path: frontend/src/domain/source-analysis/sourceInput.test.ts, sha256: b7d88703c3ae62ccd56afef589263ca7a6a6691ce504207c6b25d4730a0130b7}
+      - {path: frontend/src/domain/source-analysis/sourceInput.ts, sha256: 16f741456ae29370f547e2c05a2820c90715e24c0abd916a5281eb074df42e63}
+      - {path: frontend/src/features/source-workbench/SourceWorkbenchPage.module.css, sha256: cdad9582e4eaf68058c412662d839c7887b14b9c590c971821f2a0af7ded42db}
+      - {path: frontend/src/features/source-workbench/SourceWorkbenchPage.test.tsx, sha256: 92e2c95915c9216dbd3e0e54abaeb62a55457fc5dbe02e2c02fab477f47d47aa}
+      - {path: frontend/src/features/source-workbench/SourceWorkbenchPage.tsx, sha256: dbe053a8ebbce6a0e4b365aa261bd9f3b4e01ec5fcc8b18303acb1eb74043b5a}
+    design_qa:
+      report: {path: "design-qa/cfr-f10-input-ui-preview.md", sha256: 449fea331d766863a2419722b3b1f62c9a28f2f357fc7edececb577529b7ead0}
+      desktop: {path: "design-qa/cfr-f10-input-ui-preview-desktop-1440.png", viewport: "1440x1024", sha256: 50d9e40ef7540d6d6afc8bbbef77ee5ad30bc0ab66137e36f04d6d49e1c31744}
+      mobile_390: {path: "design-qa/cfr-f10-input-ui-preview-mobile-390.png", viewport: "390x844", sha256: 566109c19ca32a56344af8dcfb702953cc4a57dad958fe4a6ca0367e380ab886}
+      mobile_320: {path: "design-qa/cfr-f10-input-ui-preview-mobile-320.png", viewport: "320x844", sha256: 8f5b6f068648952cad77eb2d6e2869e248b269d5d02c930eafe45dba4fe4cf20}
+    validation:
+      node: "v24.14.0"
+      lint: passed
+      typecheck: passed
+      component_and_boundary_tests: "20-of-20-passed"
+      build: passed
+      project_validator: "passed-with-0-warnings"
+      browser_desktop_1440: passed
+      browser_mobile_390: passed
+      browser_mobile_320: passed
+      horizontal_overflow: none
+      browser_console_warnings_or_errors: none
+      unicode_100000_and_100001_boundaries: passed
+      html_as_plain_text: passed
+      clear_confirmation_and_escape: passed
+      refresh_clears_user_input: passed
+      complete_simplified_chinese_check: passed
+      storage_and_network_boundary: passed
+    truth_boundary:
+      - "input-and-classification-confirmation-ui-preview-only"
+      - "local-integration-engine-not-enabled"
+      - "no-real-classification-summary-research-integration-or-new-direction"
+      - "user-input-not-added-to-approved-research-snapshot"
+    known_limits:
+      - "cfr-fe-007-dependency-not-complete"
+      - "not-a-complete-cfr-fe-008-delivery"
+      - "sensitive-information-detection-and-confirmation-not-in-this-visible-slice"
+      - "cfr-fe-009-worker-not-implemented"
+      - "cfr-fe-010-results-retry-replacement-and-delete-not-implemented"
+      - "desktop-in-app-browser-cannot-open-a-native-mobile-soft-keyboard"
+      - "no-backend-network-persistence-third-party-model-or-production-deployment"
+    browser_url: "http://127.0.0.1:4177/source-workbench"
+    completed_at: "2026-08-07T16:34:39+08:00"
+    validated_at: "2026-08-07T16:44:22+08:00"
+    stop_gate: frontend-delivery-review
