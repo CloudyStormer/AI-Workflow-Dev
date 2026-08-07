@@ -27,16 +27,33 @@ describe('Frontend Career Radar 应用壳', () => {
     ).toBeInTheDocument()
   })
 
-  it('只开放 01，其他导航明确标为后续任务', async () => {
+  it('开放 01 与 05，其他导航明确标为后续任务', async () => {
     const { container } = renderAt('/directions')
 
     expect(await screen.findByRole('link', { name: /01 职业方向总览/ })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /05 信息源工作台/ })).toHaveAttribute(
+      'href',
+      '/source-workbench',
+    )
     expect(screen.getByRole('button', { name: '02 技术栈全景，后续任务' })).toBeDisabled()
     expect(screen.getByRole('button', { name: '06 个人证据准备，后续任务' })).toBeDisabled()
     expect(container.querySelector('nav[aria-label="移动端一级导航"]')).toBeInTheDocument()
+    expect(container.querySelector('a[href="/source-workbench"]')).toBeInTheDocument()
     expect(
       container.querySelector('button[aria-label="技术栈，后续任务"]'),
     ).toBeDisabled()
+  })
+
+  it('信息源工作台路由可达并显示完整中文输入入口', async () => {
+    renderAt('/source-workbench')
+
+    expect(
+      await screen.findByRole('heading', { name: '把新材料带进职业研究' }),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByLabelText('粘贴文章、招聘／面试要求、简历、项目材料或其他正文'),
+    ).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: '分析并建议分类' })).toBeInTheDocument()
   })
 
   it('根路径重定向到职业方向总览', async () => {
@@ -62,7 +79,7 @@ describe('Frontend Career Radar 应用壳', () => {
   it('加载状态使用中文且可被辅助技术感知', () => {
     render(<RouteLoadingState />)
 
-    expect(screen.getByRole('status')).toHaveTextContent('正在加载职业方向内容')
+    expect(screen.getByRole('status')).toHaveTextContent('正在加载页面内容')
   })
 
   it('错误状态保持中文并提供安全返回入口', () => {

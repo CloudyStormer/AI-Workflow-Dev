@@ -20,14 +20,14 @@ const navigationItems = [
   { number: '02', label: '技术栈全景', path: '/stacks', enabled: false, icon: Layers3 },
   { number: '03', label: '招聘证据', path: '/evidence', enabled: false, icon: BriefcaseBusiness },
   { number: '04', label: 'AI 增量', path: '/ai-increment', enabled: false, icon: Bot },
-  { number: '05', label: '信息源工作台', path: '/source-workbench', enabled: false, icon: FileSearch },
+  { number: '05', label: '信息源工作台', path: '/source-workbench', enabled: true, icon: FileSearch },
   { number: '06', label: '个人证据准备', path: '/personal-evidence', enabled: false, icon: UserRoundSearch },
 ] as const
 
 const mobileNavigationItems = [
   { number: '01', label: '方向', path: '/directions', enabled: true, icon: ChartNoAxesCombined },
   { number: '02', label: '技术栈', path: '/stacks', enabled: false, icon: Layers3 },
-  { number: '05', label: '信息源', path: '/source-workbench', enabled: false, icon: FileSearch },
+  { number: '05', label: '信息源', path: '/source-workbench', enabled: true, icon: FileSearch },
   { number: '—', label: '更多', path: '/more', enabled: false, icon: BriefcaseBusiness },
 ] as const
 
@@ -36,7 +36,7 @@ export function RouteLoadingState() {
     <section className={styles.routeState} aria-live="polite" role="status">
       <span className={styles.loadingMark} aria-hidden="true" />
       <div>
-        <strong>正在加载职业方向内容</strong>
+        <strong>正在加载页面内容</strong>
         <p>证据快照和范围声明仍保持可见。</p>
       </div>
     </section>
@@ -99,7 +99,7 @@ export function App() {
 
           <div className={styles.localOnly}>
             <LockKeyhole size={15} strokeWidth={1.9} aria-hidden="true" />
-            本地内容预览
+            本地交互预览
           </div>
         </div>
 
@@ -147,8 +147,8 @@ export function App() {
       </main>
 
       <footer className={styles.footer}>
-        <p>当前仅交付职业方向首条可见纵切；完整 8 个方向、技术栈和证据模块属于后续独立任务。</p>
-        <p>不连接后端、真实招聘来源、第三方模型，也不保存个人数据。</p>
+        <p>当前开放职业方向首条纵切，以及信息源输入、校验和分类确认 UI 预览；其余内容属于后续独立任务。</p>
+        <p>用户正文只在当前标签页内存中处理，不连接后端、第三方模型或浏览器持久存储。</p>
       </footer>
 
       <nav className={styles.mobileNavigation} aria-label="移动端一级导航">

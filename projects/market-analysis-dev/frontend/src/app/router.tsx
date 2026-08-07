@@ -12,12 +12,18 @@ const DirectionsPage = lazy(() =>
   })),
 )
 
+const SourceWorkbenchPage = lazy(() =>
+  import('../features/source-workbench/SourceWorkbenchPage').then((module) => ({
+    default: module.SourceWorkbenchPage,
+  })),
+)
+
 export function NotFoundPage() {
   return (
     <section aria-labelledby="not-found-title">
       <p>页面状态 · 404</p>
       <h1 id="not-found-title">没有找到这个页面</h1>
-      <p>当前预览仅开放职业方向总览，其他模块将在各自任务获批后实现。</p>
+      <p>当前预览开放职业方向总览与信息源工作台，其他模块将在各自任务获批后实现。</p>
       <a href="/directions">返回职业方向总览</a>
     </section>
   )
@@ -48,6 +54,14 @@ export const routes = [
         element: (
           <Suspense fallback={<RouteLoadingState />}>
             <DirectionsPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'source-workbench',
+        element: (
+          <Suspense fallback={<RouteLoadingState />}>
+            <SourceWorkbenchPage />
           </Suspense>
         ),
       },
