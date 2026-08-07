@@ -295,3 +295,59 @@ artifacts:
       - project structure passed with 4 intentional empty-command warnings
       - Git boundary, Skill drift and scoped diff checks passed
       - unrelated shared-worktree changes remained untouched
+  - id: artifact-radar-frontend-001
+    run_id: run-20260731-intake-001
+    type: frontend-implementation
+    status: ready-for-review
+    owner: role-frontend-dev
+    version: "1.0"
+    change_id: dev-20260806-ai-model-radar-fe-001
+    work_item: AMR-FE-001
+    authorization: approval-20260806-radar-fe-001-entry
+    upstream:
+      artifact: docs/05-task-breakdown.md
+      version: "1.0"
+      sha256: 073dbd6cd22af998733dd044afeb3c12abd4de588cb05c276387759b5838c372
+      approval: approval-20260806-radar-task-breakdown-v1
+    primary_path: frontend/src/app/App.tsx
+    files:
+      - {path: frontend/src/app/App.tsx, sha256: ed7e31c613897bf0f1b9d4205b66881b7714edc086646cb21fc8e389d7651508}
+      - {path: frontend/src/app/App.module.css, sha256: 2f1c0dce7f9338a61b5b67f821659aa1053b017209ca04d56d5708b3c2bd1553}
+      - {path: frontend/src/features/today-radar/TodayRadarPage.tsx, sha256: 712c48526daf32c9c8ba8c5c9ecfbef34032003c774abd2f4487290fe731fdd3}
+      - {path: frontend/src/features/today-radar/TodayRadarPage.module.css, sha256: 0ce3399c7e1c2bd54748897e5a545f7dfb41af414e548d15da2ca305b007df43}
+      - {path: frontend/src/styles/global.css, sha256: 60df57b4e225d10e1530d2d86509a20930e216a0c183c699fdcc20d5f1f25507}
+      - {path: frontend/package.json, sha256: 755423d86bdaf1eb55be999cee736ab15bbda862cb2483d241b1a88e43f51486}
+      - {path: frontend/package-lock.json, sha256: f8e379ab554ed123aeb55cb96ee77ac9c28e1eb35f67416654769b8ef8f2d1bf}
+      - {path: design-qa/amr-fe-001-desktop-1440.png, sha256: ec8fc0e48fcd347d8d19ac6a7854be42e746ee35d9a93c2b3ed11c8c651c392a}
+      - {path: design-qa/amr-fe-001-mobile-320.png, sha256: 1bb105fa2932ef696f60e1be9a14c0675fbb2fbb1c2da448652e602670f6b4c8}
+      - {path: design-qa.md, sha256: b6bc46f6d436c06179319442e71815296ce29132723cd4ef3543de9d6f7f40fd}
+    scope:
+      runnable_react_typescript_vite_foundation: true
+      complete_simplified_chinese_app_shell: true
+      truth_status_bar: true
+      today_first_browser_visible_vertical_slice: true
+      amr_fe_002_or_later_started: false
+      backend_or_live_sources_connected: false
+      third_party_models_or_shadow_run_started: false
+      production_deployed: false
+    truth_boundary:
+      data_mode: static-demo-manual-snapshot
+      visible_status: "演示数据 · 人工快照 · 截至 2026年8月4日 17:25（北京时间） · 未连接自动采集服务"
+      real_company_or_model_claims: false
+    validation:
+      - npm run lint passed with Node 24
+      - npm run typecheck passed with Node 24
+      - npm run test passed with 3 of 3 tests
+      - npm run build passed with Node 24
+      - desktop 1440px browser inspection passed
+      - mobile 320px browser inspection passed with no horizontal overflow
+      - Simplified Chinese, zh-CN semantics and non-color state labels passed
+      - browser console contained no warnings or errors
+    known_limits:
+      - "浏览器自动化对已聚焦锚点执行 Enter 时未更新地址哈希；真实点击跳转正常，记为工具层非阻断限制"
+      - "npm audit 报告 React Router RSC 相关高危公告；本批为纯客户端静态演示，不启用服务端 RSC 或 actions，后续依赖升级需独立评估"
+      - "完整日榜、证据链、筛选、日期切换与真实来源属于 AMR-FE-002 及后续未授权任务"
+    started_at: "2026-08-06T15:47:11+08:00"
+    completed_at: "2026-08-07T14:50:10+08:00"
+    validated_at: "2026-08-07T14:50:10+08:00"
+    stop_gate: frontend-delivery-review

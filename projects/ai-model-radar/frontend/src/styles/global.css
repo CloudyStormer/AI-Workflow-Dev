@@ -1,0 +1,80 @@
+:root {
+  font-family:
+    Inter, "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", system-ui,
+    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #111827;
+  background: #f6f7f9;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+
+  --color-canvas: #f6f7f9;
+  --color-surface: #ffffff;
+  --color-surface-subtle: #f0f2f5;
+  --color-text-primary: #111827;
+  --color-text-secondary: #475467;
+  --color-text-tertiary: #667085;
+  --color-text-disabled: #98a2b3;
+  --color-border: #d9dee7;
+  --color-brand: #3157e7;
+  --color-brand-hover: #2445c7;
+  --color-brand-soft: #eef2ff;
+  --color-brand-border: #c7d2fe;
+  --color-success: #087a55;
+  --color-success-soft: #e7f6ef;
+  --color-info-text: #026aa2;
+  --color-info-soft: #eff8ff;
+  --color-info-border: #b9e6fe;
+  --color-inference: #6941c6;
+  --color-inference-soft: #f4f0ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  min-height: 100%;
+  color-scheme: light;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100%;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+a,
+button {
+  touch-action: manipulation;
+}
+
+:focus-visible {
+  outline: 3px solid #84adff;
+  outline-offset: 3px;
+}
+
+::selection {
+  color: #ffffff;
+  background: var(--color-brand);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
