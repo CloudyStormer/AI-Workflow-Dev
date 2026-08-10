@@ -61,8 +61,8 @@ artifacts:
     path: ui/README.md
     status: active
     owner: package-contractor
-    sha256: 7b3a54bfe99b92791604363e5d30110842e3efa30c6d4d5754dc5e9cdfe0d6c8
-    updated_at: "2026-08-04T16:41:52+08:00"
+    sha256: 9c58b47f3864d53d806604b160a41e134fdebb2671536e15b13d77257ce1bebf
+    updated_at: "2026-08-10T17:07:59+08:00"
   - id: "artifact-git-metadata-backup-001"
     run_id: "run-20260803-market-analysis-dev-init-001"
     type: external-git-metadata-backup
@@ -199,7 +199,7 @@ artifacts:
     type: ui-ux-design-prompt
     change_id: "ui-prompt-20260804-frontend-career-radar-001"
     path: ui/03-ui-prompt.md
-    status: approved
+    status: superseded
     owner: role-ui-designer
     version: "1.0"
     sha256: f75762b14b5cdcb536cdb58801cd77380ea4a3a276aa906515c137e129ad33b0
@@ -212,6 +212,9 @@ artifacts:
     approval: "approval-20260804-career-ui-baseline"
     approved_by: 超级无敌帅超超总
     approved_at: "2026-08-04T16:41:52+08:00"
+    superseded_by: "artifact-career-backend-ui-prompt-001"
+    superseded_at: "2026-08-10T17:07:59+08:00"
+    superseded_reason: "已批准 PRD v1.2 新增只读研究快照服务健康／就绪、版本、新鲜度、降级、静态回退、错误与 F10 服务隔离语义；v1.0 保留为历史批准输入。"
     output_purpose: "供超级无敌帅超超总的专业 UI 设计大模型生成界面"
     role_boundary:
       ui_prompt_only: true
@@ -249,6 +252,68 @@ artifacts:
       - "purpose-sampled-recruitment-evidence-not-market-share"
       - "third-party-model-transfer-and-persistent-user-data-require-separate-authorization"
       - "frontend-implementation-not-authorized"
+  - id: "artifact-career-backend-ui-prompt-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: ui-ux-design-prompt
+    change_id: "ui-prompt-20260810-career-backend-state-001"
+    path: ui/03-ui-prompt.md
+    status: ready-for-review
+    owner: role-ui-designer
+    version: "1.1"
+    sha256: fcc08310cfb92d970fe8dbb38c400bc5193c9e4707353ced12b1570b55894d29
+    ui_index_sha256: 9c58b47f3864d53d806604b160a41e134fdebb2671536e15b13d77257ce1bebf
+    entry_approval: "approval-20260810-career-backend-ui-prompt-entry"
+    previous_artifact: "artifact-ui-prompt-001"
+    previous_version: "1.0"
+    previous_sha256: f75762b14b5cdcb536cdb58801cd77380ea4a3a276aa906515c137e129ad33b0
+    upstream:
+      approval: "approval-20260810-career-backend-product-increment"
+      artifact: "artifact-career-backend-prd-increment-001"
+      path: docs/02-prd.md
+      version: "1.2"
+      sha256: 0c2fab0bc4083dc3c16034eafcf3ce2177a5adc1c334ce548b2da5698632958f
+    scope: "只读研究快照服务真实性 UI Prompt：健康／就绪、版本、证据截止日、观测时间、最近成功加载、降级旧版、静态回退、局部失败、错误恢复、只读和 F10 服务隔离"
+    coverage:
+      information_architecture: "career-direction-overview-then-technology-stack-landscape"
+      key_pages: 7
+      data_modes: [approved-research-snapshot, degraded-previous-snapshot, static-fallback, unavailable]
+      health_and_readiness_independent: true
+      backend_acceptance_mapping: "AC-CFR-BE-01..AC-CFR-BE-18"
+      source_workbench_states: 24
+      responsive_viewports: [1440, 1024, 390, 320]
+      complete_simplified_chinese: true
+      keyboard_and_screen_reader: true
+    truth_boundary:
+      backend_runtime_implemented_by_this_change: false
+      current_frontend_artifacts_approved_or_unfrozen: false
+      static_fallback_may_prove_service_ready: false
+      service_health_may_prove_snapshot_ready: false
+      observed_at_may_prove_market_freshness: false
+      research_write_actions: forbidden
+      f10_browser_tab_memory_only: true
+      f10_user_content_sent_to_snapshot_service: false
+      f10_persistence_logging_or_telemetry: false
+    generated_ui_design: false
+    generated_prototype: false
+    generated_images: false
+    modified_application_or_service_code: false
+    held_mainline:
+      artifacts: [artifact-career-frontend-001, artifact-career-f10-input-ui-preview-001]
+      gate: frontend-delivery-review
+      decision: pending
+      modified_or_approved_by_this_change: false
+    completed_at: "2026-08-10T17:07:59+08:00"
+    stop_gate: ui-prompt-review
+    validation:
+      upstream_prd_sha256: passed
+      previous_prompt_sha256: passed
+      prompt_sha256: passed
+      ui_index_sha256: passed
+      backend_acceptance_mapping: "18-of-18-covered"
+      required_service_states: passed
+      f10_isolation_boundary: passed
+      responsive_and_accessibility: passed
+      generated_design_or_code: false
   - id: "artifact-career-user-ui-baseline-001"
     run_id: "run-20260803-market-analysis-dev-init-001"
     type: user-provided-ui-visual-baseline

@@ -216,6 +216,18 @@ next_approval:
     sha256: 954869415b1a7f1a52c80ef0ee2b098bc5e4d28f011e23bd73be86e1d9eccc13
   advance_limit: unique-next-work-item-only
   auto_advance_beyond_next: false
+additional_pending_approval:
+  gate: ui-prompt-review
+  artifact: "artifact-career-backend-ui-prompt-001"
+  expected_path: ui/03-ui-prompt.md
+  expected_change_id: "ui-prompt-20260810-career-backend-state-001"
+  version: "1.1"
+  sha256: fcc08310cfb92d970fe8dbb38c400bc5193c9e4707353ced12b1570b55894d29
+  decision_owner: 超级无敌帅超超总
+  decision: pending
+  delivery_status: ready-for-review
+  options: [通过, 修改, 打回]
+  on_approved: "批准 Prompt 后由超级无敌帅超超总使用专业 UI 设计模型生成新版资产并独立进入 ui-design-review；固定 04 不生成图片，不批准或解冻现有前端产物"
 latest_approved_delivery:
   approval: "approval-20260806-career-task-breakdown-v1"
   artifacts:
@@ -325,7 +337,7 @@ authorized_ui_prompt_assignment:
   role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
   role_task_title: "04 UI/UX设计师"
   authorization: "approval-20260810-career-backend-ui-prompt-entry"
-  scheduling: "queued-after-control-center-ui-prompt-delivery"
+  scheduling: "completed-awaiting-user-review"
   upstream:
     approval: "approval-20260810-career-backend-product-increment"
     artifact: "artifact-career-backend-prd-increment-001"
@@ -342,10 +354,31 @@ authorized_ui_prompt_assignment:
     - production-deployment
   expected_output:
     path: ui/03-ui-prompt.md
-    version: next-reviewable-version
-  delivery_status: authorized-queued
+    version: "1.1"
+    sha256: fcc08310cfb92d970fe8dbb38c400bc5193c9e4707353ced12b1570b55894d29
+    ui_index_sha256: 9c58b47f3864d53d806604b160a41e134fdebb2671536e15b13d77257ce1bebf
+  delivery_status: ready-for-review
+  completed_at: "2026-08-10T17:07:59+08:00"
+  validation_status: passed
+  result: career-backend-state-ui-prompt-ready-for-review
   stop_gate: ui-prompt-review
   auto_route_on_delivery: false
+latest_ui_prompt_delivery:
+  artifact: "artifact-career-backend-ui-prompt-001"
+  path: ui/03-ui-prompt.md
+  version: "1.1"
+  sha256: fcc08310cfb92d970fe8dbb38c400bc5193c9e4707353ced12b1570b55894d29
+  ui_index_sha256: 9c58b47f3864d53d806604b160a41e134fdebb2671536e15b13d77257ce1bebf
+  change_id: "ui-prompt-20260810-career-backend-state-001"
+  status: ready-for-review
+  completed_by: role-ui-designer
+  completed_at: "2026-08-10T17:07:59+08:00"
+  stop_gate: ui-prompt-review
+  generated_ui_design: false
+  generated_prototype: false
+  generated_images: false
+  modified_application_or_service_code: false
+  held_mainline_artifacts: [artifact-career-frontend-001, artifact-career-f10-input-ui-preview-001]
 additional_pending_frontend_approval:
   gate: frontend-delivery-review
   artifact: "artifact-career-f10-input-ui-preview-001"
@@ -356,4 +389,4 @@ additional_pending_frontend_approval:
   options: [通过, 修改, 打回]
   original_return_point: "artifact-career-frontend-001 / frontend-delivery-review"
   on_approved: "只批准当前临时可见纵切并返回原审核点；不标记 CFR-FE-008 完成，不授权 CFR-FE-009、代码审查、QA 或部署"
-updated_at: "2026-08-10T16:05:06+08:00"
+updated_at: "2026-08-10T17:07:59+08:00"
