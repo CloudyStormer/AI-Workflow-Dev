@@ -19,19 +19,83 @@ artifacts:
     path: ui/README.md
     status: active
     owner: package-contractor
-    sha256: f7ae9c52c78bf89543007301277014f61931a77a28346b121c41d9390cbb0b31
-    updated_at: "2026-08-04T16:41:52+08:00"
+    sha256: 86a1b0a42361ea38e5ce77feaaa2d5e20c7ad1ea397bf4f8d144d1f11e127c4d
+    updated_at: "2026-08-10T16:11:53+08:00"
   - id: artifact-ui-prompt-001
     type: ui-design-prompt
     path: ui/01-control-center-ui-design-prompt.md
     version: "1.0.1"
-    status: approved
+    status: superseded
     owner: role-ui-designer
     sha256: 6b7335068417f2402c7672b9d233a4b739142116af4671b442b9ddf578c7650e
     approval: approval-20260804-control-center-ui-prompt
     approved_by: 超级无敌帅超超总
     approved_at: "2026-08-04T11:46:11+08:00"
     updated_at: "2026-08-04T11:46:11+08:00"
+    superseded_by: artifact-control-center-backend-ui-prompt-001
+    superseded_at: "2026-08-10T16:11:53+08:00"
+    superseded_reason: "已批准真实监管后端 PRD v1.0 新增健康／就绪、根仓真实性、来源、新鲜度、部分失败、错误与静态回退语义；v1.0.1 保留为历史批准输入。"
+  - id: artifact-control-center-backend-ui-prompt-001
+    type: ui-design-prompt
+    path: ui/01-control-center-ui-design-prompt.md
+    version: "1.1"
+    status: ready-for-review
+    owner: role-ui-designer
+    change_id: ui-prompt-20260810-control-center-backend-state-001
+    entry_approval: approval-20260810-control-center-backend-ui-prompt-entry
+    previous_artifact: artifact-ui-prompt-001
+    previous_version: "1.0.1"
+    previous_sha256: 6b7335068417f2402c7672b9d233a4b739142116af4671b442b9ddf578c7650e
+    upstream:
+      approval: approval-20260810-control-center-backend-product-increment
+      artifact: artifact-control-center-backend-product-increment-001
+      path: docs/02-prd.md
+      version: "1.0"
+      sha256: cb41e5e4184fd8df69b8bf1269ae0ef11b540f17f2cb621f6e5da484f9660b93
+    sha256: bf1614e5f8fe9d6e2d7a9457bcf8ce0c6aadecfff9ef770c067560ed37368b52
+    ui_index_sha256: 86a1b0a42361ea38e5ce77feaaa2d5e20c7ad1ea397bf4f8d144d1f11e127c4d
+    scope: "真实监管后端状态 UI Prompt：根仓实时观测／静态回退、健康／就绪、来源、新鲜度、覆盖、部分失败、错误、降级、只读、简体中文、响应式与无障碍"
+    coverage:
+      data_modes: [live-repository, degraded-live, stale-memory, static-fallback, not-ready]
+      explicit_state_scenarios: 20
+      acceptance_range: AC-CC-BE-01..AC-CC-BE-28
+      breakpoints: [1440px, 1024px, 390px, 320px]
+      complete_simplified_chinese: true
+      keyboard_and_screen_reader: true
+    truth_boundary:
+      backend_runtime_implemented: false
+      current_online_demo_data_status: demo
+      static_fallback_may_prove_live: false
+      service_health_may_prove_readiness: false
+      control_center_write_actions: forbidden
+    generated_ui_design: false
+    generated_prototype: false
+    generated_images: false
+    modified_application_or_service_code: false
+    held_mainline:
+      artifact: artifact-control-center-code-review-001
+      gate: code-review-conclusion-review
+      decision: pending
+      modified_or_approved_by_this_change: false
+    completed_at: "2026-08-10T16:11:53+08:00"
+    stop_gate: ui-prompt-review
+    validation:
+      upstream_prd_sha256: passed
+      prompt_sha256: passed
+      ui_index_sha256: passed
+      acceptance_mapping: AC-CC-BE-01..AC-CC-BE-28-covered
+      workflow_yaml: 5-of-5-valid
+      jsonl: 28-of-28-valid
+      project_structure: passed
+      git_boundary: passed
+      skill_drift: passed
+      diff_check: passed
+      modified_scope: prompt-ui-index-and-three-workflow-files-only
+    known_limits:
+      - "prompt-only-not-approved-ui-design"
+      - "real-supervision-backend-not-implemented-by-this-artifact"
+      - "existing-nine-images-are-v1.0.1-historical-visual-reference"
+      - "code-review-conclusion-remains-pending-and-unchanged"
   - id: artifact-private-deployment-002
     type: deployment
     path: .openai/hosting.json

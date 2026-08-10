@@ -26,6 +26,18 @@ next_approval:
   decision: pending
   delivery_status: ready-for-review
   on_approved: approve-review-conclusion-and-authorize-fixed-06-frontend-fix
+additional_pending_approval:
+  gate: ui-prompt-review
+  artifact: artifact-control-center-backend-ui-prompt-001
+  expected_path: ui/01-control-center-ui-design-prompt.md
+  expected_change_id: ui-prompt-20260810-control-center-backend-state-001
+  version: "1.1"
+  sha256: bf1614e5f8fe9d6e2d7a9457bcf8ce0c6aadecfff9ef770c067560ed37368b52
+  decision_owner: 超级无敌帅超超总
+  decision: pending
+  delivery_status: ready-for-review
+  options: [通过, 修改, 打回]
+  on_approved: "批准 Prompt 后由超级无敌帅超超总使用专业 UI 设计模型生成新版资产并独立进入 ui-design-review；固定 04 不生成图片，不解冻代码审查或开发"
 latest_approved_artifact:
   artifact: artifact-control-center-frontend-redesign-001
   path: app/
@@ -46,6 +58,8 @@ ui_visual_baseline:
     - ui/01-control-center-ui-design-prompt.md
     - global-simplified-chinese-rule
     - user-provided-images
+  current_role: historical-visual-reference-for-v1.0.1
+  new_backend_truth_states_covered: false
 next_input:
   status: completed
   owner: 超级无敌帅超超总
@@ -221,8 +235,29 @@ authorized_ui_prompt_assignment:
     - production-deployment
   expected_output:
     path: ui/01-control-center-ui-design-prompt.md
-    version: next-reviewable-version
-  delivery_status: authorized
+    version: "1.1"
+    sha256: bf1614e5f8fe9d6e2d7a9457bcf8ce0c6aadecfff9ef770c067560ed37368b52
+    ui_index_sha256: 86a1b0a42361ea38e5ce77feaaa2d5e20c7ad1ea397bf4f8d144d1f11e127c4d
+  delivery_status: ready-for-review
+  completed_at: "2026-08-10T16:11:53+08:00"
+  validation_status: passed
+  result: control-center-backend-state-ui-prompt-ready-for-review
   stop_gate: ui-prompt-review
   auto_route_on_delivery: false
-updated_at: "2026-08-10T16:05:06+08:00"
+latest_ui_prompt_delivery:
+  artifact: artifact-control-center-backend-ui-prompt-001
+  path: ui/01-control-center-ui-design-prompt.md
+  version: "1.1"
+  sha256: bf1614e5f8fe9d6e2d7a9457bcf8ce0c6aadecfff9ef770c067560ed37368b52
+  ui_index_sha256: 86a1b0a42361ea38e5ce77feaaa2d5e20c7ad1ea397bf4f8d144d1f11e127c4d
+  change_id: ui-prompt-20260810-control-center-backend-state-001
+  status: ready-for-review
+  completed_by: role-ui-designer
+  completed_at: "2026-08-10T16:11:53+08:00"
+  stop_gate: ui-prompt-review
+  generated_ui_design: false
+  generated_prototype: false
+  generated_images: false
+  modified_application_or_service_code: false
+  held_mainline_artifact: artifact-control-center-code-review-001
+updated_at: "2026-08-10T16:11:53+08:00"
