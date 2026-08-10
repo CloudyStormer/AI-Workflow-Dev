@@ -519,3 +519,38 @@ artifacts:
     completed_at: "2026-08-07T15:38:04+08:00"
     stop_gate: architecture-review
     auto_route_on_delivery: false
+  - id: artifact-spaced-recall-code-review-001
+    type: code-review
+    path: docs/06-code-review.md
+    status: ready-for-review
+    owner: role-code-reviewer
+    change_id: review-20260806-spaced-recall-frontend-v1-3
+    authorization: approval-20260806-spaced-recall-code-review-entry
+    input_artifact: artifact-spaced-recall-frontend-001
+    source_commit: 159815d59c2efb885317bbaebfa1e1981fd8c2fa
+    sha256: a9fcdc86972eec74ec58d27fcbcc12365fe60fc81744dc14279a950bb9a6b9c5
+    conclusion: changes-requested
+    findings:
+      blocker: 0
+      major: 3
+      minor: 4
+      suggestions: 2
+    qa_recommendation: blocked-pending-frontend-fix-and-rereview
+    validation:
+      node: "24.14.0"
+      lint: passed
+      build: passed
+      spaced_recall_test: passed
+      inline_cloze_test: passed-1200-randomized-cases
+      input_sha256_match: "7/7 passed"
+      skip_order_reproduction: failed-first-skip-does-not-move-to-tail
+      quiet_hour_release_reproduction: failed-after-exact-quiet-end-minute
+      corrupt_item_reproduction: failed-whole-state-lockout
+      dependency_audit: not-run-by-explicit-review-instruction
+      git_boundary: passed
+    architecture_contract: preserved
+    data_truthfulness: passed-with-minor-permission-state-copy-finding
+    simplified_chinese: passed
+    completed_at: "2026-08-10T16:00:30+08:00"
+    stop_gate: code-review-conclusion-review
+    auto_route: false
