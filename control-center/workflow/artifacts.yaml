@@ -157,3 +157,34 @@ artifacts:
       - "issues-and-releases-only-when-structurally-recorded"
       - "no-raw-chat-sidebar-state-or-sensitive-file-access"
       - "no-ui-backend-or-production-change"
+  - id: artifact-control-center-code-review-001
+    type: code-review
+    path: docs/06-code-review.md
+    status: ready-for-review
+    owner: role-code-reviewer
+    change_id: review-20260806-control-center-frontend-001
+    authorization: approval-20260806-control-center-code-review-entry
+    input_artifact: artifact-control-center-frontend-redesign-001
+    source_commit: a35316d
+    sha256: c3d53359f5ecfe718557595797635d1e4c3dfc9de1d4af4f785ef79a15c01343
+    conclusion: changes-requested
+    findings:
+      blocker: 0
+      major: 6
+      minor: 3
+      suggestions: 2
+    qa_recommendation: blocked-pending-frontend-fix-and-rereview
+    validation:
+      node: "24.14.0"
+      lint: passed
+      build: passed-with-552k-client-chunk-warning
+      tests: "3/3 passed"
+      input_sha256_match: "8/8 passed"
+      dependency_audit: unavailable-registry-endpoint-404
+      git_boundary: passed
+    architecture_contract: preserved
+    data_truthfulness: needs-fix-major-simulation-feedback-finding
+    simplified_chinese: passed
+    completed_at: "2026-08-10T15:43:27+08:00"
+    stop_gate: code-review-conclusion-review
+    auto_route: false

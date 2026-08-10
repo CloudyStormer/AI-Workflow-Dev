@@ -2,7 +2,7 @@ schema_version: 1
 project_id: "workflow-control-center"
 structure_status: normalized
 stage: code-review
-status: control-center-code-review-routed
+status: control-center-code-review-ready-for-review
 current_role: role-code-reviewer
 blocked: false
 ui_assets:
@@ -24,8 +24,8 @@ next_approval:
   scope: "只读审查提交 a35316d 中的 Control Center 中文前端交付，覆盖正确性、可维护性、可访问性、性能、安全、数据真实性边界与现有架构契约；不得代修代码，不进入测试或部署"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: pending-role-delivery
-  on_approved: pending-review-conclusion
+  delivery_status: ready-for-review
+  on_approved: approve-review-conclusion-and-authorize-fixed-06-frontend-fix
 latest_approved_artifact:
   artifact: artifact-control-center-frontend-redesign-001
   path: app/
@@ -91,7 +91,7 @@ active_assignment:
   role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
   role_task_title: "09 代码审查员"
   authorization: approval-20260806-control-center-code-review-entry
-  scheduling: routed
+  scheduling: completed
   input:
     artifact: artifact-control-center-frontend-redesign-001
     source_commit: a35316d
@@ -101,10 +101,19 @@ active_assignment:
     artifact: artifact-control-center-code-review-001
     path: docs/06-code-review.md
   routed_at: "2026-08-06T12:03:00+08:00"
-  delivery_status: pending-role-delivery
+  delivery_status: ready-for-review
+  completed_at: "2026-08-10T15:43:27+08:00"
+  result: changes-requested-with-p1-findings
+  review_summary:
+    blocker: 0
+    major: 6
+    minor: 3
+    suggestions: 2
+    qa_recommendation: blocked-pending-frontend-fix-and-rereview
+    dependency_audit: unavailable-registry-endpoint-404
   stop_gate: code-review-conclusion-review
   auto_route_on_delivery: false
-implementation_gate: "Control Center 前端交付已获用户继续授权并批准；固定 09 代码审查员是唯一当前角色，完成 docs/06-code-review.md 后必须停在 code-review-conclusion-review。不得自动进入 QA、修复或生产部署。"
+implementation_gate: "固定 09 已完成 docs/06-code-review.md 并确认 6 项 Major；当前停在 code-review-conclusion-review 等待超级无敌帅超超总审核。未经通过不得启动固定 06 修复，不得进入 QA、后端或生产部署。"
 runtime:
   live_url: "https://ai-workflow-control-center.honest-flute-5906.chatgpt.site"
   deployed_version: 3
@@ -185,4 +194,4 @@ additional_pending_approval:
   decision: pending
   options: [通过, 修改, 打回]
   on_approved: "只批准当前产品增量；不得自动启动固定 04、05 或 07"
-updated_at: "2026-08-07T15:48:43+08:00"
+updated_at: "2026-08-10T15:43:27+08:00"
