@@ -258,3 +258,41 @@ approvals:
     evidence: "超级无敌帅超超总已要求四个项目后端必须可用、必须有服务；固定 00 只读核查确认 PRD v1.3 足以定义 Word 最小切片，并在固定 11/06 独立提交推送后明确发送‘写入锁解除’，授权固定 05 更新架构和必要登记。"
     effect: "固定 05 可交付 docs/02-architecture.md v1.1；交付后停在 architecture-review，保留既有固定 09 代码审查队列，不自动启动固定 02 或固定 07。"
     auto_route_on_delivery: false
+  - id: approval-20260810-spaced-recall-code-review-conclusion
+    gate: code-review-conclusion-review
+    role: role-code-reviewer
+    role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
+    role_task_title: "09 代码审查员"
+    change_id: review-20260806-spaced-recall-frontend-v1-3
+    artifact: artifact-spaced-recall-code-review-001
+    path: docs/06-code-review.md
+    sha256: a9fcdc86972eec74ec58d27fcbcc12365fe60fc81744dc14279a950bb9a6b9c5
+    conclusion: changes-requested
+    scope: "批准固定 09 对记忆曲线 v1.3 前端交付形成的 3 项 Major、4 项 Minor 与 2 项建议结论；该批准接受审查结论，不代表存在问题的前端代码已通过复审或可进入 QA"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-10T16:06:34+08:00"
+    source_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
+    evidence: "超级无敌帅超超总对固定 09 代码审查员交付的 artifact-spaced-recall-code-review-001 回复‘通过’。"
+    effect: "代码审查结论已批准，并只自动授权唯一下一站固定 06 前端工程师修复 CR-P1-001 至 CR-P1-003、CR-P2-001 至 CR-P2-004；不授权 QA、后端、架构审核或部署。"
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+  - id: approval-20260810-spaced-recall-frontend-fix-entry
+    gate: role-entry
+    role: role-frontend-dev
+    role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
+    role_task_title: "06 前端工程师"
+    change_id: fix-20260810-spaced-recall-review-findings-001
+    scope: "基于 artifact-spaced-recall-code-review-001 只修复 CR-P1-001 至 CR-P1-003、CR-P2-001 至 CR-P2-004 并补齐对应测试；不得改变已批准 PRD/UI 语义，不进入 QA、后端、架构或部署"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-10T16:06:34+08:00"
+    upstream_approval: approval-20260810-spaced-recall-code-review-conclusion
+    upstream_artifact: artifact-spaced-recall-code-review-001
+    upstream_path: docs/06-code-review.md
+    upstream_sha256: a9fcdc86972eec74ec58d27fcbcc12365fe60fc81744dc14279a950bb9a6b9c5
+    expected_output: artifact-spaced-recall-frontend-fix-001
+    stop_gate: frontend-fix-delivery-review
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+    evidence: "代码审查结论含阻断 QA 的 P1 问题，固定 06 是职责唯一、输入完整且非高风险的下一站；本授权只覆盖一个修复交付单元。"

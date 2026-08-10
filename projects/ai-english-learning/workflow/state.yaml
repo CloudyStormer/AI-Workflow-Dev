@@ -1,9 +1,9 @@
 schema_version: 1
 project_id: "ai-english-learning"
 structure_status: normalized
-stage: code-review
-status: spaced-recall-code-review-ready-for-review
-current_role: role-code-reviewer
+stage: frontend-development
+status: spaced-recall-frontend-fix-routed
+current_role: role-frontend-dev
 approved_roles:
   - role-product-manager
   - role-ui-designer
@@ -22,15 +22,15 @@ delivery_priority:
     - production-deployment
   approval_gates_unchanged: true
 next_approval:
-  gate: code-review-conclusion-review
-  artifact: artifact-spaced-recall-code-review-001
-  expected_change_id: review-20260806-spaced-recall-frontend-v1-3
-  expected_path: docs/06-code-review.md
-  scope: "只读审查提交 159815d59c2efb885317bbaebfa1e1981fd8c2fa 中的记忆曲线 v1.3 前端交付，覆盖正确性、安全、性能、可维护性、测试、无障碍、中文完整性、数据真实性边界与已批准产品/UI规则；不得代修代码，不进入 QA 或部署"
+  gate: frontend-fix-delivery-review
+  artifact: artifact-spaced-recall-frontend-fix-001
+  expected_change_id: fix-20260810-spaced-recall-review-findings-001
+  expected_path: frontend/
+  scope: "固定 06 只修复 artifact-spaced-recall-code-review-001 中 CR-P1-001 至 CR-P1-003、CR-P2-001 至 CR-P2-004，并补齐对应测试；不得变更已批准产品/UI语义，不进入 QA、后端、架构或部署"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
-  on_approved: approve-review-conclusion-and-authorize-fixed-06-frontend-fix
+  delivery_status: routed
+  on_approved: approve-frontend-fix-and-authorize-fixed-09-rereview
 completed_spaced_recall_product_assignment:
   change_id: chg-20260804-spaced-recall-loop-product-v1
   role: role-product-manager
@@ -145,7 +145,7 @@ completed_frontend_assignment:
   approval: approval-20260806-spaced-recall-frontend-delivery
   approved_at: "2026-08-06T15:34:22+08:00"
   review_decision: approved
-active_assignment:
+completed_code_review_assignment:
   change_id: review-20260806-spaced-recall-frontend-v1-3
   role: role-code-reviewer
   role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
@@ -162,7 +162,7 @@ active_assignment:
     artifact: artifact-spaced-recall-code-review-001
     path: docs/06-code-review.md
   queued_at: "2026-08-06T15:34:22+08:00"
-  delivery_status: ready-for-review
+  delivery_status: approved
   completed_at: "2026-08-10T16:00:30+08:00"
   result: changes-requested-with-p1-findings
   review_summary:
@@ -172,7 +172,30 @@ active_assignment:
     suggestions: 2
     qa_recommendation: blocked-pending-frontend-fix-and-rereview
     dependency_audit: not-run-by-explicit-review-instruction
-  stop_gate: code-review-conclusion-review
+  approval: approval-20260810-spaced-recall-code-review-conclusion
+  approved_at: "2026-08-10T16:06:34+08:00"
+  review_decision: approved
+  stop_gate: completed
+  auto_route_on_delivery: false
+active_assignment:
+  change_id: fix-20260810-spaced-recall-review-findings-001
+  role: role-frontend-dev
+  role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
+  role_task_title: "06 前端工程师"
+  authorization: approval-20260810-spaced-recall-frontend-fix-entry
+  scheduling: routed
+  input:
+    artifact: artifact-spaced-recall-code-review-001
+    path: docs/06-code-review.md
+    sha256: a9fcdc86972eec74ec58d27fcbcc12365fe60fc81744dc14279a950bb9a6b9c5
+    reviewed_source_commit: 159815d59c2efb885317bbaebfa1e1981fd8c2fa
+  scope: "只修复 CR-P1-001 至 CR-P1-003、CR-P2-001 至 CR-P2-004，并为队列顺序、损坏项隔离/恢复、提醒静默期与权限状态、稳定随机和重置历史补齐相应测试；保持 PRD v1.3、Prompt v1.3、行内 Prompt v1.2 与视觉母版边界"
+  expected_output:
+    artifact: artifact-spaced-recall-frontend-fix-001
+    primary_path: frontend/
+  delivery_status: routed
+  routed_at: "2026-08-10T16:06:34+08:00"
+  stop_gate: frontend-fix-delivery-review
   auto_route_on_delivery: false
 completed_ui_assignment:
   change_id: chg-20260804-reveal-answer-ui-prompt-v1-2
@@ -220,7 +243,7 @@ held_downstream_delivery:
   resumed_again_by: approval-20260806-spaced-recall-ui-prompt-and-direct-frontend
   resumed_for: chg-20260806-spaced-recall-frontend-implementation-v1-3
   resumed_at: "2026-08-06T14:23:53+08:00"
-implementation_gate: "固定 09 已完成 docs/06-code-review.md 并确认 3 项 Major、4 项 Minor；当前停在 code-review-conclusion-review 等待超级无敌帅超超总审核。未经通过不得启动固定 06 修复，不得进入 QA、后端或生产部署。"
+implementation_gate: "超级无敌帅超超总已批准 artifact-spaced-recall-code-review-001 的 changes-requested 结论；固定 06 已获唯一下一站授权，只修复 3 项 Major、4 项 Minor 并补齐测试。修复交付后必须停在 frontend-fix-delivery-review，未经再次批准不得启动固定 09 复审，不得进入 QA、后端、架构或生产部署。"
 latest_approved_artifact:
   artifact: artifact-spaced-recall-frontend-001
   path: frontend/src/pages/Word.tsx
@@ -401,4 +424,4 @@ additional_pending_approval:
   options: [通过, 修改, 打回]
   on_approved: "只批准当前架构；不得在固定 05 任务自动启动固定 02 或固定 07"
 state_limit: "旧版计划与任务表仍需单独对账；本状态只声明已核实的最新交付和审批门"
-updated_at: "2026-08-10T16:00:30+08:00"
+updated_at: "2026-08-10T16:06:34+08:00"

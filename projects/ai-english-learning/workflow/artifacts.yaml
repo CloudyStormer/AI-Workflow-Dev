@@ -522,7 +522,7 @@ artifacts:
   - id: artifact-spaced-recall-code-review-001
     type: code-review
     path: docs/06-code-review.md
-    status: ready-for-review
+    status: approved
     owner: role-code-reviewer
     change_id: review-20260806-spaced-recall-frontend-v1-3
     authorization: approval-20260806-spaced-recall-code-review-entry
@@ -552,5 +552,9 @@ artifacts:
     data_truthfulness: passed-with-minor-permission-state-copy-finding
     simplified_chinese: passed
     completed_at: "2026-08-10T16:00:30+08:00"
-    stop_gate: code-review-conclusion-review
+    approval: approval-20260810-spaced-recall-code-review-conclusion
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-10T16:06:34+08:00"
+    review_decision: approved
+    stop_gate: completed
     auto_route: false
