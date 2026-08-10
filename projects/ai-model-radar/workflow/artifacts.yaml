@@ -41,8 +41,8 @@ artifacts:
     path: ui/README.md
     status: active
     owner: package-contractor
-    sha256: 403a3a3a2ddf2839582a2b3278e633d58ec5291f9f1c0caf5b165d2260f18600
-    updated_at: "2026-08-07T18:11:15+08:00"
+    sha256: 5c47ea0b5e4e5e8ec5f7207f556561329bdf81aaaf8f57c7b95f2ab682b2bc22
+    updated_at: "2026-08-10T11:38:20+08:00"
   - id: artifact-project-plan-001
     run_id: run-20260731-intake-001
     type: project-plan
@@ -157,7 +157,7 @@ artifacts:
     run_id: run-20260731-intake-001
     type: ui-ux-design-prompt
     path: ui/03-ui-prompt.md
-    status: ready-for-review
+    status: approved
     owner: role-ui-designer
     version: "1.2"
     previous_artifact: artifact-ui-prompt-001
@@ -178,7 +178,7 @@ artifacts:
       role: historical-visual-reference-only
       truth_and_new_function_priority: prd-v1.2-and-ui-prompt-v1.2
     sha256: 967090f3ac97e0a0bb00070eb39a5af9b6efcd629ac1517e78bffa4f8f7605bd
-    ui_index_sha256: 403a3a3a2ddf2839582a2b3278e633d58ec5291f9f1c0caf5b165d2260f18600
+    ui_index_sha256: 5c47ea0b5e4e5e8ec5f7207f556561329bdf81aaaf8f57c7b95f2ab682b2bc22
     review_scope: "真实每日 AI 开发情报 UI/UX 提示词：今日、全部事件、7/30/90 日趋势与版本、开源发布、证据详情、来源连接、质量覆盖、偏好反馈、真实性状态、响应式和无障碍"
     coverage:
       primary_navigation: 6
@@ -206,7 +206,18 @@ artifacts:
       gate: frontend-delivery-review
       status: pending-and-frozen
     completed_at: "2026-08-07T18:11:15+08:00"
-    stop_gate: ui-prompt-review
+    approval: approval-20260810-radar-live-daily-ui-prompt-v1-2
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-10T11:38:20+08:00"
+    stop_gate: completed
+    authorized_next:
+      type: user-professional-ui-model-generation
+      owner: 超级无敌帅超超总
+      expected_directory: ui/
+      next_gate: ui-design-review
+      fixed_role_04_generates_images: false
+      frontend_unfrozen: false
+      architecture_or_development_started: false
     validation:
       upstream_prd_sha256: passed
       prompt_sha256: passed

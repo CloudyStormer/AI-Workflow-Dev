@@ -277,3 +277,21 @@ approvals:
     held_artifact: artifact-radar-frontend-001
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: approval-20260810-radar-live-daily-ui-prompt-v1-2
+    run_id: run-20260731-intake-001
+    gate: ui-prompt-review
+    role: role-ui-designer
+    artifact: artifact-radar-live-daily-ui-prompt-001
+    path: ui/03-ui-prompt.md
+    version: "1.2"
+    sha256: 967090f3ac97e0a0bb00070eb39a5af9b6efcd629ac1517e78bffa4f8f7605bd
+    change_id: ui-prompt-20260807-ai-model-radar-live-daily-001
+    scope: "批准真实每日 AI 开发情报 UI Prompt v1.2；Prompt 继续作为超级无敌帅超超总专业 UI 设计大模型的权威生成输入"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-10T11:38:20+08:00"
+    source_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+    evidence: "超级无敌帅超超总在固定 04 UI/UX设计师任务中对当前唯一待审 Prompt v1.2 明确回复‘通过’。"
+    effect: "已批准当前 Prompt，并只授权唯一下一步：超级无敌帅超超总使用自己的专业 UI 设计大模型生成新版 UI 资产，之后独立进入 ui-design-review。固定 04 不生成图片，不解冻既有前端，不启动架构或开发。"
+    advance_limit: user-ui-generation-only
+    auto_advance_beyond_next: false

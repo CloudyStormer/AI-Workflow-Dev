@@ -6,7 +6,7 @@
 
 | 产物 | 版本 | 状态 | SHA256 | 说明 |
 |---|---|---|---|---|
-| [`03-ui-prompt.md`](03-ui-prompt.md) | `1.2` | `ready-for-review` | `967090f3ac97e0a0bb00070eb39a5af9b6efcd629ac1517e78bffa4f8f7605bd` | Live Daily Intelligence 完整 UI/UX 设计提示词；含可直接复制给 UI 大模型的主提示词、关键页面、图表映射、56 状态、响应式和无障碍 |
+| [`03-ui-prompt.md`](03-ui-prompt.md) | `1.2` | `approved` | `967090f3ac97e0a0bb00070eb39a5af9b6efcd629ac1517e78bffa4f8f7605bd` | 已于 2026-08-10 通过；Live Daily Intelligence 权威 UI 生成提示词，含可直接复制给专业 UI 大模型的主提示词、关键页面、图表映射、56 状态、响应式和无障碍 |
 
 被本版继承并取代的 Prompt v1.0 SHA256 为 `d001cea2e85c36317ca1e38c657a32527b3705a3f276f8d938b8b0ac6e450318`；其批准记录保留在工作流中以便追溯。
 
@@ -26,4 +26,4 @@
 
 PRD v1.2 与 Prompt v1.2 的真实性边界优先于图片示例：图片中出现的“真实连接”“活动源”“系统运行中”或混用日期只能作为历史视觉占位，设计、架构和实现不得据此声称真实服务已接入。
 
-当前只授权固定 `04 UI/UX设计师`交付 Prompt v1.2 并停在 `ui-prompt-review`。本轮未生成新设计、原型或图片；既有 `artifact-radar-frontend-001` 继续冻结在 `frontend-delivery-review`，不授权开发、真实来源接入、服务或部署。
+Prompt v1.2 已获超级无敌帅超超总批准。唯一下一步是由超级无敌帅超超总将其交给自己的专业 UI 设计大模型生成新版 UI 资产，生成结果须放入本目录并独立进入 `ui-design-review`。固定 `04 UI/UX设计师`不生成图片；既有 `artifact-radar-frontend-001` 继续冻结在 `frontend-delivery-review`，本次通过不授权架构、开发、真实来源接入、服务或部署。
