@@ -124,3 +124,18 @@ approvals:
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
     evidence: "产品通过后的唯一合规下一站是固定 04 UI Prompt 增量并停 ui-prompt-review；不得跳到固定 05、07 或开发。"
+  - id: approval-20260810-control-center-backend-ui-prompt-v1-1
+    gate: ui-prompt-review
+    role: role-ui-designer
+    artifact: artifact-control-center-backend-ui-prompt-001
+    path: ui/01-control-center-ui-design-prompt.md
+    version: "1.1"
+    sha256: bf1614e5f8fe9d6e2d7a9457bcf8ce0c6aadecfff9ef770c067560ed37368b52
+    change_id: ui-prompt-20260810-control-center-backend-state-001
+    scope: "Control Center 真实监管后端状态 UI Prompt v1.1"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-10T17:00:23+08:00"
+    source_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+    evidence: "超级无敌帅超超总在固定 04 UI/UX设计师任务中对当前唯一待审 Prompt v1.1 明确回复‘通过’。"
+    effect: "批准 Prompt v1.1，并仅授权超级无敌帅超超总使用专业 UI 设计模型生成新版资产；资产落盘后独立进入 ui-design-review。固定 04 不生成图片，不解冻代码审查、开发或部署。"

@@ -19,8 +19,8 @@ artifacts:
     path: ui/README.md
     status: active
     owner: package-contractor
-    sha256: 86a1b0a42361ea38e5ce77feaaa2d5e20c7ad1ea397bf4f8d144d1f11e127c4d
-    updated_at: "2026-08-10T16:11:53+08:00"
+    sha256: 613f89efa9766a8cc53b9e4319b5af663d8ec7393267301e79fb40ad62e86e33
+    updated_at: "2026-08-10T17:00:23+08:00"
   - id: artifact-ui-prompt-001
     type: ui-design-prompt
     path: ui/01-control-center-ui-design-prompt.md
@@ -39,7 +39,7 @@ artifacts:
     type: ui-design-prompt
     path: ui/01-control-center-ui-design-prompt.md
     version: "1.1"
-    status: ready-for-review
+    status: approved
     owner: role-ui-designer
     change_id: ui-prompt-20260810-control-center-backend-state-001
     entry_approval: approval-20260810-control-center-backend-ui-prompt-entry
@@ -53,7 +53,12 @@ artifacts:
       version: "1.0"
       sha256: cb41e5e4184fd8df69b8bf1269ae0ef11b540f17f2cb621f6e5da484f9660b93
     sha256: bf1614e5f8fe9d6e2d7a9457bcf8ce0c6aadecfff9ef770c067560ed37368b52
-    ui_index_sha256: 86a1b0a42361ea38e5ce77feaaa2d5e20c7ad1ea397bf4f8d144d1f11e127c4d
+    ui_index_sha256: 613f89efa9766a8cc53b9e4319b5af663d8ec7393267301e79fb40ad62e86e33
+    approval: approval-20260810-control-center-backend-ui-prompt-v1-1
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-10T17:00:23+08:00"
+    authorized_next: user-professional-ui-design-model
+    next_gate: ui-design-review
     scope: "真实监管后端状态 UI Prompt：根仓实时观测／静态回退、健康／就绪、来源、新鲜度、覆盖、部分失败、错误、降级、只读、简体中文、响应式与无障碍"
     coverage:
       data_modes: [live-repository, degraded-live, stale-memory, static-fallback, not-ready]
@@ -78,7 +83,8 @@ artifacts:
       decision: pending
       modified_or_approved_by_this_change: false
     completed_at: "2026-08-10T16:11:53+08:00"
-    stop_gate: ui-prompt-review
+    updated_at: "2026-08-10T17:00:23+08:00"
+    completed_gate: ui-prompt-review
     validation:
       upstream_prd_sha256: passed
       prompt_sha256: passed
