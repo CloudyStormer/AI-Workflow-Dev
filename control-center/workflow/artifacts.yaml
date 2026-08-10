@@ -125,11 +125,14 @@ artifacts:
   - id: artifact-control-center-backend-product-increment-001
     type: product-requirements
     path: docs/02-prd.md
-    status: ready-for-review
+    status: approved
     owner: role-product-manager
     version: "1.0"
     change_id: prd-20260807-control-center-backend-mvp-001
     entry_approval: approval-20260807-control-backend-product-entry
+    approval: approval-20260810-control-center-backend-product-increment
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-10T16:05:06+08:00"
     sha256: cb41e5e4184fd8df69b8bf1269ae0ef11b540f17f2cb621f6e5da484f9660b93
     safe_checkpoint: 609bb33e346286bac82dbb57bfb5c92932435051
     scope: "真实监管后端 MVP：根仓只读聚合项目、角色、审批、产物、事件、问题和发布；健康／就绪、来源、新鲜度、错误、权限与失败语义"
@@ -142,6 +145,8 @@ artifacts:
     completed_at: "2026-08-07T15:48:43+08:00"
     validated_at: "2026-08-07T15:52:00+08:00"
     stop_gate: product-change-review
+    review_decision: approved
+    downstream_authorization: approval-20260810-control-center-backend-ui-prompt-entry
     validation:
       document_sha256_match: passed
       acceptance_criteria: "AC-CC-BE-01..AC-CC-BE-28-contiguous"

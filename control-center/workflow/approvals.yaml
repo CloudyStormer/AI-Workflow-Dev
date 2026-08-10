@@ -89,3 +89,38 @@ approvals:
     safe_checkpoint: 609bb33e346286bac82dbb57bfb5c92932435051
     original_gate: code-review-conclusion-review
     evidence: "超级无敌帅超超总明确要求四个项目后端必须可用；固定 00 先只读核查并在固定 11、06、05 完成提交推送后明确发送‘写入锁解除’，授权固定 03 只交付本产品增量并停 product-change-review。"
+  - id: approval-20260810-control-center-backend-product-increment
+    gate: product-change-review
+    role: role-product-manager
+    artifact: artifact-control-center-backend-product-increment-001
+    path: docs/02-prd.md
+    version: "1.0"
+    sha256: cb41e5e4184fd8df69b8bf1269ae0ef11b540f17f2cb621f6e5da484f9660b93
+    change_id: prd-20260807-control-center-backend-mvp-001
+    scope: "Control Center 真实监管后端 MVP 产品增量"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-10T16:05:06+08:00"
+    source_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+    evidence: "固定 03 已按项目分别重新展示待审产物并纠正唯一下一站；超级无敌帅超超总在被要求同时精确确认 Control Center 与 Career Radar 后再次明确回复‘通过’，因此本产物获批。"
+    effect: "批准本产品增量，并仅一跳授权固定 04 先形成对应 UI Prompt 增量；既有 code-review-conclusion-review 主线保持待审。"
+  - id: approval-20260810-control-center-backend-ui-prompt-entry
+    gate: role-entry
+    role: role-ui-designer
+    role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+    role_task_title: "04 UI/UX设计师"
+    change_id: ui-prompt-20260810-control-center-backend-state-001
+    artifact: ui/01-control-center-ui-design-prompt.md
+    scope: "基于已批准后端产品增量，只更新真实监管服务带来的数据真实性、健康／就绪、新鲜度、错误、降级与静态回退 UI 状态 Prompt；不生成设计、不改代码或架构"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-10T16:05:06+08:00"
+    source_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+    upstream_approval: approval-20260810-control-center-backend-product-increment
+    upstream_artifact: artifact-control-center-backend-product-increment-001
+    upstream_version: "1.0"
+    upstream_sha256: cb41e5e4184fd8df69b8bf1269ae0ef11b540f17f2cb621f6e5da484f9660b93
+    scheduling: active-first
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+    evidence: "产品通过后的唯一合规下一站是固定 04 UI Prompt 增量并停 ui-prompt-review；不得跳到固定 05、07 或开发。"

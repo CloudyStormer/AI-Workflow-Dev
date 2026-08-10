@@ -151,9 +151,10 @@ temporary_frontend_assignment:
       path: docs/02-prd.md
       current_version: "1.2"
       current_sha256: 0c2fab0bc4083dc3c16034eafcf3ce2177a5adc1c334ce548b2da5698632958f
-      approved_logic_version: "1.1"
-      inherited_logic_approval: "approval-20260804-prd-delivery"
-      usage: "只引用已批准 F10 逻辑及 v1.2 延续的浏览器内存边界；不批准待审后端产品增量"
+      approved_logic_version_at_start: "1.1"
+      inherited_logic_approval_at_start: "approval-20260804-prd-delivery"
+      current_product_approval: "approval-20260810-career-backend-product-increment"
+      usage: "本临时前端单元启动时只引用已批准 F10 逻辑及浏览器内存边界；后续 v1.2 后端产品增量获批不追溯扩展该前端授权"
     ui_prompt:
       path: ui/03-ui-prompt.md
       version: "1.0"
@@ -265,7 +266,7 @@ workflow_policy:
     account_or_credentials: true
     privacy_or_real_user_data: true
     external_message_or_publication: true
-temporary_product_assignment:
+completed_product_assignment:
   change_id: "prd-20260807-frontend-career-radar-backend-mvp-001"
   role: role-product-manager
   role_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
@@ -298,21 +299,53 @@ temporary_product_assignment:
     acceptance_criteria:
       inherited: AC-01..AC-44
       new: AC-CFR-BE-01..AC-CFR-BE-18
-  delivery_status: ready-for-review
-  result: career-read-only-backend-product-increment-ready
+  delivery_status: approved
+  result: career-read-only-backend-product-increment-approved
   stop_gate: product-change-review
   return_point: "产品审核不改变 artifact-career-frontend-001 的 frontend-delivery-review；任何下游角色仍需后续明确授权"
   auto_route_on_delivery: false
-additional_pending_approval:
+  approval: "approval-20260810-career-backend-product-increment"
+  approved_by: 超级无敌帅超超总
+  approved_at: "2026-08-10T16:05:06+08:00"
+approved_product_change:
   gate: product-change-review
   artifact: artifact-career-backend-prd-increment-001
   expected_change_id: "prd-20260807-frontend-career-radar-backend-mvp-001"
   expected_path: docs/02-prd.md
   version: "1.2"
+  sha256: 0c2fab0bc4083dc3c16034eafcf3ce2177a5adc1c334ce548b2da5698632958f
   decision_owner: 超级无敌帅超超总
-  decision: pending
-  options: [通过, 修改, 打回]
-  on_approved: "只批准当前产品增量；不得自动启动固定 04、05 或 07"
+  decision: approved
+  approval: "approval-20260810-career-backend-product-increment"
+  decided_at: "2026-08-10T16:05:06+08:00"
+  route_correction: "只读服务的健康／就绪、版本、新鲜度、错误、降级与静态回退会改变 UI 状态；唯一下一站为固定 04 UI Prompt，而非固定 05。"
+authorized_ui_prompt_assignment:
+  change_id: "ui-prompt-20260810-career-backend-state-001"
+  role: role-ui-designer
+  role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+  role_task_title: "04 UI/UX设计师"
+  authorization: "approval-20260810-career-backend-ui-prompt-entry"
+  scheduling: "queued-after-control-center-ui-prompt-delivery"
+  upstream:
+    approval: "approval-20260810-career-backend-product-increment"
+    artifact: "artifact-career-backend-prd-increment-001"
+    path: docs/02-prd.md
+    version: "1.2"
+    sha256: 0c2fab0bc4083dc3c16034eafcf3ce2177a5adc1c334ce548b2da5698632958f
+  scope: "更新只读研究快照服务相关 UI Prompt 状态：live-snapshot／static-fallback、健康／就绪、版本、新鲜度、错误、部分失败和降级；保持 F10 正文不上传、不持久化、不入日志"
+  exclusions:
+    - ui-design-or-image-generation
+    - architecture-or-code
+    - backend-implementation
+    - f10-upload-persistence-or-server-analysis
+    - existing-frontend-approval-or-unfreeze
+    - production-deployment
+  expected_output:
+    path: ui/03-ui-prompt.md
+    version: next-reviewable-version
+  delivery_status: authorized-queued
+  stop_gate: ui-prompt-review
+  auto_route_on_delivery: false
 additional_pending_frontend_approval:
   gate: frontend-delivery-review
   artifact: "artifact-career-f10-input-ui-preview-001"
@@ -323,4 +356,4 @@ additional_pending_frontend_approval:
   options: [通过, 修改, 打回]
   original_return_point: "artifact-career-frontend-001 / frontend-delivery-review"
   on_approved: "只批准当前临时可见纵切并返回原审核点；不标记 CFR-FE-008 完成，不授权 CFR-FE-009、代码审查、QA 或部署"
-updated_at: "2026-08-07T16:44:22+08:00"
+updated_at: "2026-08-10T16:05:06+08:00"

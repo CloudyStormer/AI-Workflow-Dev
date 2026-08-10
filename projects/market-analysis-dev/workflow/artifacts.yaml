@@ -470,13 +470,16 @@ artifacts:
     run_id: "run-20260803-market-analysis-dev-init-001"
     type: product-requirements
     path: docs/02-prd.md
-    status: ready-for-review
+    status: approved
     owner: role-product-manager
     version: "1.2"
     previous_version: "1.1"
     previous_sha256: 8842f2c7c974bb9ac5fef2ad47f0d35e068a66cfd510ce0088c092ab884ce1e9
     change_id: "prd-20260807-frontend-career-radar-backend-mvp-001"
     entry_approval: "approval-20260807-career-backend-product-entry"
+    approval: "approval-20260810-career-backend-product-increment"
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-10T16:05:06+08:00"
     sha256: 0c2fab0bc4083dc3c16034eafcf3ce2177a5adc1c334ce548b2da5698632958f
     safe_checkpoint: 609bb33e346286bac82dbb57bfb5c92932435051
     scope: "只读研究快照服务 MVP：健康／就绪、版本化快照、职业方向、能力、声明和证据元数据；F10 正文与个人材料保持浏览器内存隔离"
@@ -494,6 +497,8 @@ artifacts:
     completed_at: "2026-08-07T15:48:43+08:00"
     validated_at: "2026-08-07T15:52:00+08:00"
     stop_gate: product-change-review
+    review_decision: approved
+    downstream_authorization: "approval-20260810-career-backend-ui-prompt-entry"
     validation:
       document_sha256_match: passed
       acceptance_criteria: "AC-01..AC-44-and-AC-CFR-BE-01..AC-CFR-BE-18-contiguous"

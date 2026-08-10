@@ -272,3 +272,40 @@ approvals:
     advance_limit: "temporary-visible-slice-only"
     auto_advance_beyond_next: false
     evidence: "超级无敌帅超超总明确要求立即打开用户输入功能 UI，使桌面和移动端可进入并实际使用；同时明确本批不得冒充完整 CFR-FE-008，不得进入 Worker、代码审查、QA 或部署。"
+  - id: "approval-20260810-career-backend-product-increment"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: product-change-review
+    role: role-product-manager
+    artifact: "artifact-career-backend-prd-increment-001"
+    path: docs/02-prd.md
+    version: "1.2"
+    sha256: 0c2fab0bc4083dc3c16034eafcf3ce2177a5adc1c334ce548b2da5698632958f
+    change_id: "prd-20260807-frontend-career-radar-backend-mvp-001"
+    scope: "Frontend Career Radar 只读研究快照服务 MVP 产品增量，F10 正文继续只留浏览器内存"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-10T16:05:06+08:00"
+    source_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
+    evidence: "固定 03 已按项目分别重新展示待审产物并纠正唯一下一站；超级无敌帅超超总在被要求同时精确确认 Control Center 与 Career Radar 后再次明确回复‘通过’，因此本产物获批。"
+    effect: "批准本产品增量，并仅一跳授权固定 04 形成对应 UI Prompt 增量；现有 CFR-FE-001 与 F10 临时纵切均保持待审冻结。"
+  - id: "approval-20260810-career-backend-ui-prompt-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-entry
+    role: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    change_id: "ui-prompt-20260810-career-backend-state-001"
+    artifact: "ui/03-ui-prompt.md"
+    scope: "基于已批准后端产品增量，只更新只读研究快照服务带来的健康／就绪、版本、新鲜度、错误、降级和静态回退 UI 状态 Prompt，并保持 F10 浏览器内存隔离；不生成设计、不改代码或架构"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-10T16:05:06+08:00"
+    source_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
+    upstream_approval: "approval-20260810-career-backend-product-increment"
+    upstream_artifact: "artifact-career-backend-prd-increment-001"
+    upstream_version: "1.2"
+    upstream_sha256: 0c2fab0bc4083dc3c16034eafcf3ce2177a5adc1c334ce548b2da5698632958f
+    scheduling: "queued-after-control-center-ui-prompt-delivery"
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+    evidence: "产品通过后的唯一合规下一站是固定 04 UI Prompt 增量并停 ui-prompt-review；固定 04 每次只执行一个工作单元，本项排在 Control Center Prompt 之后。"
