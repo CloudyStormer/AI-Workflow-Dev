@@ -2,7 +2,7 @@ schema_version: 1
 project_id: "ai-english-learning"
 structure_status: normalized
 stage: frontend-development
-status: spaced-recall-frontend-fix-routed
+status: spaced-recall-frontend-fix-ready-for-review
 current_role: role-frontend-dev
 approved_roles:
   - role-product-manager
@@ -29,7 +29,7 @@ next_approval:
   scope: "固定 06 只修复 artifact-spaced-recall-code-review-001 中 CR-P1-001 至 CR-P1-003、CR-P2-001 至 CR-P2-004，并补齐对应测试；不得变更已批准产品/UI语义，不进入 QA、后端、架构或部署"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: routed
+  delivery_status: ready-for-review
   on_approved: approve-frontend-fix-and-authorize-fixed-09-rereview
 completed_spaced_recall_product_assignment:
   change_id: chg-20260804-spaced-recall-loop-product-v1
@@ -183,7 +183,7 @@ active_assignment:
   role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
   role_task_title: "06 前端工程师"
   authorization: approval-20260810-spaced-recall-frontend-fix-entry
-  scheduling: routed
+  scheduling: completed
   input:
     artifact: artifact-spaced-recall-code-review-001
     path: docs/06-code-review.md
@@ -193,8 +193,32 @@ active_assignment:
   expected_output:
     artifact: artifact-spaced-recall-frontend-fix-001
     primary_path: frontend/
-  delivery_status: routed
+  delivery_status: ready-for-review
   routed_at: "2026-08-10T16:06:34+08:00"
+  completed_at: "2026-08-11T17:08:50+08:00"
+  output:
+    artifact: artifact-spaced-recall-frontend-fix-001
+    primary_path: frontend/
+    primary_sha256: 6de12d95dd96298061bab0468bef6786a43154fb7597abe684b0edc009d14389
+    domain_sha256: aac9ef20c9fefec84a1667341e525b212ea6b24ec96152758b9066e12205593b
+    browser_gate_sha256: d37002007d8ad557c83d63496388e349bf0ac73f206f145312b39de1541fe3d0
+    design_qa: design-qa.md
+    design_qa_sha256: 3416d886091409c36f10466b4afb72cb49996af9bc14fb9d32185dd581a058f6
+  validation:
+    runtime: Node.js-24.14.0
+    lint: passed
+    typecheck_and_build: passed
+    spaced_recall_test: passed
+    inline_cloze_test: passed-1200-randomized-cases
+    chrome_cdp_react_integration: passed-1440-390-320-console-clean
+    simplified_chinese: complete-for-changed-states
+    project_structure: passed-0-warnings
+    git_boundary: passed
+    skill_drift: passed
+  review_finding_disposition:
+    resolved: [CR-P1-002, CR-P1-003, CR-P2-001, CR-P2-002, CR-P2-003, CR-P2-004]
+    CR-P1-001: "逐项非法/缺失到期数据隔离、原始快照、CAS 持久化、可恢复路径已完成；整体 JSON/未知版本仍安全锁定且保留原值，但原始导出+二次确认重建 UI 明确遗留"
+  result: ready-for-frontend-fix-delivery-review-with-explicit-storage-rebuild-boundary
   stop_gate: frontend-fix-delivery-review
   auto_route_on_delivery: false
 completed_ui_assignment:

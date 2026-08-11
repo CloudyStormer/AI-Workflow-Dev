@@ -27,6 +27,7 @@ export type DataExceptionCode =
   | "missing-item-id"
   | "missing-answer"
   | "missing-meaning"
+  | "missing-content"
   | "invalid-due";
 
 export interface DeterministicEnv {
@@ -72,6 +73,8 @@ export interface RecallItemState {
   cleanStageDays: Partial<Record<Exclude<ReviewStage, "S0">, StudyDay>>;
   masteryBlockedDays: Record<StudyDay, "weak-evidence" | "assistance">;
   skipCountsByDay: Record<StudyDay, 1 | 2>;
+  /** ISO instant used to keep a first-skipped item at the end of that day's queue. */
+  queueTailAfterByDay?: Record<StudyDay, string>;
   suppressedUntilDay: StudyDay | null;
   weakEvidenceCount: number;
   lastAppearanceAt: string | null;
@@ -83,6 +86,8 @@ export interface RecallItemState {
     code: DataExceptionCode;
     detail: string;
     previous?: RestorableItemState;
+    /** Opaque persisted evidence. Never feed this snapshot back into scheduling. */
+    originalSnapshot?: Record<string, unknown>;
   };
 }
 
@@ -119,7 +124,8 @@ export interface RecallEvent {
     | "mastery-reset"
     | "reminder-requested"
     | "time-zone-switched"
-    | "data-exception";
+    | "data-exception"
+    | "data-recovered";
   occurredAt: string;
   studyDay: StudyDay;
   learningTimeZone: string;
@@ -224,7 +230,13 @@ export interface StorageLike {
 
 export type LoadResult =
   | { status: "empty"; state: SpacedRecallState }
-  | { status: "loaded"; state: SpacedRecallState }
+  | {
+      status: "loaded";
+      state: SpacedRecallState;
+      isolatedItemIds?: string[];
+      /** Stored revision to use for the one-time CAS write of an isolated state. */
+      normalizedFromRevision?: number;
+    }
   | { status: "storage-error"; reason: "corrupt" | "unsupported-version"; rawPreserved: true };
 
 const REVIEW_STAGE_INTERVALS: Record<Exclude<ReviewStage, "S0" | "S4">, number> = {
@@ -353,6 +365,7 @@ function emptyItem(itemId: string, targetAnswer: string, meaning: string): Recal
     cleanStageDays: {},
     masteryBlockedDays: {},
     skipCountsByDay: {},
+    queueTailAfterByDay: {},
     suppressedUntilDay: null,
     weakEvidenceCount: 0,
     lastAppearanceAt: null,
@@ -521,6 +534,8 @@ function applyWeakEvidence(
   if (state.eventsByEffectKey[effectKey]) return false;
   const item = state.items[attempt.itemId];
   const day = attempt.studyDay;
+  const fromStatus = item.status;
+  const fromStage = item.status === "mastered" ? "M1" : item.stage;
   item.status = "weak";
   item.stage = "S0";
   item.latestWeakDay = day;
@@ -543,7 +558,15 @@ function applyWeakEvidence(
     occurredAt: env.now,
     studyDay: day,
     learningTimeZone: attempt.learningTimeZone,
-    metadata: { masteryGain: 0, dueDay: item.dueDay },
+    metadata: {
+      masteryGain: 0,
+      dueDay: item.dueDay,
+      fromStatus,
+      fromStage,
+      toStatus: item.status,
+      toStage: item.stage,
+      reason: evidenceType,
+    },
   });
   return true;
 }
@@ -771,6 +794,38 @@ export function createRecallSession(
   return applied(state, session);
 }
 
+function stableRandomRank(stableKey: string): number {
+  let hash = 2166136261;
+  for (const character of stableKey) {
+    hash ^= character.codePointAt(0) ?? 0;
+    hash = Math.imul(hash, 16777619);
+  }
+  hash ^= hash >>> 16;
+  hash = Math.imul(hash, 0x85ebca6b);
+  hash ^= hash >>> 13;
+  hash = Math.imul(hash, 0xc2b2ae35);
+  hash ^= hash >>> 16;
+  return hash >>> 0;
+}
+
+function queueTailValue(item: RecallItemState, day: StudyDay): string | null {
+  return item.queueTailAfterByDay?.[day] ?? null;
+}
+
+function compareQueueTail(
+  left: RecallItemState,
+  right: RecallItemState,
+  day: StudyDay,
+): number {
+  const leftTail = queueTailValue(left, day);
+  const rightTail = queueTailValue(right, day);
+  if (Boolean(leftTail) !== Boolean(rightTail)) return leftTail ? 1 : -1;
+  if (leftTail && rightTail) {
+    return leftTail.localeCompare(rightTail) || left.itemId.localeCompare(right.itemId);
+  }
+  return 0;
+}
+
 function sameDayCandidates(state: SpacedRecallState, session: RecallSession): RecallItemState[] {
   return Object.values(state.items)
     .filter((item) => {
@@ -784,6 +839,8 @@ function sameDayCandidates(state: SpacedRecallState, session: RecallSession): Re
       );
     })
     .sort((left, right) => {
+      const tailOrder = compareQueueTail(left, right, session.studyDay);
+      if (tailOrder !== 0) return tailOrder;
       const leftPlan = left.sameDayPlan as SameDayPlan;
       const rightPlan = right.sameDayPlan as SameDayPlan;
       const leftOpportunity = leftPlan.opportunities.find((entry) => entry.status === "pending") as SameDayOpportunity;
@@ -800,20 +857,36 @@ function sameDayCandidates(state: SpacedRecallState, session: RecallSession): Re
       const leftLast = left.lastAppearanceAt ?? "";
       const rightLast = right.lastAppearanceAt ?? "";
       if (leftLast !== rightLast) return leftLast.localeCompare(rightLast);
+      const leftRank = stableRandomRank(`${left.itemId}:${session.sessionId}`);
+      const rightRank = stableRandomRank(`${right.itemId}:${session.sessionId}`);
+      if (leftRank !== rightRank) return leftRank - rightRank;
       return left.itemId.localeCompare(right.itemId);
     });
+}
+
+export function listEligibleSameDayItemIds(
+  state: SpacedRecallState,
+  sessionId: string,
+): string[] {
+  const session = state.sessions[sessionId];
+  if (!session || session.sameDayExtrasUsed >= session.sameDayExtraCap) return [];
+  return sameDayCandidates(state, session).map((item) => item.itemId);
 }
 
 export function reserveNextSameDayItem(
   current: SpacedRecallState,
   sessionId: string,
+  preferredItemId?: string,
 ): DomainResult<{ itemId: string; ordinal: 1 | 2 }> {
   const session = current.sessions[sessionId];
   if (!session) return rejected(current, "session-not-found");
   if (session.sameDayExtrasUsed >= session.sameDayExtraCap) {
     return rejected(current, "session-cap-reached");
   }
-  const candidate = sameDayCandidates(current, session)[0];
+  const candidates = sameDayCandidates(current, session);
+  const candidate = preferredItemId
+    ? candidates.find((item) => item.itemId === preferredItemId)
+    : candidates[0];
   if (!candidate) return rejected(current, "no-eligible-same-day-item");
   const state = cloneState(current);
   const nextSession = state.sessions[sessionId];
@@ -856,6 +929,8 @@ export function buildReviewQueue(
     });
   }
   entries.sort((left, right) => {
+    const tailOrder = compareQueueTail(state.items[left.itemId], state.items[right.itemId], day);
+    if (tailOrder !== 0) return tailOrder;
     if (left.kind !== right.kind) return left.kind === "overdue" ? -1 : 1;
     if (left.dueDay !== right.dueDay) return left.dueDay.localeCompare(right.dueDay);
     const leftItem = state.items[left.itemId];
@@ -894,14 +969,34 @@ export function skipRecallItem(
   const item = state.items[itemId];
   const nextCount = item.skipCountsByDay[day] === 1 ? 2 : 1;
   item.skipCountsByDay[day] = nextCount;
-  if (nextCount === 2) item.suppressedUntilDay = addStudyDays(day, 1);
+  if (nextCount === 1) {
+    item.queueTailAfterByDay ??= {};
+    item.queueTailAfterByDay[day] = now;
+    const scheduledOpportunity = item.sameDayPlan?.studyDay === day
+      ? item.sameDayPlan.opportunities.find((entry) => entry.status === "scheduled")
+      : undefined;
+    if (scheduledOpportunity) {
+      const scheduledSessionId = scheduledOpportunity.scheduledSessionId;
+      if (scheduledSessionId && state.sessions[scheduledSessionId]?.sameDayExtrasUsed > 0) {
+        state.sessions[scheduledSessionId].sameDayExtrasUsed -= 1;
+      }
+      scheduledOpportunity.status = "pending";
+      delete scheduledOpportunity.scheduledSessionId;
+    }
+  } else {
+    item.suppressedUntilDay = addStudyDays(day, 1);
+  }
   appendEvent(state, {
     effectKey: `skip:${itemId}:${day}:${nextCount}`,
     itemId,
     type: "skipped",
     occurredAt: now,
     studyDay: day,
-    metadata: { count: nextCount, suppressedUntilDay: item.suppressedUntilDay },
+    metadata: {
+      count: nextCount,
+      movedToQueueTailAt: item.queueTailAfterByDay?.[day] ?? null,
+      suppressedUntilDay: item.suppressedUntilDay,
+    },
   });
   return applied(state, nextCount);
 }
@@ -988,6 +1083,8 @@ export function resetRecallMastery(
   const state = cloneState(current);
   const day = studyDayAt(now, state.learningTimeZone);
   const item = state.items[input.itemId];
+  const fromStatus = item.status;
+  const fromStage = item.status === "mastered" ? "M1" : item.stage;
   item.status = "weak";
   item.stage = "S0";
   item.dueDay = addStudyDays(day, 1);
@@ -1002,7 +1099,15 @@ export function resetRecallMastery(
     type: "mastery-reset",
     occurredAt: now,
     studyDay: day,
-    metadata: { dueDay: item.dueDay, historyPreserved: true },
+    metadata: {
+      dueDay: item.dueDay,
+      historyPreserved: true,
+      fromStatus,
+      fromStage,
+      toStatus: item.status,
+      toStage: item.stage,
+      reason: "user-confirmed-reset",
+    },
   });
   return applied(state, item);
 }
@@ -1022,6 +1127,7 @@ export function markDataException(
     code: input.code,
     detail: input.detail,
     previous: item.status === "data-exception" ? item.dataException?.previous : snapshotItem(item),
+    originalSnapshot: item.dataException?.originalSnapshot,
   };
   item.status = "data-exception";
   appendEvent(state, {
@@ -1031,6 +1137,55 @@ export function markDataException(
     occurredAt: now,
     studyDay: studyDayAt(now, state.learningTimeZone),
     metadata: { code: input.code, detail: input.detail },
+  });
+  return applied(state, item);
+}
+
+export function recoverDataException(
+  current: SpacedRecallState,
+  itemId: string,
+  now: string,
+): DomainResult<RecallItemState> {
+  const existing = current.items[itemId];
+  if (!existing) return rejected(current, "item-not-found");
+  if (existing.status !== "data-exception" || !existing.dataException?.previous) {
+    return rejected(current, "item-unavailable");
+  }
+  const state = cloneState(current);
+  const item = state.items[itemId];
+  const exception = item.dataException;
+  const previous = structuredClone(exception?.previous as RestorableItemState);
+  const day = studyDayAt(now, state.learningTimeZone);
+  if (exception?.code === "invalid-due") {
+    if (previous.status === "weak") previous.dueDay = day;
+    if (previous.status === "mastered") previous.maintenanceDueDay = day;
+  }
+  Object.assign(item, previous);
+  item.sameDayPlan = null;
+  item.suppressedUntilDay = null;
+  delete item.skipCountsByDay[day];
+  if (item.queueTailAfterByDay) {
+    delete item.queueTailAfterByDay[day];
+  }
+  delete item.dataException;
+  appendEvent(state, {
+    effectKey: `data-recovered:${itemId}:${now}`,
+    itemId,
+    type: "data-recovered",
+    occurredAt: now,
+    studyDay: day,
+    metadata: {
+      code: exception?.code,
+      detail: exception?.detail,
+      fromStatus: "data-exception",
+      fromStage: existing.stage,
+      toStatus: item.status,
+      toStage: item.status === "mastered" ? "M1" : item.stage,
+      dueDay: item.dueDay,
+      maintenanceDueDay: item.maintenanceDueDay,
+      originalSnapshotPreserved: Boolean(exception?.originalSnapshot),
+      originalSnapshot: exception?.originalSnapshot,
+    },
   });
   return applied(state, item);
 }
@@ -1106,6 +1261,20 @@ export function switchLearningTimeZone(
       item.dueDay = shiftFutureDay(item.dueDay, fromStudyDay, dayDelta);
       item.maintenanceDueDay = shiftFutureDay(item.maintenanceDueDay, fromStudyDay, dayDelta);
       item.suppressedUntilDay = shiftFutureDay(item.suppressedUntilDay, fromStudyDay, dayDelta);
+      const queueTailAt = item.queueTailAfterByDay?.[fromStudyDay];
+      if (queueTailAt && item.queueTailAfterByDay) {
+        const existingQueueTailAt = item.queueTailAfterByDay[toStudyDay];
+        delete item.queueTailAfterByDay[fromStudyDay];
+        item.queueTailAfterByDay[toStudyDay] = existingQueueTailAt && existingQueueTailAt > queueTailAt
+          ? existingQueueTailAt
+          : queueTailAt;
+      }
+      const skipCount = item.skipCountsByDay[fromStudyDay];
+      if (skipCount) {
+        const existingSkipCount = item.skipCountsByDay[toStudyDay];
+        delete item.skipCountsByDay[fromStudyDay];
+        item.skipCountsByDay[toStudyDay] = Math.max(existingSkipCount ?? 0, skipCount) as 1 | 2;
+      }
       if (
         item.sameDayPlan?.studyDay === fromStudyDay &&
         item.sameDayPlan.opportunities.some((entry) => entry.status !== "completed")
@@ -1163,6 +1332,40 @@ function reminderAlreadyRequestedForTravelDay(state: SpacedRecallState, day: Stu
   );
 }
 
+function hasReviewDueOnOrBefore(state: SpacedRecallState, day: StudyDay): boolean {
+  return Object.values(state.items).some((item) => {
+    if (item.status === "paused" || item.status === "data-exception" || isItemSuppressed(item, day)) {
+      return false;
+    }
+    const dueDay = item.status === "mastered"
+      ? item.maintenanceDueDay
+      : item.status === "weak"
+        ? item.dueDay
+        : null;
+    return Boolean(dueDay && dueDay <= day);
+  });
+}
+
+function deferredReminderStudyDay(
+  day: StudyDay,
+  nowMinutes: number,
+  reminderMinutes: number,
+  quietStartMinutes: number,
+  quietEndMinutes: number,
+): StudyDay | null {
+  if (quietStartMinutes === quietEndMinutes) return null;
+  if (!isWithinQuietHours(reminderMinutes, quietStartMinutes, quietEndMinutes)) return null;
+  if (quietStartMinutes < quietEndMinutes) {
+    return nowMinutes >= quietEndMinutes ? day : null;
+  }
+  if (reminderMinutes >= quietStartMinutes) {
+    return nowMinutes >= quietEndMinutes && nowMinutes < quietStartMinutes
+      ? addStudyDays(day, -1)
+      : null;
+  }
+  return nowMinutes >= quietEndMinutes && nowMinutes < quietStartMinutes ? day : null;
+}
+
 export function evaluateRecallReminder(
   state: SpacedRecallState,
   input: {
@@ -1181,23 +1384,26 @@ export function evaluateRecallReminder(
   const reminderMinutes = minutesOfDay(settings.localTime);
   const quietStartMinutes = minutesOfDay(settings.quietStart);
   const quietEndMinutes = minutesOfDay(settings.quietEnd);
-  // A reminder such as 23:00 inside 22:00..08:00 belongs to the
-  // previous learning day when it is released exactly at 08:00.
-  const releasingPreviousDayReminder =
-    quietStartMinutes > quietEndMinutes &&
-    reminderMinutes >= quietStartMinutes &&
-    nowMinutes === quietEndMinutes;
-  const forStudyDay = releasingPreviousDayReminder ? addStudyDays(day, -1) : day;
-  if (!releasingPreviousDayReminder && nowMinutes < reminderMinutes) {
+  // A deferred reminder remains eligible on the first check after quiet hours,
+  // even when a sleeping/background tab missed the exact end minute.
+  const deferredStudyDay = deferredReminderStudyDay(
+    day,
+    nowMinutes,
+    reminderMinutes,
+    quietStartMinutes,
+    quietEndMinutes,
+  );
+  const forStudyDay = deferredStudyDay ?? day;
+  if (!deferredStudyDay && nowMinutes < reminderMinutes) {
     return { kind: "none", reason: "before-reminder-time" };
   }
-  if (buildReviewQueue(state, input.now, 1).visible.length === 0) {
+  if (!hasReviewDueOnOrBefore(state, forStudyDay)) {
     return { kind: "none", reason: "all-due-completed" };
   }
   if (reminderAlreadyRequestedForTravelDay(state, forStudyDay)) {
     return { kind: "none", reason: "already-requested-today" };
   }
-  if (
+  if (!deferredStudyDay &&
     isWithinQuietHours(
       nowMinutes,
       quietStartMinutes,
@@ -1374,7 +1580,9 @@ function isRecallItemValue(value: unknown, key: string): value is RecallItemStat
       ([stage, day]) => (stage === "S1" || stage === "S2" || stage === "S3" || stage === "S4") && isStudyDayValue(day),
     ) ||
     !isStudyDayRecord(value.masteryBlockedDays, (entry) => entry === "weak-evidence" || entry === "assistance") ||
-    !isStudyDayRecord(value.skipCountsByDay, (entry) => entry === 1 || entry === 2)
+    !isStudyDayRecord(value.skipCountsByDay, (entry) => entry === 1 || entry === 2) ||
+    !(value.queueTailAfterByDay === undefined ||
+      isStudyDayRecord(value.queueTailAfterByDay, (entry) => typeof entry === "string"))
   ) {
     return false;
   }
@@ -1389,13 +1597,17 @@ function isRecallItemValue(value: unknown, key: string): value is RecallItemStat
       !(value.dataException.code === "missing-item-id" ||
         value.dataException.code === "missing-answer" ||
         value.dataException.code === "missing-meaning" ||
+        value.dataException.code === "missing-content" ||
         value.dataException.code === "invalid-due") ||
       typeof value.dataException.detail !== "string" ||
-      !(value.dataException.previous === undefined || isRestorableItemStateValue(value.dataException.previous))
+      !(value.dataException.previous === undefined || isRestorableItemStateValue(value.dataException.previous)) ||
+      !(value.dataException.originalSnapshot === undefined || isRecord(value.dataException.originalSnapshot))
     ) {
       return false;
     }
   }
+  if ((value.status === "paused") !== (value.pause !== undefined)) return false;
+  if ((value.status === "data-exception") !== (value.dataException !== undefined)) return false;
   return true;
 }
 
@@ -1471,7 +1683,7 @@ function isReminderRequestValue(value: unknown): value is ReminderRequestRecord 
   );
 }
 
-function isSpacedRecallState(value: unknown): value is SpacedRecallState {
+function isSpacedRecallStateEnvelope(value: unknown): value is SpacedRecallState {
   if (!isRecord(value)) return false;
   if (
     value.storageVersion !== SPACED_RECALL_STORAGE_VERSION ||
@@ -1482,7 +1694,6 @@ function isSpacedRecallState(value: unknown): value is SpacedRecallState {
     !(value.pendingDeviceTimeZone === null ||
       (typeof value.pendingDeviceTimeZone === "string" && assertValidTimeZone(value.pendingDeviceTimeZone))) ||
     !isRecord(value.items) ||
-    !Object.entries(value.items).every(([key, item]) => isRecallItemValue(item, key)) ||
     !isRecord(value.attempts) ||
     !Object.entries(value.attempts).every(([key, attempt]) => isRecallAttemptValue(attempt, key)) ||
     !isRecord(value.eventsByEffectKey) ||
@@ -1508,10 +1719,127 @@ function isSpacedRecallState(value: unknown): value is SpacedRecallState {
   return true;
 }
 
+function isSpacedRecallState(value: unknown): value is SpacedRecallState {
+  return isSpacedRecallStateEnvelope(value) &&
+    Object.entries(value.items).every(([key, item]) => isRecallItemValue(item, key));
+}
+
+function invalidRestorableDueDetail(
+  value: unknown,
+  maintenanceCompleted: boolean,
+): string | null {
+  if (!isRecord(value)) return null;
+  if (value.status === "weak" && value.dueDay === null) {
+    return "薄弱学习项缺少下一到期时间，原始记录已隔离";
+  }
+  if (
+    value.status === "mastered" &&
+    value.maintenanceDueDay === null &&
+    !maintenanceCompleted
+  ) {
+    return "已掌握学习项缺少维护到期时间，原始记录已隔离";
+  }
+  return null;
+}
+
+function invalidActiveDueDetail(
+  value: unknown,
+  maintenanceCompleted: boolean,
+): string | null {
+  if (!isRecord(value)) return null;
+  if (value.dueDay !== null && !isStudyDayValue(value.dueDay)) {
+    return "到期时间无法解析，原始记录已隔离";
+  }
+  if (value.maintenanceDueDay !== null && !isStudyDayValue(value.maintenanceDueDay)) {
+    return "维护复习到期时间无法解析，原始记录已隔离";
+  }
+  const evidenceDays = [value.latestWeakDay, value.masteredDay];
+  if (isRecord(value.cleanStageDays)) evidenceDays.push(...Object.values(value.cleanStageDays));
+  const latestEvidenceDay = evidenceDays
+    .filter(isStudyDayValue)
+    .sort((left, right) => right.localeCompare(left))[0];
+  if (isStudyDayValue(value.dueDay) && latestEvidenceDay && value.dueDay < latestEvidenceDay) {
+    return "到期时间早于最近有效证据，原始记录已隔离";
+  }
+  if (
+    isStudyDayValue(value.maintenanceDueDay) &&
+    isStudyDayValue(value.masteredDay) &&
+    value.maintenanceDueDay < value.masteredDay
+  ) {
+    return "维护复习时间早于掌握记录，原始记录已隔离";
+  }
+  const activeDetail = invalidRestorableDueDetail(value, maintenanceCompleted);
+  if (activeDetail) return activeDetail;
+  if (value.status === "paused" && isRecord(value.pause)) {
+    const pausedDetail = invalidRestorableDueDetail(
+      value.pause.previous,
+      maintenanceCompleted,
+    );
+    if (pausedDetail) return `暂停前状态异常：${pausedDetail}`;
+  }
+  return null;
+}
+
+function isolateInvalidDueItem(
+  value: unknown,
+  key: string,
+  recoveryDay: StudyDay,
+  detail: string,
+): RecallItemState | null {
+  if (!isRecord(value)) return null;
+  const originalSnapshot = structuredClone(value);
+  const normalized = structuredClone(value);
+  normalized.dueDay = null;
+  normalized.maintenanceDueDay = null;
+
+  // Only the due fields may be repaired here. Any unrelated malformed field
+  // must continue to use the global raw-preserving recovery boundary.
+  if (!isRecallItemValue(normalized, key)) return null;
+  if (normalized.status === "data-exception") {
+    const existingException = normalized.dataException;
+    if (!existingException) return null;
+    normalized.dataException = {
+      code: existingException.code,
+      detail: existingException.detail,
+      previous: existingException.previous,
+      originalSnapshot: existingException.originalSnapshot ?? originalSnapshot,
+    };
+    return isRecallItemValue(normalized, key) ? normalized : null;
+  }
+
+  const previous: RestorableItemState | undefined =
+    normalized.status === "ordinary" ||
+    normalized.status === "weak" ||
+    normalized.status === "mastered"
+      ? {
+          status: normalized.status,
+          stage: normalized.stage,
+          dueDay: normalized.status === "weak" ? recoveryDay : null,
+          masteredDay: normalized.masteredDay,
+          maintenanceDueDay: normalized.status === "mastered" ? recoveryDay : null,
+          // Recovery creates one current cross-day task. Pending same-day work
+          // remains audit evidence in originalSnapshot and is never replayed.
+          sameDayPlan: null,
+        }
+      : undefined;
+  normalized.status = "data-exception";
+  normalized.sameDayPlan = null;
+  normalized.suppressedUntilDay = null;
+  delete normalized.pause;
+  normalized.dataException = {
+    code: "invalid-due",
+    detail,
+    previous,
+    originalSnapshot,
+  };
+  return isRecallItemValue(normalized, key) ? normalized : null;
+}
+
 export function loadSpacedRecallState(
   storage: StorageLike,
   fallbackTimeZone: string,
   key = SPACED_RECALL_STORAGE_KEY,
+  now = new Date().toISOString(),
 ): LoadResult {
   const raw = storage.getItem(key);
   if (raw === null) return { status: "empty", state: createInitialSpacedRecallState(fallbackTimeZone) };
@@ -1520,10 +1848,63 @@ export function loadSpacedRecallState(
     if (parsed.storageVersion !== SPACED_RECALL_STORAGE_VERSION) {
       return { status: "storage-error", reason: "unsupported-version", rawPreserved: true };
     }
-    if (!isSpacedRecallState(parsed)) {
+    if (!isSpacedRecallStateEnvelope(parsed)) {
       return { status: "storage-error", reason: "corrupt", rawPreserved: true };
     }
-    return { status: "loaded", state: parsed };
+    const state = parsed as SpacedRecallState;
+    const storedRevision = state.revision;
+    const recoveryDay = studyDayAt(now, state.learningTimeZone);
+    const isolatedItemIds: string[] = [];
+    const normalizedItems: Record<string, RecallItemState> = {};
+    for (const [itemId, item] of Object.entries(state.items)) {
+      const maintenanceCompleted = Object.values(state.attempts).some((attempt) => (
+        attempt.itemId === itemId &&
+        attempt.context === "maintenance" &&
+        attempt.outcome === "clean-independent-correct"
+      ));
+      const dueAnomaly = invalidActiveDueDetail(item, maintenanceCompleted);
+      if (!dueAnomaly && isRecallItemValue(item, itemId)) {
+        normalizedItems[itemId] = item;
+        continue;
+      }
+      const isolated = dueAnomaly
+        ? isolateInvalidDueItem(item, itemId, recoveryDay, dueAnomaly)
+        : null;
+      if (!isolated) {
+        return { status: "storage-error", reason: "corrupt", rawPreserved: true };
+      }
+      normalizedItems[itemId] = isolated;
+      isolatedItemIds.push(itemId);
+    }
+    state.items = normalizedItems;
+    for (const itemId of isolatedItemIds) {
+      const exception = state.items[itemId].dataException;
+      appendEvent(state, {
+        effectKey: `load-isolated:${itemId}:invalid-due`,
+        itemId,
+        type: "data-exception",
+        occurredAt: now,
+        studyDay: recoveryDay,
+        metadata: {
+          code: "invalid-due",
+          detail: exception?.detail,
+          originalSnapshotPreserved: true,
+          recoveryAvailable: Boolean(exception?.previous),
+        },
+      });
+    }
+    if (isolatedItemIds.length > 0) state.revision += 1;
+    if (!isSpacedRecallState(state)) {
+      return { status: "storage-error", reason: "corrupt", rawPreserved: true };
+    }
+    return isolatedItemIds.length > 0
+      ? {
+          status: "loaded",
+          state,
+          isolatedItemIds,
+          normalizedFromRevision: storedRevision,
+        }
+      : { status: "loaded", state };
   } catch {
     return { status: "storage-error", reason: "corrupt", rawPreserved: true };
   }

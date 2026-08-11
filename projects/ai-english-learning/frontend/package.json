@@ -11,6 +11,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
+    "test": "npm run test:cloze && npm run test:spaced-recall && npm run test:browser",
+    "test:browser": "node scripts/verify-recall-browser.mjs",
     "test:cloze": "node --experimental-strip-types scripts/verify-inline-cloze.mjs",
     "test:spaced-recall": "node scripts/verify-spaced-recall.mjs",
     "preview": "vite preview"

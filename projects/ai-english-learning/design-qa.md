@@ -121,6 +121,17 @@ Additional fill-in evidence:
 - Offline progression is verified at the deterministic engine boundary; browser network emulation was not used. The interface states the offline limitation and never advances mastery while offline.
 - Chinese completeness: navigation, actions, status feedback, dialogs, validation, empty/waiting/error states, reminder copy, queue details, accessibility labels, and mobile UI are available in coherent Simplified Chinese. Learning targets and pronunciations remain English by product intent.
 
+### Code-review correction verification — 2026-08-11
+
+- A first “暂时跳过” now persists an item at the end of the whole actionable queue, including across overdue, due-today, and same-day groups. The domain queue, Word entry point, Recall Center tail section, active-task skip, toast, refresh path, and tests consume the same ordering rule; the second same-day skip still suppresses the item until the next learning day.
+- Invalid, missing, or evidence-inconsistent due dates are isolated per item. Healthy items remain usable, the original opaque snapshot is preserved, normalization is saved with revision compare-and-set, and recovery creates one current task without replaying stale same-day plans or suppression.
+- A completed D+30 maintenance item with a real clean maintenance settlement remains a valid mastered terminal state. A weak/mastered/paused record that lacks required scheduling evidence is isolated instead of disappearing from the queue.
+- Persisted items no longer present in the current learning-content catalog are explicitly shown as unavailable, cannot be recovered or started, and do not block valid review items. A catalog-backed recovered item is browser-tested through start, inline spelling, correct settlement, and next-item progression.
+- `frontend/scripts/verify-recall-browser.mjs` renders the real React page through Chrome DevTools Protocol without a new test dependency. It covers global queue-tail persistence, visible/start-order consistency, known and missing-content recovery, denied-notification copy, recovery focus, Escape focus return, 1440/390/320 responsive bounds, and a clean browser console.
+- The Chrome executable can be supplied with `CHROME_PATH`; otherwise the test probes appropriate macOS, Windows, and Linux locations and reports a clear Chinese error when no executable is available.
+- This correction batch does not redesign the approved visual system, so the existing spaced-recall screenshots above remain the visual baseline. The new browser gate verifies the changed states and interaction order directly in the DOM.
+- Explicit remaining boundary: whole-value malformed JSON and unknown storage versions are still preserved without overwrite and keep the global safety lock. Raw-data export plus second-confirmation safe rebuild UI is not implemented in this batch and must not be described as closed.
+
 ## Engineering verification
 
 - Runtime: Node.js 24.14.0 (satisfies the declared Node.js 22.12+ baseline)
@@ -128,6 +139,7 @@ Additional fill-in evidence:
 - Production Vite build: passed
 - Oxlint: passed
 - Spaced-recall deterministic verification: passed
+- Chrome/CDP React integration verification: passed at 1440px, 390px, and 320px with zero console errors or warnings
 - Hint invariants: passed across 80,160 word/variant combinations, including one-letter, short-word, hyphenated-word, progressive-reveal, and reroll cases
 - Inline cloze invariants: passed across 1,200 randomized hint cases plus input, replacement, deletion, complete/remaining paste, illegal-character filtering, one/two-letter words, hyphen, apostrophe, and space boundaries
 

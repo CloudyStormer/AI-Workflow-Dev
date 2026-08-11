@@ -558,3 +558,70 @@ artifacts:
     review_decision: approved
     stop_gate: completed
     auto_route: false
+  - id: artifact-spaced-recall-frontend-fix-001
+    type: frontend-fix
+    path: frontend/
+    status: ready-for-review
+    owner: role-frontend-dev
+    change_id: fix-20260810-spaced-recall-review-findings-001
+    authorization: approval-20260810-spaced-recall-frontend-fix-entry
+    input_artifact: artifact-spaced-recall-code-review-001
+    reviewed_source_commit: 159815d59c2efb885317bbaebfa1e1981fd8c2fa
+    safe_base: f0cd4672e16c20d70dc1c0393dec21fe935a5a44
+    hashes:
+      word: 6de12d95dd96298061bab0468bef6786a43154fb7597abe684b0edc009d14389
+      recall_center: e771ec6db7642005c3ba8e79d66c0bc90ea88004e58a9c7e6c83798a451807ea
+      domain: aac9ef20c9fefec84a1667341e525b212ea6b24ec96152758b9066e12205593b
+      domain_test: 93f055809b038aedc1474bdef4fbd90366080f205b207d2feeb63e5d2c052062
+      browser_gate: d37002007d8ad557c83d63496388e349bf0ac73f206f145312b39de1541fe3d0
+      package: b949d024459b62ccda2c6f48b5dcce642b796902335c651aca94dfc550bc6cdd
+      design_qa: 3416d886091409c36f10466b4afb72cb49996af9bc14fb9d32185dd581a058f6
+    coverage:
+      invalid_and_missing_due_item_isolation: true
+      raw_item_snapshot_and_cas_normalization: true
+      safe_single_task_recovery: true
+      missing_content_guard: true
+      global_queue_tail_across_consumers: true
+      first_and_second_skip_persistence: true
+      quiet_hour_late_release: true
+      notification_permission_copy: true
+      stable_same_day_random_order: true
+      truthful_from_to_history: true
+      chrome_path_cross_platform_detection: true
+      react_browser_gate: true
+      simplified_chinese_changed_states: true
+    finding_disposition:
+      resolved:
+        - CR-P1-002
+        - CR-P1-003
+        - CR-P2-001
+        - CR-P2-002
+        - CR-P2-003
+        - CR-P2-004
+      partially_resolved:
+        CR-P1-001: "逐项损坏/缺失到期记录可隔离和恢复；整体 JSON/未知版本仍保留原始值并安全锁定，原始数据导出+二次确认安全重建 UI 留待后续明确授权"
+      suggestions:
+        controller_hook_refactor: deferred-no-large-refactor-in-fix-unit
+        deployment_security_headers: deferred-out-of-scope
+    validation:
+      runtime: Node.js-24.14.0
+      lint: passed
+      typecheck_and_build: passed
+      spaced_recall_test: passed
+      inline_cloze_test: passed-1200-randomized-cases
+      chrome_cdp_react_integration: passed-1440-390-320
+      browser_console_errors_and_warnings: 0
+      git_diff_check: passed
+      project_structure: passed-0-warnings
+      git_boundary: passed
+      skill_drift: passed
+      events_jsonl: valid
+    truth_boundary:
+      storage: current-browser-current-device-only
+      backend_integration: not-claimed
+      whole_json_or_unknown_version: raw-preserved-global-lock
+      export_and_confirmed_rebuild_ui: not-implemented
+    completed_at: "2026-08-11T17:08:50+08:00"
+    result: ready-for-frontend-fix-delivery-review-with-explicit-storage-rebuild-boundary
+    stop_gate: frontend-fix-delivery-review
+    auto_route: false

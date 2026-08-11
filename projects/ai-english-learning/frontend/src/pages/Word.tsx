@@ -46,9 +46,12 @@ import {
   detectDeviceTimeZoneChange,
   evaluateRecallReminder,
   keepLearningTimeZone,
+  listEligibleSameDayItemIds,
   loadSpacedRecallState,
+  markDataException,
   pauseRecallItem,
   recordIncorrectSubmission,
+  recoverDataException,
   recordRecallHint,
   recordRecallReminderRequest,
   registerRecallItem,
@@ -65,6 +68,7 @@ import {
   type AttemptOutcome,
   type Connectivity,
   type DomainResult,
+  type LoadResult,
   type NotificationPermissionState as DomainNotificationPermissionState,
   type RecallEvent,
   type RecallItemState,
@@ -97,6 +101,8 @@ import {
   type RevealAnswerRecord,
   type ClozeRecallContext,
 } from '../utils/revealAnswer'
+
+const learningWordIds = new Set(learningWords.map((item) => item.id))
 
 function escapeRegExp(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -167,6 +173,18 @@ function isRestorableSession(session: PersistedClozeSession | null) {
 }
 
 type RecallStorageStatus = 'ready' | 'memory-only' | 'conflict' | 'corrupt'
+
+function persistNormalizedRecallLoad(
+  storage: Storage,
+  loaded: Extract<LoadResult, { status: 'loaded' }>,
+) {
+  if (loaded.normalizedFromRevision === undefined) return 'saved' as const
+  return saveSpacedRecallState(
+    storage,
+    loaded.state,
+    loaded.normalizedFromRevision,
+  )
+}
 
 function getDeviceTimeZone() {
   try {
@@ -242,11 +260,13 @@ function initializeRecallState() {
     return {
       state: createInitialSpacedRecallState(learningTimeZone),
       storageStatus: 'memory-only' as RecallStorageStatus,
+      statusMessage: '',
     }
   }
 
   let state: SpacedRecallState
   let storageStatus: RecallStorageStatus = 'ready'
+  let statusMessage = ''
   let previousRevision = 0
   const loaded = loadSpacedRecallState(window.localStorage, learningTimeZone)
   if (loaded.status === 'storage-error') {
@@ -254,7 +274,22 @@ function initializeRecallState() {
     storageStatus = 'corrupt'
   } else {
     state = loaded.state
-    previousRevision = state.revision
+    previousRevision = loaded.status === 'loaded'
+      ? loaded.normalizedFromRevision ?? state.revision
+      : state.revision
+    if (loaded.status === 'loaded' && loaded.isolatedItemIds?.length) {
+      statusMessage = `已隔离 ${loaded.isolatedItemIds.length} 条到期时间异常记录；其余复习可继续，异常项可在队列中恢复。`
+    }
+  }
+
+  for (const existingItem of Object.values(state.items)) {
+    if (learningWordIds.has(existingItem.itemId) || existingItem.status === 'data-exception') continue
+    const marked = markDataException(state, {
+      itemId: existingItem.itemId,
+      code: 'missing-content',
+      detail: '当前题库中找不到这条学习内容，原始记录已保留且不会进入复习队列',
+    }, new Date().toISOString())
+    if (marked.status === 'applied') state = marked.state
   }
 
   for (const item of learningWords) {
@@ -285,6 +320,9 @@ function initializeRecallState() {
       const latest = loadSpacedRecallState(window.localStorage, learningTimeZone)
       if (latest.status === 'loaded') {
         state = latest.state
+        const normalizedSaved = persistNormalizedRecallLoad(window.localStorage, latest)
+        if (normalizedSaved === 'revision-conflict') storageStatus = 'conflict'
+        if (normalizedSaved === 'storage-error') storageStatus = 'memory-only'
       } else {
         storageStatus = 'conflict'
       }
@@ -292,7 +330,7 @@ function initializeRecallState() {
     if (saved === 'storage-error') storageStatus = 'memory-only'
   }
 
-  return { state, storageStatus }
+  return { state, storageStatus, statusMessage }
 }
 
 function formatStudyDay(day: string | null, timeZone: string) {
@@ -332,6 +370,7 @@ function getEventTitle(event: RecallEvent) {
     'reminder-requested': '提醒请求已记录',
     'time-zone-switched': '学习时区已切换',
     'data-exception': '记录异常',
+    'data-recovered': '异常记录已恢复',
   }
   return labels[event.type]
 }
@@ -375,6 +414,29 @@ function isSameDayEligible(item: RecallItemState, learningDay: string) {
       && opportunity.otherItemsSettled <= 7
     )
   ))
+}
+
+function getActionableRecallItemIds(
+  state: SpacedRecallState,
+  now: string,
+  sessionId: string,
+) {
+  const learningDay = studyDayAt(now, state.learningTimeZone)
+  const reviewIds = buildReviewQueue(state, now, 20).visible.map((entry) => entry.itemId)
+  const sameDayIds = listEligibleSameDayItemIds(state, sessionId)
+  const uniqueIds = [...new Set([...reviewIds, ...sameDayIds])]
+    .filter((itemId) => learningWordIds.has(itemId))
+  const regularIds = uniqueIds.filter((itemId) => (
+    !state.items[itemId]?.queueTailAfterByDay?.[learningDay]
+  ))
+  const queueTailIds = uniqueIds
+    .filter((itemId) => state.items[itemId]?.queueTailAfterByDay?.[learningDay])
+    .sort((leftId, rightId) => {
+      const left = state.items[leftId].queueTailAfterByDay?.[learningDay] ?? ''
+      const right = state.items[rightId].queueTailAfterByDay?.[learningDay] ?? ''
+      return left.localeCompare(right) || leftId.localeCompare(rightId)
+    })
+  return [...regularIds, ...queueTailIds]
 }
 
 function describeRecallRejection(reason: string) {
@@ -429,7 +491,7 @@ function Word() {
   const [notificationPermission, setNotificationPermission] = useState(
     getBrowserNotificationPermission,
   )
-  const [recallStatusMessage, setRecallStatusMessage] = useState('')
+  const [recallStatusMessage, setRecallStatusMessage] = useState(initialRecall.statusMessage)
   const [recallDialog, setRecallDialog] = useState<RecallDialogState>({
     open: false,
     view: 'queue',
@@ -563,10 +625,19 @@ function Word() {
         if (saved === 'revision-conflict') {
           const latest = loadSpacedRecallState(window.localStorage, result.state.learningTimeZone)
           if (latest.status === 'loaded') {
+            const normalizedSaved = persistNormalizedRecallLoad(window.localStorage, latest)
             recallStateRef.current = latest.state
             setRecallState(latest.state)
-            setRecallStorageStatus('ready')
-            setRecallStatusMessage('检测到另一页面的新记录，已安全刷新；请重试刚才的操作。')
+            if (normalizedSaved === 'saved') {
+              setRecallStorageStatus('ready')
+              setRecallStatusMessage('检测到另一页面的新记录，已安全刷新；请重试刚才的操作。')
+            } else if (normalizedSaved === 'revision-conflict') {
+              setRecallStorageStatus('conflict')
+              setRecallStatusMessage('另一页面在异常记录恢复期间继续更新，已停止覆盖；请刷新后重试。')
+            } else {
+              setRecallStorageStatus('memory-only')
+              setRecallStatusMessage('异常记录已在内存中隔离，但暂时无法安全保存；本页不会伪装已同步。')
+            }
           } else {
             setRecallStorageStatus('conflict')
             setRecallStatusMessage('检测到另一页面更新了复习记录，已停止覆盖；请刷新后继续。')
@@ -1161,6 +1232,10 @@ function Word() {
   }
 
   function startRecallItem(itemId: string) {
+    if (!learningWordIds.has(itemId)) {
+      setRecallStatusMessage('当前题库中找不到这条学习内容，已停止启动；原始记录仍保留在异常队列。')
+      return
+    }
     if (!isOnline) {
       setRecallStatusMessage('当前离线，只能查看真实队列；联网后才能开始并结算复习。')
       return
@@ -1188,7 +1263,11 @@ function Word() {
       (opportunity) => opportunity.status === 'scheduled',
     )
     if (!alreadyScheduled) {
-      const reserved = reserveNextSameDayItem(recallStateRef.current, recallSessionId)
+      const reserved = reserveNextSameDayItem(
+        recallStateRef.current,
+        recallSessionId,
+        itemId,
+      )
       const value = commitRecallResult(reserved)
       if (!value) return
       reservedItemId = value.itemId
@@ -1213,18 +1292,14 @@ function Word() {
   }
 
   function startNextAvailableReview() {
-    const queue = buildReviewQueue(recallStateRef.current, new Date().toISOString(), 20)
-    const nextEntry = queue.visible[0]
-    if (nextEntry) {
-      startRecallItem(nextEntry.itemId)
-      return
-    }
-
-    const eligibleSameDay = Object.values(recallStateRef.current.items).find((item) => (
-      isSameDayEligible(item, learningDay)
-    ))
-    if (eligibleSameDay) {
-      startRecallItem(eligibleSameDay.itemId)
+    const now = new Date().toISOString()
+    const nextItemId = getActionableRecallItemIds(
+      recallStateRef.current,
+      now,
+      recallSessionId,
+    )[0]
+    if (nextItemId) {
+      startRecallItem(nextItemId)
       return
     }
     setRecallStatusMessage('今天没有到期复习，可以继续学习新单词。')
@@ -1270,8 +1345,14 @@ function Word() {
       }
     }
 
-    const queue = buildReviewQueue(recallStateRef.current, new Date().toISOString(), 20)
-    const nextEntry = queue.visible[0]
+    const nextNow = new Date().toISOString()
+    const queue = buildReviewQueue(recallStateRef.current, nextNow, 20)
+    const nextItemId = getActionableRecallItemIds(
+      recallStateRef.current,
+      nextNow,
+      recallSessionId,
+    )[0]
+    const nextEntry = queue.visible.find((entry) => entry.itemId === nextItemId)
     if (nextEntry) {
       const nextIndex = learningWords.findIndex((item) => item.id === nextEntry.itemId)
       if (nextIndex >= 0) {
@@ -1283,8 +1364,12 @@ function Word() {
           requestedMastery,
         )
       }
-    } else {
-      const reserved = reserveNextSameDayItem(recallStateRef.current, recallSessionId)
+    } else if (nextItemId) {
+      const reserved = reserveNextSameDayItem(
+        recallStateRef.current,
+        recallSessionId,
+        nextItemId,
+      )
       const reservedValue = reserved.status === 'rejected'
         ? null
         : commitRecallResult(reserved)
@@ -1308,6 +1393,9 @@ function Word() {
         const nextIndex = getNextOrdinaryWordIndex(wordIndex)
         activateWordQuestion(nextIndex, null, mode, true, requestedMastery)
       }
+    } else {
+      const nextIndex = getNextOrdinaryWordIndex(wordIndex)
+      activateWordQuestion(nextIndex, null, mode, true, requestedMastery)
     }
 
     window.setTimeout(() => {
@@ -1621,7 +1709,8 @@ function Word() {
     const nowDay = studyDayAt(clockNow, recallState.learningTimeZone)
     const events = Object.values(recallState.eventsByEffectKey)
 
-    return Object.values(recallState.items).flatMap((item) => {
+    const items = Object.values(recallState.items).flatMap((item) => {
+      const contentAvailable = learningWordIds.has(item.itemId)
       const queueEntry = queueEntries.get(item.itemId)
       const eligibleSameDay = isSameDayEligible(item, nowDay)
       const hasSameDayPlan = item.status === 'weak'
@@ -1656,6 +1745,8 @@ function Word() {
                 ? '无提示、未查看答案并独立拼写正确，当前阶段已推进。'
                 : event.type === 'data-exception'
                   ? String(event.metadata.detail ?? '学习记录需要恢复。')
+                  : event.type === 'data-recovered'
+                    ? '异常到期记录已恢复为单一当前任务；原始异常快照继续保留在本地审计信息中。'
                   : '该操作已记录在本设备的复习历史中。',
           result: isAttemptOutcome(resultValue) ? resultValue : undefined,
           stageBefore: typeof stageBefore === 'string' && stageBefore !== 'maintenance'
@@ -1714,7 +1805,7 @@ function Word() {
         && opportunity.otherItemsSettled > 7
       const group: RecallItem['group'] = item.status === 'paused'
         ? 'paused'
-        : item.status === 'data-exception'
+        : item.status === 'data-exception' || !contentAvailable
           ? 'exception'
           : queueEntry?.kind ?? 'same-day'
       const dueDay = queueEntry?.dueDay
@@ -1730,7 +1821,7 @@ function Word() {
         reason: queueEntry?.reason
           ?? (item.status === 'paused'
             ? '学习项已暂停，阶段和历史保持不变'
-            : item.status === 'data-exception'
+            : item.status === 'data-exception' || !contentAvailable
               ? '记录异常，不计错也不推进阶段'
               : opportunity
                 ? missedSameDayWindow
@@ -1753,7 +1844,11 @@ function Word() {
         pausedUntilLabel: item.pause
           ? formatStudyDay(item.pause.resumeDay, recallState.learningTimeZone)
           : undefined,
-        exceptionMessage: item.dataException?.detail,
+        exceptionMessage: !contentAvailable
+          ? `${item.dataException?.detail ?? '记录异常'}；当前题库中找不到对应学习内容，因此不能恢复或开始作答`
+          : item.dataException?.detail,
+        recoveryAvailable: contentAvailable && Boolean(item.dataException?.previous),
+        movedToQueueTail: Boolean(item.queueTailAfterByDay?.[nowDay]),
         startDisabled: hasSameDayPlan && !eligibleSameDay,
         startDisabledLabel: hasSameDayPlan && !eligibleSameDay
           ? missedSameDayWindow
@@ -1764,7 +1859,29 @@ function Word() {
         history,
       }]
     })
-  }, [clockNow, recallState, reviewQueue])
+    const actionablePosition = new Map(
+      getActionableRecallItemIds(recallState, clockNow, recallSessionId)
+        .map((itemId, index) => [itemId, index]),
+    )
+    const groupPosition: Record<RecallItem['group'], number> = {
+      overdue: 0,
+      'due-today': 1,
+      'same-day': 2,
+      paused: 3,
+      exception: 4,
+    }
+    return items.sort((left, right) => {
+      const leftPosition = actionablePosition.get(left.id)
+      const rightPosition = actionablePosition.get(right.id)
+      if (leftPosition !== undefined || rightPosition !== undefined) {
+        if (leftPosition === undefined) return 1
+        if (rightPosition === undefined) return -1
+        return leftPosition - rightPosition
+      }
+      return groupPosition[left.group] - groupPosition[right.group]
+        || left.id.localeCompare(right.id)
+    })
+  }, [clockNow, recallSessionId, recallState, reviewQueue])
   const settledRecallAttempts = Object.values(recallState.attempts).filter((attempt) => (
     attempt.context !== 'ordinary' && attempt.outcome
   ))
@@ -1869,7 +1986,7 @@ function Word() {
     if (!skipCount) return
     setRecallStatusMessage(
       skipCount === 1
-        ? '已移到本队列末尾；本次不计对错。'
+        ? '已移到当前队列末尾；本次不计对错。'
         : '已安排到下一个学习日；原到期原因仍会保留。',
     )
   }
@@ -1890,6 +2007,20 @@ function Word() {
       resumeRecallItem(recallStateRef.current, itemId, new Date().toISOString()),
       '已提前恢复，回到暂停前阶段；没有补造暂停期复习。',
     )
+  }
+
+  function handleRecoverRecallItem(itemId: string) {
+    if (!learningWordIds.has(itemId)) {
+      setRecallStatusMessage('当前题库中找不到这条学习内容，不能安全恢复；原始记录继续保留。')
+      return
+    }
+    const recovered = commitRecallResult(
+      recoverDataException(recallStateRef.current, itemId, new Date().toISOString()),
+      '异常记录已恢复为单一当前任务；原始异常快照仍保留，不会补造多个阶段。',
+    )
+    if (recovered) {
+      setRecallDialog((current) => ({ ...current, view: 'queue' }))
+    }
   }
 
   function handleConfirmRecallReset(itemId: string) {
@@ -1944,11 +2075,14 @@ function Word() {
     const beforeRevision = recallStateRef.current.revision
     handleSkipRecallItem(wordKey)
     if (recallStateRef.current.revision === beforeRevision) return
-    const queue = buildReviewQueue(recallStateRef.current, new Date().toISOString(), 20)
-    const nextEntry = queue.visible.find((entry) => entry.itemId !== wordKey)
-    if (nextEntry) {
-      const index = learningWords.findIndex((item) => item.id === nextEntry.itemId)
-      if (index >= 0) activateWordQuestion(index, getRecallContextForEntry(nextEntry))
+    const now = new Date().toISOString()
+    const nextItemId = getActionableRecallItemIds(
+      recallStateRef.current,
+      now,
+      recallSessionId,
+    ).find((itemId) => itemId !== wordKey)
+    if (nextItemId) {
+      startRecallItem(nextItemId)
       return
     }
     activateWordQuestion(getNextOrdinaryWordIndex(wordIndex), null, 'cloze')
@@ -2018,6 +2152,7 @@ function Word() {
             onSkipItem: handleSkipRecallItem,
             onPauseItem: handlePauseRecallItem,
             onResumeItem: handleResumeRecallItem,
+            onRecoverItem: handleRecoverRecallItem,
             onRequestReset: (itemId) => setRecallDialog((current) => ({
               ...current,
               resetConfirmationItemId: itemId,

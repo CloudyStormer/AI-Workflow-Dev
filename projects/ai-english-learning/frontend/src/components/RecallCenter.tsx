@@ -73,6 +73,8 @@ export type RecallItem = {
   recentResultLabel?: string
   pausedUntilLabel?: string
   exceptionMessage?: string
+  recoveryAvailable?: boolean
+  movedToQueueTail?: boolean
   startDisabled?: boolean
   startDisabledLabel?: string
   stageTimeline?: readonly RecallStageNode[]
@@ -142,6 +144,7 @@ export type RecallCenterActions = {
   onSkipItem: (itemId: string) => void
   onPauseItem: (itemId: string, learningDays: 1 | 3 | 7 | 30) => void
   onResumeItem: (itemId: string) => void
+  onRecoverItem: (itemId: string) => void
   onRequestReset: (itemId: string) => void
   onCancelReset: () => void
   onConfirmReset: (itemId: string) => void
@@ -217,22 +220,17 @@ function getPermissionText(
   permission: NotificationPermissionState,
   externalMode: ExternalNotificationMode,
 ) {
-  if (externalMode === 'browser-ready') {
-    return '浏览器通知权限已允许；系统只记录通知请求，不会把请求伪装成已经送达。'
-  }
-  if (externalMode === 'in-app-only') {
-    return '当前仅在页面内展示真实待复习状态，不会发送外部通知。'
-  }
-
   switch (permission) {
     case 'granted':
-      return '浏览器通知权限已允许，但外部通知通道仍待接入。'
+      return externalMode === 'browser-ready'
+        ? '浏览器通知权限已允许；系统只记录通知请求，不会把请求伪装成已经送达。'
+        : '浏览器通知权限已允许，但当前仅在页面内展示真实待复习状态。'
     case 'denied':
       return '系统通知未授权；应用内待复习仍会正常显示。'
     case 'unsupported':
       return '当前平台不支持外部通知，页面内待复习状态仍会正常显示。'
     case 'not-requested':
-      return '外部通知待接入；当前不会请求系统通知权限，页面内待复习状态仍会正常显示。'
+      return '系统通知尚未授权；开启提醒后可允许浏览器发送通知，页面内待复习始终可用。'
   }
 }
 
@@ -325,6 +323,22 @@ function ItemActions({ item, isOffline, actions, showDetailAction = true }: Item
           onClick={() => actions.onSkipItem(item.id)}
         >
           跳过本题
+        </button>
+      )}
+
+      {hasException && item.recoveryAvailable && (
+        <button
+          type="button"
+          className="recall-item-actions__resume"
+          disabled={isOffline}
+          onClick={() => {
+            actions.onRecoverItem(item.id)
+            window.requestAnimationFrame(() => {
+              document.getElementById('recall-center-tab-queue')?.focus()
+            })
+          }}
+        >
+          {isOffline ? '联网后恢复' : '恢复这条记录'}
         </button>
       )}
 
@@ -430,6 +444,7 @@ function QueueView({ items, summary, actions }: QueueViewProps) {
   ))
   const pausedItems = items.filter((item) => item.group === 'paused')
   const exceptionItems = items.filter((item) => item.group === 'exception')
+  const queueTailItems = activeQueueItems.filter((item) => item.movedToQueueTail)
 
   return (
     <section
@@ -440,7 +455,7 @@ function QueueView({ items, summary, actions }: QueueViewProps) {
     >
       <header className="recall-center-panel__header">
         <h3>待复习队列</h3>
-        <p>按“逾期、今日到期、今日加固”的顺序安排，不会把剩余逾期伪装成已完成。</p>
+        <p>默认按“逾期、今日到期、今日加固”安排；首次跳过的学习项会移至本次整个队列末尾。</p>
       </header>
 
       {summary.isOffline && (
@@ -469,7 +484,9 @@ function QueueView({ items, summary, actions }: QueueViewProps) {
       )}
 
       {QUEUE_GROUPS.map((group) => {
-        const groupedItems = items.filter((item) => item.group === group.key)
+        const groupedItems = items.filter((item) => (
+          item.group === group.key && !item.movedToQueueTail
+        ))
         if (groupedItems.length === 0) return null
 
         return (
@@ -497,6 +514,28 @@ function QueueView({ items, summary, actions }: QueueViewProps) {
           </section>
         )
       })}
+
+      {queueTailItems.length > 0 && (
+        <section
+          className="recall-queue-group recall-queue-group--queue-tail"
+          aria-labelledby="recall-queue-tail-title"
+        >
+          <header className="recall-queue-group__header">
+            <h4 id="recall-queue-tail-title">本次已移至队尾 · {queueTailItems.length} 个</h4>
+            <p>这些学习项今天已首次跳过；原到期原因保留，本次排在当前队列最后。</p>
+          </header>
+          <div className="recall-queue-group__items">
+            {queueTailItems.map((item) => (
+              <QueueItemCard
+                key={item.id}
+                item={item}
+                isOffline={summary.isOffline}
+                actions={actions}
+              />
+            ))}
+          </div>
+        </section>
+      )}
 
       {pausedItems.length > 0 && (
         <section className="recall-queue-group recall-queue-group--paused" aria-labelledby="recall-paused-title">

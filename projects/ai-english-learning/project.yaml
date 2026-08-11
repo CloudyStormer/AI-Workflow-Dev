@@ -20,7 +20,7 @@ entrypoints:
     command: "npm run build"
   test:
     cwd: "frontend"
-    command: ""
+    command: "npm test"
   lint:
     cwd: "frontend"
     command: "npm run lint"
