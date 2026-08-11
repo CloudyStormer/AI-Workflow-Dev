@@ -5,6 +5,7 @@ stage: frontend-development
 status: spaced-recall-frontend-fix-ready-for-review
 current_role: role-frontend-dev
 approved_roles:
+  - role-pm
   - role-product-manager
   - role-ui-designer
   - role-frontend-dev
@@ -432,20 +433,59 @@ temporary_architecture_assignment:
     path: docs/02-architecture.md
     version: "1.1"
     sha256: 0f80bfd20820d795904893778f68f40a2366b29d13db2766d4f3dabd190b88c6
-  delivery_status: ready-for-review
-  result: word-v1-3-local-service-architecture-ready
-  stop_gate: architecture-review
-  return_point: "审核后仍返回既有 code-review 队列；未经新授权不得启动固定 02 或固定 07"
+  delivery_status: approved
+  result: word-v1-3-local-service-architecture-approved
+  approval: approval-20260811-english-word-architecture-v1-1
+  approved_by: 超级无敌帅超超总
+  approved_at: "2026-08-11T17:16:01+08:00"
+  review_decision: approved
+  stop_gate: completed
+  return_point: "架构并行门已关闭并路由固定 02；既有 frontend-fix-delivery-review 独立保持待审"
   auto_route_on_delivery: false
-additional_pending_approval:
+completed_architecture_approval:
   gate: architecture-review
   artifact: artifact-english-word-local-service-architecture-001
   expected_change_id: arch-20260807-english-word-local-service-v1-3
   expected_path: docs/02-architecture.md
   version: "1.1"
   decision_owner: 超级无敌帅超超总
-  decision: pending
-  options: [通过, 修改, 打回]
-  on_approved: "只批准当前架构；不得在固定 05 任务自动启动固定 02 或固定 07"
+  decision: approved
+  approval: approval-20260811-english-word-architecture-v1-1
+  decided_at: "2026-08-11T17:16:01+08:00"
+  effect: "已批准当前架构，并自动授权唯一下一站固定 02 项目经理拆解后端及前后端联调任务；本次只覆盖任务拆解，不授权固定 07 开发"
+parallel_backend_task_breakdown_assignment:
+  change_id: plan-20260811-english-word-backend-integration-task-breakdown-001
+  role: role-pm
+  role_task_id: 019fb738-5706-7552-849f-35c8a124e2f0
+  role_task_title: "02 项目经理"
+  authorization: approval-20260811-english-word-backend-integration-task-breakdown-entry
+  scheduling: routed-awaiting-role-announcement
+  input:
+    artifact: artifact-english-word-local-service-architecture-001
+    path: docs/02-architecture.md
+    version: "1.1"
+    sha256: 0f80bfd20820d795904893778f68f40a2366b29d13db2766d4f3dabd190b88c6
+    approval: approval-20260811-english-word-architecture-v1-1
+  scope: "基于已批准 Word v1.3 本地服务架构，把后端实现、SQLite 迁移/seed、契约与集成测试、前端服务适配、本地服务监督和最终前后端联调拆成小批量任务；定义 owner、依赖、DoR、DoD、验证命令、交付文件、风险和唯一首个开发工作项"
+  exclusions:
+    - backend-or-frontend-implementation
+    - auto-start-role-backend-dev
+    - auto-start-role-data-engineer
+    - qa-or-production-deployment
+    - approval-of-parallel-frontend-fix-artifact
+  expected_output:
+    artifact: artifact-english-word-backend-integration-task-breakdown-001
+    path: docs/03-dev-tasks.md
+    version: "1.1"
+  delivery_status: routed
+  routed_at: "2026-08-11T17:16:01+08:00"
+  preserved_parallel_gate:
+    artifact: artifact-spaced-recall-frontend-fix-001
+    gate: frontend-fix-delivery-review
+    decision: pending
+  result: fixed-02-authorized-for-one-task-breakdown-unit
+  stop_gate: task-breakdown-review
+  auto_route_on_delivery: false
+backend_planning_gate: "架构 v1.1 已获批；固定 02 只获准拆解 Word 后端及本地前后端联调任务。其任务拆解交付前不得启动固定 07；任务拆解交付后必须停在 task-breakdown-review。"
 state_limit: "旧版计划与任务表仍需单独对账；本状态只声明已核实的最新交付和审批门"
-updated_at: "2026-08-10T16:06:34+08:00"
+updated_at: "2026-08-11T17:16:01+08:00"

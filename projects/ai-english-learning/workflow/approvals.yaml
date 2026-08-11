@@ -296,3 +296,43 @@ approvals:
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
     evidence: "代码审查结论含阻断 QA 的 P1 问题，固定 06 是职责唯一、输入完整且非高风险的下一站；本授权只覆盖一个修复交付单元。"
+  - id: approval-20260811-english-word-architecture-v1-1
+    gate: architecture-review
+    role: role-architect
+    role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
+    role_task_title: "05 架构师"
+    change_id: arch-20260807-english-word-local-service-v1-3
+    artifact: artifact-english-word-local-service-architecture-001
+    path: docs/02-architecture.md
+    version: "1.1"
+    sha256: 0f80bfd20820d795904893778f68f40a2366b29d13db2766d4f3dabd190b88c6
+    scope: "批准 AI English Learning Word v1.3 本地后端服务架构契约，包括 Express+TypeScript/SQLite、API、健康/就绪、游客主体、幂等结算、记忆调度、本地隐私、恢复、迁移/seed 和测试边界"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-11T17:16:01+08:00"
+    source_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
+    evidence: "超级无敌帅超超总在固定 05 架构师任务中对唯一明确展示的 artifact-english-word-local-service-architecture-001 回复‘通过’。此前两次‘继续’均未被当作批准。"
+    effect: "已批准当前产物，并自动授权唯一下一站固定 02 项目经理拆解后端及前后端联调任务。本次只覆盖该站一个任务拆解单元；不授权固定 07 开发、QA 或部署，也不批准并行待审的前端修复产物。"
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+  - id: approval-20260811-english-word-backend-integration-task-breakdown-entry
+    gate: role-entry
+    role: role-pm
+    role_task_id: 019fb738-5706-7552-849f-35c8a124e2f0
+    role_task_title: "02 项目经理"
+    change_id: plan-20260811-english-word-backend-integration-task-breakdown-001
+    scope: "基于已批准架构更新 docs/03-dev-tasks.md，只拆解 Word v1.3 本地后端、SQLite、契约/集成测试、前端服务适配、本地服务监督与最终联调任务；给出 owner、依赖、DoR、DoD、验证、风险和唯一首个开发工作项"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-11T17:16:01+08:00"
+    upstream_approval: approval-20260811-english-word-architecture-v1-1
+    upstream_artifact: artifact-english-word-local-service-architecture-001
+    upstream_path: docs/02-architecture.md
+    upstream_version: "1.1"
+    upstream_sha256: 0f80bfd20820d795904893778f68f40a2366b29d13db2766d4f3dabd190b88c6
+    expected_output: artifact-english-word-backend-integration-task-breakdown-001
+    expected_path: docs/03-dev-tasks.md
+    stop_gate: task-breakdown-review
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+    evidence: "架构交付明确声明通过后的唯一下一站为固定 02，输入完整且任务拆解不属于高风险动作；固定 02 任务已按规范标题唯一核实。"
