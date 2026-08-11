@@ -2,7 +2,7 @@ schema_version: 1
 project_id: "ai-english-learning"
 structure_status: normalized
 stage: code-review
-status: spaced-recall-code-rereview-routed-with-parallel-backend-task-breakdown
+status: spaced-recall-code-rereview-ready-with-p1-residual-and-parallel-backend-task-breakdown
 current_role: role-code-reviewer
 approved_roles:
   - role-pm
@@ -30,8 +30,8 @@ next_approval:
   scope: "固定 09 只读复审 artifact-spaced-recall-frontend-fix-001 对既有审查问题的处置、回归覆盖和明确遗留；不得代修代码，不进入 QA、后端或部署"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: awaiting-fixed-09-entry-and-rereview
-  on_approved: follow-code-rereview-conclusion-routing-only
+  delivery_status: ready-for-review
+  on_approved: approve-rereview-conclusion-and-authorize-fixed-06-storage-recovery-followup-only
 completed_spaced_recall_product_assignment:
   change_id: chg-20260804-spaced-recall-loop-product-v1
   role: role-product-manager
@@ -232,7 +232,7 @@ active_assignment:
   role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
   role_task_title: "09 代码审查员"
   authorization: approval-20260811-spaced-recall-code-rereview-entry
-  scheduling: routed
+  scheduling: completed
   input:
     artifact: artifact-spaced-recall-frontend-fix-001
     path: frontend/
@@ -244,8 +244,38 @@ active_assignment:
   expected_output:
     artifact: artifact-spaced-recall-code-rereview-001
     path: docs/06-code-review.md
-  delivery_status: awaiting-role-entry
+  delivery_status: ready-for-review
   routed_at: "2026-08-11T17:21:51+08:00"
+  completed_at: "2026-08-11T17:31:38+08:00"
+  output:
+    artifact: artifact-spaced-recall-code-rereview-001
+    path: docs/06-code-review.md
+    sha256: 4f7e854a339e933b01fac29afa0d80bdd3e2531fb2f5abb38c53a831257321b5
+  finding_disposition:
+    open_major:
+      - CR-P1-001
+    closed:
+      - CR-P1-002
+      - CR-P1-003
+      - CR-P2-001
+      - CR-P2-002
+      - CR-P2-003
+      - CR-P2-004
+    retained_suggestions:
+      - CR-S-001
+      - CR-S-002
+  review_summary:
+    blocker: 0
+    major_open: 1
+    major_closed: 2
+    minor_open: 0
+    minor_closed: 4
+    conclusion: changes-requested
+    qa_recommendation: blocked-pending-storage-recovery-followup-and-rereview
+    residuals:
+      paused_item_due_corruption: isolated-but-not-recoverable
+      whole_json_or_unknown_version: raw-preserved-global-lock-without-export-or-confirmed-rebuild-ui
+  result: ready-for-code-rereview-conclusion-review-with-p1-residual
   stop_gate: code-rereview-conclusion-review
   preserved_parallel_assignment:
     change_id: plan-20260811-english-word-backend-integration-task-breakdown-001
@@ -299,7 +329,7 @@ held_downstream_delivery:
   resumed_again_by: approval-20260806-spaced-recall-ui-prompt-and-direct-frontend
   resumed_for: chg-20260806-spaced-recall-frontend-implementation-v1-3
   resumed_at: "2026-08-06T14:23:53+08:00"
-implementation_gate: "超级无敌帅超超总已批准 artifact-spaced-recall-frontend-fix-001，并只自动授权固定 09 对提交 a6ae859aab648829ae65df75220c82990a690bb0 进行一个复审交付单元。固定 09 必须在本人任务报到并停在 code-rereview-conclusion-review；不得自动进入 QA、后端或生产部署。固定 02 的后端/联调任务拆解为独立并行分支，不受本路由扩权。"
+implementation_gate: "固定 09 已完成 artifact-spaced-recall-code-rereview-001，并停在 code-rereview-conclusion-review。CR-P1-001 因暂停态损坏记录无法逐项恢复及整体 JSON/未知版本无导出与二次确认重建 UI 而保持 Major 打开；不得自动进入 QA、后端或生产部署。若超级无敌帅超超总批准当前复审结论，仅可一跳授权固定 06 处理该存储恢复遗留；固定 02 的后端/联调任务拆解为独立并行分支，不受本门禁扩权。"
 latest_approved_artifact:
   artifact: artifact-spaced-recall-frontend-fix-001
   path: frontend/
@@ -511,12 +541,12 @@ parallel_backend_task_breakdown_assignment:
   delivery_status: routed
   routed_at: "2026-08-11T17:16:01+08:00"
   preserved_parallel_gate:
-    artifact: artifact-spaced-recall-frontend-fix-001
-    gate: frontend-fix-delivery-review
+    artifact: artifact-spaced-recall-code-rereview-001
+    gate: code-rereview-conclusion-review
     decision: pending
   result: fixed-02-authorized-for-one-task-breakdown-unit
   stop_gate: task-breakdown-review
   auto_route_on_delivery: false
 backend_planning_gate: "架构 v1.1 已获批；固定 02 只获准拆解 Word 后端及本地前后端联调任务。其任务拆解交付前不得启动固定 07；任务拆解交付后必须停在 task-breakdown-review。"
 state_limit: "旧版计划与任务表仍需单独对账；本状态只声明已核实的最新交付和审批门"
-updated_at: "2026-08-11T17:21:51+08:00"
+updated_at: "2026-08-11T17:31:38+08:00"

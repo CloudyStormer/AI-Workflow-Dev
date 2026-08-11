@@ -636,3 +636,59 @@ artifacts:
     result: approved-with-explicit-storage-rebuild-boundary
     stop_gate: completed
     auto_route: false
+  - id: artifact-spaced-recall-code-rereview-001
+    type: code-rereview
+    path: docs/06-code-review.md
+    status: ready-for-review
+    owner: role-code-reviewer
+    change_id: rereview-20260811-spaced-recall-frontend-fix-001
+    authorization: approval-20260811-spaced-recall-code-rereview-entry
+    input_artifact: artifact-spaced-recall-frontend-fix-001
+    source_commit: a6ae859aab648829ae65df75220c82990a690bb0
+    diff_base: f0cd4672e16c20d70dc1c0393dec21fe935a5a44
+    original_review_artifact: artifact-spaced-recall-code-review-001
+    original_review_sha256: a9fcdc86972eec74ec58d27fcbcc12365fe60fc81744dc14279a950bb9a6b9c5
+    sha256: 4f7e854a339e933b01fac29afa0d80bdd3e2531fb2f5abb38c53a831257321b5
+    conclusion: changes-requested
+    findings:
+      blocker: 0
+      major_open: 1
+      major_closed: 2
+      minor_open: 0
+      minor_closed: 4
+      suggestions_retained: 2
+    finding_disposition:
+      open:
+        CR-P1-001: "普通/薄弱/已掌握记录的逐项隔离恢复已完成；暂停态到期损坏只能隔离且无法恢复，整体 JSON/未知版本仍无原始导出与二次确认安全重建 UI"
+      closed:
+        - CR-P1-002
+        - CR-P1-003
+        - CR-P2-001
+        - CR-P2-002
+        - CR-P2-003
+        - CR-P2-004
+    qa_recommendation: blocked-pending-storage-recovery-followup-and-rereview
+    validation:
+      runtime: Node.js-24.14.0
+      lint: passed
+      typecheck_and_build: passed
+      spaced_recall_test: passed
+      inline_cloze_test: passed-1200-randomized-cases
+      chrome_cdp_react_integration: passed-1440-390-320-console-clean
+      input_sha256_match: "7/7 passed"
+      paused_item_recovery: failed-isolated-without-restorable-previous
+      whole_json_or_unknown_version_recovery_ui: not-implemented-explicit-residual
+      extra_playwright_second_pass: not-run-no-additional-privilege-by-closeout-constraint
+      dependency_audit: not-run-no-no-vulnerability-claim
+    architecture_contract: preserved
+    data_truthfulness: passed-with-explicit-storage-recovery-residual
+    simplified_chinese: passed-with-recoverability-copy-mismatch-finding
+    preserved_parallel_assignment:
+      change_id: plan-20260811-english-word-backend-integration-task-breakdown-001
+      role: role-pm
+      gate: task-breakdown-review
+      status: routed-awaiting-role-announcement
+    completed_at: "2026-08-11T17:31:38+08:00"
+    result: ready-for-code-rereview-conclusion-review-with-p1-residual
+    stop_gate: code-rereview-conclusion-review
+    auto_route: false
