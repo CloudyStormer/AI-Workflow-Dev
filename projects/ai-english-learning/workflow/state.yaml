@@ -1,9 +1,9 @@
 schema_version: 1
 project_id: "ai-english-learning"
 structure_status: normalized
-stage: frontend-development
-status: spaced-recall-frontend-fix-ready-for-review
-current_role: role-frontend-dev
+stage: code-review
+status: spaced-recall-code-rereview-routed-with-parallel-backend-task-breakdown
+current_role: role-code-reviewer
 approved_roles:
   - role-pm
   - role-product-manager
@@ -23,15 +23,15 @@ delivery_priority:
     - production-deployment
   approval_gates_unchanged: true
 next_approval:
-  gate: frontend-fix-delivery-review
-  artifact: artifact-spaced-recall-frontend-fix-001
-  expected_change_id: fix-20260810-spaced-recall-review-findings-001
-  expected_path: frontend/
-  scope: "固定 06 只修复 artifact-spaced-recall-code-review-001 中 CR-P1-001 至 CR-P1-003、CR-P2-001 至 CR-P2-004，并补齐对应测试；不得变更已批准产品/UI语义，不进入 QA、后端、架构或部署"
+  gate: code-rereview-conclusion-review
+  artifact: artifact-spaced-recall-code-rereview-001
+  expected_change_id: rereview-20260811-spaced-recall-frontend-fix-001
+  expected_path: docs/06-code-review.md
+  scope: "固定 09 只读复审 artifact-spaced-recall-frontend-fix-001 对既有审查问题的处置、回归覆盖和明确遗留；不得代修代码，不进入 QA、后端或部署"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
-  on_approved: approve-frontend-fix-and-authorize-fixed-09-rereview
+  delivery_status: awaiting-fixed-09-entry-and-rereview
+  on_approved: follow-code-rereview-conclusion-routing-only
 completed_spaced_recall_product_assignment:
   change_id: chg-20260804-spaced-recall-loop-product-v1
   role: role-product-manager
@@ -178,7 +178,7 @@ completed_code_review_assignment:
   review_decision: approved
   stop_gate: completed
   auto_route_on_delivery: false
-active_assignment:
+completed_frontend_fix_assignment:
   change_id: fix-20260810-spaced-recall-review-findings-001
   role: role-frontend-dev
   role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
@@ -194,7 +194,7 @@ active_assignment:
   expected_output:
     artifact: artifact-spaced-recall-frontend-fix-001
     primary_path: frontend/
-  delivery_status: ready-for-review
+  delivery_status: approved
   routed_at: "2026-08-10T16:06:34+08:00"
   completed_at: "2026-08-11T17:08:50+08:00"
   output:
@@ -219,8 +219,39 @@ active_assignment:
   review_finding_disposition:
     resolved: [CR-P1-002, CR-P1-003, CR-P2-001, CR-P2-002, CR-P2-003, CR-P2-004]
     CR-P1-001: "逐项非法/缺失到期数据隔离、原始快照、CAS 持久化、可恢复路径已完成；整体 JSON/未知版本仍安全锁定且保留原值，但原始导出+二次确认重建 UI 明确遗留"
-  result: ready-for-frontend-fix-delivery-review-with-explicit-storage-rebuild-boundary
-  stop_gate: frontend-fix-delivery-review
+  source_commit: a6ae859aab648829ae65df75220c82990a690bb0
+  approval: approval-20260811-spaced-recall-frontend-fix-delivery
+  approved_at: "2026-08-11T17:16:03+08:00"
+  review_decision: approved
+  result: approved-with-explicit-storage-rebuild-boundary
+  stop_gate: completed
+  auto_route_on_delivery: false
+active_assignment:
+  change_id: rereview-20260811-spaced-recall-frontend-fix-001
+  role: role-code-reviewer
+  role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
+  role_task_title: "09 代码审查员"
+  authorization: approval-20260811-spaced-recall-code-rereview-entry
+  scheduling: routed
+  input:
+    artifact: artifact-spaced-recall-frontend-fix-001
+    path: frontend/
+    source_commit: a6ae859aab648829ae65df75220c82990a690bb0
+    original_review_artifact: artifact-spaced-recall-code-review-001
+    original_review_path: docs/06-code-review.md
+    original_review_sha256: a9fcdc86972eec74ec58d27fcbcc12365fe60fc81744dc14279a950bb9a6b9c5
+  scope: "只读复审既有 3 项 Major、4 项 Minor 的修复处置及回归证据，并核实整体 JSON/未知版本原始导出与二次确认安全重建 UI 仍是明确遗留；不得代修代码或进入 QA、后端、部署"
+  expected_output:
+    artifact: artifact-spaced-recall-code-rereview-001
+    path: docs/06-code-review.md
+  delivery_status: awaiting-role-entry
+  routed_at: "2026-08-11T17:21:51+08:00"
+  stop_gate: code-rereview-conclusion-review
+  preserved_parallel_assignment:
+    change_id: plan-20260811-english-word-backend-integration-task-breakdown-001
+    role: role-pm
+    gate: task-breakdown-review
+    status: routed-awaiting-role-announcement
   auto_route_on_delivery: false
 completed_ui_assignment:
   change_id: chg-20260804-reveal-answer-ui-prompt-v1-2
@@ -268,17 +299,17 @@ held_downstream_delivery:
   resumed_again_by: approval-20260806-spaced-recall-ui-prompt-and-direct-frontend
   resumed_for: chg-20260806-spaced-recall-frontend-implementation-v1-3
   resumed_at: "2026-08-06T14:23:53+08:00"
-implementation_gate: "超级无敌帅超超总已批准 artifact-spaced-recall-code-review-001 的 changes-requested 结论；固定 06 已获唯一下一站授权，只修复 3 项 Major、4 项 Minor 并补齐测试。修复交付后必须停在 frontend-fix-delivery-review，未经再次批准不得启动固定 09 复审，不得进入 QA、后端、架构或生产部署。"
+implementation_gate: "超级无敌帅超超总已批准 artifact-spaced-recall-frontend-fix-001，并只自动授权固定 09 对提交 a6ae859aab648829ae65df75220c82990a690bb0 进行一个复审交付单元。固定 09 必须在本人任务报到并停在 code-rereview-conclusion-review；不得自动进入 QA、后端或生产部署。固定 02 的后端/联调任务拆解为独立并行分支，不受本路由扩权。"
 latest_approved_artifact:
-  artifact: artifact-spaced-recall-frontend-001
-  path: frontend/src/pages/Word.tsx
-  version: "1.3"
-  sha256: 9bf78f892cb76e999bb8dfe3724a82eef90caf0323ef75e4bfbdfe2370bc87bf
-  source_commit: 159815d59c2efb885317bbaebfa1e1981fd8c2fa
+  artifact: artifact-spaced-recall-frontend-fix-001
+  path: frontend/
+  version: "fix-001"
+  sha256: 6de12d95dd96298061bab0468bef6786a43154fb7597abe684b0edc009d14389
+  source_commit: a6ae859aab648829ae65df75220c82990a690bb0
   status: approved
-  approval: approval-20260806-spaced-recall-frontend-delivery
+  approval: approval-20260811-spaced-recall-frontend-fix-delivery
   approved_by: 超级无敌帅超超总
-  approved_at: "2026-08-06T15:34:22+08:00"
+  approved_at: "2026-08-11T17:16:03+08:00"
 approved_product_delivery:
   artifact: artifact-spaced-recall-prd-001
   path: docs/01-prd.md
@@ -488,4 +519,4 @@ parallel_backend_task_breakdown_assignment:
   auto_route_on_delivery: false
 backend_planning_gate: "架构 v1.1 已获批；固定 02 只获准拆解 Word 后端及本地前后端联调任务。其任务拆解交付前不得启动固定 07；任务拆解交付后必须停在 task-breakdown-review。"
 state_limit: "旧版计划与任务表仍需单独对账；本状态只声明已核实的最新交付和审批门"
-updated_at: "2026-08-11T17:16:01+08:00"
+updated_at: "2026-08-11T17:21:51+08:00"

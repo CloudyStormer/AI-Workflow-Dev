@@ -336,3 +336,38 @@ approvals:
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
     evidence: "架构交付明确声明通过后的唯一下一站为固定 02，输入完整且任务拆解不属于高风险动作；固定 02 任务已按规范标题唯一核实。"
+  - id: approval-20260811-spaced-recall-frontend-fix-delivery
+    gate: frontend-fix-delivery-review
+    role: role-frontend-dev
+    role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
+    role_task_title: "06 前端工程师"
+    change_id: fix-20260810-spaced-recall-review-findings-001
+    artifact: artifact-spaced-recall-frontend-fix-001
+    source_commit: a6ae859aab648829ae65df75220c82990a690bb0
+    scope: "批准记忆曲线代码审查问题修复及其现有自动化验证；保留整体 JSON/未知版本原始导出与二次确认安全重建 UI 的明确遗留，不据此宣称 CR-P1-001 全部关闭"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-11T17:16:03+08:00"
+    source_task_id: 019fb74a-a427-7101-9941-442c34b157e3
+    evidence: "超级无敌帅超超总对固定 06 前端工程师明确展示的 artifact-spaced-recall-frontend-fix-001 回复‘通过’。"
+    effect: "已批准当前产物，并自动授权唯一下一站固定 09 代码审查员复审。本次只覆盖该站一个复审交付单元；复审员交付后停止等待审核，不代表复审结论、QA、后端或部署已获批准。固定 02 的后端/联调任务拆解是独立已授权分支，本记录不改变其范围。"
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+  - id: approval-20260811-spaced-recall-code-rereview-entry
+    gate: role-entry
+    role: role-code-reviewer
+    role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
+    role_task_title: "09 代码审查员"
+    change_id: rereview-20260811-spaced-recall-frontend-fix-001
+    scope: "只读复审提交 a6ae859aab648829ae65df75220c82990a690bb0 中 artifact-spaced-recall-frontend-fix-001 对既有审查问题的处置、回归覆盖与明确遗留；不得代修代码，不得进入 QA、后端或部署"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-11T17:16:03+08:00"
+    upstream_approval: approval-20260811-spaced-recall-frontend-fix-delivery
+    upstream_artifact: artifact-spaced-recall-frontend-fix-001
+    source_commit: a6ae859aab648829ae65df75220c82990a690bb0
+    expected_output: artifact-spaced-recall-code-rereview-001
+    stop_gate: code-rereview-conclusion-review
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+    evidence: "前端修复交付获批后，固定 09 是唯一明确、输入完整且非高风险的下一站；整体 JSON/未知版本安全重建仍须在复审结论中如实保留。"

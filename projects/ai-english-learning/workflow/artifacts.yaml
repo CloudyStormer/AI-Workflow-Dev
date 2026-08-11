@@ -567,7 +567,7 @@ artifacts:
   - id: artifact-spaced-recall-frontend-fix-001
     type: frontend-fix
     path: frontend/
-    status: ready-for-review
+    status: approved
     owner: role-frontend-dev
     change_id: fix-20260810-spaced-recall-review-findings-001
     authorization: approval-20260810-spaced-recall-frontend-fix-entry
@@ -628,6 +628,11 @@ artifacts:
       whole_json_or_unknown_version: raw-preserved-global-lock
       export_and_confirmed_rebuild_ui: not-implemented
     completed_at: "2026-08-11T17:08:50+08:00"
-    result: ready-for-frontend-fix-delivery-review-with-explicit-storage-rebuild-boundary
-    stop_gate: frontend-fix-delivery-review
+    source_commit: a6ae859aab648829ae65df75220c82990a690bb0
+    approval: approval-20260811-spaced-recall-frontend-fix-delivery
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-11T17:16:03+08:00"
+    review_decision: approved
+    result: approved-with-explicit-storage-rebuild-boundary
+    stop_gate: completed
     auto_route: false
