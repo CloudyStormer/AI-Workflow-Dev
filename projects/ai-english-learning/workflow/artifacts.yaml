@@ -692,3 +692,92 @@ artifacts:
     result: ready-for-code-rereview-conclusion-review-with-p1-residual
     stop_gate: code-rereview-conclusion-review
     auto_route: false
+  - id: artifact-english-word-backend-integration-task-breakdown-001
+    type: task-breakdown
+    path: docs/03-dev-tasks.md
+    status: ready-for-review
+    owner: role-pm
+    version: "1.1"
+    change_id: plan-20260811-english-word-backend-integration-task-breakdown-001
+    authorization: approval-20260811-english-word-backend-integration-task-breakdown-entry
+    previous:
+      version: "1.0"
+      sha256: 9286baf2dde746f57e4da7ba5f1e07ca545adebc20ffcb8ddbcfffe7bde99ff0
+    upstream:
+      artifact: artifact-english-word-local-service-architecture-001
+      path: docs/02-architecture.md
+      version: "1.1"
+      sha256: 0f80bfd20820d795904893778f68f40a2366b29d13db2766d4f3dabd190b88c6
+      approval: approval-20260811-english-word-architecture-v1-1
+    sha256: 91936ef1ae6aad8524861a6a30e332bf4b61e4a0625bfded82eab96a1dab0b0d
+    coverage:
+      express_typescript_loopback_service: true
+      sqlite_migrations_seed_and_checksums: true
+      word_api_domain_and_atomic_settlement: true
+      contract_and_real_sqlite_integration_tests: true
+      frontend_service_adapter_and_single_source_of_truth: true
+      root_local_service_supervision: true
+      final_frontend_backend_integration_and_qa: true
+    task_count: 43
+    estimated_effort_hours:
+      minimum_per_task: 1
+      maximum_per_task: 4
+      total: 161
+      by_role:
+        role-backend-dev: 93
+        role-data-engineer: 18
+        role-frontend-dev: 24
+        role-code-reviewer: 8
+        role-devops: 7
+        role-qa: 11
+    unique_first_work_item:
+      id: AEL-BE-001
+      role: role-backend-dev
+      role_task_id: 019fb74a-a6f7-7e31-826f-799d3e713642
+      role_task_title: "07 后端工程师"
+      change_id: dev-20260811-english-word-backend-foundation-001
+      status: declared-not-authorized
+      stop_gate: backend-foundation-delivery-review
+    preserved_parallel_gate:
+      artifact: artifact-spaced-recall-code-rereview-001
+      change_id: rereview-20260811-spaced-recall-frontend-fix-001
+      gate: code-rereview-conclusion-review
+      decision: pending
+      open_major:
+        - CR-P1-001
+    exclusions:
+      - business-code-written-by-role-pm
+      - automatic-start-of-any-development-or-review-role
+      - login-account-or-cross-device-sync
+      - ai-chat-model-calls-or-external-reminder-delivery
+      - automatic-localstorage-history-import-delete-or-dual-write
+      - docker-public-or-production-deployment
+    validation:
+      upstream_architecture_sha256: passed
+      task_count: 43-of-43
+      unique_task_ids: 43-of-43
+      atomic_effort_range: 1-to-4-hours
+      total_effort_hours: 161
+      required_task_fields: 43-of-43
+      dependency_order: no-cycles-or-forward-dependencies
+      unique_first_work_item: AEL-BE-001-to-fixed-07-declared-not-authorized
+      parallel_code_rereview_gate: preserved-with-cr-p1-001-open
+      interface_inventory: 2-health-plus-19-business
+      yaml: 4-of-4-valid
+      jsonl_before_validation_event: 69-of-69-valid
+      project_structure: passed-0-warnings
+      git_boundary: passed
+      skill_drift: passed
+      diff_check: passed
+      independent_review: passed-after-interface-count-correction
+    known_limits:
+      - backend-currently-has-no-runnable-package-or-service
+      - task-estimates-are-role-hours-not-calendar-commitments
+      - frontend-adapter-waits-for-independent-cr-p1-001-chain-and-backend-review
+      - root-supervisor-currently-serves-english-web-only-not-english-api
+      - no-task-or-downstream-role-authorized-by-delivery-alone
+    completed_at: "2026-08-11T17:39:40+08:00"
+    validated_at: "2026-08-11T17:43:53+08:00"
+    result: ready-for-task-breakdown-review
+    stop_gate: task-breakdown-review
+    auto_route: false
