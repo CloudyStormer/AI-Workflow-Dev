@@ -405,10 +405,10 @@ parallel_spaced_recall_storage_recovery_rereview:
     artifact: artifact-spaced-recall-storage-recovery-code-rereview-002
     path: docs/06-code-review.md
     sha256: 5a4284217860d4598f7432aa6aeb2b0cb63e846f307d53ba0516e0bbea5758c6
-  scheduling: completed-awaiting-code-rereview-conclusion-review
+  scheduling: completed-approved-and-routed-to-fixed-06
   routed_at: "2026-08-14T16:45:10+08:00"
   completed_at: "2026-08-14T16:55:46+08:00"
-  delivery_status: ready-for-review
+  delivery_status: approved
   conclusion: changes-requested
   finding_disposition:
     open_major:
@@ -431,7 +431,54 @@ parallel_spaced_recall_storage_recovery_rereview:
     reviewer_deleted_files: false
     cleanup: fixed-00-to-move-exact-files-to-trash-under-user-authorization
     rerun: prohibited-until-download-isolation-fixed-or-coordinated
-  stop_gate: code-rereview-conclusion-review
+  approval: approval-20260814-spaced-recall-storage-recovery-code-rereview-conclusion
+  approved_by: 超级无敌帅超超总
+  approved_at: "2026-08-14T17:38:50+08:00"
+  review_decision: approved
+  result: review-conclusion-approved-and-fixed-06-authorized
+  completed_gate: code-rereview-conclusion-review
+  next_gate: frontend-fix-delivery-review
+  preserved_top_level:
+    release_scope_artifact: artifact-english-release-completeness-prd-001
+    cross_project_replanning_gate: pending
+    backend_task_breakdown_gate: pending
+    production_deployment: frozen
+  auto_route_on_delivery: false
+parallel_spaced_recall_storage_safety_frontend_fix:
+  change_id: fix-20260814-spaced-recall-storage-safety-followup-003
+  role: role-frontend-dev
+  role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
+  role_task_title: "06 前端工程师"
+  authorization: approval-20260814-spaced-recall-storage-safety-frontend-fix-entry
+  upstream_approval: approval-20260814-spaced-recall-storage-recovery-code-rereview-conclusion
+  input:
+    artifact: artifact-spaced-recall-storage-recovery-code-rereview-002
+    path: docs/06-code-review.md
+    sha256: 5a4284217860d4598f7432aa6aeb2b0cb63e846f307d53ba0516e0bbea5758c6
+    review_commit: b39094edc029e25bf88dfdd27ec81436afa16138
+    reviewed_source_commit: e56f49cb8990a7d529e4aa2b311036aa08235c10
+    safe_write_base: c073cf428dec310c46830bedc198b3f6c4f05cd2
+  scope: "仅修复 CR-P1-001-R2 的跨上下文互斥/事务边界与两标签真实竞态门，以及 CR-P2-005 的浏览器下载隔离和临时目录清理；不得扩张到 QA、后端、PRD v1.4 新增实现或部署"
+  finding_scope:
+    - CR-P1-001-R2
+    - CR-P2-005
+  expected_output:
+    artifact: artifact-spaced-recall-storage-safety-frontend-fix-003
+    path: frontend/
+  required_validation:
+    cross_context_atomic_rebuild: required
+    real_two_tab_race_gate: required-zero-newer-value-overwrite
+    download_isolation: required-no-write-to-user-downloads
+    temporary_directory_cleanup: required-exact-path-only
+    existing_regression: required
+  user_downloads_boundary:
+    existing_files: 22
+    fixed_06_delete_or_move: prohibited
+    cleanup_owner: role-pm-fixed-00-under-user-authorization
+  scheduling: routed-awaiting-fixed-06-role-announcement
+  routed_at: "2026-08-14T17:38:50+08:00"
+  delivery_status: authorized
+  stop_gate: frontend-fix-delivery-review
   preserved_top_level:
     release_scope_artifact: artifact-english-release-completeness-prd-001
     cross_project_replanning_gate: pending
@@ -484,7 +531,7 @@ held_downstream_delivery:
   resumed_again_by: approval-20260806-spaced-recall-ui-prompt-and-direct-frontend
   resumed_for: chg-20260806-spaced-recall-frontend-implementation-v1-3
   resumed_at: "2026-08-06T14:23:53+08:00"
-implementation_gate: "artifact-spaced-recall-storage-recovery-code-rereview-002 已由固定 09 完成并请求继续修改：CR-P1-001-R2 非原子跨标签重建保持 Major 打开，CR-P2-005 下载型测试隔离为 Minor。当前停在 code-rereview-conclusion-review，未获结论审核不得进入 QA；不得自动进入后端、PRD v1.4 新增实现或生产部署。"
+implementation_gate: "artifact-spaced-recall-storage-recovery-code-rereview-002 的 changes-requested 结论已获超级无敌帅超超总通过，并按一跳规则只授权固定 06 执行 fix-20260814-spaced-recall-storage-safety-followup-003：修复 CR-P1-001-R2 与 CR-P2-005。修复交付必须停在 frontend-fix-delivery-review；P1 复审关闭前继续阻断 QA，不得自动进入后端、PRD v1.4 新增实现或生产部署。"
 latest_approved_artifact:
   artifact: artifact-spaced-recall-frontend-fix-001
   path: frontend/

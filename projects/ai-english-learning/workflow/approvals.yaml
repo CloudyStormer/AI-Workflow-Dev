@@ -452,3 +452,61 @@ approvals:
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
     evidence: "前端修复交付获批后，固定 09 是唯一明确、输入完整且非高风险的下一站；本次通过最多自动前进到该复审单元。"
+  - id: approval-20260814-spaced-recall-storage-recovery-code-rereview-conclusion
+    gate: code-rereview-conclusion-review
+    role: role-code-reviewer
+    role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
+    role_task_title: "09 代码审查员"
+    change_id: rereview-20260814-spaced-recall-storage-recovery-fix-002
+    artifact: artifact-spaced-recall-storage-recovery-code-rereview-002
+    path: docs/06-code-review.md
+    sha256: 5a4284217860d4598f7432aa6aeb2b0cb63e846f307d53ba0516e0bbea5758c6
+    source_commit: b39094edc029e25bf88dfdd27ec81436afa16138
+    conclusion: changes-requested
+    finding_scope:
+      major:
+        - CR-P1-001-R2
+      minor:
+        - CR-P2-005
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-14T17:38:50+08:00"
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    user_reply: "两个都通过"
+    evidence: "固定 00 明确并列 artifact-spaced-recall-storage-recovery-code-rereview-002 与另一个待审产物后，超级无敌帅超超总回复‘两个都通过’；随后在固定 09 对安全继续条件说明后再次回复‘通过’。"
+    effect: "已批准当前复审结论，并自动授权唯一下一站固定 06 前端工程师只修复 CR-P1-001-R2 与 CR-P2-005。本次只覆盖该站一个修复交付单元；固定 06 交付后停止等待审核，不代表修复产物、QA、后端、PRD v1.4 新增实现或部署已获批准。"
+    next_change_id: fix-20260814-spaced-recall-storage-safety-followup-003
+    next_gate: frontend-fix-delivery-review
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+  - id: approval-20260814-spaced-recall-storage-safety-frontend-fix-entry
+    gate: role-entry
+    role: role-frontend-dev
+    role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
+    role_task_title: "06 前端工程师"
+    change_id: fix-20260814-spaced-recall-storage-safety-followup-003
+    scope: "仅修复 CR-P1-001-R2 的跨上下文原子重建竞态与 CR-P2-005 的浏览器下载隔离；补两标签真实竞态门并确保测试只使用可精确清理的临时目录。不得删除用户 Downloads 中既有 22 个文件，不得进入 QA、后端、PRD v1.4 新增实现或部署。"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-14T17:38:50+08:00"
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    upstream_approval: approval-20260814-spaced-recall-storage-recovery-code-rereview-conclusion
+    upstream_artifact: artifact-spaced-recall-storage-recovery-code-rereview-002
+    input_path: docs/06-code-review.md
+    input_sha256: 5a4284217860d4598f7432aa6aeb2b0cb63e846f307d53ba0516e0bbea5758c6
+    reviewed_source_commit: e56f49cb8990a7d529e4aa2b311036aa08235c10
+    review_commit: b39094edc029e25bf88dfdd27ec81436afa16138
+    safe_write_base: c073cf428dec310c46830bedc198b3f6c4f05cd2
+    expected_output: artifact-spaced-recall-storage-safety-frontend-fix-003
+    expected_path: frontend/
+    required_validation:
+      - real-two-tab-race-gate-with-zero-newer-value-overwrite
+      - true-cross-context-lock-or-transaction-boundary
+      - isolated-download-gate-with-no-write-to-user-downloads
+      - exact-temporary-directory-cleanup
+      - existing-lint-build-domain-cloze-and-browser-regression
+    user_downloads_boundary: "既有 22 个 ai-english-learning-recall-*.json 由固定 00 按用户授权最终精确移入废纸篓；固定 06 不得读取为业务输入、删除或移动。"
+    stop_gate: frontend-fix-delivery-review
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+    evidence: "复审结论含一个 P1，唯一责任角色为固定 06 前端工程师；超级无敌帅超超总正式通过复审结论后按一跳规则授权该精确修复单元。"
