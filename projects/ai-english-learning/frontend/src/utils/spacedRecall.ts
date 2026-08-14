@@ -237,7 +237,21 @@ export type LoadResult =
       /** Stored revision to use for the one-time CAS write of an isolated state. */
       normalizedFromRevision?: number;
     }
-  | { status: "storage-error"; reason: "corrupt" | "unsupported-version"; rawPreserved: true };
+  | {
+      status: "storage-error";
+      reason: "corrupt" | "unsupported-version";
+      rawPreserved: true;
+      /** Exact load-time bytes used for user backup and compare-before-rebuild. */
+      rawSnapshot: string;
+    };
+
+export type StorageRebuildResult =
+  | "rebuilt"
+  | "backup-required"
+  | "confirmation-required"
+  | "source-changed"
+  | "invalid-state"
+  | "storage-error";
 
 const REVIEW_STAGE_INTERVALS: Record<Exclude<ReviewStage, "S0" | "S4">, number> = {
   S1: 2,
@@ -373,6 +387,9 @@ function emptyItem(itemId: string, targetAnswer: string, meaning: string): Recal
 }
 
 function snapshotItem(item: RecallItemState): RestorableItemState {
+  if (item.status === "paused" && item.pause) {
+    return structuredClone(item.pause.previous);
+  }
   return {
     status:
       item.status === "paused" || item.status === "data-exception" ? "ordinary" : item.status,
@@ -1123,13 +1140,17 @@ export function markDataException(
   if (current.eventsByEffectKey[effectKey]) return duplicate(current, existing);
   const state = cloneState(current);
   const item = state.items[input.itemId];
+  const originalSnapshot = item.status === "paused"
+    ? structuredClone(item) as unknown as Record<string, unknown>
+    : item.dataException?.originalSnapshot;
   item.dataException = {
     code: input.code,
     detail: input.detail,
     previous: item.status === "data-exception" ? item.dataException?.previous : snapshotItem(item),
-    originalSnapshot: item.dataException?.originalSnapshot,
+    originalSnapshot,
   };
   item.status = "data-exception";
+  delete item.pause;
   appendEvent(state, {
     effectKey,
     itemId: item.itemId,
@@ -1156,9 +1177,23 @@ export function recoverDataException(
   const exception = item.dataException;
   const previous = structuredClone(exception?.previous as RestorableItemState);
   const day = studyDayAt(now, state.learningTimeZone);
-  if (exception?.code === "invalid-due") {
-    if (previous.status === "weak") previous.dueDay = day;
-    if (previous.status === "mastered") previous.maintenanceDueDay = day;
+  const maintenanceCompleted = hasCurrentCycleMaintenanceCompletion(
+    state,
+    itemId,
+    previous.masteredDay,
+  );
+  // A record can become a data exception for content reasons before a legacy
+  // scheduling defect is discovered. Never restore an active item without a
+  // usable due date, regardless of the exception code that exposed it.
+  if (previous.status === "weak" && !isStudyDayValue(previous.dueDay)) {
+    previous.dueDay = day;
+  }
+  if (
+    previous.status === "mastered" &&
+    !isStudyDayValue(previous.maintenanceDueDay) &&
+    !maintenanceCompleted
+  ) {
+    previous.maintenanceDueDay = day;
   }
   Object.assign(item, previous);
   item.sameDayPlan = null;
@@ -1167,6 +1202,7 @@ export function recoverDataException(
   if (item.queueTailAfterByDay) {
     delete item.queueTailAfterByDay[day];
   }
+  delete item.pause;
   delete item.dataException;
   appendEvent(state, {
     effectKey: `data-recovered:${itemId}:${now}`,
@@ -1488,6 +1524,16 @@ function isItemStatusValue(value: unknown): value is ItemStatus {
   );
 }
 
+function isDataExceptionCodeValue(value: unknown): value is DataExceptionCode {
+  return (
+    value === "missing-item-id" ||
+    value === "missing-answer" ||
+    value === "missing-meaning" ||
+    value === "missing-content" ||
+    value === "invalid-due"
+  );
+}
+
 function isAttemptOutcomeValue(value: unknown): value is AttemptOutcome {
   return (
     value === "clean-independent-correct" ||
@@ -1594,11 +1640,7 @@ function isRecallItemValue(value: unknown, key: string): value is RecallItemStat
   if (value.dataException !== undefined) {
     if (
       !isRecord(value.dataException) ||
-      !(value.dataException.code === "missing-item-id" ||
-        value.dataException.code === "missing-answer" ||
-        value.dataException.code === "missing-meaning" ||
-        value.dataException.code === "missing-content" ||
-        value.dataException.code === "invalid-due") ||
+      !isDataExceptionCodeValue(value.dataException.code) ||
       typeof value.dataException.detail !== "string" ||
       !(value.dataException.previous === undefined || isRestorableItemStateValue(value.dataException.previous)) ||
       !(value.dataException.originalSnapshot === undefined || isRecord(value.dataException.originalSnapshot))
@@ -1724,20 +1766,50 @@ function isSpacedRecallState(value: unknown): value is SpacedRecallState {
     Object.entries(value.items).every(([key, item]) => isRecallItemValue(item, key));
 }
 
+function hasCurrentCycleMaintenanceCompletion(
+  state: SpacedRecallState,
+  itemId: string,
+  currentMasteredDay: unknown,
+): boolean {
+  if (!isStudyDayValue(currentMasteredDay)) return false;
+  return Object.values(state.attempts).some((attempt) => {
+    const settledEvent = state.eventsByEffectKey[`${attempt.attemptId}:attempt-settled`];
+    return (
+      attempt.itemId === itemId &&
+      attempt.context === "maintenance" &&
+      attempt.outcome === "clean-independent-correct" &&
+      typeof attempt.settledAt === "string" &&
+      attempt.studyDay > currentMasteredDay &&
+      settledEvent?.type === "attempt-settled" &&
+      settledEvent?.itemId === itemId &&
+      settledEvent.attemptId === attempt.attemptId &&
+      settledEvent.studyDay === attempt.studyDay &&
+      settledEvent.learningTimeZone === attempt.learningTimeZone &&
+      settledEvent.occurredAt === attempt.settledAt &&
+      settledEvent.metadata.context === "maintenance" &&
+      settledEvent.metadata.outcome === "clean-independent-correct"
+    );
+  });
+}
+
 function invalidRestorableDueDetail(
   value: unknown,
   maintenanceCompleted: boolean,
 ): string | null {
   if (!isRecord(value)) return null;
-  if (value.status === "weak" && value.dueDay === null) {
-    return "薄弱学习项缺少下一到期时间，原始记录已隔离";
+  if (value.status === "weak" && !isStudyDayValue(value.dueDay)) {
+    return value.dueDay === null || value.dueDay === undefined
+      ? "薄弱学习项缺少下一到期时间，原始记录已隔离"
+      : "薄弱学习项的下一到期时间无法解析，原始记录已隔离";
   }
   if (
     value.status === "mastered" &&
-    value.maintenanceDueDay === null &&
-    !maintenanceCompleted
+    !isStudyDayValue(value.maintenanceDueDay)
   ) {
-    return "已掌握学习项缺少维护到期时间，原始记录已隔离";
+    if (maintenanceCompleted && value.maintenanceDueDay === null) return null;
+    return value.maintenanceDueDay === null || value.maintenanceDueDay === undefined
+      ? "已掌握学习项缺少维护到期时间，原始记录已隔离"
+      : "已掌握学习项的维护到期时间无法解析，原始记录已隔离";
   }
   return null;
 }
@@ -1768,6 +1840,17 @@ function invalidActiveDueDetail(
   ) {
     return "维护复习时间早于掌握记录，原始记录已隔离";
   }
+  if (value.status === "paused") {
+    if (!isRecord(value.pause)) {
+      return "暂停记录缺少可验证的暂停状态，原始记录已隔离";
+    }
+    if (!isStudyDayValue(value.pause.resumeDay)) {
+      return "暂停恢复时间无法解析，原始记录已隔离";
+    }
+    if (!isRecord(value.pause.previous)) {
+      return "暂停记录缺少可验证的暂停前状态，原始记录已隔离";
+    }
+  }
   const activeDetail = invalidRestorableDueDetail(value, maintenanceCompleted);
   if (activeDetail) return activeDetail;
   if (value.status === "paused" && isRecord(value.pause)) {
@@ -1776,6 +1859,23 @@ function invalidActiveDueDetail(
       maintenanceCompleted,
     );
     if (pausedDetail) return `暂停前状态异常：${pausedDetail}`;
+    if (!isRestorableItemStateValue(value.pause.previous)) {
+      return "暂停前状态结构损坏，原始记录已隔离";
+    }
+  }
+  if (
+    value.status === "data-exception" &&
+    isRecord(value.dataException) &&
+    value.dataException.previous !== undefined
+  ) {
+    const previousDetail = invalidRestorableDueDetail(
+      value.dataException.previous,
+      maintenanceCompleted,
+    );
+    if (previousDetail) return `异常前状态异常：${previousDetail}`;
+    if (!isRestorableItemStateValue(value.dataException.previous)) {
+      return "异常前状态结构损坏，原始记录已隔离";
+    }
   }
   return null;
 }
@@ -1791,37 +1891,76 @@ function isolateInvalidDueItem(
   const normalized = structuredClone(value);
   normalized.dueDay = null;
   normalized.maintenanceDueDay = null;
+  if (normalized.status === "paused" && isRecord(normalized.pause) && isRecord(normalized.pause.previous)) {
+    // Only normalize the nested scheduling fields needed to validate and
+    // preserve a safe pre-pause recovery candidate. Other corruption must
+    // continue to trigger the global raw-preserving boundary.
+    normalized.pause.previous.dueDay = null;
+    normalized.pause.previous.maintenanceDueDay = null;
+    normalized.pause.resumeDay = recoveryDay;
+  }
 
-  // Only the due fields may be repaired here. Any unrelated malformed field
-  // must continue to use the global raw-preserving recovery boundary.
-  if (!isRecallItemValue(normalized, key)) return null;
   if (normalized.status === "data-exception") {
     const existingException = normalized.dataException;
-    if (!existingException) return null;
+    if (
+      !isRecord(existingException) ||
+      !isDataExceptionCodeValue(existingException.code) ||
+      typeof existingException.detail !== "string" ||
+      !(existingException.originalSnapshot === undefined || isRecord(existingException.originalSnapshot))
+    ) {
+      return null;
+    }
+    let previous: RestorableItemState | undefined;
+    if (isRecord(existingException.previous)) {
+      const normalizedPrevious = structuredClone(existingException.previous);
+      normalizedPrevious.dueDay = normalizedPrevious.status === "weak" ? recoveryDay : null;
+      normalizedPrevious.maintenanceDueDay = normalizedPrevious.status === "mastered" ? recoveryDay : null;
+      normalizedPrevious.sameDayPlan = null;
+      if (isRestorableItemStateValue(normalizedPrevious)) previous = normalizedPrevious;
+    }
     normalized.dataException = {
       code: existingException.code,
       detail: existingException.detail,
-      previous: existingException.previous,
+      previous,
       originalSnapshot: existingException.originalSnapshot ?? originalSnapshot,
     };
     return isRecallItemValue(normalized, key) ? normalized : null;
   }
 
-  const previous: RestorableItemState | undefined =
+  // Only the due fields may be repaired here. Any unrelated malformed field
+  // must continue to use the raw-preserving item-level or global boundary.
+  if (!isRecallItemValue(normalized, key)) return null;
+
+  let recoverySource: RestorableItemState;
+  if (normalized.status === "paused") {
+    if (!normalized.pause) return null;
+    recoverySource = normalized.pause.previous;
+  } else if (
     normalized.status === "ordinary" ||
     normalized.status === "weak" ||
     normalized.status === "mastered"
-      ? {
-          status: normalized.status,
-          stage: normalized.stage,
-          dueDay: normalized.status === "weak" ? recoveryDay : null,
-          masteredDay: normalized.masteredDay,
-          maintenanceDueDay: normalized.status === "mastered" ? recoveryDay : null,
-          // Recovery creates one current cross-day task. Pending same-day work
-          // remains audit evidence in originalSnapshot and is never replayed.
-          sameDayPlan: null,
-        }
-      : undefined;
+  ) {
+    recoverySource = {
+      status: normalized.status,
+      stage: normalized.stage,
+      dueDay: normalized.dueDay,
+      masteredDay: normalized.masteredDay,
+      maintenanceDueDay: normalized.maintenanceDueDay,
+      sameDayPlan: normalized.sameDayPlan,
+    };
+  } else {
+    return null;
+  }
+  const previous: RestorableItemState = {
+    status: recoverySource.status,
+    stage: recoverySource.stage,
+    dueDay: recoverySource.status === "weak" ? recoveryDay : null,
+    masteredDay: recoverySource.masteredDay,
+    maintenanceDueDay: recoverySource.status === "mastered" ? recoveryDay : null,
+    // Recovery creates one current cross-day task. Pending same-day work and
+    // the damaged pause wrapper remain evidence in originalSnapshot only.
+    sameDayPlan: null,
+  };
   normalized.status = "data-exception";
   normalized.sameDayPlan = null;
   normalized.suppressedUntilDay = null;
@@ -1831,6 +1970,80 @@ function isolateInvalidDueItem(
     detail,
     previous,
     originalSnapshot,
+  };
+  return isRecallItemValue(normalized, key) ? normalized : null;
+}
+
+function isolateMalformedPausedItem(
+  value: unknown,
+  key: string,
+  detail: string,
+): RecallItemState | null {
+  if (!isRecord(value) || value.status !== "paused" || value.dataException !== undefined) {
+    return null;
+  }
+  const originalSnapshot = structuredClone(value);
+  const normalized = structuredClone(value);
+  normalized.status = "data-exception";
+  normalized.dueDay = null;
+  normalized.maintenanceDueDay = null;
+  normalized.sameDayPlan = null;
+  normalized.suppressedUntilDay = null;
+  delete normalized.pause;
+  normalized.dataException = {
+    code: "invalid-due",
+    detail: `${detail}；缺少安全恢复依据，原始快照继续保留`,
+    originalSnapshot,
+  };
+  return isRecallItemValue(normalized, key) ? normalized : null;
+}
+
+function normalizeLegacyPausedDataException(
+  value: unknown,
+  key: string,
+  recoveryDay: StudyDay,
+): RecallItemState | null {
+  if (
+    !isRecord(value) ||
+    value.status !== "data-exception" ||
+    !isRecord(value.pause) ||
+    !isRecord(value.pause.previous)
+  ) {
+    return null;
+  }
+  const originalSnapshot = structuredClone(value);
+  const normalized = structuredClone(value);
+  normalized.dueDay = null;
+  normalized.maintenanceDueDay = null;
+  if (!isRecord(normalized.pause) || !isRecord(normalized.pause.previous)) return null;
+  normalized.pause.previous.dueDay = null;
+  normalized.pause.previous.maintenanceDueDay = null;
+  const pausePrevious = normalized.pause.previous;
+  delete normalized.pause;
+  if (!isRestorableItemStateValue(pausePrevious)) {
+    return null;
+  }
+  const existingException = normalized.dataException;
+  if (
+    !isRecord(existingException) ||
+    !isDataExceptionCodeValue(existingException.code) ||
+    typeof existingException.detail !== "string" ||
+    !(existingException.originalSnapshot === undefined || isRecord(existingException.originalSnapshot))
+  ) {
+    return null;
+  }
+  normalized.dataException = {
+    code: existingException.code,
+    detail: existingException.detail,
+    previous: {
+      status: pausePrevious.status,
+      stage: pausePrevious.stage,
+      dueDay: pausePrevious.status === "weak" ? recoveryDay : null,
+      masteredDay: pausePrevious.masteredDay,
+      maintenanceDueDay: pausePrevious.status === "mastered" ? recoveryDay : null,
+      sameDayPlan: null,
+    },
+    originalSnapshot: existingException.originalSnapshot ?? originalSnapshot,
   };
   return isRecallItemValue(normalized, key) ? normalized : null;
 }
@@ -1846,10 +2059,15 @@ export function loadSpacedRecallState(
   try {
     const parsed = JSON.parse(raw) as { storageVersion?: number };
     if (parsed.storageVersion !== SPACED_RECALL_STORAGE_VERSION) {
-      return { status: "storage-error", reason: "unsupported-version", rawPreserved: true };
+      return {
+        status: "storage-error",
+        reason: "unsupported-version",
+        rawPreserved: true,
+        rawSnapshot: raw,
+      };
     }
     if (!isSpacedRecallStateEnvelope(parsed)) {
-      return { status: "storage-error", reason: "corrupt", rawPreserved: true };
+      return { status: "storage-error", reason: "corrupt", rawPreserved: true, rawSnapshot: raw };
     }
     const state = parsed as SpacedRecallState;
     const storedRevision = state.revision;
@@ -1857,11 +2075,14 @@ export function loadSpacedRecallState(
     const isolatedItemIds: string[] = [];
     const normalizedItems: Record<string, RecallItemState> = {};
     for (const [itemId, item] of Object.entries(state.items)) {
-      const maintenanceCompleted = Object.values(state.attempts).some((attempt) => (
-        attempt.itemId === itemId &&
-        attempt.context === "maintenance" &&
-        attempt.outcome === "clean-independent-correct"
-      ));
+      const currentMasteredDay = item.status === "paused"
+        ? item.pause?.previous.masteredDay
+        : item.masteredDay;
+      const maintenanceCompleted = hasCurrentCycleMaintenanceCompletion(
+        state,
+        itemId,
+        currentMasteredDay,
+      );
       const dueAnomaly = invalidActiveDueDetail(item, maintenanceCompleted);
       if (!dueAnomaly && isRecallItemValue(item, itemId)) {
         normalizedItems[itemId] = item;
@@ -1869,9 +2090,11 @@ export function loadSpacedRecallState(
       }
       const isolated = dueAnomaly
         ? isolateInvalidDueItem(item, itemId, recoveryDay, dueAnomaly)
-        : null;
+          ?? isolateMalformedPausedItem(item, itemId, dueAnomaly)
+          ?? normalizeLegacyPausedDataException(item, itemId, recoveryDay)
+        : normalizeLegacyPausedDataException(item, itemId, recoveryDay);
       if (!isolated) {
-        return { status: "storage-error", reason: "corrupt", rawPreserved: true };
+        return { status: "storage-error", reason: "corrupt", rawPreserved: true, rawSnapshot: raw };
       }
       normalizedItems[itemId] = isolated;
       isolatedItemIds.push(itemId);
@@ -1880,13 +2103,13 @@ export function loadSpacedRecallState(
     for (const itemId of isolatedItemIds) {
       const exception = state.items[itemId].dataException;
       appendEvent(state, {
-        effectKey: `load-isolated:${itemId}:invalid-due`,
+        effectKey: `load-isolated:${itemId}:${exception?.code ?? "invalid-due"}`,
         itemId,
         type: "data-exception",
         occurredAt: now,
         studyDay: recoveryDay,
         metadata: {
-          code: "invalid-due",
+          code: exception?.code ?? "invalid-due",
           detail: exception?.detail,
           originalSnapshotPreserved: true,
           recoveryAvailable: Boolean(exception?.previous),
@@ -1895,7 +2118,7 @@ export function loadSpacedRecallState(
     }
     if (isolatedItemIds.length > 0) state.revision += 1;
     if (!isSpacedRecallState(state)) {
-      return { status: "storage-error", reason: "corrupt", rawPreserved: true };
+      return { status: "storage-error", reason: "corrupt", rawPreserved: true, rawSnapshot: raw };
     }
     return isolatedItemIds.length > 0
       ? {
@@ -1906,7 +2129,34 @@ export function loadSpacedRecallState(
         }
       : { status: "loaded", state };
   } catch {
-    return { status: "storage-error", reason: "corrupt", rawPreserved: true };
+    return { status: "storage-error", reason: "corrupt", rawPreserved: true, rawSnapshot: raw };
+  }
+}
+
+/**
+ * Replace a globally unreadable record only after the exact load-time bytes
+ * were exported and the user explicitly confirmed the destructive rebuild.
+ * The compare step prevents an older tab from overwriting a newer value.
+ */
+export function rebuildSpacedRecallStorage(
+  storage: StorageLike,
+  state: SpacedRecallState,
+  input: {
+    expectedRaw: string;
+    backupExported: boolean;
+    confirmed: boolean;
+  },
+  key = SPACED_RECALL_STORAGE_KEY,
+): StorageRebuildResult {
+  if (!input.backupExported) return "backup-required";
+  if (!input.confirmed) return "confirmation-required";
+  if (!isSpacedRecallState(state)) return "invalid-state";
+  try {
+    if (storage.getItem(key) !== input.expectedRaw) return "source-changed";
+    storage.setItem(key, JSON.stringify(state));
+    return "rebuilt";
+  } catch {
+    return "storage-error";
   }
 }
 

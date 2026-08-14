@@ -2,10 +2,11 @@ import assert from "node:assert/strict";
 import { Buffer } from "node:buffer";
 import { spawn } from "node:child_process";
 import { constants } from "node:fs";
-import { access, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { access, mkdtemp, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { createServer } from "node:net";
 import { tmpdir } from "node:os";
-import { delimiter, join } from "node:path";
+import { join, posix, win32 } from "node:path";
+import { fileURLToPath } from "node:url";
 import ts from "typescript";
 
 const STORAGE_KEY = "ai-english-learning:spaced-recall:v1";
@@ -14,35 +15,30 @@ const CLOZE_SESSION_KEY = "ai-english-learning:cloze-session:v1";
 async function isExecutable(path) {
   try {
     await access(path, constants.X_OK);
-    return true;
+    return (await stat(path)).isFile();
   } catch {
     return false;
   }
 }
 
-async function resolveChromePath() {
-  const override = process.env.CHROME_PATH?.trim();
-  if (override) {
-    if (await isExecutable(override)) return override;
-    throw new Error(`CHROME_PATH 指向的文件不可执行：${override}`);
-  }
-
+function getChromeCandidates(platform, environment = {}, pathValue = "") {
+  const pathApi = platform === "win32" ? win32 : posix;
   const candidates = [];
-  if (process.platform === "darwin") {
+  if (platform === "darwin") {
     candidates.push(
       "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
       "/Applications/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing",
       "/Applications/Chromium.app/Contents/MacOS/Chromium",
     );
-  } else if (process.platform === "win32") {
+  } else if (platform === "win32") {
     for (const base of [
-      process.env.PROGRAMFILES,
-      process.env["PROGRAMFILES(X86)"],
-      process.env.LOCALAPPDATA,
+      environment.PROGRAMFILES,
+      environment["PROGRAMFILES(X86)"],
+      environment.LOCALAPPDATA,
     ].filter(Boolean)) {
       candidates.push(
-        join(base, "Google", "Chrome", "Application", "chrome.exe"),
-        join(base, "Chromium", "Application", "chrome.exe"),
+        pathApi.join(base, "Google", "Chrome", "Application", "chrome.exe"),
+        pathApi.join(base, "Chromium", "Application", "chrome.exe"),
       );
     }
   } else {
@@ -55,18 +51,68 @@ async function resolveChromePath() {
     );
   }
 
-  const executableNames = process.platform === "win32"
+  const executableNames = platform === "win32"
     ? ["chrome.exe", "chromium.exe"]
     : ["google-chrome", "google-chrome-stable", "chromium", "chromium-browser"];
-  for (const directory of (process.env.PATH ?? "").split(delimiter).filter(Boolean)) {
-    for (const name of executableNames) candidates.push(join(directory, name));
+  for (const directory of pathValue.split(pathApi.delimiter).filter(Boolean)) {
+    for (const name of executableNames) candidates.push(pathApi.join(directory, name));
   }
 
-  for (const candidate of [...new Set(candidates)]) {
-    if (await isExecutable(candidate)) return candidate;
+  return [...new Set(candidates)];
+}
+
+async function verifyChromeCandidateSelection() {
+  assert.ok(getChromeCandidates("darwin").includes(
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+  ));
+  const windowsCandidates = getChromeCandidates(
+    "win32",
+    { PROGRAMFILES: "C:\\Program Files" },
+    "C:\\tools;D:\\browser",
+  );
+  assert.ok(windowsCandidates.includes("C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"));
+  assert.ok(windowsCandidates.includes("D:\\browser\\chrome.exe"));
+  assert.ok(getChromeCandidates("linux").includes("/usr/bin/google-chrome"));
+
+  assert.equal(await resolveChromePath({
+    platform: "linux",
+    environment: { CHROME_PATH: "/custom/chrome", PATH: "/usr/bin" },
+    executableCheck: async (candidate) => candidate === "/custom/chrome",
+  }), "/custom/chrome");
+  await assert.rejects(
+    resolveChromePath({
+      platform: "linux",
+      environment: { CHROME_PATH: "/invalid/chrome" },
+      executableCheck: async () => false,
+    }),
+    /CHROME_PATH 指向的文件不可执行/,
+  );
+  await assert.rejects(
+    resolveChromePath({
+      platform: "linux",
+      environment: { PATH: "" },
+      executableCheck: async () => false,
+    }),
+    /找不到可执行的 Chrome\/Chromium（平台：linux）/,
+  );
+}
+
+async function resolveChromePath({
+  platform = process.platform,
+  environment = process.env,
+  executableCheck = isExecutable,
+} = {}) {
+  const override = environment.CHROME_PATH?.trim();
+  if (override) {
+    if (await executableCheck(override)) return override;
+    throw new Error(`CHROME_PATH 指向的文件不可执行：${override}`);
+  }
+
+  for (const candidate of getChromeCandidates(platform, environment, environment.PATH ?? "")) {
+    if (await executableCheck(candidate)) return candidate;
   }
   throw new Error(
-    `找不到可执行的 Chrome/Chromium（平台：${process.platform}）。` +
+    `找不到可执行的 Chrome/Chromium（平台：${platform}）。` +
     "请安装浏览器或设置 CHROME_PATH 为浏览器可执行文件的绝对路径。",
   );
 }
@@ -223,6 +269,11 @@ async function createFixture() {
       yesterdayAtNoon,
     ));
   }
+  state = stateOf(domain.markDataException(state, {
+    itemId: "lexeme-ephemeral-adjective-transient",
+    code: "missing-content",
+    detail: "旧版本题库中曾暂时缺少这条内容；当前规范题库已重新提供",
+  }, yesterdayAtNoon));
   state = stateOf(domain.updateReminderSettings(state, {
     enabled: true,
     paused: false,
@@ -231,13 +282,18 @@ async function createFixture() {
     quietEnd: "08:00",
   }));
   const rawState = structuredClone(state);
-  rawState.items["lexeme-ephemeral-adjective-transient"].dueDay = "not-a-date";
   rawState.items["orphan-due"].dueDay = "not-a-date";
   return JSON.stringify(rawState);
 }
 
 async function run() {
-  assert.equal(typeof WebSocket, "function", "Node 24 WebSocket is required");
+  const [nodeMajor, nodeMinor] = process.versions.node.split(".").map(Number);
+  assert.ok(
+    nodeMajor > 22 || (nodeMajor === 22 && nodeMinor >= 12),
+    `浏览器门禁需要 Node >=22.12，当前为 ${process.versions.node}`,
+  );
+  assert.equal(typeof WebSocket, "function", "当前 Node 运行时缺少内置 WebSocket");
+  await verifyChromeCandidateSelection();
   const chromePath = await resolveChromePath();
   const vitePort = await getFreePort();
   const debugPort = await getFreePort();
@@ -252,7 +308,7 @@ async function run() {
   try {
     const vitePath = new URL("../node_modules/vite/bin/vite.js", import.meta.url);
     viteProcess = spawn(process.execPath, [
-      vitePath.pathname,
+      fileURLToPath(vitePath),
       "--host",
       "127.0.0.1",
       "--port",
@@ -328,6 +384,22 @@ async function run() {
           sessionStorage.setItem("__recall_cdp_seeded__", "1");
         }
       } catch {}
+      const createObjectUrl = URL.createObjectURL.bind(URL);
+      URL.createObjectURL = (value) => {
+        if (value instanceof Blob) {
+          globalThis.__recallBackupText = null;
+          value.text().then((text) => { globalThis.__recallBackupText = text; });
+        }
+        return createObjectUrl(value);
+      };
+      const clickAnchor = HTMLAnchorElement.prototype.click;
+      HTMLAnchorElement.prototype.click = function click() {
+        globalThis.__recallBackupDownload = {
+          download: this.download,
+          href: this.href,
+        };
+        return clickAnchor.call(this);
+      };
       class TestNotification {
         static permission = "denied";
         static requestPermission = async () => "denied";
@@ -419,7 +491,7 @@ async function run() {
       "Word page did not render",
     );
     assert.equal(await evaluate("document.documentElement.lang"), "zh-CN");
-    assert.equal(await evaluate("document.body.innerText.includes('2 条记录需要恢复')"), true);
+    assert.equal(await evaluate("document.body.innerText.includes('2 条记录异常')"), true);
 
     await clickButton("查看队列");
     await waitForDom(`Boolean(document.querySelector('[role="dialog"]'))`, "Recall dialog did not open");
@@ -430,7 +502,7 @@ async function run() {
     assert.equal(await evaluate("document.querySelectorAll('.recall-queue-group--exception .recall-queue-item').length"), 2);
     assert.equal(await clickItemAction("orphan", "恢复这条记录"), false);
     assert.equal(
-      await evaluate("document.body.innerText.includes('当前题库中找不到对应学习内容，因此不能恢复或开始作答')"),
+      await evaluate("document.body.innerText.includes('请等待同一学习项的完整题库内容恢复，在此之前不能恢复或开始作答')"),
       true,
     );
 
@@ -559,8 +631,191 @@ async function run() {
       await writeFile(evidencePath, Buffer.from(screenshot.data, "base64"));
     }
 
+    if (await evaluate("Boolean(document.querySelector('.recall-center-dialog'))")) {
+      await clickButton("关闭");
+      await waitForDom(`!document.querySelector('.recall-center-dialog')`, "Recall dialog did not close before storage recovery test");
+    }
+    await send("Emulation.setDeviceMetricsOverride", {
+      width: 1440,
+      height: 1000,
+      deviceScaleFactor: 1,
+      mobile: false,
+    });
+
+    const futureRaw = JSON.stringify({
+      storageVersion: 99,
+      revision: 7,
+      sentinel: "未来版本 ✓\n逐字保留",
+    });
+    await evaluate(`(() => {
+      localStorage.setItem(${JSON.stringify(STORAGE_KEY)}, ${JSON.stringify(futureRaw)});
+      sessionStorage.removeItem(${JSON.stringify(CLOZE_SESSION_KEY)});
+    })()`);
+    await send("Page.reload", { ignoreCache: true });
+    await waitForDom(
+      `document.readyState === "complete" && document.body.innerText.includes("当前版本无法识别") &&
+        Array.from(document.querySelectorAll("button")).some((entry) => entry.textContent.trim() === "先导出原始备份")`,
+      "Unknown-version recovery controls did not render",
+    );
+    assert.equal(await evaluate("document.body.innerText.includes('复习统计暂不可读')"), true);
+    assert.equal(await evaluate("document.querySelector('.recall-center-summary__metrics')"), null);
+    assert.equal(await evaluate(`Array.from(document.querySelectorAll("button"))
+      .find((entry) => entry.textContent.trim() === "队列暂不可读")?.disabled`), true);
+    assert.equal(await evaluate(`localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`), futureRaw);
+    assert.equal(await evaluate(`Array.from(document.querySelectorAll("button"))
+      .find((entry) => entry.textContent.trim() === "重建本地复习记录")?.disabled`), true);
+
+    await clickButton("先导出原始备份");
+    await waitForDom(
+      `globalThis.__recallBackupText === ${JSON.stringify(futureRaw)}`,
+      "Exported backup bytes did not match the unknown-version snapshot",
+    );
+    assert.equal(await evaluate(`globalThis.__recallBackupDownload?.download.startsWith(
+      "ai-english-learning-recall-backup-"
+    ) && globalThis.__recallBackupDownload.download.endsWith(".json") &&
+      globalThis.__recallBackupDownload.href.startsWith("blob:")`), true);
+    assert.equal(await evaluate(`localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`), futureRaw);
+    await clickButton("重建本地复习记录");
+    await waitForDom(
+      `Boolean(document.getElementById("recall-storage-rebuild-title"))`,
+      "Storage rebuild confirmation did not open",
+    );
+    assert.equal(await evaluate("document.activeElement?.textContent.trim()"), "取消");
+    await send("Input.dispatchKeyEvent", {
+      type: "keyDown",
+      key: "Escape",
+      code: "Escape",
+      windowsVirtualKeyCode: 27,
+    });
+    await send("Input.dispatchKeyEvent", {
+      type: "keyUp",
+      key: "Escape",
+      code: "Escape",
+      windowsVirtualKeyCode: 27,
+    });
+    await waitForDom(
+      `!document.getElementById("recall-storage-rebuild-title")`,
+      "Escape did not cancel storage rebuild",
+    );
+    assert.equal(await evaluate(`localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`), futureRaw);
+
+    await clickButton("重建本地复习记录");
+    await waitForDom(
+      `Boolean(document.getElementById("recall-storage-rebuild-title"))`,
+      "Storage rebuild confirmation did not reopen",
+    );
+    const changedFutureRaw = JSON.stringify({
+      storageVersion: 99,
+      revision: 8,
+      sentinel: "另一页面的新原始记录",
+    });
+    await evaluate(`localStorage.setItem(${JSON.stringify(STORAGE_KEY)}, ${JSON.stringify(changedFutureRaw)})`);
+    await clickButton("确认重建");
+    await waitForDom(
+      `document.body.innerText.includes("另一页面已更新原始记录，未执行重建")`,
+      "Changed source was not protected from rebuild",
+    );
+    await waitForDom(
+      `document.activeElement?.id === "recall-center-live-status"`,
+      "Source-change recovery did not move focus to the status message",
+    );
+    assert.equal(await evaluate(`localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`), changedFutureRaw);
+    assert.equal(await evaluate("document.body.innerText.includes('复习统计暂不可读')"), true);
+    assert.equal(await evaluate("document.querySelector('.recall-center-summary__metrics')"), null);
+    assert.equal(await evaluate(`Array.from(document.querySelectorAll("button"))
+      .find((entry) => entry.textContent.trim() === "队列暂不可读")?.disabled`), true);
+    assert.equal(await evaluate(`Array.from(document.querySelectorAll("button"))
+      .find((entry) => entry.textContent.trim() === "复习结算已暂停")?.disabled`), true);
+    assert.equal(await evaluate(`Array.from(document.querySelectorAll("button"))
+      .find((entry) => entry.textContent.trim() === "刷新后重新导出")?.disabled`), true);
+    assert.equal(await evaluate(`Array.from(document.querySelectorAll("button"))
+      .find((entry) => entry.textContent.trim() === "重建本地复习记录")?.disabled`), true);
+
+    await send("Page.reload", { ignoreCache: true });
+    await waitForDom(
+      `document.readyState === "complete" && Array.from(document.querySelectorAll("button"))
+        .some((entry) => entry.textContent.trim() === "先导出原始备份")`,
+      "Updated unknown-version snapshot did not reload",
+    );
+    await clickButton("先导出原始备份");
+    await waitForDom(
+      `globalThis.__recallBackupText === ${JSON.stringify(changedFutureRaw)}`,
+      "Updated backup bytes did not match the latest snapshot",
+    );
+    assert.equal(await evaluate(`globalThis.__recallBackupDownload?.download.endsWith(".json") &&
+      globalThis.__recallBackupDownload.href.startsWith("blob:")`), true);
+    await clickButton("重建本地复习记录");
+    await waitForDom(
+      `Boolean(document.getElementById("recall-storage-rebuild-title"))`,
+      "Final storage rebuild confirmation did not open",
+    );
+    await send("Emulation.setDeviceMetricsOverride", {
+      width: 320,
+      height: 844,
+      deviceScaleFactor: 1,
+      mobile: true,
+    });
+    const rebuildLayout = await evaluate(`(() => {
+      const dialog = document.querySelector(".recall-storage-rebuild-dialog")?.getBoundingClientRect();
+      return {
+        viewport: innerWidth,
+        htmlWidth: document.documentElement.scrollWidth,
+        bodyWidth: document.body.scrollWidth,
+        dialogLeft: dialog?.left ?? -1,
+        dialogRight: dialog?.right ?? -1,
+      };
+    })()`);
+    assert.equal(rebuildLayout.viewport, 320, JSON.stringify(rebuildLayout));
+    assert.ok(rebuildLayout.htmlWidth <= 320, JSON.stringify(rebuildLayout));
+    assert.ok(rebuildLayout.bodyWidth <= 320, JSON.stringify(rebuildLayout));
+    assert.ok(rebuildLayout.dialogLeft >= 0 && rebuildLayout.dialogRight <= 320, JSON.stringify(rebuildLayout));
+    await clickButton("确认重建");
+    await waitForDom(
+      `JSON.parse(localStorage.getItem(${JSON.stringify(STORAGE_KEY)}))?.storageVersion === 1 &&
+        !document.getElementById("recall-storage-recovery-title")`,
+      "Confirmed rebuild did not create a valid v1 store",
+    );
+    await waitForDom(
+      `document.activeElement?.id === "cloze-answer"`,
+      "Confirmed rebuild did not move focus to the cloze textbox",
+    );
+    const rebuiltItemIds = await evaluate(`Object.keys(
+      JSON.parse(localStorage.getItem(${JSON.stringify(STORAGE_KEY)})).items
+    )`);
+    for (const requiredItemId of [
+      "lexeme-ephemeral-adjective-transient",
+      "lexeme-resilient-adjective-recover",
+      "lexeme-serendipity-noun-fortunate-discovery",
+    ]) {
+      assert.ok(rebuiltItemIds.includes(requiredItemId));
+    }
+    const rebuiltWordKey = await evaluate(`JSON.parse(sessionStorage.getItem(
+      ${JSON.stringify(CLOZE_SESSION_KEY)}
+    ))?.wordKey`);
+    const rebuiltAnswer = {
+      "lexeme-ephemeral-adjective-transient": "ephemeral",
+      "lexeme-resilient-adjective-recover": "resilient",
+      "lexeme-serendipity-noun-fortunate-discovery": "serendipity",
+    }[rebuiltWordKey];
+    assert.ok(rebuiltAnswer, `Unexpected rebuilt word: ${rebuiltWordKey}`);
+    assert.equal(await evaluate(`(() => {
+      const input = document.getElementById("cloze-answer");
+      const data = new DataTransfer();
+      data.setData("text/plain", ${JSON.stringify(rebuiltAnswer)});
+      return input?.dispatchEvent(new ClipboardEvent("paste", {
+        bubbles: true,
+        cancelable: true,
+        clipboardData: data,
+      })) === false;
+    })()`), true);
+    await clickButton("检查答案");
+    await waitForDom(
+      `document.body.innerText.includes("辅助练习答对") || document.body.innerText.includes("独立拼写正确")`,
+      "A cloze answer could not be completed after storage rebuild",
+    );
+
     assert.deepEqual(browserProblems, []);
-    console.log("recall browser integration verification passed (1440px + 390px + 320px, console clean)");
+    console.log("recall browser integration verification passed (item recovery + storage rebuild + 1440px/390px/320px, console clean)");
   } finally {
     client?.close();
     await stopProcess(chromeProcess);

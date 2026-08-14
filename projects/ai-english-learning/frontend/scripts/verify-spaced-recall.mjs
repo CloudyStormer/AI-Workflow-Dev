@@ -33,6 +33,7 @@ const {
   recordIncorrectSubmission,
   recordRecallHint,
   recordRecallReminderRequest,
+  rebuildSpacedRecallStorage,
   recoverDataException,
   registerRecallItem,
   reserveNextSameDayItem,
@@ -742,6 +743,153 @@ function createMemoryStorage(initial) {
   state = register(state, "invalid-due");
   state = stateOf(markDataException(state, { itemId: "invalid-due", code: "invalid-due", detail: "非法到期日" }, at("2026-08-01")));
   assert.equal(buildReviewQueue(state, at("2026-08-02")).visible.length, 0);
+
+  let pausedMissingContent = register(createInitialSpacedRecallState(SHANGHAI), "paused-missing-content");
+  pausedMissingContent = weakByIncorrect(
+    pausedMissingContent,
+    "paused-missing-content",
+    "paused-missing-content-attempt",
+    at("2026-08-01"),
+  );
+  pausedMissingContent = stateOf(pauseRecallItem(
+    pausedMissingContent,
+    { itemId: "paused-missing-content", learningDays: 3 },
+    at("2026-08-02"),
+  ));
+  pausedMissingContent = stateOf(markDataException(
+    pausedMissingContent,
+    {
+      itemId: "paused-missing-content",
+      code: "missing-content",
+      detail: "当前题库暂时缺少内容",
+    },
+    at("2026-08-02"),
+  ));
+  assert.equal(pausedMissingContent.items["paused-missing-content"].dataException.previous.status, "weak");
+  assert.equal(pausedMissingContent.items["paused-missing-content"].pause, undefined);
+  assert.equal(
+    pausedMissingContent.items["paused-missing-content"].dataException.originalSnapshot.status,
+    "paused",
+  );
+  const pausedMissingContentLoad = loadSpacedRecallState(
+    createMemoryStorage(JSON.stringify(pausedMissingContent)),
+    SHANGHAI,
+    SPACED_RECALL_STORAGE_KEY,
+    at("2026-08-03"),
+  );
+  assert.equal(pausedMissingContentLoad.status, "loaded");
+  assert.equal(
+    stateOf(recoverDataException(
+      pausedMissingContentLoad.state,
+      "paused-missing-content",
+      at("2026-08-03"),
+    )).items["paused-missing-content"].status,
+    "weak",
+  );
+
+  const missingContentBrokenPrevious = register(
+    pausedMissingContent,
+    "healthy-previous-sibling",
+  );
+  missingContentBrokenPrevious.items["paused-missing-content"].dataException.previous.dueDay = null;
+  const missingContentBrokenPreviousLoad = loadSpacedRecallState(
+    createMemoryStorage(JSON.stringify(missingContentBrokenPrevious)),
+    SHANGHAI,
+    SPACED_RECALL_STORAGE_KEY,
+    at("2026-08-03"),
+  );
+  assert.equal(missingContentBrokenPreviousLoad.status, "loaded");
+  assert.deepEqual(missingContentBrokenPreviousLoad.isolatedItemIds, ["paused-missing-content"]);
+  assert.equal(
+    missingContentBrokenPreviousLoad.state.items["paused-missing-content"].dataException.previous.dueDay,
+    "2026-08-03",
+  );
+  const recoveredMissingContentPrevious = stateOf(recoverDataException(
+    missingContentBrokenPreviousLoad.state,
+    "paused-missing-content",
+    at("2026-08-03"),
+  ));
+  assert.deepEqual(
+    buildReviewQueue(recoveredMissingContentPrevious, at("2026-08-03")).visible.map((entry) => entry.itemId),
+    ["paused-missing-content"],
+  );
+  assert.equal(recoveredMissingContentPrevious.items["healthy-previous-sibling"].status, "ordinary");
+
+  let legacyPausedException = register(pausedMissingContent, "healthy-sibling");
+  const legacyItem = legacyPausedException.items["paused-missing-content"];
+  legacyItem.pause = structuredClone(legacyItem.dataException.originalSnapshot.pause);
+  legacyItem.dataException.previous = {
+    status: "ordinary",
+    stage: null,
+    dueDay: null,
+    masteredDay: null,
+    maintenanceDueDay: null,
+    sameDayPlan: null,
+  };
+  delete legacyItem.dataException.originalSnapshot;
+  const legacyPausedLoad = loadSpacedRecallState(
+    createMemoryStorage(JSON.stringify(legacyPausedException)),
+    SHANGHAI,
+    SPACED_RECALL_STORAGE_KEY,
+    at("2026-08-03"),
+  );
+  assert.equal(legacyPausedLoad.status, "loaded");
+  assert.deepEqual(legacyPausedLoad.isolatedItemIds, ["paused-missing-content"]);
+  assert.equal(legacyPausedLoad.state.items["paused-missing-content"].pause, undefined);
+  assert.equal(legacyPausedLoad.state.items["paused-missing-content"].dataException.previous.status, "weak");
+  assert.equal(legacyPausedLoad.state.items["healthy-sibling"].status, "ordinary");
+
+  const legacyPausedWithDueDamage = structuredClone(legacyPausedException);
+  legacyPausedWithDueDamage.items["paused-missing-content"].dueDay = "not-a-date";
+  legacyPausedWithDueDamage.items["paused-missing-content"].pause.previous.dueDay = null;
+  legacyPausedWithDueDamage.items["paused-missing-content"].dataException.previous.dueDay = "not-a-date";
+  const legacyDueLoad = loadSpacedRecallState(
+    createMemoryStorage(JSON.stringify(legacyPausedWithDueDamage)),
+    SHANGHAI,
+    SPACED_RECALL_STORAGE_KEY,
+    at("2026-08-03"),
+  );
+  assert.equal(legacyDueLoad.status, "loaded");
+  assert.deepEqual(legacyDueLoad.isolatedItemIds, ["paused-missing-content"]);
+  assert.equal(legacyDueLoad.state.items["paused-missing-content"].dataException.previous.dueDay, "2026-08-03");
+  assert.equal(legacyDueLoad.state.items["healthy-sibling"].status, "ordinary");
+
+  let damagedPauseWrapper = register(createInitialSpacedRecallState(SHANGHAI), "damaged-pause-wrapper");
+  damagedPauseWrapper = weakByIncorrect(
+    damagedPauseWrapper,
+    "damaged-pause-wrapper",
+    "damaged-pause-wrapper-attempt",
+    at("2026-08-01"),
+  );
+  damagedPauseWrapper = stateOf(pauseRecallItem(
+    damagedPauseWrapper,
+    { itemId: "damaged-pause-wrapper", learningDays: 3 },
+    at("2026-08-02"),
+  ));
+  damagedPauseWrapper = register(damagedPauseWrapper, "healthy-pause-sibling");
+  for (const damagePause of [
+    (value) => { delete value.items["damaged-pause-wrapper"].pause; },
+    (value) => { value.items["damaged-pause-wrapper"].pause.previous = { status: "broken" }; },
+  ]) {
+    const damaged = structuredClone(damagedPauseWrapper);
+    damagePause(damaged);
+    const damagedLoad = loadSpacedRecallState(
+      createMemoryStorage(JSON.stringify(damaged)),
+      SHANGHAI,
+      SPACED_RECALL_STORAGE_KEY,
+      at("2026-08-03"),
+    );
+    assert.equal(damagedLoad.status, "loaded");
+    assert.deepEqual(damagedLoad.isolatedItemIds, ["damaged-pause-wrapper"]);
+    assert.equal(damagedLoad.state.items["damaged-pause-wrapper"].status, "data-exception");
+    assert.equal(damagedLoad.state.items["damaged-pause-wrapper"].dataException.previous, undefined);
+    assert.equal(damagedLoad.state.items["damaged-pause-wrapper"].dataException.originalSnapshot.status, "paused");
+    assert.equal(damagedLoad.state.items["healthy-pause-sibling"].status, "ordinary");
+    assert.equal(
+      recoverDataException(damagedLoad.state, "damaged-pause-wrapper", at("2026-08-03")).status,
+      "rejected",
+    );
+  }
 }
 
 // Default queue limit keeps the remainder visibly overdue.
@@ -780,11 +928,58 @@ function createMemoryStorage(initial) {
     status: "storage-error",
     reason: "corrupt",
     rawPreserved: true,
+    rawSnapshot: "{not-json",
   });
   assert.equal(corrupt.raw(), "{not-json");
 
-  const future = createMemoryStorage(JSON.stringify({ storageVersion: 99, revision: 1 }));
-  assert.equal(loadSpacedRecallState(future, SHANGHAI).reason, "unsupported-version");
+  const futureRaw = '{\n  "storageVersion": 99, "revision": 1, "备注": "逐字保留 ✓"\n}';
+  const future = createMemoryStorage(futureRaw);
+  const futureLoad = loadSpacedRecallState(future, SHANGHAI);
+  assert.equal(futureLoad.reason, "unsupported-version");
+  assert.equal(futureLoad.rawSnapshot, futureRaw);
+  const rebuiltState = register(createInitialSpacedRecallState(SHANGHAI), "rebuilt-current-item");
+  assert.equal(rebuildSpacedRecallStorage(future, rebuiltState, {
+    expectedRaw: futureRaw,
+    backupExported: false,
+    confirmed: true,
+  }), "backup-required");
+  assert.equal(future.raw(), futureRaw);
+  assert.equal(rebuildSpacedRecallStorage(future, rebuiltState, {
+    expectedRaw: futureRaw,
+    backupExported: true,
+    confirmed: false,
+  }), "confirmation-required");
+  assert.equal(future.raw(), futureRaw);
+
+  future.setItem(SPACED_RECALL_STORAGE_KEY, `${futureRaw}\nchanged-by-another-tab`);
+  assert.equal(rebuildSpacedRecallStorage(future, rebuiltState, {
+    expectedRaw: futureRaw,
+    backupExported: true,
+    confirmed: true,
+  }), "source-changed");
+  assert.equal(future.raw(), `${futureRaw}\nchanged-by-another-tab`);
+
+  const confirmedFuture = createMemoryStorage(futureRaw);
+  assert.equal(rebuildSpacedRecallStorage(confirmedFuture, rebuiltState, {
+    expectedRaw: futureRaw,
+    backupExported: true,
+    confirmed: true,
+  }), "rebuilt");
+  const rebuiltLoad = loadSpacedRecallState(confirmedFuture, SHANGHAI);
+  assert.equal(rebuiltLoad.status, "loaded");
+  assert.equal(rebuiltLoad.state.items["rebuilt-current-item"].itemId, "rebuilt-current-item");
+
+  const writeFailure = {
+    getItem: () => futureRaw,
+    setItem: () => {
+      throw new Error("write blocked");
+    },
+  };
+  assert.equal(rebuildSpacedRecallStorage(writeFailure, rebuiltState, {
+    expectedRaw: futureRaw,
+    backupExported: true,
+    confirmed: true,
+  }), "storage-error");
 
   let missingWeakDue = createInitialSpacedRecallState(SHANGHAI);
   missingWeakDue = register(missingWeakDue, "missing-weak-due");
@@ -864,10 +1059,36 @@ function createMemoryStorage(initial) {
     pausedMissingLoaded.state.items["paused-missing-due"].dataException.detail,
     /暂停前状态异常/,
   );
-  assert.equal(
-    pausedMissingLoaded.state.items["paused-missing-due"].dataException.previous,
-    undefined,
+  assert.equal(pausedMissingLoaded.state.items["paused-missing-due"].dataException.previous.status, "weak");
+  assert.equal(pausedMissingLoaded.state.items["paused-missing-due"].dataException.previous.dueDay, "2026-08-03");
+  const recoveredPausedMissing = stateOf(recoverDataException(
+    pausedMissingLoaded.state,
+    "paused-missing-due",
+    at("2026-08-03"),
+  ));
+  assert.deepEqual(
+    buildReviewQueue(recoveredPausedMissing, at("2026-08-03")).visible.map((entry) => entry.itemId),
+    ["paused-missing-due"],
   );
+  for (const damagedDue of [undefined, "not-a-date"]) {
+    const damagedPausedPrevious = structuredClone(pausedMissingDue);
+    if (damagedDue === undefined) {
+      delete damagedPausedPrevious.items["paused-missing-due"].pause.previous.dueDay;
+    } else {
+      damagedPausedPrevious.items["paused-missing-due"].pause.previous.dueDay = damagedDue;
+    }
+    const damagedPausedLoad = loadSpacedRecallState(
+      createMemoryStorage(JSON.stringify(damagedPausedPrevious)),
+      SHANGHAI,
+      SPACED_RECALL_STORAGE_KEY,
+      at("2026-08-03"),
+    );
+    assert.equal(damagedPausedLoad.status, "loaded");
+    assert.equal(
+      damagedPausedLoad.state.items["paused-missing-due"].dataException.previous.dueDay,
+      "2026-08-03",
+    );
+  }
 
   let pausedMissingMaintenance = createInitialSpacedRecallState(SHANGHAI);
   pausedMissingMaintenance = register(pausedMissingMaintenance, "paused-missing-maintenance");
@@ -894,6 +1115,115 @@ function createMemoryStorage(initial) {
   assert.match(
     pausedMaintenanceLoaded.state.items["paused-missing-maintenance"].dataException.detail,
     /暂停前状态异常.*缺少维护到期时间/,
+  );
+  assert.equal(
+    pausedMaintenanceLoaded.state.items["paused-missing-maintenance"].dataException.previous.maintenanceDueDay,
+    "2026-08-07",
+  );
+
+  let completedMaintenance = createInitialSpacedRecallState(SHANGHAI);
+  completedMaintenance = register(completedMaintenance, "completed-maintenance");
+  Object.assign(completedMaintenance.items["completed-maintenance"], {
+    status: "mastered",
+    stage: null,
+    dueDay: null,
+    masteredDay: "2026-08-01",
+    maintenanceDueDay: "2026-08-17",
+  });
+  completedMaintenance = stateOf(beginRecallAttempt(
+    completedMaintenance,
+    { attemptId: "completed-maintenance-attempt", itemId: "completed-maintenance" },
+    { now: at("2026-08-17") },
+  ));
+  completedMaintenance = stateOf(settleRecallAttempt(
+    completedMaintenance,
+    { attemptId: "completed-maintenance-attempt", correct: true },
+    env(at("2026-08-17")),
+  ));
+  assert.equal(completedMaintenance.items["completed-maintenance"].maintenanceDueDay, null);
+  assert.equal(
+    loadSpacedRecallState(
+      createMemoryStorage(JSON.stringify(completedMaintenance)),
+      SHANGHAI,
+      SPACED_RECALL_STORAGE_KEY,
+      at("2026-08-18"),
+    ).isolatedItemIds,
+    undefined,
+  );
+  const completedMaintenanceMissingContent = stateOf(markDataException(
+    completedMaintenance,
+    {
+      itemId: "completed-maintenance",
+      code: "missing-content",
+      detail: "当前题库暂时缺少内容",
+    },
+    at("2026-08-18"),
+  ));
+  const completedMaintenanceMissingContentLoad = loadSpacedRecallState(
+    createMemoryStorage(JSON.stringify(completedMaintenanceMissingContent)),
+    SHANGHAI,
+    SPACED_RECALL_STORAGE_KEY,
+    at("2026-08-18"),
+  );
+  assert.equal(completedMaintenanceMissingContentLoad.status, "loaded");
+  assert.equal(completedMaintenanceMissingContentLoad.isolatedItemIds, undefined);
+  const recoveredCompletedMaintenance = stateOf(recoverDataException(
+    completedMaintenanceMissingContentLoad.state,
+    "completed-maintenance",
+    at("2026-08-18"),
+  ));
+  assert.equal(recoveredCompletedMaintenance.items["completed-maintenance"].maintenanceDueDay, null);
+  assert.equal(
+    buildReviewQueue(recoveredCompletedMaintenance, at("2026-08-18")).visible
+      .some((entry) => entry.itemId === "completed-maintenance"),
+    false,
+  );
+  for (const mutateEvidence of [
+    (value) => {
+      value.items["completed-maintenance"].masteredDay = "2026-08-17";
+    },
+    (value) => {
+      value.eventsByEffectKey["completed-maintenance-attempt:attempt-settled"].type = "paused";
+    },
+    (value) => {
+      value.eventsByEffectKey["completed-maintenance-attempt:attempt-settled"].studyDay = "2026-08-16";
+    },
+  ]) {
+    const damagedEvidence = structuredClone(completedMaintenance);
+    mutateEvidence(damagedEvidence);
+    assert.deepEqual(
+      loadSpacedRecallState(
+        createMemoryStorage(JSON.stringify(damagedEvidence)),
+        SHANGHAI,
+        SPACED_RECALL_STORAGE_KEY,
+        at("2026-08-18"),
+      ).isolatedItemIds,
+      ["completed-maintenance"],
+    );
+  }
+  const missingSettlementEvent = structuredClone(completedMaintenance);
+  delete missingSettlementEvent.eventsByEffectKey["completed-maintenance-attempt:attempt-settled"];
+  assert.deepEqual(
+    loadSpacedRecallState(
+      createMemoryStorage(JSON.stringify(missingSettlementEvent)),
+      SHANGHAI,
+      SPACED_RECALL_STORAGE_KEY,
+      at("2026-08-18"),
+    ).isolatedItemIds,
+    ["completed-maintenance"],
+  );
+  const staleMaintenanceEvidence = structuredClone(completedMaintenance);
+  staleMaintenanceEvidence.items["completed-maintenance"].masteredDay = "2026-08-18";
+  const staleMaintenanceLoad = loadSpacedRecallState(
+    createMemoryStorage(JSON.stringify(staleMaintenanceEvidence)),
+    SHANGHAI,
+    SPACED_RECALL_STORAGE_KEY,
+    at("2026-08-19"),
+  );
+  assert.deepEqual(staleMaintenanceLoad.isolatedItemIds, ["completed-maintenance"]);
+  assert.match(
+    staleMaintenanceLoad.state.items["completed-maintenance"].dataException.detail,
+    /缺少维护到期时间/,
   );
 
   let semanticEarly = createInitialSpacedRecallState(SHANGHAI);
@@ -949,6 +1279,7 @@ function createMemoryStorage(initial) {
     status: "storage-error",
     reason: "corrupt",
     rawPreserved: true,
+    rawSnapshot: JSON.stringify(dueAndOtherDamage),
   });
 
   let pausedDamage = createInitialSpacedRecallState(SHANGHAI);
@@ -968,11 +1299,31 @@ function createMemoryStorage(initial) {
   );
   assert.equal(pausedLoaded.status, "loaded");
   assert.equal(pausedLoaded.state.items["paused-damage"].status, "data-exception");
-  assert.equal(pausedLoaded.state.items["paused-damage"].dataException.previous, undefined);
+  assert.equal(pausedLoaded.state.items["paused-damage"].dataException.previous.status, "weak");
+  assert.equal(pausedLoaded.state.items["paused-damage"].dataException.previous.dueDay, "2026-08-03");
   assert.equal(pausedLoaded.state.items["paused-damage"].pause, undefined);
+  const recoveredPausedDamage = recoverDataException(
+    pausedLoaded.state,
+    "paused-damage",
+    at("2026-08-03"),
+  );
+  assert.equal(recoveredPausedDamage.status, "applied");
+  assert.equal(recoveredPausedDamage.state.items["paused-damage"].dueDay, "2026-08-03");
+
+  const pausedResumeDamage = structuredClone(pausedDamage);
+  pausedResumeDamage.items["paused-damage"].dueDay = null;
+  pausedResumeDamage.items["paused-damage"].pause.resumeDay = "not-a-date";
+  const pausedResumeLoaded = loadSpacedRecallState(
+    createMemoryStorage(JSON.stringify(pausedResumeDamage)),
+    SHANGHAI,
+    SPACED_RECALL_STORAGE_KEY,
+    at("2026-08-03"),
+  );
+  assert.equal(pausedResumeLoaded.status, "loaded");
+  assert.match(pausedResumeLoaded.state.items["paused-damage"].dataException.detail, /暂停恢复时间/);
   assert.equal(
-    recoverDataException(pausedLoaded.state, "paused-damage", at("2026-08-03")).status,
-    "rejected",
+    recoverDataException(pausedResumeLoaded.state, "paused-damage", at("2026-08-03")).status,
+    "applied",
   );
 
   let singleTaskDamage = createInitialSpacedRecallState(SHANGHAI);
@@ -1102,10 +1453,6 @@ function createMemoryStorage(initial) {
       value.items.persist.sameDayPlan = { studyDay: "2026-08-01", evidenceCount: 1, opportunities: [{}] };
     },
     (value) => {
-      value.items.persist.status = "paused";
-      delete value.items.persist.pause;
-    },
-    (value) => {
       value.items.persist.status = "data-exception";
       delete value.items.persist.dataException;
     },
@@ -1117,6 +1464,7 @@ function createMemoryStorage(initial) {
       status: "storage-error",
       reason: "corrupt",
       rawPreserved: true,
+      rawSnapshot: JSON.stringify(damaged),
     });
   }
 }

@@ -18,6 +18,7 @@ import RecallCenter, {
   type RecallHistoryEntry,
   type RecallItem,
   type RecallReminderSettings,
+  type RecallStorageRecovery,
   type RecallStageNode,
 } from '../components/RecallCenter'
 import { learningWords } from '../data/content'
@@ -54,6 +55,7 @@ import {
   recoverDataException,
   recordRecallHint,
   recordRecallReminderRequest,
+  rebuildSpacedRecallStorage,
   registerRecallItem,
   reserveNextSameDayItem,
   resetRecallMastery,
@@ -173,6 +175,7 @@ function isRestorableSession(session: PersistedClozeSession | null) {
 }
 
 type RecallStorageStatus = 'ready' | 'memory-only' | 'conflict' | 'corrupt'
+type RecallStorageRecoveryState = RecallStorageRecovery & { rawSnapshot: string }
 
 function persistNormalizedRecallLoad(
   storage: Storage,
@@ -260,6 +263,7 @@ function initializeRecallState() {
     return {
       state: createInitialSpacedRecallState(learningTimeZone),
       storageStatus: 'memory-only' as RecallStorageStatus,
+      storageRecovery: null as RecallStorageRecoveryState | null,
       statusMessage: '',
     }
   }
@@ -267,18 +271,28 @@ function initializeRecallState() {
   let state: SpacedRecallState
   let storageStatus: RecallStorageStatus = 'ready'
   let statusMessage = ''
+  let storageRecovery: RecallStorageRecoveryState | null = null
   let previousRevision = 0
   const loaded = loadSpacedRecallState(window.localStorage, learningTimeZone)
   if (loaded.status === 'storage-error') {
     state = createInitialSpacedRecallState(learningTimeZone)
     storageStatus = 'corrupt'
+    storageRecovery = {
+      reason: loaded.reason,
+      rawSnapshot: loaded.rawSnapshot,
+      backupExported: false,
+      confirmationOpen: false,
+    }
+    statusMessage = loaded.reason === 'unsupported-version'
+      ? '检测到当前版本无法识别的本地复习记录；原始数据已保留，请先导出备份再决定是否重建。'
+      : '检测到格式损坏的本地复习记录；原始数据已保留，请先导出备份再决定是否重建。'
   } else {
     state = loaded.state
     previousRevision = loaded.status === 'loaded'
       ? loaded.normalizedFromRevision ?? state.revision
       : state.revision
     if (loaded.status === 'loaded' && loaded.isolatedItemIds?.length) {
-      statusMessage = `已隔离 ${loaded.isolatedItemIds.length} 条到期时间异常记录；其余复习可继续，异常项可在队列中恢复。`
+      statusMessage = `已隔离 ${loaded.isolatedItemIds.length} 条本地异常记录；其余复习可继续，请在队列查看每条记录的恢复状态。`
     }
   }
 
@@ -330,7 +344,7 @@ function initializeRecallState() {
     if (saved === 'storage-error') storageStatus = 'memory-only'
   }
 
-  return { state, storageStatus, statusMessage }
+  return { state, storageStatus, storageRecovery, statusMessage }
 }
 
 function formatStudyDay(day: string | null, timeZone: string) {
@@ -484,6 +498,9 @@ function Word() {
   const [clockNow, setClockNow] = useState(() => new Date().toISOString())
   const [recallStorageStatus, setRecallStorageStatus] = useState<RecallStorageStatus>(
     initialRecall.storageStatus,
+  )
+  const [recallStorageRecovery, setRecallStorageRecovery] = useState<RecallStorageRecoveryState | null>(
+    initialRecall.storageRecovery,
   )
   const [isOnline, setIsOnline] = useState(() => (
     typeof navigator === 'undefined' ? true : navigator.onLine
@@ -1845,7 +1862,7 @@ function Word() {
           ? formatStudyDay(item.pause.resumeDay, recallState.learningTimeZone)
           : undefined,
         exceptionMessage: !contentAvailable
-          ? `${item.dataException?.detail ?? '记录异常'}；当前题库中找不到对应学习内容，因此不能恢复或开始作答`
+          ? `${item.dataException?.detail ?? '记录异常'}；请等待同一学习项的完整题库内容恢复，在此之前不能恢复或开始作答`
           : item.dataException?.detail,
         recoveryAvailable: contentAvailable && Boolean(item.dataException?.previous),
         movedToQueueTail: Boolean(item.queueTailAfterByDay?.[nowDay]),
@@ -2010,17 +2027,130 @@ function Word() {
   }
 
   function handleRecoverRecallItem(itemId: string) {
-    if (!learningWordIds.has(itemId)) {
+    const canonicalItem = learningWords.find((item) => item.id === itemId)
+    if (!canonicalItem) {
       setRecallStatusMessage('当前题库中找不到这条学习内容，不能安全恢复；原始记录继续保留。')
       return
     }
+    const result = recoverDataException(
+      recallStateRef.current,
+      itemId,
+      new Date().toISOString(),
+    )
+    if (result.status === 'applied') {
+      result.state.items[itemId].targetAnswer = canonicalItem.word
+      result.state.items[itemId].meaning = `${canonicalItem.part} ${canonicalItem.meaning}`
+    }
     const recovered = commitRecallResult(
-      recoverDataException(recallStateRef.current, itemId, new Date().toISOString()),
+      result,
       '异常记录已恢复为单一当前任务；原始异常快照仍保留，不会补造多个阶段。',
     )
     if (recovered) {
       setRecallDialog((current) => ({ ...current, view: 'queue' }))
     }
+  }
+
+  function handleExportRecallStorageBackup() {
+    if (!recallStorageRecovery || recallStorageRecovery.sourceChanged || typeof document === 'undefined') return
+    try {
+      const extension = recallStorageRecovery.reason === 'unsupported-version' ? 'json' : 'txt'
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-')
+      const blob = new Blob([recallStorageRecovery.rawSnapshot], {
+        type: extension === 'json' ? 'application/json;charset=utf-8' : 'text/plain;charset=utf-8',
+      })
+      const objectUrl = URL.createObjectURL(blob)
+      const anchor = document.createElement('a')
+      anchor.href = objectUrl
+      anchor.download = `ai-english-learning-recall-backup-${timestamp}.${extension}`
+      document.body.append(anchor)
+      anchor.click()
+      anchor.remove()
+      window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1_000)
+      setRecallStorageRecovery((current) => current
+        ? { ...current, backupExported: true, confirmationOpen: false }
+        : current)
+      setRecallStatusMessage('已生成原始备份下载；请确认文件可用后，再决定是否重建本地复习记录。')
+    } catch {
+      setRecallStatusMessage('原始备份下载生成失败；本地原始记录仍保持不变，尚未执行重建。')
+    }
+  }
+
+  function handleRequestRecallStorageRebuild() {
+    if (recallStorageRecovery?.sourceChanged) {
+      setRecallStatusMessage('另一页面已更新原始记录；请刷新后重新导出，当前页面不会执行重建。')
+      return
+    }
+    if (!recallStorageRecovery?.backupExported) {
+      setRecallStatusMessage('请先导出原始备份，再申请重建本地复习记录。')
+      return
+    }
+    setRecallDialog((current) => ({
+      ...current,
+      open: false,
+      resetConfirmationItemId: null,
+    }))
+    setRecallStorageRecovery((current) => current
+      ? { ...current, confirmationOpen: true }
+      : current)
+  }
+
+  function handleCancelRecallStorageRebuild() {
+    setRecallStorageRecovery((current) => current
+      ? { ...current, confirmationOpen: false }
+      : current)
+    setRecallStatusMessage('已取消重建；原始本地复习记录保持不变。')
+  }
+
+  function handleConfirmRecallStorageRebuild() {
+    if (!recallStorageRecovery || typeof window === 'undefined') return
+    const result = rebuildSpacedRecallStorage(
+      window.localStorage,
+      recallStateRef.current,
+      {
+        expectedRaw: recallStorageRecovery.rawSnapshot,
+        backupExported: recallStorageRecovery.backupExported,
+        confirmed: true,
+      },
+    )
+    if (result === 'rebuilt') {
+      setRecallStorageStatus('ready')
+      setRecallStorageRecovery(null)
+      setRecallDialog((current) => ({
+        ...current,
+        open: false,
+        resetConfirmationItemId: null,
+      }))
+      activateWordQuestion(wordIndex, null, 'cloze')
+      setRecallStatusMessage('已在导出备份后重建本地复习记录；旧备份不会自动导入，当前题库可继续学习。')
+      window.setTimeout(() => answerInputRef.current?.focus(), 0)
+      return
+    }
+    if (result === 'source-changed') {
+      setRecallStorageStatus('conflict')
+      setRecallStorageRecovery((current) => current
+        ? {
+            ...current,
+            backupExported: false,
+            confirmationOpen: false,
+            sourceChanged: true,
+          }
+        : current)
+      setRecallStatusMessage('另一页面已更新原始记录，未执行重建；请刷新后重新导出并确认。')
+      window.setTimeout(() => document.getElementById('recall-center-live-status')?.focus(), 0)
+      return
+    }
+    setRecallStorageRecovery((current) => current
+      ? { ...current, confirmationOpen: false }
+      : current)
+    setRecallStatusMessage(
+      result === 'backup-required'
+        ? '尚未生成原始备份下载，未执行重建。'
+        : result === 'confirmation-required'
+          ? '尚未完成明确确认，未执行重建。'
+          : result === 'invalid-state'
+            ? '当前重建状态未通过完整校验，原始记录保持不变。'
+            : '浏览器存储写入失败，原始记录保持不变。',
+    )
   }
 
   function handleConfirmRecallReset(itemId: string) {
@@ -2123,6 +2253,7 @@ function Word() {
           dialog={recallDialog}
           reminder={reminderSettings}
           timezoneChange={timezoneChange}
+          storageRecovery={recallStorageRecovery}
           statusMessage={recallStatusMessage}
           truthBoundaryText={recallStorageStatus === 'ready'
             ? '复习记录只保存在当前浏览器与当前设备，不承诺跨设备同步；离线时不会结算或推进掌握。'
@@ -2185,6 +2316,10 @@ function Word() {
               setRecallStatusMessage('已暂缓决定；复习计划继续使用原学习时区。')
               setRecallDialog((current) => ({ ...current, view: 'queue' }))
             },
+            onExportStorageBackup: handleExportRecallStorageBackup,
+            onRequestStorageRebuild: handleRequestRecallStorageRebuild,
+            onCancelStorageRebuild: handleCancelRecallStorageRebuild,
+            onConfirmStorageRebuild: handleConfirmRecallStorageRebuild,
           }}
         />
       </div>

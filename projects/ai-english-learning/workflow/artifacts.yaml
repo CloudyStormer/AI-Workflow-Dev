@@ -814,3 +814,79 @@ artifacts:
     completed_gate: product-release-scope-review
     next_gate: cross-project-replanning-direction
     auto_route: false
+  - id: artifact-spaced-recall-storage-recovery-frontend-fix-002
+    type: frontend-fix
+    path: frontend/
+    status: ready-for-review
+    owner: role-frontend-dev
+    role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
+    change_id: fix-20260814-spaced-recall-storage-recovery-p1-001
+    authorization: approval-20260810-spaced-recall-frontend-fix-entry
+    continuation_authorization:
+      source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+      safe_base: b55ffe422639e3eac99dd0d73b50b41f32e01a64
+      evidence: "固定 00 明确确认原前端修复授权继续有效，并授权固定 06 在产品范围审批提交后补本批 English workflow/证据、精确提交普通 push。"
+    input_artifact: artifact-spaced-recall-code-rereview-001
+    input_path: docs/06-code-review.md
+    input_sha256: 4f7e854a339e933b01fac29afa0d80bdd3e2531fb2f5abb38c53a831257321b5
+    hashes:
+      browser_gate: a8a08fa5f88a1f699e86c2df3182d4db25c44d75dc452f3d7f192ef7386c7bdc
+      domain_test: bd877db3c332b35272db76fd8d791aa965a4d015b8676caa8a85f8e703854b81
+      styles: 57c1bf160e7c9c47110cb3719d0d10e02dce80ed3a77f9f07b3887122f5671d8
+      recall_center: 848690cfb0b6a7e6a1904528d9281dcdf9e199212c95abc44c6222ccc468c53b
+      word: 8460f217436d25c4aca5e1c6d8dd87050c7c5b31cca3ec629cfd083392ab7348
+      domain: e6bf3f1a070d857ed7a48a3e2846ecab9f0c3672f46be3eec64516ae17ce731a
+    scope:
+      - paused-and-legacy-damaged-record-item-level-isolation-and-safe-recovery
+      - active-and-restorable-weak-mastered-due-invariants
+      - exact-raw-backup-explicit-second-confirmation-and-cas-storage-rebuild
+      - missing-content-truthful-unavailable-and-canonical-return-recovery-settlement
+      - source-change-read-lock-and-truthful-unavailable-metrics
+      - cross-platform-chrome-discovery-and-real-browser-regression
+    finding_disposition:
+      implemented_for_rereview:
+        - CR-P1-001
+      prior_closed_findings_preserved:
+        - CR-P1-002
+        - CR-P1-003
+        - CR-P2-001
+        - CR-P2-002
+        - CR-P2-003
+        - CR-P2-004
+      code_review_closure: pending-fixed-09-after-this-delivery-is-approved
+    validation:
+      runtime: Node.js-24.19.0
+      lint: passed
+      typecheck_and_build: passed
+      spaced_recall_test: passed
+      inline_cloze_test: passed-1200-randomized-cases
+      chrome_cdp_react_integration: passed-1440-390-320-console-clean
+      exact_raw_export_and_anchor_download: passed
+      cancel_and_source_changed_zero-overwrite: passed
+      paused_missing_wrapper_healthy_sibling: passed
+      completed_maintenance_recovery_not_requeued: passed
+      missing_content_recovery_and_settlement: passed
+      simplified_chinese_changed_states: complete
+      project_structure: passed-0-warnings
+      git_boundary: passed
+      skill_drift: passed
+      independent_read_only_review: passed-0-p0-0-p1
+    truth_boundary:
+      storage: current-browser-current-device-only
+      backup: download-generated-not-claimed-saved-or-importable
+      backend_integration: not-claimed
+      product_v1_4_scope: preserved-not-implemented-by-this-fix
+      production_deployment: not-authorized
+    unchanged_scope:
+      - docs/01-prd.md
+      - docs/02-architecture.md
+      - docs/03-dev-tasks.md
+      - docs/06-code-review.md
+      - ui/
+      - backend/
+      - deployment/
+      - other-projects
+    completed_at: "2026-08-14T16:36:22+08:00"
+    result: ready-for-frontend-fix-delivery-review
+    stop_gate: frontend-fix-delivery-review
+    auto_route: false

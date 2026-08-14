@@ -127,6 +127,13 @@ export type RecallTimezoneChange = {
   deviceTimezoneLabel: string
 }
 
+export type RecallStorageRecovery = {
+  reason: 'corrupt' | 'unsupported-version'
+  backupExported: boolean
+  confirmationOpen: boolean
+  sourceChanged?: boolean
+}
+
 export type RecallDialogState = {
   open: boolean
   view: RecallCenterView
@@ -152,6 +159,10 @@ export type RecallCenterActions = {
   onKeepLearningTimezone: () => void
   onSwitchToDeviceTimezone: () => void
   onDeferTimezoneChange: () => void
+  onExportStorageBackup: () => void
+  onRequestStorageRebuild: () => void
+  onCancelStorageRebuild: () => void
+  onConfirmStorageRebuild: () => void
 }
 
 export type RecallCenterProps = {
@@ -161,6 +172,7 @@ export type RecallCenterProps = {
   reminder: RecallReminderSettings
   actions: RecallCenterActions
   timezoneChange?: RecallTimezoneChange | null
+  storageRecovery?: RecallStorageRecovery | null
   statusMessage?: string
   title?: string
   truthBoundaryText?: string
@@ -298,7 +310,11 @@ function ItemActions({ item, isOffline, actions, showDetailAction = true }: Item
           disabled={writeActionDisabled}
           onClick={() => actions.onStartItem(item.id)}
         >
-          {isOffline ? '联网后开始' : item.startDisabledLabel ?? '开始本题'}
+          {hasException
+            ? '记录异常，暂不可开始'
+            : isOffline
+              ? '联网后开始'
+              : item.startDisabledLabel ?? '开始本题'}
         </button>
       )}
 
@@ -557,8 +573,8 @@ function QueueView({ items, summary, actions }: QueueViewProps) {
       {exceptionItems.length > 0 && (
         <section className="recall-queue-group recall-queue-group--exception" aria-labelledby="recall-exception-title">
           <header className="recall-queue-group__header">
-            <h4 id="recall-exception-title">需要恢复的记录 · {exceptionItems.length} 条</h4>
-            <p>异常记录不计错、不推进阶段，并会跳到下一可用题。</p>
+            <h4 id="recall-exception-title">记录异常 · {exceptionItems.length} 条</h4>
+            <p>可安全恢复的记录会提供恢复按钮；缺少当前题库内容的记录只保留证据，不计错也不推进阶段。</p>
           </header>
           {exceptionItems.map((item) => (
             <QueueItemCard
@@ -898,6 +914,78 @@ function ResetConfirmation({ item, actions }: ResetConfirmationProps) {
   )
 }
 
+function StorageRebuildConfirmation({ actions }: { actions: RecallCenterActions }) {
+  const dialogRef = useRef<HTMLElement>(null)
+  const previousFocusRef = useRef<HTMLElement | null>(null)
+
+  useEffect(() => {
+    previousFocusRef.current = document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null
+    dialogRef.current?.querySelector<HTMLElement>(FOCUSABLE_SELECTOR)?.focus()
+
+    return () => {
+      previousFocusRef.current?.focus()
+      previousFocusRef.current = null
+    }
+  }, [])
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    if (event.key === 'Escape') {
+      event.preventDefault()
+      actions.onCancelStorageRebuild()
+      return
+    }
+    if (event.key !== 'Tab' || !dialogRef.current) return
+
+    const focusableElements = Array.from(
+      dialogRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR),
+    )
+    if (focusableElements.length === 0) {
+      event.preventDefault()
+      dialogRef.current.focus()
+      return
+    }
+    const firstElement = focusableElements[0]
+    const lastElement = focusableElements[focusableElements.length - 1]
+    if (event.shiftKey && document.activeElement === firstElement) {
+      event.preventDefault()
+      lastElement.focus()
+    } else if (!event.shiftKey && document.activeElement === lastElement) {
+      event.preventDefault()
+      firstElement.focus()
+    }
+  }
+
+  return (
+    <div className="recall-reset-backdrop">
+      <section
+        ref={dialogRef}
+        className="recall-reset-dialog recall-storage-rebuild-dialog"
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="recall-storage-rebuild-title"
+        aria-describedby="recall-storage-rebuild-description"
+        tabIndex={-1}
+        onKeyDown={handleKeyDown}
+      >
+        <h3 id="recall-storage-rebuild-title">重建本地复习记录？</h3>
+        <p id="recall-storage-rebuild-description">
+          将使用当前题库创建新的本地复习记录。本浏览器中的旧复习进度、历史和提醒设置会在应用内重置；已导出的备份不会自动导入，题库内容不会被修改。
+        </p>
+        <div className="recall-reset-dialog__actions">
+          <button type="button" onClick={actions.onCancelStorageRebuild}>
+            取消
+          </button>
+          <button type="button" onClick={actions.onConfirmStorageRebuild}>
+            确认重建
+          </button>
+        </div>
+      </section>
+    </div>
+  )
+}
+
 export function RecallCenter({
   summary,
   items,
@@ -905,6 +993,7 @@ export function RecallCenter({
   reminder,
   actions,
   timezoneChange,
+  storageRecovery = null,
   statusMessage = '',
   title = '今日复习',
   truthBoundaryText = '当前进度仅代表本设备内已结算的记录；跨设备同步尚未接入。离线时不会结算、推进掌握或伪记提醒送达。',
@@ -995,7 +1084,9 @@ export function RecallCenter({
         <div className="recall-center-summary__heading">
           <p className="recall-center-summary__eyebrow">单词学习中心</p>
           <h2 id="recall-center-title">{title}</h2>
-          {actionableCount > 0 ? (
+          {storageRecovery ? (
+            <p>本地复习记录暂不可读，复习结算与队列操作已暂停。</p>
+          ) : actionableCount > 0 ? (
             <p>先完成到期复习，再学习新单词。</p>
           ) : summary.sameDayWaitingCount > 0 ? (
             <p>今日加固已登记，正在等待合格间隔；请先继续学习新单词。</p>
@@ -1004,51 +1095,60 @@ export function RecallCenter({
           )}
         </div>
 
-        <dl className="recall-center-summary__metrics">
-          <div className="recall-metric recall-metric--overdue">
-            <dt>逾期</dt>
-            <dd>{summary.overdueCount} 个</dd>
+        {storageRecovery ? (
+          <div className="recall-storage-unavailable" role="status">
+            <strong>复习统计暂不可读</strong>
+            <p>当前显示的临时空状态不代表真实逾期数、到期数、加固数或正确率。</p>
           </div>
-          <div className="recall-metric recall-metric--due-today">
-            <dt>今日到期</dt>
-            <dd>{summary.dueTodayCount} 个</dd>
-          </div>
-          <div className="recall-metric recall-metric--same-day">
-            <dt>今日加固</dt>
-            <dd>
-              {summary.sameDayCount} 个
-              {summary.sameDayWaitingCount > 0 && `（${summary.sameDayWaitingCount} 个等待间隔）`}
-            </dd>
-          </div>
-          <div className="recall-metric recall-metric--accuracy">
-            <dt>独立拼写正确率</dt>
-            <dd>
-              {independentCorrectRate === null
-                ? '暂无已结算复习'
-                : `${independentCorrectRate}%（${summary.independentCorrectCount}/${summary.settledIndependentAttemptCount}）`}
-            </dd>
-          </div>
-        </dl>
+        ) : (
+          <dl className="recall-center-summary__metrics">
+            <div className="recall-metric recall-metric--overdue">
+              <dt>逾期</dt>
+              <dd>{summary.overdueCount} 个</dd>
+            </div>
+            <div className="recall-metric recall-metric--due-today">
+              <dt>今日到期</dt>
+              <dd>{summary.dueTodayCount} 个</dd>
+            </div>
+            <div className="recall-metric recall-metric--same-day">
+              <dt>今日加固</dt>
+              <dd>
+                {summary.sameDayCount} 个
+                {summary.sameDayWaitingCount > 0 && `（${summary.sameDayWaitingCount} 个等待间隔）`}
+              </dd>
+            </div>
+            <div className="recall-metric recall-metric--accuracy">
+              <dt>独立拼写正确率</dt>
+              <dd>
+                {independentCorrectRate === null
+                  ? '暂无已结算复习'
+                  : `${independentCorrectRate}%（${summary.independentCorrectCount}/${summary.settledIndependentAttemptCount}）`}
+              </dd>
+            </div>
+          </dl>
+        )}
 
-        {summary.remainingOverdueCount > 0 && (
+        {!storageRecovery && summary.remainingOverdueCount > 0 && (
           <p className="recall-center-summary__overflow">
             今天先复习 20 个，另有 {summary.remainingOverdueCount} 个仍处于逾期。
           </p>
         )}
-        {summary.remainingDueTodayCount > 0 && (
+        {!storageRecovery && summary.remainingDueTodayCount > 0 && (
           <p className="recall-center-summary__overflow">
             当前 20 项之外还有 {summary.remainingDueTodayCount} 个今日到期；完成后可继续复习。
           </p>
         )}
-        {summary.anomalyCount > 0 && (
+        {!storageRecovery && summary.anomalyCount > 0 && (
           <p className="recall-center-summary__anomaly">
-            {summary.anomalyCount} 条记录需要恢复；异常项不会计错或推进阶段。
+            {summary.anomalyCount} 条记录异常；请在队列查看哪些可安全恢复，异常项不会计错或推进阶段。
           </p>
         )}
-        <p className="recall-center-summary__reminder" role="status">
-          <strong>提醒状态：</strong>{reminder.statusText}
-        </p>
-        {summary.isOffline && (
+        {!storageRecovery && (
+          <p className="recall-center-summary__reminder" role="status">
+            <strong>提醒状态：</strong>{reminder.statusText}
+          </p>
+        )}
+        {!storageRecovery && summary.isOffline && (
           <p className="recall-center-summary__offline" role="status">
             当前离线：可查看队列，但复习结果不会结算。
           </p>
@@ -1058,10 +1158,12 @@ export function RecallCenter({
           <button
             type="button"
             className="recall-center-summary__primary"
-            disabled={summary.isOffline || actionableCount === 0}
+            disabled={Boolean(storageRecovery) || summary.isOffline || actionableCount === 0}
             onClick={actions.onStartReview}
           >
-            {summary.isOffline
+            {storageRecovery
+              ? '复习结算已暂停'
+              : summary.isOffline
               ? '联网后开始复习'
               : actionableCount > 0
                 ? '开始复习'
@@ -1072,9 +1174,10 @@ export function RecallCenter({
           <button
             type="button"
             className="recall-center-summary__secondary"
+            disabled={Boolean(storageRecovery)}
             onClick={actions.onViewQueue}
           >
-            查看队列
+            {storageRecovery ? '队列暂不可读' : '查看队列'}
           </button>
         </div>
 
@@ -1083,10 +1186,59 @@ export function RecallCenter({
           <p>{truthBoundaryText}</p>
           <p>浏览器通知只会在用户开启、权限允许且真实到期时请求；短信和邮件通道待接入，任何请求都不标记为“已送达”。</p>
         </aside>
+
+        {storageRecovery && (
+          <section className="recall-storage-recovery" aria-labelledby="recall-storage-recovery-title">
+            <div>
+              <h3 id="recall-storage-recovery-title">本地复习记录需要处理</h3>
+              {storageRecovery.sourceChanged ? (
+                <>
+                  <p>另一页面已更新本地复习记录；当前页面仍保持结算和队列锁定，不会显示临时零值。</p>
+                  <p>请刷新页面读取最新记录，再重新导出备份并决定是否重建。</p>
+                </>
+              ) : (
+                <>
+                  <p>
+                    {storageRecovery.reason === 'unsupported-version'
+                      ? '本地复习记录来自当前版本无法识别的版本，已停止结算并逐字保留原始数据。'
+                      : '本地复习记录格式损坏，已停止结算并逐字保留原始数据。'}
+                  </p>
+                  <p>请先生成原始备份下载，再由你明确确认是否使用当前题库安全重建。</p>
+                </>
+              )}
+            </div>
+            <div className="recall-storage-recovery__actions">
+              <button
+                type="button"
+                disabled={Boolean(storageRecovery.sourceChanged)}
+                onClick={actions.onExportStorageBackup}
+              >
+                {storageRecovery.sourceChanged
+                  ? '刷新后重新导出'
+                  : storageRecovery.backupExported
+                    ? '重新导出原始备份'
+                    : '先导出原始备份'}
+              </button>
+              <button
+                type="button"
+                disabled={Boolean(storageRecovery.sourceChanged) || !storageRecovery.backupExported}
+                onClick={actions.onRequestStorageRebuild}
+              >
+                重建本地复习记录
+              </button>
+            </div>
+          </section>
+        )}
       </header>
 
       {statusMessage && !dialog.open && (
-        <p className="recall-center-live-status" role="status" aria-live="polite">
+        <p
+          id="recall-center-live-status"
+          className="recall-center-live-status"
+          role="status"
+          aria-live="polite"
+          tabIndex={-1}
+        >
           {statusMessage}
         </p>
       )}
@@ -1095,7 +1247,7 @@ export function RecallCenter({
         <div
           className="recall-center-backdrop"
           onMouseDown={handleBackdropMouseDown}
-          aria-hidden={resetItem ? true : undefined}
+          aria-hidden={resetItem || storageRecovery?.confirmationOpen ? true : undefined}
         >
           <div
             ref={dialogRef}
@@ -1163,7 +1315,13 @@ export function RecallCenter({
             </nav>
 
             {statusMessage && (
-              <p className="recall-center-live-status" role="status" aria-live="polite">
+              <p
+                id="recall-center-live-status"
+                className="recall-center-live-status"
+                role="status"
+                aria-live="polite"
+                tabIndex={-1}
+              >
                 {statusMessage}
               </p>
             )}
@@ -1188,6 +1346,9 @@ export function RecallCenter({
       )}
 
       {resetItem && <ResetConfirmation item={resetItem} actions={actions} />}
+      {storageRecovery?.confirmationOpen && (
+        <StorageRebuildConfirmation actions={actions} />
+      )}
     </section>
   )
 }

@@ -265,6 +265,7 @@ completed_frontend_fix_assignment:
     project_structure: passed-0-warnings
     git_boundary: passed
     skill_drift: passed
+    independent_read_only_review: passed-0-p0-0-p1
   review_finding_disposition:
     resolved: [CR-P1-002, CR-P1-003, CR-P2-001, CR-P2-002, CR-P2-003, CR-P2-004]
     CR-P1-001: "逐项非法/缺失到期数据隔离、原始快照、CAS 持久化、可恢复路径已完成；整体 JSON/未知版本仍安全锁定且保留原值，但原始导出+二次确认重建 UI 明确遗留"
@@ -332,6 +333,53 @@ active_assignment:
     gate: task-breakdown-review
     status: routed-awaiting-role-announcement
   auto_route_on_delivery: false
+parallel_spaced_recall_storage_recovery_fix:
+  change_id: fix-20260814-spaced-recall-storage-recovery-p1-001
+  role: role-frontend-dev
+  role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
+  role_task_title: "06 前端工程师"
+  authorization: approval-20260810-spaced-recall-frontend-fix-entry
+  continuation_authorization:
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    safe_base: b55ffe422639e3eac99dd0d73b50b41f32e01a64
+    status: confirmed-by-fixed-00
+  input:
+    artifact: artifact-spaced-recall-code-rereview-001
+    path: docs/06-code-review.md
+    sha256: 4f7e854a339e933b01fac29afa0d80bdd3e2531fb2f5abb38c53a831257321b5
+    open_major:
+      - CR-P1-001
+  output:
+    artifact: artifact-spaced-recall-storage-recovery-frontend-fix-002
+    primary_path: frontend/
+  scope: "关闭暂停态/旧版/空到期记录的逐项隔离恢复、整体 JSON/未知版本逐字备份与二次确认 CAS 重建、缺题库内容真实性、跨平台 Chrome 门禁及跨标签冲突锁定；不实现 PRD v1.4 新增完整产品范围"
+  delivery_status: ready-for-review
+  finding_disposition:
+    CR-P1-001: implemented-pending-independent-fixed-09-rereview
+    prior_closed_findings: preserved
+  validation:
+    runtime: Node.js-24.19.0
+    lint: passed
+    typecheck_and_build: passed
+    spaced_recall_test: passed
+    inline_cloze_test: passed-1200-randomized-cases
+    chrome_cdp_react_integration: passed-1440-390-320-console-clean
+    raw_export_confirmed_rebuild_and_source_conflict: passed
+    paused_and_missing_content_recovery: passed
+    current_cycle_maintenance_terminal_state: passed
+    simplified_chinese: complete-for-changed-states
+    project_structure: passed-0-warnings
+    git_boundary: passed
+    skill_drift: passed
+  preserved_top_level:
+    release_scope_artifact: artifact-english-release-completeness-prd-001
+    cross_project_replanning_gate: pending
+    backend_task_breakdown_gate: pending
+    production_deployment: frozen
+  completed_at: "2026-08-14T16:36:22+08:00"
+  result: ready-for-frontend-fix-delivery-review
+  stop_gate: frontend-fix-delivery-review
+  auto_route_on_delivery: false
 completed_ui_assignment:
   change_id: chg-20260804-reveal-answer-ui-prompt-v1-2
   role: role-ui-designer
@@ -378,7 +426,7 @@ held_downstream_delivery:
   resumed_again_by: approval-20260806-spaced-recall-ui-prompt-and-direct-frontend
   resumed_for: chg-20260806-spaced-recall-frontend-implementation-v1-3
   resumed_at: "2026-08-06T14:23:53+08:00"
-implementation_gate: "固定 09 已完成 artifact-spaced-recall-code-rereview-001，并停在 code-rereview-conclusion-review。CR-P1-001 因暂停态损坏记录无法逐项恢复及整体 JSON/未知版本无导出与二次确认重建 UI 而保持 Major 打开；不得自动进入 QA、后端或生产部署。若超级无敌帅超超总批准当前复审结论，仅可一跳授权固定 06 处理该存储恢复遗留；固定 02 的后端/联调任务拆解为独立并行分支，不受本门禁扩权。"
+implementation_gate: "固定 06 已完成 artifact-spaced-recall-storage-recovery-frontend-fix-002，对 CR-P1-001 的实现处置停在 frontend-fix-delivery-review；只有该交付获批后才可单独授权固定 09 复审，不得自动进入固定 09、QA、后端或生产部署。PRD v1.4 完整产品范围与固定 02 后端任务拆解仍是独立待规划/待审分支，本修复不得冒充完整发布完成。"
 latest_approved_artifact:
   artifact: artifact-spaced-recall-frontend-fix-001
   path: frontend/
@@ -651,4 +699,4 @@ parallel_backend_task_breakdown_assignment:
   auto_route_on_delivery: false
 backend_planning_gate: "docs/03-dev-tasks.md v1.1 已 ready-for-review；固定 07 尚未获准启动。只有超级无敌帅超超总明确‘通过’本任务拆解后，才按一跳规则授权唯一 AEL-BE-001；AEL-BE-002+、固定 08/09/06/11/10 均继续未授权。"
 state_limit: "旧版计划与任务表仍需单独对账；本状态只声明已核实的最新交付和审批门"
-updated_at: "2026-08-14T16:20:21+08:00"
+updated_at: "2026-08-14T16:36:22+08:00"
