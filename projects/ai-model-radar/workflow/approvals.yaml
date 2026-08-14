@@ -366,3 +366,23 @@ approvals:
     evidence: "超级无敌帅超超总对固定 01 提交的双 Radar 来源白名单专项入场申请明确回复‘同意’；调研期间发布范围审核由另一已授权流程批准，本专项只旁路登记并返回当前权威门。"
     advance_limit: research-delivery-review-only
     auto_advance_beyond_next: false
+  - id: approval-20260814-radar-source-allowlist-v1
+    run_id: run-20260731-intake-001
+    gate: source-allowlist-review
+    artifact_bundle:
+      - artifact-radar-source-allowlist-001
+      - artifact-radar-source-registry-001
+    version: "1.0"
+    change_group_id: research-20260814-source-allowlist-001
+    change_id: research-20260814-radar-source-allowlist-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-14T17:16:03+08:00"
+    source_task_id: 019fb799-5686-7571-ab7f-25bf816128b0
+    user_reply: "通过"
+    evidence: "固定 01 已独立展示 AI Model Radar 与 Frontend Career Radar 两套来源白名单 v1.0、哈希、提交、限制及审核选项；超级无敌帅超超总紧接着明确回复‘通过’，批准该双项目来源治理交付。"
+    source_commit: 102f5c2eaefbf3862cf89da2903b7e7d754bff7e
+    effect: "批准本来源证据产物并关闭 source-allowlist-review；返回既有 cross-project-replanning-direction，不自动路由固定 02、产品、UI、架构、开发或部署。"
+    next_gate: cross-project-replanning-direction
+    advance_limit: return-to-existing-gate-only
+    auto_advance_beyond_next: false

@@ -489,7 +489,10 @@ temporary_source_allowlist_research_assignment:
       sha256: c303e79e1fa9f7a1664ac718a1678bbcb6610b5309a5d5e4006e6d4b1d438f91
       rows: 72
       columns: 35
-  delivery_status: ready-for-review
+  delivery_status: approved
+  review_status: approved
+  approval: approval-20260814-radar-source-allowlist-v1
+  reviewed_at: "2026-08-14T17:16:03+08:00"
   validation_status: passed
   validated_at: "2026-08-14T17:03:00+08:00"
   validation:
@@ -508,19 +511,24 @@ temporary_source_allowlist_research_assignment:
     - "OpenAI Release Notes direct automated check returned 403; RSS and official alternatives remain primary"
     - "documented timeout and robots anomalies remain conditional or pending, never silently promoted"
     - "research-only-no-crawler-api-database-scheduler-or-deployment"
-  stop_gate: source-allowlist-review
+  completed_gate: source-allowlist-review
   return_point: cross-project-replanning-direction
+  return_status: returned-to-cross-project-replanning-direction
   primary_gate_preserved: true
   auto_route_on_delivery: false
-additional_pending_source_allowlist_approval:
+source_allowlist_approval_result:
   gate: source-allowlist-review
   artifacts:
     - artifact-radar-source-allowlist-001
     - artifact-radar-source-registry-001
   decision_owner: 超级无敌帅超超总
-  decision: pending
-  delivery_status: ready-for-review
+  decision: approved
+  approval: approval-20260814-radar-source-allowlist-v1
+  decided_at: "2026-08-14T17:16:03+08:00"
+  user_reply: "通过"
+  delivery_status: approved
   options: [通过, 补充指定调研, 打回重做]
-  on_approved: "只批准本来源证据产物并返回 cross-project-replanning-direction；不自动路由固定 02、产品、UI、架构、开发或部署"
+  result: approved-and-returned-to-cross-project-replanning-direction
+  effect: "只批准本来源证据产物并返回 cross-project-replanning-direction；不自动路由固定 02、产品、UI、架构、开发或部署"
   auto_advance_beyond_next: false
-updated_at: "2026-08-14T17:03:00+08:00"
+updated_at: "2026-08-14T17:16:03+08:00"

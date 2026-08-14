@@ -589,7 +589,7 @@ artifacts:
     type: source-allowlist-research
     path: docs/00-source-allowlist.md
     version: "1.0"
-    status: ready-for-review
+    status: approved
     owner: role-market-researcher
     role_task_id: 019fb799-5686-7571-ab7f-25bf816128b0
     change_group_id: research-20260814-source-allowlist-001
@@ -604,19 +604,22 @@ artifacts:
     completed_at: "2026-08-14T16:39:03+08:00"
     validated_at: "2026-08-14T17:03:00+08:00"
     validation_status: passed
+    approval: approval-20260814-radar-source-allowlist-v1
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-14T17:16:03+08:00"
     known_limits:
       - candidate-sources-pending-per-source-verification
       - direct-html-access-and-timeout-anomalies-documented
       - no-implementation-or-production-authorization
-    stop_gate: source-allowlist-review
-    current_return_gate: cross-project-replanning-direction
+    completed_gate: source-allowlist-review
+    next_gate: cross-project-replanning-direction
     auto_route: false
   - id: artifact-radar-source-registry-001
     run_id: run-20260731-intake-001
     type: source-registry
     path: docs/00-source-registry.csv
     version: "1.0"
-    status: ready-for-review
+    status: approved
     owner: role-market-researcher
     role_task_id: 019fb799-5686-7571-ab7f-25bf816128b0
     change_group_id: research-20260814-source-allowlist-001
@@ -630,6 +633,9 @@ artifacts:
     completed_at: "2026-08-14T16:39:03+08:00"
     validated_at: "2026-08-14T17:03:00+08:00"
     validation_status: passed
-    stop_gate: source-allowlist-review
-    current_return_gate: cross-project-replanning-direction
+    approval: approval-20260814-radar-source-allowlist-v1
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-14T17:16:03+08:00"
+    completed_gate: source-allowlist-review
+    next_gate: cross-project-replanning-direction
     auto_route: false

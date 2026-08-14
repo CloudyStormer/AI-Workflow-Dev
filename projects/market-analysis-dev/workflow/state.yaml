@@ -482,7 +482,10 @@ temporary_source_allowlist_research_assignment:
       sha256: 43355d302df64a323e3ee6fe299530d72fd6df8a54bb4b24a06158a9f3621b06
       rows: 60
       columns: 35
-  delivery_status: ready-for-review
+  delivery_status: approved
+  review_status: approved
+  approval: "approval-20260814-career-source-allowlist-v1"
+  reviewed_at: "2026-08-14T17:16:03+08:00"
   validation_status: passed
   validated_at: "2026-08-14T17:03:00+08:00"
   validation:
@@ -501,19 +504,24 @@ temporary_source_allowlist_research_assignment:
     - "Greenhouse Lever and Ashby require approved company allowlists and minimal-field reuse review"
     - "BLS automated link check returned 403 and was downgraded to manual-only"
     - "research-only-no-crawler-api-database-scheduler-or-deployment"
-  stop_gate: source-allowlist-review
+  completed_gate: source-allowlist-review
   return_point: cross-project-replanning-direction
+  return_status: returned-to-cross-project-replanning-direction
   primary_gate_preserved: true
   auto_route_on_delivery: false
-additional_pending_source_allowlist_approval:
+source_allowlist_approval_result:
   gate: source-allowlist-review
   artifacts:
     - "artifact-career-source-allowlist-001"
     - "artifact-career-source-registry-001"
   decision_owner: 超级无敌帅超超总
-  decision: pending
-  delivery_status: ready-for-review
+  decision: approved
+  approval: "approval-20260814-career-source-allowlist-v1"
+  decided_at: "2026-08-14T17:16:03+08:00"
+  user_reply: "通过"
+  delivery_status: approved
   options: [通过, 补充指定调研, 打回重做]
-  on_approved: "只批准本来源证据产物并返回 cross-project-replanning-direction；不自动路由固定 02、产品、UI、架构、开发或部署"
+  result: approved-and-returned-to-cross-project-replanning-direction
+  effect: "只批准本来源证据产物并返回 cross-project-replanning-direction；不自动路由固定 02、产品、UI、架构、开发或部署"
   auto_advance_beyond_next: false
-updated_at: "2026-08-14T17:03:00+08:00"
+updated_at: "2026-08-14T17:16:03+08:00"
