@@ -1,0 +1,40 @@
+schema_version: 1
+
+approval:
+  id: approval-20260814-four-project-domain-cdn-service-boundary-v1
+  recorded_at: "2026-08-14T16:20:13+08:00"
+  actor: "超级无敌帅超超总"
+  source_role_task: "05 架构师"
+  decision: approved
+  evidence: "超级无敌帅超超总在固定 05 架构师任务中，对唯一待审的四项目《域名/CDN/回源/服务边界架构》v1.0 回复‘同意’。"
+
+artifact:
+  id: artifact-four-project-domain-cdn-service-boundary-001
+  change_id: arch-20260814-four-project-domain-cdn-service-boundary-001
+  path: architecture/02-domain-cdn-service-boundary.md
+  version: "1.0"
+  sha256: d8d7a594b18195e85795b01c7c9c6829222571ba65ddb9629256fab2cf29114b
+  source_commit: 641fbe51ccc237d1716d03187c89bcf058561080
+
+scope:
+  projects:
+    - ai-english-learning
+    - ai-model-radar
+    - market-analysis-dev
+    - workflow-control-center
+  approved_boundary: "architecture-only"
+  production_deployment: frozen
+  domain_dns_cdn_cloud_changes_authorized: false
+
+routing:
+  auto_route: false
+  next_role: null
+  next_work_item: null
+  reason: "原交付明确约定即使通过也不自动路由固定 02、开发或 DevOps；后续任务拆解、实施、云资源变更和生产发布均须新的明确授权。"
+  next_gate: explicit-follow-up-authorization-required
+
+preserved_state:
+  business_code_modified: false
+  cloud_permissions_modified: false
+  production_configuration_modified: false
+  unrelated_frontend_worktree_included: false
