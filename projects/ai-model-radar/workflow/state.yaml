@@ -439,4 +439,88 @@ authorized_user_ui_generation:
   frontend_unfrozen: false
   architecture_or_development_started: false
   auto_advance_beyond_next: false
-updated_at: "2026-08-14T16:20:21+08:00"
+temporary_source_allowlist_research_assignment:
+  change_group_id: research-20260814-source-allowlist-001
+  change_id: research-20260814-radar-source-allowlist-001
+  role: role-market-researcher
+  role_task_id: 019fb799-5686-7571-ab7f-25bf816128b0
+  role_task_title: "01 市场调研员"
+  authorization: approval-20260814-radar-source-allowlist-research-entry
+  authorized_via: explicit-user-approval
+  safe_checkpoint:
+    entry_head: 0d7ff69d93be8b376073f83be3596a973c2483a2
+    entry_stage: product-definition
+    entry_status: release-scope-correction-ready-for-review
+    entry_gate: product-release-scope-review
+    target_scope_clean: true
+    unrelated_worktree_preserved: true
+  concurrent_governance_transition:
+    commit: b55ffe422639e3eac99dd0d73b50b41f32e01a64
+    release_scope_approval: approval-20260814-radar-release-completeness-appendix-v1
+    current_stage: product-definition
+    current_status: release-scope-approved-awaiting-cross-project-replanning
+    current_gate: cross-project-replanning-direction
+    preservation: "本专项不覆盖已批准发布范围，也不恢复或路由原 UI/前端链"
+  submission_checkpoint:
+    head: f5fa9e20075e6d52e4a48a7e7b6d62a1782cbb94
+    origin_main: f5fa9e20075e6d52e4a48a7e7b6d62a1782cbb94
+    index_lock: clear
+    unrelated_project_changes: preserved-ai-english-learning-and-root-fixed02-plan-not-staged
+    authorized_scope_only: true
+  scope:
+    - global-and-china-model-source-allowlist
+    - terms-robots-copyright-access-and-platform-risk
+    - update-frequency-degrade-dedup-and-importance
+  exclusions:
+    - crawler-or-connector-implementation
+    - api-database-or-scheduler-implementation
+    - production-deployment
+    - downstream-role-routing
+  outputs:
+    report:
+      artifact: artifact-radar-source-allowlist-001
+      path: docs/00-source-allowlist.md
+      version: "1.0"
+      sha256: 9aa9bb926cc52aae28d11bbf676507ca313add83238cd81be6300a4d9f2f0498
+    registry:
+      artifact: artifact-radar-source-registry-001
+      path: docs/00-source-registry.csv
+      version: "1.0"
+      sha256: c303e79e1fa9f7a1664ac718a1678bbcb6610b5309a5d5e4006e6d4b1d438f91
+      rows: 72
+      columns: 35
+  delivery_status: ready-for-review
+  validation_status: passed
+  validated_at: "2026-08-14T17:03:00+08:00"
+  validation:
+    report_and_registry_sha256: matched
+    yaml: valid
+    jsonl_before_validation_event: 64-of-64-valid-and-unique
+    csv: 72-rows-35-columns-valid-and-unique-including-29-atomic-endpoint-decisions
+    link_syntax: 346-unique-concrete-https-valid-6-explicit-endpoint-templates
+    endpoint_reachability_snapshot: "26 checked once with 5s cap: 16 HTTP 200, 10 timeout; no retry or bypass; implementation canary required"
+    project_structure: passed-with-0-warnings
+    git_boundary: passed
+    skill_drift: passed
+    diff_check: passed
+  known_limits:
+    - "candidate vendor pool remains pending per-source machine-access and legal verification; no false all-model exhaustive claim"
+    - "OpenAI Release Notes direct automated check returned 403; RSS and official alternatives remain primary"
+    - "documented timeout and robots anomalies remain conditional or pending, never silently promoted"
+    - "research-only-no-crawler-api-database-scheduler-or-deployment"
+  stop_gate: source-allowlist-review
+  return_point: cross-project-replanning-direction
+  primary_gate_preserved: true
+  auto_route_on_delivery: false
+additional_pending_source_allowlist_approval:
+  gate: source-allowlist-review
+  artifacts:
+    - artifact-radar-source-allowlist-001
+    - artifact-radar-source-registry-001
+  decision_owner: 超级无敌帅超超总
+  decision: pending
+  delivery_status: ready-for-review
+  options: [通过, 补充指定调研, 打回重做]
+  on_approved: "只批准本来源证据产物并返回 cross-project-replanning-direction；不自动路由固定 02、产品、UI、架构、开发或部署"
+  auto_advance_beyond_next: false
+updated_at: "2026-08-14T17:03:00+08:00"

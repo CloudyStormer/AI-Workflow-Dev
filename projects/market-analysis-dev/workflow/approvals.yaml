@@ -353,3 +353,30 @@ approvals:
     next_gate: cross-project-replanning-direction
     advance_limit: no-automatic-route
     auto_advance_beyond_next: false
+  - id: "approval-20260814-career-source-allowlist-research-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-entry
+    role: role-market-researcher
+    role_task_id: "019fb799-5686-7571-ab7f-25bf816128b0"
+    role_task_title: "01 市场调研员"
+    change_group_id: "research-20260814-source-allowlist-001"
+    change_id: "research-20260814-career-source-allowlist-001"
+    scope: "联网核验前端官方技术发布、公开招聘证据、市场趋势、条款、robots、版权、访问方式、更新频率、去重排序与降级策略；只交付来源报告和登记表"
+    exclusions:
+      - crawler-or-connector-implementation
+      - api-database-or-scheduler-implementation
+      - production-deployment
+      - automatic-downstream-routing
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-14T16:39:03+08:00"
+    source_task_id: "019fb799-5686-7571-ab7f-25bf816128b0"
+    user_reply: "同意"
+    safe_checkpoint: 0d7ff69d93be8b376073f83be3596a973c2483a2
+    original_stage: product-definition
+    original_gate: product-release-scope-review
+    concurrent_governance_commit: b55ffe422639e3eac99dd0d73b50b41f32e01a64
+    current_return_gate: cross-project-replanning-direction
+    evidence: "超级无敌帅超超总对固定 01 提交的双 Radar 来源白名单专项入场申请明确回复‘同意’；调研期间发布范围审核由另一已授权流程批准，本专项只旁路登记并返回当前权威门。"
+    advance_limit: research-delivery-review-only
+    auto_advance_beyond_next: false

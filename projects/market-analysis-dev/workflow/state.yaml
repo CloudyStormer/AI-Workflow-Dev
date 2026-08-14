@@ -431,4 +431,89 @@ additional_pending_frontend_approval:
   options: [通过, 修改, 打回]
   original_return_point: "artifact-career-frontend-001 / frontend-delivery-review"
   on_approved: "只批准当前临时可见纵切并返回原审核点；不标记 CFR-FE-008 完成，不授权 CFR-FE-009、代码审查、QA 或部署"
-updated_at: "2026-08-14T16:20:21+08:00"
+temporary_source_allowlist_research_assignment:
+  change_group_id: "research-20260814-source-allowlist-001"
+  change_id: "research-20260814-career-source-allowlist-001"
+  role: role-market-researcher
+  role_task_id: "019fb799-5686-7571-ab7f-25bf816128b0"
+  role_task_title: "01 市场调研员"
+  authorization: "approval-20260814-career-source-allowlist-research-entry"
+  authorized_via: explicit-user-approval
+  safe_checkpoint:
+    entry_head: 0d7ff69d93be8b376073f83be3596a973c2483a2
+    entry_stage: product-definition
+    entry_status: release-scope-correction-ready-for-review
+    entry_gate: product-release-scope-review
+    target_scope_clean: true
+    unrelated_worktree_preserved: true
+  concurrent_governance_transition:
+    commit: b55ffe422639e3eac99dd0d73b50b41f32e01a64
+    release_scope_approval: "approval-20260814-career-release-scope-v1-3"
+    current_stage: product-definition
+    current_status: release-scope-approved-awaiting-cross-project-replanning
+    current_gate: cross-project-replanning-direction
+    preservation: "本专项不覆盖已批准发布范围，也不恢复或路由既有前端/F10/UI Prompt 链"
+  submission_checkpoint:
+    head: f5fa9e20075e6d52e4a48a7e7b6d62a1782cbb94
+    origin_main: f5fa9e20075e6d52e4a48a7e7b6d62a1782cbb94
+    index_lock: clear
+    unrelated_project_changes: preserved-ai-english-learning-and-root-fixed02-plan-not-staged
+    authorized_scope_only: true
+  scope:
+    - official-technology-source-allowlist
+    - public-ats-and-recruitment-evidence-boundary
+    - market-trend-calibration-and-sample-bias
+    - terms-robots-copyright-frequency-dedup-and-degrade
+  exclusions:
+    - crawler-or-connector-implementation
+    - api-database-or-scheduler-implementation
+    - production-deployment
+    - downstream-role-routing
+  outputs:
+    report:
+      artifact: "artifact-career-source-allowlist-001"
+      path: docs/00-source-allowlist.md
+      version: "1.0"
+      sha256: 8e590b31a19b8d4aecd910561ebcc5ee5e423d1dc299ebc4c2d6e4379c3e607e
+    registry:
+      artifact: "artifact-career-source-registry-001"
+      path: docs/00-source-registry.csv
+      version: "1.0"
+      sha256: 43355d302df64a323e3ee6fe299530d72fd6df8a54bb4b24a06158a9f3621b06
+      rows: 60
+      columns: 35
+  delivery_status: ready-for-review
+  validation_status: passed
+  validated_at: "2026-08-14T17:03:00+08:00"
+  validation:
+    report_and_registry_sha256: matched
+    yaml: valid
+    jsonl_before_validation_event: 65-of-65-valid-and-unique
+    csv: 60-rows-35-columns-valid-and-unique-including-16-atomic-endpoint-decisions
+    link_syntax: 346-unique-concrete-https-valid-6-explicit-endpoint-templates
+    endpoint_reachability_snapshot: "16 checked once with 5s cap: 8 HTTP 200, 1 HTTP 403, 7 timeout; no retry or bypass; implementation canary required"
+    project_structure: passed-with-0-warnings
+    git_boundary: passed
+    skill_drift: passed
+    diff_check: passed
+  known_limits:
+    - "China mainland automated job coverage remains limited because restricted commercial platforms are disabled"
+    - "Greenhouse Lever and Ashby require approved company allowlists and minimal-field reuse review"
+    - "BLS automated link check returned 403 and was downgraded to manual-only"
+    - "research-only-no-crawler-api-database-scheduler-or-deployment"
+  stop_gate: source-allowlist-review
+  return_point: cross-project-replanning-direction
+  primary_gate_preserved: true
+  auto_route_on_delivery: false
+additional_pending_source_allowlist_approval:
+  gate: source-allowlist-review
+  artifacts:
+    - "artifact-career-source-allowlist-001"
+    - "artifact-career-source-registry-001"
+  decision_owner: 超级无敌帅超超总
+  decision: pending
+  delivery_status: ready-for-review
+  options: [通过, 补充指定调研, 打回重做]
+  on_approved: "只批准本来源证据产物并返回 cross-project-replanning-direction；不自动路由固定 02、产品、UI、架构、开发或部署"
+  auto_advance_beyond_next: false
+updated_at: "2026-08-14T17:03:00+08:00"
