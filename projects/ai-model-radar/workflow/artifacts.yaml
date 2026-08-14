@@ -639,3 +639,30 @@ artifacts:
     completed_gate: source-allowlist-review
     next_gate: cross-project-replanning-direction
     auto_route: false
+  - id: artifact-radar-four-project-release-replanning-reference-001
+    run_id: run-20260731-intake-001
+    type: cross-project-plan-reference
+    status: approved
+    owner: role-pm
+    source_artifact_id: artifact-four-project-release-replanning-plan-001
+    repo_relative_path: docs/04-four-project-release-completeness-replanning-plan.md
+    version: "1.0"
+    change_id: plan-20260814-four-project-release-replanning-001
+    sha256: 96decb8f1835cc85bd530c21b2969d4d077f31e6086425ea911f9d5b187bbe26
+    source_commit: c073cf428dec310c46830bedc198b3f6c4f05cd2
+    approval: approval-20260814-four-project-release-replanning-plan-v1
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-14T17:39:13+08:00"
+    scope:
+      approved_boundary: non-production-cross-project-replanning-plan-only
+      project_projection: ai-model-radar
+      unique_next_work_item: MR-UI-001
+      next_role: role-ui-designer
+      connectors_or_runtime_authorized: false
+      production_release: frozen
+    preserved_gates:
+      - artifact-radar-live-daily-user-ui-design-001/ui-design-review
+      - artifact-radar-frontend-001/frontend-delivery-review-held
+    result: approved-and-unique-next-work-item-authorized
+    stop_gate: completed
+    auto_route_beyond_next: false

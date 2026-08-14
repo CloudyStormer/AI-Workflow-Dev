@@ -1,0 +1,58 @@
+schema_version: 1
+
+approval:
+  id: approval-20260814-four-project-release-replanning-plan-v1
+  recorded_at: "2026-08-14T17:39:13+08:00"
+  actor: "超级无敌帅超超总"
+  source_role_task: "02 项目经理"
+  source_role_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
+  source_coordinator_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+  decision: approved
+  user_reply: "两个都通过；通过"
+  evidence: "超级无敌帅超超总先在固定 02 对本计划回复‘通过’，随后在固定 00 对明确并列的两个待审产物回复‘两个都通过’；固定 00 已正式确认其中包含本计划。"
+
+artifact:
+  id: artifact-four-project-release-replanning-plan-001
+  change_id: plan-20260814-four-project-release-replanning-001
+  path: docs/04-four-project-release-completeness-replanning-plan.md
+  version: "1.0"
+  sha256: 96decb8f1835cc85bd530c21b2969d4d077f31e6086425ea911f9d5b187bbe26
+  source_commit: c073cf428dec310c46830bedc198b3f6c4f05cd2
+
+scope:
+  projects:
+    - ai-english-learning
+    - ai-model-radar
+    - market-analysis-dev
+    - workflow-control-center
+  approved_boundary: non-production-cross-project-replanning-plan-only
+  production_deployment: frozen
+  connectors_or_runtime_authorized: false
+  architecture_or_development_authorized: false
+
+routing:
+  auto_route: true
+  next_project: ai-model-radar
+  next_role: role-ui-designer
+  next_role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+  next_role_task_title: "04 UI/UX设计师"
+  next_work_item: MR-UI-001
+  change_id: ui-prompt-20260814-radar-release-completeness-001
+  authorization: approval-20260814-radar-release-replanning-ui-prompt-entry
+  expected_artifact: artifact-radar-release-completeness-ui-prompt-001
+  expected_path: projects/ai-model-radar/ui/04-release-completeness-ui-prompt.md
+  expected_version: "1.0"
+  stop_gate: ui-prompt-review
+  advance_limit: unique-next-stage-only
+  auto_advance_beyond_next: false
+
+preserved_state:
+  other_projects_downstream_authorized: false
+  mr_ui_002_authorized: false
+  old_model_ui_design_gate_preserved: true
+  old_model_frontend_gate_preserved: true
+  source_research_only_boundary_preserved: true
+  english_open_findings_preserved:
+    - CR-P1-001-R2
+    - CR-P2-005
+  production_release: frozen

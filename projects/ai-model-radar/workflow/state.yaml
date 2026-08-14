@@ -3,9 +3,9 @@ project_id: ai-model-radar
 run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
-stage: product-definition
-status: release-scope-approved-awaiting-cross-project-replanning
-current_role: role-product-manager
+stage: ui-ux
+status: release-replanning-ui-prompt-authorized-awaiting-role-announcement
+current_role: role-ui-designer
 blocked: false
 ui_assets:
   directory: ui
@@ -38,14 +38,81 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
-  gate: cross-project-replanning-direction
-  scope: "等待把真实来源、live 持久化、既有 UI 设计等待项和冻结前端拆成唯一重规划工作项；不自动恢复原 UI/前端链"
+  gate: ui-prompt-review
+  scope: "审核固定 04 对 MR-UI-001 交付的 AI Model Radar 发布完整性 UI/UX 增量提示词；不包含设计生成、架构、开发、连接器或部署"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: awaiting-explicit-unique-work-item
-  on_approved: authorize-one-explicit-non-production-work-item-only
-  advance_limit: no-automatic-route
+  delivery_status: authorized-awaiting-role-announcement
+  on_approved: authorize-only-MR-UI-002-after-independent-prompt-delivery-review
+  advance_limit: unique-next-stage-only
   auto_advance_beyond_next: false
+cross_project_replanning_plan_review:
+  gate: cross-project-replanning-plan-review
+  consumed_prior_gate: cross-project-replanning-direction
+  artifact: artifact-four-project-release-replanning-plan-001
+  repo_relative_path: docs/04-four-project-release-completeness-replanning-plan.md
+  version: "1.0"
+  sha256: 96decb8f1835cc85bd530c21b2969d4d077f31e6086425ea911f9d5b187bbe26
+  source_commit: c073cf428dec310c46830bedc198b3f6c4f05cd2
+  decision: approved
+  approval: approval-20260814-four-project-release-replanning-plan-v1
+  decided_by: 超级无敌帅超超总
+  decided_at: "2026-08-14T17:39:13+08:00"
+  user_reply: "两个都通过；通过"
+  result: approved-and-only-MR-UI-001-authorized
+  production_release: frozen
+  auto_advance_beyond_next: false
+active_release_replanning_ui_prompt_assignment:
+  change_id: ui-prompt-20260814-radar-release-completeness-001
+  work_item: MR-UI-001
+  role: role-ui-designer
+  role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+  role_task_title: "04 UI/UX设计师"
+  authorization: approval-20260814-radar-release-replanning-ui-prompt-entry
+  scheduling: authorized-awaiting-role-announcement
+  upstream_plan:
+    approval: approval-20260814-four-project-release-replanning-plan-v1
+    artifact: artifact-four-project-release-replanning-plan-001
+    repo_relative_path: docs/04-four-project-release-completeness-replanning-plan.md
+    version: "1.0"
+    sha256: 96decb8f1835cc85bd530c21b2969d4d077f31e6086425ea911f9d5b187bbe26
+    source_commit: c073cf428dec310c46830bedc198b3f6c4f05cd2
+  upstream_product:
+    approval: approval-20260814-radar-release-completeness-appendix-v1
+    artifact: artifact-radar-release-completeness-appendix-001
+    path: docs/02-prd-release-completeness-appendix.md
+    version: "1.0"
+    sha256: a27cfecc196c29749387302a692d93af0b5b534af7da6805b6b297e064133f1d
+    baseline_prd_sha256: 3ce842ef8e2b9661f2114b3b4a2b3361eeb8fac0f98a5071cd8e27c38a81a020
+  upstream_sources:
+    approval: approval-20260814-radar-source-allowlist-v1
+    report_sha256: 9aa9bb926cc52aae28d11bbf676507ca313add83238cd81be6300a4d9f2f0498
+    registry_sha256: c303e79e1fa9f7a1664ac718a1678bbcb6610b5309a5d5e4006e6d4b1d438f91
+    official_source_connectors: 0
+    runtime_enabled: false
+  historical_ui_reference:
+    artifact: artifact-radar-live-daily-ui-prompt-001
+    path: ui/03-ui-prompt.md
+    version: "1.2"
+    sha256: 967090f3ac97e0a0bb00070eb39a5af9b6efcd629ac1517e78bffa4f8f7605bd
+    mode: read-only-do-not-overwrite
+  expected_output:
+    artifact: artifact-radar-release-completeness-ui-prompt-001
+    path: ui/04-release-completeness-ui-prompt.md
+    version: "1.0"
+  scope: "只编制发布完整性 UI/UX 增量提示词；完整简中、核心路由与真相态、来源政策与运行时状态、320px、键盘和读屏覆盖"
+  exclusions:
+    - MR-UI-002-and-any-design-prototype-or-image
+    - existing-ui-03-prompt-and-nine-historical-assets
+    - architecture-task-breakdown-code-connectors-runtime-and-deployment
+    - career-english-control-ui
+  preserved_gates:
+    - artifact-radar-live-daily-user-ui-design-001/ui-design-review
+    - artifact-radar-frontend-001/frontend-delivery-review-held
+  delivery_status: authorized-awaiting-role-announcement
+  stop_gate: ui-prompt-review
+  production_release: frozen
+  auto_route_on_delivery: false
 release_scope_product_assignment:
   change_group_id: prd-20260814-four-project-release-completeness-001
   change_id: prd-20260814-radar-release-completeness-appendix-001
@@ -531,4 +598,4 @@ source_allowlist_approval_result:
   result: approved-and-returned-to-cross-project-replanning-direction
   effect: "只批准本来源证据产物并返回 cross-project-replanning-direction；不自动路由固定 02、产品、UI、架构、开发或部署"
   auto_advance_beyond_next: false
-updated_at: "2026-08-14T17:16:03+08:00"
+updated_at: "2026-08-14T17:39:13+08:00"

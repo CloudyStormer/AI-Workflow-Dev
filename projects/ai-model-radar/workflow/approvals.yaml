@@ -386,3 +386,85 @@ approvals:
     next_gate: cross-project-replanning-direction
     advance_limit: return-to-existing-gate-only
     auto_advance_beyond_next: false
+  - id: approval-20260814-four-project-release-replanning-plan-v1
+    run_id: run-20260731-intake-001
+    gate: cross-project-replanning-plan-review
+    role: role-pm
+    artifact: artifact-four-project-release-replanning-plan-001
+    repo_relative_path: docs/04-four-project-release-completeness-replanning-plan.md
+    version: "1.0"
+    sha256: 96decb8f1835cc85bd530c21b2969d4d077f31e6086425ea911f9d5b187bbe26
+    source_commit: c073cf428dec310c46830bedc198b3f6c4f05cd2
+    change_id: plan-20260814-four-project-release-replanning-001
+    scope: "批准四项目非生产发布完整性重排计划；只允许按唯一一跳进入 AI Model Radar 的 MR-UI-001"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-14T17:39:13+08:00"
+    source_task_id: 019fb738-5706-7552-849f-35c8a124e2f0
+    source_coordinator_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    user_reply: "两个都通过；通过"
+    evidence: "超级无敌帅超超总已分别在固定 02 与固定 00 明确通过本计划；固定 00 正式确认‘两个都通过’包含该产物。"
+    effect: "批准根计划，并只授权固定 04 执行 MR-UI-001；不授权 MR-UI-002、其他项目 UI、架构、开发、连接器、运行时或部署。"
+    next_gate: ui-prompt-review
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+  - id: approval-20260814-radar-release-replanning-ui-prompt-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    role: role-ui-designer
+    role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+    role_task_title: "04 UI/UX设计师"
+    change_id: ui-prompt-20260814-radar-release-completeness-001
+    work_item: MR-UI-001
+    expected_artifact: artifact-radar-release-completeness-ui-prompt-001
+    expected_path: ui/04-release-completeness-ui-prompt.md
+    expected_version: "1.0"
+    scope: "只编制 AI Model Radar 发布完整性 UI/UX 增量提示词，覆盖完整简体中文、核心页面与真相态、来源政策与运行时状态、响应式和无障碍；交付后停 ui-prompt-review"
+    exclusions:
+      - MR-UI-002-or-any-design-prototype-or-image-generation
+      - existing-ui-03-prompt-or-nine-historical-assets-modification
+      - architecture-or-task-breakdown
+      - frontend-or-backend-code
+      - source-connector-collection-or-runtime-enablement
+      - career-english-control-ui-work
+      - production-deployment
+    upstream_plan:
+      approval: approval-20260814-four-project-release-replanning-plan-v1
+      artifact: artifact-four-project-release-replanning-plan-001
+      repo_relative_path: docs/04-four-project-release-completeness-replanning-plan.md
+      version: "1.0"
+      sha256: 96decb8f1835cc85bd530c21b2969d4d077f31e6086425ea911f9d5b187bbe26
+      source_commit: c073cf428dec310c46830bedc198b3f6c4f05cd2
+    upstream_product:
+      approval: approval-20260814-radar-release-completeness-appendix-v1
+      artifact: artifact-radar-release-completeness-appendix-001
+      path: docs/02-prd-release-completeness-appendix.md
+      version: "1.0"
+      sha256: a27cfecc196c29749387302a692d93af0b5b534af7da6805b6b297e064133f1d
+      baseline_prd_sha256: 3ce842ef8e2b9661f2114b3b4a2b3361eeb8fac0f98a5071cd8e27c38a81a020
+    upstream_sources:
+      approval: approval-20260814-radar-source-allowlist-v1
+      report_artifact: artifact-radar-source-allowlist-001
+      report_sha256: 9aa9bb926cc52aae28d11bbf676507ca313add83238cd81be6300a4d9f2f0498
+      registry_artifact: artifact-radar-source-registry-001
+      registry_sha256: c303e79e1fa9f7a1664ac718a1678bbcb6610b5309a5d5e4006e6d4b1d438f91
+      authorization_boundary: research-only-runtime-disabled
+    historical_ui_reference:
+      artifact: artifact-radar-live-daily-ui-prompt-001
+      path: ui/03-ui-prompt.md
+      version: "1.2"
+      sha256: 967090f3ac97e0a0bb00070eb39a5af9b6efcd629ac1517e78bffa4f8f7605bd
+      role: read-only-historical-reference
+    preserved_gates:
+      - artifact-radar-live-daily-user-ui-design-001/ui-design-review
+      - artifact-radar-frontend-001/frontend-delivery-review-held
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-14T17:39:13+08:00"
+    source_task_id: 019fb738-5706-7552-849f-35c8a124e2f0
+    evidence: "已批准的根计划把 MR-UI-001 声明为唯一、输入完整且非高风险的下一站；固定 04 实时任务状态为空闲。"
+    stop_gate: ui-prompt-review
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false

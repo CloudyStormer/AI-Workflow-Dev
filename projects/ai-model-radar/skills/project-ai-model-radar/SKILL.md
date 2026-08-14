@@ -9,7 +9,7 @@ description: 'AI Model Radar 的项目级总控 Skill。用于进入或推进大
 
 - 每次对话必须称呼用户为“超级无敌帅超超总”。
 - 专业角色通过单独明确批准入场；若上一站交付已声明其为唯一明确、输入完整且非高风险的下一站，超级无敌帅超超总回复“通过”即同时批准该范围入场。
-- 当前项目计划审核通过前，不得进入产品、UI、架构或开发；项目计划“通过”会自动授权固定 `03 产品经理` 编制 PRD，无需再等“继续”。
+- 四项目发布完整性跨项目重排计划 v1.0 已批准；该次“通过”只授权固定 `04 UI/UX设计师` 执行 `MR-UI-001`，不得启动 `MR-UI-002`、架构、开发或部署。
 
 ## 项目模块化汇报格式（强制）
 
@@ -49,11 +49,12 @@ description: 'AI Model Radar 的项目级总控 Skill。用于进入或推进大
 
 ## 当前阶段
 
-- 已完成并批准：`docs/00-market-research.md` v1.0.1
-- 已交付待审核：`docs/01-project-plan.md` v1.0
-- 当前状态：等待超级无敌帅超超总审核项目计划
-- 尚未开始：PRD、UI/UX、架构与开发
-- 尚无真实开发、构建、测试或启动命令
+- 已批准根计划：`../../docs/04-four-project-release-completeness-replanning-plan.md` v1.0，SHA256 `96decb8f1835cc85bd530c21b2969d4d077f31e6086425ea911f9d5b187bbe26`。
+- 已批准项目输入：PRD v1.2、发布完整性附录 v1.0、来源 allowlist/registry v1.0；来源批准仅为 research-only，真实连接器与 runtime 仍为 0。
+- 当前状态：`MR-UI-001` 已唯一一跳授权固定 `04 UI/UX设计师`，等待其本人报到并只交付发布完整性 UI/UX 增量提示词。
+- 预期新产物：`ui/04-release-completeness-ui-prompt.md` v1.0；不得覆盖已批准的 `ui/03-ui-prompt.md` v1.2 或 9 张历史视觉参考。
+- 当前停止门：`ui-prompt-review`。旧 `ui-design-review` 与冻结的 `frontend-delivery-review` 原样保留。
+- 不得据此启动 `MR-UI-002`、Career/English/Control UI、架构、前后端、真实来源连接器或生产部署。
 
 ## 来源与内容边界
 
@@ -73,12 +74,12 @@ description: 'AI Model Radar 的项目级总控 Skill。用于进入或推进大
 
 ## 真实入口
 
-- 开发：尚未定义
-- 构建：尚未定义
-- 测试：尚未定义
-- Lint：尚未定义
+- 开发：`cd frontend && npm run dev -- --host 127.0.0.1`
+- 构建：`cd frontend && npm run build`
+- 测试：`cd frontend && npm run test`
+- Lint：`cd frontend && npm run lint`
 
-没有代码时，结构验证通过不等于产品可以启动。
+这些入口只证明现有前端纵切可运行，不证明真实来源、后端、持久化、完整 P0 或生产发布完成。
 
 ## 权威信息
 
@@ -89,8 +90,8 @@ description: 'AI Model Radar 的项目级总控 Skill。用于进入或推进大
 
 ## 通过即授权唯一下一站（强制）
 
-- 超级无敌帅超超总对当前项目计划明确回复“通过”时，同时批准该计划并授权唯一下一站固定 `03 产品经理` 编制 `docs/02-prd.md`，无需再等“继续”。
-- 自动续行只覆盖下一站一个交付单元；当前下一站是 PRD，PRD 交付后重新停在审核门，不得继续自动启动 UI/UX、架构或开发。
+- 超级无敌帅超超总已对四项目重排计划明确回复“通过”；该次批准只授权固定 `04 UI/UX设计师` 执行 `MR-UI-001`，无需再等“继续”。
+- 自动续行只覆盖下一站一个交付单元；本次具体只覆盖这一份发布完整性增量提示词。固定 04 交付后重新停在 `ui-prompt-review`，不得继续自动启动 `MR-UI-002`、架构或开发。
 - 后续每个明确交付遵循同一规则：一次“通过”最多授权紧邻的唯一低风险下一站。下一站不唯一或涉及高风险外部动作时先请示。
 - 生产发布、删除或不可逆覆盖、强制 Git、付费采购、账号权限、隐私数据和对外发送等高风险动作只允许自动进入方案准备，实质执行仍须单独明确授权。
 
@@ -109,4 +110,4 @@ description: 'AI Model Radar 的项目级总控 Skill。用于进入或推进大
 
 ## 下一门
 
-当前等待超级无敌帅超超总审核 `docs/01-project-plan.md` v1.0。明确回复“通过”时，立即路由固定 `03 产品经理` 编制 PRD；PRD 交付后再次停门。
+当前等待固定 `04 UI/UX设计师` 本人在其固定任务宣布 `MR-UI-001` 入场，并交付 `ui/04-release-completeness-ui-prompt.md` v1.0。交付后停 `ui-prompt-review`，请求“通过 / 修改 / 打回”；本次不得自动进入 `MR-UI-002` 或任何开发阶段。
