@@ -4,7 +4,7 @@ run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
 stage: product-definition
-status: release-scope-correction-ready-for-review
+status: release-scope-approved-awaiting-cross-project-replanning
 current_role: role-product-manager
 blocked: false
 ui_assets:
@@ -202,17 +202,25 @@ temporary_frontend_assignment:
   stop_gate: frontend-delivery-review
   return_point: "artifact-career-frontend-001 / frontend-delivery-review"
   auto_route_on_delivery: false
-next_approval:
+release_scope_review:
   gate: product-release-scope-review
-  expected_change_id: "prd-20260814-career-full-release-scope-001"
-  scope: "审核 Frontend Career Radar v1.3 持续招聘/技术趋势、信息输入整合、完整技术栈、个人证据/差距/路线/未来/历史、账号数据权利与统一完成门；不审核实现或部署"
+  change_id: "prd-20260814-career-full-release-scope-001"
+  artifact: "artifact-career-release-completeness-prd-001"
+  path: docs/02-prd.md
+  decision_owner: 超级无敌帅超超总
+  decision: approved
+  approval: "approval-20260814-career-release-scope-v1-3"
+  decided_at: "2026-08-14T16:20:21+08:00"
+  evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
+  effect: approve-release-scope-only-no-downstream-route
+next_approval:
+  gate: cross-project-replanning-direction
+  scope: "等待将持续来源、私有用户数据、个人差距路线与现有前端/F10/UI Prompt 现场拆成唯一重规划工作项；原待审产物继续保留但不得按旧范围直接推进"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
-  artifact: "artifact-career-release-completeness-prd-001"
-  authorization: "approval-20260814-career-release-scope-product-entry"
-  on_approved: approve-release-scope-only-and-await-cross-role-replanning
-  advance_limit: review-only
+  delivery_status: awaiting-explicit-unique-work-item
+  on_approved: authorize-one-explicit-non-production-work-item-only
+  advance_limit: no-automatic-route
   auto_advance_beyond_next: false
 release_scope_product_assignment:
   change_group_id: "prd-20260814-four-project-release-completeness-001"
@@ -239,8 +247,14 @@ release_scope_product_assignment:
     sha256: 680a399c4984c443e7bf5f5c0aa0c628e919a061839d5659c3ddbc22ddf08705
     acceptance_criteria: AC-CFR-REL-01..AC-CFR-REL-36
   scope: "把持续招聘/技术趋势、用户信息源输入分类整合、完整技术栈、个人事实证据、差距路线、未来方向、历史变化、账号同步与数据权利提升为正式发布 P0"
-  delivery_status: ready-for-review
-  stop_gate: product-release-scope-review
+  delivery_status: approved
+  review_decision: approved
+  approval: "approval-20260814-career-release-scope-v1-3"
+  approved_by: 超级无敌帅超超总
+  approved_at: "2026-08-14T16:20:21+08:00"
+  completed_gate: product-release-scope-review
+  next_gate: cross-project-replanning-direction
+  original_gates_status: held-pending-cross-project-replanning
   production_release: frozen
   return_point: original-gates-preserved-pending-cross-project-replanning
   auto_route_on_delivery: false
@@ -417,4 +431,4 @@ additional_pending_frontend_approval:
   options: [通过, 修改, 打回]
   original_return_point: "artifact-career-frontend-001 / frontend-delivery-review"
   on_approved: "只批准当前临时可见纵切并返回原审核点；不标记 CFR-FE-008 完成，不授权 CFR-FE-009、代码审查、QA 或部署"
-updated_at: "2026-08-14T16:08:17+08:00"
+updated_at: "2026-08-14T16:20:21+08:00"

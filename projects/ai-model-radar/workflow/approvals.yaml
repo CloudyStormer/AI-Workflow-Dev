@@ -319,3 +319,23 @@ approvals:
     advance_limit: review-only
     auto_advance_beyond_next: false
     evidence: "超级无敌帅超超总明确要求四项目先完成全部真实功能再部署，并直接授权唯一固定 03 产品经理执行发布完整性范围纠偏；生产继续冻结。"
+  - id: approval-20260814-radar-release-completeness-appendix-v1
+    run_id: run-20260731-intake-001
+    gate: product-release-scope-review
+    role: role-product-manager
+    artifact: artifact-radar-release-completeness-appendix-001
+    path: docs/02-prd-release-completeness-appendix.md
+    version: "1.0"
+    sha256: a27cfecc196c29749387302a692d93af0b5b534af7da6805b6b297e064133f1d
+    change_group_id: prd-20260814-four-project-release-completeness-001
+    change_id: prd-20260814-radar-release-completeness-appendix-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-14T16:20:21+08:00"
+    source_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+    user_reply: "同意"
+    evidence: "固定 03 上一条交付逐项明确列出 English v1.4、Career v1.3、Radar 附录与 Control 附录并请求审核；超级无敌帅超超总紧接着回复‘同意’，批准该明确四产物交付包。"
+    effect: "只批准发布完整性口径；既有 UI 设计等待项和冻结前端保持 on-hold，等待跨项目重新规划。下一站不唯一，不自动路由 UI、架构、开发或部署。"
+    next_gate: cross-project-replanning-direction
+    advance_limit: no-automatic-route
+    auto_advance_beyond_next: false

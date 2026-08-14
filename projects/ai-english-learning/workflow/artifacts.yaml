@@ -785,7 +785,7 @@ artifacts:
     type: product-requirements
     path: docs/01-prd.md
     version: "1.4"
-    status: ready-for-review
+    status: approved
     owner: role-product-manager
     role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
     change_group_id: prd-20260814-four-project-release-completeness-001
@@ -808,5 +808,9 @@ artifacts:
       downstream_auto_route: false
       production_release: frozen
     completed_at: "2026-08-14T16:08:17+08:00"
-    stop_gate: product-release-scope-review
+    approval: approval-20260814-english-release-scope-v1-4
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-14T16:20:21+08:00"
+    completed_gate: product-release-scope-review
+    next_gate: cross-project-replanning-direction
     auto_route: false

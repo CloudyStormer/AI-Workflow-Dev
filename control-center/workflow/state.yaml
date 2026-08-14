@@ -2,7 +2,7 @@ schema_version: 1
 project_id: "workflow-control-center"
 structure_status: normalized
 stage: product-definition
-status: release-scope-correction-ready-for-review
+status: release-scope-approved-awaiting-cross-project-replanning
 current_role: role-product-manager
 blocked: false
 ui_assets:
@@ -19,17 +19,25 @@ delivery_priority:
   deferred:
     - production-deployment
   approval_gates_unchanged: true
-next_approval:
+release_scope_review:
   gate: product-release-scope-review
   artifact: artifact-control-release-completeness-appendix-001
-  expected_path: docs/02-prd-release-completeness-appendix.md
-  expected_change_id: prd-20260814-control-release-completeness-appendix-001
-  scope: "审核 Control Center 发布完整性附录：项目/角色/审批/产物/事件/问题/发布必须由真实只读监管服务提供，统一完成门可验收；不改变只读目标"
+  path: docs/02-prd-release-completeness-appendix.md
+  change_id: prd-20260814-control-release-completeness-appendix-001
+  decision_owner: 超级无敌帅超超总
+  decision: approved
+  approval: approval-20260814-control-release-completeness-appendix-v1
+  decided_at: "2026-08-14T16:20:21+08:00"
+  evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
+  effect: approve-release-scope-only-no-downstream-route
+next_approval:
+  gate: cross-project-replanning-direction
+  scope: "等待把真实只读监管后端、既有代码审查与 UI 设计等待项拆成唯一重规划工作项；不自动恢复原审查、设计或开发链"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
-  on_approved: approve-release-scope-only-and-await-cross-role-replanning
-  advance_limit: review-only
+  delivery_status: awaiting-explicit-unique-work-item
+  on_approved: authorize-one-explicit-non-production-work-item-only
+  advance_limit: no-automatic-route
   auto_advance_beyond_next: false
 release_scope_product_assignment:
   change_group_id: prd-20260814-four-project-release-completeness-001
@@ -55,8 +63,14 @@ release_scope_product_assignment:
     sha256: 624e6e8cfc724f909e912faa00de8726101a38bd1a05ef7f10471f9d20ad4aa5
     acceptance_criteria: AC-CC-REL-01..AC-CC-REL-16
   scope: "不改变只读目标；确认真实项目、固定角色、审批、产物、事件、问题、发布、来源/新鲜度/错误、健康/就绪均为发布必需，演示/禁用/空后端不得算完成"
-  delivery_status: ready-for-review
-  stop_gate: product-release-scope-review
+  delivery_status: approved
+  review_decision: approved
+  approval: approval-20260814-control-release-completeness-appendix-v1
+  approved_by: 超级无敌帅超超总
+  approved_at: "2026-08-14T16:20:21+08:00"
+  completed_gate: product-release-scope-review
+  next_gate: cross-project-replanning-direction
+  original_gates_status: held-pending-cross-project-replanning
   production_release: frozen
   return_point: original-gates-preserved-pending-cross-project-replanning
   auto_route_on_delivery: false
@@ -312,4 +326,4 @@ latest_ui_prompt_delivery:
   generated_images: false
   modified_application_or_service_code: false
   held_mainline_artifact: artifact-control-center-code-review-001
-updated_at: "2026-08-14T16:08:17+08:00"
+updated_at: "2026-08-14T16:20:21+08:00"

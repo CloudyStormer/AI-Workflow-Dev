@@ -4,7 +4,7 @@ run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
 stage: product-definition
-status: release-scope-correction-ready-for-review
+status: release-scope-approved-awaiting-cross-project-replanning
 current_role: role-product-manager
 blocked: false
 ui_assets:
@@ -26,18 +26,25 @@ delivery_priority:
   development_priority: highest-after-required-ui-architecture-and-task-gates
   held_frontend: artifact-radar-frontend-001
   approval_gates_unchanged: true
-next_approval:
+release_scope_review:
   gate: product-release-scope-review
-  expected_change_id: prd-20260814-radar-release-completeness-appendix-001
-  scope: "审核 AI Model Radar 发布完整性附录：今日/事件/趋势/开源/来源/质量/刷新必须真实可用，live 与 seed_demo 隔离，统一完成门可验收；不重写 v1.2 目标"
+  change_id: prd-20260814-radar-release-completeness-appendix-001
+  artifact: artifact-radar-release-completeness-appendix-001
+  path: docs/02-prd-release-completeness-appendix.md
+  decision_owner: 超级无敌帅超超总
+  decision: approved
+  approval: approval-20260814-radar-release-completeness-appendix-v1
+  decided_at: "2026-08-14T16:20:21+08:00"
+  evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
+  effect: approve-release-scope-only-no-downstream-route
+next_approval:
+  gate: cross-project-replanning-direction
+  scope: "等待把真实来源、live 持久化、既有 UI 设计等待项和冻结前端拆成唯一重规划工作项；不自动恢复原 UI/前端链"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
-  expected_artifact: artifact-radar-release-completeness-appendix-001
-  expected_path: docs/02-prd-release-completeness-appendix.md
-  authorization: approval-20260814-radar-release-scope-product-entry
-  on_approved: approve-release-scope-only-and-await-cross-role-replanning
-  advance_limit: review-only
+  delivery_status: awaiting-explicit-unique-work-item
+  on_approved: authorize-one-explicit-non-production-work-item-only
+  advance_limit: no-automatic-route
   auto_advance_beyond_next: false
 release_scope_product_assignment:
   change_group_id: prd-20260814-four-project-release-completeness-001
@@ -63,8 +70,14 @@ release_scope_product_assignment:
     sha256: a27cfecc196c29749387302a692d93af0b5b534af7da6805b6b297e064133f1d
     acceptance_criteria: AC-AMR-REL-01..AC-AMR-REL-16
   scope: "不重写 PRD v1.2；确认今日、全部事件、趋势、开源、来源、质量、刷新和真实 live 后端均为发布必需，seed_demo/禁用入口/空后端不得算完成"
-  delivery_status: ready-for-review
-  stop_gate: product-release-scope-review
+  delivery_status: approved
+  review_decision: approved
+  approval: approval-20260814-radar-release-completeness-appendix-v1
+  approved_by: 超级无敌帅超超总
+  approved_at: "2026-08-14T16:20:21+08:00"
+  completed_gate: product-release-scope-review
+  next_gate: cross-project-replanning-direction
+  original_gates_status: held-pending-cross-project-replanning
   production_release: frozen
   return_point: original-gates-preserved-pending-cross-project-replanning
   auto_route_on_delivery: false
@@ -426,4 +439,4 @@ authorized_user_ui_generation:
   frontend_unfrozen: false
   architecture_or_development_started: false
   auto_advance_beyond_next: false
-updated_at: "2026-08-14T16:08:17+08:00"
+updated_at: "2026-08-14T16:20:21+08:00"
