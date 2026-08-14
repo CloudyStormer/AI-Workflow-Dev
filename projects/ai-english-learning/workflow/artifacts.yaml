@@ -817,7 +817,7 @@ artifacts:
   - id: artifact-spaced-recall-storage-recovery-frontend-fix-002
     type: frontend-fix
     path: frontend/
-    status: ready-for-review
+    status: approved
     owner: role-frontend-dev
     role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
     change_id: fix-20260814-spaced-recall-storage-recovery-p1-001
@@ -887,6 +887,12 @@ artifacts:
       - deployment/
       - other-projects
     completed_at: "2026-08-14T16:36:22+08:00"
-    result: ready-for-frontend-fix-delivery-review
-    stop_gate: frontend-fix-delivery-review
+    source_commit: e56f49cb8990a7d529e4aa2b311036aa08235c10
+    approval: approval-20260814-spaced-recall-storage-recovery-frontend-fix-delivery
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-14T16:45:10+08:00"
+    review_decision: approved
+    result: approved-and-code-rereview-authorized
+    completed_gate: frontend-fix-delivery-review
+    next_gate: code-rereview-conclusion-review
     auto_route: false

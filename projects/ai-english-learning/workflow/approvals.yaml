@@ -413,3 +413,42 @@ approvals:
     next_gate: cross-project-replanning-direction
     advance_limit: no-automatic-route
     auto_advance_beyond_next: false
+  - id: approval-20260814-spaced-recall-storage-recovery-frontend-fix-delivery
+    gate: frontend-fix-delivery-review
+    role: role-frontend-dev
+    role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
+    role_task_title: "06 前端工程师"
+    change_id: fix-20260814-spaced-recall-storage-recovery-p1-001
+    artifact: artifact-spaced-recall-storage-recovery-frontend-fix-002
+    source_commit: e56f49cb8990a7d529e4aa2b311036aa08235c10
+    scope: "批准暂停态与旧版损坏记录逐项隔离恢复、整体 JSON/未知版本逐字备份和二次确认 CAS 重建、缺内容真实性处理、跨标签冲突锁定及跨平台真实浏览器回归；不批准 PRD v1.4 新增完整范围、QA、后端或部署"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-14T16:45:10+08:00"
+    source_task_id: 019fb74a-a427-7101-9941-442c34b157e3
+    user_reply: "通过"
+    evidence: "超级无敌帅超超总对固定 06 明确展示的 artifact-spaced-recall-storage-recovery-frontend-fix-002 回复‘通过’。"
+    effect: "已批准当前产物，并自动授权唯一下一站固定 09 代码审查员执行一个只读复审单元；复审交付后停止等待审核，不代表复审结论、QA、后端、PRD v1.4 新增范围或部署已获批准。"
+    next_gate: code-rereview-conclusion-review
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+  - id: approval-20260814-spaced-recall-storage-recovery-code-rereview-entry
+    gate: role-entry
+    role: role-code-reviewer
+    role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
+    role_task_title: "09 代码审查员"
+    change_id: rereview-20260814-spaced-recall-storage-recovery-fix-002
+    scope: "只读复审提交 e56f49cb8990a7d529e4aa2b311036aa08235c10 对 CR-P1-001 的完整处置、既有关闭问题的回归、简体中文、无障碍、真实性与存储安全边界；不得代修代码，不得进入 QA、后端、PRD v1.4 新增实现或部署"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-14T16:45:10+08:00"
+    upstream_approval: approval-20260814-spaced-recall-storage-recovery-frontend-fix-delivery
+    upstream_artifact: artifact-spaced-recall-storage-recovery-frontend-fix-002
+    source_commit: e56f49cb8990a7d529e4aa2b311036aa08235c10
+    original_review_artifact: artifact-spaced-recall-code-rereview-001
+    expected_output: artifact-spaced-recall-storage-recovery-code-rereview-002
+    expected_path: docs/06-code-review.md
+    stop_gate: code-rereview-conclusion-review
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+    evidence: "前端修复交付获批后，固定 09 是唯一明确、输入完整且非高风险的下一站；本次通过最多自动前进到该复审单元。"
