@@ -371,3 +371,26 @@ approvals:
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
     evidence: "前端修复交付获批后，固定 09 是唯一明确、输入完整且非高风险的下一站；整体 JSON/未知版本安全重建仍须在复审结论中如实保留。"
+  - id: approval-20260814-english-release-scope-product-entry
+    gate: role-entry
+    role: role-product-manager
+    role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+    role_task_title: "03 产品经理"
+    change_group_id: prd-20260814-four-project-release-completeness-001
+    change_id: prd-20260814-english-full-release-scope-001
+    scope: "只更新 AI English Learning 完整 P0 发布产品范围与 AC；不做 UI、架构、代码或部署，并保留既有复审、任务拆解与固定 06 前端现场"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-14T16:08:17+08:00"
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    safe_write_base: 641fbe51ccc237d1716d03187c89bcf058561080
+    original_gates:
+      - code-rereview-conclusion-review
+      - task-breakdown-review
+    expected_output: artifact-english-release-completeness-prd-001
+    expected_path: docs/01-prd.md
+    expected_version: "1.4"
+    stop_gate: product-release-scope-review
+    advance_limit: review-only
+    auto_advance_beyond_next: false
+    evidence: "超级无敌帅超超总明确要求四项目先完成全部真实功能再部署，并直接授权唯一固定 03 产品经理执行发布完整性范围纠偏；生产继续冻结。"

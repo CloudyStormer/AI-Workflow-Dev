@@ -263,3 +263,32 @@ artifacts:
     completed_at: "2026-08-10T15:43:27+08:00"
     stop_gate: code-review-conclusion-review
     auto_route: false
+  - id: artifact-control-release-completeness-appendix-001
+    type: product-requirements-appendix
+    path: docs/02-prd-release-completeness-appendix.md
+    version: "1.0"
+    status: ready-for-review
+    owner: role-product-manager
+    role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+    change_group_id: prd-20260814-four-project-release-completeness-001
+    change_id: prd-20260814-control-release-completeness-appendix-001
+    authorization: approval-20260814-control-release-scope-product-entry
+    sha256: 624e6e8cfc724f909e912faa00de8726101a38bd1a05ef7f10471f9d20ad4aa5
+    baseline:
+      artifact: artifact-control-center-backend-product-increment-001
+      path: docs/02-prd.md
+      version: "1.0"
+      sha256: cb41e5e4184fd8df69b8bf1269ae0ef11b540f17f2cb621f6e5da484f9660b93
+    scope:
+      - real-readonly-project-role-approval-artifact-event-issue-release-data-required
+      - source-freshness-error-health-readiness-and-partial-coverage
+      - fact-source-reconstruction-integration-recovery-and-unified-completion-gate
+    acceptance_criteria: AC-CC-REL-01..AC-CC-REL-16
+    impact:
+      readonly-goal-changed: false
+      existing-code-review-and-ui-design-gates: preserved
+      downstream_auto_route: false
+      production_release: frozen
+    completed_at: "2026-08-14T16:08:17+08:00"
+    stop_gate: product-release-scope-review
+    auto_route: false

@@ -3,9 +3,9 @@ project_id: ai-model-radar
 run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
-stage: ui-ux
-status: radar-live-daily-ui-prompt-approved-awaiting-user-ui-design
-current_role: role-ui-designer
+stage: product-definition
+status: release-scope-correction-ready-for-review
+current_role: role-product-manager
 blocked: false
 ui_assets:
   directory: ui
@@ -15,33 +15,59 @@ ui_assets:
   preserve_active_legacy_paths: true
 delivery_priority:
   baseline_context: held-frontend-original-approved-scope
-  current: browser-viewable-content-first
+  current: full-p0-function-completion-before-production-deployment
+  required_before_release:
+    - real-source-connectors-and-live-persistence
+    - today-events-trends-open-source-source-quality-and-refresh
+    - frontend-backend-integration-and-unified-completion-gate
   deferred:
-    - backend-services
-    - real-source-integration
     - production-deployment
   approved_product_change: artifact-radar-live-daily-prd-001
   development_priority: highest-after-required-ui-architecture-and-task-gates
   held_frontend: artifact-radar-frontend-001
   approval_gates_unchanged: true
 next_approval:
-  gate: ui-design-review
-  expected_change_id: ui-design-20260810-ai-model-radar-user-generation-001
-  scope: "审核超级无敌帅超超总使用已批准 Prompt v1.2 生成并放入 ui/ 的新版 UI 资产；本阶段不由固定 04 生成图片"
+  gate: product-release-scope-review
+  expected_change_id: prd-20260814-radar-release-completeness-appendix-001
+  scope: "审核 AI Model Radar 发布完整性附录：今日/事件/趋势/开源/来源/质量/刷新必须真实可用，live 与 seed_demo 隔离，统一完成门可验收；不重写 v1.2 目标"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: awaiting-user-generated-assets
-  expected_artifact: artifact-radar-live-daily-user-ui-design-001
-  expected_directory: ui/
-  authorization: approval-20260810-radar-live-daily-ui-prompt-v1-2
-  upstream:
-    approval: approval-20260810-radar-live-daily-ui-prompt-v1-2
-    artifact: artifact-radar-live-daily-ui-prompt-001
-    path: ui/03-ui-prompt.md
-    version: "1.2"
-    sha256: 967090f3ac97e0a0bb00070eb39a5af9b6efcd629ac1517e78bffa4f8f7605bd
-  advance_limit: unique-next-stage-only
+  delivery_status: ready-for-review
+  expected_artifact: artifact-radar-release-completeness-appendix-001
+  expected_path: docs/02-prd-release-completeness-appendix.md
+  authorization: approval-20260814-radar-release-scope-product-entry
+  on_approved: approve-release-scope-only-and-await-cross-role-replanning
+  advance_limit: review-only
   auto_advance_beyond_next: false
+release_scope_product_assignment:
+  change_group_id: prd-20260814-four-project-release-completeness-001
+  change_id: prd-20260814-radar-release-completeness-appendix-001
+  role: role-product-manager
+  role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+  role_task_title: "03 产品经理"
+  authorization: approval-20260814-radar-release-scope-product-entry
+  source: "超级无敌帅超超总直接授权固定 03 做四项目发布完整性范围纠偏"
+  entry_checkpoint: 29034fb70a07b75aaf2101f1afb855b4c5a05a7d
+  safe_write_base: 641fbe51ccc237d1716d03187c89bcf058561080
+  original_workflow:
+    stage: ui-ux
+    status: radar-live-daily-ui-prompt-approved-awaiting-user-ui-design
+    role: role-ui-designer
+    gates:
+      - artifact-radar-live-daily-user-ui-design-001/ui-design-review
+      - artifact-radar-frontend-001/frontend-delivery-review-held
+  output:
+    artifact: artifact-radar-release-completeness-appendix-001
+    path: docs/02-prd-release-completeness-appendix.md
+    version: "1.0"
+    sha256: a27cfecc196c29749387302a692d93af0b5b534af7da6805b6b297e064133f1d
+    acceptance_criteria: AC-AMR-REL-01..AC-AMR-REL-16
+  scope: "不重写 PRD v1.2；确认今日、全部事件、趋势、开源、来源、质量、刷新和真实 live 后端均为发布必需，seed_demo/禁用入口/空后端不得算完成"
+  delivery_status: ready-for-review
+  stop_gate: product-release-scope-review
+  production_release: frozen
+  return_point: original-gates-preserved-pending-cross-project-replanning
+  auto_route_on_delivery: false
 completed_ui_assignment:
   change_id: ui-prompt-20260804-ai-model-radar-001
   role: role-ui-designer
@@ -400,4 +426,4 @@ authorized_user_ui_generation:
   frontend_unfrozen: false
   architecture_or_development_started: false
   auto_advance_beyond_next: false
-updated_at: "2026-08-10T11:38:20+08:00"
+updated_at: "2026-08-14T16:08:17+08:00"

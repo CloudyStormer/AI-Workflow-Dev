@@ -781,3 +781,32 @@ artifacts:
     result: ready-for-task-breakdown-review
     stop_gate: task-breakdown-review
     auto_route: false
+  - id: artifact-english-release-completeness-prd-001
+    type: product-requirements
+    path: docs/01-prd.md
+    version: "1.4"
+    status: ready-for-review
+    owner: role-product-manager
+    role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+    change_group_id: prd-20260814-four-project-release-completeness-001
+    change_id: prd-20260814-english-full-release-scope-001
+    authorization: approval-20260814-english-release-scope-product-entry
+    sha256: 8badf942aefc7ebd2c62526511aa69f0da334cefeb5688fd7281d0924e557e46
+    previous:
+      version: "1.3"
+      sha256: 0b065ec4ffb4881d6893ec23a1d9c4ec57627fe173f43ada73cdf5c3f4b02385
+    scope:
+      - full-p0-account-placement-vocabulary-word-recall-chat-voice-statistics
+      - server-memory-and-cross-device-convergence
+      - privacy-export-delete-errors-and-unified-completion-gate
+      - mock-seed-disabled-empty-backend-and-http200-alone-forbidden-as-completion
+    acceptance_criteria: AC-AEL-REL-01..AC-AEL-REL-36
+    impact:
+      current-word-architecture-and-task-plan: valid-sub-slice-not-full-release-plan
+      existing-review-and-task-breakdown-gates: preserved
+      fixed-06-uncommitted-frontend-scene: preserved-not-touched
+      downstream_auto_route: false
+      production_release: frozen
+    completed_at: "2026-08-14T16:08:17+08:00"
+    stop_gate: product-release-scope-review
+    auto_route: false

@@ -550,3 +550,33 @@ artifacts:
       - "no-live-sources-are-connected-by-this-artifact"
       - "local-service-must-run-continuously-for-scheduled-daily-delivery"
       - "existing-frontend-artifact-remains-pending-review-and-frozen"
+  - id: artifact-radar-release-completeness-appendix-001
+    run_id: run-20260731-intake-001
+    type: product-requirements-appendix
+    path: docs/02-prd-release-completeness-appendix.md
+    version: "1.0"
+    status: ready-for-review
+    owner: role-product-manager
+    role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+    change_group_id: prd-20260814-four-project-release-completeness-001
+    change_id: prd-20260814-radar-release-completeness-appendix-001
+    authorization: approval-20260814-radar-release-scope-product-entry
+    sha256: a27cfecc196c29749387302a692d93af0b5b534af7da6805b6b297e064133f1d
+    baseline:
+      artifact: artifact-radar-live-daily-prd-001
+      path: docs/02-prd.md
+      version: "1.2"
+      sha256: 3ce842ef8e2b9661f2114b3b4a2b3361eeb8fac0f98a5071cd8e27c38a81a020
+    scope:
+      - live-today-events-trends-open-source-sources-quality-and-refresh-required
+      - seed-demo-isolation-and-real-empty-state
+      - persistence-integration-error-recovery-and-unified-completion-gate
+    acceptance_criteria: AC-AMR-REL-01..AC-AMR-REL-16
+    impact:
+      baseline-goal-rewritten: false
+      existing-ui-design-and-held-frontend-gates: preserved
+      downstream_auto_route: false
+      production_release: frozen
+    completed_at: "2026-08-14T16:08:17+08:00"
+    stop_gate: product-release-scope-review
+    auto_route: false

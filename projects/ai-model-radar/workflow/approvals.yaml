@@ -295,3 +295,27 @@ approvals:
     effect: "已批准当前 Prompt，并只授权唯一下一步：超级无敌帅超超总使用自己的专业 UI 设计大模型生成新版 UI 资产，之后独立进入 ui-design-review。固定 04 不生成图片，不解冻既有前端，不启动架构或开发。"
     advance_limit: user-ui-generation-only
     auto_advance_beyond_next: false
+  - id: approval-20260814-radar-release-scope-product-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    role: role-product-manager
+    role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+    role_task_title: "03 产品经理"
+    change_group_id: prd-20260814-four-project-release-completeness-001
+    change_id: prd-20260814-radar-release-completeness-appendix-001
+    scope: "只新增 AI Model Radar 发布完整性核对附录，不重写已批准 v1.2，不做 UI、架构、代码、联网采集或部署，并保留 UI 设计与前端原门"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-14T16:08:17+08:00"
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    safe_write_base: 641fbe51ccc237d1716d03187c89bcf058561080
+    original_gates:
+      - ui-design-review
+      - frontend-delivery-review-held
+    expected_output: artifact-radar-release-completeness-appendix-001
+    expected_path: docs/02-prd-release-completeness-appendix.md
+    expected_version: "1.0"
+    stop_gate: product-release-scope-review
+    advance_limit: review-only
+    auto_advance_beyond_next: false
+    evidence: "超级无敌帅超超总明确要求四项目先完成全部真实功能再部署，并直接授权唯一固定 03 产品经理执行发布完整性范围纠偏；生产继续冻结。"

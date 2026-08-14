@@ -1,9 +1,9 @@
 schema_version: 1
 project_id: "ai-english-learning"
 structure_status: normalized
-stage: code-review
-status: spaced-recall-code-rereview-ready-with-p1-residual-and-parallel-backend-task-breakdown
-current_role: role-code-reviewer
+stage: product-definition
+status: release-scope-correction-ready-for-review
+current_role: role-product-manager
 approved_roles:
   - role-pm
   - role-product-manager
@@ -17,21 +17,56 @@ ui_assets:
   new_deliveries: required
   preserve_active_legacy_paths: true
 delivery_priority:
-  current: browser-viewable-content-first
+  current: full-p0-function-completion-before-production-deployment
+  required_before_release:
+    - real-backend-and-persistent-user-data
+    - real-ai-voice-vocabulary-statistics-and-cross-device-sync
+    - frontend-backend-integration-and-unified-completion-gate
   deferred:
-    - backend-services
     - production-deployment
   approval_gates_unchanged: true
 next_approval:
-  gate: code-rereview-conclusion-review
-  artifact: artifact-spaced-recall-code-rereview-001
-  expected_change_id: rereview-20260811-spaced-recall-frontend-fix-001
-  expected_path: docs/06-code-review.md
-  scope: "固定 09 只读复审 artifact-spaced-recall-frontend-fix-001 对既有审查问题的处置、回归覆盖和明确遗留；不得代修代码，不进入 QA、后端或部署"
+  gate: product-release-scope-review
+  artifact: artifact-english-release-completeness-prd-001
+  expected_change_id: prd-20260814-english-full-release-scope-001
+  expected_path: docs/01-prd.md
+  scope: "审核 AI English Learning v1.4 完整 P0 发布范围、真实 AI/语音/词库/统计、服务端记忆与跨设备、隐私数据权利、统一完成门和 AC；不审核实现或部署"
   decision_owner: 超级无敌帅超超总
   decision: pending
   delivery_status: ready-for-review
-  on_approved: approve-rereview-conclusion-and-authorize-fixed-06-storage-recovery-followup-only
+  on_approved: approve-release-scope-only-and-await-cross-role-replanning
+  advance_limit: review-only
+  auto_advance_beyond_next: false
+release_scope_product_assignment:
+  change_group_id: prd-20260814-four-project-release-completeness-001
+  change_id: prd-20260814-english-full-release-scope-001
+  role: role-product-manager
+  role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+  role_task_title: "03 产品经理"
+  authorization: approval-20260814-english-release-scope-product-entry
+  source: "超级无敌帅超超总直接授权固定 03 做四项目发布完整性范围纠偏"
+  entry_checkpoint: 29034fb70a07b75aaf2101f1afb855b4c5a05a7d
+  safe_write_base: 641fbe51ccc237d1716d03187c89bcf058561080
+  original_workflow:
+    stage: code-review
+    status: spaced-recall-code-rereview-ready-with-p1-residual-and-parallel-backend-task-breakdown
+    role: role-code-reviewer
+    gates:
+      - artifact-spaced-recall-code-rereview-001/code-rereview-conclusion-review
+      - artifact-english-word-backend-integration-task-breakdown-001/task-breakdown-review
+    fixed_06_uncommitted_frontend_scene: preserved-not-touched
+  output:
+    artifact: artifact-english-release-completeness-prd-001
+    path: docs/01-prd.md
+    version: "1.4"
+    sha256: 8badf942aefc7ebd2c62526511aa69f0da334cefeb5688fd7281d0924e557e46
+    acceptance_criteria: AC-AEL-REL-01..AC-AEL-REL-36
+  scope: "明确完整 P0：多用户、定级、真实词库、Word/遗忘闭环、服务端记忆、跨设备、20 场景与自由真实 AI、真实语音、统计、隐私、导出删除、异常和统一完成门；Mock 不得验收"
+  delivery_status: ready-for-review
+  stop_gate: product-release-scope-review
+  production_release: frozen
+  return_point: original-gates-preserved-pending-cross-project-replanning
+  auto_route_on_delivery: false
 completed_spaced_recall_product_assignment:
   change_id: chg-20260804-spaced-recall-loop-product-v1
   role: role-product-manager
@@ -602,4 +637,4 @@ parallel_backend_task_breakdown_assignment:
   auto_route_on_delivery: false
 backend_planning_gate: "docs/03-dev-tasks.md v1.1 已 ready-for-review；固定 07 尚未获准启动。只有超级无敌帅超超总明确‘通过’本任务拆解后，才按一跳规则授权唯一 AEL-BE-001；AEL-BE-002+、固定 08/09/06/11/10 均继续未授权。"
 state_limit: "旧版计划与任务表仍需单独对账；本状态只声明已核实的最新交付和审批门"
-updated_at: "2026-08-11T17:43:53+08:00"
+updated_at: "2026-08-14T16:08:17+08:00"

@@ -683,3 +683,37 @@ artifacts:
     completed_at: "2026-08-07T16:34:39+08:00"
     validated_at: "2026-08-07T16:44:22+08:00"
     stop_gate: frontend-delivery-review
+  - id: "artifact-career-release-completeness-prd-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: product-requirements
+    path: docs/02-prd.md
+    version: "1.3"
+    status: ready-for-review
+    owner: role-product-manager
+    role_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
+    change_group_id: "prd-20260814-four-project-release-completeness-001"
+    change_id: "prd-20260814-career-full-release-scope-001"
+    authorization: "approval-20260814-career-release-scope-product-entry"
+    sha256: 680a399c4984c443e7bf5f5c0aa0c628e919a061839d5659c3ddbc22ddf08705
+    previous:
+      version: "1.2"
+      sha256: 0c2fab0bc4083dc3c16034eafcf3ce2177a5adc1c334ce548b2da5698632958f
+    scope:
+      - continuous-recruitment-and-technology-trend-sources
+      - source-input-classification-confirmation-summary-and-integration
+      - personal-evidence-gap-roadmap-future-direction-and-history
+      - account-sync-export-delete-and-unified-completion-gate
+    acceptance_criteria: AC-CFR-REL-01..AC-CFR-REL-36
+    truth_boundary:
+      - purposive-samples-not-market-share-or-complete-population
+      - fact-source-opinion-system-inference-and-unknown-separated
+      - user-confirmation-required-before-permanent-integration
+      - mock-disabled-empty-backend-and-http200-alone-forbidden-as-completion
+    impact:
+      v1-2-readonly-research-service: valid-public-subservice-not-full-product
+      existing-frontend-f10-preview-and-ui-prompt-gates: preserved
+      downstream_auto_route: false
+      production_release: frozen
+    completed_at: "2026-08-14T16:08:17+08:00"
+    stop_gate: product-release-scope-review
+    auto_route: false

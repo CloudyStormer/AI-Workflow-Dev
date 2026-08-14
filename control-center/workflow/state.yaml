@@ -1,9 +1,9 @@
 schema_version: 1
 project_id: "workflow-control-center"
 structure_status: normalized
-stage: code-review
-status: control-center-code-review-ready-for-review
-current_role: role-code-reviewer
+stage: product-definition
+status: release-scope-correction-ready-for-review
+current_role: role-product-manager
 blocked: false
 ui_assets:
   directory: ui
@@ -11,21 +11,55 @@ ui_assets:
   new_deliveries: required
   preserve_active_legacy_paths: true
 delivery_priority:
-  current: browser-viewable-content-first
+  current: full-p0-function-completion-before-production-deployment
+  required_before_release:
+    - real-readonly-regulatory-backend
+    - project-role-approval-artifact-event-issue-release-integration
+    - frontend-backend-integration-and-unified-completion-gate
   deferred:
-    - backend-services
     - production-deployment
   approval_gates_unchanged: true
 next_approval:
-  gate: code-review-conclusion-review
-  artifact: artifact-control-center-code-review-001
-  expected_path: docs/06-code-review.md
-  expected_change_id: review-20260806-control-center-frontend-001
-  scope: "只读审查提交 a35316d 中的 Control Center 中文前端交付，覆盖正确性、可维护性、可访问性、性能、安全、数据真实性边界与现有架构契约；不得代修代码，不进入测试或部署"
+  gate: product-release-scope-review
+  artifact: artifact-control-release-completeness-appendix-001
+  expected_path: docs/02-prd-release-completeness-appendix.md
+  expected_change_id: prd-20260814-control-release-completeness-appendix-001
+  scope: "审核 Control Center 发布完整性附录：项目/角色/审批/产物/事件/问题/发布必须由真实只读监管服务提供，统一完成门可验收；不改变只读目标"
   decision_owner: 超级无敌帅超超总
   decision: pending
   delivery_status: ready-for-review
-  on_approved: approve-review-conclusion-and-authorize-fixed-06-frontend-fix
+  on_approved: approve-release-scope-only-and-await-cross-role-replanning
+  advance_limit: review-only
+  auto_advance_beyond_next: false
+release_scope_product_assignment:
+  change_group_id: prd-20260814-four-project-release-completeness-001
+  change_id: prd-20260814-control-release-completeness-appendix-001
+  role: role-product-manager
+  role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+  role_task_title: "03 产品经理"
+  authorization: approval-20260814-control-release-scope-product-entry
+  source: "超级无敌帅超超总直接授权固定 03 做四项目发布完整性范围纠偏"
+  entry_checkpoint: 29034fb70a07b75aaf2101f1afb855b4c5a05a7d
+  safe_write_base: 641fbe51ccc237d1716d03187c89bcf058561080
+  original_workflow:
+    stage: code-review
+    status: control-center-code-review-ready-for-review
+    role: role-code-reviewer
+    gates:
+      - artifact-control-center-code-review-001/code-review-conclusion-review
+      - artifact-control-center-user-ui-design-001/ui-design-review
+  output:
+    artifact: artifact-control-release-completeness-appendix-001
+    path: docs/02-prd-release-completeness-appendix.md
+    version: "1.0"
+    sha256: 624e6e8cfc724f909e912faa00de8726101a38bd1a05ef7f10471f9d20ad4aa5
+    acceptance_criteria: AC-CC-REL-01..AC-CC-REL-16
+  scope: "不改变只读目标；确认真实项目、固定角色、审批、产物、事件、问题、发布、来源/新鲜度/错误、健康/就绪均为发布必需，演示/禁用/空后端不得算完成"
+  delivery_status: ready-for-review
+  stop_gate: product-release-scope-review
+  production_release: frozen
+  return_point: original-gates-preserved-pending-cross-project-replanning
+  auto_route_on_delivery: false
 approved_ui_prompt:
   gate: ui-prompt-review
   artifact: artifact-control-center-backend-ui-prompt-001
@@ -278,4 +312,4 @@ latest_ui_prompt_delivery:
   generated_images: false
   modified_application_or_service_code: false
   held_mainline_artifact: artifact-control-center-code-review-001
-updated_at: "2026-08-10T17:00:23+08:00"
+updated_at: "2026-08-14T16:08:17+08:00"
