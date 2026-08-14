@@ -228,3 +228,108 @@
   3. `打回`：本复审产物退回。
 - 固定 `02 项目经理`的后端/联调任务拆解保持独立并行，未被读取、修改、暂存或扩权。
 - 本次交付不自动进入 QA、后端、部署或生产发布。
+
+---
+
+## 存储恢复复审更新（2026-08-14）
+
+### 复审元数据
+
+- change_id: `rereview-20260814-spaced-recall-storage-recovery-fix-002`
+- authorization: `approval-20260814-spaced-recall-storage-recovery-code-rereview-entry`
+- input_artifact: `artifact-spaced-recall-storage-recovery-frontend-fix-002`
+- source_commit: `e56f49cb8990a7d529e4aa2b311036aa08235c10`
+- diff_base: `b55ffe422639e3eac99dd0d73b50b41f32e01a64`
+- routing_commit: `f5fa9e20075e6d52e4a48a7e7b6d62a1782cbb94`
+- original_rereview: `artifact-spaced-recall-code-rereview-001`
+- original_rereview_sha256: `4f7e854a339e933b01fac29afa0d80bdd3e2531fb2f5abb38c53a831257321b5`
+- reviewer: 固定 `09 代码审查员`（`role-code-reviewer`）
+- rereviewed_at: `2026-08-14T16:52:49+08:00`
+- scope: 只读复审 `CR-P1-001` 完整处置、既有 6 项关闭问题回归、简体中文、无障碍、真实性、存储安全与跨平台 Chrome 门禁
+- excluded: 代修代码、QA、后端、PRD v1.4 新增实现、部署以及其他项目并发现场
+
+### 复审结论
+
+**结论：请求继续修改，不建议进入 QA。**
+
+本批已经关闭上一轮 `CR-P1-001-R1` 的暂停态到期数据恢复缺口，并补齐整体 JSON/未知版本的 exact-raw 备份下载、显式二次确认、重建后的可用状态、缺题库内容真实性提示、旧版异常逐项迁移、修订冲突前置检查、简体中文和键盘焦点。`CR-P1-002`、`CR-P1-003` 与 `CR-P2-001`～`CR-P2-004` 未发现回归。Node.js 24.19.0 下 lint、生产构建、域验证、1,200 组填空随机验证和项目自带 Chrome/CDP 浏览器门均通过；真实浏览器覆盖 1440/390/320px、exact-raw 下载、取消重建、来源已变化时零写入、刷新后重新导出与确认重建、焦点恢复以及重建后继续作答。不过该浏览器门实际把两份测试备份写入系统默认 Downloads，违反测试隔离，本轮新增 1 项 Minor 并已停止继续运行下载型门禁。
+
+但 `CR-P1-001` 仍保持 **Major 打开**：`rebuildSpacedRecallStorage` 的所谓 CAS 是两个独立的 Web Storage 调用——先比较 `getItem`，再执行 `setItem`。在两者之间若另一标签写入更新值，当前标签仍返回 `rebuilt` 并覆盖该更新。项目浏览器测试只覆盖“确认前已经变化”的情形，没有覆盖“比较后、写入前”的竞态。WHATWG HTML Standard 对 `localStorage` 的并发边界明确要求作者假设不存在跨窗口锁，因此这不是可由平台保证消除的理论窗口。只读竞态存储复现结果为 `{"result":"rebuilt","newerValueSurvived":false,"finalStorageVersion":1}`。
+
+| 严重级别 | 当前打开 | 本轮关闭 | 门禁影响 |
+| --- | ---: | ---: | --- |
+| Blocker | 0 | 0 | 无 P0 |
+| Major | 1 | 1 个既有恢复分支 | `CR-P1-001` 仍未完整关闭，阻断进入 QA |
+| Minor | 1 | 0 | 新增浏览器门污染用户 Downloads 的测试隔离问题 |
+| 既有建议 | 2 | 0 | 继续保留，不单独阻断 |
+
+### 问题处置与回归
+
+| 编号 | 复审状态 | 证据与判断 |
+| --- | --- | --- |
+| `CR-P1-001` | 部分解决 / Major 打开 | 暂停态、旧版 data-exception、缺失/非法 due、已完成维护周期、missing-content 返回后的安全恢复均通过；整体损坏/未知版本可逐字导出，未导出/未确认/来源预先变化时均零写入。但 `spacedRecall.ts:2141-2157` 是非原子的 compare-then-set，无法保证跨标签真正 CAS，仍可能覆盖比较后到写入前出现的新值。 |
+| `CR-P1-002` | 已关闭且无回归 | 本批未改动跳过排序核心；域与 Chrome 门继续通过首次移队尾、刷新保持、二次次日抑制和所有队列消费者一致性。 |
+| `CR-P1-003` | 已关闭且无回归 | React/Chrome 门扩展到存储恢复全流程，并继续覆盖队列、恢复、响应式、焦点及控制台清洁度；未退化为纯域测试。 |
+| `CR-P2-001` | 已关闭且无回归 | 免打扰迟到释放域测试继续通过。 |
+| `CR-P2-002` | 已关闭且无回归 | 四态通知权限简体中文分支保持可达，且不声称送达。 |
+| `CR-P2-003` | 已关闭且无回归 | 稳定会话随机秩与刷新幂等测试继续通过。 |
+| `CR-P2-004` | 已关闭且无回归 | 弱证据回退与重置历史的前后状态字段保持完整。 |
+
+### 新增 Minor
+
+#### CR-P2-005：Chrome/CDP 门调用真实下载，污染用户默认 Downloads
+
+- 【级别】Minor
+- 【位置】`frontend/scripts/verify-recall-browser.mjs:301,330-342,380-402,668,740,819-824`
+- 【问题】测试虽然用临时 `--user-data-dir` 启动 Chrome，并覆盖 anchor click 以捕获文件名和 Blob 内容，但覆盖函数最后仍执行 `clickAnchor.call(this)`。脚本没有设置 CDP 下载策略或临时下载目录，因此系统按默认下载配置把 `ai-english-learning-recall-backup-*.json` 写入用户 Downloads；一次门禁会真实点击两次导出。
+- 【影响】自动化验证在项目目录外产生未声明副作用，连续运行会持续污染用户文件夹，也使“测试只使用临时 profile/临时目录”的隔离声明不完整。用户发现时系统 Downloads 中已有 22 个同名前缀 JSON，最后一个时间为 16:51:57；本角色未删除这些文件，后续精确清理由固定 `00 包工头`按用户授权移入废纸篓。
+- 【建议】首选在测试替身中只捕获 exact-raw、文件名和 Blob URL，不调用原始 anchor click；若必须验证落盘，则使用 CDP `Browser.setDownloadBehavior` 将 `downloadPath` 指向本轮 `mkdtemp` 目录，并只在 `finally` 清理该精确目录。未修复前不得继续运行会点击导出的真实浏览器门。
+
+### 仍需处理的 Major
+
+#### CR-P1-001-R2：重建使用非原子 compare-then-set，无法保证跨标签零覆盖
+
+- 【级别】Major
+- 【位置】`frontend/src/utils/spacedRecall.ts:2141-2157`；`frontend/scripts/verify-spaced-recall.mjs:935-970`；`frontend/scripts/verify-recall-browser.mjs:702-722`
+- 【问题】函数先读取并比较 `expectedRaw`，随后单独调用 `setItem`。Web Storage 没有提供跨标签事务或 compare-and-set；另一标签可在两个调用之间写入，当前标签仍会覆盖它。现有测试把来源变化安排在调用之前，只证明前置比较有效，不能证明比较与写入之间互斥。
+- 【只读复现】构造一个在 `getItem` 返回旧值后立即注入较新值的 `StorageLike`，函数返回 `rebuilt`，最终 `newerValueSurvived=false`。这精确复现了 compare 后、set 前的并发插入窗口。
+- 【影响】这是用户明确确认的破坏性重建动作；竞态会丢失另一标签的较新复习记录，与“跨标签冲突锁定”“零覆盖”和 `CR-P1-001` 的数据保护目标相反。
+- 【建议】把重建放入真正的跨上下文独占区，例如在目标 Chrome 能力范围内使用 Web Locks API，并在锁内再次读取 exact-raw、写入、回读验证；不支持可靠锁时保持恢复锁定或迁移到支持事务的 IndexedDB。增加两标签真实浏览器竞态门禁，不能只用单进程存储 mock 在调用前改值。
+- 【标准依据】[WHATWG HTML Standard：Web Storage](https://html.spec.whatwg.org/dev/webstorage.html) 明确提示作者应假设共享 `localStorage` 不存在锁机制。
+
+### 已通过的恢复、真实性与可访问性边界
+
+- 暂停态 due、pause.previous due、resumeDay 与旧版 data-exception 包装均能在保留原始快照后形成一个当前恢复任务；完全缺失或结构损坏的 pause 只隔离并如实标记不可安全恢复，健康兄弟项继续工作。
+- exact-raw 备份 Blob 直接来自加载时 `rawSnapshot`，未知版本使用 `.json`、非 JSON 损坏使用 `.txt`；界面只声称“生成下载”，不伪称用户已保存、可自动导入或已云端备份。
+- 未导出、未二次确认、状态不合法、写入失败或确认前来源已经变化时，域函数均不覆盖原始值；来源变化后 UI 保持统计与队列锁定并要求刷新重新导出。
+- missing-content 项不会伪恢复；题库内容重新出现后，恢复前用当前权威题库覆盖 answer/meaning，并可继续结算。已完成当前维护周期的 mastered 项不会被错误重新入队。
+- 存储异常时不展示临时零统计，队列和结算操作禁用；重建确认使用 `alertdialog`、Escape 取消、Tab 焦点约束和焦点返回，320px 下无横向溢出。
+- 数据仍只在当前浏览器/设备；备份是本地下载生成，后端、跨设备同步、PRD v1.4 新增范围和生产部署均未被声称已实现。
+- 本批未修改依赖清单；未运行联网 `npm audit`，因此不声明第三方依赖无已知漏洞。静态检查未发现新增 XSS、动态代码执行、凭证写入或任意业务网络提交。
+
+### 复审验证记录
+
+| 检查 | 结果 |
+| --- | --- |
+| `git diff b55ffe4...e56f49c -- projects/ai-english-learning` | 6 个前端/测试文件与 3 个 English workflow 文件；输入范围锁定 |
+| 输入 SHA-256 对照 `artifact-spaced-recall-storage-recovery-frontend-fix-002` | 6/6 一致 |
+| Node.js | `24.19.0`，满足 `>=22.12.0` |
+| `npm run lint` | 通过 |
+| `npm run build` | 通过；JS `394.22 kB`（gzip `121.38 kB`），CSS `64.61 kB`（gzip `14.17 kB`），无块大小告警 |
+| `npm run test:spaced-recall` | 通过 |
+| `npm run test:cloze` | 通过；1,200 组随机提示用例 |
+| `npm run test:browser` | 功能断言通过，但产生系统 Downloads 文件；已停止再次运行并登记 `CR-P2-005` |
+| compare 后 / set 前竞态只读复现 | 失败：返回 `rebuilt`，较新标签值被覆盖 |
+| 安全危险模式静态检查 | 未发现新增高置信度 XSS、动态执行、凭证或业务外发 |
+| `npm audit` | 未执行；依赖未改，不作无漏洞结论 |
+
+### 复审停止门与下一步
+
+- 当前产物：`artifact-spaced-recall-storage-recovery-code-rereview-002`
+- 当前停止门：`code-rereview-conclusion-review`
+- 当前决策：等待超级无敌帅超超总审核本复审结论
+- 推荐审批选项：
+  1. `通过`：批准本复审结论，并仅一跳授权固定 `06 前端工程师`修复 `CR-P1-001-R2` 的跨标签原子重建问题与 `CR-P2-005` 的下载型测试隔离问题；修复交付后再次回固定 `09 代码审查员`复审。
+  2. `修改`：调整问题严重度、结论或范围，本角色修订后重新交付。
+  3. `打回`：本复审产物退回。
+- 本次交付不自动进入 QA、后端、PRD v1.4 新增实现、部署或生产发布；一次“通过”不得继续消费到再下一站。

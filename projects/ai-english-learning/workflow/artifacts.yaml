@@ -896,3 +896,73 @@ artifacts:
     completed_gate: frontend-fix-delivery-review
     next_gate: code-rereview-conclusion-review
     auto_route: false
+  - id: artifact-spaced-recall-storage-recovery-code-rereview-002
+    type: code-rereview
+    path: docs/06-code-review.md
+    status: ready-for-review
+    owner: role-code-reviewer
+    role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
+    change_id: rereview-20260814-spaced-recall-storage-recovery-fix-002
+    authorization: approval-20260814-spaced-recall-storage-recovery-code-rereview-entry
+    input_artifact: artifact-spaced-recall-storage-recovery-frontend-fix-002
+    input_path: frontend/
+    source_commit: e56f49cb8990a7d529e4aa2b311036aa08235c10
+    diff_base: b55ffe422639e3eac99dd0d73b50b41f32e01a64
+    original_review_artifact: artifact-spaced-recall-code-rereview-001
+    original_review_path: docs/06-code-review.md
+    original_review_sha256: 4f7e854a339e933b01fac29afa0d80bdd3e2531fb2f5abb38c53a831257321b5
+    sha256: 5a4284217860d4598f7432aa6aeb2b0cb63e846f307d53ba0516e0bbea5758c6
+    conclusion: changes-requested
+    finding_disposition:
+      open_major:
+        - CR-P1-001-R2
+      open_minor:
+        - CR-P2-005
+      closed_without_regression:
+        - CR-P1-002
+        - CR-P1-003
+        - CR-P2-001
+        - CR-P2-002
+        - CR-P2-003
+        - CR-P2-004
+      partial_closure:
+        - CR-P1-001-R1
+    findings:
+      blocker: 0
+      major_open: 1
+      minor_open: 1
+    major_evidence:
+      issue: non-atomic-localstorage-compare-then-set-can-overwrite-newer-tab-value
+      location: frontend/src/utils/spacedRecall.ts:2141-2157
+      read_only_reproduction: '{"result":"rebuilt","newerValueSurvived":false,"finalStorageVersion":1}'
+      standard: https://html.spec.whatwg.org/dev/webstorage.html
+    test_isolation_evidence:
+      issue: browser-gate-invokes-real-anchor-download-without-isolated-download-path
+      location: frontend/scripts/verify-recall-browser.mjs:395-402
+      observed_download_files: 22
+      last_observed_at: "2026-08-14T16:51:57+08:00"
+      files_deleted_by_reviewer: false
+      cleanup_owner: role-pm-fixed-00-after-user-authorization
+      retest_constraint: do-not-rerun-real-download-case-until-isolated
+    validation:
+      runtime: Node.js-24.19.0
+      lint: passed
+      typecheck_and_build: passed
+      spaced_recall_test: passed
+      inline_cloze_test: passed-1200-randomized-cases
+      chrome_cdp_react_integration: functional-assertions-passed-1440-390-320-console-clean-with-download-side-effect
+      chrome_download_retest: not-rerun-by-user-boundary
+      input_sha256_match: 6-of-6-passed
+      compare_then_set_race_reproduction: failed-newer-value-overwritten
+      dependency_audit: not-run-dependencies-unchanged-no-no-vulnerability-claim
+    truth_boundary:
+      storage: current-browser-current-device-only
+      backup: generated-download-not-claimed-saved-importable-or-cloud-backed
+      backend_integration: not-claimed
+      product_v1_4_scope: preserved-not-implemented-by-this-fix
+      production_deployment: not-authorized
+    qa_recommendation: blocked-pending-major-fix-and-rereview
+    completed_at: "2026-08-14T16:55:46+08:00"
+    result: ready-for-code-rereview-conclusion-review
+    stop_gate: code-rereview-conclusion-review
+    auto_route: false

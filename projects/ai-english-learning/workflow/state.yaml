@@ -404,9 +404,33 @@ parallel_spaced_recall_storage_recovery_rereview:
   expected_output:
     artifact: artifact-spaced-recall-storage-recovery-code-rereview-002
     path: docs/06-code-review.md
-  scheduling: routed-awaiting-fixed-09-role-announcement
+    sha256: 5a4284217860d4598f7432aa6aeb2b0cb63e846f307d53ba0516e0bbea5758c6
+  scheduling: completed-awaiting-code-rereview-conclusion-review
   routed_at: "2026-08-14T16:45:10+08:00"
-  delivery_status: authorized
+  completed_at: "2026-08-14T16:55:46+08:00"
+  delivery_status: ready-for-review
+  conclusion: changes-requested
+  finding_disposition:
+    open_major:
+      - CR-P1-001-R2
+    open_minor:
+      - CR-P2-005
+    closed_without_regression:
+      - CR-P1-002
+      - CR-P1-003
+      - CR-P2-001
+      - CR-P2-002
+      - CR-P2-003
+      - CR-P2-004
+    partial_closure:
+      - CR-P1-001-R1
+  qa_recommendation: blocked-pending-major-fix-and-rereview
+  browser_download_boundary:
+    active_related_test_process: not-found-after-command-completed
+    observed_download_files: 22
+    reviewer_deleted_files: false
+    cleanup: fixed-00-to-move-exact-files-to-trash-under-user-authorization
+    rerun: prohibited-until-download-isolation-fixed-or-coordinated
   stop_gate: code-rereview-conclusion-review
   preserved_top_level:
     release_scope_artifact: artifact-english-release-completeness-prd-001
@@ -460,7 +484,7 @@ held_downstream_delivery:
   resumed_again_by: approval-20260806-spaced-recall-ui-prompt-and-direct-frontend
   resumed_for: chg-20260806-spaced-recall-frontend-implementation-v1-3
   resumed_at: "2026-08-06T14:23:53+08:00"
-implementation_gate: "artifact-spaced-recall-storage-recovery-frontend-fix-002 已获超级无敌帅超超总通过，并按一跳规则只授权固定 09 执行 rereview-20260814-spaced-recall-storage-recovery-fix-002。固定 09 必须独立报到、只读复审并停在 code-rereview-conclusion-review；不得自动进入 QA、后端、PRD v1.4 新增实现或生产部署。"
+implementation_gate: "artifact-spaced-recall-storage-recovery-code-rereview-002 已由固定 09 完成并请求继续修改：CR-P1-001-R2 非原子跨标签重建保持 Major 打开，CR-P2-005 下载型测试隔离为 Minor。当前停在 code-rereview-conclusion-review，未获结论审核不得进入 QA；不得自动进入后端、PRD v1.4 新增实现或生产部署。"
 latest_approved_artifact:
   artifact: artifact-spaced-recall-frontend-fix-001
   path: frontend/
