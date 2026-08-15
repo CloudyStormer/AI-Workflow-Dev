@@ -1754,7 +1754,7 @@ artifacts:
     type: ui-ux-design-specification
     path: ui/12-release-completeness-ui-design-v1.7.md
     version: "1.7"
-    status: machine-passed-independent-review-pending
+    status: ready-for-user-review
     owner: role-ui-designer
     role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
     role_task_title: "04 UI/UX设计师"
@@ -1791,11 +1791,15 @@ artifacts:
       current_connectors: 0
       approved_recruitment_instances: 0
     generated_at: "2026-08-16T03:10:00+08:00"
+    generated_at_timestamp_status: known-invalid-future-value-preserved
     generated_by: role-ui-designer-deterministic-overlay-prototype
-    validation_status: machine-passed-independent-review-pending
+    validation_status: independent-review-passed
     validation:
       machine_gate: passed
-      independent_visual_review: pending-root-coordinator-round-8
+      independent_visual_review: passed-root-coordinator-round-8-0-P0-0-P1-0-P2
+      independent_review: "review-20260815-career-release-completeness-ui-design-v1-7-round-8"
+      independent_reviewed_at: "2026-08-15T23:41:10+08:00"
+      evidence_commit: b5a972cfaa7309eead245f6a888410e1eeb5041b
       resolved_asset_pairs: 49-svg-and-49-png
       resolution: 29-v1-7-replaced-plus-20-immutable-v1-6-resolved-reused
       chart_data_equivalence: 15-of-15-model-visual-table-bidirectional-equal
@@ -1808,14 +1812,16 @@ artifacts:
       browser_css_runtime: not-machine-claimed
       negative_fixtures: four-of-four-exit-code-1
       immutable_history: approved-prompt-and-v1-through-v1-6-matched
-      forbidden_self_claims: no-independent-visual-review-pass
+      forbidden_self_claims: no-self-claimed-independent-visual-review-pass
+    user_ui_design_review: pending
+    downstream_route_authorized: false
     stop_gate: ui-design-review
     auto_route_on_delivery: false
   - id: "artifact-career-release-completeness-ui-visuals-008"
     run_id: "run-20260803-market-analysis-dev-init-001"
     type: ui-visual-prototype-resolved-overlay-bundle
     version: "1.7"
-    status: machine-passed-independent-review-pending
+    status: ready-for-user-review
     owner: role-ui-designer
     work_item: "CR-UI-002"
     change_id: "ui-design-20260816-career-release-completeness-v1-7-008"
@@ -1863,16 +1869,22 @@ artifacts:
     old_v1_4_resolved_assets_preserved: 49-of-49
     old_v1_5_resolved_assets_preserved: 49-of-49
     old_v1_6_resolved_assets_preserved: 49-of-49
-    validation_status: machine-passed-independent-review-pending
+    validation_status: independent-review-passed
     validated_at: "2026-08-16T03:10:00+08:00"
+    validated_at_timestamp_status: known-invalid-future-value-preserved
     review_contract:
       machine_validation: machine-passed
-      independent_visual_review: pending-root-coordinator-round-8
+      independent_visual_review: passed-root-coordinator-round-8-0-P0-0-P1-0-P2
+      independent_review: "review-20260815-career-release-completeness-ui-design-v1-7-round-8"
+      independent_reviewed_at: "2026-08-15T23:41:10+08:00"
+      evidence_commit: b5a972cfaa7309eead245f6a888410e1eeb5041b
       general_font_glyph_geometry: not-machine-claimed
       browser_css_runtime: not-machine-claimed
       button_label_png_pixel_centers: machine-passed-20-of-20
       generated_strings_are_not_manual-review: true
       downstream_route_authorized: false
+    user_ui_design_review: pending
+    downstream_route_authorized: false
     stop_gate: ui-design-review
     auto_route_on_delivery: false
     advance_limit: current-v1-7-design-review-only
