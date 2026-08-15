@@ -6,6 +6,7 @@
 
 | 产物 | 版本 | 状态 | SHA256 | 说明 |
 |---|---|---|---|---|
+| [`04-release-completeness-ui-prompt.md`](04-release-completeness-ui-prompt.md) | `1.0` | `ready-for-review` | `a8a4b3b66cdaf31f5d43910d36aeb630f751ced1dfb9959a583603abbee12be7` | MR-UI-001 发布完整性 UI/UX 权威候选提示词；在 v1.2 基线上新增真实完成门、来源政策轴 × Runtime 轴、当前运行时来源为 0、`live / empty / not_ready / stale / degraded / failed`、完整 P0、320px、键盘、读屏与图表等价表 |
 | [`03-ui-prompt.md`](03-ui-prompt.md) | `1.2` | `approved` | `967090f3ac97e0a0bb00070eb39a5af9b6efcd629ac1517e78bffa4f8f7605bd` | 已于 2026-08-10 通过；Live Daily Intelligence 权威 UI 生成提示词，含可直接复制给专业 UI 大模型的主提示词、关键页面、图表映射、56 状态、响应式和无障碍 |
 
 被本版继承并取代的 Prompt v1.0 SHA256 为 `d001cea2e85c36317ca1e38c657a32527b3705a3f276f8d938b8b0ac6e450318`；其批准记录保留在工作流中以便追溯。
@@ -26,4 +27,4 @@
 
 PRD v1.2 与 Prompt v1.2 的真实性边界优先于图片示例：图片中出现的“真实连接”“活动源”“系统运行中”或混用日期只能作为历史视觉占位，设计、架构和实现不得据此声称真实服务已接入。
 
-Prompt v1.2 已获超级无敌帅超超总批准。唯一下一步是由超级无敌帅超超总将其交给自己的专业 UI 设计大模型生成新版 UI 资产，生成结果须放入本目录并独立进入 `ui-design-review`。固定 `04 UI/UX设计师`不生成图片；既有 `artifact-radar-frontend-001` 继续冻结在 `frontend-delivery-review`，本次通过不授权架构、开发、真实来源接入、服务或部署。
+Prompt v1.2 的既有批准和用户 UI 生成等待链继续保留，不被新文件覆盖。发布完整性重排另起 `04-release-completeness-ui-prompt.md` v1.0 审核链：当前只完成 MR-UI-001 Prompt，尚未执行 MR-UI-002，未生成任何新版设计、原型或图片。该 Prompt 获批后也只允许按工作流推进唯一下一站并再次停门；既有 `artifact-radar-frontend-001` 继续冻结在 `frontend-delivery-review`，不授权架构、开发、真实来源接入、服务或部署。

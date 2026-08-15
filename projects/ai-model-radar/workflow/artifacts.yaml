@@ -40,9 +40,9 @@ artifacts:
     type: ui-asset-index
     path: ui/README.md
     status: active
-    owner: package-contractor
-    sha256: 5c47ea0b5e4e5e8ec5f7207f556561329bdf81aaaf8f57c7b95f2ab682b2bc22
-    updated_at: "2026-08-10T11:38:20+08:00"
+    owner: role-ui-designer
+    sha256: 3d4066dca06b44bddc8e6394e1f0fbc848af597a626a6ba1297d09146bf82501
+    updated_at: "2026-08-15T10:12:27+08:00"
   - id: artifact-project-plan-001
     run_id: run-20260731-intake-001
     type: project-plan
@@ -666,3 +666,102 @@ artifacts:
     result: approved-and-unique-next-work-item-authorized
     stop_gate: completed
     auto_route_beyond_next: false
+  - id: artifact-radar-release-completeness-ui-prompt-001
+    run_id: run-20260731-intake-001
+    type: ui-ux-design-prompt
+    path: ui/04-release-completeness-ui-prompt.md
+    version: "1.0"
+    status: ready-for-review
+    owner: role-ui-designer
+    role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+    role_task_title: "04 UI/UX设计师"
+    work_item: MR-UI-001
+    change_id: ui-prompt-20260814-radar-release-completeness-001
+    authorization: approval-20260814-radar-release-replanning-ui-prompt-entry
+    upstream:
+      plan:
+        artifact: artifact-four-project-release-replanning-plan-001
+        repo_relative_path: docs/04-four-project-release-completeness-replanning-plan.md
+        version: "1.0"
+        sha256: 96decb8f1835cc85bd530c21b2969d4d077f31e6086425ea911f9d5b187bbe26
+        approval: approval-20260814-four-project-release-replanning-plan-v1
+      product_baseline:
+        artifact: artifact-radar-live-daily-prd-001
+        path: docs/02-prd.md
+        version: "1.2"
+        sha256: 3ce842ef8e2b9661f2114b3b4a2b3361eeb8fac0f98a5071cd8e27c38a81a020
+      release_appendix:
+        artifact: artifact-radar-release-completeness-appendix-001
+        path: docs/02-prd-release-completeness-appendix.md
+        version: "1.0"
+        sha256: a27cfecc196c29749387302a692d93af0b5b534af7da6805b6b297e064133f1d
+        approval: approval-20260814-radar-release-completeness-appendix-v1
+      source_allowlist:
+        artifact: artifact-radar-source-allowlist-001
+        path: docs/00-source-allowlist.md
+        version: "1.0"
+        sha256: 9aa9bb926cc52aae28d11bbf676507ca313add83238cd81be6300a4d9f2f0498
+      source_registry:
+        artifact: artifact-radar-source-registry-001
+        path: docs/00-source-registry.csv
+        version: "1.0"
+        sha256: c303e79e1fa9f7a1664ac718a1678bbcb6610b5309a5d5e4006e6d4b1d438f91
+        approval: approval-20260814-radar-source-allowlist-v1
+    historical_ui_reference:
+      artifact: artifact-radar-live-daily-ui-prompt-001
+      path: ui/03-ui-prompt.md
+      version: "1.2"
+      sha256: 967090f3ac97e0a0bb00070eb39a5af9b6efcd629ac1517e78bffa4f8f7605bd
+      visual_asset_count: 9
+      role: read-only-historical-reference
+    sha256: a8a4b3b66cdaf31f5d43910d36aeb630f751ced1dfb9959a583603abbee12be7
+    ui_index_sha256: 3d4066dca06b44bddc8e6394e1f0fbc848af597a626a6ba1297d09146bf82501
+    review_scope: "AI Model Radar 发布完整性 UI/UX 提示词：完整 P0 页面、来源政策轴与 Runtime 轴、真实性状态、seed_demo 隔离、刷新/质量、320px、键盘、读屏与图表等价表"
+    coverage:
+      primary_navigation: 6
+      desktop_scenes: 10
+      chart_types: 9
+      state_matrix: 64
+      product_acceptance: AC-01..AC-88
+      release_acceptance: AC-AMR-REL-01..AC-AMR-REL-16
+      breakpoints: [1440px, 1024px, 390px, 320px]
+      zoom: 200-percent
+      language: complete-simplified-chinese
+    truth_boundary:
+      source_registry_rows: 72
+      atomic_endpoint_policy_rows: 29
+      endpoint_decisions: {allow: 22, conditional: 4, manual_only: 0, disabled: 3}
+      source_approval_scope: research-only
+      current_runtime_enabled_sources: 0
+      current_live_connectors: 0
+      current_live_snapshot_proven: false
+      seed_demo_may_prove_live: false
+    generated_ui_design: false
+    generated_prototype: false
+    generated_images: false
+    modified_prd_architecture_task_breakdown_or_business_code: false
+    connector_runtime_collection_or_deployment_started: false
+    preserved_gates:
+      - artifact-radar-live-daily-user-ui-design-001/ui-design-review
+      - artifact-radar-frontend-001/frontend-delivery-review-held
+    started_at: "2026-08-15T10:12:27+08:00"
+    completed_at: "2026-08-15T10:12:27+08:00"
+    validation_status: passed
+    validated_at: "2026-08-15T10:15:17+08:00"
+    validation:
+      approved_input_sha256: matched
+      prompt_markers: 1-start-and-1-end
+      yaml: 5-of-5-valid
+      jsonl_before_validation_event: 72-of-72-valid-and-unique
+      csv_registry: 72-rows-35-columns-including-29-atomic-endpoint-decisions
+      project_structure: passed-with-0-warnings
+      git_boundary: passed
+      skill_drift: passed
+      diff_check: passed
+    stop_gate: ui-prompt-review
+    auto_route_on_delivery: false
+    known_limits:
+      - prompt-only-not-approved-ui-design
+      - current-runtime-real-sources-remain-zero
+      - no-mr-ui-002-design-prototype-or-images
+      - existing-ui-design-and-held-frontend-gates-remain-preserved

@@ -4,14 +4,14 @@ run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
 stage: ui-ux
-status: release-replanning-ui-prompt-authorized-awaiting-role-announcement
+status: release-replanning-ui-prompt-ready-for-review
 current_role: role-ui-designer
 blocked: false
 ui_assets:
   directory: ui
   index: ui/README.md
   new_deliveries: required
-  delivery_status: awaiting-user-generated-ui-assets
+  delivery_status: release-completeness-ui-prompt-ready-for-review
   preserve_active_legacy_paths: true
 delivery_priority:
   baseline_context: held-frontend-original-approved-scope
@@ -42,7 +42,7 @@ next_approval:
   scope: "审核固定 04 对 MR-UI-001 交付的 AI Model Radar 发布完整性 UI/UX 增量提示词；不包含设计生成、架构、开发、连接器或部署"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: authorized-awaiting-role-announcement
+  delivery_status: ready-for-review
   on_approved: authorize-only-MR-UI-002-after-independent-prompt-delivery-review
   advance_limit: unique-next-stage-only
   auto_advance_beyond_next: false
@@ -69,7 +69,7 @@ active_release_replanning_ui_prompt_assignment:
   role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
   role_task_title: "04 UI/UX设计师"
   authorization: approval-20260814-radar-release-replanning-ui-prompt-entry
-  scheduling: authorized-awaiting-role-announcement
+  scheduling: completed-awaiting-user-review
   upstream_plan:
     approval: approval-20260814-four-project-release-replanning-plan-v1
     artifact: artifact-four-project-release-replanning-plan-001
@@ -100,6 +100,8 @@ active_release_replanning_ui_prompt_assignment:
     artifact: artifact-radar-release-completeness-ui-prompt-001
     path: ui/04-release-completeness-ui-prompt.md
     version: "1.0"
+    sha256: a8a4b3b66cdaf31f5d43910d36aeb630f751ced1dfb9959a583603abbee12be7
+    ui_index_sha256: 3d4066dca06b44bddc8e6394e1f0fbc848af597a626a6ba1297d09146bf82501
   scope: "只编制发布完整性 UI/UX 增量提示词；完整简中、核心路由与真相态、来源政策与运行时状态、320px、键盘和读屏覆盖"
   exclusions:
     - MR-UI-002-and-any-design-prototype-or-image
@@ -109,7 +111,34 @@ active_release_replanning_ui_prompt_assignment:
   preserved_gates:
     - artifact-radar-live-daily-user-ui-design-001/ui-design-review
     - artifact-radar-frontend-001/frontend-delivery-review-held
-  delivery_status: authorized-awaiting-role-announcement
+  started_at: "2026-08-15T10:12:27+08:00"
+  completed_at: "2026-08-15T10:12:27+08:00"
+  validation_status: passed
+  validated_at: "2026-08-15T10:15:17+08:00"
+  validation:
+    approved_input_sha256: matched
+    prompt_markers: 1-start-and-1-end
+    yaml: 5-of-5-valid
+    jsonl_before_validation_event: 72-of-72-valid-and-unique
+    csv_registry: 72-rows-35-columns-including-29-atomic-endpoint-decisions
+    project_structure: passed-with-0-warnings
+    git_boundary: passed
+    skill_drift: passed
+    diff_check: passed
+  delivery_status: ready-for-review
+  result: release-completeness-ui-prompt-ready-for-review
+  truth_boundary:
+    source_registry_rows: 72
+    atomic_endpoint_policy_rows: 29
+    endpoint_decisions: {allow: 22, conditional: 4, manual_only: 0, disabled: 3}
+    source_approval_scope: research-only
+    current_runtime_enabled_sources: 0
+    current_live_connectors: 0
+    live_snapshot_proven: false
+  generated_ui_design: false
+  generated_prototype: false
+  generated_images: false
+  modified_business_code: false
   stop_gate: ui-prompt-review
   production_release: frozen
   auto_route_on_delivery: false
@@ -598,4 +627,4 @@ source_allowlist_approval_result:
   result: approved-and-returned-to-cross-project-replanning-direction
   effect: "只批准本来源证据产物并返回 cross-project-replanning-direction；不自动路由固定 02、产品、UI、架构、开发或部署"
   auto_advance_beyond_next: false
-updated_at: "2026-08-14T17:39:13+08:00"
+updated_at: "2026-08-15T10:12:27+08:00"
