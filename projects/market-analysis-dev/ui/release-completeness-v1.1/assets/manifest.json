@@ -1,0 +1,146 @@
+{
+  "version": "1.1",
+  "count": 28,
+  "assets": [
+    {
+      "name": "01-desktop-page-01-directions-1440.svg",
+      "width": 1440,
+      "height": 1024
+    },
+    {
+      "name": "02-desktop-page-02-tech-landscape-1440.svg",
+      "width": 1440,
+      "height": 1024
+    },
+    {
+      "name": "03-desktop-page-03-market-trends-1440.svg",
+      "width": 1440,
+      "height": 1024
+    },
+    {
+      "name": "04-desktop-page-04-sources-quality-1440.svg",
+      "width": 1440,
+      "height": 1024
+    },
+    {
+      "name": "05-desktop-page-05-workbench-1440.svg",
+      "width": 1440,
+      "height": 1024
+    },
+    {
+      "name": "06-desktop-page-06-personal-evidence-1440.svg",
+      "width": 1440,
+      "height": 1024
+    },
+    {
+      "name": "07-desktop-page-07-gap-roadmap-1440.svg",
+      "width": 1440,
+      "height": 1024
+    },
+    {
+      "name": "08-desktop-page-08-future-history-1440.svg",
+      "width": 1440,
+      "height": 1024
+    },
+    {
+      "name": "09-desktop-page-09-data-rights-1440.svg",
+      "width": 1440,
+      "height": 1024
+    },
+    {
+      "name": "10-desktop-page-10-quality-recovery-1440.svg",
+      "width": 1440,
+      "height": 1024
+    },
+    {
+      "name": "11-flow-01-workbench-six-step.svg",
+      "width": 1440,
+      "height": 1024
+    },
+    {
+      "name": "12-flow-02-evidence-confirmation.svg",
+      "width": 1440,
+      "height": 1024
+    },
+    {
+      "name": "13-flow-03-gap-roadmap-recompute.svg",
+      "width": 1440,
+      "height": 1024
+    },
+    {
+      "name": "14-flow-04-sync-export-delete.svg",
+      "width": 1440,
+      "height": 1024
+    },
+    {
+      "name": "15-truth-01-source-policy-runtime.svg",
+      "width": 1440,
+      "height": 1024
+    },
+    {
+      "name": "16-truth-02-eleven-states.svg",
+      "width": 1440,
+      "height": 1024
+    },
+    {
+      "name": "17-mobile-01-directions-390-320.svg",
+      "width": 1320,
+      "height": 1030
+    },
+    {
+      "name": "18-mobile-02-tech-390-320.svg",
+      "width": 1320,
+      "height": 1030
+    },
+    {
+      "name": "19-mobile-03-trends-390-320.svg",
+      "width": 1320,
+      "height": 1030
+    },
+    {
+      "name": "20-mobile-04-workbench-input-390-320.svg",
+      "width": 1320,
+      "height": 1030
+    },
+    {
+      "name": "21-mobile-05-workbench-result-390-320.svg",
+      "width": 1320,
+      "height": 1030
+    },
+    {
+      "name": "22-mobile-06-gap-unknown-390-320.svg",
+      "width": 1320,
+      "height": 1030
+    },
+    {
+      "name": "23-mobile-07-data-rights-390-320.svg",
+      "width": 1320,
+      "height": 1030
+    },
+    {
+      "name": "24-components-states.svg",
+      "width": 1440,
+      "height": 1024
+    },
+    {
+      "name": "25-dataviz-15-types.svg",
+      "width": 1440,
+      "height": 1024
+    },
+    {
+      "name": "26-foundation-contrast-tokens.svg",
+      "width": 1440,
+      "height": 1024
+    },
+    {
+      "name": "27-responsive-1024.svg",
+      "width": 1440,
+      "height": 1024
+    },
+    {
+      "name": "28-accessibility-zoom-200.svg",
+      "width": 1440,
+      "height": 1024
+    }
+  ]
+}

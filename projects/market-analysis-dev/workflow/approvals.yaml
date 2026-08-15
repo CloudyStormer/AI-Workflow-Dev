@@ -508,3 +508,46 @@ approvals:
     stop_gate: ui-design-review
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: "review-20260815-career-release-completeness-ui-design-v1"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: ui-design-review
+    role: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    work_item: "CR-UI-002"
+    change_id: "ui-design-20260815-career-release-completeness-001"
+    artifact: "artifact-career-release-completeness-ui-design-001"
+    visual_bundle: "artifact-career-release-completeness-ui-visuals-001"
+    decision: changes-requested
+    reviewed_by: AIWorkFlow-root-coordinator
+    reviewed_at: "2026-08-15T19:35:59+08:00"
+    evidence_commit: 88690a4669d4eb3df7aa0d9677dd9ad344c5b59e
+    severity: "0-P0-multiple-P1-P2"
+    required_revision: "v1.1 必须实画 10 桌面页、4 流程、2 真相态、至少 6 组 390/320 同状态移动页和 15 类图表；纠正方向/能力结构、真实性、未知路线、字符上限、互斥关系、对比度、简中、像素/缩放和演示数据标识。"
+    downstream_route_authorized: false
+    stop_gate: ui-design-review
+  - id: "approval-20260815-career-release-completeness-ui-design-v1-1-revision-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-reentry
+    role: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    work_item: "CR-UI-002"
+    change_id: "ui-design-20260815-career-release-completeness-v1-1-002"
+    authorization_source: "direct-user-delegation-of-independent-visual-review"
+    upstream_review: "review-20260815-career-release-completeness-ui-design-v1"
+    expected_artifact: "artifact-career-release-completeness-ui-design-002"
+    expected_path: ui/06-release-completeness-ui-design-v1.1.md
+    expected_visual_bundle: "artifact-career-release-completeness-ui-visuals-002"
+    expected_version: "1.1"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-15T19:35:59+08:00"
+    scope: "只修订 CR-UI-002 设计交付并关闭独立视觉审查 P1/P2；保留 v1.0 和历史，新增版本化说明、原型源与全新版号视觉资产，完成后仍停 ui-design-review。"
+    exclusions:
+      - approved-prompt-or-v1-assets-overwrite-or-delete
+      - frontend-backend-architecture-or-deployment
+      - downstream-route-or-unfreeze
+      - english-project-files
+    stop_gate: ui-design-review
+    auto_advance_beyond_next: false

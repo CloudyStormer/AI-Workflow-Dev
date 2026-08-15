@@ -883,7 +883,7 @@ artifacts:
     type: ui-ux-design-specification
     path: ui/05-release-completeness-ui-design.md
     version: "1.0"
-    status: ready-for-review
+    status: superseded-after-changes-requested
     owner: role-ui-designer
     role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
     role_task_title: "04 UI/UX设计师"
@@ -908,7 +908,7 @@ artifacts:
       acceptance_criteria: AC-CFR-REL-01..AC-CFR-REL-36
     generated_at: "2026-08-15T19:20:11+08:00"
     generated_by: built-in-imagegen-and-role-ui-designer
-    validation_status: passed
+    validation_status: changes-requested-after-independent-visual-review
     validated_at: "2026-08-15T19:23:30+08:00"
     validation:
       approved_prompt_sha256: matched
@@ -928,6 +928,13 @@ artifacts:
       unrelated_english_files_preserved: 6-of-6-unstaged
     stop_gate: ui-design-review
     auto_route_on_delivery: false
+    review:
+      decision: changes-requested
+      reviewed_at: "2026-08-15T19:35:59+08:00"
+      review_id: "review-20260815-career-release-completeness-ui-design-v1"
+      evidence_commit: 88690a4669d4eb3df7aa0d9677dd9ad344c5b59e
+      finding_summary: "0 P0；多项 P1/P2。此前 10 页、15 图表、移动与全 AC 的覆盖声明超出五张拼板的实际视觉证据。"
+      superseded_by: "artifact-career-release-completeness-ui-design-002"
     known_limits:
       - visual-mockups-not-business-implementation
       - generated-text-and-layout-require-user-design-review
@@ -937,7 +944,7 @@ artifacts:
     run_id: "run-20260803-market-analysis-dev-init-001"
     type: ui-visual-asset-bundle
     version: "1.0"
-    status: ready-for-review
+    status: superseded-after-changes-requested
     owner: role-ui-designer
     work_item: "CR-UI-002"
     change_id: "ui-design-20260815-career-release-completeness-001"
@@ -965,7 +972,111 @@ artifacts:
         sha256: 70b00e52305512f7ea9390f3610c50a1ab25008283a88e221d96d4ba8d4737ad
         coverage: visual-tokens-component-states-truth-states-and-equivalent-table
     old_visual_assets_preserved: 10-of-10
-    validation_status: passed
+    validation_status: changes-requested-after-independent-visual-review
     validated_at: "2026-08-15T19:23:30+08:00"
+    stop_gate: ui-design-review
+    auto_route_on_delivery: false
+    review:
+      decision: changes-requested
+      review_id: "review-20260815-career-release-completeness-ui-design-v1"
+      reviewed_at: "2026-08-15T19:35:59+08:00"
+      preserve_files_and_hashes: true
+      superseded_by: "artifact-career-release-completeness-ui-visuals-002"
+  - id: "artifact-career-release-completeness-ui-design-002"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: ui-ux-design-specification
+    path: ui/06-release-completeness-ui-design-v1.1.md
+    version: "1.1"
+    status: ready-for-review
+    owner: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    work_item: "CR-UI-002"
+    change_id: "ui-design-20260815-career-release-completeness-v1-1-002"
+    authorization: "approval-20260815-career-release-completeness-ui-design-v1-1-revision-entry"
+    upstream_artifact: "artifact-career-release-completeness-ui-prompt-001"
+    upstream_approval: "approval-20260815-career-release-completeness-ui-prompt-v1"
+    upstream_path: ui/04-release-completeness-ui-prompt.md
+    upstream_sha256: 983638cb6a802effe4148281233aa381802a7d542ce12e8c694640eee04f3900
+    revision_of: "artifact-career-release-completeness-ui-design-001"
+    revision_review: "review-20260815-career-release-completeness-ui-design-v1"
+    sha256: f8377d001684a40d26513d4c02ccb1fa3fe1aea325300ee7357537c218b79aae
+    ui_index_sha256: 0b22a4dc08d3cc31ee03cb8749a15279964cf088bcb4696ab7b25a60896d9542
+    visual_bundle: "artifact-career-release-completeness-ui-visuals-002"
+    coverage:
+      desktop_pages: 10-of-10
+      flow_boards: 4-of-4
+      truth_boards: 2-of-2
+      mobile_same_page_same_state_pairs: 7-of-7
+      chart_types_with_equivalent_tables: 15-of-15
+      component_state_boards: 1
+      responsive_evidence: 1440-1024-390-320-and-200-percent
+      language: complete-simplified-chinese
+      accessibility_target: WCAG-2.2-AA-design-target-not-audit-claim
+      acceptance_criteria_unique_mapping: AC-CFR-REL-01..AC-CFR-REL-36
+    truth_boundary:
+      current_runtime_sources: 0
+      current_connectors: 0
+      approved_recruitment_instances: 0
+      target_states_marked_not_connected: true
+      personal_data_marked_demo_user_provided: true
+    generated_at: "2026-08-15T19:46:40+08:00"
+    generated_by: role-ui-designer-deterministic-svg-prototype
+    validation_status: passed
+    validated_at: "2026-08-15T19:46:40+08:00"
+    validation:
+      approved_prompt_sha256: matched
+      immutable_v1_design_sha256: matched
+      design_and_ui_index_sha256: matched
+      review_manifest_sha256: matched
+      visual_asset_pairs: 28-svg-and-28-png
+      dimensions_and_sha256: 28-of-28-matched
+      manual_visual_inspection: 28-of-28-passed
+      desktop_pages: 10-of-10
+      flows: 4-of-4
+      truth_boards: 2-of-2
+      mobile_same_state_pairs: 7-of-7
+      chart_types: 15-of-15
+      contrast_text_colors_on_white: all-8-at-or-above-4.5-to-1
+      responsive: 1440-1024-390-320-and-200-percent
+      prd_acceptance_mapping: AC-CFR-REL-01..36-unique-primary-evidence
+    stop_gate: ui-design-review
+    auto_route_on_delivery: false
+    known_limits:
+      - visual-prototype-not-business-implementation
+      - accessibility-is-design-target-not-formal-audit
+      - current-runtime-sources-connectors-and-approved-recruitment-instances-remain-zero
+      - existing-frontend-backend-architecture-and-deployment-gates-remain-frozen
+  - id: "artifact-career-release-completeness-ui-visuals-002"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: ui-visual-prototype-bundle
+    version: "1.1"
+    status: ready-for-review
+    owner: role-ui-designer
+    work_item: "CR-UI-002"
+    change_id: "ui-design-20260815-career-release-completeness-v1-1-002"
+    authorization: "approval-20260815-career-release-completeness-ui-design-v1-1-revision-entry"
+    png_directory: ui/release-completeness-v1.1/png
+    editable_svg_directory: ui/release-completeness-v1.1/assets
+    generation_source: ui/release-completeness-v1.1/generate-assets.mjs
+    generation_source_sha256: 9821b0b5c8cda1b090ba5a163442f2ab8ed937d2ac9bfce20a990455e0b24aca
+    verification_source: ui/release-completeness-v1.1/verify-assets.mjs
+    verification_source_sha256: 216abc7e6849622f176b19cc4d2040d23bf85e13634772bbe9280da112571de5
+    review_manifest: ui/release-completeness-v1.1/review-manifest.json
+    review_manifest_sha256: cb88099bbe7cbefa40cc8e9e2300676eb32405da3a019cdee135d77a5f5cbb9c
+    editable_manifest: ui/release-completeness-v1.1/assets/manifest.json
+    editable_manifest_sha256: f2cecda338af287ef4272427dd2716af6fba445ba62e3b0304b083d3ad0e98f9
+    counts:
+      png_assets: 28
+      editable_svg_assets: 28
+      desktop_pages: 10
+      flow_boards: 4
+      truth_boards: 2
+      mobile_same_page_same_state_pairs: 7
+      standards_and_responsive_boards: 5
+    old_v1_visual_assets_preserved: 5-of-5
+    old_historical_visual_assets_preserved: 10-of-10
+    validation_status: passed
+    validated_at: "2026-08-15T19:46:40+08:00"
     stop_gate: ui-design-review
     auto_route_on_delivery: false

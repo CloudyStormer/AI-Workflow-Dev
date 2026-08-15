@@ -1,0 +1,267 @@
+{
+  "schema_version": 1,
+  "version": "1.1",
+  "generated_at": "2026-08-15T19:35:59+08:00",
+  "counts": {
+    "desktop": 10,
+    "flows": 4,
+    "truth": 2,
+    "mobile_same_state_pairs": 7,
+    "standards_and_responsive": 5
+  },
+  "total_visual_assets": 28,
+  "source_generator_sha256": "9821b0b5c8cda1b090ba5a163442f2ab8ed937d2ac9bfce20a990455e0b24aca",
+  "truth_boundary": {
+    "runtime_sources": 0,
+    "connectors": 0,
+    "approved_recruitment_instances": 0
+  },
+  "contrast_ratios_on_white": {
+    "text": 16.29,
+    "muted_unknown": 7.69,
+    "action": 6.37,
+    "info": 6.7,
+    "success": 5.69,
+    "warning": 6.79,
+    "danger": 6.47,
+    "inference": 6.46
+  },
+  "coverage": {
+    "desktop_pages": "10-of-10",
+    "flows": "4-of-4",
+    "truth_boards": "2-of-2",
+    "mobile_same_state_pairs": "7-of-7",
+    "chart_types": "15-of-15",
+    "responsive": "1440-1024-390-320-and-200-percent"
+  },
+  "immutable_checks": {
+    "approved_prompt": "matched",
+    "v1_design": "matched"
+  },
+  "assets": [
+    {
+      "name": "01-desktop-page-01-directions-1440.png",
+      "logical_viewport": "1440x1024",
+      "png_sha256": "a43ce73bdef2cce6442abfcf4bf3fe372d0b7590ab8b644021130370e3effd0a",
+      "editable_svg": "../assets/01-desktop-page-01-directions-1440.svg",
+      "svg_sha256": "2cfd45b9661e67b7dcf72c1bfb2bab494ca347f7b286a5bae496eb8b6d7d110f",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "02-desktop-page-02-tech-landscape-1440.png",
+      "logical_viewport": "1440x1024",
+      "png_sha256": "f6fb9f48af8c563a7436bb2aa8f59106a599d46ef04af60f2734f2ff18aeee7f",
+      "editable_svg": "../assets/02-desktop-page-02-tech-landscape-1440.svg",
+      "svg_sha256": "fbc6c796f110a5b0201d9f016d3d1525fa5abe54f1e764777ccbc37faaf87050",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "03-desktop-page-03-market-trends-1440.png",
+      "logical_viewport": "1440x1024",
+      "png_sha256": "76915ad3fe411f20345bb72f796e78daf71a845e4f5bd75040ab1d995bb04bda",
+      "editable_svg": "../assets/03-desktop-page-03-market-trends-1440.svg",
+      "svg_sha256": "90b0e2d6c43d727fb7cc86fb4b4a91521ddcb6d1111c5f1b4195b576ec42a4a8",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "04-desktop-page-04-sources-quality-1440.png",
+      "logical_viewport": "1440x1024",
+      "png_sha256": "cf8fdeae1875fe6fed07b2ff48c0a455712639fbd159f293b7031cf557760491",
+      "editable_svg": "../assets/04-desktop-page-04-sources-quality-1440.svg",
+      "svg_sha256": "9b711ade70dff3ddcb0f062b4b3415ab628117564e73db0e408cbb55a89c50d2",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "05-desktop-page-05-workbench-1440.png",
+      "logical_viewport": "1440x1024",
+      "png_sha256": "a5f2d70d935e6c858584ddc647fc3cf722a3c573fb9de340b7691bab1bf4d4cb",
+      "editable_svg": "../assets/05-desktop-page-05-workbench-1440.svg",
+      "svg_sha256": "6c47cf8cfda579c395e461844ec2a0c13e1cd08045e75681f125aea0146d2436",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "06-desktop-page-06-personal-evidence-1440.png",
+      "logical_viewport": "1440x1024",
+      "png_sha256": "89deac2442b57895622eb71951e5934e2050fea885e400c614b8160c3ac1a2fb",
+      "editable_svg": "../assets/06-desktop-page-06-personal-evidence-1440.svg",
+      "svg_sha256": "ea4154536674bf94a6eb7542c8cb24f687d0feae1780cc6888c13e4938d8494b",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "07-desktop-page-07-gap-roadmap-1440.png",
+      "logical_viewport": "1440x1024",
+      "png_sha256": "d5fd29a4326d7fa749dce64725a091a7478a660d00d5666a41cbdb14dee85cf3",
+      "editable_svg": "../assets/07-desktop-page-07-gap-roadmap-1440.svg",
+      "svg_sha256": "9b12b3b516769584d83c8440a6ab5835e43100df12e72613e35325a19e914e08",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "08-desktop-page-08-future-history-1440.png",
+      "logical_viewport": "1440x1024",
+      "png_sha256": "252c70288ce37c9d11e86b0e207bbe3d96dae089fe905cbeddbfa27f2d8d555b",
+      "editable_svg": "../assets/08-desktop-page-08-future-history-1440.svg",
+      "svg_sha256": "38b7544b208f10a89baa7e5cfb861b39d97c11e1c51fdc705db4fd6a32124a3d",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "09-desktop-page-09-data-rights-1440.png",
+      "logical_viewport": "1440x1024",
+      "png_sha256": "8ad759b00b0fb368b3945270ea63b0b250d72bd98d27951bcc5961065c675ffb",
+      "editable_svg": "../assets/09-desktop-page-09-data-rights-1440.svg",
+      "svg_sha256": "aa9a34be79eed8cdc7320a11b02b1abaa3c57815b11d35286cbadfe24002c1d3",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "10-desktop-page-10-quality-recovery-1440.png",
+      "logical_viewport": "1440x1024",
+      "png_sha256": "da40b944f5ed2e6e745f284094e891df4a0af78f289900455965351b395f3f0b",
+      "editable_svg": "../assets/10-desktop-page-10-quality-recovery-1440.svg",
+      "svg_sha256": "bbffd9a7f3f193d13cb83bae3ea3d36f2532d894ccc2cece79da23cf4376beea",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "11-flow-01-workbench-six-step.png",
+      "logical_viewport": "1440x1024",
+      "png_sha256": "da44fc49fda88a8667e61f3ecb9016768a9e677260d923646daff3217ed247df",
+      "editable_svg": "../assets/11-flow-01-workbench-six-step.svg",
+      "svg_sha256": "1251f3d7d092451d387049f89f07524866ab2eda79f0b0ff9b4f32204f46121c",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "12-flow-02-evidence-confirmation.png",
+      "logical_viewport": "1440x1024",
+      "png_sha256": "a48e0d34680c595a78087f845c8412697941fbc03e48381ef7bea06a6f7d83ef",
+      "editable_svg": "../assets/12-flow-02-evidence-confirmation.svg",
+      "svg_sha256": "eac6ab24e7d9543bbfa945fcd0c8c352ccf5a36a5c5e30fe5acd7b312dea486b",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "13-flow-03-gap-roadmap-recompute.png",
+      "logical_viewport": "1440x1024",
+      "png_sha256": "ec355df4032771d20fa17200bb196435c2e49d54b4e736e1063627b6ddee8e29",
+      "editable_svg": "../assets/13-flow-03-gap-roadmap-recompute.svg",
+      "svg_sha256": "fcb5a0ace8946fab21e28799069ab698bb3dc34dcaaa099fa2c2c0659e302748",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "14-flow-04-sync-export-delete.png",
+      "logical_viewport": "1440x1024",
+      "png_sha256": "0e135752db3f3a1f4b5330ccd30ab53d66bc01b8da8251abd01760aa08fd1bfb",
+      "editable_svg": "../assets/14-flow-04-sync-export-delete.svg",
+      "svg_sha256": "c8b5b1d32d2e9d52c7a472d8aa2517594a08414943b1988ecaf7ea502276277d",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "15-truth-01-source-policy-runtime.png",
+      "logical_viewport": "1440x1024",
+      "png_sha256": "c1e4a52f12255f84fc9694277723f22517c84d8e270046e865b6ccfbf402e19d",
+      "editable_svg": "../assets/15-truth-01-source-policy-runtime.svg",
+      "svg_sha256": "a02afb0be345aca6a95996b154ad531cb47aae521fc8f20ae182131484306750",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "16-truth-02-eleven-states.png",
+      "logical_viewport": "1440x1024",
+      "png_sha256": "17aaa67fe266ae007cc5c99400ab9f3630ebddffb08564cc25067e740eac92a2",
+      "editable_svg": "../assets/16-truth-02-eleven-states.svg",
+      "svg_sha256": "fbf3ff0e691c6a040986a7d2e4fdbf91110fc853722f18359e1afc8b8634078b",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "17-mobile-01-directions-390-320.png",
+      "logical_viewport": "1320x1030",
+      "png_sha256": "998ffa6dd4a0a16d30e7f96f7cc6797d33c630c7eb734c0a30b3dcb3d729ad50",
+      "editable_svg": "../assets/17-mobile-01-directions-390-320.svg",
+      "svg_sha256": "05b215ba9df315a6e7f679ac3bc6725ffd3e017ac40f6f7dacd7214f8c3aa2c1",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "18-mobile-02-tech-390-320.png",
+      "logical_viewport": "1320x1030",
+      "png_sha256": "a708d09bf62ac80531a3a9021e7ec2406a542cbd4e9310633de0907ec224afc9",
+      "editable_svg": "../assets/18-mobile-02-tech-390-320.svg",
+      "svg_sha256": "8594d2d3ac0b668ebee310baf09d740df295028042a14f17a242391c8508810b",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "19-mobile-03-trends-390-320.png",
+      "logical_viewport": "1320x1030",
+      "png_sha256": "a0a35977216fc871acd8139e7ce78b2fc71caf578300ff14e497a91afec0336a",
+      "editable_svg": "../assets/19-mobile-03-trends-390-320.svg",
+      "svg_sha256": "b74e33a2a518a1efb3ab8b8adbf273e518c4b91c7e42438273ccea4841e24aaa",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "20-mobile-04-workbench-input-390-320.png",
+      "logical_viewport": "1320x1030",
+      "png_sha256": "79eadfed8c696a1f4cef71746799f30d941b7ea69325d81dd711b1319c445555",
+      "editable_svg": "../assets/20-mobile-04-workbench-input-390-320.svg",
+      "svg_sha256": "2c4ab174f4095dd53037bb579fcd228ef7cb467fa949ca5d901bcece3f29e9b8",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "21-mobile-05-workbench-result-390-320.png",
+      "logical_viewport": "1320x1030",
+      "png_sha256": "41546212fcc052dc13ec1e96b4324d3d1de2c30b58d0ecbfa4de3e873b0c1a4e",
+      "editable_svg": "../assets/21-mobile-05-workbench-result-390-320.svg",
+      "svg_sha256": "8dd851e767b1e74a2ff9cadef7a4fd15b7c297e6fa637b1ec58a8d3e58d2ef47",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "22-mobile-06-gap-unknown-390-320.png",
+      "logical_viewport": "1320x1030",
+      "png_sha256": "6c0609496cb0717748a40d56bafb576f823f64de7f292efa248d4fc45b8a1ec4",
+      "editable_svg": "../assets/22-mobile-06-gap-unknown-390-320.svg",
+      "svg_sha256": "677e099f42c9de09b397e2ee4e79825d7b935b68f344c90c13ca52a482e3123a",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "23-mobile-07-data-rights-390-320.png",
+      "logical_viewport": "1320x1030",
+      "png_sha256": "d27e9cb32caf60bfc62d3f7d4f9e0aa32beaf862d3a04f054ea6dd6c9cdc6151",
+      "editable_svg": "../assets/23-mobile-07-data-rights-390-320.svg",
+      "svg_sha256": "67ff0a0e788d92e0ec9e4eeb8185317648db6a7f61a20693963efbc66860bead",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "24-components-states.png",
+      "logical_viewport": "1440x1024",
+      "png_sha256": "23bcde3ca6a9de4026b7bcb38337ad5caab41d58faeec7b8de7046fefd80eebe",
+      "editable_svg": "../assets/24-components-states.svg",
+      "svg_sha256": "39c450701f5282e0ad0d461fe274d0c3608d5b9592b6fde73f77b12710b635f6",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "25-dataviz-15-types.png",
+      "logical_viewport": "1440x1024",
+      "png_sha256": "3484baeaf796add20e035394e81a4d992a16128bff6a19c2ff2b08b542f52e9e",
+      "editable_svg": "../assets/25-dataviz-15-types.svg",
+      "svg_sha256": "a74ade90d6504f6ea57538c96a2eec945f196cab9af70fa381570d9e91884588",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "26-foundation-contrast-tokens.png",
+      "logical_viewport": "1440x1024",
+      "png_sha256": "5a1e8bc6c04cb12cf3bc0e372509a2594232a61387e47e1515b6275a852ad560",
+      "editable_svg": "../assets/26-foundation-contrast-tokens.svg",
+      "svg_sha256": "221fc11b1fa804ad866f5d335de51b617897dcc6be8145c9380b62b17f866d35",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "27-responsive-1024.png",
+      "logical_viewport": "1440x1024",
+      "png_sha256": "8d3a9b27283186af106dd2808d15e80b1ccc4813acc0075b9841a8d6333c07bc",
+      "editable_svg": "../assets/27-responsive-1024.svg",
+      "svg_sha256": "6169126506c4631ea3cce9a458e5eec7820b9d7674f48f030c37572b8761b9bc",
+      "visual_inspection": "passed-2026-08-15"
+    },
+    {
+      "name": "28-accessibility-zoom-200.png",
+      "logical_viewport": "1440x1024",
+      "png_sha256": "e528904cd1e1994ee86c8dd91b7ae750c4e5b55eefbf87a24f39e78e2786b399",
+      "editable_svg": "../assets/28-accessibility-zoom-200.svg",
+      "svg_sha256": "5386fdf1cb34a93fb28b0023c1dee132f0cc9f0197d58834f9eee9df1b0e8187",
+      "visual_inspection": "passed-2026-08-15"
+    }
+  ]
+}

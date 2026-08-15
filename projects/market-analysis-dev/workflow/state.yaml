@@ -4,7 +4,7 @@ run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
 stage: ui-ux
-status: release-completeness-ui-design-ready-for-review
+status: release-completeness-ui-design-v1-1-ready-for-review
 current_role: role-ui-designer
 blocked: false
 ui_assets:
@@ -649,11 +649,11 @@ release_completeness_ui_design_assignment:
     - artifact-career-frontend-001/frontend-delivery-review
     - artifact-career-f10-input-ui-preview-001/frontend-delivery-review
     - artifact-career-backend-ui-prompt-001/ui-prompt-review
-  scheduling: completed-awaiting-user-review
-  delivery_status: ready-for-review
+  scheduling: superseded-by-v1-1-ready-for-review
+  delivery_status: superseded-after-changes-requested
   started_at: "2026-08-15T19:20:11+08:00"
   completed_at: "2026-08-15T19:20:11+08:00"
-  validation_status: passed
+  validation_status: changes-requested-after-independent-visual-review
   validated_at: "2026-08-15T19:23:30+08:00"
   validation:
     approved_prompt_sha256: matched
@@ -671,9 +671,70 @@ release_completeness_ui_design_assignment:
     skill_drift: passed
     diff_check: passed
     unrelated_english_files_preserved: 6-of-6-unstaged
-  result: career-release-completeness-ui-design-ready-for-review
+  result: career-release-completeness-ui-design-v1-changes-requested
   stop_gate: ui-design-review
   generated_new_visual_assets: 5
   modified_business_code: false
   auto_route_on_delivery: false
-updated_at: "2026-08-15T19:23:30+08:00"
+  review:
+    id: "review-20260815-career-release-completeness-ui-design-v1"
+    decision: changes-requested
+    reviewed_at: "2026-08-15T19:35:59+08:00"
+    p0: 0
+    p1_p2: multiple
+    preserved_v1_files: true
+release_completeness_ui_design_revision:
+  change_id: "ui-design-20260815-career-release-completeness-v1-1-002"
+  work_item: "CR-UI-002"
+  role: role-ui-designer
+  role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+  authorization: "approval-20260815-career-release-completeness-ui-design-v1-1-revision-entry"
+  upstream_review: "review-20260815-career-release-completeness-ui-design-v1"
+  safe_base_commit: 88690a4669d4eb3df7aa0d9677dd9ad344c5b59e
+  expected_outputs:
+    design:
+      artifact: "artifact-career-release-completeness-ui-design-002"
+      path: ui/06-release-completeness-ui-design-v1.1.md
+      version: "1.1"
+    visuals:
+      artifact: "artifact-career-release-completeness-ui-visuals-002"
+      version: "1.1"
+      minimum_desktop_pages: 10
+      minimum_flow_boards: 4
+      truth_boards: 2
+      mobile_same-state_pairs: 7
+      chart_types: 15
+  outputs:
+    design:
+      artifact: "artifact-career-release-completeness-ui-design-002"
+      path: ui/06-release-completeness-ui-design-v1.1.md
+      version: "1.1"
+      sha256: f8377d001684a40d26513d4c02ccb1fa3fe1aea325300ee7357537c218b79aae
+    visuals:
+      artifact: "artifact-career-release-completeness-ui-visuals-002"
+      png_assets: 28
+      editable_svg_assets: 28
+      review_manifest: ui/release-completeness-v1.1/review-manifest.json
+      review_manifest_sha256: cb88099bbe7cbefa40cc8e9e2300676eb32405da3a019cdee135d77a5f5cbb9c
+  scheduling: completed-awaiting-user-review
+  delivery_status: ready-for-review
+  completed_at: "2026-08-15T19:46:40+08:00"
+  validation_status: passed
+  validation:
+    review_findings_closed: all-listed-P1-P2
+    visual_asset_pairs: 28-svg-and-28-png
+    dimensions_and_sha256: 28-of-28-matched
+    manual_visual_inspection: 28-of-28-passed
+    desktop_pages: 10-of-10
+    flows: 4-of-4
+    truth_boards: 2-of-2
+    mobile_same_state_pairs: 7-of-7
+    chart_types: 15-of-15
+    contrast: all-text-colors-at-or-above-4.5-to-1
+    acceptance_mapping: AC-CFR-REL-01..36-unique-primary-evidence
+    unrelated_english_files_preserved: 6-of-6-unstaged
+  result: career-release-completeness-ui-design-v1-1-ready-for-review
+  return_gate: ui-design-review
+  downstream_route_authorized: false
+  english_files_preserved: 6-of-6-unstaged
+updated_at: "2026-08-15T19:46:40+08:00"
