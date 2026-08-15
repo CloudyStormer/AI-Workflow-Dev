@@ -541,9 +541,43 @@ parallel_spaced_recall_storage_safety_rereview:
   expected_output:
     artifact: artifact-spaced-recall-storage-safety-code-rereview-003
     path: docs/06-code-review.md
-  scheduling: routed-awaiting-fixed-09-role-announcement
+  scheduling: completed-ready-for-review
   routed_at: "2026-08-15T22:44:03+08:00"
-  delivery_status: authorized
+  delivery_status: ready-for-review
+  completed_at: "2026-08-15T22:56:16+08:00"
+  output:
+    artifact: artifact-spaced-recall-storage-safety-code-rereview-003
+    path: docs/06-code-review.md
+    sha256: 65c39620c1bd5b27aeac4be757f710f27a4c9fbbb5678eb2a547d66acf98c488
+    conclusion: changes-requested
+  finding_disposition:
+    open_major:
+      - CR-P1-001-R3
+    closed_in_this_rereview:
+      - CR-P1-001-R2-atomic-race-body
+      - CR-P2-005
+    closed_without_regression:
+      - CR-P1-002
+      - CR-P1-003
+      - CR-P2-001
+      - CR-P2-002
+      - CR-P2-003
+      - CR-P2-004
+  validation:
+    runtimes: Node.js-24.19.0-and-22.12.0
+    lint: passed-both-runtimes
+    typecheck_and_build: passed-both-runtimes
+    spaced_recall_test: passed-both-runtimes
+    inline_cloze_test: passed-1200-randomized-cases-both-runtimes
+    chrome_cdp_react_integration: passed-real-two-tab-1440-390-320-console-clean-both-runtimes
+    shared_cross_context_lock: passed-all-production-main-storage-writes
+    equal_byte_aba_generation_guard: failed-missing-independent-generation-token
+    download_isolation: passed-native-anchor-click-suppressed
+    temporary_directory_cleanup: passed-exact-owned-profile-path
+    matching_downloads_before_and_after: 0-to-0-both-runs
+    input_sha256_match: 6-of-6-passed
+    dependency_audit: not-run-dependencies-unchanged-no-no-vulnerability-claim
+  qa_recommendation: blocked-pending-generation-fix-and-rereview
   stop_gate: code-rereview-conclusion-review
   preserved_top_level:
     release_scope_artifact: artifact-english-release-completeness-prd-001

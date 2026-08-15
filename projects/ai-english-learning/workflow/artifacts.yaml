@@ -1056,3 +1056,67 @@ artifacts:
     next_change_id: rereview-20260815-spaced-recall-storage-safety-fix-003
     next_gate: code-rereview-conclusion-review
     auto_route: false
+  - id: artifact-spaced-recall-storage-safety-code-rereview-003
+    type: code-rereview
+    path: docs/06-code-review.md
+    status: ready-for-review
+    owner: role-code-reviewer
+    role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
+    change_id: rereview-20260815-spaced-recall-storage-safety-fix-003
+    authorization: approval-20260815-spaced-recall-storage-safety-code-rereview-entry
+    input_artifact: artifact-spaced-recall-storage-safety-frontend-fix-003
+    input_path: frontend/
+    source_commit: 94c958d096357bbead86c7a16fbfe5674d2c2919
+    diff_base: cf14a6b1b54fe8a3c8334e277291a8c31d48b248
+    original_review_artifact: artifact-spaced-recall-storage-recovery-code-rereview-002
+    original_review_path: docs/06-code-review.md
+    original_review_sha256: 5a4284217860d4598f7432aa6aeb2b0cb63e846f307d53ba0516e0bbea5758c6
+    sha256: 65c39620c1bd5b27aeac4be757f710f27a4c9fbbb5678eb2a547d66acf98c488
+    conclusion: changes-requested
+    finding_disposition:
+      open_major:
+        - CR-P1-001-R3
+      closed_in_this_rereview:
+        - CR-P1-001-R2-atomic-race-body
+        - CR-P2-005
+      closed_without_regression:
+        - CR-P1-002
+        - CR-P1-003
+        - CR-P2-001
+        - CR-P2-002
+        - CR-P2-003
+        - CR-P2-004
+    findings:
+      blocker: 0
+      major_open: 1
+      minor_open: 0
+    major_evidence:
+      issue: missing-independent-storage-generation-allows-equal-byte-aba-stale-tab-write
+      location: frontend/src/utils/spacedRecall.ts:159-175,2175-2269,2330-2349
+      read_only_reproduction: '{"rebuild":"rebuilt","returnedToSameBytes":true,"staleWrite":"saved","staleItemPersisted":"stale-tab-write","storedRevision":2}'
+      test_gap: existing-domain-and-browser-cases-use-different-stale-and-rebuilt-raw
+    validation:
+      runtimes: Node.js-24.19.0-and-22.12.0
+      lint: passed-both-runtimes
+      typecheck_and_build: passed-both-runtimes
+      spaced_recall_test: passed-both-runtimes
+      inline_cloze_test: passed-1200-randomized-cases-both-runtimes
+      chrome_cdp_react_integration: passed-real-two-tab-1440-390-320-console-clean-both-runtimes
+      input_sha256_match: 6-of-6-passed
+      shared_cross_context_lock: passed-all-production-main-storage-writes
+      equal_byte_aba_generation_guard: failed-missing-independent-generation-token
+      download_isolation: passed-native-anchor-click-suppressed
+      temporary_directory_cleanup: passed-exact-owned-profile-path
+      matching_downloads_before_and_after: 0-to-0-both-runs
+      dependency_audit: not-run-dependencies-unchanged-no-no-vulnerability-claim
+      first_node24_launch: failed-before-lint-due-inherited-node18-then-full-rerun-passed
+    truth_boundary:
+      storage: current-browser-current-device-only
+      backup: generated-download-not-claimed-saved-importable-or-cloud-backed
+      backend_integration: not-claimed
+      product_v1_4_scope: preserved-not-implemented-by-this-rereview
+      production_deployment: not-authorized
+    qa_recommendation: blocked-pending-generation-fix-and-rereview
+    completed_at: "2026-08-15T22:56:16+08:00"
+    stop_gate: code-rereview-conclusion-review
+    auto_route: false

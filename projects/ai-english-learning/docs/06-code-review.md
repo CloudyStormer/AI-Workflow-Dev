@@ -333,3 +333,86 @@
   2. `修改`：调整问题严重度、结论或范围，本角色修订后重新交付。
   3. `打回`：本复审产物退回。
 - 本次交付不自动进入 QA、后端、PRD v1.4 新增实现、部署或生产发布；一次“通过”不得继续消费到再下一站。
+
+---
+
+## 存储安全复审更新（2026-08-15）
+
+### 复审元数据
+
+- change_id: `rereview-20260815-spaced-recall-storage-safety-fix-003`
+- authorization: `approval-20260815-spaced-recall-storage-safety-code-rereview-entry`
+- input_artifact: `artifact-spaced-recall-storage-safety-frontend-fix-003`
+- source_commit: `94c958d096357bbead86c7a16fbfe5674d2c2919`
+- diff_base: `cf14a6b1b54fe8a3c8334e277291a8c31d48b248`
+- original_rereview: `artifact-spaced-recall-storage-recovery-code-rereview-002`
+- original_rereview_sha256: `5a4284217860d4598f7432aa6aeb2b0cb63e846f307d53ba0516e0bbea5758c6`
+- reviewer: 固定 `09 代码审查员`（`role-code-reviewer`）
+- rereviewed_at: `2026-08-15T22:56:16+08:00`
+- scope: 只读复审 `CR-P1-001-R2`、`CR-P2-005`、全部生产存储写路径、真实双标签竞态、ABA、防下载污染、简体中文、无障碍和既有回归
+- excluded: 代修业务代码、QA、后端、PRD v1.4 新增实现、部署、生产发布以及其他项目现场
+
+### 复审结论
+
+**结论：请求继续修改，不建议进入 QA。**
+
+`CR-P1-001-R2` 的原始 compare-then-set 竞态主体已经关闭：重建、普通写入和加载隔离归一化均使用同一个 origin 级 Web Lock，比较、写入、逐字回读都在独占回调内完成；锁忙、能力缺失、无效出站状态、写入失败和回读不确定均 fail-closed，没有无锁回退。真实双标签 Chrome 门证明生产普通写与重建共享锁，较新标签写入不会被覆盖。`CR-P2-005` 也已关闭：浏览器替身对下载链接直接返回，不再调用原生 `anchor.click()`；Chrome profile 使用仓外 `mkdtemp`，`finally` 只清理本轮精确目录。固定 09 在 Node.js 24.19.0 与 22.12.0 下独立运行 lint、typecheck/build、领域测试、1,200 组 cloze 和真实 Chrome/CDP 门均通过，两轮前后临时 profile 与该前缀 Downloads 文件均为 0。
+
+但交付声称的“exact raw + revision + generation 防 ABA”没有完整实现，因此 `CR-P1-001` 仍保持 **Major 打开为 `CR-P1-001-R3`**。持久化状态只有 `revision`，没有独立、重建时必换且普通写必须匹配的 generation；重建还可以把存储写回与旧标签快照完全相同的 raw。此时旧标签的 `expectedRaw` 和 revision 都再次匹配，后续生产写会返回 `saved`。现有域测试所谓 ABA 用例实际构造的是“revision 相同、raw 不同”，真实浏览器门的重建 raw 也与旧标签 raw 不同，只验证了普通 stale-CAS，不覆盖同值 ABA。固定 09 使用真实导出函数只读复现得到 `{"rebuild":"rebuilt","returnedToSameBytes":true,"staleWrite":"saved","staleItemPersisted":"stale-tab-write","storedRevision":2}`。
+
+| 严重级别 | 当前打开 | 本轮关闭 | 门禁影响 |
+| --- | ---: | ---: | --- |
+| Blocker | 0 | 0 | 无 P0 |
+| Major | 1 | `CR-P1-001-R2` 原子竞态主体 | `CR-P1-001-R3` 阻断进入 QA |
+| Minor | 0 | `CR-P2-005` | 无打开 P2 |
+| 既有建议 | 2 | 0 | 继续保留，不单独阻断 |
+
+### 问题处置与回归
+
+| 编号 | 复审状态 | 证据与判断 |
+| --- | --- | --- |
+| `CR-P1-001-R2` | 主体关闭 / 形成 `CR-P1-001-R3` | `spacedRecall.ts:2175-2225,2278-2349` 中重建、归一化与普通保存共用 `SPACED_RECALL_STORAGE_WRITE_LOCK`，在锁内比较、写入和回读；`Word.tsx:685-845,2361-2453` 的生产路径没有无锁回退。真实双标签 Chrome 门通过。但存储 envelope 仅有 `revision`（`spacedRecall.ts:159-175`），重建没有生成独立 generation，同值 ABA 仍接受旧标签写入。 |
+| `CR-P2-005` | 已关闭 | `verify-recall-browser.mjs:444-455` 捕获 Blob/文件名后直接返回，不调用原生下载；`332,1435-1457` 使用本轮 `mkdtemp` profile 并在停止 Chrome/Vite 后删除精确目录。固定 09 两次真实 Chrome 门前后仓外临时目录和匹配 Downloads 计数均为 0。 |
+| `CR-P1-002`、`CR-P1-003`、`CR-P2-001..004` | 已关闭且无回归 | 两套 Node 的领域、cloze、React/Chrome 门全绿；队列、恢复、提醒、中文状态、键盘焦点、320/390/1440px 与 console clean 均未见本批回归。 |
+
+### 仍需处理的 Major
+
+#### CR-P1-001-R3：没有独立存储 generation，重建回同一 raw 后旧标签可越过 ABA 门
+
+- 【级别】Major
+- 【位置】`frontend/src/utils/spacedRecall.ts:159-175,2175-2269,2330-2349`；`frontend/scripts/verify-spaced-recall.mjs:1134-1152`；`frontend/scripts/verify-recall-browser.mjs:1352-1377`
+- 【问题】当前 CAS token 只有 exact raw 与 revision。重建可以把当前题库状态序列化成与某个重建前标签所持快照逐字相同的值；由于 envelope 没有每次重建必换的 generation，存储经历 A→未知/损坏 B→重建 A 后，旧标签的 expectedRaw=A、expectedRevision 仍再次成立。Web Lock 只保证操作串行，不能识别值已跨过一次破坏性世代边界。
+- 【只读复现】先保存合法状态 A，让旧标签派生待写状态；再把存储改成未知版本 B，并在共享锁内用 A 重建。确认 `returnedToSameBytes=true` 后，用旧标签的 raw/revision 调用生产 `saveSpacedRecallStateWithLock`，返回 `saved`，旧标签新增项进入重建后的记录。
+- 【测试缺口】域测试第 1134～1152 行明确使用与重建结果不同的 `staleGenerationRaw`，所以只证明 exact-raw 能拒绝不同快照；浏览器测试也只断言当前特定 fixture 的 rebuilt raw 与旧 raw 不同。两者都没有构造 A→B→A，也没有断言 generation token 在重建时变化。
+- 【影响】破坏性重建本应成为旧标签必须刷新的世代边界；当前旧页面在同值回环时仍可把重建前的交互写入新世代。发生条件窄于原 R2 的任意跨标签竞态，但它直接违反本批明确登记的 ABA 安全契约和“重建后旧标签 fail-closed”门禁，因此继续按 Major 阻断 QA。
+- 【修复要求】在持久化 envelope 增加不可回退的 `generation`/epoch token；初始化生成，普通域写继承且 CAS 同时匹配，破坏性重建必须生成新 token。若兼容旧记录，需要在共享锁内完成一次可追溯迁移。领域门必须覆盖 A→B→A，同一真实浏览器门必须让重建后的业务 raw 除 generation 外可与旧状态相同，并断言旧标签写入冲突且新 generation 保持不变。
+
+### 已通过的存储、安全、真实性与可访问性边界
+
+- 所有 `SPACED_RECALL_STORAGE_KEY` 生产写路径均收口到共享 Web Lock；`sessionStorage` 的页面会话记录不属于该持久化域，未发现绕过锁直接写复习主记录的路径。
+- 普通写、归一化和重建均校验出站状态并逐字回读；`lock-busy`、`lock-unavailable`、`revision-conflict`、`write-unverified` 与存储错误都有简体中文、不会假称成功的状态，关键写入期间按钮禁用并提供 `aria-busy`/live status。
+- 未发现本批新增 `dangerouslySetInnerHTML`、动态代码执行、凭证写入或业务网络外发；新增 `fetch`/WebSocket 只存在于本地 Chrome/CDP 测试控制面。本批未改依赖清单，未运行联网 `npm audit`，因此不声明第三方依赖无已知漏洞。
+- 备份仍只表示在当前浏览器生成本地下载，不声称已保存、可自动导入或云同步；后端、跨设备同步、PRD v1.4 新功能和生产部署均未被本批实现或声称完成。
+
+### 独立验证记录
+
+| 检查 | 结果 |
+| --- | --- |
+| `git diff cf14a6b...94c958d -- projects/ai-english-learning/frontend` | 6 个前端/测试文件；输入范围锁定 |
+| 输入 SHA-256 对照 `artifact-spaced-recall-storage-safety-frontend-fix-003` | 6/6 一致 |
+| Node.js 24.19.0：lint / typecheck+build / cloze / domain / Chrome | 全部通过；1,200 组 cloze，真实双标签 1440/390/320px，console clean |
+| Node.js 22.12.0：lint / typecheck+build / cloze / domain / Chrome | 全部通过；1,200 组 cloze，真实双标签 1440/390/320px，console clean |
+| 构建产物 | JS `405.80 kB`（gzip `124.36 kB`）；CSS `65.03 kB`（gzip `14.27 kB`）；无块大小告警 |
+| 下载/临时目录隔离 | 两轮 Chrome 门前后 `english-recall-cdp-*` 与匹配 Downloads 文件计数均为 0 |
+| 同值 ABA 只读复现 | 失败：A→B→A 后旧标签生产写返回 `saved`；`CR-P1-001-R3` 打开 |
+| `git diff --check` / 危险模式静态检查 | 通过；未发现新增高置信度安全问题 |
+| 首次 Node 24 启动 | npm 子进程误继承 Node 18.12.1，lint 启动前即拒绝；修正 PATH 后完整重跑通过，不计为业务验证 |
+| `npm audit` | 未执行；依赖未改，不作无漏洞结论 |
+
+### 复审停止门与下一步
+
+- 当前产物：`artifact-spaced-recall-storage-safety-code-rereview-003`
+- 当前停止门：`code-rereview-conclusion-review`
+- 当前决策：等待超级无敌帅超超总审核本复审结论
+- 推荐审批：若通过本结论，仅授权固定 `06 前端工程师`处理 `CR-P1-001-R3` 的独立 generation 与同值 ABA 双层门禁；修复交付后再次回固定 `09 代码审查员`复审。
+- 本次交付不自动进入 QA、后端、PRD v1.4 新增实现、部署或生产发布；一次“通过”不得继续消费到再下一站。
