@@ -61,8 +61,8 @@ artifacts:
     path: ui/README.md
     status: active
     owner: package-contractor
-    sha256: 1a1b47905588ec25be4809bc91c5bbd1c96eaeb19bd1d0992c209ad85b0dae24
-    updated_at: "2026-08-15T11:08:21+08:00"
+    sha256: 95cd4b84e81d1365e683db0859f77af3feabf712a8ad7ae5fad82b4a3131ba62
+    updated_at: "2026-08-15T18:59:31+08:00"
   - id: "artifact-git-metadata-backup-001"
     run_id: "run-20260803-market-analysis-dev-init-001"
     type: external-git-metadata-backup
@@ -781,7 +781,7 @@ artifacts:
     type: ui-ux-design-prompt
     path: ui/04-release-completeness-ui-prompt.md
     version: "1.0"
-    status: ready-for-review
+    status: approved
     owner: role-ui-designer
     role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
     role_task_title: "04 UI/UX设计师"
@@ -813,7 +813,7 @@ artifacts:
         visual_asset_count: 10
         role: read-only-historical-reference
     sha256: 983638cb6a802effe4148281233aa381802a7d542ce12e8c694640eee04f3900
-    ui_index_sha256: 1a1b47905588ec25be4809bc91c5bbd1c96eaeb19bd1d0992c209ad85b0dae24
+    ui_index_sha256: 95cd4b84e81d1365e683db0859f77af3feabf712a8ad7ae5fad82b4a3131ba62
     coverage:
       primary_navigation: 9
       business_pages: 10
@@ -862,10 +862,16 @@ artifacts:
       skill_drift: passed
       diff_check: passed
       unrelated_english_files_preserved: 6-of-6-unstaged
-    stop_gate: ui-prompt-review
+    review_status: approved
+    approval: "approval-20260815-career-release-completeness-ui-prompt-v1"
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-15T18:59:31+08:00"
+    completed_gate: ui-prompt-review
+    next_gate: ui-design-input-awaiting-assets
+    next_owner: 超级无敌帅超超总
     auto_route_on_delivery: false
     known_limits:
-      - prompt-only-not-approved-ui-design
+      - prompt-approved-but-no-new-ui-design-assets-received
       - current-runtime-real-sources-and-recruitment-instances-remain-zero
       - no-design-prototype-images-architecture-development-or-deployment
       - existing-ui-prompt-and-frontend-gates-remain-preserved

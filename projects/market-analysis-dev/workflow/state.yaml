@@ -4,7 +4,7 @@ run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
 stage: ui-ux
-status: release-completeness-ui-prompt-ready-for-review
+status: release-completeness-ui-prompt-approved-awaiting-user-ui-assets
 current_role: role-ui-designer
 blocked: false
 ui_assets:
@@ -214,18 +214,17 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
-  gate: ui-prompt-review
-  artifact: "artifact-career-release-completeness-ui-prompt-001"
-  path: ui/04-release-completeness-ui-prompt.md
-  version: "1.0"
-  sha256: 983638cb6a802effe4148281233aa381802a7d542ce12e8c694640eee04f3900
-  scope: "审核 CR-UI-001 发布完整性 Prompt；覆盖方向→技术栈、持续来源、公共/私有分域、双轴确认、个人证据、差距/路线/历史、账号同步、数据权利、响应式与无障碍；不包含设计、代码或部署。"
-  decision_owner: 超级无敌帅超超总
-  decision: pending
-  delivery_status: ready-for-review
-  options: [通过, 修改, 打回]
-  on_approved: "只批准当前 Prompt；根据超级无敌帅超超总对固定 04 的职责边界，不自动生成图片或启动设计、架构、开发、连接器或部署。"
-  advance_limit: current-artifact-review-only
+  gate: ui-design-input-awaiting-assets
+  approved_prompt_artifact: "artifact-career-release-completeness-ui-prompt-001"
+  approved_prompt_path: ui/04-release-completeness-ui-prompt.md
+  approved_prompt_version: "1.0"
+  approved_prompt_sha256: 983638cb6a802effe4148281233aa381802a7d542ce12e8c694640eee04f3900
+  prompt_approval: "approval-20260815-career-release-completeness-ui-prompt-v1"
+  expected_input: "超级无敌帅超超总使用专业 UI 设计模型生成并放入 ui/ 的新版资产"
+  input_owner: 超级无敌帅超超总
+  status: awaiting-user-assets
+  on_assets_received: "固定 04 只登记精确路径、页面用途、尺寸和 SHA256，并停 ui-design-review；不得自行补图、修改前端或解冻下游。"
+  advance_limit: user-owned-design-input-only
   auto_advance_beyond_next: false
 release_scope_product_assignment:
   change_group_id: "prd-20260814-four-project-release-completeness-001"
@@ -578,8 +577,8 @@ release_completeness_ui_prompt_assignment:
     - artifact-career-frontend-001/frontend-delivery-review
     - artifact-career-f10-input-ui-preview-001/frontend-delivery-review
     - artifact-career-backend-ui-prompt-001/ui-prompt-review
-  scheduling: completed-awaiting-user-review
-  delivery_status: ready-for-review
+  scheduling: completed-approved-awaiting-user-ui-assets
+  delivery_status: approved
   started_at: "2026-08-15T11:08:21+08:00"
   completed_at: "2026-08-15T11:08:21+08:00"
   validation_status: passed
@@ -596,8 +595,14 @@ release_completeness_ui_prompt_assignment:
     skill_drift: passed
     diff_check: passed
     unrelated_english_files_preserved: 6-of-6-unstaged
-  result: career-release-completeness-ui-prompt-ready-for-review
-  stop_gate: ui-prompt-review
+  review_decision: approved
+  approval: "approval-20260815-career-release-completeness-ui-prompt-v1"
+  approved_by: 超级无敌帅超超总
+  approved_at: "2026-08-15T18:59:31+08:00"
+  result: career-release-completeness-ui-prompt-approved
+  completed_gate: ui-prompt-review
+  next_gate: ui-design-input-awaiting-assets
+  next_owner: 超级无敌帅超超总
   generated_ui_design_or_images: false
   auto_route_on_delivery: false
-updated_at: "2026-08-15T11:08:21+08:00"
+updated_at: "2026-08-15T18:59:31+08:00"

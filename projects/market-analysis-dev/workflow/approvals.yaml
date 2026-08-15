@@ -449,3 +449,28 @@ approvals:
     production_release: frozen
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: "approval-20260815-career-release-completeness-ui-prompt-v1"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: ui-prompt-review
+    role: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    work_item: "CR-UI-001"
+    change_id: "ui-prompt-20260815-career-release-completeness-001"
+    artifact: "artifact-career-release-completeness-ui-prompt-001"
+    path: ui/04-release-completeness-ui-prompt.md
+    version: "1.0"
+    sha256: 983638cb6a802effe4148281233aa381802a7d542ce12e8c694640eee04f3900
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-15T18:59:31+08:00"
+    source_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    user_reply: "通过"
+    evidence: "固定 04 已独立交付 CR-UI-001 Prompt v1.0、SHA256、验证、提交与审核选项，超级无敌帅超超总紧接着明确回复‘通过’。"
+    effect: "批准当前发布完整性 Prompt；按超级无敌帅超超总已明确的固定 04 职责边界，下一步等待其使用专业 UI 设计模型生成并放入 ui/ 的新版资产，不由固定 04 生成图片，不解冻前端或启动架构、连接器、开发、部署。"
+    completed_gate: ui-prompt-review
+    next_gate: ui-design-input-awaiting-assets
+    next_owner: 超级无敌帅超超总
+    expected_next_input: user-generated-ui-assets
+    auto_route_role: false
+    auto_advance_beyond_next: false
