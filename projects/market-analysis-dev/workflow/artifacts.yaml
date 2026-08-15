@@ -61,8 +61,8 @@ artifacts:
     path: ui/README.md
     status: active
     owner: package-contractor
-    sha256: 9c58b47f3864d53d806604b160a41e134fdebb2671536e15b13d77257ce1bebf
-    updated_at: "2026-08-10T17:07:59+08:00"
+    sha256: 1a1b47905588ec25be4809bc91c5bbd1c96eaeb19bd1d0992c209ad85b0dae24
+    updated_at: "2026-08-15T11:08:21+08:00"
   - id: "artifact-git-metadata-backup-001"
     run_id: "run-20260803-market-analysis-dev-init-001"
     type: external-git-metadata-backup
@@ -776,3 +776,96 @@ artifacts:
     completed_gate: source-allowlist-review
     next_gate: cross-project-replanning-direction
     auto_route: false
+  - id: "artifact-career-release-completeness-ui-prompt-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: ui-ux-design-prompt
+    path: ui/04-release-completeness-ui-prompt.md
+    version: "1.0"
+    status: ready-for-review
+    owner: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    work_item: "CR-UI-001"
+    change_id: "ui-prompt-20260815-career-release-completeness-001"
+    authorization: "approval-20260815-career-release-completeness-ui-prompt-entry"
+    upstream:
+      plan:
+        approval: "approval-20260814-four-project-release-replanning-plan-v1"
+        path: ../../docs/04-four-project-release-completeness-replanning-plan.md
+        version: "1.0"
+        sha256: 96decb8f1835cc85bd530c21b2969d4d077f31e6086425ea911f9d5b187bbe26
+      product:
+        approval: "approval-20260814-career-release-scope-v1-3"
+        artifact: "artifact-career-release-completeness-prd-001"
+        path: docs/02-prd.md
+        version: "1.3"
+        sha256: 680a399c4984c443e7bf5f5c0aa0c628e919a061839d5659c3ddbc22ddf08705
+      source_allowlist:
+        approval: "approval-20260814-career-source-allowlist-v1"
+        report_artifact: "artifact-career-source-allowlist-001"
+        report_sha256: 8e590b31a19b8d4aecd910561ebcc5ee5e423d1dc299ebc4c2d6e4379c3e607e
+        registry_artifact: "artifact-career-source-registry-001"
+        registry_sha256: 43355d302df64a323e3ee6fe299530d72fd6df8a54bb4b24a06158a9f3621b06
+      historical_ui:
+        path: ui/03-ui-prompt.md
+        version: "1.1"
+        sha256: fcc08310cfb92d970fe8dbb38c400bc5193c9e4707353ced12b1570b55894d29
+        visual_asset_count: 10
+        role: read-only-historical-reference
+    sha256: 983638cb6a802effe4148281233aa381802a7d542ce12e8c694640eee04f3900
+    ui_index_sha256: 1a1b47905588ec25be4809bc91c5bbd1c96eaeb19bd1d0992c209ad85b0dae24
+    coverage:
+      primary_navigation: 9
+      business_pages: 10
+      chart_types: 15
+      truth_states: 11
+      source_workbench_states: 25
+      release_acceptance: AC-CFR-REL-01..AC-CFR-REL-36
+      breakpoints: [1440px, 1024px, 390px, 320px]
+      zoom: 200-percent
+      language: complete-simplified-chinese
+    truth_boundary:
+      source_registry_rows: 60
+      source_registry_columns: 35
+      atomic_endpoint_policy_rows: 16
+      p0_allow_atomic_endpoints: 13
+      p0_allow_atomic_endpoints_scope: technical-only
+      conditional_ats_templates: [CAR-JOB-001, CAR-JOB-002, CAR-JOB-003]
+      approved_recruitment_instances: 0
+      current_runtime_enabled_sources: 0
+      current_live_connectors: 0
+      research_approval_may_prove_runtime: false
+      purpose_sample_may_prove_market_share: false
+      user_statement_may_prove_mastery: false
+    generated_ui_design: false
+    generated_prototype: false
+    generated_images: false
+    modified_prd_architecture_task_breakdown_or_business_code: false
+    connector_runtime_collection_or_deployment_started: false
+    preserved_gates:
+      - artifact-career-frontend-001/frontend-delivery-review
+      - artifact-career-f10-input-ui-preview-001/frontend-delivery-review
+      - artifact-career-backend-ui-prompt-001/ui-prompt-review
+    started_at: "2026-08-15T11:08:21+08:00"
+    completed_at: "2026-08-15T11:08:21+08:00"
+    validation_status: passed
+    validated_at: "2026-08-15T11:18:11+08:00"
+    validation:
+      approved_input_sha256: matched
+      prompt_markers: 1-start-and-1-end
+      release_acceptance_mapping: 36-of-36
+      yaml: 10-of-10-valid-across-model-and-career
+      jsonl_before_validation_event: 71-of-71-valid-and-unique
+      csv_registry: 60-rows-35-columns-including-16-atomic-endpoint-decisions-and-13-p0-allow-technical-endpoints
+      project_structure: passed-with-0-warnings-for-model-and-career
+      git_boundary: passed
+      skill_drift: passed
+      diff_check: passed
+      unrelated_english_files_preserved: 6-of-6-unstaged
+    stop_gate: ui-prompt-review
+    auto_route_on_delivery: false
+    known_limits:
+      - prompt-only-not-approved-ui-design
+      - current-runtime-real-sources-and-recruitment-instances-remain-zero
+      - no-design-prototype-images-architecture-development-or-deployment
+      - existing-ui-prompt-and-frontend-gates-remain-preserved

@@ -6,6 +6,7 @@
 
 | 产物 | 版本 | 状态 | SHA256 | 用途 |
 |---|---:|---|---|---|
+| `04-release-completeness-ui-prompt.md` | 1.0 | ready-for-review | `983638cb6a802effe4148281233aa381802a7d542ce12e8c694640eee04f3900` | 发布完整性权威 Prompt：持续来源、公共／私有分域、个人证据、差距／路线／历史、账号同步与数据权利 |
 | `03-ui-prompt.md` | 1.1 | ready-for-review | `fcc08310cfb92d970fe8dbb38c400bc5193c9e4707353ced12b1570b55894d29` | 继承完整职业雷达 UI，并新增只读研究快照服务的真实性状态 |
 
 上一批准 Prompt v1.0 的 SHA256 为 `f75762b14b5cdcb536cdb58801cd77380ea4a3a276aa906515c137e129ad33b0`。超级无敌帅超超总已于 2026-08-04 放入 10 张生成界面并明确要求开始下一步；Prompt v1.0 与本批图片均登记为已批准历史输入。图片是 v1.0 视觉基线，不覆盖 v1.1 新增的健康／就绪、版本、新鲜度、降级、静态回退、错误和 F10 服务隔离，也不证明业务代码、真实招聘数据或个人成长数据已经存在。
@@ -25,4 +26,6 @@
 | `grok-db65d339-3eb2-494f-9372-b4f003942a45.jpg` | 1728×1152 | `46c726017092a2992028c1604391d5b378b652ee6667d83a7c0ca09c0cde6e29` |
 | `grok-eb8b0476-0f04-42b3-afb0-df34e861f252.jpg` | 1728×1152 | `263610cbf127683647ffb6a9aed5dd92816cea09be2911ed4275bca3e77752b1` |
 
-当前权威顺序为：已批准 `docs/02-prd.md` v1.2 → 待审 `ui/03-ui-prompt.md` v1.1 → 调研证据治理与全局简体中文版规则 → v1.0 历史图片。Prompt v1.1 当前停在 `ui-prompt-review`；固定 `04 UI/UX设计师`不生成图片、原型或新设计，不修改或解冻 `artifact-career-frontend-001` 与 `artifact-career-f10-input-ui-preview-001`。提示词获批后由超级无敌帅超超总使用专业 UI 设计模型生成新版资产，仍须独立进入 `ui-design-review`，不自动授权前端、后端、第三方传输、持久化或部署。
+当前发布完整性权威顺序为：已批准 `docs/02-prd.md` v1.3 + 已批准来源 allowlist/registry v1.0 → 待审 `ui/04-release-completeness-ui-prompt.md` v1.0 → 后续由超级无敌帅超超总使用专业 UI 设计模型生成的新版资产。旧 `ui/03-ui-prompt.md` v1.1 与 10 张图片继续作为历史链和视觉参考，不覆盖 v1.3 的持续来源、公共／私有分域、个人证据、差距／路线／历史、账号同步与数据权利。
+
+来源批准仅为研究证据：当前真实运行时来源、连接器和获批招聘实例均为 0；Greenhouse、Lever、Ashby 仍是缺公司／board／site 允许清单的条件模板。Prompt v1.0 停在 `ui-prompt-review`；固定 `04 UI/UX设计师`本轮不生成图片、原型或新设计，不修改或解冻 `artifact-career-frontend-001` 与 `artifact-career-f10-input-ui-preview-001`，也不自动授权前端、后端、第三方传输、持久化或部署。

@@ -409,6 +409,28 @@ approvals:
     production_release: frozen
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: approval-20260815-radar-release-completeness-ui-design-v1
+    run_id: run-20260731-intake-001
+    gate: ui-design-review
+    role: role-ui-designer
+    artifact: artifact-radar-release-completeness-ui-design-001
+    path: ui/05-release-completeness-ui-design.md
+    version: "1.0"
+    sha256: a731232994db118117043aa50503273c91e5c438bc20f948d9e5137e43ba9324
+    change_id: ui-design-20260815-radar-release-completeness-001
+    work_item: MR-UI-002
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-15T11:08:21+08:00"
+    source_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+    user_reply: "通过"
+    effect: "批准 MR-UI-002 发布完整性设计，并按已批准跨项目重排计划只授权同一固定 04 的唯一下一站 Career CR-UI-001；不批准 Career Prompt、设计、架构、开发、连接器或部署。"
+    next_project: market-analysis-dev
+    next_work_item: CR-UI-001
+    next_gate: ui-prompt-review
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
   - id: approval-20260815-radar-release-completeness-ui-prompt-v1
     run_id: run-20260731-intake-001
     gate: ui-prompt-review

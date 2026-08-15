@@ -6,7 +6,7 @@ skills:
     sha256: "fd161aca9c096a6233dacc9c9790ffbd8d569058799d4fe135d9e8cd63ba7f7f"
   - name: "project-ai-model-radar"
     path: "skills/project-ai-model-radar/SKILL.md"
-    sha256: "9cd8eab597474b72a50b60d163d76664f447c81e37eca1c0024a4e35b303e473"
+    sha256: "eb5d1cb31a8f6da55b564381481af8878979b83ef71e8ce66d4c82658ddc4359"
   - name: "role-architect"
     path: "skills/role-architect/SKILL.md"
     sha256: "048718d977450194a45f356ae1f78091548aa8833ca78977ad8fbf7501ab4718"

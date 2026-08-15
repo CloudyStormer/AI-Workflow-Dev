@@ -3,9 +3,9 @@ project_id: "market-analysis-dev"
 run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
-stage: product-definition
-status: release-scope-approved-awaiting-cross-project-replanning
-current_role: role-product-manager
+stage: ui-ux
+status: release-completeness-ui-prompt-ready-for-review
+current_role: role-ui-designer
 blocked: false
 ui_assets:
   directory: ui
@@ -214,13 +214,18 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
-  gate: cross-project-replanning-direction
-  scope: "等待将持续来源、私有用户数据、个人差距路线与现有前端/F10/UI Prompt 现场拆成唯一重规划工作项；原待审产物继续保留但不得按旧范围直接推进"
+  gate: ui-prompt-review
+  artifact: "artifact-career-release-completeness-ui-prompt-001"
+  path: ui/04-release-completeness-ui-prompt.md
+  version: "1.0"
+  sha256: 983638cb6a802effe4148281233aa381802a7d542ce12e8c694640eee04f3900
+  scope: "审核 CR-UI-001 发布完整性 Prompt；覆盖方向→技术栈、持续来源、公共/私有分域、双轴确认、个人证据、差距/路线/历史、账号同步、数据权利、响应式与无障碍；不包含设计、代码或部署。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: awaiting-explicit-unique-work-item
-  on_approved: authorize-one-explicit-non-production-work-item-only
-  advance_limit: no-automatic-route
+  delivery_status: ready-for-review
+  options: [通过, 修改, 打回]
+  on_approved: "只批准当前 Prompt；根据超级无敌帅超超总对固定 04 的职责边界，不自动生成图片或启动设计、架构、开发、连接器或部署。"
+  advance_limit: current-artifact-review-only
   auto_advance_beyond_next: false
 release_scope_product_assignment:
   change_group_id: "prd-20260814-four-project-release-completeness-001"
@@ -524,4 +529,75 @@ source_allowlist_approval_result:
   result: approved-and-returned-to-cross-project-replanning-direction
   effect: "只批准本来源证据产物并返回 cross-project-replanning-direction；不自动路由固定 02、产品、UI、架构、开发或部署"
   auto_advance_beyond_next: false
-updated_at: "2026-08-14T17:16:03+08:00"
+release_completeness_ui_prompt_assignment:
+  change_id: "ui-prompt-20260815-career-release-completeness-001"
+  work_item: "CR-UI-001"
+  role: role-ui-designer
+  role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+  role_task_title: "04 UI/UX设计师"
+  authorization: "approval-20260815-career-release-completeness-ui-prompt-entry"
+  authorized_via: "MR-UI-002 通过后按已批准跨项目计划一跳进入"
+  safe_base_commit: fedd8175f636a1d7d66b0da1680903d4482b6dfa
+  upstream:
+    product:
+      approval: "approval-20260814-career-release-scope-v1-3"
+      path: docs/02-prd.md
+      version: "1.3"
+      sha256: 680a399c4984c443e7bf5f5c0aa0c628e919a061839d5659c3ddbc22ddf08705
+    source_allowlist:
+      approval: "approval-20260814-career-source-allowlist-v1"
+      report_sha256: 8e590b31a19b8d4aecd910561ebcc5ee5e423d1dc299ebc4c2d6e4379c3e607e
+      registry_sha256: 43355d302df64a323e3ee6fe299530d72fd6df8a54bb4b24a06158a9f3621b06
+      scope: research-only-runtime-disabled
+    historical_ui:
+      path: ui/03-ui-prompt.md
+      version: "1.1"
+      sha256: fcc08310cfb92d970fe8dbb38c400bc5193c9e4707353ced12b1570b55894d29
+      visual_asset_count: 10
+  output:
+    artifact: "artifact-career-release-completeness-ui-prompt-001"
+    path: ui/04-release-completeness-ui-prompt.md
+    version: "1.0"
+    sha256: 983638cb6a802effe4148281233aa381802a7d542ce12e8c694640eee04f3900
+    ui_index_sha256: 1a1b47905588ec25be4809bc91c5bbd1c96eaeb19bd1d0992c209ad85b0dae24
+  scope: "发布完整性 Prompt only：方向→技术栈、持续来源真实性、公共/私有、F10双轴确认、个人证据/差距/路线/历史、账号同步、数据权利、全简中、320px、键盘和读屏。"
+  truth_boundary:
+    source_registry_rows: 60
+    atomic_endpoint_policy_rows: 16
+    p0_allow_technical_endpoints: 13
+    conditional_ats_templates: 3
+    approved_recruitment_instances: 0
+    current_runtime_enabled_sources: 0
+    current_live_connectors: 0
+  exclusions:
+    - ui-design-prototype-or-image-generation
+    - architecture-task-breakdown-or-code
+    - source-connector-runtime-collection-or-deployment
+    - existing-frontend-approval-or-unfreeze
+  preserved_gates:
+    - artifact-career-frontend-001/frontend-delivery-review
+    - artifact-career-f10-input-ui-preview-001/frontend-delivery-review
+    - artifact-career-backend-ui-prompt-001/ui-prompt-review
+  scheduling: completed-awaiting-user-review
+  delivery_status: ready-for-review
+  started_at: "2026-08-15T11:08:21+08:00"
+  completed_at: "2026-08-15T11:08:21+08:00"
+  validation_status: passed
+  validated_at: "2026-08-15T11:18:11+08:00"
+  validation:
+    approved_input_sha256: matched
+    prompt_markers: 1-start-and-1-end
+    release_acceptance_mapping: 36-of-36
+    workflow_yaml: 10-of-10-valid-across-model-and-career
+    jsonl_before_validation_event: 71-of-71-valid-and-unique
+    csv_registry: 60-rows-35-columns-including-16-atomic-endpoint-decisions-and-13-p0-allow-technical-endpoints
+    project_structure: passed-with-0-warnings-for-model-and-career
+    git_boundary: passed
+    skill_drift: passed
+    diff_check: passed
+    unrelated_english_files_preserved: 6-of-6-unstaged
+  result: career-release-completeness-ui-prompt-ready-for-review
+  stop_gate: ui-prompt-review
+  generated_ui_design_or_images: false
+  auto_route_on_delivery: false
+updated_at: "2026-08-15T11:08:21+08:00"

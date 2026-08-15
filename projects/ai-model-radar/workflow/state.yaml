@@ -4,14 +4,14 @@ run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
 stage: ui-ux
-status: release-completeness-ui-design-ready-for-review
+status: release-completeness-ui-design-approved-and-career-ui-prompt-routed
 current_role: role-ui-designer
 blocked: false
 ui_assets:
   directory: ui
   index: ui/README.md
   new_deliveries: required
-  delivery_status: release-completeness-ui-design-ready-for-review
+  delivery_status: release-completeness-ui-design-approved
   preserve_active_legacy_paths: true
 delivery_priority:
   baseline_context: held-frontend-original-approved-scope
@@ -38,12 +38,16 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
-  gate: ui-design-review
-  scope: "审核固定 04 对 MR-UI-002 交付的发布完整性设计说明、响应式原型视觉稿和状态/无障碍设计证据；不包含架构、开发、连接器或部署"
+  gate: completed
+  scope: "MR-UI-002 发布完整性设计已批准；按跨项目重排计划只路由同一固定 04 的 Career CR-UI-001，不启动 Model 架构、开发、连接器或部署。"
   decision_owner: 超级无敌帅超超总
-  decision: pending
-  delivery_status: ready-for-review
-  on_approved: authorize-only-unique-next-work-item-after-independent-design-review
+  decision: approved
+  approval: approval-20260815-radar-release-completeness-ui-design-v1
+  decided_at: "2026-08-15T11:08:21+08:00"
+  delivery_status: approved
+  next_project: market-analysis-dev
+  next_work_item: CR-UI-001
+  on_approved: completed-and-routed-one-cross-project-step
   advance_limit: unique-next-stage-only
   auto_advance_beyond_next: false
 cross_project_replanning_plan_review:
@@ -180,7 +184,7 @@ active_release_completeness_ui_design_assignment:
   preserved_gates:
     - artifact-radar-live-daily-user-ui-design-001/ui-design-review
     - artifact-radar-frontend-001/frontend-delivery-review-held
-  scheduling: completed-awaiting-user-review
+  scheduling: completed-approved
   started_at: "2026-08-15T10:33:38+08:00"
   completed_at: "2026-08-15T10:45:49+08:00"
   validation_status: passed
@@ -195,12 +199,18 @@ active_release_completeness_ui_design_assignment:
     git_boundary: passed
     skill_drift: passed
     diff_check: passed
-  delivery_status: ready-for-review
-  result: release-completeness-ui-design-ready-for-review
+  delivery_status: approved
+  result: release-completeness-ui-design-approved-and-career-cr-ui-001-routed
+  approval: approval-20260815-radar-release-completeness-ui-design-v1
+  approved_by: 超级无敌帅超超总
+  approved_at: "2026-08-15T11:08:21+08:00"
+  completed_gate: ui-design-review
+  next_project: market-analysis-dev
+  next_work_item: CR-UI-001
   generated_ui_design: true
   generated_prototype: true
   generated_images: true
-  stop_gate: ui-design-review
+  stop_gate: completed
   frontend_unfrozen: false
   architecture_or_development_started: false
   auto_route_on_delivery: false

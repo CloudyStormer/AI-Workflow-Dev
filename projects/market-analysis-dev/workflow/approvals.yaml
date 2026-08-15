@@ -400,3 +400,52 @@ approvals:
     next_gate: cross-project-replanning-direction
     advance_limit: return-to-existing-gate-only
     auto_advance_beyond_next: false
+  - id: "approval-20260815-career-release-completeness-ui-prompt-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-entry
+    role: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    authorization_source: "approval-20260815-radar-release-completeness-ui-design-v1"
+    upstream_plan_approval: "approval-20260814-four-project-release-replanning-plan-v1"
+    upstream_model_work_item: "MR-UI-002"
+    change_id: "ui-prompt-20260815-career-release-completeness-001"
+    work_item: "CR-UI-001"
+    expected_artifact: "artifact-career-release-completeness-ui-prompt-001"
+    expected_path: "ui/04-release-completeness-ui-prompt.md"
+    expected_version: "1.0"
+    scope: "只编制 Career 发布完整性 UI/UX Prompt，保持职业方向总览→技术栈全景前两层，覆盖持续来源、公共/私有分域、双轴确认、个人证据、差距/路线/历史、账号同步、数据权利、响应式与无障碍；交付后停 ui-prompt-review。"
+    exclusions:
+      - ui-design-prototype-or-image-generation
+      - existing-ui-03-prompt-or-ten-historical-assets-modification
+      - architecture-task-breakdown-or-business-code
+      - source-connector-runtime-collection-or-deployment
+      - existing-frontend-approval-or-unfreeze
+      - model-english-control-ui-work
+      - production-release
+    upstream_product:
+      approval: "approval-20260814-career-release-scope-v1-3"
+      artifact: "artifact-career-release-completeness-prd-001"
+      path: docs/02-prd.md
+      version: "1.3"
+      sha256: 680a399c4984c443e7bf5f5c0aa0c628e919a061839d5659c3ddbc22ddf08705
+    upstream_sources:
+      approval: "approval-20260814-career-source-allowlist-v1"
+      report_artifact: "artifact-career-source-allowlist-001"
+      report_sha256: 8e590b31a19b8d4aecd910561ebcc5ee5e423d1dc299ebc4c2d6e4379c3e607e
+      registry_artifact: "artifact-career-source-registry-001"
+      registry_sha256: 43355d302df64a323e3ee6fe299530d72fd6df8a54bb4b24a06158a9f3621b06
+      authorization_boundary: research-only-runtime-disabled
+    preserved_gates:
+      - artifact-career-frontend-001/frontend-delivery-review
+      - artifact-career-f10-input-ui-preview-001/frontend-delivery-review
+      - artifact-career-backend-ui-prompt-001/ui-prompt-review
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-15T11:08:21+08:00"
+    source_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    evidence: "超级无敌帅超超总对固定 04 的 MR-UI-002 设计交付明确回复‘通过’，按已批准跨项目重排计划只自动授权唯一下一站 CR-UI-001。"
+    stop_gate: ui-prompt-review
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
