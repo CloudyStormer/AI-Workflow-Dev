@@ -6,9 +6,13 @@
 
 | 产物 | 版本 | 状态 | SHA256 | 用途 |
 |---|---:|---|---|---|
-| `06-release-completeness-ui-design-v1.1.md` | 1.1 | ready-for-review | `f8377d001684a40d26513d4c02ccb1fa3fe1aea325300ee7357537c218b79aae` | CR-UI-002 v1.1 完整设计说明、审查关闭、逐页/逐图表/逐 AC 映射 |
-| `release-completeness-v1.1/review-manifest.json` | 1.1 | passed | `cb88099bbe7cbefa40cc8e9e2300676eb32405da3a019cdee135d77a5f5cbb9c` | 28 张 PNG/SVG 的尺寸、SHA、逐张目检、对比度与覆盖验证 |
-| `release-completeness-v1.1/png/` | 1.1 | ready-for-review | 见 `review-manifest.json` | 10 桌面页 + 4 流程 + 2 真相态 + 7 移动同状态对 + 5 规范/响应式画板 |
+| `07-release-completeness-ui-design-v1.2.md` | 1.2 | machine-passed-independent-review-pending | `768050aba1b7a959510b8f252a8d8628e25cc3b8f3be53bd04efb122630307cc` | CR-UI-002 v1.2 设计说明、9 P1 + 3 P2 修订和机器/独立审查门分离 |
+| `release-completeness-v1.2/review-manifest.json` | 1.2 | machine-passed-independent-review-pending | `942bd955f74a1a7e567413153ee959bf60af3e174abdfbeb6156e67c6d0f5313` | 49 组 PNG/SVG 的尺寸、SHA、机器约束与独立审查 pending；不含自动人工通过 |
+| `release-completeness-v1.2/png/` | 1.2 | ready-for-independent-review | 见 `review-manifest.json` | 10 桌面 + 4 流程 + 2 真相态 + 14 独立移动视口 + 15 独立图表 + 4 规范/响应式 |
+| `release-completeness-v1.2/assets/` | 1.2 | editable-source | 见 `review-manifest.json` | 与 49 张 PNG 一一对应的 SVG；manifest 分别登记外层像素和内部逻辑视口 |
+| `06-release-completeness-ui-design-v1.1.md` | 1.1 | superseded-after-changes-requested | `f8377d001684a40d26513d4c02ccb1fa3fe1aea325300ee7357537c218b79aae` | 保留历史；二次独立审查发现 9 P1 + 3 P2，已由 v1.2 取代 |
+| `release-completeness-v1.1/review-manifest.json` | 1.1 | superseded-after-changes-requested | `cb88099bbe7cbefa40cc8e9e2300676eb32405da3a019cdee135d77a5f5cbb9c` | 保留原文件和错误自动人工通过字段的审计证据，不作为当前通过依据 |
+| `release-completeness-v1.1/png/` | 1.1 | superseded-after-changes-requested | 见 `review-manifest.json` | 28 张历史 PNG，完整保留 |
 | `release-completeness-v1.1/assets/` | 1.1 | editable-source | 见 `review-manifest.json` | 与 28 张 PNG 一一对应的可编辑 SVG |
 | `05-release-completeness-ui-design.md` | 1.0 | superseded-after-changes-requested | `ffc0251ac0c2bfc077e47a9b3352f1d6ccd30f584e6e352e160f07557afcfe3e` | 保留历史；独立审查发现实际画板覆盖不足，已由 v1.1 取代 |
 | `career-release-01-overview-1440.png` | 1.0 | superseded-after-changes-requested | `09c1e1ca0bac4ec3ae366b1d0a40f621dc502342abbf63f41148a2b2b605475a` | v1.0 历史画板，保留原 SHA |
@@ -36,6 +40,6 @@
 | `grok-db65d339-3eb2-494f-9372-b4f003942a45.jpg` | 1728×1152 | `46c726017092a2992028c1604391d5b378b652ee6667d83a7c0ca09c0cde6e29` |
 | `grok-eb8b0476-0f04-42b3-afb0-df34e861f252.jpg` | 1728×1152 | `263610cbf127683647ffb6a9aed5dd92816cea09be2911ed4275bca3e77752b1` |
 
-当前发布完整性权威顺序为：已批准 `docs/02-prd.md` v1.3 + 已批准来源 allowlist/registry v1.0 → 已批准 `ui/04-release-completeness-ui-prompt.md` v1.0 → CR-UI-002 v1.0 独立视觉审查 `changes-requested` → 固定 04 完成 `ui/06-release-completeness-ui-design-v1.1.md` 与 28 张新版画板，重新停在 `ui-design-review`。v1.0 说明、5 张画板、旧 `ui/03-ui-prompt.md` v1.1 与 10 张历史图片全部保留，不覆盖或删除。
+当前发布完整性权威顺序为：已批准 `docs/02-prd.md` v1.3 + 已批准来源 allowlist/registry v1.0 → 已批准 `ui/04-release-completeness-ui-prompt.md` v1.0 → CR-UI-002 v1.0 独立视觉审查 `changes-requested` → v1.1 二次独立视觉审查 `changes-requested` → 固定 04 完成 `ui/07-release-completeness-ui-design-v1.2.md` 与 49 组新版资产，机器门通过，重新停在 `ui-design-review` 等待根协调第三轮独立视觉审查。v1.0/v1.1 说明、全部历史画板、旧 `ui/03-ui-prompt.md` v1.1 与 10 张早期图片全部保留，不覆盖或删除。
 
-来源批准仅为研究证据：当前真实运行时来源、连接器和获批招聘实例均为 0；Greenhouse、Lever、Ashby 仍是缺公司／board／site 允许清单的条件模板。v1.1 所有目标态均标 `目标态演示 · 当前未接通`，所有个人内容均标 `演示数据 · 用户提供`；没有无依据的 1,024 样本或 current-live 声明。当前设计待审，不修改或解冻 `artifact-career-frontend-001` 与 `artifact-career-f10-input-ui-preview-001`，也不自动授权前端、架构、后端、连接器或部署。
+来源批准仅为研究证据：当前真实运行时来源、连接器和获批招聘实例均为 0；Greenhouse、Lever、Ashby 仍是缺公司／board／site 允许清单的条件模板。v1.2 所有公开移动研究页完整标注来源 0 / connector 0 / 招聘实例 0，所有私有页标 `演示数据 · 用户提供`；失败/停用只作为“允许呈现的状态示例”，不声称存在连接器运行历史。当前仅机器门通过，独立视觉审查尚未完成；不修改或解冻 `artifact-career-frontend-001` 与 `artifact-career-f10-input-ui-preview-001`，也不自动授权前端、架构、后端、连接器或部署。

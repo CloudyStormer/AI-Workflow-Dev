@@ -4,7 +4,7 @@ run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
 stage: ui-ux
-status: release-completeness-ui-design-v1-1-ready-for-review
+status: release-completeness-ui-design-v1-2-machine-passed-independent-review-pending
 current_role: role-ui-designer
 blocked: false
 ui_assets:
@@ -683,7 +683,7 @@ release_completeness_ui_design_assignment:
     p0: 0
     p1_p2: multiple
     preserved_v1_files: true
-release_completeness_ui_design_revision:
+release_completeness_ui_design_revision_v1_1:
   change_id: "ui-design-20260815-career-release-completeness-v1-1-002"
   work_item: "CR-UI-002"
   role: role-ui-designer
@@ -716,15 +716,15 @@ release_completeness_ui_design_revision:
       editable_svg_assets: 28
       review_manifest: ui/release-completeness-v1.1/review-manifest.json
       review_manifest_sha256: cb88099bbe7cbefa40cc8e9e2300676eb32405da3a019cdee135d77a5f5cbb9c
-  scheduling: completed-awaiting-user-review
-  delivery_status: ready-for-review
+  scheduling: superseded-by-v1-2
+  delivery_status: superseded-after-changes-requested
   completed_at: "2026-08-15T19:46:40+08:00"
-  validation_status: passed
+  validation_status: changes-requested-after-independent-visual-review
   validation:
-    review_findings_closed: all-listed-P1-P2
+    review_findings_closed: false-independent-review-found-9-P1-3-P2
     visual_asset_pairs: 28-svg-and-28-png
     dimensions_and_sha256: 28-of-28-matched
-    manual_visual_inspection: 28-of-28-passed
+    self_reported_visual_inspection: invalidated-by-independent-review
     desktop_pages: 10-of-10
     flows: 4-of-4
     truth_boards: 2-of-2
@@ -733,8 +733,74 @@ release_completeness_ui_design_revision:
     contrast: all-text-colors-at-or-above-4.5-to-1
     acceptance_mapping: AC-CFR-REL-01..36-unique-primary-evidence
     unrelated_english_files_preserved: 6-of-6-unstaged
-  result: career-release-completeness-ui-design-v1-1-ready-for-review
+  result: career-release-completeness-ui-design-v1-1-changes-requested
   return_gate: ui-design-review
   downstream_route_authorized: false
   english_files_preserved: 6-of-6-unstaged
-updated_at: "2026-08-15T19:46:40+08:00"
+  review:
+    id: "review-20260815-career-release-completeness-ui-design-v1-1"
+    decision: changes-requested
+    reviewed_at: "2026-08-15T21:48:00+08:00"
+    evidence_commit: cf14a6b1b54fe8a3c8334e277291a8c31d48b248
+    severity:
+      p0: 0
+      p1: 9
+      p2: 3
+    preserved_v1_1_files: true
+release_completeness_ui_design_revision_v1_2:
+  change_id: "ui-design-20260815-career-release-completeness-v1-2-003"
+  work_item: "CR-UI-002"
+  role: role-ui-designer
+  role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+  authorization: "approval-20260815-career-release-completeness-ui-design-v1-2-revision-entry"
+  upstream_review: "review-20260815-career-release-completeness-ui-design-v1-1"
+  safe_base_commit: 94c958d096357bbead86c7a16fbfe5674d2c2919
+  expected_outputs:
+    design:
+      artifact: "artifact-career-release-completeness-ui-design-003"
+      path: ui/07-release-completeness-ui-design-v1.2.md
+      version: "1.2"
+    visuals:
+      artifact: "artifact-career-release-completeness-ui-visuals-003"
+      version: "1.2"
+      desktop_pages: 10
+      flow_boards: 4
+      truth_boards: 2
+      mobile_independent_viewports: 14
+      distinct_chart_boards: 15
+  outputs:
+    design:
+      artifact: "artifact-career-release-completeness-ui-design-003"
+      path: ui/07-release-completeness-ui-design-v1.2.md
+      version: "1.2"
+      sha256: 768050aba1b7a959510b8f252a8d8628e25cc3b8f3be53bd04efb122630307cc
+    visuals:
+      artifact: "artifact-career-release-completeness-ui-visuals-003"
+      png_assets: 49
+      editable_svg_assets: 49
+      review_manifest: ui/release-completeness-v1.2/review-manifest.json
+      review_manifest_sha256: 942bd955f74a1a7e567413153ee959bf60af3e174abdfbeb6156e67c6d0f5313
+  scheduling: completed-awaiting-independent-visual-review
+  delivery_status: machine-passed-independent-review-pending
+  completed_at: "2026-08-15T22:20:00+08:00"
+  validation_status: machine-passed-independent-review-pending
+  validation:
+    machine_gate: passed
+    independent_visual_review: pending-root-coordinator
+    visual_asset_pairs: 49-svg-and-49-png
+    dimensions_and_sha256: 49-of-49-matched
+    desktop_pages: 10-of-10
+    flows: 4-of-4
+    truth_boards: 2-of-2
+    mobile_viewports: 14-independent-layouts
+    chart_types: 15-distinct-boards
+    true_zoom: exact-2x-with-reflow-no-scroll-no-overlap
+    direction_boundaries: 8-of-8-machine-passed
+    contrast: all-text-colors-at-or-above-4.5-to-1
+    acceptance_mapping: AC-CFR-REL-01..36-unique-primary-evidence
+    self_claimed_independent_review: prohibited-and-not-present
+  result: career-release-completeness-ui-design-v1-2-machine-passed-independent-review-pending
+  return_gate: ui-design-review
+  downstream_route_authorized: false
+  english_files_preserved: untouched-after-safe-head-94c958d
+updated_at: "2026-08-15T22:20:00+08:00"

@@ -551,3 +551,47 @@ approvals:
       - english-project-files
     stop_gate: ui-design-review
     auto_advance_beyond_next: false
+  - id: "review-20260815-career-release-completeness-ui-design-v1-1"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: ui-design-review
+    role: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    work_item: "CR-UI-002"
+    change_id: "ui-design-20260815-career-release-completeness-v1-1-002"
+    artifact: "artifact-career-release-completeness-ui-design-002"
+    visual_bundle: "artifact-career-release-completeness-ui-visuals-002"
+    decision: changes-requested
+    reviewed_by: AIWorkFlow-root-coordinator
+    reviewed_at: "2026-08-15T21:48:00+08:00"
+    evidence_commit: cf14a6b1b54fe8a3c8334e277291a8c31d48b248
+    severity: "0-P0-9-P1-3-P2"
+    required_revision: "v1.2 必须实质修正 390/320 独立重排、真正 200% 回流、方向图边界、P2 空态、15 类独立语义图表、AC27 账号隔离、AC29 双独立导出、逐页真相标识，以及机器门/独立人工门分离。"
+    downstream_route_authorized: false
+    stop_gate: ui-design-review
+  - id: "approval-20260815-career-release-completeness-ui-design-v1-2-revision-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-reentry
+    role: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    work_item: "CR-UI-002"
+    change_id: "ui-design-20260815-career-release-completeness-v1-2-003"
+    authorization_source: "direct-user-delegation-of-second-independent-visual-review"
+    upstream_review: "review-20260815-career-release-completeness-ui-design-v1-1"
+    expected_artifact: "artifact-career-release-completeness-ui-design-003"
+    expected_path: ui/07-release-completeness-ui-design-v1.2.md
+    expected_visual_bundle: "artifact-career-release-completeness-ui-visuals-003"
+    expected_version: "1.2"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-15T21:48:00+08:00"
+    scope: "只修订 CR-UI-002 v1.2 并精确关闭二次独立审查 9 P1 + 3 P2；保留 v1.0/v1.1 与历史，生成新路径设计说明、生成器、manifest、SVG/PNG；固定 04 只可登记机器事实，独立视觉结论由根协调后续给出。"
+    exclusions:
+      - approved-prompt-or-v1-v1-1-assets-overwrite-or-delete
+      - frontend-backend-architecture-or-deployment
+      - downstream-route-or-unfreeze
+      - english-project-files
+      - self-claimed-independent-visual-review-pass
+    stop_gate: ui-design-review
+    auto_advance_beyond_next: false

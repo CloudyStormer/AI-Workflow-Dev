@@ -1,0 +1,1115 @@
+{
+  "schema_version": 2,
+  "version": "1.2",
+  "generated_at": "2026-08-15T22:20:00+08:00",
+  "count": 49,
+  "truth_boundary": {
+    "runtime_sources": 0,
+    "connectors": 0,
+    "approved_recruitment_instances": 0
+  },
+  "review_contract": {
+    "machine_gate": "self-verifiable",
+    "independent_visual_review": "pending-root-coordinator",
+    "forbidden_claims": [
+      "self-claimed-independent-visual-pass",
+      "generated-string-as-manual-review"
+    ]
+  },
+  "assets": [
+    {
+      "name": "01-desktop-page-01-directions-1440.svg",
+      "category": "desktop",
+      "surface": "public",
+      "source": "redrawn-v1.2",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": [
+        "direction-node-and-label-bounds"
+      ]
+    },
+    {
+      "name": "02-desktop-page-02-tech-landscape-1440.svg",
+      "category": "desktop",
+      "surface": "public",
+      "source": "redrawn-v1.2",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": [
+        "p2-empty-state"
+      ]
+    },
+    {
+      "name": "03-desktop-page-03-market-trends-1440.svg",
+      "category": "desktop",
+      "surface": "public",
+      "source": "versioned-v1.1-baseline",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": []
+    },
+    {
+      "name": "04-desktop-page-04-sources-quality-1440.svg",
+      "category": "desktop",
+      "surface": "public",
+      "source": "versioned-v1.1-baseline",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": []
+    },
+    {
+      "name": "05-desktop-page-05-workbench-1440.svg",
+      "category": "desktop",
+      "surface": "private",
+      "source": "versioned-v1.1-baseline",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": []
+    },
+    {
+      "name": "06-desktop-page-06-personal-evidence-1440.svg",
+      "category": "desktop",
+      "surface": "private",
+      "source": "versioned-v1.1-baseline",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": []
+    },
+    {
+      "name": "07-desktop-page-07-gap-roadmap-1440.svg",
+      "category": "desktop",
+      "surface": "private",
+      "source": "versioned-v1.1-baseline",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": []
+    },
+    {
+      "name": "08-desktop-page-08-future-history-1440.svg",
+      "category": "desktop",
+      "surface": "public",
+      "source": "versioned-v1.1-baseline",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": []
+    },
+    {
+      "name": "09-desktop-page-09-data-rights-1440.svg",
+      "category": "desktop",
+      "surface": "private",
+      "source": "redrawn-v1.2",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": [
+        "ac27-account-isolation",
+        "ac29-dual-export"
+      ]
+    },
+    {
+      "name": "10-desktop-page-10-quality-recovery-1440.svg",
+      "category": "desktop",
+      "surface": "public",
+      "source": "versioned-v1.1-baseline",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": []
+    },
+    {
+      "name": "11-flow-01-workbench-six-step.svg",
+      "category": "flow",
+      "surface": "mixed",
+      "source": "versioned-v1.1-baseline",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": []
+    },
+    {
+      "name": "12-flow-02-evidence-confirmation.svg",
+      "category": "flow",
+      "surface": "mixed",
+      "source": "versioned-v1.1-baseline",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": []
+    },
+    {
+      "name": "13-flow-03-gap-roadmap-recompute.svg",
+      "category": "flow",
+      "surface": "mixed",
+      "source": "versioned-v1.1-baseline",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": []
+    },
+    {
+      "name": "14-flow-04-sync-export-delete.svg",
+      "category": "flow",
+      "surface": "private",
+      "source": "redrawn-v1.2",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": [
+        "ac29-two-independent-exports"
+      ]
+    },
+    {
+      "name": "15-truth-01-source-policy-runtime.svg",
+      "category": "truth",
+      "surface": "public",
+      "source": "redrawn-v1.2",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": [
+        "no-runtime-history-claim"
+      ]
+    },
+    {
+      "name": "16-truth-02-eleven-states.svg",
+      "category": "truth",
+      "surface": "mixed",
+      "source": "versioned-v1.1-baseline",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": []
+    },
+    {
+      "name": "01-directions-390.svg",
+      "category": "mobile",
+      "surface": "public",
+      "source": "independent-v1.2-reflow",
+      "outer_pixels": {
+        "width": 390,
+        "height": 844
+      },
+      "internal_logical_viewports": [
+        {
+          "width": 390,
+          "height": 844,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": [
+        "font-minimums",
+        "touch-minimum",
+        "no-overall-scaling"
+      ]
+    },
+    {
+      "name": "01-directions-320.svg",
+      "category": "mobile",
+      "surface": "public",
+      "source": "independent-v1.2-reflow",
+      "outer_pixels": {
+        "width": 320,
+        "height": 844
+      },
+      "internal_logical_viewports": [
+        {
+          "width": 320,
+          "height": 844,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": [
+        "font-minimums",
+        "touch-minimum",
+        "no-overall-scaling"
+      ]
+    },
+    {
+      "name": "02-tech-390.svg",
+      "category": "mobile",
+      "surface": "public",
+      "source": "independent-v1.2-reflow",
+      "outer_pixels": {
+        "width": 390,
+        "height": 844
+      },
+      "internal_logical_viewports": [
+        {
+          "width": 390,
+          "height": 844,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": [
+        "font-minimums",
+        "touch-minimum",
+        "no-overall-scaling"
+      ]
+    },
+    {
+      "name": "02-tech-320.svg",
+      "category": "mobile",
+      "surface": "public",
+      "source": "independent-v1.2-reflow",
+      "outer_pixels": {
+        "width": 320,
+        "height": 844
+      },
+      "internal_logical_viewports": [
+        {
+          "width": 320,
+          "height": 844,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": [
+        "font-minimums",
+        "touch-minimum",
+        "no-overall-scaling"
+      ]
+    },
+    {
+      "name": "03-trends-390.svg",
+      "category": "mobile",
+      "surface": "public",
+      "source": "independent-v1.2-reflow",
+      "outer_pixels": {
+        "width": 390,
+        "height": 844
+      },
+      "internal_logical_viewports": [
+        {
+          "width": 390,
+          "height": 844,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": [
+        "font-minimums",
+        "touch-minimum",
+        "no-overall-scaling"
+      ]
+    },
+    {
+      "name": "03-trends-320.svg",
+      "category": "mobile",
+      "surface": "public",
+      "source": "independent-v1.2-reflow",
+      "outer_pixels": {
+        "width": 320,
+        "height": 844
+      },
+      "internal_logical_viewports": [
+        {
+          "width": 320,
+          "height": 844,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": [
+        "font-minimums",
+        "touch-minimum",
+        "no-overall-scaling"
+      ]
+    },
+    {
+      "name": "04-workbench-input-390.svg",
+      "category": "mobile",
+      "surface": "private",
+      "source": "independent-v1.2-reflow",
+      "outer_pixels": {
+        "width": 390,
+        "height": 844
+      },
+      "internal_logical_viewports": [
+        {
+          "width": 390,
+          "height": 844,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": [
+        "font-minimums",
+        "touch-minimum",
+        "no-overall-scaling"
+      ]
+    },
+    {
+      "name": "04-workbench-input-320.svg",
+      "category": "mobile",
+      "surface": "private",
+      "source": "independent-v1.2-reflow",
+      "outer_pixels": {
+        "width": 320,
+        "height": 844
+      },
+      "internal_logical_viewports": [
+        {
+          "width": 320,
+          "height": 844,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": [
+        "font-minimums",
+        "touch-minimum",
+        "no-overall-scaling"
+      ]
+    },
+    {
+      "name": "05-workbench-result-390.svg",
+      "category": "mobile",
+      "surface": "private",
+      "source": "independent-v1.2-reflow",
+      "outer_pixels": {
+        "width": 390,
+        "height": 844
+      },
+      "internal_logical_viewports": [
+        {
+          "width": 390,
+          "height": 844,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": [
+        "font-minimums",
+        "touch-minimum",
+        "no-overall-scaling"
+      ]
+    },
+    {
+      "name": "05-workbench-result-320.svg",
+      "category": "mobile",
+      "surface": "private",
+      "source": "independent-v1.2-reflow",
+      "outer_pixels": {
+        "width": 320,
+        "height": 844
+      },
+      "internal_logical_viewports": [
+        {
+          "width": 320,
+          "height": 844,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": [
+        "font-minimums",
+        "touch-minimum",
+        "no-overall-scaling"
+      ]
+    },
+    {
+      "name": "06-gap-unknown-390.svg",
+      "category": "mobile",
+      "surface": "private",
+      "source": "independent-v1.2-reflow",
+      "outer_pixels": {
+        "width": 390,
+        "height": 844
+      },
+      "internal_logical_viewports": [
+        {
+          "width": 390,
+          "height": 844,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": [
+        "font-minimums",
+        "touch-minimum",
+        "no-overall-scaling"
+      ]
+    },
+    {
+      "name": "06-gap-unknown-320.svg",
+      "category": "mobile",
+      "surface": "private",
+      "source": "independent-v1.2-reflow",
+      "outer_pixels": {
+        "width": 320,
+        "height": 844
+      },
+      "internal_logical_viewports": [
+        {
+          "width": 320,
+          "height": 844,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": [
+        "font-minimums",
+        "touch-minimum",
+        "no-overall-scaling"
+      ]
+    },
+    {
+      "name": "07-data-rights-390.svg",
+      "category": "mobile",
+      "surface": "private",
+      "source": "independent-v1.2-reflow",
+      "outer_pixels": {
+        "width": 390,
+        "height": 844
+      },
+      "internal_logical_viewports": [
+        {
+          "width": 390,
+          "height": 844,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": [
+        "font-minimums",
+        "touch-minimum",
+        "no-overall-scaling"
+      ]
+    },
+    {
+      "name": "07-data-rights-320.svg",
+      "category": "mobile",
+      "surface": "private",
+      "source": "independent-v1.2-reflow",
+      "outer_pixels": {
+        "width": 320,
+        "height": 844
+      },
+      "internal_logical_viewports": [
+        {
+          "width": 320,
+          "height": 844,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": [
+        "font-minimums",
+        "touch-minimum",
+        "no-overall-scaling"
+      ]
+    },
+    {
+      "name": "24-components-states.svg",
+      "category": "standard",
+      "surface": "mixed",
+      "source": "versioned-v1.1-baseline",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": []
+    },
+    {
+      "name": "25-01-direction-scatter.svg",
+      "category": "chart",
+      "surface": "public",
+      "source": "redrawn-v1.2",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": "方向坐标图",
+      "machine_assertions": [
+        "distinct-semantic-structure",
+        "title-axis-unit-legend-filter-context-empty-equivalent-table"
+      ]
+    },
+    {
+      "name": "25-02-direction-comparison.svg",
+      "category": "chart",
+      "surface": "public",
+      "source": "redrawn-v1.2",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": "方向比较矩阵",
+      "machine_assertions": [
+        "distinct-semantic-structure",
+        "title-axis-unit-legend-filter-context-empty-equivalent-table"
+      ]
+    },
+    {
+      "name": "25-03-capability-map.svg",
+      "category": "chart",
+      "surface": "public",
+      "source": "redrawn-v1.2",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": "分层能力地图",
+      "machine_assertions": [
+        "distinct-semantic-structure",
+        "title-axis-unit-legend-filter-context-empty-equivalent-table"
+      ]
+    },
+    {
+      "name": "25-04-sample-dotplot.svg",
+      "category": "chart",
+      "surface": "public",
+      "source": "redrawn-v1.2",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": "样本内计数点图",
+      "machine_assertions": [
+        "distinct-semantic-structure",
+        "title-axis-unit-legend-filter-context-empty-equivalent-table"
+      ]
+    },
+    {
+      "name": "25-05-trend-line.svg",
+      "category": "chart",
+      "surface": "public",
+      "source": "redrawn-v1.2",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": "7/30/90 趋势线",
+      "machine_assertions": [
+        "distinct-semantic-structure",
+        "title-axis-unit-legend-filter-context-empty-equivalent-table"
+      ]
+    },
+    {
+      "name": "25-06-remote-constraints.svg",
+      "category": "chart",
+      "surface": "public",
+      "source": "redrawn-v1.2",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": "远程约束矩阵",
+      "machine_assertions": [
+        "distinct-semantic-structure",
+        "title-axis-unit-legend-filter-context-empty-equivalent-table"
+      ]
+    },
+    {
+      "name": "25-07-policy-runtime.svg",
+      "category": "chart",
+      "surface": "public",
+      "source": "redrawn-v1.2",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": "来源政策 × 运行时",
+      "machine_assertions": [
+        "distinct-semantic-structure",
+        "title-axis-unit-legend-filter-context-empty-equivalent-table"
+      ]
+    },
+    {
+      "name": "25-08-source-band.svg",
+      "category": "chart",
+      "surface": "public",
+      "source": "redrawn-v1.2",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": "来源覆盖时间带",
+      "machine_assertions": [
+        "distinct-semantic-structure",
+        "title-axis-unit-legend-filter-context-empty-equivalent-table"
+      ]
+    },
+    {
+      "name": "25-09-dual-classification.svg",
+      "category": "chart",
+      "surface": "mixed",
+      "source": "redrawn-v1.2",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": "双轴分类面板",
+      "machine_assertions": [
+        "distinct-semantic-structure",
+        "title-axis-unit-legend-filter-context-empty-equivalent-table"
+      ]
+    },
+    {
+      "name": "25-10-relation-matrix.svg",
+      "category": "chart",
+      "surface": "mixed",
+      "source": "redrawn-v1.2",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": "研究关系矩阵",
+      "machine_assertions": [
+        "distinct-semantic-structure",
+        "title-axis-unit-legend-filter-context-empty-equivalent-table"
+      ]
+    },
+    {
+      "name": "25-11-evidence-stair.svg",
+      "category": "chart",
+      "surface": "mixed",
+      "source": "redrawn-v1.2",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": "证据阶梯",
+      "machine_assertions": [
+        "distinct-semantic-structure",
+        "title-axis-unit-legend-filter-context-empty-equivalent-table"
+      ]
+    },
+    {
+      "name": "25-12-gap-matrix.svg",
+      "category": "chart",
+      "surface": "mixed",
+      "source": "redrawn-v1.2",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": "差距证据矩阵",
+      "machine_assertions": [
+        "distinct-semantic-structure",
+        "title-axis-unit-legend-filter-context-empty-equivalent-table"
+      ]
+    },
+    {
+      "name": "25-13-route-graph.svg",
+      "category": "chart",
+      "surface": "mixed",
+      "source": "redrawn-v1.2",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": "路线依赖图",
+      "machine_assertions": [
+        "distinct-semantic-structure",
+        "title-axis-unit-legend-filter-context-empty-equivalent-table"
+      ]
+    },
+    {
+      "name": "25-14-version-timeline.svg",
+      "category": "chart",
+      "surface": "mixed",
+      "source": "redrawn-v1.2",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": "版本／变化时间线",
+      "machine_assertions": [
+        "distinct-semantic-structure",
+        "title-axis-unit-legend-filter-context-empty-equivalent-table"
+      ]
+    },
+    {
+      "name": "25-15-sync-timeline.svg",
+      "category": "chart",
+      "surface": "mixed",
+      "source": "redrawn-v1.2",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": "同步状态时间线",
+      "machine_assertions": [
+        "distinct-semantic-structure",
+        "title-axis-unit-legend-filter-context-empty-equivalent-table"
+      ]
+    },
+    {
+      "name": "26-foundation-contrast-tokens.svg",
+      "category": "standard",
+      "surface": "mixed",
+      "source": "versioned-v1.1-baseline",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "canvas",
+          "width": 1440,
+          "height": 1024,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": []
+    },
+    {
+      "name": "27-responsive-1024.svg",
+      "category": "responsive",
+      "surface": "public",
+      "source": "versioned-v1.1-baseline",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "tablet",
+          "width": 1024,
+          "height": 768,
+          "scale": 1
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": []
+    },
+    {
+      "name": "28-accessibility-zoom-200.svg",
+      "category": "responsive",
+      "surface": "private",
+      "source": "redrawn-v1.2",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "internal_logical_viewports": [
+        {
+          "name": "baseline",
+          "width": 720,
+          "height": 900,
+          "text_scale": 1,
+          "body_font": 16,
+          "control_height": 44
+        },
+        {
+          "name": "zoom-200",
+          "width": 720,
+          "height": 900,
+          "text_scale": 2,
+          "body_font": 32,
+          "control_height": 88,
+          "reflow": true,
+          "horizontal_scroll": false,
+          "overlap": false
+        }
+      ],
+      "chart_type": null,
+      "machine_assertions": [
+        "true-2x-text-and-controls",
+        "reflow-no-scroll-no-overlap"
+      ]
+    }
+  ]
+}
