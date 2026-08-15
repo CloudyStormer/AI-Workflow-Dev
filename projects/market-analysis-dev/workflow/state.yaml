@@ -4,7 +4,7 @@ run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
 stage: ui-ux
-status: release-completeness-ui-design-v1-2-machine-passed-independent-review-pending
+status: release-completeness-ui-design-v1-3-machine-passed-independent-review-pending
 current_role: role-ui-designer
 blocked: false
 ui_assets:
@@ -215,18 +215,20 @@ release_scope_review:
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
   gate: ui-design-review
-  artifact: "artifact-career-release-completeness-ui-design-001"
-  visual_bundle: "artifact-career-release-completeness-ui-visuals-001"
-  path: ui/05-release-completeness-ui-design.md
-  version: "1.0"
-  sha256: ffc0251ac0c2bfc077e47a9b3352f1d6ccd30f584e6e352e160f07557afcfe3e
-  scope: "审核 CR-UI-002 发布完整性增量设计说明与 5 张新画板；覆盖样本边界、输入确认、个人证据/路线/历史、删除确认、1440/1024/390/320、11 真相态、简中、无障碍和图表等价表。"
-  decision_owner: 超级无敌帅超超总
-  decision: pending
-  delivery_status: ready-for-review
+  artifact: "artifact-career-release-completeness-ui-design-004"
+  visual_bundle: "artifact-career-release-completeness-ui-visuals-004"
+  path: ui/08-release-completeness-ui-design-v1.3.md
+  version: "1.3"
+  sha256: 2278c7ecee8826fe2f8afa90c94af28070b3295dc88020f8c29e7442ee3175ba
+  resolved_manifest: ui/release-completeness-v1.3/resolved-manifest.json
+  resolved_manifest_sha256: 17d58597e46fa9390b379626d96fb4a4f01f5607ef902483593a116c9cd6bec8
+  scope: "AIWorkFlow 根协调对 CR-UI-002 v1.3 resolved 49 张设计包执行第四轮独立视觉审查；39 张 v1.3 overlay 修订、10 张 v1.2 按 SHA 复用。"
+  decision_owner: AIWorkFlow-root-coordinator
+  decision: independent_visual_review_pending
+  delivery_status: machine-passed-independent-review-pending
   options: [通过, 修改, 打回]
-  on_approved: "只批准当前设计，并按已批准根计划的一跳规则处理唯一下一站；不得凭本次交付自动解冻或启动前端、架构、后端、连接器或部署。"
-  advance_limit: current-design-review-only
+  on_approved: "只完成当前 v1.3 设计审批；是否恢复下游必须再按已批准根计划与架构影响确定唯一下一站，固定 04 不自行路由。"
+  advance_limit: current-v1-3-independent-design-review-only
   auto_advance_beyond_next: false
 release_scope_product_assignment:
   change_group_id: "prd-20260814-four-project-release-completeness-001"
@@ -780,13 +782,13 @@ release_completeness_ui_design_revision_v1_2:
       editable_svg_assets: 49
       review_manifest: ui/release-completeness-v1.2/review-manifest.json
       review_manifest_sha256: 942bd955f74a1a7e567413153ee959bf60af3e174abdfbeb6156e67c6d0f5313
-  scheduling: completed-awaiting-independent-visual-review
-  delivery_status: machine-passed-independent-review-pending
+  scheduling: superseded-by-v1-3
+  delivery_status: superseded-after-changes-requested
   completed_at: "2026-08-15T22:20:00+08:00"
-  validation_status: machine-passed-independent-review-pending
+  validation_status: changes-requested-after-third-independent-visual-review
   validation:
     machine_gate: passed
-    independent_visual_review: pending-root-coordinator
+    independent_visual_review: changes-requested-0-P0-8-P1-3-P2
     visual_asset_pairs: 49-svg-and-49-png
     dimensions_and_sha256: 49-of-49-matched
     desktop_pages: 10-of-10
@@ -799,8 +801,74 @@ release_completeness_ui_design_revision_v1_2:
     contrast: all-text-colors-at-or-above-4.5-to-1
     acceptance_mapping: AC-CFR-REL-01..36-unique-primary-evidence
     self_claimed_independent_review: prohibited-and-not-present
-  result: career-release-completeness-ui-design-v1-2-machine-passed-independent-review-pending
+  result: career-release-completeness-ui-design-v1-2-changes-requested
   return_gate: ui-design-review
   downstream_route_authorized: false
   english_files_preserved: untouched-after-safe-head-94c958d
-updated_at: "2026-08-15T22:20:00+08:00"
+  review:
+    id: "review-20260815-career-release-completeness-ui-design-v1-2"
+    decision: changes-requested
+    reviewed_at: "2026-08-15T23:05:00+08:00"
+    evidence_commit: 700c77bea44945545481d6ae43e8a57139d82e12
+    severity:
+      p0: 0
+      p1: 8
+      p2: 3
+    preserved_v1_2_files: true
+release_completeness_ui_design_revision_v1_3:
+  change_id: "ui-design-20260815-career-release-completeness-v1-3-004"
+  work_item: "CR-UI-002"
+  role: role-ui-designer
+  role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+  authorization: "approval-20260815-career-release-completeness-ui-design-v1-3-revision-entry"
+  upstream_review: "review-20260815-career-release-completeness-ui-design-v1-2"
+  safe_base_commit: 700c77bea44945545481d6ae43e8a57139d82e12
+  expected_outputs:
+    design:
+      artifact: "artifact-career-release-completeness-ui-design-004"
+      path: ui/08-release-completeness-ui-design-v1.3.md
+      version: "1.3"
+    visuals:
+      artifact: "artifact-career-release-completeness-ui-visuals-004"
+      version: "1.3"
+      resolved_assets: 49
+      replacement_assets: 39
+      reused_immutable_v1_2_assets: 10
+  outputs:
+    design:
+      artifact: "artifact-career-release-completeness-ui-design-004"
+      path: ui/08-release-completeness-ui-design-v1.3.md
+      version: "1.3"
+      sha256: 2278c7ecee8826fe2f8afa90c94af28070b3295dc88020f8c29e7442ee3175ba
+    visuals:
+      artifact: "artifact-career-release-completeness-ui-visuals-004"
+      overlay_assets: 39
+      resolved_assets: 49
+      resolved_manifest: ui/release-completeness-v1.3/resolved-manifest.json
+      resolved_manifest_sha256: 17d58597e46fa9390b379626d96fb4a4f01f5607ef902483593a116c9cd6bec8
+      review_manifest: ui/release-completeness-v1.3/review-manifest.json
+      review_manifest_sha256: 63f5dc6d5748c12f60ee02b23a66ec57bbc050140ec9503c9e2447d06708e2cf
+  scheduling: completed-awaiting-fourth-independent-visual-review
+  delivery_status: machine-passed-independent-review-pending
+  completed_at: "2026-08-15T23:55:00+08:00"
+  validation_status: machine-passed-independent-review-pending
+  validation:
+    machine_gate: passed
+    independent_visual_review: pending-root-coordinator-round-4
+    resolved_assets: 49-svg-and-49-png
+    resolution: 39-v1-3-overlay-plus-10-v1-2-sha-reuse
+    chart_equivalence: 15-of-15-visual-table-model-bidirectional-equal
+    relation_matrix: six-mutually-exclusive-options-one-selected
+    mobile_helper_cta_overlap: 0-of-14
+    mobile_touch_rects: 14-of-14-at-or-above-44
+    component_actual_rects: cancel-confirm-48px-within-dialog
+    browser_zoom_200: eight-actual-token-values-exactly-2x
+    page10_state_semantics: not_ready-unavailable-current-failed-only-after-real-request
+    responsive_1024_note_lines: 4-of-4-within-bounds
+    immutable_history: matched
+    self_claimed_independent_review: prohibited-and-not-present
+  result: career-release-completeness-ui-design-v1-3-machine-passed-independent-review-pending
+  return_gate: ui-design-review
+  downstream_route_authorized: false
+  other_projects_untouched: true
+updated_at: "2026-08-15T23:55:00+08:00"

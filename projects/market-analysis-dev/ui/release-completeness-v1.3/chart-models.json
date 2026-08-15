@@ -1,0 +1,268 @@
+{
+  "schema_version": 1,
+  "version": "1.3",
+  "truth_boundary": {
+    "runtime_sources": 0,
+    "connectors": 0,
+    "approved_recruitment_instances": 0
+  },
+  "charts": [
+    {
+      "id": "25-01-direction-scatter",
+      "title": "方向二维解释坐标",
+      "kind": "scatter",
+      "surface": "public",
+      "context": "页面01 · 比较方向差异，不生成排名或适配分",
+      "filter": "方向：全部 · 证据截止：2026-08-03",
+      "axis": "X 产品交付协作深度 · Y 平台/体验专项深度 · 单位：解释坐标",
+      "legend": "圆=方向 · 大小=直接证据量 · 描边=置信度",
+      "columns": ["id", "direction", "x", "y", "evidence", "confidence", "state"],
+      "records": [
+        {"id":"dir-product","direction":"产品型前端","x":3,"y":2,"evidence":6,"confidence":"中","state":"historical_snapshot"},
+        {"id":"dir-platform","direction":"平台/DevEx","x":2,"y":5,"evidence":4,"confidence":"中","state":"historical_snapshot"},
+        {"id":"dir-dataviz","direction":"数据可视化","x":4,"y":4,"evidence":3,"confidence":"低","state":"historical_snapshot"},
+        {"id":"dir-ai","direction":"AI 应用前端","x":5,"y":3,"evidence":4,"confidence":"低","state":"historical_snapshot"}
+      ]
+    },
+    {
+      "id": "25-02-direction-comparison",
+      "title": "方向对比卡组",
+      "kind": "comparison",
+      "surface": "public",
+      "context": "页面01 · 同时比较最多三个方向",
+      "filter": "产品型 / 平台 / 数据可视化",
+      "axis": "列=方向 · 行=价值/能力/证据/限制",
+      "legend": "卡片边框=证据完整度 · 不汇总成总分",
+      "columns": ["id", "direction", "value", "capability", "evidence", "limitation", "state"],
+      "records": [
+        {"id":"cmp-product","direction":"产品型","value":"产品交付","capability":"端到端协作","evidence":"历史目的样本","limitation":"非市场份额","state":"historical_snapshot"},
+        {"id":"cmp-platform","direction":"平台","value":"工程效率","capability":"DevEx/设计系统","evidence":"历史目的样本","limitation":"样本偏高阶","state":"historical_snapshot"},
+        {"id":"cmp-dataviz","direction":"数据可视化","value":"数据交互","capability":"图形/实时性","evidence":"历史目的样本","limitation":"证据有限","state":"historical_snapshot"}
+      ]
+    },
+    {
+      "id": "25-03-capability-map",
+      "title": "五层能力域地图",
+      "kind": "capability",
+      "surface": "public",
+      "context": "页面02 · 8 能力域 × 五层优先级",
+      "filter": "方向：产品型 · 层级：全部",
+      "axis": "X=P0/P1/P1-AI/P2/观察项 · Y=能力域",
+      "legend": "实心=样本有实例 · 空框=本样本暂无实例",
+      "columns": ["id", "domain", "priority", "item", "evidence", "state"],
+      "records": [
+        {"id":"cap-web","domain":"Web 平台","priority":"P0","item":"HTML/CSS/JavaScript","evidence":"历史目的样本","state":"present"},
+        {"id":"cap-data","domain":"框架与状态/数据","priority":"P1","item":"路由/状态/数据流","evidence":"历史目的样本","state":"present"},
+        {"id":"cap-quality","domain":"产品质量","priority":"P1","item":"性能/安全/无障碍","evidence":"历史目的样本","state":"present"},
+        {"id":"cap-ai","domain":"AI 增量","priority":"P1-AI","item":"输出审核/评估","evidence":"历史目的样本","state":"present"},
+        {"id":"cap-p2","domain":"全部 8 域","priority":"P2","item":"本样本暂无 P2","evidence":"不补造实例","state":"empty"},
+        {"id":"cap-observe","domain":"观察项","priority":"观察项","item":"WebGPU/WASM/WebNN","evidence":"观察清单","state":"observe"}
+      ]
+    },
+    {
+      "id": "25-04-sample-dotplot",
+      "title": "目的样本计数点图",
+      "kind": "dotplot",
+      "surface": "public",
+      "context": "页面03 · 样本内计数，不外推市场份额",
+      "filter": "地区：中国4 / 公开远程6",
+      "axis": "X=n/N · 单位：条",
+      "legend": "实心点=有计数 · 空心点=证据不足",
+      "columns": ["id", "requirement", "n", "N", "sample", "state"],
+      "records": [
+        {"id":"dot-react","requirement":"React","n":9,"N":10,"sample":"目的样本","state":"counted"},
+        {"id":"dot-ts","requirement":"TypeScript","n":8,"N":10,"sample":"目的样本","state":"counted"},
+        {"id":"dot-a11y","requirement":"无障碍","n":3,"N":10,"sample":"目的样本","state":"counted"},
+        {"id":"dot-ai","requirement":"AI 直接要求","n":4,"N":10,"sample":"目的样本","state":"counted"}
+      ]
+    },
+    {
+      "id": "25-05-trend-line",
+      "title": "7/30/90 日趋势",
+      "kind": "trend",
+      "surface": "public",
+      "context": "页面03 · 目标态结构；当前真实来源未接通",
+      "filter": "窗口：30日 · 来源：持续技术源",
+      "axis": "X=日期槽位 · Y=事件数（条）",
+      "legend": "空心节点=缺失日 · 当前不绘制真实趋势线",
+      "columns": ["id", "slot", "event_count", "source_coverage", "missing", "as_of", "state"],
+      "records": [
+        {"id":"trend-d1","slot":"第1周","event_count":null,"source_coverage":"0/13","missing":true,"as_of":null,"state":"not_ready"},
+        {"id":"trend-d2","slot":"第2周","event_count":null,"source_coverage":"0/13","missing":true,"as_of":null,"state":"not_ready"},
+        {"id":"trend-d3","slot":"第3周","event_count":null,"source_coverage":"0/13","missing":true,"as_of":null,"state":"not_ready"},
+        {"id":"trend-d4","slot":"第4周","event_count":null,"source_coverage":"0/13","missing":true,"as_of":null,"state":"not_ready"}
+      ]
+    },
+    {
+      "id": "25-06-remote-constraints",
+      "title": "远程约束矩阵",
+      "kind": "remote",
+      "surface": "public",
+      "context": "页面03 · 远程不等于全球可申请",
+      "filter": "公开远程 · 层级：全部",
+      "axis": "行=样本 · 列=时区/许可/合同/披露",
+      "legend": "明确 / 未披露 / 不满足以文字和形状双编码",
+      "columns": ["id", "sample", "timezone", "authorization", "contract", "disclosure", "state"],
+      "records": [
+        {"id":"remote-01","sample":"R-01","timezone":"UTC±3","authorization":"需确认","contract":"合同工","disclosure":"部分","state":"historical_snapshot"},
+        {"id":"remote-02","sample":"R-02","timezone":"未披露","authorization":"未知","contract":"未知","disclosure":"不足","state":"unknown"},
+        {"id":"remote-03","sample":"R-03","timezone":"美洲时区","authorization":"当地工作许可","contract":"全职","disclosure":"明确","state":"historical_snapshot"}
+      ]
+    },
+    {
+      "id": "25-07-policy-runtime",
+      "title": "来源政策轴 × 运行时轴",
+      "kind": "policy",
+      "surface": "public",
+      "context": "页面04 · 研究批准不等于运行时接入",
+      "filter": "来源：全部 · 政策：全部",
+      "axis": "X=运行时状态 · Y=政策决定",
+      "legend": "矩形=来源组 · 斜纹=目标态示例",
+      "columns": ["id", "source_group", "policy", "runtime", "instances", "history", "state"],
+      "records": [
+        {"id":"policy-tech","source_group":"技术端点13","policy":"allow","runtime":"未配置","instances":0,"history":"无","state":"not_configured"},
+        {"id":"policy-ats","source_group":"ATS模板3","policy":"conditional","runtime":"未配置","instances":0,"history":"无","state":"not_configured"},
+        {"id":"policy-restricted","source_group":"受限来源","policy":"disabled","runtime":"不可用","instances":0,"history":"无","state":"unavailable"}
+      ]
+    },
+    {
+      "id": "25-08-source-band",
+      "title": "来源覆盖时间带",
+      "kind": "source_band",
+      "surface": "public",
+      "context": "页面04/10 · 来源0时不绘制成功时间块",
+      "filter": "窗口：48小时 · 来源：全部",
+      "axis": "X=时间窗 · Y=来源组",
+      "legend": "灰色=未配置 · 琥珀=缺失 · 当前无绿色成功块",
+      "columns": ["id", "source_group", "last_success", "h24", "h48", "state"],
+      "records": [
+        {"id":"band-tech","source_group":"技术源","last_success":null,"h24":"缺失","h48":"缺失","state":"not_configured"},
+        {"id":"band-jobs","source_group":"招聘源","last_success":null,"h24":"缺失","h48":"缺失","state":"no_instance"},
+        {"id":"band-community","source_group":"社区源","last_success":null,"h24":"不可用","h48":"不可用","state":"unavailable"}
+      ]
+    },
+    {
+      "id": "25-09-dual-classification",
+      "title": "来源渠道 × 内容类型双轴分类",
+      "kind": "dual_axis",
+      "surface": "private",
+      "context": "页面05 · 两个轴分别确认",
+      "filter": "候选：当前输入 · 状态：待确认",
+      "axis": "左=来源渠道 · 右=内容类型",
+      "legend": "建议/候选/人工确认用形状和文字双编码",
+      "columns": ["id", "axis", "suggestion", "confidence", "confirmation", "basis", "state"],
+      "records": [
+        {"id":"dual-channel-company","axis":"来源渠道","suggestion":"公司招聘页","confidence":0.72,"confirmation":"待确认","basis":"公司域名","state":"pending"},
+        {"id":"dual-channel-search","axis":"来源渠道","suggestion":"搜索引擎","confidence":0.41,"confirmation":"候选","basis":"跳转来源","state":"candidate"},
+        {"id":"dual-content-job","axis":"内容类型","suggestion":"职位描述","confidence":0.84,"confirmation":"待确认","basis":"职责段落","state":"pending"},
+        {"id":"dual-content-interview","axis":"内容类型","suggestion":"面试要求","confidence":0.36,"confirmation":"候选","basis":"技能清单","state":"candidate"}
+      ]
+    },
+    {
+      "id": "25-10-relation-matrix",
+      "title": "六类互斥研究关系",
+      "kind": "relation",
+      "surface": "private",
+      "context": "页面05 · 当前候选必须且只能确认一种关系",
+      "filter": "候选：版本主张 · 关系：全部",
+      "axis": "列=六类互斥关系 · 行=当前候选",
+      "legend": "●=唯一已选 · ○=未选",
+      "columns": ["id", "candidate", "relation", "selected", "basis", "state"],
+      "records": [
+        {"id":"rel-new","candidate":"版本主张","relation":"新增证据","selected":false,"basis":"未确认","state":"option"},
+        {"id":"rel-confirm","candidate":"版本主张","relation":"相互印证","selected":false,"basis":"未确认","state":"option"},
+        {"id":"rel-duplicate","candidate":"版本主张","relation":"重复","selected":false,"basis":"未确认","state":"option"},
+        {"id":"rel-conflict","candidate":"版本主张","relation":"冲突","selected":true,"basis":"缺版本证据","state":"selected"},
+        {"id":"rel-insufficient","candidate":"版本主张","relation":"证据不足","selected":false,"basis":"未确认","state":"option"},
+        {"id":"rel-na","candidate":"版本主张","relation":"不适用","selected":false,"basis":"未确认","state":"option"}
+      ]
+    },
+    {
+      "id": "25-11-evidence-stair",
+      "title": "个人证据阶梯",
+      "kind": "stair",
+      "surface": "private",
+      "context": "页面06 · 证据类型不是人的等级",
+      "filter": "目标方向：产品型 · 状态：全部",
+      "axis": "阶梯=阅读→练习→项目→生产→同行审查",
+      "legend": "高度=可核验层次 · 不等于个人得分",
+      "columns": ["id", "level", "evidence_type", "material", "proves_mastery", "state"],
+      "records": [
+        {"id":"ev-read","level":1,"evidence_type":"阅读收藏","material":"记录","proves_mastery":"不能","state":"user_reported"},
+        {"id":"ev-practice","level":2,"evidence_type":"练习","material":"代码片段","proves_mastery":"不足","state":"user_reported"},
+        {"id":"ev-project","level":3,"evidence_type":"项目","material":"仓库/演示","proves_mastery":"待核验","state":"evidence_available"},
+        {"id":"ev-production","level":4,"evidence_type":"生产结果","material":"指标+贡献","proves_mastery":"需审查","state":"verifiable"},
+        {"id":"ev-peer","level":5,"evidence_type":"同行审查","material":"评审记录","proves_mastery":"可支持","state":"verified"}
+      ]
+    },
+    {
+      "id": "25-12-gap-matrix",
+      "title": "差距证据矩阵",
+      "kind": "gap",
+      "surface": "private",
+      "context": "页面07 · 三项输入缺一时保持未知",
+      "filter": "目标：未确认 · 公共版本：历史 · 个人证据：不足",
+      "axis": "行=能力要求 · 列=目标/公共要求/个人证据/判断",
+      "legend": "空心菱形=未知 · 不出现绿色已选标记",
+      "columns": ["id", "capability", "target", "public_requirement", "personal_evidence", "judgement", "selected", "state"],
+      "records": [
+        {"id":"gap-deploy","capability":"部署回滚","target":"未确认","public_requirement":"P1","personal_evidence":"不足","judgement":"未知","selected":false,"state":"unknown"},
+        {"id":"gap-a11y","capability":"无障碍","target":"未确认","public_requirement":"P1","personal_evidence":"项目证据","judgement":"未知","selected":false,"state":"unknown"},
+        {"id":"gap-perf","capability":"性能诊断","target":"未确认","public_requirement":"P1","personal_evidence":"无","judgement":"未知","selected":false,"state":"unknown"},
+        {"id":"gap-ai","capability":"AI 输出审核","target":"未确认","public_requirement":"P1-AI","personal_evidence":"自述","judgement":"未知","selected":false,"state":"unknown"}
+      ]
+    },
+    {
+      "id": "25-13-route-graph",
+      "title": "路线依赖图",
+      "kind": "route",
+      "surface": "private",
+      "context": "页面07 · 三输入齐全后才生成路线",
+      "filter": "当前：目标未确认 · 路线未生成",
+      "axis": "节点=输入/能力/证据产物 · 边=依赖",
+      "legend": "锁=阻断 · 虚线=目标态依赖",
+      "columns": ["id", "node", "node_type", "depends_on", "output", "state"],
+      "records": [
+        {"id":"route-target","node":"确认目标","node_type":"input","depends_on":"—","output":"目标版本","state":"missing"},
+        {"id":"route-public","node":"公共要求","node_type":"input","depends_on":"目标版本","output":"要求集合","state":"locked"},
+        {"id":"route-evidence","node":"个人证据","node_type":"input","depends_on":"用户确认","output":"证据集合","state":"insufficient"},
+        {"id":"route-plan","node":"成长路线","node_type":"output","depends_on":"三项输入齐全","output":"未生成","state":"locked"}
+      ]
+    },
+    {
+      "id": "25-14-version-timeline",
+      "title": "公共/个人/规则版本时间线",
+      "kind": "version_timeline",
+      "surface": "mixed",
+      "context": "页面08 · 三轨分别标注真实来源身份",
+      "filter": "窗口：90日 · 范围：三轨",
+      "axis": "X=发生/记录时间 · 轨道=公共快照/个人记录/规则版本",
+      "legend": "圆=发生 · 菱形=规则变更 · 空心=演示记录",
+      "columns": ["id", "time", "track", "event", "version", "source_identity", "state"],
+      "records": [
+        {"id":"time-public-1","time":"2026-08-03","track":"公共快照","event":"研究快照冻结","version":"research-v1","source_identity":"获批历史研究快照","state":"historical_snapshot"},
+        {"id":"time-public-2","time":"2026-08-14","track":"公共快照","event":"发布范围批准","version":"prd-v1.3","source_identity":"获批产品文档","state":"approved_document"},
+        {"id":"time-personal-1","time":"演示日期","track":"个人记录","event":"项目证据示例","version":"demo-1","source_identity":"演示数据 · 用户提供","state":"demo_user_provided"},
+        {"id":"time-rule-1","time":"2026-08-15","track":"规则版本","event":"关系改为六类互斥","version":"ui-v1.3","source_identity":"规则版本 · 系统配置","state":"rule_configuration"},
+        {"id":"time-rule-2","time":"2026-08-15","track":"规则版本","event":"真相轴修订","version":"ui-v1.3","source_identity":"规则版本 · 系统配置","state":"rule_configuration"}
+      ]
+    },
+    {
+      "id": "25-15-sync-timeline",
+      "title": "多设备同步状态时间线",
+      "kind": "sync",
+      "surface": "private",
+      "context": "页面09 · 目标态同步，不暗示服务已接通",
+      "filter": "账号：演示A · 设备：全部",
+      "axis": "X=目标态步骤 · 轨道=设备A/设备B/服务",
+      "legend": "—未接通 · !冲突示例 · ↻可重试",
+      "columns": ["id", "track", "local_version", "service_version", "status", "action", "state"],
+      "records": [
+        {"id":"sync-a","track":"Mac A","local_version":"demo-3","service_version":"—","status":"未接通","action":"不上传","state":"not_ready"},
+        {"id":"sync-b","track":"Windows B","local_version":"demo-0","service_version":"—","status":"未接通","action":"跨账号0可见","state":"not_ready"},
+        {"id":"sync-service","track":"服务","local_version":"—","service_version":"—","status":"不可用","action":"等待真实服务","state":"unavailable"},
+        {"id":"sync-retry","track":"目标态示例","local_version":"demo-x","service_version":"demo-y","status":"冲突示例","action":"用户选择后重试","state":"example_only"}
+      ]
+    }
+  ]
+}

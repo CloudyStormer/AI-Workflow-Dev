@@ -6,10 +6,15 @@
 
 | 产物 | 版本 | 状态 | SHA256 | 用途 |
 |---|---:|---|---|---|
-| `07-release-completeness-ui-design-v1.2.md` | 1.2 | machine-passed-independent-review-pending | `768050aba1b7a959510b8f252a8d8628e25cc3b8f3be53bd04efb122630307cc` | CR-UI-002 v1.2 设计说明、9 P1 + 3 P2 修订和机器/独立审查门分离 |
-| `release-completeness-v1.2/review-manifest.json` | 1.2 | machine-passed-independent-review-pending | `942bd955f74a1a7e567413153ee959bf60af3e174abdfbeb6156e67c6d0f5313` | 49 组 PNG/SVG 的尺寸、SHA、机器约束与独立审查 pending；不含自动人工通过 |
-| `release-completeness-v1.2/png/` | 1.2 | ready-for-independent-review | 见 `review-manifest.json` | 10 桌面 + 4 流程 + 2 真相态 + 14 独立移动视口 + 15 独立图表 + 4 规范/响应式 |
-| `release-completeness-v1.2/assets/` | 1.2 | editable-source | 见 `review-manifest.json` | 与 49 张 PNG 一一对应的 SVG；manifest 分别登记外层像素和内部逻辑视口 |
+| `08-release-completeness-ui-design-v1.3.md` | 1.3 | machine-passed-independent-review-pending | `2278c7ecee8826fe2f8afa90c94af28070b3295dc88020f8c29e7442ee3175ba` | CR-UI-002 v1.3 设计说明；关闭第三轮审查 8 P1 + 3 P2，等待第四轮独立视觉审查 |
+| `release-completeness-v1.3/resolved-manifest.json` | 1.3 | machine-passed-independent-review-pending | `17d58597e46fa9390b379626d96fb4a4f01f5607ef902483593a116c9cd6bec8` | 49 张完整解析包：39 张 v1.3 修订 + 10 张按 SHA 复用 v1.2 |
+| `release-completeness-v1.3/review-manifest.json` | 1.3 | machine-passed-independent-review-pending | `63f5dc6d5748c12f60ee02b23a66ec57bbc050140ec9503c9e2447d06708e2cf` | 共享图表模型双向等价、移动边界、真实 200% 数值及不可变历史机器结果；独立审查 pending |
+| `release-completeness-v1.3/png/` | 1.3 | overlay-ready-for-independent-review | 见 `overlay-manifest.json` | 39 张版本化修订 PNG；未变的 10 张由 resolved manifest 引用 v1.2 |
+| `release-completeness-v1.3/assets/` | 1.3 | editable-overlay-source | 见 `overlay-manifest.json` | 与 39 张修订 PNG 一一对应的 SVG，不覆盖旧资产 |
+| `07-release-completeness-ui-design-v1.2.md` | 1.2 | superseded-after-changes-requested | `768050aba1b7a959510b8f252a8d8628e25cc3b8f3be53bd04efb122630307cc` | 保留历史；第三轮独立审查发现 8 P1 + 3 P2，已由 v1.3 overlay 取代 |
+| `release-completeness-v1.2/review-manifest.json` | 1.2 | superseded-after-changes-requested | `942bd955f74a1a7e567413153ee959bf60af3e174abdfbeb6156e67c6d0f5313` | 保留 v1.2 机器结果和第三轮审查依据，不作为当前通过结论 |
+| `release-completeness-v1.2/png/` | 1.2 | immutable-base | 见 `review-manifest.json` | 49 张 v1.2 PNG 完整保留；v1.3 resolved bundle 只按 SHA 复用其中 10 张 |
+| `release-completeness-v1.2/assets/` | 1.2 | immutable-base | 见 `review-manifest.json` | 49 张 v1.2 SVG 与 manifest 完整保留，不静默覆盖 |
 | `06-release-completeness-ui-design-v1.1.md` | 1.1 | superseded-after-changes-requested | `f8377d001684a40d26513d4c02ccb1fa3fe1aea325300ee7357537c218b79aae` | 保留历史；二次独立审查发现 9 P1 + 3 P2，已由 v1.2 取代 |
 | `release-completeness-v1.1/review-manifest.json` | 1.1 | superseded-after-changes-requested | `cb88099bbe7cbefa40cc8e9e2300676eb32405da3a019cdee135d77a5f5cbb9c` | 保留原文件和错误自动人工通过字段的审计证据，不作为当前通过依据 |
 | `release-completeness-v1.1/png/` | 1.1 | superseded-after-changes-requested | 见 `review-manifest.json` | 28 张历史 PNG，完整保留 |
@@ -40,6 +45,6 @@
 | `grok-db65d339-3eb2-494f-9372-b4f003942a45.jpg` | 1728×1152 | `46c726017092a2992028c1604391d5b378b652ee6667d83a7c0ca09c0cde6e29` |
 | `grok-eb8b0476-0f04-42b3-afb0-df34e861f252.jpg` | 1728×1152 | `263610cbf127683647ffb6a9aed5dd92816cea09be2911ed4275bca3e77752b1` |
 
-当前发布完整性权威顺序为：已批准 `docs/02-prd.md` v1.3 + 已批准来源 allowlist/registry v1.0 → 已批准 `ui/04-release-completeness-ui-prompt.md` v1.0 → CR-UI-002 v1.0 独立视觉审查 `changes-requested` → v1.1 二次独立视觉审查 `changes-requested` → 固定 04 完成 `ui/07-release-completeness-ui-design-v1.2.md` 与 49 组新版资产，机器门通过，重新停在 `ui-design-review` 等待根协调第三轮独立视觉审查。v1.0/v1.1 说明、全部历史画板、旧 `ui/03-ui-prompt.md` v1.1 与 10 张早期图片全部保留，不覆盖或删除。
+当前发布完整性权威顺序为：已批准 `docs/02-prd.md` v1.3 + 已批准来源 allowlist/registry v1.0 → 已批准 `ui/04-release-completeness-ui-prompt.md` v1.0 → CR-UI-002 v1.0 独立视觉审查 `changes-requested` → v1.1 二次独立视觉审查 `changes-requested` → v1.2 第三轮独立视觉审查 `changes-requested` → 固定 04 完成 `ui/08-release-completeness-ui-design-v1.3.md` 与 resolved 49 张设计包（39 张新 overlay + 10 张 v1.2 SHA 复用），机器门通过，重新停在 `ui-design-review` 等待根协调第四轮独立视觉审查。v1.0/v1.1/v1.2 说明、全部历史画板、旧 `ui/03-ui-prompt.md` v1.1 与 10 张早期图片全部保留，不覆盖或删除。
 
-来源批准仅为研究证据：当前真实运行时来源、连接器和获批招聘实例均为 0；Greenhouse、Lever、Ashby 仍是缺公司／board／site 允许清单的条件模板。v1.2 所有公开移动研究页完整标注来源 0 / connector 0 / 招聘实例 0，所有私有页标 `演示数据 · 用户提供`；失败/停用只作为“允许呈现的状态示例”，不声称存在连接器运行历史。当前仅机器门通过，独立视觉审查尚未完成；不修改或解冻 `artifact-career-frontend-001` 与 `artifact-career-f10-input-ui-preview-001`，也不自动授权前端、架构、后端、连接器或部署。
+来源批准仅为研究证据：当前真实运行时来源、连接器和获批招聘实例均为 0；Greenhouse、Lever、Ashby 仍是缺公司／board／site 允许清单的条件模板。v1.3 所有公开移动研究页完整标注来源 0 / connector 0 / 招聘实例 0，所有私有页标 `演示数据 · 用户提供`；`failed` 只允许用于真实请求执行失败，当前无账号/服务时使用 `not_ready / unavailable`。当前仅机器门通过，第四轮独立视觉审查尚未完成；不修改或解冻 `artifact-career-frontend-001` 与 `artifact-career-f10-input-ui-preview-001`，也不自动授权前端、架构、后端、连接器或部署。
