@@ -17,6 +17,7 @@ const spacedRecall = await import(
 );
 
 const {
+  SPACED_RECALL_STORAGE_WRITE_LOCK,
   SPACED_RECALL_STORAGE_KEY,
   addStudyDays,
   beginRecallAttempt,
@@ -39,13 +40,33 @@ const {
   reserveNextSameDayItem,
   resetRecallMastery,
   resumeDueRecallItems,
+  saveNormalizedSpacedRecallStateWithLock,
   saveSpacedRecallState,
+  saveSpacedRecallStateWithLock,
   settleRecallAttempt,
   skipRecallItem,
   studyDayAt,
   switchLearningTimeZone,
   updateReminderSettings,
 } = spacedRecall;
+
+const immediateRebuildLock = {
+  request: async (name, options, callback) => {
+    assert.equal(name, SPACED_RECALL_STORAGE_WRITE_LOCK);
+    assert.equal(options.mode, "exclusive");
+    if ("ifAvailable" in options) assert.equal(options.ifAvailable, true);
+    return callback({ name, mode: "exclusive" });
+  },
+};
+
+const busyWriteLock = {
+  request: async (name, options, callback) => {
+    assert.equal(name, SPACED_RECALL_STORAGE_WRITE_LOCK);
+    assert.equal(options.mode, "exclusive");
+    assert.equal(options.ifAvailable, true);
+    return callback(null);
+  },
+};
 
 const SHANGHAI = "Asia/Shanghai";
 const at = (day, time = "12:00:00") => `${day}T${time}+08:00`;
@@ -595,6 +616,10 @@ function createMemoryStorage(initial) {
   let state = createInitialSpacedRecallState(SHANGHAI);
   state = register(state, "remind");
   state = weakByIncorrect(state, "remind", "remind-weak", at("2026-08-01"));
+  const invalidReminder = updateReminderSettings(state, { localTime: "" });
+  assert.equal(invalidReminder.status, "rejected");
+  assert.equal(invalidReminder.reason, "invalid-reminder-settings");
+  assert.equal(invalidReminder.state.revision, state.revision);
   state = stateOf(updateReminderSettings(state, { enabled: true }));
   const now = at("2026-08-02", "20:00:00");
   assert.deepEqual(evaluateRecallReminder(state, { now, connectivity: "online", permission: "denied" }), {
@@ -918,6 +943,107 @@ function createMemoryStorage(initial) {
   assert.equal(saveSpacedRecallState(storage, state, 0), "saved");
   assert.equal(loadSpacedRecallState(storage, SHANGHAI).status, "loaded");
 
+  const lockedStorage = createMemoryStorage();
+  assert.equal(await saveSpacedRecallStateWithLock(
+    lockedStorage,
+    state,
+    0,
+    null,
+    immediateRebuildLock,
+  ), "saved");
+  assert.equal(loadSpacedRecallState(lockedStorage, SHANGHAI).status, "loaded");
+  const lockedRaw = lockedStorage.raw();
+  const invalidOutgoingState = structuredClone(state);
+  invalidOutgoingState.reminderSettings.localTime = "";
+  assert.equal(await saveSpacedRecallStateWithLock(
+    lockedStorage,
+    invalidOutgoingState,
+    state.revision,
+    lockedRaw,
+    immediateRebuildLock,
+  ), "storage-error");
+  assert.equal(lockedStorage.raw(), lockedRaw);
+
+  let retryRaw = lockedRaw;
+  let swallowNextWrite = true;
+  const unverifiableThenHealthyStorage = {
+    getItem: () => retryRaw,
+    setItem: (_key, value) => {
+      if (swallowNextWrite) {
+        swallowNextWrite = false;
+        return;
+      }
+      retryRaw = value;
+    },
+  };
+  const retryState = register(state, "verified-after-unverifiable");
+  assert.equal(await saveSpacedRecallStateWithLock(
+    unverifiableThenHealthyStorage,
+    retryState,
+    state.revision,
+    lockedRaw,
+    immediateRebuildLock,
+  ), "write-unverified");
+  assert.equal(retryRaw, lockedRaw);
+  assert.equal(await saveSpacedRecallStateWithLock(
+    unverifiableThenHealthyStorage,
+    retryState,
+    state.revision,
+    lockedRaw,
+    immediateRebuildLock,
+  ), "saved");
+  assert.equal(
+    loadSpacedRecallState(unverifiableThenHealthyStorage, SHANGHAI)
+      .state.items["verified-after-unverifiable"].itemId,
+    "verified-after-unverifiable",
+  );
+
+  let writtenButUnreadableRaw = lockedRaw;
+  let throwNextReadback = false;
+  const writeThenThrowStorage = {
+    getItem: () => {
+      if (throwNextReadback) {
+        throwNextReadback = false;
+        throw new Error("readback blocked");
+      }
+      return writtenButUnreadableRaw;
+    },
+    setItem: (_key, value) => {
+      writtenButUnreadableRaw = value;
+      throwNextReadback = true;
+    },
+  };
+  assert.equal(await saveSpacedRecallStateWithLock(
+    writeThenThrowStorage,
+    retryState,
+    state.revision,
+    lockedRaw,
+    immediateRebuildLock,
+  ), "write-unverified");
+  const writtenButUnverifiedRaw = writtenButUnreadableRaw;
+  assert.equal(await saveSpacedRecallStateWithLock(
+    writeThenThrowStorage,
+    retryState,
+    state.revision,
+    lockedRaw,
+    immediateRebuildLock,
+  ), "revision-conflict");
+  assert.equal(writtenButUnreadableRaw, writtenButUnverifiedRaw);
+  assert.equal(await saveSpacedRecallStateWithLock(
+    createMemoryStorage(),
+    state,
+    0,
+    null,
+    null,
+  ), "lock-unavailable");
+  assert.equal(await saveSpacedRecallStateWithLock(
+    createMemoryStorage(),
+    state,
+    0,
+    null,
+    busyWriteLock,
+  ), "lock-busy");
+
   state = register(state, "persist");
   assert.equal(saveSpacedRecallState(storage, state, 0), "saved");
   assert.equal(loadSpacedRecallState(storage, SHANGHAI).state.items.persist.itemId, "persist");
@@ -932,42 +1058,98 @@ function createMemoryStorage(initial) {
   });
   assert.equal(corrupt.raw(), "{not-json");
 
+  const unreadableV1Raw = JSON.stringify({
+    storageVersion: 1,
+    revision: 0,
+    sentinel: "globally-unreadable-v1",
+  });
+  const unreadableV1 = createMemoryStorage(unreadableV1Raw);
+  assert.equal(
+    await saveSpacedRecallStateWithLock(
+      unreadableV1,
+      state,
+      0,
+      unreadableV1Raw,
+      immediateRebuildLock,
+    ),
+    "storage-error",
+  );
+  assert.equal(unreadableV1.raw(), unreadableV1Raw);
+
   const futureRaw = '{\n  "storageVersion": 99, "revision": 1, "备注": "逐字保留 ✓"\n}';
   const future = createMemoryStorage(futureRaw);
   const futureLoad = loadSpacedRecallState(future, SHANGHAI);
   assert.equal(futureLoad.reason, "unsupported-version");
   assert.equal(futureLoad.rawSnapshot, futureRaw);
+  assert.equal(
+    await saveSpacedRecallStateWithLock(future, state, 1, futureRaw, immediateRebuildLock),
+    "storage-error",
+  );
+  assert.equal(future.raw(), futureRaw);
   const rebuiltState = register(createInitialSpacedRecallState(SHANGHAI), "rebuilt-current-item");
-  assert.equal(rebuildSpacedRecallStorage(future, rebuiltState, {
+  assert.equal(await rebuildSpacedRecallStorage(future, rebuiltState, {
     expectedRaw: futureRaw,
     backupExported: false,
     confirmed: true,
-  }), "backup-required");
+  }, null), "backup-required");
   assert.equal(future.raw(), futureRaw);
-  assert.equal(rebuildSpacedRecallStorage(future, rebuiltState, {
+  assert.equal(await rebuildSpacedRecallStorage(future, rebuiltState, {
     expectedRaw: futureRaw,
     backupExported: true,
     confirmed: false,
-  }), "confirmation-required");
+  }, null), "confirmation-required");
+  assert.equal(future.raw(), futureRaw);
+
+  assert.equal(await rebuildSpacedRecallStorage(future, rebuiltState, {
+    expectedRaw: futureRaw,
+    backupExported: true,
+    confirmed: true,
+  }, null), "lock-unavailable");
+  assert.equal(future.raw(), futureRaw);
+  assert.equal(await rebuildSpacedRecallStorage(future, rebuiltState, {
+    expectedRaw: futureRaw,
+    backupExported: true,
+    confirmed: true,
+  }, busyWriteLock), "lock-busy");
   assert.equal(future.raw(), futureRaw);
 
   future.setItem(SPACED_RECALL_STORAGE_KEY, `${futureRaw}\nchanged-by-another-tab`);
-  assert.equal(rebuildSpacedRecallStorage(future, rebuiltState, {
+  assert.equal(await rebuildSpacedRecallStorage(future, rebuiltState, {
     expectedRaw: futureRaw,
     backupExported: true,
     confirmed: true,
-  }), "source-changed");
+  }, immediateRebuildLock), "source-changed");
   assert.equal(future.raw(), `${futureRaw}\nchanged-by-another-tab`);
 
   const confirmedFuture = createMemoryStorage(futureRaw);
-  assert.equal(rebuildSpacedRecallStorage(confirmedFuture, rebuiltState, {
+  assert.equal(await rebuildSpacedRecallStorage(confirmedFuture, rebuiltState, {
     expectedRaw: futureRaw,
     backupExported: true,
     confirmed: true,
-  }), "rebuilt");
+  }, immediateRebuildLock), "rebuilt");
   const rebuiltLoad = loadSpacedRecallState(confirmedFuture, SHANGHAI);
   assert.equal(rebuiltLoad.status, "loaded");
   assert.equal(rebuiltLoad.state.items["rebuilt-current-item"].itemId, "rebuilt-current-item");
+
+  // A pre-rebuild tab can hold a different valid snapshot with the same
+  // revision. Exact-byte CAS must reject its later production save rather than
+  // allowing a revision-number ABA overwrite of the rebuilt generation.
+  const staleGeneration = register(
+    createInitialSpacedRecallState(SHANGHAI),
+    "stale-generation-item",
+  );
+  assert.equal(staleGeneration.revision, rebuiltState.revision);
+  const staleGenerationRaw = JSON.stringify(staleGeneration);
+  const stalePostRebuildWrite = register(staleGeneration, "stale-post-rebuild-write");
+  assert.equal(await saveSpacedRecallStateWithLock(
+    confirmedFuture,
+    stalePostRebuildWrite,
+    staleGeneration.revision,
+    staleGenerationRaw,
+    immediateRebuildLock,
+  ), "revision-conflict");
+  assert.equal(confirmedFuture.raw(), JSON.stringify(rebuiltState));
+  assert.equal(loadSpacedRecallState(confirmedFuture, SHANGHAI).state.items["stale-generation-item"], undefined);
 
   const writeFailure = {
     getItem: () => futureRaw,
@@ -975,11 +1157,59 @@ function createMemoryStorage(initial) {
       throw new Error("write blocked");
     },
   };
-  assert.equal(rebuildSpacedRecallStorage(writeFailure, rebuiltState, {
+  assert.equal(await rebuildSpacedRecallStorage(writeFailure, rebuiltState, {
     expectedRaw: futureRaw,
     backupExported: true,
     confirmed: true,
-  }), "storage-error");
+  }, immediateRebuildLock), "storage-error");
+
+  const newerAfterWrite = `${futureRaw}\nnewer-after-write`;
+  let readbackValue = futureRaw;
+  const readbackConflict = {
+    getItem: () => readbackValue,
+    setItem: () => {
+      readbackValue = newerAfterWrite;
+    },
+  };
+  assert.equal(await rebuildSpacedRecallStorage(readbackConflict, rebuiltState, {
+    expectedRaw: futureRaw,
+    backupExported: true,
+    confirmed: true,
+  }, immediateRebuildLock), "write-unverified");
+  assert.equal(readbackValue, newerAfterWrite);
+
+  let readbackCount = 0;
+  const unreadableAfterWrite = {
+    getItem: () => {
+      readbackCount += 1;
+      if (readbackCount > 1) throw new Error("readback blocked");
+      return futureRaw;
+    },
+    setItem: () => {},
+  };
+  assert.equal(await rebuildSpacedRecallStorage(unreadableAfterWrite, rebuiltState, {
+    expectedRaw: futureRaw,
+    backupExported: true,
+    confirmed: true,
+  }, immediateRebuildLock), "write-unverified");
+
+  const rejectedLock = {
+    request: async () => {
+      throw new Error("Web Locks unavailable");
+    },
+  };
+  assert.equal(await rebuildSpacedRecallStorage(createMemoryStorage(futureRaw), rebuiltState, {
+    expectedRaw: futureRaw,
+    backupExported: true,
+    confirmed: true,
+  }, rejectedLock), "lock-unavailable");
+  assert.equal(await saveSpacedRecallStateWithLock(
+    createMemoryStorage(),
+    state,
+    0,
+    null,
+    rejectedLock,
+  ), "lock-unavailable");
 
   let missingWeakDue = createInitialSpacedRecallState(SHANGHAI);
   missingWeakDue = register(missingWeakDue, "missing-weak-due");
@@ -1377,6 +1607,7 @@ function createMemoryStorage(initial) {
   assert.equal(isolated.status, "loaded");
   assert.deepEqual(isolated.isolatedItemIds, ["persist"]);
   assert.equal(isolated.normalizedFromRevision, healthy.revision);
+  assert.equal(isolated.normalizationSourceRaw, mixedRaw);
   assert.equal(isolated.state.revision, healthy.revision + 1);
   assert.equal(isolated.state.items.persist.status, "data-exception");
   assert.equal(isolated.state.items.persist.dataException.code, "invalid-due");
@@ -1385,10 +1616,22 @@ function createMemoryStorage(initial) {
   assert.equal(isolated.state.items.healthy.status, "ordinary");
   assert.equal(mixedStorage.raw(), mixedRaw, "loading must not overwrite the original raw value");
 
-  assert.equal(
-    saveSpacedRecallState(mixedStorage, isolated.state, isolated.normalizedFromRevision),
-    "saved",
-  );
+  const changedMixedRaw = `${mixedRaw}\nchanged-by-another-tab`;
+  const normalizationRaceStorage = createMemoryStorage(changedMixedRaw);
+  assert.equal(await saveNormalizedSpacedRecallStateWithLock(
+    normalizationRaceStorage,
+    isolated.state,
+    isolated.normalizationSourceRaw,
+    immediateRebuildLock,
+  ), "revision-conflict");
+  assert.equal(normalizationRaceStorage.raw(), changedMixedRaw);
+
+  assert.equal(await saveNormalizedSpacedRecallStateWithLock(
+    mixedStorage,
+    isolated.state,
+    isolated.normalizationSourceRaw,
+    immediateRebuildLock,
+  ), "saved");
   let persistedIsolation = loadSpacedRecallState(
     mixedStorage,
     SHANGHAI,

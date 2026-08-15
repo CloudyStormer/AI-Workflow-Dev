@@ -1,6 +1,7 @@
 import {
   useEffect,
   useRef,
+  useState,
   type KeyboardEvent,
   type MouseEvent,
 } from 'react'
@@ -120,6 +121,11 @@ export type RecallReminderSettings = {
   statusText: string
 }
 
+export type RecallReminderPatch = Partial<Pick<
+  RecallReminderSettings,
+  'enabled' | 'time' | 'quietStart' | 'quietEnd'
+>>
+
 export type RecallTimezoneChange = {
   learningTimezone: string
   learningTimezoneLabel: string
@@ -131,7 +137,9 @@ export type RecallStorageRecovery = {
   reason: 'corrupt' | 'unsupported-version'
   backupExported: boolean
   confirmationOpen: boolean
+  rebuildPending?: boolean
   sourceChanged?: boolean
+  verificationUncertain?: boolean
 }
 
 export type RecallDialogState = {
@@ -147,22 +155,22 @@ export type RecallCenterActions = {
   onClose: () => void
   onViewChange: (view: RecallCenterView) => void
   onSelectItem: (itemId: string) => void
-  onStartItem: (itemId: string) => void
-  onSkipItem: (itemId: string) => void
-  onPauseItem: (itemId: string, learningDays: 1 | 3 | 7 | 30) => void
-  onResumeItem: (itemId: string) => void
-  onRecoverItem: (itemId: string) => void
+  onStartItem: (itemId: string) => void | Promise<void>
+  onSkipItem: (itemId: string) => void | Promise<void>
+  onPauseItem: (itemId: string, learningDays: 1 | 3 | 7 | 30) => void | Promise<void>
+  onResumeItem: (itemId: string) => void | Promise<void>
+  onRecoverItem: (itemId: string) => void | Promise<void>
   onRequestReset: (itemId: string) => void
   onCancelReset: () => void
-  onConfirmReset: (itemId: string) => void
-  onReminderChange: (settings: RecallReminderSettings) => void
+  onConfirmReset: (itemId: string) => boolean | Promise<boolean>
+  onReminderChange: (patch: RecallReminderPatch) => void
   onKeepLearningTimezone: () => void
   onSwitchToDeviceTimezone: () => void
   onDeferTimezoneChange: () => void
   onExportStorageBackup: () => void
   onRequestStorageRebuild: () => void
   onCancelStorageRebuild: () => void
-  onConfirmStorageRebuild: () => void
+  onConfirmStorageRebuild: () => void | Promise<void>
 }
 
 export type RecallCenterProps = {
@@ -299,16 +307,40 @@ type ItemActionsProps = {
 function ItemActions({ item, isOffline, actions, showDetailAction = true }: ItemActionsProps) {
   const isPaused = item.group === 'paused'
   const hasException = item.group === 'exception'
-  const writeActionDisabled = isOffline || hasException || item.startDisabled
+  const writeInFlightRef = useRef(false)
+  const [pendingAction, setPendingAction] = useState('')
+  const writeActionDisabled = isOffline || hasException || item.startDisabled || writeInFlightRef.current
+
+  const runWriteAction = async (label: string, action: () => void | Promise<void>) => {
+    if (writeInFlightRef.current) return
+    writeInFlightRef.current = true
+    setPendingAction(label)
+    try {
+      await action()
+    } finally {
+      writeInFlightRef.current = false
+      setPendingAction('')
+      window.requestAnimationFrame(() => {
+        document.getElementById('recall-center-tab-queue')?.focus()
+      })
+    }
+  }
 
   return (
-    <div className="recall-item-actions" aria-label={`${item.word} 的复习操作`}>
+    <div
+      className="recall-item-actions"
+      aria-label={`${item.word} 的复习操作`}
+      aria-busy={Boolean(pendingAction)}
+    >
       {!isPaused && (
         <button
           type="button"
           className="recall-item-actions__start"
           disabled={writeActionDisabled}
-          onClick={() => actions.onStartItem(item.id)}
+          onClick={() => void runWriteAction(
+            '正在安全准备本题…',
+            () => actions.onStartItem(item.id),
+          )}
         >
           {hasException
             ? '记录异常，暂不可开始'
@@ -322,6 +354,7 @@ function ItemActions({ item, isOffline, actions, showDetailAction = true }: Item
         <button
           type="button"
           className="recall-item-actions__detail"
+          disabled={Boolean(pendingAction)}
           onClick={() => {
             actions.onSelectItem(item.id)
             actions.onViewChange('detail')
@@ -335,8 +368,8 @@ function ItemActions({ item, isOffline, actions, showDetailAction = true }: Item
         <button
           type="button"
           className="recall-item-actions__skip"
-          disabled={isOffline}
-          onClick={() => actions.onSkipItem(item.id)}
+          disabled={isOffline || Boolean(pendingAction)}
+          onClick={() => void runWriteAction('正在安全保存跳过结果…', () => actions.onSkipItem(item.id))}
         >
           跳过本题
         </button>
@@ -346,13 +379,11 @@ function ItemActions({ item, isOffline, actions, showDetailAction = true }: Item
         <button
           type="button"
           className="recall-item-actions__resume"
-          disabled={isOffline}
-          onClick={() => {
-            actions.onRecoverItem(item.id)
-            window.requestAnimationFrame(() => {
-              document.getElementById('recall-center-tab-queue')?.focus()
-            })
-          }}
+          disabled={isOffline || Boolean(pendingAction)}
+          onClick={() => void runWriteAction(
+            '正在安全保存恢复结果…',
+            () => actions.onRecoverItem(item.id),
+          )}
         >
           {isOffline ? '联网后恢复' : '恢复这条记录'}
         </button>
@@ -362,21 +393,24 @@ function ItemActions({ item, isOffline, actions, showDetailAction = true }: Item
         <button
           type="button"
           className="recall-item-actions__resume"
-          disabled={isOffline}
-          onClick={() => actions.onResumeItem(item.id)}
+          disabled={isOffline || Boolean(pendingAction)}
+          onClick={() => void runWriteAction('正在安全保存恢复结果…', () => actions.onResumeItem(item.id))}
         >
           提前恢复
         </button>
       ) : (
         !hasException && (
-          <fieldset className="recall-item-actions__pause-options" disabled={isOffline}>
+          <fieldset className="recall-item-actions__pause-options" disabled={isOffline || Boolean(pendingAction)}>
             <legend>暂停学习项</legend>
             {PAUSE_DAYS.map((days) => (
               <button
                 key={days}
                 type="button"
                 className="recall-item-actions__pause"
-                onClick={() => actions.onPauseItem(item.id, days)}
+                onClick={() => void runWriteAction(
+                  `正在安全保存暂停 ${days} 个学习日的结果…`,
+                  () => actions.onPauseItem(item.id, days),
+                )}
               >
                 {days} 个学习日
               </button>
@@ -389,12 +423,16 @@ function ItemActions({ item, isOffline, actions, showDetailAction = true }: Item
         <button
           type="button"
           className="recall-item-actions__reset"
-          disabled={isOffline}
+          disabled={isOffline || Boolean(pendingAction)}
           onClick={() => actions.onRequestReset(item.id)}
         >
           重置掌握进度
         </button>
       )}
+
+      <span className="recall-item-actions__status" role="status" aria-live="polite">
+        {pendingAction}
+      </span>
     </div>
   )
 }
@@ -714,9 +752,7 @@ type SettingsViewProps = {
 }
 
 function SettingsView({ reminder, timezoneChange, actions }: SettingsViewProps) {
-  const updateReminder = (patch: Partial<RecallReminderSettings>) => {
-    actions.onReminderChange({ ...reminder, ...patch })
-  }
+  const updateReminder = (patch: RecallReminderPatch) => actions.onReminderChange(patch)
 
   return (
     <section
@@ -779,7 +815,8 @@ function SettingsView({ reminder, timezoneChange, actions }: SettingsViewProps) 
           {reminder.timezoneOptions.length > 0 ? (
             <select
               value={reminder.timezone}
-              onChange={(event) => updateReminder({ timezone: event.currentTarget.value })}
+              disabled
+              aria-label="学习时区由下方时区变化确认操作管理"
             >
               {reminder.timezoneOptions.map((option) => (
                 <option key={option.value} value={option.value}>{option.label}</option>
@@ -844,6 +881,9 @@ type ResetConfirmationProps = {
 function ResetConfirmation({ item, actions }: ResetConfirmationProps) {
   const resetDialogRef = useRef<HTMLElement>(null)
   const previousFocusRef = useRef<HTMLElement | null>(null)
+  const inFlightRef = useRef(false)
+  const [pending, setPending] = useState(false)
+  const [statusMessage, setStatusMessage] = useState('')
 
   useEffect(() => {
     previousFocusRef.current = document.activeElement instanceof HTMLElement
@@ -861,6 +901,10 @@ function ResetConfirmation({ item, actions }: ResetConfirmationProps) {
   const handleResetKeyDown = (event: KeyboardEvent<HTMLElement>) => {
     if (event.key === 'Escape') {
       event.preventDefault()
+      if (inFlightRef.current) {
+        setStatusMessage('正在通过跨页面安全写锁保存重置结果，完成前不能取消。')
+        return
+      }
       actions.onCancelReset()
       return
     }
@@ -885,6 +929,35 @@ function ResetConfirmation({ item, actions }: ResetConfirmationProps) {
     }
   }
 
+  const handleCancel = () => {
+    if (inFlightRef.current) {
+      setStatusMessage('正在通过跨页面安全写锁保存重置结果，完成前不能取消。')
+      return
+    }
+    actions.onCancelReset()
+  }
+
+  const handleConfirm = async () => {
+    if (inFlightRef.current) return
+    inFlightRef.current = true
+    setPending(true)
+    setStatusMessage('正在安全保存重置结果…')
+    window.requestAnimationFrame(() => resetDialogRef.current?.focus())
+    let saved = false
+    try {
+      saved = await actions.onConfirmReset(item.id)
+    } catch {
+      saved = false
+    }
+    if (saved) return
+    inFlightRef.current = false
+    setPending(false)
+    setStatusMessage('未能安全保存重置结果；掌握进度没有改变，请稍后重试。')
+    window.requestAnimationFrame(() => {
+      resetDialogRef.current?.querySelector<HTMLButtonElement>('button:not([disabled])')?.focus()
+    })
+  }
+
   return (
     <div className="recall-reset-backdrop">
       <section
@@ -893,7 +966,8 @@ function ResetConfirmation({ item, actions }: ResetConfirmationProps) {
         role="alertdialog"
         aria-modal="true"
         aria-labelledby="recall-reset-title"
-        aria-describedby="recall-reset-description"
+        aria-describedby="recall-reset-description recall-reset-status"
+        aria-busy={pending}
         tabIndex={-1}
         onKeyDown={handleResetKeyDown}
       >
@@ -901,12 +975,15 @@ function ResetConfirmation({ item, actions }: ResetConfirmationProps) {
         <p id="recall-reset-description">
           当前阶段将回到“薄弱待加固”，下一学习日重新开始。历史记录会完整保留。
         </p>
+        <p id="recall-reset-status" role="status" aria-live="polite">
+          {statusMessage}
+        </p>
         <div className="recall-reset-dialog__actions">
-          <button type="button" onClick={actions.onCancelReset}>
+          <button type="button" disabled={pending} onClick={handleCancel}>
             取消
           </button>
-          <button type="button" onClick={() => actions.onConfirmReset(item.id)}>
-            重置进度
+          <button type="button" disabled={pending} onClick={handleConfirm}>
+            {pending ? '正在安全保存…' : '重置进度'}
           </button>
         </div>
       </section>
@@ -914,8 +991,15 @@ function ResetConfirmation({ item, actions }: ResetConfirmationProps) {
   )
 }
 
-function StorageRebuildConfirmation({ actions }: { actions: RecallCenterActions }) {
+function StorageRebuildConfirmation({
+  actions,
+  pending,
+}: {
+  actions: RecallCenterActions
+  pending: boolean
+}) {
   const dialogRef = useRef<HTMLElement>(null)
+  const pendingStatusRef = useRef<HTMLParagraphElement>(null)
   const previousFocusRef = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
@@ -930,9 +1014,14 @@ function StorageRebuildConfirmation({ actions }: { actions: RecallCenterActions 
     }
   }, [])
 
+  useEffect(() => {
+    if (pending) pendingStatusRef.current?.focus()
+  }, [pending])
+
   const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
     if (event.key === 'Escape') {
       event.preventDefault()
+      if (pending) return
       actions.onCancelStorageRebuild()
       return
     }
@@ -966,6 +1055,7 @@ function StorageRebuildConfirmation({ actions }: { actions: RecallCenterActions 
         aria-modal="true"
         aria-labelledby="recall-storage-rebuild-title"
         aria-describedby="recall-storage-rebuild-description"
+        aria-busy={pending}
         tabIndex={-1}
         onKeyDown={handleKeyDown}
       >
@@ -973,12 +1063,23 @@ function StorageRebuildConfirmation({ actions }: { actions: RecallCenterActions 
         <p id="recall-storage-rebuild-description">
           将使用当前题库创建新的本地复习记录。本浏览器中的旧复习进度、历史和提醒设置会在应用内重置；已导出的备份不会自动导入，题库内容不会被修改。
         </p>
+        {pending && (
+          <p
+            ref={pendingStatusRef}
+            className="recall-storage-rebuild-dialog__status"
+            role="status"
+            aria-live="polite"
+            tabIndex={-1}
+          >
+            正在获取跨页面安全写锁，并在锁内重新核对原始记录；完成前不会覆盖任何数据。
+          </p>
+        )}
         <div className="recall-reset-dialog__actions">
-          <button type="button" onClick={actions.onCancelStorageRebuild}>
+          <button type="button" disabled={pending} onClick={actions.onCancelStorageRebuild}>
             取消
           </button>
-          <button type="button" onClick={actions.onConfirmStorageRebuild}>
-            确认重建
+          <button type="button" disabled={pending} onClick={actions.onConfirmStorageRebuild}>
+            {pending ? '正在安全核对…' : '确认重建'}
           </button>
         </div>
       </section>
@@ -1196,6 +1297,11 @@ export function RecallCenter({
                   <p>另一页面已更新本地复习记录；当前页面仍保持结算和队列锁定，不会显示临时零值。</p>
                   <p>请刷新页面读取最新记录，再重新导出备份并决定是否重建。</p>
                 </>
+              ) : storageRecovery.verificationUncertain ? (
+                <>
+                  <p>本地复习记录的写入结果暂时无法回读核验；当前页面不会声称重建成功或原始记录未变。</p>
+                  <p>请刷新页面读取实际记录，再重新导出备份并决定下一步。</p>
+                </>
               ) : (
                 <>
                   <p>
@@ -1210,10 +1316,12 @@ export function RecallCenter({
             <div className="recall-storage-recovery__actions">
               <button
                 type="button"
-                disabled={Boolean(storageRecovery.sourceChanged)}
+                disabled={Boolean(storageRecovery.sourceChanged
+                  || storageRecovery.verificationUncertain
+                  || storageRecovery.rebuildPending)}
                 onClick={actions.onExportStorageBackup}
               >
-                {storageRecovery.sourceChanged
+                {storageRecovery.sourceChanged || storageRecovery.verificationUncertain
                   ? '刷新后重新导出'
                   : storageRecovery.backupExported
                     ? '重新导出原始备份'
@@ -1221,7 +1329,10 @@ export function RecallCenter({
               </button>
               <button
                 type="button"
-                disabled={Boolean(storageRecovery.sourceChanged) || !storageRecovery.backupExported}
+                disabled={Boolean(storageRecovery.sourceChanged
+                  || storageRecovery.verificationUncertain
+                  || storageRecovery.rebuildPending)
+                  || !storageRecovery.backupExported}
                 onClick={actions.onRequestStorageRebuild}
               >
                 重建本地复习记录
@@ -1347,7 +1458,10 @@ export function RecallCenter({
 
       {resetItem && <ResetConfirmation item={resetItem} actions={actions} />}
       {storageRecovery?.confirmationOpen && (
-        <StorageRebuildConfirmation actions={actions} />
+        <StorageRebuildConfirmation
+          actions={actions}
+          pending={Boolean(storageRecovery.rebuildPending)}
+        />
       )}
     </section>
   )

@@ -972,3 +972,81 @@ artifacts:
     next_change_id: fix-20260814-spaced-recall-storage-safety-followup-003
     next_gate: frontend-fix-delivery-review
     auto_route: false
+  - id: artifact-spaced-recall-storage-safety-frontend-fix-003
+    type: frontend-fix
+    path: frontend/
+    status: ready-for-review
+    owner: role-frontend-dev
+    role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
+    change_id: fix-20260814-spaced-recall-storage-safety-followup-003
+    authorization: approval-20260814-spaced-recall-storage-safety-frontend-fix-entry
+    upstream_approval: approval-20260814-spaced-recall-storage-recovery-code-rereview-conclusion
+    input_artifact: artifact-spaced-recall-storage-recovery-code-rereview-002
+    input_path: docs/06-code-review.md
+    input_sha256: 5a4284217860d4598f7432aa6aeb2b0cb63e846f307d53ba0516e0bbea5758c6
+    review_commit: b39094edc029e25bf88dfdd27ec81436afa16138
+    reviewed_source_commit: e56f49cb8990a7d529e4aa2b311036aa08235c10
+    safe_base: cf14a6b1b54fe8a3c8334e277291a8c31d48b248
+    hashes:
+      browser_gate: d1ee2538094ced5a30a9fe26605717a392590a02f00cb74018a39dd6205afade
+      domain_test: f7e4fe120486c02e5cb7c43a084be956a9762499e611b3ce76bd820d911ca732
+      styles: 3be8c5a22636955ae29fbf811cab5772a1d3cc64443c836a1a66b8cc1f561562
+      recall_center: ab466cc02b80a93b43fc857a59c1f730652c64982852e819d1b8dfebfbd2ed4a
+      word: dcafc87bbdbcc1a0a67d4d28bd98a1d7da4ae3fc271bc5ff32b2e32c512f8b57
+      domain: edc37232c902c4059265b824469a6d75bc5dfebdaef8e4809f05c9fa5bacda5c
+    scope:
+      - shared-cross-context-web-lock-for-all-spaced-recall-writes-and-rebuild
+      - exact-raw-revision-and-generation-guards-against-race-and-aba-overwrite
+      - fail-closed-invalid-or-unknown-storage-and-truthful-write-unverified-state
+      - real-two-tab-react-production-write-race-and-ready-recovery-regression
+      - native-download-suppression-and-owned-temporary-profile-cleanup
+    finding_disposition:
+      implemented_for_rereview:
+        - CR-P1-001-R2
+        - CR-P2-005
+      prior_closed_findings_preserved:
+        - CR-P1-001-R1
+        - CR-P1-002
+        - CR-P1-003
+        - CR-P2-001
+        - CR-P2-002
+        - CR-P2-003
+        - CR-P2-004
+      code_review_closure: pending-user-approval-and-separate-fixed-09-rereview
+    validation:
+      runtimes: Node.js-24-and-22.12.0
+      lint: passed-both-runtimes
+      typecheck_and_build: passed-both-runtimes
+      spaced_recall_test: passed-both-runtimes
+      inline_cloze_test: passed-1200-randomized-cases-both-runtimes
+      chrome_cdp_react_integration: passed-real-two-tab-1440-390-320-console-clean-both-runtimes
+      cross_context_atomic_write_and_rebuild: passed-zero-newer-value-overwrite
+      stale_tab_after_rebuild: passed-fail-closed
+      exact_byte_aba_generation_guard: passed
+      outgoing_state_validation: passed
+      write_unverified_truth_and_ready_recovery: passed
+      lock_busy_and_storage_error_truth: passed
+      download_isolation: passed-native-anchor-click-suppressed
+      temporary_directory_cleanup: passed-exact-owned-path-only
+      user_downloads_independent_check: fixed-00-verified-22-to-22
+      simplified_chinese_changed_states: complete
+      independent_final_review: passed-0-p0-0-p1-0-p2
+      git_diff_check: passed
+      git_boundary: passed
+    truth_boundary:
+      storage: current-browser-current-device-only
+      backend_integration: not-claimed
+      product_v1_4_scope: preserved-not-implemented-by-this-fix
+      production_deployment: not-authorized
+      user_downloads: existing-22-not-read-moved-or-deleted-by-fixed-06
+    unchanged_scope:
+      - docs/
+      - ui/
+      - backend/
+      - deployment/
+      - other-projects
+    completed_at: "2026-08-15T19:54:46+08:00"
+    result: storage-safety-frontend-fix-ready-for-review
+    stop_gate: frontend-fix-delivery-review
+    next_role: none-until-user-approval
+    auto_route: false

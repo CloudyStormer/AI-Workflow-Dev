@@ -475,9 +475,42 @@ parallel_spaced_recall_storage_safety_frontend_fix:
     existing_files: 22
     fixed_06_delete_or_move: prohibited
     cleanup_owner: role-pm-fixed-00-under-user-authorization
-  scheduling: routed-awaiting-fixed-06-role-announcement
+  scheduling: completed-ready-for-review
   routed_at: "2026-08-14T17:38:50+08:00"
-  delivery_status: authorized
+  delivery_status: ready-for-review
+  final_safe_base: cf14a6b1b54fe8a3c8334e277291a8c31d48b248
+  output:
+    artifact: artifact-spaced-recall-storage-safety-frontend-fix-003
+    path: frontend/
+    hashes:
+      browser_gate: d1ee2538094ced5a30a9fe26605717a392590a02f00cb74018a39dd6205afade
+      domain_test: f7e4fe120486c02e5cb7c43a084be956a9762499e611b3ce76bd820d911ca732
+      styles: 3be8c5a22636955ae29fbf811cab5772a1d3cc64443c836a1a66b8cc1f561562
+      recall_center: ab466cc02b80a93b43fc857a59c1f730652c64982852e819d1b8dfebfbd2ed4a
+      word: dcafc87bbdbcc1a0a67d4d28bd98a1d7da4ae3fc271bc5ff32b2e32c512f8b57
+      domain: edc37232c902c4059265b824469a6d75bc5dfebdaef8e4809f05c9fa5bacda5c
+  finding_disposition:
+    implemented_for_rereview:
+      - CR-P1-001-R2
+      - CR-P2-005
+    independent_final_review: passed-0-p0-0-p1-0-p2
+  validation:
+    runtimes: Node.js-24-and-22.12.0
+    lint: passed-both-runtimes
+    typecheck_and_build: passed-both-runtimes
+    spaced_recall_test: passed-both-runtimes
+    inline_cloze_test: passed-1200-randomized-cases-both-runtimes
+    chrome_cdp_react_integration: passed-real-two-tab-1440-390-320-console-clean-both-runtimes
+    cross_context_atomic_write_and_rebuild: passed-zero-newer-value-overwrite
+    exact_raw_revision_and_generation_guards: passed
+    write_unverified_truth_and_ready_recovery: passed
+    download_isolation: passed-native-download-suppressed
+    temporary_directory_cleanup: passed-exact-owned-path-only
+    user_downloads_independent_check: fixed-00-verified-22-to-22
+    simplified_chinese: complete-for-changed-states
+    git_boundary: passed
+  completed_at: "2026-08-15T19:54:46+08:00"
+  result: storage-safety-frontend-fix-ready-for-review
   stop_gate: frontend-fix-delivery-review
   preserved_top_level:
     release_scope_artifact: artifact-english-release-completeness-prd-001
@@ -531,7 +564,7 @@ held_downstream_delivery:
   resumed_again_by: approval-20260806-spaced-recall-ui-prompt-and-direct-frontend
   resumed_for: chg-20260806-spaced-recall-frontend-implementation-v1-3
   resumed_at: "2026-08-06T14:23:53+08:00"
-implementation_gate: "artifact-spaced-recall-storage-recovery-code-rereview-002 的 changes-requested 结论已获超级无敌帅超超总通过，并按一跳规则只授权固定 06 执行 fix-20260814-spaced-recall-storage-safety-followup-003：修复 CR-P1-001-R2 与 CR-P2-005。修复交付必须停在 frontend-fix-delivery-review；P1 复审关闭前继续阻断 QA，不得自动进入后端、PRD v1.4 新增实现或生产部署。"
+implementation_gate: "artifact-spaced-recall-storage-safety-frontend-fix-003 已由固定 06 完成验证并停在 frontend-fix-delivery-review，当前仅为 ready-for-review；不得登记用户批准或路由固定 09。PRD v1.4 新增实现、QA、后端与生产部署均未由本交付授权。"
 latest_approved_artifact:
   artifact: artifact-spaced-recall-frontend-fix-001
   path: frontend/
@@ -804,4 +837,4 @@ parallel_backend_task_breakdown_assignment:
   auto_route_on_delivery: false
 backend_planning_gate: "docs/03-dev-tasks.md v1.1 已 ready-for-review；固定 07 尚未获准启动。只有超级无敌帅超超总明确‘通过’本任务拆解后，才按一跳规则授权唯一 AEL-BE-001；AEL-BE-002+、固定 08/09/06/11/10 均继续未授权。"
 state_limit: "旧版计划与任务表仍需单独对账；本状态只声明已核实的最新交付和审批门"
-updated_at: "2026-08-14T16:45:10+08:00"
+updated_at: "2026-08-15T19:54:46+08:00"

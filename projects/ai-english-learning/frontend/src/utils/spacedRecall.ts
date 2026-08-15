@@ -8,6 +8,8 @@
 
 export const SPACED_RECALL_STORAGE_VERSION = 1 as const;
 export const SPACED_RECALL_STORAGE_KEY = "ai-english-learning:spaced-recall:v1";
+export const SPACED_RECALL_STORAGE_WRITE_LOCK =
+  "ai-english-learning:spaced-recall-storage-write:v1";
 
 export type StudyDay = `${number}-${number}-${number}`;
 export type ReviewStage = "S0" | "S1" | "S2" | "S3" | "S4";
@@ -185,6 +187,7 @@ export type DomainResult<T = undefined> =
         | "attempt-already-settled"
         | "item-unavailable"
         | "invalid-time-zone"
+        | "invalid-reminder-settings"
         | "confirmation-required"
         | "session-not-found"
         | "session-cap-reached"
@@ -233,9 +236,13 @@ export type LoadResult =
   | {
       status: "loaded";
       state: SpacedRecallState;
+      /** Exact bytes read for this loaded snapshot. Production writers use it as an ABA-safe CAS token. */
+      sourceRaw: string;
       isolatedItemIds?: string[];
       /** Stored revision to use for the one-time CAS write of an isolated state. */
       normalizedFromRevision?: number;
+      /** Exact source bytes required for the one-time isolation CAS write. */
+      normalizationSourceRaw?: string;
     }
   | {
       status: "storage-error";
@@ -250,8 +257,27 @@ export type StorageRebuildResult =
   | "backup-required"
   | "confirmation-required"
   | "source-changed"
+  | "lock-busy"
+  | "lock-unavailable"
   | "invalid-state"
+  | "write-unverified"
   | "storage-error";
+
+export type StorageSaveResult =
+  | "saved"
+  | "revision-conflict"
+  | "lock-busy"
+  | "lock-unavailable"
+  | "write-unverified"
+  | "storage-error";
+
+export interface StorageWriteLockManager {
+  request<T>(
+    name: string,
+    options: { mode: "exclusive"; ifAvailable?: boolean },
+    callback: (lock: object | null) => T | PromiseLike<T>,
+  ): Promise<Awaited<T>>;
+}
 
 const REVIEW_STAGE_INTERVALS: Record<Exclude<ReviewStage, "S0" | "S4">, number> = {
   S1: 2,
@@ -1345,6 +1371,9 @@ export function updateReminderSettings(
 ): DomainResult<ReminderSettings> {
   const state = cloneState(current);
   state.reminderSettings = { ...state.reminderSettings, ...patch };
+  if (!isReminderSettingsValue(state.reminderSettings)) {
+    return rejected(current, "invalid-reminder-settings");
+  }
   return applied(state, state.reminderSettings);
 }
 
@@ -2126,8 +2155,10 @@ export function loadSpacedRecallState(
           state,
           isolatedItemIds,
           normalizedFromRevision: storedRevision,
+          normalizationSourceRaw: raw,
+          sourceRaw: raw,
         }
-      : { status: "loaded", state };
+      : { status: "loaded", state, sourceRaw: raw };
   } catch {
     return { status: "storage-error", reason: "corrupt", rawPreserved: true, rawSnapshot: raw };
   }
@@ -2136,9 +2167,12 @@ export function loadSpacedRecallState(
 /**
  * Replace a globally unreadable record only after the exact load-time bytes
  * were exported and the user explicitly confirmed the destructive rebuild.
- * The compare step prevents an older tab from overwriting a newer value.
+ * The exclusive Web Lock serializes rebuilds across same-origin tabs. The
+ * exact source comparison and write stay synchronous inside the lock callback.
+ * A busy lock fails fast, while browsers without this cross-context primitive
+ * fail closed; neither case falls back to an unlocked write.
  */
-export function rebuildSpacedRecallStorage(
+export async function rebuildSpacedRecallStorage(
   storage: StorageLike,
   state: SpacedRecallState,
   input: {
@@ -2146,17 +2180,48 @@ export function rebuildSpacedRecallStorage(
     backupExported: boolean;
     confirmed: boolean;
   },
+  lockManager: StorageWriteLockManager | null,
   key = SPACED_RECALL_STORAGE_KEY,
-): StorageRebuildResult {
+): Promise<StorageRebuildResult> {
   if (!input.backupExported) return "backup-required";
   if (!input.confirmed) return "confirmation-required";
   if (!isSpacedRecallState(state)) return "invalid-state";
+  if (!lockManager) return "lock-unavailable";
+
+  let serializedState: string;
   try {
-    if (storage.getItem(key) !== input.expectedRaw) return "source-changed";
-    storage.setItem(key, JSON.stringify(state));
-    return "rebuilt";
+    serializedState = JSON.stringify(state);
   } catch {
-    return "storage-error";
+    return "invalid-state";
+  }
+
+  try {
+    return await lockManager.request(
+      SPACED_RECALL_STORAGE_WRITE_LOCK,
+      { mode: "exclusive", ifAvailable: true },
+      (lock) => {
+        if (!lock) return "lock-busy";
+        let currentRaw: string | null;
+        try {
+          currentRaw = storage.getItem(key);
+        } catch {
+          return "storage-error";
+        }
+        if (currentRaw !== input.expectedRaw) return "source-changed";
+        try {
+          storage.setItem(key, serializedState);
+        } catch {
+          return "storage-error";
+        }
+        try {
+          return storage.getItem(key) === serializedState ? "rebuilt" : "write-unverified";
+        } catch {
+          return "write-unverified";
+        }
+      },
+    );
+  } catch {
+    return "lock-unavailable";
   }
 }
 
@@ -2165,11 +2230,20 @@ export function saveSpacedRecallState(
   state: SpacedRecallState,
   expectedPreviousRevision: number,
   key = SPACED_RECALL_STORAGE_KEY,
-): "saved" | "revision-conflict" | "storage-error" {
-  const raw = storage.getItem(key);
+  expectedRaw?: string | null,
+): "saved" | "revision-conflict" | "write-unverified" | "storage-error" {
+  if (!isSpacedRecallState(state)) return "storage-error";
+  let raw: string | null;
+  try {
+    raw = storage.getItem(key);
+  } catch {
+    return "storage-error";
+  }
+  if (expectedRaw !== undefined && raw !== expectedRaw) return "revision-conflict";
   if (raw !== null) {
     try {
-      const stored = JSON.parse(raw) as Partial<SpacedRecallState>;
+      const stored = JSON.parse(raw) as unknown;
+      if (!isSpacedRecallState(stored)) return "storage-error";
       if (stored.revision !== expectedPreviousRevision) return "revision-conflict";
     } catch {
       return "storage-error";
@@ -2177,10 +2251,100 @@ export function saveSpacedRecallState(
   } else if (expectedPreviousRevision !== 0) {
     return "revision-conflict";
   }
+  let serializedState: string;
   try {
-    storage.setItem(key, JSON.stringify(state));
-    return "saved";
+    serializedState = JSON.stringify(state);
   } catch {
     return "storage-error";
+  }
+  try {
+    storage.setItem(key, serializedState);
+  } catch {
+    return "storage-error";
+  }
+  try {
+    return storage.getItem(key) === serializedState ? "saved" : "write-unverified";
+  } catch {
+    return "write-unverified";
+  }
+}
+
+/**
+ * Persist a load-time per-item isolation only when the exact unreadable source
+ * bytes are still current. This is intentionally separate from ordinary saves:
+ * normal writers may never use a revision-only exception to replace corrupt v1
+ * data, while the loader can safely preserve every original item snapshot.
+ */
+export async function saveNormalizedSpacedRecallStateWithLock(
+  storage: StorageLike,
+  state: SpacedRecallState,
+  expectedRaw: string,
+  lockManager: StorageWriteLockManager | null,
+  key = SPACED_RECALL_STORAGE_KEY,
+): Promise<StorageSaveResult> {
+  if (!lockManager) return "lock-unavailable";
+  if (!isSpacedRecallState(state)) return "storage-error";
+
+  let serializedState: string;
+  try {
+    serializedState = JSON.stringify(state);
+  } catch {
+    return "storage-error";
+  }
+
+  try {
+    return await lockManager.request(
+      SPACED_RECALL_STORAGE_WRITE_LOCK,
+      { mode: "exclusive", ifAvailable: true },
+      (lock) => {
+        if (!lock) return "lock-busy";
+        let currentRaw: string | null;
+        try {
+          currentRaw = storage.getItem(key);
+        } catch {
+          return "storage-error";
+        }
+        if (currentRaw !== expectedRaw) return "revision-conflict";
+        try {
+          storage.setItem(key, serializedState);
+        } catch {
+          return "storage-error";
+        }
+        try {
+          return storage.getItem(key) === serializedState ? "saved" : "write-unverified";
+        } catch {
+          return "write-unverified";
+        }
+      },
+    );
+  } catch {
+    return "lock-unavailable";
+  }
+}
+
+/**
+ * Production writes share the same origin-scoped lock as destructive rebuilds.
+ * The revision comparison and set remain synchronous inside the callback, and
+ * a busy lock fails fast instead of leaving an uncancellable mutation pending.
+ */
+export async function saveSpacedRecallStateWithLock(
+  storage: StorageLike,
+  state: SpacedRecallState,
+  expectedPreviousRevision: number,
+  expectedRaw: string | null,
+  lockManager: StorageWriteLockManager | null,
+  key = SPACED_RECALL_STORAGE_KEY,
+): Promise<StorageSaveResult> {
+  if (!lockManager) return "lock-unavailable";
+  try {
+    return await lockManager.request(
+      SPACED_RECALL_STORAGE_WRITE_LOCK,
+      { mode: "exclusive", ifAvailable: true },
+      (lock) => lock
+        ? saveSpacedRecallState(storage, state, expectedPreviousRevision, key, expectedRaw)
+        : "lock-busy",
+    );
+  } catch {
+    return "lock-unavailable";
   }
 }

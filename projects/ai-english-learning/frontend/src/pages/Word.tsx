@@ -17,6 +17,7 @@ import RecallCenter, {
   type RecallDialogState,
   type RecallHistoryEntry,
   type RecallItem,
+  type RecallReminderPatch,
   type RecallReminderSettings,
   type RecallStorageRecovery,
   type RecallStageNode,
@@ -61,7 +62,8 @@ import {
   resetRecallMastery,
   resumeDueRecallItems,
   resumeRecallItem,
-  saveSpacedRecallState,
+  saveNormalizedSpacedRecallStateWithLock,
+  saveSpacedRecallStateWithLock,
   settleRecallAttempt,
   skipRecallItem,
   studyDayAt,
@@ -77,6 +79,7 @@ import {
   type ReviewQueueEntry,
   type ReminderDecision,
   type SpacedRecallState,
+  type StorageWriteLockManager,
 } from '../utils/spacedRecall'
 import {
   buildLetterHint,
@@ -174,18 +177,41 @@ function isRestorableSession(session: PersistedClozeSession | null) {
     && validRecallHintState
 }
 
-type RecallStorageStatus = 'ready' | 'memory-only' | 'conflict' | 'corrupt'
+type RecallStorageStatus =
+  | 'ready'
+  | 'memory-only'
+  | 'conflict'
+  | 'corrupt'
+  | 'unverified'
+  | 'write-unverified'
 type RecallStorageRecoveryState = RecallStorageRecovery & { rawSnapshot: string }
+type PendingRecallPersist = {
+  state: SpacedRecallState
+  expectedRevision: number
+  expectedRaw: string | null
+  normalizationSourceRaw?: string
+}
 
-function persistNormalizedRecallLoad(
+function getBrowserStorageWriteLock(): StorageWriteLockManager | null {
+  if (
+    typeof navigator === 'undefined'
+    || !('locks' in navigator)
+    || typeof navigator.locks?.request !== 'function'
+  ) return null
+  return navigator.locks
+}
+
+async function persistNormalizedRecallLoad(
   storage: Storage,
   loaded: Extract<LoadResult, { status: 'loaded' }>,
 ) {
   if (loaded.normalizedFromRevision === undefined) return 'saved' as const
-  return saveSpacedRecallState(
+  if (loaded.normalizationSourceRaw === undefined) return 'storage-error' as const
+  return saveNormalizedSpacedRecallStateWithLock(
     storage,
     loaded.state,
-    loaded.normalizedFromRevision,
+    loaded.normalizationSourceRaw,
+    getBrowserStorageWriteLock(),
   )
 }
 
@@ -265,6 +291,8 @@ function initializeRecallState() {
       storageStatus: 'memory-only' as RecallStorageStatus,
       storageRecovery: null as RecallStorageRecoveryState | null,
       statusMessage: '',
+      pendingPersist: null as PendingRecallPersist | null,
+      storageSourceRaw: null as string | null,
     }
   }
 
@@ -273,6 +301,8 @@ function initializeRecallState() {
   let statusMessage = ''
   let storageRecovery: RecallStorageRecoveryState | null = null
   let previousRevision = 0
+  let normalizationSourceRaw: string | undefined
+  let storageSourceRaw: string | null = null
   const loaded = loadSpacedRecallState(window.localStorage, learningTimeZone)
   if (loaded.status === 'storage-error') {
     state = createInitialSpacedRecallState(learningTimeZone)
@@ -283,14 +313,19 @@ function initializeRecallState() {
       backupExported: false,
       confirmationOpen: false,
     }
+    storageSourceRaw = loaded.rawSnapshot
     statusMessage = loaded.reason === 'unsupported-version'
       ? '检测到当前版本无法识别的本地复习记录；原始数据已保留，请先导出备份再决定是否重建。'
       : '检测到格式损坏的本地复习记录；原始数据已保留，请先导出备份再决定是否重建。'
   } else {
     state = loaded.state
+    storageSourceRaw = loaded.status === 'loaded' ? loaded.sourceRaw : null
     previousRevision = loaded.status === 'loaded'
       ? loaded.normalizedFromRevision ?? state.revision
       : state.revision
+    normalizationSourceRaw = loaded.status === 'loaded'
+      ? loaded.normalizationSourceRaw
+      : undefined
     if (loaded.status === 'loaded' && loaded.isolatedItemIds?.length) {
       statusMessage = `已隔离 ${loaded.isolatedItemIds.length} 条本地异常记录；其余复习可继续，请在队列查看每条记录的恢复状态。`
     }
@@ -328,23 +363,23 @@ function initializeRecallState() {
   })
   if (session.status === 'applied') state = session.state
 
-  if (storageStatus === 'ready' && state.revision !== previousRevision) {
-    const saved = saveSpacedRecallState(window.localStorage, state, previousRevision)
-    if (saved === 'revision-conflict') {
-      const latest = loadSpacedRecallState(window.localStorage, learningTimeZone)
-      if (latest.status === 'loaded') {
-        state = latest.state
-        const normalizedSaved = persistNormalizedRecallLoad(window.localStorage, latest)
-        if (normalizedSaved === 'revision-conflict') storageStatus = 'conflict'
-        if (normalizedSaved === 'storage-error') storageStatus = 'memory-only'
-      } else {
-        storageStatus = 'conflict'
+  const pendingPersist = storageStatus === 'ready' && state.revision !== previousRevision
+    ? {
+        state,
+        expectedRevision: previousRevision,
+        expectedRaw: storageSourceRaw,
+        normalizationSourceRaw,
       }
-    }
-    if (saved === 'storage-error') storageStatus = 'memory-only'
-  }
+    : null
 
-  return { state, storageStatus, storageRecovery, statusMessage }
+  return {
+    state,
+    storageStatus,
+    storageRecovery,
+    statusMessage,
+    pendingPersist,
+    storageSourceRaw,
+  }
 }
 
 function formatStudyDay(day: string | null, timeZone: string) {
@@ -460,6 +495,7 @@ function describeRecallRejection(reason: string) {
     'attempt-not-found': '当前作答记录未准备好，请重试。',
     'attempt-already-settled': '本次作答已经结算，不会重复计分。',
     'item-unavailable': '这条学习项当前已暂停或存在数据异常。',
+    'invalid-reminder-settings': '提醒时间格式无效；本次没有保存，请填写完整的小时和分钟。',
     'confirmation-required': '需要明确确认后才能重置掌握进度。',
     'session-cap-reached': '本次会话已达到今日加固上限，其余项目会保留。',
     'no-eligible-same-day-item': '今日加固仍在等待合格间隔，不会紧邻重复。',
@@ -493,12 +529,19 @@ function ModeSwitch({ mode, onChange }: ModeSwitchProps) {
 function Word() {
   const navigate = useNavigate()
   const [initialRecall] = useState(initializeRecallState)
+  const initialRecallPersistRef = useRef(initialRecall.pendingPersist)
   const [recallState, setRecallState] = useState(initialRecall.state)
   const recallStateRef = useRef(initialRecall.state)
+  const recallStorageRawRef = useRef<string | null>(initialRecall.storageSourceRaw)
   const [clockNow, setClockNow] = useState(() => new Date().toISOString())
   const [recallStorageStatus, setRecallStorageStatus] = useState<RecallStorageStatus>(
     initialRecall.storageStatus,
   )
+  const recallStorageStatusRef = useRef(initialRecall.storageStatus)
+  const updateRecallStorageStatus = useCallback((status: RecallStorageStatus) => {
+    recallStorageStatusRef.current = status
+    setRecallStorageStatus(status)
+  }, [])
   const [recallStorageRecovery, setRecallStorageRecovery] = useState<RecallStorageRecoveryState | null>(
     initialRecall.storageRecovery,
   )
@@ -559,6 +602,10 @@ function Word() {
     restoredSession?.recallContext ?? null,
   )
   const [isRevealDialogOpen, setIsRevealDialogOpen] = useState(false)
+  const [isRevealPending, setIsRevealPending] = useState(false)
+  const [isAnswerSubmitPending, setIsAnswerSubmitPending] = useState(false)
+  const [isActiveRecallSkipPending, setIsActiveRecallSkipPending] = useState(false)
+  const [revealDialogStatus, setRevealDialogStatus] = useState('')
   const [cursorIndex, setCursorIndex] = useState<number | null>(() =>
     isAnswerRevealed ? null : getFirstEditableIndex(word.word, hintState.revealedIndexes, userLetters),
   )
@@ -567,11 +614,19 @@ function Word() {
   const slotGroupRef = useRef<HTMLSpanElement>(null)
   const revealDialogRef = useRef<HTMLDialogElement>(null)
   const revealContinueRef = useRef<HTMLButtonElement>(null)
+  const revealDialogStatusRef = useRef<HTMLParagraphElement>(null)
   const revealTriggerRef = useRef<HTMLButtonElement>(null)
   const resultSummaryRef = useRef<HTMLDivElement>(null)
   const activeWordKeyRef = useRef(wordKey)
   const isAdvancingRef = useRef(false)
   const notificationRequestedDayRef = useRef<string | null>(null)
+  const reminderChangeSequenceRef = useRef(0)
+  const revealInFlightRef = useRef(false)
+  const answerSubmitInFlightRef = useRef(false)
+  const activeRecallSkipInFlightRef = useRef(false)
+  const recallStorageRebuildInFlightRef = useRef(false)
+  const recallStorageBootstrapPromiseRef = useRef<Promise<void>>(Promise.resolve())
+  const recallStorageMutationTailRef = useRef<Promise<void>>(Promise.resolve())
   const progress = `${Math.round((completed / 50) * 100)}%`
   const letterHint = useMemo(
     () => buildLetterHintFromIndexes(word.word, hintState.revealedIndexes, hintState.level),
@@ -622,59 +677,172 @@ function Word() {
   }, [isOnline])
 
   const commitRecallResult = useCallback(function commitRecallResult<T>(
-    result: DomainResult<T>,
+    mutation: DomainResult<T> | (() => DomainResult<T>),
     successMessage = '',
-  ): T | null {
-    if (result.status === 'rejected') {
-      setRecallStatusMessage(describeRecallRejection(result.reason))
-      return null
-    }
-    if (result.status === 'duplicate') return result.value
-
-    const previousRevision = recallStateRef.current.revision
-    if (typeof window !== 'undefined' && recallStorageStatus !== 'corrupt') {
-      const saved = saveSpacedRecallState(
-        window.localStorage,
-        result.state,
-        previousRevision,
-      )
-      if (saved !== 'saved') {
-        if (saved === 'revision-conflict') {
-          const latest = loadSpacedRecallState(window.localStorage, result.state.learningTimeZone)
-          if (latest.status === 'loaded') {
-            const normalizedSaved = persistNormalizedRecallLoad(window.localStorage, latest)
-            recallStateRef.current = latest.state
-            setRecallState(latest.state)
-            if (normalizedSaved === 'saved') {
-              setRecallStorageStatus('ready')
-              setRecallStatusMessage('检测到另一页面的新记录，已安全刷新；请重试刚才的操作。')
-            } else if (normalizedSaved === 'revision-conflict') {
-              setRecallStorageStatus('conflict')
-              setRecallStatusMessage('另一页面在异常记录恢复期间继续更新，已停止覆盖；请刷新后重试。')
-            } else {
-              setRecallStorageStatus('memory-only')
-              setRecallStatusMessage('异常记录已在内存中隔离，但暂时无法安全保存；本页不会伪装已同步。')
-            }
-          } else {
-            setRecallStorageStatus('conflict')
-            setRecallStatusMessage('检测到另一页面更新了复习记录，已停止覆盖；请刷新后继续。')
-          }
-        } else {
-          setRecallStorageStatus('memory-only')
-          setRecallStatusMessage('复习记录暂时无法保存，本次没有伪装成已同步。')
-        }
+  ): Promise<T | null> {
+    const requestedRevision = typeof mutation === 'function'
+      ? null
+      : recallStateRef.current.revision
+    const task = recallStorageMutationTailRef.current.then(async () => {
+      await recallStorageBootstrapPromiseRef.current
+      if (requestedRevision !== null && recallStateRef.current.revision !== requestedRevision) {
+        setRecallStatusMessage('复习状态刚被另一项操作更新；本次未覆盖，请重试。')
         return null
       }
-    } else if (recallStorageStatus === 'corrupt') {
-      setRecallStatusMessage('本地复习记录格式异常，原始数据已保留；当前操作不会覆盖它。')
-      return null
-    }
 
-    recallStateRef.current = result.state
-    setRecallState(result.state)
-    if (successMessage) setRecallStatusMessage(successMessage)
-    return result.value
-  }, [recallStorageStatus])
+      const appliedResult = typeof mutation === 'function' ? mutation() : mutation
+      if (appliedResult.status === 'rejected') {
+        setRecallStatusMessage(describeRecallRejection(appliedResult.reason))
+        return null
+      }
+      if (appliedResult.status === 'duplicate') return appliedResult.value
+
+      const previousRevision = recallStateRef.current.revision
+      if (typeof window !== 'undefined' && recallStorageStatusRef.current !== 'corrupt') {
+        const saved = await saveSpacedRecallStateWithLock(
+          window.localStorage,
+          appliedResult.state,
+          previousRevision,
+          recallStorageRawRef.current,
+          getBrowserStorageWriteLock(),
+        )
+        if (saved !== 'saved') {
+          if (saved === 'revision-conflict') {
+            const latest = loadSpacedRecallState(window.localStorage, appliedResult.state.learningTimeZone)
+            if (latest.status === 'loaded') {
+              const normalizedSaved = await persistNormalizedRecallLoad(window.localStorage, latest)
+              recallStorageRawRef.current = normalizedSaved === 'saved'
+                && latest.normalizedFromRevision !== undefined
+                ? JSON.stringify(latest.state)
+                : latest.sourceRaw
+              recallStateRef.current = latest.state
+              setRecallState(latest.state)
+              if (normalizedSaved === 'saved') {
+                updateRecallStorageStatus('ready')
+                setRecallStatusMessage('检测到另一页面的新记录，已安全刷新；请重试刚才的操作。')
+              } else if (normalizedSaved === 'revision-conflict') {
+                updateRecallStorageStatus('conflict')
+                setRecallStatusMessage('另一页面在异常记录恢复期间继续更新，已停止覆盖；请刷新后重试。')
+              } else if (normalizedSaved === 'lock-busy') {
+                updateRecallStorageStatus('memory-only')
+                setRecallStatusMessage('另一页面正在写入本地复习记录；本次未覆盖，请稍后重试。')
+              } else if (normalizedSaved === 'write-unverified') {
+                updateRecallStorageStatus('write-unverified')
+                setRecallStatusMessage('异常记录隔离的保存结果无法回读核验；请刷新确认，本页不会假称成功或确定失败。')
+              } else {
+                updateRecallStorageStatus('memory-only')
+                setRecallStatusMessage('异常记录已在内存中隔离，但暂时无法安全保存；本页不会伪装已同步。')
+              }
+            } else {
+              updateRecallStorageStatus('conflict')
+              setRecallStatusMessage('检测到另一页面更新了复习记录，已停止覆盖；请刷新后继续。')
+            }
+          } else if (saved === 'lock-busy') {
+            setRecallStatusMessage('另一页面正在写入本地复习记录；本次未保存或推进，请稍后重试。')
+          } else if (saved === 'lock-unavailable') {
+            updateRecallStorageStatus('memory-only')
+            setRecallStatusMessage('当前浏览器无法取得跨页面安全写锁，本次没有保存或推进复习状态。')
+          } else if (saved === 'write-unverified') {
+            updateRecallStorageStatus('write-unverified')
+            setRecallStatusMessage('本次保存结果无法回读核验；可能已写入，也可能未完成。请刷新确认，本页不会假称成功或确定失败。')
+          } else {
+            updateRecallStorageStatus('memory-only')
+            setRecallStatusMessage('复习记录暂时无法保存，本次没有伪装成已同步。')
+          }
+          return null
+        }
+        recallStorageRawRef.current = JSON.stringify(appliedResult.state)
+        if (recallStorageStatusRef.current !== 'ready') {
+          updateRecallStorageStatus('ready')
+          if (!successMessage) {
+            setRecallStatusMessage('本次写入已逐字回读验证，本地复习记录已恢复为可核验保存状态。')
+          }
+        }
+      } else if (recallStorageStatusRef.current === 'corrupt') {
+        setRecallStatusMessage('本地复习记录格式异常，原始数据已保留；当前操作不会覆盖它。')
+        return null
+      }
+
+      recallStateRef.current = appliedResult.state
+      setRecallState(appliedResult.state)
+      if (successMessage) setRecallStatusMessage(successMessage)
+      return appliedResult.value
+    })
+    recallStorageMutationTailRef.current = task.then(
+      () => undefined,
+      () => undefined,
+    )
+    return task
+  }, [updateRecallStorageStatus])
+
+  useEffect(() => {
+    const pending = initialRecallPersistRef.current
+    initialRecallPersistRef.current = null
+    if (!pending || typeof window === 'undefined') return
+
+    const task = recallStorageMutationTailRef.current.then(async () => {
+      const saved = pending.normalizationSourceRaw === undefined
+        ? await saveSpacedRecallStateWithLock(
+            window.localStorage,
+            pending.state,
+            pending.expectedRevision,
+            pending.expectedRaw,
+            getBrowserStorageWriteLock(),
+          )
+        : await saveNormalizedSpacedRecallStateWithLock(
+            window.localStorage,
+            pending.state,
+            pending.normalizationSourceRaw,
+            getBrowserStorageWriteLock(),
+          )
+      if (saved === 'saved') {
+        recallStorageRawRef.current = JSON.stringify(pending.state)
+        updateRecallStorageStatus('ready')
+        return
+      }
+
+      if (saved === 'revision-conflict') {
+        const latest = loadSpacedRecallState(window.localStorage, pending.state.learningTimeZone)
+        if (latest.status === 'loaded') {
+          const normalizedSaved = await persistNormalizedRecallLoad(window.localStorage, latest)
+          recallStorageRawRef.current = normalizedSaved === 'saved'
+            && latest.normalizedFromRevision !== undefined
+            ? JSON.stringify(latest.state)
+            : latest.sourceRaw
+          recallStateRef.current = latest.state
+          setRecallState(latest.state)
+          if (normalizedSaved === 'saved') {
+            updateRecallStorageStatus('ready')
+            setRecallStatusMessage('检测到另一页面的新记录，已在跨页面安全锁内刷新。')
+            return
+          }
+        }
+        updateRecallStorageStatus('conflict')
+        setRecallStatusMessage('初始化期间检测到另一页面更新；已停止覆盖，请刷新后继续。')
+        return
+      }
+
+      if (saved === 'lock-busy') {
+        updateRecallStorageStatus('memory-only')
+        setRecallStatusMessage('另一页面正在写入本地复习记录；初始化未覆盖原始数据，请稍后刷新重试。')
+        return
+      }
+      updateRecallStorageStatus(saved === 'write-unverified' ? 'write-unverified' : 'memory-only')
+      setRecallStatusMessage(
+        saved === 'lock-unavailable'
+          ? '当前浏览器无法取得跨页面安全写锁；初始化内容未覆盖原始记录。'
+          : saved === 'write-unverified'
+            ? '初始化保存结果无法回读核验；可能已写入，也可能未完成。请刷新确认，本页不会假称成功或确定失败。'
+            : '初始化复习记录暂时无法保存；本页不会伪装已同步。',
+      )
+    })
+    recallStorageBootstrapPromiseRef.current = task.then(
+      () => undefined,
+      () => undefined,
+    )
+    recallStorageMutationTailRef.current = recallStorageBootstrapPromiseRef.current
+    void task
+  }, [updateRecallStorageStatus])
 
   useEffect(() => {
     const refreshClockAndBoundaries = () => {
@@ -682,14 +850,14 @@ function Word() {
       setClockNow(now)
       setNotificationPermission(getBrowserNotificationPermission())
 
-      const resumed = resumeDueRecallItems(recallStateRef.current, now)
-      if (resumed.status === 'applied') commitRecallResult(resumed)
-
-      const detected = detectDeviceTimeZoneChange(
-        recallStateRef.current,
-        getDeviceTimeZone(),
-      )
-      if (detected.status === 'applied') commitRecallResult(detected)
+      void (async () => {
+        await commitRecallResult(
+          () => resumeDueRecallItems(recallStateRef.current, now),
+        )
+        await commitRecallResult(
+          () => detectDeviceTimeZoneChange(recallStateRef.current, getDeviceTimeZone()),
+        )
+      })()
     }
 
     const intervalId = window.setInterval(refreshClockAndBoundaries, 60_000)
@@ -706,7 +874,7 @@ function Word() {
     }
   }, [commitRecallResult])
 
-  const ensureRecallAttempt = useCallback(() => {
+  const ensureRecallAttempt = useCallback(async () => {
     const existingAttempt = recallStateRef.current.attempts[attemptId]
     let attempt = existingAttempt
     if (!attempt) {
@@ -715,12 +883,13 @@ function Word() {
         : recallContext
           ? 'auto'
           : 'ordinary'
-      const started = beginRecallAttempt(
-        recallStateRef.current,
-        { attemptId, itemId: wordKey, context },
-        { now: new Date().toISOString() },
+      const committedAttempt = await commitRecallResult(
+        () => beginRecallAttempt(
+          recallStateRef.current,
+          { attemptId, itemId: wordKey, context },
+          { now: new Date().toISOString() },
+        ),
       )
-      const committedAttempt = commitRecallResult(started)
       if (!committedAttempt) return null
       attempt = committedAttempt
     }
@@ -730,30 +899,32 @@ function Word() {
         .sort(([left], [right]) => Number(left) - Number(right))
         .map(([, character]) => character)
         .join('')
-      const revealed = confirmRecallReveal(
-        recallStateRef.current,
-        {
-          attemptId,
-          inputSnapshot: restoredInputSnapshot,
-          standardAnswer: revealRecord.standardAnswer,
-        },
-        getRecallEnv(),
-      )
-      if (commitRecallResult(revealed) === null) return null
+      if (await commitRecallResult(
+        () => confirmRecallReveal(
+          recallStateRef.current,
+          {
+            attemptId,
+            inputSnapshot: restoredInputSnapshot,
+            standardAnswer: revealRecord.standardAnswer,
+          },
+          getRecallEnv(),
+        ),
+      ) === null) return null
       attempt = recallStateRef.current.attempts[attemptId]
     }
     if (isOnline && hadIncorrectSubmission && !attempt.hadCompleteIncorrect) {
-      const incorrect = recordIncorrectSubmission(
-        recallStateRef.current,
-        { attemptId, complete: true, inputSnapshot: '刷新恢复的完整错误记录' },
-        getRecallEnv(),
-      )
-      if (commitRecallResult(incorrect) === null) return null
+      if (await commitRecallResult(
+        () => recordIncorrectSubmission(
+          recallStateRef.current,
+          { attemptId, complete: true, inputSnapshot: '刷新恢复的完整错误记录' },
+          getRecallEnv(),
+        ),
+      ) === null) return null
       attempt = recallStateRef.current.attempts[attemptId]
     }
     if (hintUsed && isOnline) {
-      const recordedHint = commitRecallResult(
-        recordRecallHint(recallStateRef.current, attemptId, getRecallEnv()),
+      const recordedHint = await commitRecallResult(
+        () => recordRecallHint(recallStateRef.current, attemptId, getRecallEnv()),
       )
       if (!recordedHint) return null
       attempt = recordedHint
@@ -773,12 +944,13 @@ function Word() {
   ])
 
   useEffect(() => {
-    const session = createRecallSession(recallStateRef.current, {
-      sessionId: recallSessionId,
-      basePlannedCount: 50,
-      now: clockNow,
-    })
-    if (session.status === 'applied') commitRecallResult(session)
+    void commitRecallResult(
+      () => createRecallSession(recallStateRef.current, {
+        sessionId: recallSessionId,
+        basePlannedCount: 50,
+        now: clockNow,
+      }),
+    )
   }, [clockNow, commitRecallResult, recallSessionId])
 
   useEffect(() => {
@@ -797,14 +969,16 @@ function Word() {
 
   useEffect(() => {
     if (mode !== 'cloze') return
-    ensureRecallAttempt()
+    void ensureRecallAttempt()
   }, [ensureRecallAttempt, mode])
 
   useEffect(() => {
     if (!hintUsed || mode !== 'cloze' || !isOnline) return
     const attempt = recallStateRef.current.attempts[attemptId]
     if (!attempt || attempt.usedHint) return
-    commitRecallResult(recordRecallHint(recallStateRef.current, attemptId, getRecallEnv()))
+    void commitRecallResult(
+      () => recordRecallHint(recallStateRef.current, attemptId, getRecallEnv()),
+    )
   }, [attemptId, commitRecallResult, getRecallEnv, hintUsed, isOnline, mode])
 
   useEffect(() => {
@@ -974,17 +1148,26 @@ function Word() {
   }
 
   function handleOpenRevealDialog() {
+    if (answerSubmitInFlightRef.current) return
     if (mode !== 'cloze' || result === 'correct' || hasRevealedAnswer || isAnswerRevealed) return
+    revealInFlightRef.current = false
+    setIsRevealPending(false)
+    setRevealDialogStatus('')
     setIsRevealDialogOpen(true)
     setLiveMessage('查看答案确认；查看后不计独立答对。')
   }
 
   function handleCancelReveal() {
+    if (revealInFlightRef.current) {
+      setRevealDialogStatus('正在安全保存查看答案记录，完成前不能取消或重复确认。')
+      return
+    }
     closeRevealDialog(true)
     setLiveMessage('已取消，答案未查看。')
   }
 
-  function handleConfirmReveal() {
+  async function handleConfirmReveal() {
+    if (revealInFlightRef.current) return
     if (hasRevealedAnswer || isAnswerRevealed) {
       closeRevealDialog(false)
       return
@@ -999,23 +1182,47 @@ function Word() {
       return
     }
 
-    const currentAttempt = ensureRecallAttempt()
-    if (!currentAttempt) return
+    revealInFlightRef.current = true
+    setIsRevealPending(true)
+    setRevealDialogStatus('正在通过跨页面安全写锁保存查看答案记录…')
+    requestAnimationFrame(() => revealDialogStatusRef.current?.focus({ preventScroll: true }))
+    const currentAttempt = await ensureRecallAttempt()
+    if (!currentAttempt) {
+      revealInFlightRef.current = false
+      setIsRevealPending(false)
+      setRevealDialogStatus(
+        recallStorageStatusRef.current === 'write-unverified'
+          ? '查看答案记录的保存结果无法核验；可能已写入，也可能未完成。答案没有揭晓，请刷新确认。'
+          : '未能安全保存查看答案记录；答案没有揭晓，请稍后重试。',
+      )
+      requestAnimationFrame(() => revealContinueRef.current?.focus({ preventScroll: true }))
+      return
+    }
     const inputSnapshot = letterHint.characters
       .map(({ character, isHinted, isSeparator }, index) => (
         isSeparator ? character : userLetters[index] ?? (isHinted ? character : '_')
       ))
       .join('')
-    const captured = confirmRecallReveal(
-      recallStateRef.current,
-      {
-        attemptId,
-        inputSnapshot,
-        standardAnswer: word.word,
-      },
-      getRecallEnv(),
-    )
-    if (commitRecallResult(captured, '已登记“查看答案”薄弱证据，并安排今日加固与次日复习。') === null) {
+    if (await commitRecallResult(
+      () => confirmRecallReveal(
+        recallStateRef.current,
+        {
+          attemptId,
+          inputSnapshot,
+          standardAnswer: word.word,
+        },
+        getRecallEnv(),
+      ),
+      '已登记“查看答案”薄弱证据，并安排今日加固与次日复习。',
+    ) === null) {
+      revealInFlightRef.current = false
+      setIsRevealPending(false)
+      setRevealDialogStatus(
+        recallStorageStatusRef.current === 'write-unverified'
+          ? '薄弱证据的保存结果无法核验；可能已写入，也可能未完成。答案没有揭晓，请刷新确认。'
+          : '未能安全保存薄弱证据；答案没有揭晓，请稍后重试。',
+      )
+      requestAnimationFrame(() => revealContinueRef.current?.focus({ preventScroll: true }))
       return
     }
 
@@ -1033,6 +1240,9 @@ function Word() {
     }
 
     answerInputRef.current?.blur()
+    revealInFlightRef.current = false
+    setIsRevealPending(false)
+    setRevealDialogStatus('')
     closeRevealDialog(false)
     setRevealRecord(nextRecord)
     setHasRevealedAnswer(true)
@@ -1112,7 +1322,7 @@ function Word() {
   }
 
   function handleTextInput(value: string) {
-    if (result === 'correct' || isAnswerRevealed) return
+    if (answerSubmitInFlightRef.current || result === 'correct' || isAnswerRevealed) return
 
     const insertion = insertClozeLetters(
       word.word,
@@ -1150,7 +1360,7 @@ function Word() {
   }
 
   function handleBackspace() {
-    if (result === 'correct' || isAnswerRevealed) return
+    if (answerSubmitInFlightRef.current || result === 'correct' || isAnswerRevealed) return
 
     const deletion = deleteClozeLetter(
       word.word,
@@ -1248,7 +1458,7 @@ function Word() {
     }
   }
 
-  function startRecallItem(itemId: string) {
+  async function startRecallItem(itemId: string) {
     if (!learningWordIds.has(itemId)) {
       setRecallStatusMessage('当前题库中找不到这条学习内容，已停止启动；原始记录仍保留在异常队列。')
       return
@@ -1280,12 +1490,13 @@ function Word() {
       (opportunity) => opportunity.status === 'scheduled',
     )
     if (!alreadyScheduled) {
-      const reserved = reserveNextSameDayItem(
-        recallStateRef.current,
-        recallSessionId,
-        itemId,
+      const value = await commitRecallResult(
+        () => reserveNextSameDayItem(
+          recallStateRef.current,
+          recallSessionId,
+          itemId,
+        ),
       )
-      const value = commitRecallResult(reserved)
       if (!value) return
       reservedItemId = value.itemId
     }
@@ -1308,7 +1519,7 @@ function Word() {
     })
   }
 
-  function startNextAvailableReview() {
+  async function startNextAvailableReview() {
     const now = new Date().toISOString()
     const nextItemId = getActionableRecallItemIds(
       recallStateRef.current,
@@ -1316,7 +1527,7 @@ function Word() {
       recallSessionId,
     )[0]
     if (nextItemId) {
-      startRecallItem(nextItemId)
+      await startRecallItem(nextItemId)
       return
     }
     setRecallStatusMessage('今天没有到期复习，可以继续学习新单词。')
@@ -1338,25 +1549,26 @@ function Word() {
     return (fromIndex + 1) % learningWords.length
   }
 
-  function advanceToNextWord(requestedMastery: boolean) {
+  async function advanceToNextWord(requestedMastery: boolean) {
     if (isAdvancingRef.current) return
     isAdvancingRef.current = true
     if (mode === 'cloze') {
-      const attempt = ensureRecallAttempt()
+      const attempt = await ensureRecallAttempt()
       if (!attempt) {
         isAdvancingRef.current = false
         return
       }
-      const settled = settleRecallAttempt(
-        recallStateRef.current,
-        {
-          attemptId,
-          correct: result === 'correct',
-          sessionId: recallContext?.kind === 'same-day' ? recallSessionId : undefined,
-        },
-        getRecallEnv(),
-      )
-      if (commitRecallResult(settled) === null) {
+      if (await commitRecallResult(
+        () => settleRecallAttempt(
+          recallStateRef.current,
+          {
+            attemptId,
+            correct: result === 'correct',
+            sessionId: recallContext?.kind === 'same-day' ? recallSessionId : undefined,
+          },
+          getRecallEnv(),
+        ),
+      ) === null) {
         isAdvancingRef.current = false
         return
       }
@@ -1382,14 +1594,13 @@ function Word() {
         )
       }
     } else if (nextItemId) {
-      const reserved = reserveNextSameDayItem(
-        recallStateRef.current,
-        recallSessionId,
-        nextItemId,
+      const reservedValue = await commitRecallResult(
+        () => reserveNextSameDayItem(
+          recallStateRef.current,
+          recallSessionId,
+          nextItemId,
+        ),
       )
-      const reservedValue = reserved.status === 'rejected'
-        ? null
-        : commitRecallResult(reserved)
       if (reservedValue) {
         const nextIndex = learningWords.findIndex((item) => item.id === reservedValue.itemId)
         const item = recallStateRef.current.items[reservedValue.itemId]
@@ -1420,14 +1631,15 @@ function Word() {
     }, 0)
   }
 
-  function handleSubmitAction() {
+  async function handleSubmitAction() {
+    if (answerSubmitInFlightRef.current) return
     if (isAnswerRevealed) {
-      advanceToNextWord(false)
+      await advanceToNextWord(false)
       return
     }
 
     if (result === 'correct') {
-      advanceToNextWord(!hasRevealedAnswer)
+      await advanceToNextWord(!hasRevealedAnswer)
       return
     }
 
@@ -1476,32 +1688,55 @@ function Word() {
     const message = hasRevealedAnswer
       ? '辅助练习还没答对，请直接修改后重试；本题仍不计独立答对。'
       : '再检查一下拼写，你可以直接修改后重试。'
-    const currentAttempt = ensureRecallAttempt()
-    if (!currentAttempt) return
-    const captured = recordIncorrectSubmission(
-      recallStateRef.current,
-      { attemptId, complete: true, inputSnapshot: candidateAnswer },
-      getRecallEnv(),
-    )
-    if (commitRecallResult(captured, '已登记完整拼写错误，并安排薄弱词加固。') === null) {
-      return
-    }
-    setResult('incorrect')
-    setHadIncorrectSubmission(true)
-    setFeedback({ kind: 'incorrect', message })
-    setLiveMessage(message)
-    if (hasRevealedAnswer && revealRecord) {
-      setRevealRecord(setRevealRetryResult(revealRecord, 'incorrect'))
+    answerSubmitInFlightRef.current = true
+    setIsAnswerSubmitPending(true)
+    setLiveMessage('正在通过跨页面安全写锁保存本次拼写结果…')
+    let resultStored = false
+    try {
+      const currentAttempt = await ensureRecallAttempt()
+      if (!currentAttempt) return
+      if (await commitRecallResult(
+        () => recordIncorrectSubmission(
+          recallStateRef.current,
+          { attemptId, complete: true, inputSnapshot: candidateAnswer },
+          getRecallEnv(),
+        ),
+        '已登记完整拼写错误，并安排薄弱词加固。',
+      ) === null) {
+        return
+      }
+      setResult('incorrect')
+      setHadIncorrectSubmission(true)
+      setFeedback({ kind: 'incorrect', message })
+      setLiveMessage(message)
+      resultStored = true
+      if (hasRevealedAnswer && revealRecord) {
+        setRevealRecord(setRevealRetryResult(revealRecord, 'incorrect'))
+      }
+    } finally {
+      answerSubmitInFlightRef.current = false
+      setIsAnswerSubmitPending(false)
+      if (!resultStored) {
+        setLiveMessage(
+          recallStorageStatusRef.current === 'write-unverified'
+            ? '本次拼写结果的保存结果无法核验；可能已写入，也可能未完成。输入仍保留，请刷新确认。'
+            : '本次拼写结果未能安全保存；输入仍保留，请稍后重试。',
+        )
+      }
     }
   }
 
   function handleAnswerSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    handleSubmitAction()
+    void handleSubmitAction()
   }
 
   function handleAnswerKeyDown(event: KeyboardEvent<HTMLInputElement>) {
     if (event.nativeEvent.isComposing) return
+    if (answerSubmitInFlightRef.current) {
+      event.preventDefault()
+      return
+    }
     if (isAnswerRevealed) return
 
     if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
@@ -1523,13 +1758,13 @@ function Word() {
 
     if (event.key === 'Enter') {
       event.preventDefault()
-      if (!event.repeat) handleSubmitAction()
+      if (!event.repeat) void handleSubmitAction()
     }
   }
 
   function handleAnswerPaste(event: ClipboardEvent<HTMLInputElement>) {
     event.preventDefault()
-    if (result === 'correct' || isAnswerRevealed) return
+    if (answerSubmitInFlightRef.current || result === 'correct' || isAnswerRevealed) return
 
     const pasteResult = pasteClozeValue(
       word.word,
@@ -1621,7 +1856,7 @@ function Word() {
   }
 
   function handleMoreHint() {
-    if (isAnswerRevealed) return
+    if (answerSubmitInFlightRef.current || isAnswerRevealed) return
     if (!moreHintUpdate) {
       const message = '当前答案已无更多可用提示。'
       setFeedback({ kind: 'hint', message })
@@ -1639,7 +1874,7 @@ function Word() {
   }
 
   function handleNewHintPattern() {
-    if (isAnswerRevealed) return
+    if (answerSubmitInFlightRef.current || isAnswerRevealed) return
     if (!rerolledHintUpdate) {
       const message = '当前答案已无其他兼容提示组合。'
       setFeedback({ kind: 'hint', message })
@@ -1971,17 +2206,18 @@ function Word() {
         window.focus()
         setRecallDialog((current) => ({ ...current, open: true, view: 'queue' }))
       }
-      const recorded = recordRecallReminderRequest(recallStateRef.current, {
-        now: clockNow,
-        connectivity: getConnectivity(isOnline),
-        permission: notificationPermission,
-      })
-      if (commitRecallResult(
-        recorded,
+      void commitRecallResult(
+        () => recordRecallReminderRequest(recallStateRef.current, {
+          now: clockNow,
+          connectivity: getConnectivity(isOnline),
+          permission: notificationPermission,
+        }),
         '已向浏览器请求一次复习通知；本地只记录“已请求”，不声称已经送达。',
-      ) === null) {
-        setRecallStatusMessage('浏览器已接收通知请求，但本地记录未保存；本页面不会重复请求。')
-      }
+      ).then((saved) => {
+        if (saved === null && recallStorageStatusRef.current !== 'write-unverified') {
+          setRecallStatusMessage('浏览器已接收通知请求，但本地记录未保存；本页面不会重复请求。')
+        }
+      })
     } catch {
       setRecallStatusMessage('浏览器通知请求失败；页面内待复习状态仍然保留。')
     }
@@ -1997,52 +2233,58 @@ function Word() {
     setRecallDialog((current) => ({ ...current, view }))
   }
 
-  function handleSkipRecallItem(itemId: string) {
-    const result = skipRecallItem(recallStateRef.current, itemId, new Date().toISOString())
-    const skipCount = commitRecallResult(result)
-    if (!skipCount) return
+  async function handleSkipRecallItem(itemId: string) {
+    const skipCount = await commitRecallResult(
+      () => skipRecallItem(recallStateRef.current, itemId, new Date().toISOString()),
+    )
+    if (!skipCount) return false
     setRecallStatusMessage(
       skipCount === 1
         ? '已移到当前队列末尾；本次不计对错。'
         : '已安排到下一个学习日；原到期原因仍会保留。',
     )
+    return true
   }
 
-  function handlePauseRecallItem(itemId: string, learningDays: 1 | 3 | 7 | 30) {
-    const result = pauseRecallItem(
-      recallStateRef.current,
-      { itemId, learningDays },
-      new Date().toISOString(),
-    )
-    if (commitRecallResult(result, `已暂停 ${learningDays} 个学习日；阶段与历史保持不变。`)) {
+  async function handlePauseRecallItem(itemId: string, learningDays: 1 | 3 | 7 | 30) {
+    if (await commitRecallResult(
+      () => pauseRecallItem(
+        recallStateRef.current,
+        { itemId, learningDays },
+        new Date().toISOString(),
+      ),
+      `已暂停 ${learningDays} 个学习日；阶段与历史保持不变。`,
+    )) {
       setRecallDialog((current) => ({ ...current, view: 'queue' }))
     }
   }
 
-  function handleResumeRecallItem(itemId: string) {
-    commitRecallResult(
-      resumeRecallItem(recallStateRef.current, itemId, new Date().toISOString()),
+  async function handleResumeRecallItem(itemId: string) {
+    await commitRecallResult(
+      () => resumeRecallItem(recallStateRef.current, itemId, new Date().toISOString()),
       '已提前恢复，回到暂停前阶段；没有补造暂停期复习。',
     )
   }
 
-  function handleRecoverRecallItem(itemId: string) {
+  async function handleRecoverRecallItem(itemId: string) {
     const canonicalItem = learningWords.find((item) => item.id === itemId)
     if (!canonicalItem) {
       setRecallStatusMessage('当前题库中找不到这条学习内容，不能安全恢复；原始记录继续保留。')
       return
     }
-    const result = recoverDataException(
-      recallStateRef.current,
-      itemId,
-      new Date().toISOString(),
-    )
-    if (result.status === 'applied') {
-      result.state.items[itemId].targetAnswer = canonicalItem.word
-      result.state.items[itemId].meaning = `${canonicalItem.part} ${canonicalItem.meaning}`
-    }
-    const recovered = commitRecallResult(
-      result,
+    const recovered = await commitRecallResult(
+      () => {
+        const result = recoverDataException(
+          recallStateRef.current,
+          itemId,
+          new Date().toISOString(),
+        )
+        if (result.status === 'applied') {
+          result.state.items[itemId].targetAnswer = canonicalItem.word
+          result.state.items[itemId].meaning = `${canonicalItem.part} ${canonicalItem.meaning}`
+        }
+        return result
+      },
       '异常记录已恢复为单一当前任务；原始异常快照仍保留，不会补造多个阶段。',
     )
     if (recovered) {
@@ -2051,7 +2293,13 @@ function Word() {
   }
 
   function handleExportRecallStorageBackup() {
-    if (!recallStorageRecovery || recallStorageRecovery.sourceChanged || typeof document === 'undefined') return
+    if (
+      !recallStorageRecovery
+      || recallStorageRecovery.sourceChanged
+      || recallStorageRecovery.verificationUncertain
+      || recallStorageRebuildInFlightRef.current
+      || typeof document === 'undefined'
+    ) return
     try {
       const extension = recallStorageRecovery.reason === 'unsupported-version' ? 'json' : 'txt'
       const timestamp = new Date().toISOString().replace(/[:.]/g, '-')
@@ -2076,8 +2324,13 @@ function Word() {
   }
 
   function handleRequestRecallStorageRebuild() {
-    if (recallStorageRecovery?.sourceChanged) {
-      setRecallStatusMessage('另一页面已更新原始记录；请刷新后重新导出，当前页面不会执行重建。')
+    if (recallStorageRebuildInFlightRef.current) return
+    if (recallStorageRecovery?.sourceChanged || recallStorageRecovery?.verificationUncertain) {
+      setRecallStatusMessage(
+        recallStorageRecovery.sourceChanged
+          ? '另一页面已更新原始记录；请刷新后重新导出，当前页面不会执行重建。'
+          : '写入结果暂时无法回读核验；请刷新后重新导出，当前页面不会继续重建。',
+      )
       return
     }
     if (!recallStorageRecovery?.backupExported) {
@@ -2095,25 +2348,50 @@ function Word() {
   }
 
   function handleCancelRecallStorageRebuild() {
+    if (recallStorageRebuildInFlightRef.current) {
+      setRecallStatusMessage('正在跨页面安全锁内核对原始记录，完成前不会执行取消或覆盖。')
+      return
+    }
     setRecallStorageRecovery((current) => current
       ? { ...current, confirmationOpen: false }
       : current)
     setRecallStatusMessage('已取消重建；原始本地复习记录保持不变。')
   }
 
-  function handleConfirmRecallStorageRebuild() {
-    if (!recallStorageRecovery || typeof window === 'undefined') return
-    const result = rebuildSpacedRecallStorage(
+  async function handleConfirmRecallStorageRebuild() {
+    if (
+      !recallStorageRecovery
+      || typeof window === 'undefined'
+      || recallStorageRebuildInFlightRef.current
+    ) return
+
+    const recoverySnapshot = recallStorageRecovery
+    recallStorageRebuildInFlightRef.current = true
+    setRecallStorageRecovery((current) => current
+      ? { ...current, rebuildPending: true }
+      : current)
+    setRecallStatusMessage('正在获取跨页面安全写锁，并在锁内重新核对原始记录；完成前不会覆盖任何数据。')
+
+    const lockManager = typeof navigator !== 'undefined'
+      && 'locks' in navigator
+      && typeof navigator.locks?.request === 'function'
+      ? navigator.locks
+      : null
+    const result = await rebuildSpacedRecallStorage(
       window.localStorage,
       recallStateRef.current,
       {
-        expectedRaw: recallStorageRecovery.rawSnapshot,
-        backupExported: recallStorageRecovery.backupExported,
+        expectedRaw: recoverySnapshot.rawSnapshot,
+        backupExported: recoverySnapshot.backupExported,
         confirmed: true,
       },
+      lockManager,
     )
+    recallStorageRebuildInFlightRef.current = false
+
     if (result === 'rebuilt') {
-      setRecallStorageStatus('ready')
+      recallStorageRawRef.current = JSON.stringify(recallStateRef.current)
+      updateRecallStorageStatus('ready')
       setRecallStorageRecovery(null)
       setRecallDialog((current) => ({
         ...current,
@@ -2126,12 +2404,13 @@ function Word() {
       return
     }
     if (result === 'source-changed') {
-      setRecallStorageStatus('conflict')
+      updateRecallStorageStatus('conflict')
       setRecallStorageRecovery((current) => current
         ? {
             ...current,
             backupExported: false,
             confirmationOpen: false,
+            rebuildPending: false,
             sourceChanged: true,
           }
         : current)
@@ -2139,50 +2418,83 @@ function Word() {
       window.setTimeout(() => document.getElementById('recall-center-live-status')?.focus(), 0)
       return
     }
+    if (result === 'write-unverified') {
+      updateRecallStorageStatus('unverified')
+      setRecallStorageRecovery((current) => current
+        ? {
+            ...current,
+            backupExported: false,
+            confirmationOpen: false,
+            rebuildPending: false,
+            verificationUncertain: true,
+          }
+        : current)
+      setRecallStatusMessage('重建写入结果无法回读确认；请刷新核对，本页不会声称原始记录未变或重建成功。')
+      window.setTimeout(() => document.getElementById('recall-center-live-status')?.focus(), 0)
+      return
+    }
     setRecallStorageRecovery((current) => current
-      ? { ...current, confirmationOpen: false }
+      ? { ...current, confirmationOpen: false, rebuildPending: false }
       : current)
     setRecallStatusMessage(
       result === 'backup-required'
         ? '尚未生成原始备份下载，未执行重建。'
         : result === 'confirmation-required'
           ? '尚未完成明确确认，未执行重建。'
+          : result === 'lock-busy'
+            ? '另一页面正在写入本地复习记录，本次未执行重建；请稍后重新确认。'
+          : result === 'lock-unavailable'
+            ? '当前浏览器无法取得跨页面安全锁，本次未执行重建；原始记录与已导出备份保持不变。请使用支持 Web Locks 的最新版浏览器后重试。'
           : result === 'invalid-state'
             ? '当前重建状态未通过完整校验，原始记录保持不变。'
-            : '浏览器存储写入失败，原始记录保持不变。',
+            : '浏览器存储操作失败，未确认重建成功；请刷新后核对。',
     )
+    window.setTimeout(() => document.getElementById('recall-center-live-status')?.focus(), 0)
   }
 
-  function handleConfirmRecallReset(itemId: string) {
-    const value = commitRecallResult(
-      resetRecallMastery(
-        recallStateRef.current,
-        { itemId, confirmed: true },
-        new Date().toISOString(),
-      ),
+  async function handleConfirmRecallReset(itemId: string) {
+    const value = await commitRecallResult(
+      () => resetRecallMastery(
+          recallStateRef.current,
+          { itemId, confirmed: true },
+          new Date().toISOString(),
+        ),
       '掌握进度已回到薄弱待加固；重置前历史完整保留。',
     )
     if (value) {
       setRecallDialog((current) => ({ ...current, resetConfirmationItemId: null }))
+      window.setTimeout(() => document.getElementById('recall-center-tab-queue')?.focus(), 0)
+      return true
     }
+    return false
   }
 
-  function handleReminderChange(settings: RecallReminderSettings) {
-    commitRecallResult(
-      updateReminderSettings(recallStateRef.current, {
-        enabled: settings.enabled,
-        paused: !settings.enabled,
-        localTime: settings.time,
-        quietStart: settings.quietStart,
-        quietEnd: settings.quietEnd,
-      }),
-      settings.enabled
-        ? `提醒偏好已保存为 ${settings.time}；通知只会在真实到期且满足权限与免打扰规则时请求。`
+  async function handleReminderChange(patch: RecallReminderPatch) {
+    const changeSequence = reminderChangeSequenceRef.current + 1
+    reminderChangeSequenceRef.current = changeSequence
+    const saved = await commitRecallResult(
+      () => {
+        const domainPatch: Parameters<typeof updateReminderSettings>[1] = {}
+        if (patch.enabled !== undefined) {
+          domainPatch.enabled = patch.enabled
+          domainPatch.paused = !patch.enabled
+        }
+        if (patch.time !== undefined) domainPatch.localTime = patch.time
+        if (patch.quietStart !== undefined) domainPatch.quietStart = patch.quietStart
+        if (patch.quietEnd !== undefined) domainPatch.quietEnd = patch.quietEnd
+        return updateReminderSettings(recallStateRef.current, domainPatch)
+      },
+    )
+    if (saved === null || changeSequence !== reminderChangeSequenceRef.current) return
+    setRecallStatusMessage(
+      saved.enabled && !saved.paused
+        ? `提醒偏好已保存为 ${saved.localTime}；通知只会在真实到期且满足权限与免打扰规则时请求。`
         : '已暂停提醒；到期任务仍会真实累计。',
     )
 
     if (
-      settings.enabled
+      saved.enabled
+      && !saved.paused
       && notificationPermission === 'prompt'
       && typeof window.Notification !== 'undefined'
     ) {
@@ -2200,22 +2512,27 @@ function Word() {
     }
   }
 
-  function handleActiveRecallSkip() {
-    if (!recallContext) return
-    const beforeRevision = recallStateRef.current.revision
-    handleSkipRecallItem(wordKey)
-    if (recallStateRef.current.revision === beforeRevision) return
-    const now = new Date().toISOString()
-    const nextItemId = getActionableRecallItemIds(
-      recallStateRef.current,
-      now,
-      recallSessionId,
-    ).find((itemId) => itemId !== wordKey)
-    if (nextItemId) {
-      startRecallItem(nextItemId)
-      return
+  async function handleActiveRecallSkip() {
+    if (!recallContext || activeRecallSkipInFlightRef.current) return
+    activeRecallSkipInFlightRef.current = true
+    setIsActiveRecallSkipPending(true)
+    try {
+      if (!await handleSkipRecallItem(wordKey)) return
+      const now = new Date().toISOString()
+      const nextItemId = getActionableRecallItemIds(
+        recallStateRef.current,
+        now,
+        recallSessionId,
+      ).find((itemId) => itemId !== wordKey)
+      if (nextItemId) {
+        await startRecallItem(nextItemId)
+        return
+      }
+      activateWordQuestion(getNextOrdinaryWordIndex(wordIndex), null, 'cloze')
+    } finally {
+      activeRecallSkipInFlightRef.current = false
+      setIsActiveRecallSkipPending(false)
     }
-    activateWordQuestion(getNextOrdinaryWordIndex(wordIndex), null, 'cloze')
   }
 
   return (
@@ -2259,6 +2576,10 @@ function Word() {
             ? '复习记录只保存在当前浏览器与当前设备，不承诺跨设备同步；离线时不会结算或推进掌握。'
             : recallStorageStatus === 'conflict'
               ? '检测到另一页面更新，当前页面已停止覆盖；请刷新后继续。'
+              : recallStorageStatus === 'write-unverified'
+                ? '本地复习记录的保存结果暂时无法回读核验；可能已写入，也可能未完成。请刷新确认，本页不会假称成功或确定失败。'
+              : recallStorageStatus === 'unverified'
+                ? '本地复习记录写入结果暂时无法回读核验；请刷新确认，本页不会声称重建成功或原始记录未变。'
               : recallStorageStatus === 'corrupt'
                 ? '检测到本地记录异常，原始数据已保留且不会被覆盖；异常项不计错。'
                 : '浏览器存储当前不可用，本页不会把内存状态冒充为已保存或已同步。'}
@@ -2280,7 +2601,9 @@ function Word() {
               selectedItemId: itemId,
             })),
             onStartItem: startRecallItem,
-            onSkipItem: handleSkipRecallItem,
+            onSkipItem: async (itemId) => {
+              await handleSkipRecallItem(itemId)
+            },
             onPauseItem: handlePauseRecallItem,
             onResumeItem: handleResumeRecallItem,
             onRecoverItem: handleRecoverRecallItem,
@@ -2295,15 +2618,15 @@ function Word() {
             onConfirmReset: handleConfirmRecallReset,
             onReminderChange: handleReminderChange,
             onKeepLearningTimezone: () => {
-              commitRecallResult(
-                keepLearningTimeZone(recallStateRef.current),
+              void commitRecallResult(
+                () => keepLearningTimeZone(recallStateRef.current),
                 '继续使用原学习时区；历史与未来计划均未静默改写。',
               )
             },
             onSwitchToDeviceTimezone: () => {
               const pendingTimeZone = recallStateRef.current.pendingDeviceTimeZone
               if (!pendingTimeZone) return
-              commitRecallResult(
+              void commitRecallResult(
                 switchLearningTimeZone(
                   recallStateRef.current,
                   pendingTimeZone,
@@ -2357,14 +2680,20 @@ function Word() {
                   <strong>{recallContext.reason}</strong>
                   <small>本题从无提示字母开始；提示、查看答案或完整错误都会保留，但不会推进掌握。</small>
                 </div>
-                <button type="button" onClick={handleActiveRecallSkip}>跳过本题</button>
+                <button
+                  type="button"
+                  disabled={isActiveRecallSkipPending}
+                  onClick={handleActiveRecallSkip}
+                >
+                  {isActiveRecallSkipPending ? '正在安全保存…' : '跳过本题'}
+                </button>
               </aside>
             )}
             <p className="cloze-card__eyebrow">句中拼写练习</p>
             <h1>拼写填空</h1>
             <p className="cloze-card__instruction">在句子空缺处直接输入，提示字母会保持不变。</p>
 
-            <form className="cloze-form" onSubmit={handleAnswerSubmit}>
+            <form className="cloze-form" aria-busy={isAnswerSubmitPending} onSubmit={handleAnswerSubmit}>
               <label className="visually-hidden" htmlFor="cloze-answer">补全句子中的英文单词</label>
               <div id="cloze-question" className="cloze-sentence">
                 <span>{beforeBlank}</span>
@@ -2430,12 +2759,16 @@ function Word() {
                         }
                       }}
                       onBlur={() => setIsAnswerFocused(false)}
-                      aria-label={isAnswerRevealed ? '正确答案，已查看' : '补全句子中的英文单词'}
+                      aria-label={isAnswerSubmitPending
+                        ? '正在安全保存本次拼写结果'
+                        : isAnswerRevealed
+                          ? '正确答案，已查看'
+                          : '补全句子中的英文单词'}
                       aria-invalid={!isAnswerRevealed && result === 'incorrect'}
-                      aria-readonly={isAnswerRevealed}
+                      aria-readonly={isAnswerRevealed || isAnswerSubmitPending}
                       aria-describedby="cloze-answer-description cloze-translation cloze-feedback"
                       aria-controls="cloze-feedback"
-                      readOnly={isAnswerRevealed}
+                      readOnly={isAnswerRevealed || isAnswerSubmitPending}
                       tabIndex={isAnswerRevealed ? -1 : 0}
                       autoComplete="off"
                       autoCapitalize="none"
@@ -2496,8 +2829,17 @@ function Word() {
                 )}
               </div>
 
-              <button className="cloze-primary-action" type="submit" data-testid="cloze-primary-action">
-                {result === 'correct' || isAnswerRevealed ? '下一题' : '检查答案'}
+              <button
+                className="cloze-primary-action"
+                type="submit"
+                data-testid="cloze-primary-action"
+                disabled={isAnswerSubmitPending}
+              >
+                {isAnswerSubmitPending
+                  ? '正在安全保存…'
+                  : result === 'correct' || isAnswerRevealed
+                    ? '下一题'
+                    : '检查答案'}
               </button>
 
               {isAnswerRevealed && (
@@ -2516,7 +2858,7 @@ function Word() {
                     type="button"
                     className="hint-button"
                     onClick={handleMoreHint}
-                    disabled={!moreHintUpdate}
+                    disabled={isAnswerSubmitPending || !moreHintUpdate}
                   >
                     {moreHintUpdate ? '再提示一些' : '当前已无更多提示'}
                   </button>
@@ -2524,7 +2866,7 @@ function Word() {
                     type="button"
                     className="hint-button hint-button--secondary"
                     onClick={handleNewHintPattern}
-                    disabled={!rerolledHintUpdate}
+                    disabled={isAnswerSubmitPending || !rerolledHintUpdate}
                   >
                     {rerolledHintUpdate ? '换一组字母' : '暂无兼容提示组合'}
                   </button>
@@ -2534,6 +2876,7 @@ function Word() {
                       type="button"
                       className="cloze-reveal-action"
                       onClick={handleOpenRevealDialog}
+                      disabled={isAnswerSubmitPending}
                       aria-haspopup="dialog"
                       aria-controls="reveal-answer-dialog"
                     >
@@ -2599,7 +2942,8 @@ function Word() {
         id="reveal-answer-dialog"
         className="reveal-answer-dialog"
         aria-labelledby="reveal-answer-title"
-        aria-describedby="reveal-answer-description"
+        aria-describedby="reveal-answer-description reveal-answer-status"
+        aria-busy={isRevealPending}
         onCancel={(event) => {
           event.preventDefault()
           handleCancelReveal()
@@ -2619,13 +2963,22 @@ function Word() {
           <p id="reveal-answer-description">
             查看后，本题不会计为独立答对，也不会提高正确率或熟练度。
           </p>
+          <p
+            ref={revealDialogStatusRef}
+            id="reveal-answer-status"
+            role="status"
+            aria-live="polite"
+            tabIndex={-1}
+          >
+            {revealDialogStatus}
+          </p>
         </div>
         <div className="reveal-answer-dialog__actions">
-          <button ref={revealContinueRef} type="button" onClick={handleCancelReveal}>
+          <button ref={revealContinueRef} type="button" disabled={isRevealPending} onClick={handleCancelReveal}>
             继续作答
           </button>
-          <button type="button" className="is-confirm" onClick={handleConfirmReveal}>
-            查看答案
+          <button type="button" className="is-confirm" disabled={isRevealPending} onClick={handleConfirmReveal}>
+            {isRevealPending ? '正在安全保存…' : '查看答案'}
           </button>
         </div>
       </dialog>

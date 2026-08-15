@@ -908,6 +908,11 @@
   outline-offset: 3px;
 }
 
+.reveal-answer-dialog__actions button:disabled {
+  cursor: wait;
+  opacity: .66;
+}
+
 /* Spaced recall */
 
 .recall-center-shell {
@@ -1031,7 +1036,8 @@
 }
 
 .recall-center-summary button:disabled,
-.recall-center-dialog button:disabled {
+.recall-center-dialog button:disabled,
+.recall-reset-dialog button:disabled {
   cursor: not-allowed;
   opacity: .55;
   box-shadow: none;
@@ -1380,6 +1386,14 @@
 
 .recall-item-actions__pause-options button { min-height: 36px; padding: 6px 10px; font-size: 11px; }
 .recall-item-actions__reset { margin-left: auto; color: #a13947 !important; }
+.recall-item-actions__status {
+  flex-basis: 100%;
+  color: #674f75;
+  font-size: 12px;
+  font-weight: 680;
+  line-height: 1.45;
+}
+.recall-item-actions__status:empty { display: none; }
 
 .recall-detail-header {
   display: grid;
@@ -1527,6 +1541,14 @@
 
 .recall-reset-dialog h3 { margin: 0; color: #2b0f42; font-size: 21px; }
 .recall-reset-dialog p { margin: 10px 0 0; color: #665953; font-size: 13px; line-height: 1.55; }
+.recall-storage-rebuild-dialog__status {
+  padding: 10px 12px;
+  border: 1px solid rgb(15 118 110 / 22%);
+  border-radius: 12px;
+  background: rgb(15 118 110 / 8%);
+  color: #155e59 !important;
+  font-weight: 700;
+}
 .recall-reset-dialog__actions button:first-child { border: 1px solid rgb(76 12 145 / 20%); background: #f2e8da; color: #3e2551; }
 
 .recall-center :is(button, input, select, summary):focus-visible,

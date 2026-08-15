@@ -160,7 +160,22 @@ async function waitFor(check, message, timeoutMs = 15_000) {
     }
     await new Promise((resolve) => setTimeout(resolve, 50));
   }
-  throw new Error(`${message}${lastError ? `: ${lastError.message}` : ""}`);
+  const resolvedMessage = typeof message === "function" ? message() : message;
+  throw new Error(`${resolvedMessage}${lastError ? `: ${lastError.message}` : ""}`);
+}
+
+async function withTimeout(promise, message, timeoutMs = 2_000) {
+  let timeoutId;
+  try {
+    return await Promise.race([
+      promise,
+      new Promise((_, reject) => {
+        timeoutId = setTimeout(() => reject(new Error(message)), timeoutMs);
+      }),
+    ]);
+  } finally {
+    clearTimeout(timeoutId);
+  }
 }
 
 class CdpClient {
@@ -229,8 +244,21 @@ async function stopProcess(child) {
   }
 }
 
-async function createFixture() {
-  const domain = await loadDomain();
+async function removeTemporaryDirectory(path) {
+  let lastError;
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    try {
+      await rm(path, { recursive: true, force: true });
+      return;
+    } catch (error) {
+      lastError = error;
+      await new Promise((resolve) => setTimeout(resolve, 150 * (attempt + 1)));
+    }
+  }
+  throw lastError;
+}
+
+async function createFixture(domain) {
   const now = new Date().toISOString();
   const timeZone = "Asia/Shanghai";
   const today = domain.studyDayAt(now, timeZone);
@@ -295,14 +323,19 @@ async function run() {
   assert.equal(typeof WebSocket, "function", "当前 Node 运行时缺少内置 WebSocket");
   await verifyChromeCandidateSelection();
   const chromePath = await resolveChromePath();
+  const domain = await loadDomain();
+  const rebuildLockName = domain.SPACED_RECALL_STORAGE_WRITE_LOCK;
+  assert.equal(typeof rebuildLockName, "string");
+  const fixture = await createFixture(domain);
   const vitePort = await getFreePort();
-  const debugPort = await getFreePort();
   const baseUrl = `http://127.0.0.1:${vitePort}`;
   const userDataDirectory = await mkdtemp(join(tmpdir(), "english-recall-cdp-"));
-  const fixture = await createFixture();
+  let debugPort;
   let viteProcess;
   let chromeProcess;
   let client;
+  let secondaryTargetId;
+  let secondarySessionId;
   const browserProblems = [];
 
   try {
@@ -322,11 +355,15 @@ async function run() {
     viteProcess.stderr.on("data", (chunk) => {
       viteError += chunk.toString();
     });
+    viteProcess.once("error", (error) => {
+      viteError += `\n${error.message}`;
+    });
     await waitFor(async () => {
       const response = await fetch(`${baseUrl}/word`);
       return response.ok;
-    }, `Vite did not become ready${viteError ? ` (${viteError.trim()})` : ""}`);
+    }, () => `Vite did not become ready${viteError ? ` (${viteError.trim()})` : ""}`);
 
+    debugPort = await getFreePort();
     chromeProcess = spawn(chromePath, [
       "--headless=new",
       "--disable-gpu",
@@ -344,27 +381,31 @@ async function run() {
     chromeProcess.stderr.on("data", (chunk) => {
       chromeError += chunk.toString();
     });
+    chromeProcess.once("error", (error) => {
+      chromeError += `\n${error.message}`;
+    });
     const version = await waitFor(async () => {
       const response = await fetch(`http://127.0.0.1:${debugPort}/json/version`);
       return response.ok ? response.json() : null;
-    }, `Chrome CDP did not become ready${chromeError ? ` (${chromeError.trim()})` : ""}`);
+    }, () => `Chrome CDP did not become ready${chromeError ? ` (${chromeError.trim()})` : ""}`);
 
     client = await CdpClient.connect(version.webSocketDebuggerUrl);
     const { targetId } = await client.send("Target.createTarget", { url: "about:blank" });
     const { sessionId } = await client.send("Target.attachToTarget", { targetId, flatten: true });
     const send = (method, params = {}) => client.send(method, params, sessionId);
+    const trackedSessionIds = new Set([sessionId]);
     client.on("Runtime.exceptionThrown", (message) => {
-      if (message.sessionId === sessionId) {
+      if (trackedSessionIds.has(message.sessionId)) {
         browserProblems.push(`exception: ${message.params.exceptionDetails.text}`);
       }
     });
     client.on("Log.entryAdded", (message) => {
-      if (message.sessionId === sessionId && ["error", "warning"].includes(message.params.entry.level)) {
+      if (trackedSessionIds.has(message.sessionId) && ["error", "warning"].includes(message.params.entry.level)) {
         browserProblems.push(`${message.params.entry.level}: ${message.params.entry.text}`);
       }
     });
     client.on("Runtime.consoleAPICalled", (message) => {
-      if (message.sessionId !== sessionId || !["error", "warning"].includes(message.params.type)) return;
+      if (!trackedSessionIds.has(message.sessionId) || !["error", "warning"].includes(message.params.type)) return;
       browserProblems.push(`${message.params.type}: ${message.params.args.map((entry) => entry.value ?? entry.description).join(" ")}`);
     });
 
@@ -384,21 +425,34 @@ async function run() {
           sessionStorage.setItem("__recall_cdp_seeded__", "1");
         }
       } catch {}
+      globalThis.__recallBackupDownloads = [];
+      globalThis.__recallBackupError = null;
+      globalThis.__recallBackupObjectUrl = null;
       const createObjectUrl = URL.createObjectURL.bind(URL);
       URL.createObjectURL = (value) => {
+        const objectUrl = createObjectUrl(value);
         if (value instanceof Blob) {
           globalThis.__recallBackupText = null;
-          value.text().then((text) => { globalThis.__recallBackupText = text; });
+          globalThis.__recallBackupError = null;
+          globalThis.__recallBackupObjectUrl = objectUrl;
+          value.text()
+            .then((text) => { globalThis.__recallBackupText = text; })
+            .catch((error) => { globalThis.__recallBackupError = String(error); });
         }
-        return createObjectUrl(value);
+        return objectUrl;
       };
-      const clickAnchor = HTMLAnchorElement.prototype.click;
+      const nativeAnchorClick = HTMLAnchorElement.prototype.click;
       HTMLAnchorElement.prototype.click = function click() {
-        globalThis.__recallBackupDownload = {
-          download: this.download,
-          href: this.href,
-        };
-        return clickAnchor.call(this);
+        if (this.hasAttribute("download") || this.href.startsWith("blob:")) {
+          globalThis.__recallBackupDownload = {
+            download: this.download,
+            href: this.href,
+            nativeClickSuppressed: true,
+          };
+          globalThis.__recallBackupDownloads.push(globalThis.__recallBackupDownload);
+          return;
+        }
+        return nativeAnchorClick.call(this);
       };
       class TestNotification {
         static permission = "denied";
@@ -410,14 +464,18 @@ async function run() {
     })();`;
     await send("Page.addScriptToEvaluateOnNewDocument", { source: initSource });
 
-    async function evaluate(expression) {
-      const result = await send("Runtime.evaluate", {
+    async function evaluateInSession(targetSessionId, expression) {
+      const result = await client.send("Runtime.evaluate", {
         expression,
         awaitPromise: true,
         returnByValue: true,
-      });
+      }, targetSessionId);
       if (result.exceptionDetails) throw new Error(result.exceptionDetails.text);
       return result.result.value;
+    }
+
+    async function evaluate(expression) {
+      return evaluateInSession(sessionId, expression);
     }
 
     async function waitForDom(expression, message) {
@@ -525,6 +583,7 @@ async function run() {
     );
 
     await send("Page.reload", { ignoreCache: true });
+    await send("Page.bringToFront");
     await waitForDom(
       `performance.getEntriesByType("navigation")[0]?.type === "reload" &&
         document.readyState === "complete" && Array.from(document.querySelectorAll("button"))
@@ -545,6 +604,24 @@ async function run() {
           "lexeme-resilient-adjective-recover"`,
       "Start review did not select the same first item shown by the queue",
     );
+    assert.equal(await evaluate(`(() => {
+      const button = document.querySelector(".recall-attempt-banner button");
+      if (!button || button.textContent.trim() !== "跳过本题") return false;
+      button.click();
+      button.click();
+      return true;
+    })()`), true);
+    await waitForDom(
+      `JSON.parse(sessionStorage.getItem(${JSON.stringify(CLOZE_SESSION_KEY)}))?.wordKey !==
+          "lexeme-resilient-adjective-recover" &&
+        (() => {
+          const counts = Object.values(JSON.parse(localStorage.getItem(${JSON.stringify(STORAGE_KEY)}))
+            ?.items?.["lexeme-resilient-adjective-recover"]?.skipCountsByDay ?? {});
+          return counts.length === 1 && counts[0] === 1;
+        })()`,
+      "Rapid active-recall skip did not settle exactly once before navigating",
+    );
+    assert.equal(await evaluate(`document.body.innerText.includes("正在安全保存…")`), false);
     await clickButton("查看队列");
     await waitForDom(`Boolean(document.querySelector('[role="dialog"]'))`, "Recall dialog did not reopen after starting");
 
@@ -555,7 +632,10 @@ async function run() {
         document.body.innerText.includes("异常记录已恢复为单一当前任务")`,
       "Isolated item did not recover",
     );
-    assert.equal(await evaluate("document.activeElement?.id"), "recall-center-tab-queue");
+    await waitForDom(
+      `document.activeElement?.id === "recall-center-tab-queue"`,
+      "Recovered item did not return focus to the queue tab",
+    );
 
     assert.equal(await clickItemAction("ephemeral", "开始本题"), true);
     await waitForDom(
@@ -598,6 +678,138 @@ async function run() {
     assert.equal(await evaluate(`Array.from(document.querySelectorAll("body *"))
       .filter((entry) => entry.children.length === 0)
       .some((entry) => /^(系统)?通知已送达[！。]?$/.test(entry.textContent.trim()))`), false);
+
+    assert.equal(await evaluate(`(() => {
+      const inputs = Array.from(document.querySelectorAll('.recall-settings input[type="time"]'));
+      const checkbox = document.querySelector('.recall-settings input[type="checkbox"]');
+      if (inputs.length !== 3 || !checkbox) return false;
+      const valueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set;
+      const checkedSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "checked").set;
+      const updateValue = (input, value) => {
+        valueSetter.call(input, value);
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      };
+      const updateChecked = (value) => {
+        checkedSetter.call(checkbox, value);
+        checkbox.dispatchEvent(new Event("input", { bubbles: true }));
+        checkbox.dispatchEvent(new Event("change", { bubbles: true }));
+      };
+      updateValue(inputs[0], "19:15");
+      updateValue(inputs[1], "23:10");
+      updateValue(inputs[2], "07:20");
+      updateChecked(false);
+      updateValue(inputs[0], "19:45");
+      updateChecked(true);
+      return true;
+    })()`), true);
+    await waitForDom(
+      `(() => {
+        const settings = JSON.parse(localStorage.getItem(${JSON.stringify(STORAGE_KEY)})).reminderSettings;
+        return settings.enabled === true && settings.paused === false &&
+          settings.localTime === "19:45" && settings.quietStart === "23:10" &&
+          settings.quietEnd === "07:20";
+      })()`,
+      "Rapid reminder edits did not persist the final combined user intent",
+    );
+    assert.equal(await evaluate(`(() => {
+      const settings = JSON.parse(localStorage.getItem(${JSON.stringify(STORAGE_KEY)})).reminderSettings;
+      return JSON.stringify(settings);
+    })()`), JSON.stringify({
+      enabled: true,
+      paused: false,
+      localTime: "19:45",
+      quietStart: "23:10",
+      quietEnd: "07:20",
+    }));
+    const validReminderRaw = await evaluate(
+      `localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`,
+    );
+    assert.equal(await evaluate(`(() => {
+      const input = document.querySelector('.recall-settings input[type="time"]');
+      if (!input) return false;
+      const valueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set;
+      valueSetter.call(input, "");
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      input.dispatchEvent(new Event("change", { bubbles: true }));
+      return true;
+    })()`), true);
+    await waitForDom(
+      `document.body.innerText.includes("提醒时间格式无效；本次没有保存") &&
+        document.querySelector('.recall-settings input[type="time"]')?.value === "19:45"`,
+      "Invalid empty reminder time did not fail closed and restore the last valid value",
+    );
+    assert.equal(
+      await evaluate(`localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`),
+      validReminderRaw,
+      "An invalid reminder edit must not corrupt the persisted v1 state",
+    );
+
+    // Exercise the real React save path when Storage.setItem returns without
+    // making the requested bytes observable. The UI must describe the result
+    // as unverifiable (not a definite failure), keep the last verified draft,
+    // and recover its truth boundary after a later exact-readback save.
+    assert.equal(await evaluate(`(() => {
+      const nativeSetItem = Storage.prototype.setItem;
+      let intercepted = false;
+      Storage.prototype.setItem = function (key, value) {
+        if (!intercepted && key === ${JSON.stringify(STORAGE_KEY)}) {
+          intercepted = true;
+          globalThis.__recallSwallowedWrite = value;
+          Storage.prototype.setItem = nativeSetItem;
+          return;
+        }
+        return nativeSetItem.call(this, key, value);
+      };
+      return true;
+    })()`), true);
+    assert.equal(await evaluate(`(() => {
+      const input = document.querySelector('.recall-settings input[type="time"]');
+      if (!input) return false;
+      const valueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set;
+      valueSetter.call(input, "18:30");
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      input.dispatchEvent(new Event("change", { bubbles: true }));
+      return true;
+    })()`), true);
+    await waitForDom(
+      `document.body.innerText.includes("本次保存结果无法回读核验；可能已写入，也可能未完成") &&
+        document.querySelector('.recall-center-truth-boundary')?.innerText.includes(
+          "保存结果暂时无法回读核验；可能已写入，也可能未完成"
+        ) &&
+        document.querySelector('.recall-settings input[type="time"]')?.value === "19:45"`,
+      "An unverifiable React save did not report uncertainty and restore the last verified draft",
+    );
+    assert.equal(
+      await evaluate(`localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`),
+      validReminderRaw,
+      "The swallowed React write must leave the last verified bytes intact",
+    );
+    assert.equal(
+      await evaluate(`document.body.innerText.includes("复习记录暂时无法保存，本次没有伪装成已同步")`),
+      false,
+      "An unverifiable write must not be described as a definite save failure",
+    );
+
+    assert.equal(await evaluate(`(() => {
+      const input = document.querySelector('.recall-settings input[type="time"]');
+      if (!input) return false;
+      const valueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set;
+      valueSetter.call(input, "18:45");
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      input.dispatchEvent(new Event("change", { bubbles: true }));
+      return true;
+    })()`), true);
+    await waitForDom(
+      `(() => {
+        const persisted = JSON.parse(localStorage.getItem(${JSON.stringify(STORAGE_KEY)}));
+        const truth = document.querySelector('.recall-center-truth-boundary')?.innerText ?? "";
+        return persisted.reminderSettings.localTime === "18:45" &&
+          truth.includes("复习记录只保存在当前浏览器与当前设备") &&
+          !truth.includes("保存结果暂时无法回读核验");
+      })()`,
+      "A later verified React save did not restore the ready truth boundary",
+    );
 
     await assertResponsiveViewport(390, 844);
     await assertResponsiveViewport(320, 844);
@@ -642,6 +854,139 @@ async function run() {
       mobile: false,
     });
 
+    const secondaryTarget = await client.send("Target.createTarget", { url: "about:blank" });
+    secondaryTargetId = secondaryTarget.targetId;
+    const secondaryAttachment = await client.send("Target.attachToTarget", {
+      targetId: secondaryTargetId,
+      flatten: true,
+    });
+    secondarySessionId = secondaryAttachment.sessionId;
+    trackedSessionIds.add(secondarySessionId);
+    await client.send("Page.enable", {}, secondarySessionId);
+    await client.send("Runtime.enable", {}, secondarySessionId);
+    await client.send("Log.enable", {}, secondarySessionId);
+    await client.send("Page.navigate", { url: `${baseUrl}/word` }, secondarySessionId);
+    await waitFor(
+      () => evaluateInSession(
+        secondarySessionId,
+        `document.readyState === "complete" && location.pathname === "/word"`,
+      ),
+      "Second tab did not load the same-origin Word page",
+    );
+    assert.equal(await evaluate("typeof navigator.locks?.request"), "function");
+    assert.equal(
+      await evaluateInSession(secondarySessionId, "typeof navigator.locks?.request"),
+      "function",
+    );
+    assert.equal(await evaluateInSession(secondarySessionId, `(() => {
+      const nativeRequest = navigator.locks.request.bind(navigator.locks);
+      globalThis.__recallProductionLockRequests = [];
+      globalThis.__holdNextProductionWrite = false;
+      Object.defineProperty(navigator.locks, "request", {
+        configurable: true,
+        value(name, options, callback) {
+          globalThis.__recallProductionLockRequests.push({
+            name,
+            mode: options?.mode ?? null,
+            ifAvailable: options?.ifAvailable ?? false,
+          });
+          if (
+            globalThis.__holdNextProductionWrite &&
+            name === ${JSON.stringify(rebuildLockName)}
+          ) {
+            globalThis.__holdNextProductionWrite = false;
+            const request = nativeRequest(name, options, async (lock) => {
+              const result = await callback(lock);
+              globalThis.__productionWriterCallbackResult = result;
+              globalThis.__productionWriterRaw = localStorage.getItem(${JSON.stringify(STORAGE_KEY)});
+              globalThis.__productionWriterLockHeld = true;
+              await new Promise((resolve) => {
+                globalThis.__releaseProductionWriter = resolve;
+              });
+              return result;
+            });
+            globalThis.__productionWriterRequest = request.then(
+              (result) => {
+                globalThis.__productionWriterRequestDone = true;
+                globalThis.__productionWriterRequestResult = result;
+              },
+              (error) => {
+                globalThis.__productionWriterRequestDone = true;
+                globalThis.__productionWriterRequestError = String(error);
+              },
+            );
+            return request;
+          }
+          return nativeRequest(name, options, callback);
+        },
+      });
+      return true;
+    })()`), true);
+    await evaluateInSession(secondarySessionId, "new Promise((resolve) => setTimeout(resolve, 150))");
+    const secondaryBaselineRaw = await evaluateInSession(
+      secondarySessionId,
+      `localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`,
+    );
+    assert.equal(JSON.parse(secondaryBaselineRaw).storageVersion, 1);
+    await evaluateInSession(secondarySessionId, "globalThis.__recallProductionLockRequests = []");
+
+    assert.equal(await evaluateInSession(secondarySessionId, `(() => {
+      const open = Array.from(document.querySelectorAll("button"))
+        .find((entry) => entry.textContent.trim() === "查看队列");
+      open?.click();
+      return Boolean(open);
+    })()`), true);
+    await waitFor(
+      () => evaluateInSession(secondarySessionId, `Boolean(document.querySelector("[role=dialog]"))`),
+      "Second tab queue did not open for lock-busy item-action verification",
+    );
+    assert.equal(await evaluate(`(() => {
+      globalThis.__busyItemWriteLockHeld = false;
+      globalThis.__busyItemWriteLockPromise = navigator.locks.request(
+        ${JSON.stringify(rebuildLockName)},
+        { mode: "exclusive" },
+        async () => {
+          globalThis.__busyItemWriteLockHeld = true;
+          await new Promise((resolve) => {
+            globalThis.__releaseBusyItemWriteLock = resolve;
+          });
+        },
+      );
+      return true;
+    })()`), true);
+    await waitForDom(
+      `globalThis.__busyItemWriteLockHeld === true`,
+      "Test lock holder did not acquire the shared production write lock",
+    );
+    assert.equal(await evaluateInSession(secondarySessionId, `(() => {
+      const skip = document.querySelector(".recall-center-dialog .recall-item-actions__skip");
+      skip?.click();
+      return Boolean(skip);
+    })()`), true);
+    await waitFor(
+      () => evaluateInSession(
+        secondarySessionId,
+        `document.body.innerText.includes("另一页面正在写入本地复习记录；本次未保存或推进，请稍后重试") &&
+          !document.body.innerText.includes("正在安全保存跳过结果") &&
+          !document.querySelector('.recall-center-truth-boundary')?.innerText.includes(
+            "保存结果暂时无法回读核验"
+          ) &&
+          document.activeElement?.id === "recall-center-tab-queue"`,
+      ),
+      "Lock-busy item action did not clear pending, report failure, and restore queue focus",
+    );
+    assert.deepEqual(
+      await evaluateInSession(secondarySessionId, "globalThis.__recallProductionLockRequests"),
+      [{ name: rebuildLockName, mode: "exclusive", ifAvailable: true }],
+    );
+    assert.equal(await evaluate(`localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`), secondaryBaselineRaw);
+    await evaluate(`(async () => {
+      globalThis.__releaseBusyItemWriteLock();
+      await globalThis.__busyItemWriteLockPromise;
+      return true;
+    })()`);
+    await evaluateInSession(secondarySessionId, "globalThis.__recallProductionLockRequests = []");
+
     const futureRaw = JSON.stringify({
       storageVersion: 99,
       revision: 7,
@@ -665,15 +1010,49 @@ async function run() {
     assert.equal(await evaluate(`Array.from(document.querySelectorAll("button"))
       .find((entry) => entry.textContent.trim() === "重建本地复习记录")?.disabled`), true);
 
+    assert.equal(await evaluateInSession(secondarySessionId, `(() => {
+      const open = Array.from(document.querySelectorAll("button"))
+        .find((entry) => entry.textContent.trim() === "查看队列");
+      open?.click();
+      return Boolean(open);
+    })()`), true);
+    await waitFor(
+      () => evaluateInSession(secondarySessionId, `Boolean(document.querySelector("[role=dialog]"))`),
+      "Second tab queue did not open for the production writer check",
+    );
+    assert.equal(await evaluateInSession(secondarySessionId, `(() => {
+      const skip = document.querySelector(".recall-center-dialog .recall-item-actions__skip");
+      skip?.click();
+      return Boolean(skip);
+    })()`), true);
+    await waitFor(
+      () => evaluateInSession(
+        secondarySessionId,
+        `document.body.innerText.includes("检测到另一页面更新了复习记录，已停止覆盖；请刷新后继续") &&
+          !document.body.innerText.includes("正在安全保存跳过结果") &&
+          document.activeElement?.id === "recall-center-tab-queue"`,
+      ),
+      "Production normal writer did not fail closed over the unknown-version source",
+    );
+    assert.deepEqual(
+      await evaluateInSession(secondarySessionId, "globalThis.__recallProductionLockRequests"),
+      [{ name: rebuildLockName, mode: "exclusive", ifAvailable: true }],
+      "The real Word save path must use the same exclusive write lock as rebuild",
+    );
+    assert.equal(await evaluate(`localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`), futureRaw);
+
     await clickButton("先导出原始备份");
     await waitForDom(
       `globalThis.__recallBackupText === ${JSON.stringify(futureRaw)}`,
       "Exported backup bytes did not match the unknown-version snapshot",
     );
+    assert.equal(await evaluate("globalThis.__recallBackupError"), null);
     assert.equal(await evaluate(`globalThis.__recallBackupDownload?.download.startsWith(
       "ai-english-learning-recall-backup-"
     ) && globalThis.__recallBackupDownload.download.endsWith(".json") &&
-      globalThis.__recallBackupDownload.href.startsWith("blob:")`), true);
+      globalThis.__recallBackupDownload.href === globalThis.__recallBackupObjectUrl &&
+      globalThis.__recallBackupDownload.nativeClickSuppressed === true &&
+      globalThis.__recallBackupDownloads.length === 1`), true);
     assert.equal(await evaluate(`localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`), futureRaw);
     await clickButton("重建本地复习记录");
     await waitForDom(
@@ -704,22 +1083,158 @@ async function run() {
       `Boolean(document.getElementById("recall-storage-rebuild-title"))`,
       "Storage rebuild confirmation did not reopen",
     );
-    const changedFutureRaw = JSON.stringify({
-      storageVersion: 99,
-      revision: 8,
-      sentinel: "另一页面的新原始记录",
+    await evaluateInSession(secondarySessionId, `(() => {
+      localStorage.setItem(
+        ${JSON.stringify(STORAGE_KEY)},
+        ${JSON.stringify(secondaryBaselineRaw)},
+      );
+      globalThis.__recallProductionLockRequests = [];
+      globalThis.__productionWriterCallbackResult = null;
+      globalThis.__productionWriterRaw = null;
+      globalThis.__productionWriterLockHeld = false;
+      globalThis.__productionWriterRequestDone = false;
+      globalThis.__productionWriterRequestResult = null;
+      globalThis.__productionWriterRequestError = null;
+      globalThis.__holdNextProductionWrite = true;
+      globalThis.__recallRaceStorageEvents = [];
+      addEventListener("storage", (event) => {
+        if (event.key === ${JSON.stringify(STORAGE_KEY)}) {
+          globalThis.__recallRaceStorageEvents.push(event.newValue);
+        }
+      });
+      return true;
+    })()`);
+    await evaluate(`(() => {
+      globalThis.__recallRaceStorageEvents = [];
+      addEventListener("storage", (event) => {
+        if (event.key === ${JSON.stringify(STORAGE_KEY)}) {
+          globalThis.__recallRaceStorageEvents.push(event.newValue);
+        }
+      });
+      return true;
+    })()`);
+    await evaluate("new Promise((resolve) => setTimeout(resolve, 80))");
+    await evaluate("globalThis.__recallRaceStorageEvents = []");
+    assert.equal(await evaluate(`localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`), secondaryBaselineRaw);
+    assert.equal(await evaluateInSession(secondarySessionId, `(() => {
+      const skip = document.querySelector(".recall-center-dialog .recall-item-actions__skip");
+      skip?.click();
+      return Boolean(skip);
+    })()`), true);
+    await waitFor(
+      () => evaluateInSession(secondarySessionId, "globalThis.__productionWriterLockHeld === true"),
+      "Real second-tab Word action did not acquire and hold the production write lock",
+    );
+    const productionNewRaw = await evaluateInSession(
+      secondarySessionId,
+      "globalThis.__productionWriterRaw",
+    );
+    assert.notEqual(productionNewRaw, secondaryBaselineRaw);
+    assert.equal(JSON.parse(productionNewRaw).storageVersion, 1);
+    assert.equal(await evaluateInSession(
+      secondarySessionId,
+      "globalThis.__productionWriterCallbackResult",
+    ), "saved");
+    await waitFor(
+      () => evaluateInSession(
+        secondarySessionId,
+        `document.body.innerText.includes("正在安全保存跳过结果") &&
+          document.querySelector(".recall-center-dialog .recall-item-actions__skip")?.disabled === true`,
+      ),
+      "Real second-tab Word action did not keep its UI pending while the production lock was held",
+    );
+    assert.deepEqual(
+      await evaluateInSession(secondarySessionId, "globalThis.__recallProductionLockRequests"),
+      [{ name: rebuildLockName, mode: "exclusive", ifAvailable: true }],
+      "The successful real Word writer must use the shared exclusive write lock",
+    );
+    assert.deepEqual(
+      await evaluate("globalThis.__recallRaceStorageEvents"),
+      [productionNewRaw],
+      "The rebuilding tab must observe the real production writer's new value",
+    );
+    assert.equal(await evaluate(`(() => {
+      const nativeRequest = navigator.locks.request.bind(navigator.locks);
+      globalThis.__recallRebuildLockRequestCount = 0;
+      Object.defineProperty(navigator.locks, "request", {
+        configurable: true,
+        value(name, options, callback) {
+          if (name === ${JSON.stringify(rebuildLockName)}) {
+            globalThis.__recallRebuildLockRequestCount += 1;
+          }
+          return nativeRequest(name, options, callback);
+        },
+      });
+      return true;
+    })()`), true);
+
+    assert.equal(await evaluate(`(() => {
+      const button = Array.from(document.querySelectorAll("button"))
+        .find((entry) => entry.textContent.trim() === "确认重建");
+      if (!button) return false;
+      button.click();
+      button.click();
+      return true;
+    })()`), true);
+    await waitForDom(
+      `!document.getElementById("recall-storage-rebuild-title") &&
+        document.body.innerText.includes("另一页面正在写入本地复习记录，本次未执行重建")`,
+      "Busy cross-tab lock did not fail rebuild closed without waiting",
+    );
+    assert.equal(await evaluate("globalThis.__recallRebuildLockRequestCount"), 1);
+    assert.deepEqual(await evaluate(`navigator.locks.query().then((value) => ({
+      held: (value.held ?? []).filter((entry) => entry.name === ${JSON.stringify(rebuildLockName)}).length,
+      pending: (value.pending ?? []).filter((entry) => entry.name === ${JSON.stringify(rebuildLockName)}).length,
+    }))`), { held: 1, pending: 0 });
+    await waitForDom(
+      `document.activeElement?.id === "recall-center-live-status" ||
+        document.activeElement?.textContent.trim() === "重建本地复习记录"`,
+      "Busy-lock result did not return focus to a reachable recovery control or status",
+    );
+    assert.equal(await evaluate(`localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`), productionNewRaw);
+
+    const secondaryRaceResult = await evaluateInSession(secondarySessionId, `(async () => {
+      globalThis.__releaseProductionWriter();
+      await globalThis.__productionWriterRequest;
+      return {
+        done: globalThis.__productionWriterRequestDone,
+        result: globalThis.__productionWriterRequestResult,
+        error: globalThis.__productionWriterRequestError,
+        raw: localStorage.getItem(${JSON.stringify(STORAGE_KEY)}),
+      };
+    })()`);
+    assert.deepEqual(secondaryRaceResult, {
+      done: true,
+      result: "saved",
+      error: null,
+      raw: productionNewRaw,
     });
-    await evaluate(`localStorage.setItem(${JSON.stringify(STORAGE_KEY)}, ${JSON.stringify(changedFutureRaw)})`);
+    await waitFor(
+      () => evaluateInSession(
+        secondarySessionId,
+        `(document.body.innerText.includes("已移到当前队列末尾") ||
+          document.body.innerText.includes("已安排到下一个学习日")) &&
+          !document.body.innerText.includes("正在安全保存跳过结果") &&
+          document.activeElement?.id === "recall-center-tab-queue"`,
+      ),
+      "Real second-tab writer did not clear pending, report success, and restore queue focus",
+    );
+
+    await clickButton("重建本地复习记录");
+    await waitForDom(
+      `Boolean(document.getElementById("recall-storage-rebuild-title"))`,
+      "Storage rebuild confirmation did not reopen after the busy lock",
+    );
     await clickButton("确认重建");
     await waitForDom(
       `document.body.innerText.includes("另一页面已更新原始记录，未执行重建")`,
-      "Changed source was not protected from rebuild",
+      "Unlocked retry did not re-read the newer second-tab source",
     );
     await waitForDom(
       `document.activeElement?.id === "recall-center-live-status"`,
       "Source-change recovery did not move focus to the status message",
     );
-    assert.equal(await evaluate(`localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`), changedFutureRaw);
+    assert.equal(await evaluate(`localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`), productionNewRaw);
     assert.equal(await evaluate("document.body.innerText.includes('复习统计暂不可读')"), true);
     assert.equal(await evaluate("document.querySelector('.recall-center-summary__metrics')"), null);
     assert.equal(await evaluate(`Array.from(document.querySelectorAll("button"))
@@ -730,8 +1245,40 @@ async function run() {
       .find((entry) => entry.textContent.trim() === "刷新后重新导出")?.disabled`), true);
     assert.equal(await evaluate(`Array.from(document.querySelectorAll("button"))
       .find((entry) => entry.textContent.trim() === "重建本地复习记录")?.disabled`), true);
+    assert.equal(
+      await evaluateInSession(
+        secondarySessionId,
+        `localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`,
+      ),
+      productionNewRaw,
+    );
+    assert.deepEqual(
+      await evaluateInSession(secondarySessionId, "globalThis.__recallRaceStorageEvents"),
+      [],
+      "The rebuilding tab must never write a transient v1 value over the newer tab",
+    );
+    await waitFor(
+      async () => {
+        const snapshot = await evaluate(`navigator.locks.query().then((value) => ({
+          held: (value.held ?? []).filter((entry) => entry.name === ${JSON.stringify(rebuildLockName)}).length,
+          pending: (value.pending ?? []).filter((entry) => entry.name === ${JSON.stringify(rebuildLockName)}).length,
+        }))`);
+        return snapshot.held === 0 && snapshot.pending === 0;
+      },
+      "Cross-context rebuild lock was not released after the race",
+    );
+    const changedFutureRaw = JSON.stringify({
+      storageVersion: 99,
+      revision: 8,
+      sentinel: "另一页面的新原始记录",
+    });
+    await evaluate(`localStorage.setItem(
+      ${JSON.stringify(STORAGE_KEY)},
+      ${JSON.stringify(changedFutureRaw)},
+    )`);
 
     await send("Page.reload", { ignoreCache: true });
+    await send("Page.bringToFront");
     await waitForDom(
       `document.readyState === "complete" && Array.from(document.querySelectorAll("button"))
         .some((entry) => entry.textContent.trim() === "先导出原始备份")`,
@@ -742,8 +1289,11 @@ async function run() {
       `globalThis.__recallBackupText === ${JSON.stringify(changedFutureRaw)}`,
       "Updated backup bytes did not match the latest snapshot",
     );
+    assert.equal(await evaluate("globalThis.__recallBackupError"), null);
     assert.equal(await evaluate(`globalThis.__recallBackupDownload?.download.endsWith(".json") &&
-      globalThis.__recallBackupDownload.href.startsWith("blob:")`), true);
+      globalThis.__recallBackupDownload.href === globalThis.__recallBackupObjectUrl &&
+      globalThis.__recallBackupDownload.nativeClickSuppressed === true &&
+      globalThis.__recallBackupDownloads.length === 1`), true);
     await clickButton("重建本地复习记录");
     await waitForDom(
       `Boolean(document.getElementById("recall-storage-rebuild-title"))`,
@@ -789,6 +1339,47 @@ async function run() {
     ]) {
       assert.ok(rebuiltItemIds.includes(requiredItemId));
     }
+    const rebuiltGenerationRaw = await evaluate(
+      `localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`,
+    );
+    await client.send("Page.bringToFront", {}, secondarySessionId);
+    assert.equal(await evaluateInSession(secondarySessionId, `(() => {
+      globalThis.__recallProductionLockRequests = [];
+      const skip = document.querySelector(".recall-center-dialog .recall-item-actions__skip");
+      skip?.click();
+      return Boolean(skip);
+    })()`), true);
+    await waitFor(
+      () => evaluateInSession(
+        secondarySessionId,
+        `document.body.innerText.includes("检测到另一页面的新记录，已安全刷新；请重试刚才的操作") &&
+          !document.body.innerText.includes("正在安全保存跳过结果") &&
+          document.activeElement?.id === "recall-center-tab-queue"`,
+      ),
+      "A pre-rebuild real Word tab did not fail its stale post-rebuild save closed",
+    );
+    assert.deepEqual(
+      await evaluateInSession(secondarySessionId, "globalThis.__recallProductionLockRequests"),
+      [{ name: rebuildLockName, mode: "exclusive", ifAvailable: true }],
+      "The stale post-rebuild Word action must still use the production write lock",
+    );
+    assert.equal(
+      await evaluate(`localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`),
+      rebuiltGenerationRaw,
+      "A pre-rebuild tab must not overwrite the rebuilt generation after the lock is released",
+    );
+    assert.equal(
+      await evaluateInSession(
+        secondarySessionId,
+        `localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`,
+      ),
+      rebuiltGenerationRaw,
+    );
+    trackedSessionIds.delete(secondarySessionId);
+    await client.send("Target.closeTarget", { targetId: secondaryTargetId });
+    secondaryTargetId = undefined;
+    secondarySessionId = undefined;
+
     const rebuiltWordKey = await evaluate(`JSON.parse(sessionStorage.getItem(
       ${JSON.stringify(CLOZE_SESSION_KEY)}
     ))?.wordKey`);
@@ -817,10 +1408,20 @@ async function run() {
     assert.deepEqual(browserProblems, []);
     console.log("recall browser integration verification passed (item recovery + storage rebuild + 1440px/390px/320px, console clean)");
   } finally {
+    if (client && secondaryTargetId) {
+      try {
+        await withTimeout(
+          client.send("Target.closeTarget", { targetId: secondaryTargetId }),
+          "Timed out while closing the secondary CDP target",
+        );
+      } catch {}
+    }
     client?.close();
-    await stopProcess(chromeProcess);
-    await stopProcess(viteProcess);
-    await rm(userDataDirectory, { recursive: true, force: true });
+    await Promise.allSettled([
+      stopProcess(chromeProcess),
+      stopProcess(viteProcess),
+    ]);
+    await removeTemporaryDirectory(userDataDirectory);
   }
 }
 
