@@ -181,3 +181,46 @@ approvals:
     next_gate: cross-project-replanning-direction
     advance_limit: no-automatic-route
     auto_advance_beyond_next: false
+  - id: approval-20260815-control-center-code-review-conclusion
+    gate: code-review-conclusion-review
+    role: role-code-reviewer
+    role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
+    role_task_title: "09 代码审查员"
+    change_id: review-20260806-control-center-frontend-001
+    artifact: artifact-control-center-code-review-001
+    path: docs/06-code-review.md
+    sha256: c3d53359f5ecfe718557595797635d1e4c3dfc9de1d4af4f785ef79a15c01343
+    review_delivery_commit: 8f84886a4c344ecaa12ac45ac4d99675fe09c68f
+    reviewed_source_commit: a35316d155883ba1afbe57d7f97bd59f9fb65c21
+    conclusion: changes-requested
+    scope: "批准固定 09 对 Control Center 前端交付形成的 6 项 Major、3 项 Minor 与 2 项建议结论；只接受审查结论，不代表原前端代码或本次修复已通过复审或可进入 QA"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-15T23:35:34+08:00"
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    evidence: "超级无敌帅超超总明确表示‘继续，别给我列举123，我都通过’，其中可唯一识别的 Control 待审产物为 artifact-control-center-code-review-001。"
+    effect: "只自动授权唯一下一站固定 06 完成一个前端修复单元；不授权固定 09 复审、QA、后端、部署或生产发布。"
+    preserved_top_level:
+      stage: product-definition
+      status: release-scope-approved-awaiting-cross-project-replanning
+      next_gate: cross-project-replanning-direction
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+  - id: approval-20260815-control-center-frontend-code-fix-entry
+    gate: role-entry
+    role: role-frontend-dev
+    role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
+    role_task_title: "06 前端工程师"
+    change_id: fix-20260815-control-center-code-review-findings-001
+    scope: "基于 artifact-control-center-code-review-001 修复 CR-P1-001 至 CR-P1-006、CR-P2-001 至 CR-P2-003，并在合理范围落实 CR-S-002；CR-S-001 保持部署阶段后置。不得改变已批准产品/UI语义，不进入 QA、后端或部署。"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-15T23:35:34+08:00"
+    upstream_approval: approval-20260815-control-center-code-review-conclusion
+    upstream_artifact: artifact-control-center-code-review-001
+    upstream_path: docs/06-code-review.md
+    upstream_sha256: c3d53359f5ecfe718557595797635d1e4c3dfc9de1d4af4f785ef79a15c01343
+    expected_output: artifact-control-center-frontend-code-fix-001
+    stop_gate: frontend-fix-delivery-review
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false

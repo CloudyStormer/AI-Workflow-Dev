@@ -18,8 +18,25 @@ import {
   UsersThree,
   X,
 } from "@phosphor-icons/react";
-import { NAV_ITEMS, PROJECTS, type ViewId } from "./dashboard-data";
-import { SearchResults, ViewContent, type DrawerPayload } from "./dashboard-views";
+import {
+  DATA_SOURCE_OPTIONS,
+  DEFAULT_FILTERS,
+  ITERATION_OPTIONS,
+  NAV_ITEMS,
+  PROJECTS,
+  TIME_RANGE_OPTIONS,
+  type DashboardFilters,
+  type ViewId,
+} from "./dashboard-data";
+import {
+  describeFilters,
+  getDashboardExportScope,
+  parseDashboardFilters,
+  writeDashboardFilters,
+} from "./dashboard-filtering";
+import { SearchResults } from "./dashboard-search";
+import type { DrawerPayload } from "./dashboard-view-shared";
+import { ViewContent } from "./dashboard-views";
 
 const NAV_ICONS: Record<ViewId, Icon> = {
   overview: SquaresFour,
@@ -35,10 +52,7 @@ const MOBILE_MORE_NAV: ViewId[] = ["roles", "releases", "governance"];
 
 export default function Dashboard() {
   const [view, setView] = useState<ViewId>("overview");
-  const [selectedProjectId, setSelectedProjectId] = useState(PROJECTS[0].id);
-  const [timeRange, setTimeRange] = useState("当前迭代");
-  const [iteration, setIteration] = useState("MVP v1.0");
-  const [dataSource, setDataSource] = useState("全部来源");
+  const [filters, setFilters] = useState<DashboardFilters>(DEFAULT_FILTERS);
   const [searchQuery, setSearchQuery] = useState("");
   const [drawer, setDrawer] = useState<DrawerPayload | null>(null);
   const [toast, setToast] = useState("");
@@ -59,10 +73,9 @@ export default function Dashboard() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const requestedView = params.get("view") as ViewId | null;
-    const requestedProject = params.get("project");
     const frame = window.requestAnimationFrame(() => {
       if (requestedView && NAV_ITEMS.some((item) => item.id === requestedView)) setView(requestedView);
-      if (requestedProject && PROJECTS.some((project) => project.id === requestedProject)) setSelectedProjectId(requestedProject);
+      setFilters(parseDashboardFilters(params));
       setHydrated(true);
     });
     return () => window.cancelAnimationFrame(frame);
@@ -72,10 +85,9 @@ export default function Dashboard() {
     if (!hydrated) return;
     const params = new URLSearchParams(window.location.search);
     params.set("view", view);
-    params.set("project", selectedProjectId);
-    params.set("range", timeRange);
+    writeDashboardFilters(params, filters);
     window.history.replaceState({}, "", `${window.location.pathname}?${params.toString()}`);
-  }, [hydrated, selectedProjectId, timeRange, view]);
+  }, [filters, hydrated, view]);
 
   useEffect(() => {
     const dialog = drawerRef.current;
@@ -140,21 +152,31 @@ export default function Dashboard() {
     openDrawer({
       eyebrow: "全局搜索 · 演示数据",
       title: `“${normalized}”的搜索结果`,
-      content: <SearchResults query={normalized} onNavigate={(nextView) => {
+      content: <SearchResults query={normalized} filters={filters} onActivate={(item) => {
+        if (item.projectId) {
+          setFilters((current) => ({ ...current, project: item.projectId! }));
+        }
         closeDrawer();
-        navigate(nextView);
+        navigate(item.view);
       }} />,
     });
   }
 
   function exportDemoReport() {
+    const scope = getDashboardExportScope(view, filters);
+    if (!scope.available) {
+      showNotice(`当前筛选覆盖不可用，未导出演示报告：${scope.title}`);
+      return;
+    }
+
     const report = {
       title: "AI Workflow Control Center 演示报告",
       warning: "演示数据 · 非实时 · 不应用于业务决策",
       generatedAt: new Date().toISOString(),
-      selectedProject: selectedProjectId,
+      filters,
       currentView: view,
-      projects: PROJECTS.map(({ id, name, kind, stage, progress, risk, openIssues, nextApproval }) => ({ id, name, kind, stage, progress, risk, openIssues, nextApproval })),
+      coverage: "当前筛选内可用的演示快照",
+      projects: scope.projects.map(({ id, name, kind, stage, progress, risk, openIssues, nextApproval }) => ({ id, name, kind, stage, progress, risk, openIssues, nextApproval })),
     };
     const blob = new Blob([JSON.stringify(report, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
@@ -187,6 +209,7 @@ export default function Dashboard() {
               <button
                 type="button"
                 key={item.id}
+                data-nav-view={item.id}
                 className={view === item.id ? "active" : ""}
                 aria-current={view === item.id ? "page" : undefined}
                 title={sidebarCollapsed ? item.label : undefined}
@@ -236,25 +259,28 @@ export default function Dashboard() {
         </div>
 
         <section className="global-toolbar" aria-label="全局筛选工具栏">
-          <label className="toolbar-select"><span>项目范围</span><select value={selectedProjectId} onChange={(event) => setSelectedProjectId(event.target.value)}>{PROJECTS.map((project) => <option value={project.id} key={project.id}>{project.name}</option>)}</select><CaretDown aria-hidden="true" /></label>
-          <label className="toolbar-select"><span>时间范围</span><select value={timeRange} onChange={(event) => setTimeRange(event.target.value)}><option>当前迭代</option><option>最近 7 天</option><option>最近 30 天</option></select><CaretDown aria-hidden="true" /></label>
-          <label className="toolbar-select"><span>当前迭代</span><select value={iteration} onChange={(event) => setIteration(event.target.value)}><option>MVP v1.0</option><option>工作流治理 v0.3</option><option>待接入</option></select><CaretDown aria-hidden="true" /></label>
-          <label className="toolbar-select"><span>数据来源</span><select value={dataSource} onChange={(event) => { setDataSource(event.target.value); showNotice(`${event.target.value}筛选已应用；真实数据仍未接入`); }}><option>全部来源</option><option>演示数据</option><option>待接入</option></select><CaretDown aria-hidden="true" /></label>
+          <label className="toolbar-select"><span>项目范围</span><select data-filter="project" value={filters.project} onChange={(event) => setFilters((current) => ({ ...current, project: event.target.value as DashboardFilters["project"] }))}><option value="all">全部项目</option>{PROJECTS.map((project) => <option value={project.id} key={project.id}>{project.name}</option>)}</select><CaretDown aria-hidden="true" /></label>
+          <label className="toolbar-select"><span>时间范围</span><select data-filter="range" value={filters.range} onChange={(event) => setFilters((current) => ({ ...current, range: event.target.value as DashboardFilters["range"] }))}>{TIME_RANGE_OPTIONS.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select><CaretDown aria-hidden="true" /></label>
+          <label className="toolbar-select"><span>当前迭代</span><select data-filter="iteration" value={filters.iteration} onChange={(event) => setFilters((current) => ({ ...current, iteration: event.target.value as DashboardFilters["iteration"] }))}>{ITERATION_OPTIONS.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select><CaretDown aria-hidden="true" /></label>
+          <label className="toolbar-select"><span>数据来源</span><select data-filter="source" value={filters.source} onChange={(event) => setFilters((current) => ({ ...current, source: event.target.value as DashboardFilters["source"] }))}>{DATA_SOURCE_OPTIONS.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select><CaretDown aria-hidden="true" /></label>
           <form className="global-search" role="search" onSubmit={handleSearch}>
             <MagnifyingGlass aria-hidden="true" />
             <input value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} aria-label="全局搜索" placeholder="搜索项目、角色或缺陷" />
             <button type="submit">搜索</button>
           </form>
-          <button type="button" className="export-button" onClick={exportDemoReport}><DownloadSimple aria-hidden="true" />导出演示报告</button>
+          <button type="button" className="export-button" data-export-report onClick={exportDemoReport}><DownloadSimple aria-hidden="true" />导出演示报告</button>
         </section>
 
-        <ViewContent
-          view={view}
-          selectedProjectId={selectedProjectId}
-          onProjectChange={setSelectedProjectId}
-          openDrawer={openDrawer}
-          showNotice={showNotice}
-        />
+        <div className="filter-scope-status" role="status" aria-live="polite" data-filter-summary>
+          <span>当前筛选</span>
+          <strong>{describeFilters(filters)}</strong>
+          <small>只有已登记维度参与筛选；覆盖不足时停止显示未过滤数值。</small>
+          <button type="button" data-reset-filters onClick={() => setFilters(DEFAULT_FILTERS)}>恢复默认筛选</button>
+        </div>
+
+        {hydrated
+          ? <ViewContent view={view} filters={filters} openDrawer={openDrawer} />
+          : <div className="view-loading" role="status">正在恢复页面与筛选条件…</div>}
 
         <footer className="page-footer">
           <span>AI Workflow Control Center · 浏览器可见中文前端</span>
@@ -266,7 +292,7 @@ export default function Dashboard() {
         {MOBILE_PRIMARY_NAV.map((id) => {
           const item = NAV_ITEMS.find((nav) => nav.id === id)!;
           const NavIcon = NAV_ICONS[id];
-          return <button type="button" key={id} className={view === id ? "active" : ""} aria-current={view === id ? "page" : undefined} onClick={() => navigate(id)}><NavIcon aria-hidden="true" weight={view === id ? "fill" : "regular"} /><span>{item.shortLabel}</span></button>;
+          return <button type="button" key={id} data-mobile-nav-view={id} className={view === id ? "active" : ""} aria-current={view === id ? "page" : undefined} onClick={() => navigate(id)}><NavIcon aria-hidden="true" weight={view === id ? "fill" : "regular"} /><span>{item.shortLabel}</span></button>;
         })}
         <button type="button" className={MOBILE_MORE_NAV.includes(view) ? "active" : ""} onClick={() => setMoreOpen(true)}><List aria-hidden="true" /><span>更多</span></button>
       </nav>

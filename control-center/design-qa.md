@@ -1,62 +1,64 @@
-# Control Center 前端设计 QA
+# Control Center 前端修复设计与交互 QA
 
-- change_id: `chg-20260804-control-center-ui-frontend-001`
-- approval: `approval-20260804-control-center-frontend-entry`
-- implementation: `app/Dashboard.tsx`、`app/dashboard-data.ts`、`app/dashboard-views.tsx`、`app/globals.css`
-- preview: `http://127.0.0.1:4175/?view=overview`
-- data boundary: 页面仅使用“演示数据 / 待接入 / 模拟状态”，未连接 API、数据库、账号或生产服务
+- change_id: `fix-20260815-control-center-code-review-findings-001`
+- authorization: `approval-20260815-control-center-frontend-code-fix-entry`
+- input: `artifact-control-center-code-review-001` / `docs/06-code-review.md`
+- safe base: `b5a972cfaa7309eead245f6a888410e1eeb5041b`
+- output: `artifact-control-center-frontend-code-fix-001`
+- data boundary: 页面继续只使用明确标注的演示快照与待接入状态；未连接 API、数据库、账号、真实审批或生产服务
 
-## 权威视觉对照
+## 视觉基线
 
-已在同一对照输入中逐页比较用户母版与浏览器截图：
+`ui/` 中 9 张用户视觉资产及 `ui/01-control-center-ui-design-prompt.md` v1.1 仍是权威视觉与状态基线。本次修复保留米白页面、深墨绿导航、青绿主色、紫色演示标识、风险色阶、卡片密度与图表语言，没有生成或替换 UI 资产。
 
-| 视图 | 用户母版 | 实现证据 |
-| --- | --- | --- |
-| 总览 | `ui/grok-2ee1ea02-5590-4aa1-a1e9-ddf49d846bb5.jpg` | `design-qa/implementation-desktop-overview-viewport.png` |
-| 项目与阶段 | `ui/grok-eea5ba37-569b-42c0-b733-992c153b7b80.jpg` | `design-qa/implementation-desktop-projects-viewport.png` |
-| 角色协作 | `ui/grok-af2d6a2c-41e6-4c6a-9e16-9662229c3516.jpg` | `design-qa/implementation-desktop-roles-viewport.png` |
-| 质量与复测 | `ui/grok-56ef1a49-10ac-412b-81c2-02fbc50b100d.jpg` | `design-qa/implementation-desktop-quality-viewport.png` |
-| 迭代与发布 | `ui/grok-29fd09f5-3ea7-4f6d-a674-dcd84d8817fa.jpg` | `design-qa/implementation-desktop-releases-viewport.png` |
-| 成熟度与治理 | `ui/grok-47a2acfb-3a3e-4801-a8da-ee607db474c0.jpg` | `design-qa/implementation-desktop-governance-viewport.png` |
-| 手机总览 | `ui/grok-a40f0801-bc2c-4e38-aea2-72db6a1b0139.jpg` | 响应式规则与移动组件结构检查，见下方证据说明 |
+`design-qa/implementation-desktop-*.png` 是原前端交付的六视图桌面视觉对照，仅用于确认本次重构没有脱离既有视觉；它们不作为本次筛选、只读操作或移动端行为的验证依据。当前修复的可重复行为证据由真实 Chrome/CDP 门禁提供。
 
-另保留六视图全页截图 `design-qa/implementation-desktop-*.png`，用于检查首屏以下模块的完整性。
+## 审查问题闭环
 
-## 视觉结论
+- `CR-P1-001`：四类全局筛选采用单一机器值状态，允许列表解析并完整写回 URL。项目、来源、时间与迭代覆盖不足时停止显示未过滤数据，明确说明“不可用”而非伪造零值。
+- `CR-P1-002`：项目页状态、阶段责任角色与数据来源均为受控交集筛选；卡片、矩阵和详情只从同一可见集合派生，清除操作恢复全部局部筛选。
+- `CR-P1-003`：质量页保持只读；未来缺陷状态迁移显示为原生禁用的“本版本不支持状态流转”，不再出现虚假成功 Toast。
+- `CR-P1-004`：角色泳道改为 `ul > li > button`，保留原生按钮语义与 `aria-pressed`。
+- `CR-P1-005`：阶段矩阵改为原生 `table/thead/tbody/th/td`，单元格详情按钮支持 Enter、Escape 与焦点返回。
+- `CR-P1-006`：新增真实 Chrome/CDP 门禁，覆盖全局与项目筛选、URL 恢复、搜索与定位、筛选一致导出、只读状态、键盘焦点、无障碍树、控制台和四档视口。
+- `CR-P2-001`：项目卡使用 `article + h2 + dl`，选择行为由独立、命名清楚的 `aria-pressed` 按钮承担。
+- `CR-P2-002`：治理状态样例改成非交互预览，不再保留看似可用却无行为的按钮。
+- `CR-P2-003`：六个一级视图按需加载；Dashboard 壳不再同步引入 Recharts 全量视图。
 
-- 通过：沿用米白页面、深墨绿导航、白色卡片、青绿主色、紫色演示标识与风险色阶；没有照抄母版中的乱码、虚构数字或假实时状态。
-- 通过：六个视图均有独立信息架构与浏览器可见内容，不是只替换标题；图表、矩阵、表格、队列、门禁和治理证据均可读。
-- 通过：卡片圆角、边框、阴影、间距、密度与图标语言保持一致；图标统一使用 Phosphor，图表统一使用 Recharts。
-- 已修复：程序化聚焦页面标题时出现的蓝色轮廓会污染交付截图，现仅保留交互控件的可见焦点环。
+## 筛选、搜索与导出真实性
 
-## 交互与可访问性
+- 全局 `project/range/iteration/source` 四项会完整恢复、规范化并写回 URL；非法值回退默认值。
+- 六视图均验证 `source=pending`、`range=7d`、`iteration=workflow-v03` 的覆盖不可用状态，不继续显示旧指标。
+- English 单项目在总览和项目页只显示一个项目；角色与治理缺少项目拆分时停止复用全局快照；Model 项目不会冒用 English 的质量或发布明细。
+- English 总览与发布页使用同一演示发布样本归属；其他缺少发布证据的单项目显示待接入。
+- 搜索只在当前可证明的数据范围内返回结果。点击项目结果会同时切换项目页、项目筛选和 URL，避免“结果是 English、页面仍是 Model”的矛盾。
+- 演示报告只包含当前有效筛选内的项目；待接入来源或其他覆盖不可用状态会明确阻止导出，不创建下载，也不夹带隐藏演示数据。
 
-- 通过：六项桌面主导航、项目筛选、时间/迭代/来源筛选、全局搜索、演示报告导出、阶段矩阵详情、图表数据表切换、角色详情、质量门禁、缺陷严重度筛选与模拟流转。
-- 通过：模拟流转使用原生 `dialog`；首次聚焦“取消”，支持 Esc，关闭后焦点返回触发按钮，确认后给出非真实写入提示。
-- 通过：六视图可见控件自动巡检结果均为 `unnamed = 0`；页面级横向溢出均为 `scrollWidth = innerWidth = 1280`。
-- 通过：图表提供屏幕阅读器摘要及可展开数据表；状态不只靠颜色，关键状态同时包含图标和中文文字。
-- 通过：支持 `prefers-reduced-motion`、高对比模式、键盘焦点、原生表单标签和移动端 44px 以上关键触控目标。
-- 通过：浏览器控制台错误与警告为 0。
+## 可访问性与响应式
 
-## 响应式与中文版完整性
-
-- 桌面：真实应用内浏览器逐页检查 1280×720 首屏和全页内容；六页均无页面级横向溢出。
-- 平板：`1200px` 与 `900px` 断点把侧栏、工具栏、图表网格和详情区降级为紧凑布局或单列。
-- 手机：`767px` 与 `420px` 断点隐藏桌面侧栏，启用“总览 / 项目 / 质量 / 更多”四项底部导航、单列图表、移动缺陷卡、底部抽屉、安全区和自然横向滚动的阶段矩阵。
-- 证据限制（P2）：当前应用内浏览器的官方 viewport override 调用未改变其固定 1280×720 自动化表面，因此没有生成 390px 运行时截图；本批以用户 1008×1792 手机母版、断点代码检查、移动组件语义检查和构建测试补足证据，不把这一工具限制表述为已完成的真机验证。
-- 中文版完整性：导航、标题、筛选、按钮、表单、校验、提示、空/加载/错误/过期/无权限状态、图表名称/图例、弹窗、无障碍标签和移动端导航均为简体中文；项目专名、角色缩写、Bug/API 等必要专有词保留原文并有中文上下文。
+- Chrome Accessibility Tree 已核对四个全局筛选的 `combobox` 名称、导出 `button` 名称、阶段矩阵 `table/columnheader/rowheader`、项目与角色选择的 `pressed` 状态，以及质量页只读动作的 `disabled` 状态。
+- 键盘验证覆盖角色选择、矩阵详情 Enter 打开、Escape 关闭及焦点返回。
+- 真实运行时覆盖 `1440×1000`、`1024×768`、`390×844`、`320×720`，六视图共 24 组；每组 `documentElement` 与 `body` 均无页面级横向溢出。
+- 导航、标题、筛选、空态、错误、覆盖不可用、只读边界、按钮、表单、图表名称、无障碍名称及移动端界面均为简体中文；必要项目专名保留英文并有中文上下文。
+- 支持键盘焦点、`prefers-reduced-motion`、高对比模式、原生表单标签和移动端安全区。
 
 ## 工程验证
 
-- Node.js：`24.14.0`（满足项目 `>=22.13.0`）
-- `npm run lint`：通过
-- `npm run build`：通过；仅有 Recharts 相关单块超过 500 kB 的非阻塞构建提示
-- `npm test`：3/3 通过，覆盖 SSR、中文信息架构、11 阶段、11 角色、缺陷分布、42 分成熟度口径、响应式契约与 Sites/Vinext hosting contract
+- Node.js：`24.19.0`，满足项目 `>=22.13.0`。
+- `npm run lint`：通过，零警告。
+- `npm run typecheck`：通过。
+- `npm run build`：通过；不再出现客户端块超过 500 kB 的告警。
+- `npm run test:static`：3/3 通过。
+- `npm run test:domain`：3/3 通过，覆盖搜索、导出和 English 发布样本的派生范围。
+- `npm run test:performance`：2/2 通过；最大客户端块 `271,360 B`，Dashboard 壳 `90,117 B`，六个视图均为独立动态入口。
+- `npm run test:browser`：1/1 通过；真实 Chrome 覆盖 24 个视图/视口组合、搜索、导出、筛选、键盘与无障碍树，控制台 `0 error / 0 warning`。
+- Chrome 门禁支持 `CHROME_PATH`，并探测 macOS、Windows 与 Linux 常见 Chrome/Chromium 路径；随机端口和临时 Profile 在 `finally` 中精确清理。
 
 ## 已知边界
 
-- 所有项目、角色、缺陷、发布与成熟度数字均是前端演示快照，不能用于真实项目决策。
-- 真实状态源、审批事件、API、数据库、账号、生产部署、发布与回滚均不在本批范围。
-- Recharts 使客户端主块触发大于 500 kB 的构建提示；不影响当前本地交付，后续可在不改变产品语义的前提下做按视图代码分割。
+- 所有项目、角色、缺陷、发布与成熟度内容仍是前端演示快照，不能用于真实项目决策。
+- 真实状态源、后端聚合、审批事件、账号、生产发布、回滚和部署不在本修复单元内。
+- `CR-S-001` 的依赖审计源和生产响应头核验属于获批部署阶段，本批没有切换注册源或修改托管配置。
+- 关键交互加载时间和初始总 JavaScript 尚未形成独立性能预算；本批已建立单块上限、Dashboard 壳上限和视图动态入口门禁。
 
-final result: passed
+final result: ready-for-frontend-fix-delivery-review

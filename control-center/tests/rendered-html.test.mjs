@@ -32,10 +32,9 @@ test("server-renders the AI workflow control center", async () => {
   assert.match(html, /<title>AI Workflow Control Center<\/title>/i);
   assert.match(html, /AI 工作流实验与验证平台/);
   assert.match(html, /演示数据 · 非实时 · 待接入真实工作流状态源/);
-  assert.match(html, /项目 × 阶段全景/);
-  assert.match(html, /质量快照/);
-  assert.match(html, /发布快照/);
-  assert.match(html, /成熟度快照/);
+  assert.match(html, /正在恢复页面与筛选条件/);
+  assert.match(html, /全部项目/);
+  assert.match(html, /恢复默认筛选/);
   assert.match(html, /超级无敌帅超超总/);
   for (const label of ["总览", "项目与阶段", "角色协作", "质量与复测", "迭代与发布", "成熟度与治理"]) {
     assert.match(html, new RegExp(label));
@@ -45,10 +44,17 @@ test("server-renders the AI workflow control center", async () => {
 });
 
 test("keeps the approved information architecture, data contract, and responsive shell", async () => {
-  const [page, dashboard, views, data, layout, css, packageJson] = await Promise.all([
+  const [page, dashboard, viewLoader, shared, overview, projects, rolesView, quality, releases, governance, data, layout, css, packageJson] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/Dashboard.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/dashboard-views.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/dashboard-view-shared.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/views/overview-view.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/views/projects-view.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/views/roles-view.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/views/quality-view.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/views/releases-view.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/views/governance-view.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/dashboard-data.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
@@ -60,12 +66,19 @@ test("keeps the approved information architecture, data contract, and responsive
   assert.match(dashboard, /aria-label="主导航"/);
   assert.match(dashboard, /aria-label="移动端主导航"/);
   assert.match(dashboard, /<dialog/);
-  assert.match(views, /data-view="projects"/);
-  assert.match(views, /data-view="roles"/);
-  assert.match(views, /data-view="quality"/);
-  assert.match(views, /data-view="releases"/);
-  assert.match(views, /data-view="governance"/);
-  assert.match(views, /showModal\(\)/);
+  assert.match(viewLoader, /lazy\(\(\) => import\("\.\/views\/overview-view"\)\)/);
+  for (const [source, view] of [[overview, "overview"], [projects, "projects"], [rolesView, "roles"], [quality, "quality"], [releases, "releases"], [governance, "governance"]]) {
+    assert.match(source, new RegExp(`data-view="${view}"`));
+  }
+  assert.match(shared, /<table className="stage-matrix-grid">/);
+  assert.doesNotMatch(shared, /role="grid"/);
+  assert.match(rolesView, /<ul className="role-lanes"/);
+  assert.match(rolesView, /aria-pressed=\{selected\}/);
+  assert.doesNotMatch(rolesView, /role="listitem"/);
+  assert.match(quality, /本版本不支持状态流转/);
+  assert.doesNotMatch(quality, /模拟操作已记录|确认模拟/);
+  assert.match(governance, /state-preview-action/);
+  assert.doesNotMatch(governance, /<button type="button">清除筛选<\/button>/);
   assert.match(layout, /title:\s*"AI Workflow Control Center"/);
   assert.match(layout, /<html lang="zh-CN">/);
   assert.match(css, /@media \(max-width: 1200px\)/);
@@ -76,6 +89,8 @@ test("keeps the approved information architecture, data contract, and responsive
   assert.match(css, /prefers-reduced-motion/);
   assert.match(packageJson, /@phosphor-icons\/react/);
   assert.match(packageJson, /recharts/);
+  assert.match(packageJson, /test:browser/);
+  assert.match(packageJson, /test:performance/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton|site-creator-vinext-starter/);
 
   const stages = ["市场调研", "项目初始化", "产品定义", "UI/UX", "架构设计", "任务与验收拆解", "小批量开发", "持续代码审查", "测试、Bug 与复测", "发布与回滚", "验收、迭代与复盘"];

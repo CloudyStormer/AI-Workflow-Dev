@@ -23,8 +23,46 @@ export type DemoProject = {
   risk: string;
   openIssues: number | null;
   nextApproval: string;
+  source: "demo";
   stages: StageStatus[];
 };
+
+export type ProjectScope = "all" | DemoProject["id"];
+export type TimeRangeId = "current-iteration" | "7d" | "30d";
+export type IterationId = "mvp-v1" | "workflow-v03" | "pending";
+export type DataSourceId = "all" | "demo" | "pending";
+
+export type DashboardFilters = {
+  project: ProjectScope;
+  range: TimeRangeId;
+  iteration: IterationId;
+  source: DataSourceId;
+};
+
+export const DEFAULT_FILTERS: DashboardFilters = {
+  project: "all",
+  range: "current-iteration",
+  iteration: "mvp-v1",
+  source: "all",
+};
+
+export const TIME_RANGE_OPTIONS: ReadonlyArray<{ value: TimeRangeId; label: string }> = [
+  { value: "current-iteration", label: "当前迭代" },
+  { value: "7d", label: "最近 7 天" },
+  { value: "30d", label: "最近 30 天" },
+];
+
+export const ITERATION_OPTIONS: ReadonlyArray<{ value: IterationId; label: string }> = [
+  { value: "mvp-v1", label: "MVP v1.0" },
+  { value: "workflow-v03", label: "工作流治理 v0.3" },
+  { value: "pending", label: "待接入" },
+];
+
+export const DATA_SOURCE_OPTIONS: ReadonlyArray<{ value: DataSourceId; label: string }> = [
+  { value: "all", label: "全部来源" },
+  { value: "demo", label: "演示数据" },
+  { value: "pending", label: "待接入" },
+];
 
 export const NAV_ITEMS: Array<{
   id: ViewId;
@@ -54,6 +92,20 @@ export const STAGES = [
   "验收、迭代与复盘",
 ];
 
+export const STAGE_OWNERS = [
+  "市场调研员",
+  "项目经理",
+  "产品经理",
+  "UI/UX 设计师",
+  "架构师",
+  "项目经理",
+  "前端工程师",
+  "代码审查员",
+  "QA",
+  "DevOps",
+  "项目经理",
+] as const;
+
 export const PROJECTS: DemoProject[] = [
   {
     id: "workflow-control-center",
@@ -64,6 +116,7 @@ export const PROJECTS: DemoProject[] = [
     risk: "前端交付待审",
     openIssues: null,
     nextApproval: "前端交付审核",
+    source: "demo",
     stages: ["done", "done", "done", "done", "done", "done", "active", "waiting", "waiting", "waiting", "waiting"],
   },
   {
@@ -75,6 +128,7 @@ export const PROJECTS: DemoProject[] = [
     risk: "产品变更冻结",
     openIssues: 5,
     nextApproval: "新 PRD 审核",
+    source: "demo",
     stages: ["done", "done", "done", "done", "done", "done", "blocked", "waiting", "waiting", "waiting", "waiting"],
   },
   {
@@ -86,6 +140,7 @@ export const PROJECTS: DemoProject[] = [
     risk: "等待开发排期",
     openIssues: null,
     nextApproval: "首批任务审核",
+    source: "demo",
     stages: ["done", "done", "done", "done", "done", "approval", "waiting", "waiting", "waiting", "waiting", "waiting"],
   },
   {
@@ -97,6 +152,7 @@ export const PROJECTS: DemoProject[] = [
     risk: "架构证据待接入",
     openIssues: null,
     nextApproval: "架构审核",
+    source: "demo",
     stages: ["done", "done", "done", "done", "risk", "waiting", "waiting", "waiting", "waiting", "waiting", "waiting"],
   },
 ];

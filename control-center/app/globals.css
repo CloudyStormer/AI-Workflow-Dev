@@ -514,6 +514,89 @@ select {
   box-shadow: var(--shadow-card);
 }
 
+.filter-scope-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 1600px;
+  margin: -10px auto 20px;
+  padding: 8px 12px;
+  border: 1px solid #d9cafc;
+  border-radius: 10px;
+  color: #4a267d;
+  font-size: 11px;
+  background: #f8f3ff;
+}
+
+.filter-scope-status > span {
+  font-weight: 700;
+}
+
+.filter-scope-status > small {
+  flex: 1;
+  color: #725b91;
+}
+
+.filter-scope-status > button {
+  min-height: 36px;
+  padding: 5px 10px;
+  border: 1px solid #c9b6ed;
+  border-radius: 7px;
+  color: #4a267d;
+  font-size: 11px;
+  font-weight: 700;
+  background: #fff;
+}
+
+.view-loading,
+.filter-unavailable {
+  max-width: 1600px;
+  margin: 0 auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+}
+
+.view-loading {
+  min-height: 180px;
+  padding: 56px 20px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.filter-unavailable {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 24px;
+}
+
+.filter-unavailable > svg {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  color: var(--pending);
+}
+
+.filter-unavailable span,
+.filter-unavailable small {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.filter-unavailable h2 {
+  margin: 3px 0;
+  font-size: 18px;
+}
+
+.filter-unavailable p {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 20px;
+}
+
 .toolbar-select {
   position: relative;
   display: grid;
@@ -919,39 +1002,53 @@ tbody tr:hover td {
 }
 
 .stage-matrix-grid {
-  display: grid;
-  grid-template-columns: 188px repeat(11, minmax(44px, 1fr));
+  width: 100%;
   min-width: 810px;
   overflow: hidden;
   border: 1px solid var(--border);
+  border-collapse: separate;
+  border-spacing: 0;
   border-radius: 10px;
+  table-layout: fixed;
 }
 
 .stage-matrix.compact .stage-matrix-grid {
   min-width: 750px;
 }
 
-.matrix-row {
-  display: contents;
-}
-
 .matrix-corner,
 .matrix-stage-head,
 .matrix-project,
-.matrix-cell {
+.matrix-cell-slot {
   min-height: 48px;
+  padding: 0;
   border-right: 1px solid #e8ede9;
   border-bottom: 1px solid #e8ede9;
 }
 
 .matrix-corner,
+.matrix-project {
+  width: 188px;
+}
+
+.matrix-stage-head,
+.matrix-cell-slot {
+  width: 48px;
+}
+
+.matrix-corner,
 .matrix-stage-head {
-  display: grid;
-  place-items: center;
   color: var(--muted);
   font-size: 10px;
   font-weight: 700;
+  text-align: center;
+  vertical-align: middle;
   background: #f6f8f6;
+}
+
+.matrix-stage-head-content {
+  display: grid;
+  place-items: center;
 }
 
 .matrix-stage-head strong,
@@ -973,22 +1070,24 @@ tbody tr:hover td {
   white-space: nowrap;
 }
 
-.matrix-project {
+.matrix-project-content {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-height: 48px;
   padding: 7px 10px;
+  text-align: left;
   background: #fbfcfb;
 }
 
-.matrix-project strong {
+.matrix-project-content strong {
   overflow: hidden;
   font-size: 11px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.matrix-project span {
+.matrix-project-content > span {
   color: var(--muted);
   font-size: 9px;
 }
@@ -996,11 +1095,12 @@ tbody tr:hover td {
 .matrix-cell {
   position: relative;
   display: grid;
+  width: 100%;
+  height: 48px;
   min-width: 44px;
   padding: 0;
   place-items: center;
-  border-top: 0;
-  border-left: 0;
+  border: 0;
   color: var(--pending);
   background: #f1f3f2;
 }
@@ -1294,6 +1394,7 @@ tbody tr:hover td {
 }
 
 .project-card {
+  position: relative;
   min-width: 0;
   min-height: 220px;
   padding: 15px;
@@ -1302,6 +1403,27 @@ tbody tr:hover td {
   text-align: left;
   background: var(--surface);
   box-shadow: var(--shadow-card);
+}
+
+.project-card-select {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  margin-top: 12px;
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--primary);
+  font-size: 11px;
+  font-weight: 700;
+  background: #fff;
+}
+
+.project-card-select:hover,
+.project-card-select[aria-pressed="true"] {
+  border-color: #8ab4a6;
+  background: var(--primary-soft);
 }
 
 .project-card:hover,
@@ -1508,11 +1630,14 @@ tbody tr:hover td {
 .role-lanes {
   display: grid;
   gap: 4px;
+  margin: 0;
   padding: 0 16px 14px;
+  list-style: none;
 }
 
-.role-lanes > button {
+.role-lanes > li > button {
   display: grid;
+  width: 100%;
   grid-template-columns: 36px minmax(150px, 1fr) minmax(92px, 0.5fr) minmax(126px, 0.8fr) minmax(150px, 1.2fr);
   align-items: center;
   gap: 10px;
@@ -1524,8 +1649,8 @@ tbody tr:hover td {
   background: #f8faf8;
 }
 
-.role-lanes > button:hover,
-.role-lanes > button.selected {
+.role-lanes > li > button:hover,
+.role-lanes > li > button.selected {
   border-color: #a6c8bc;
   background: var(--primary-soft);
 }
@@ -2206,6 +2331,19 @@ tbody tr:hover td {
   background: #fff;
 }
 
+.state-preview-action {
+  display: inline-flex;
+  min-height: 36px;
+  padding: 7px 10px;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--border);
+  border-radius: 7px;
+  color: var(--muted);
+  font-size: 9px;
+  background: #f5f7f5;
+}
+
 .page-footer {
   display: flex;
   justify-content: space-between;
@@ -2620,7 +2758,7 @@ tbody tr:hover td {
     grid-template-columns: 1fr;
   }
 
-  .role-lanes > button {
+  .role-lanes > li > button {
     grid-template-columns: 36px minmax(140px, 1fr) 100px minmax(120px, 0.8fr);
   }
 
@@ -2705,6 +2843,25 @@ tbody tr:hover td {
     width: 100%;
     padding: 12px 12px 94px;
     overflow-x: hidden;
+  }
+
+  .filter-scope-status {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    margin-top: -8px;
+  }
+
+  .filter-scope-status > small,
+  .filter-scope-status > button {
+    grid-column: 1 / -1;
+  }
+
+  .filter-scope-status > button {
+    min-height: 44px;
+  }
+
+  .filter-unavailable {
+    padding: 18px 14px;
   }
 
   .page-header {
@@ -2878,10 +3035,20 @@ tbody tr:hover td {
   }
 
   .stage-matrix-grid {
-    grid-template-columns: 152px repeat(11, 46px);
+    min-width: 660px;
   }
 
-  .matrix-project strong {
+  .matrix-corner,
+  .matrix-project {
+    width: 152px;
+  }
+
+  .matrix-stage-head,
+  .matrix-cell-slot {
+    width: 46px;
+  }
+
+  .matrix-project-content strong {
     font-size: 10px;
   }
 
@@ -2930,7 +3097,7 @@ tbody tr:hover td {
     padding-inline: 12px;
   }
 
-  .role-lanes > button {
+  .role-lanes > li > button {
     grid-template-columns: 34px minmax(0, 1fr) auto;
     min-height: 82px;
   }
