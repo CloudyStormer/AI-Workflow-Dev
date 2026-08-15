@@ -1228,7 +1228,7 @@ artifacts:
     type: ui-ux-design-specification
     path: ui/08-release-completeness-ui-design-v1.3.md
     version: "1.3"
-    status: machine-passed-independent-review-pending
+    status: superseded-after-changes-requested
     owner: role-ui-designer
     role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
     role_task_title: "04 UI/UX设计师"
@@ -1266,10 +1266,10 @@ artifacts:
       public_personal_rule_identifiers_separated: true
     generated_at: "2026-08-15T23:55:00+08:00"
     generated_by: role-ui-designer-deterministic-overlay-prototype
-    validation_status: machine-passed-independent-review-pending
+    validation_status: changes-requested-after-fourth-independent-visual-review
     validation:
       machine_gate: passed
-      independent_visual_review: pending-root-coordinator-round-4
+      independent_visual_review: changes-requested-0-P0-7-P1-groups-1-P2-group
       resolved_asset_pairs: 49-svg-and-49-png
       resolution: 39-v1-3-replaced-plus-10-immutable-v1-2-reused
       chart_equivalence: 15-of-15-visual-table-model-bidirectional-equal
@@ -1285,16 +1285,24 @@ artifacts:
     stop_gate: ui-design-review
     auto_route_on_delivery: false
     known_limits:
-      - fourth-independent-visual-review-pending-root-coordinator
+      - fourth-independent-visual-review-returned-changes-requested
       - overlay-prototype-not-business-implementation
       - accessibility-is-design-target-not-formal-audit
       - current-runtime-sources-connectors-and-approved-recruitment-instances-remain-zero
       - existing-frontend-backend-architecture-and-deployment-gates-remain-frozen
+    review:
+      id: "review-20260815-career-release-completeness-ui-design-v1-3"
+      decision: changes-requested
+      reviewed_at: "2026-08-15T23:58:00+08:00"
+      evidence_commit: c31bce1f9c5abb2302703cb2cd5912a7169c8e34
+      severity: "0-P0-7-P1-groups-1-P2-group"
+      preserve_files_and_hashes: true
+      superseded_by: "artifact-career-release-completeness-ui-design-005"
   - id: "artifact-career-release-completeness-ui-visuals-004"
     run_id: "run-20260803-market-analysis-dev-init-001"
     type: ui-visual-prototype-resolved-overlay-bundle
     version: "1.3"
-    status: machine-passed-independent-review-pending
+    status: superseded-after-changes-requested
     owner: role-ui-designer
     work_item: "CR-UI-002"
     change_id: "ui-design-20260815-career-release-completeness-v1-3-004"
@@ -1329,14 +1337,128 @@ artifacts:
     old_v1_visual_assets_preserved: 5-of-5
     old_v1_1_visual_assets_preserved: 28-of-28
     old_v1_2_visual_assets_preserved: 49-of-49
-    validation_status: machine-passed-independent-review-pending
+    validation_status: changes-requested-after-fourth-independent-visual-review
     validated_at: "2026-08-15T23:55:00+08:00"
     review_contract:
       machine_validation: machine-passed
-      independent_visual_review: pending-root-coordinator-round-4
+      independent_visual_review: changes-requested-0-P0-7-P1-groups-1-P2-group
       generated_strings_are_not_manual-review: true
       downstream_route_authorized: false
     stop_gate: ui-design-review
     auto_route_on_delivery: false
-    advance_limit: current-v1-3-design-review-only
+    advance_limit: superseded-history-only
+    auto_advance_beyond_next: false
+    review:
+      id: "review-20260815-career-release-completeness-ui-design-v1-3"
+      decision: changes-requested
+      reviewed_at: "2026-08-15T23:58:00+08:00"
+      evidence_commit: c31bce1f9c5abb2302703cb2cd5912a7169c8e34
+      severity: "0-P0-7-P1-groups-1-P2-group"
+      preserve_files_and_hashes: true
+      superseded_by: "artifact-career-release-completeness-ui-visuals-005"
+  - id: "artifact-career-release-completeness-ui-design-005"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: ui-ux-design-specification
+    path: ui/09-release-completeness-ui-design-v1.4.md
+    version: "1.4"
+    status: machine-passed-independent-review-pending
+    owner: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    work_item: "CR-UI-002"
+    change_id: "ui-design-20260815-career-release-completeness-v1-4-005"
+    authorization: "approval-20260815-career-release-completeness-ui-design-v1-4-revision-entry"
+    upstream_artifact: "artifact-career-release-completeness-ui-prompt-001"
+    upstream_approval: "approval-20260815-career-release-completeness-ui-prompt-v1"
+    upstream_path: ui/04-release-completeness-ui-prompt.md
+    upstream_sha256: 983638cb6a802effe4148281233aa381802a7d542ce12e8c694640eee04f3900
+    revision_of: "artifact-career-release-completeness-ui-design-004"
+    revision_review: "review-20260815-career-release-completeness-ui-design-v1-3"
+    sha256: 371c4b1e703b5718853b304477b1507fe0de3a100ef0d2993dac4b245a4b04d2
+    ui_index_sha256: 02ea6eece39c9a01a94cc96458f2f35386c60cd9dec9c6f3921a602a0ad89d3b
+    visual_bundle: "artifact-career-release-completeness-ui-visuals-005"
+    coverage:
+      resolved_visual_assets: 49
+      v1_4_replacement_assets: 21
+      immutable_v1_3_resolved_assets: 28
+      desktop_pages: 10-of-10-resolved
+      flow_boards: 4-of-4-resolved
+      truth_boards: 2-of-2-resolved
+      mobile_independent_viewports: 7-at-390-and-7-at-320
+      chart_models_with_bidirectional_equivalence: 15-of-15
+      direction_scatter: 8-of-8-with-axes-ticks-and-end-labels
+      capability_matrix: 8-domains-by-5-levels-40-cells
+      component_and_foundation_boards: 2-of-2-resolved
+      responsive_evidence: 1440-1024-390-320-and-browser-200-percent
+      language: complete-simplified-chinese-visible-fields-and-states
+    truth_boundary:
+      current_runtime_sources: 0
+      current_connectors: 0
+      approved_recruitment_instances: 0
+    generated_at: "2026-08-16T00:25:00+08:00"
+    generated_by: role-ui-designer-deterministic-overlay-prototype
+    validation_status: machine-passed-independent-review-pending
+    validation:
+      machine_gate: passed
+      independent_visual_review: pending-root-coordinator-round-5
+      resolved_asset_pairs: 49-svg-and-49-png
+      resolution: 21-v1-4-replaced-plus-28-immutable-v1-3-resolved-reused
+      chart_equivalence: 15-of-15-visual-table-model-bidirectional-equal
+      computed_svg_text_container_geometry: 21-of-21-replacement-assets
+      png_one_to_one_dimensions_and_sha: 49-of-49
+      negative_fixture: real-overflow-detected-with-exit-code-1
+      immutable_history: approved-prompt-and-v1-through-v1-3-matched
+      forbidden_self_claims: no-independent-visual-review-pass
+    stop_gate: ui-design-review
+    auto_route_on_delivery: false
+  - id: "artifact-career-release-completeness-ui-visuals-005"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: ui-visual-prototype-resolved-overlay-bundle
+    version: "1.4"
+    status: machine-passed-independent-review-pending
+    owner: role-ui-designer
+    work_item: "CR-UI-002"
+    change_id: "ui-design-20260815-career-release-completeness-v1-4-005"
+    authorization: "approval-20260815-career-release-completeness-ui-design-v1-4-revision-entry"
+    png_directory: ui/release-completeness-v1.4/png
+    editable_svg_directory: ui/release-completeness-v1.4/assets
+    chart_model: ui/release-completeness-v1.4/resolved-chart-models.json
+    chart_model_sha256: 8cece2ab648f0e4cd209a5af84ec1d4f7d83d6dd75ffebae329dc89dc7aea63b
+    generation_source: ui/release-completeness-v1.4/generate-overlay.mjs
+    generation_source_sha256: c3714ff68eb48e56f63eba85f91253ea056d809c87adda6a616b52da8fc47f2f
+    verification_source: ui/release-completeness-v1.4/verify-resolved-bundle.mjs
+    verification_source_sha256: df731f4296d9c281c49b296cbbe65a98b5db98cb5b6d439ad4ad9c0497f158c3
+    overlay_manifest: ui/release-completeness-v1.4/overlay-manifest.json
+    overlay_manifest_sha256: a91030c829d8ed50d8a78a492446204cf5928643ec9dca31695eaeb5e082ff2d
+    resolved_manifest: ui/release-completeness-v1.4/resolved-manifest.json
+    resolved_manifest_sha256: 02d11bc1ddb3a33a4d1fb5c448a70f4b54d2684e57410fa18244ce4f00e0fb38
+    review_manifest: ui/release-completeness-v1.4/review-manifest.json
+    review_manifest_sha256: 22320c9e1e5531060542dcf8cfb347aab5df65e002ada045fac58ca4cf88966e
+    counts:
+      resolved_assets: 49
+      replacement_svg_assets: 21
+      replacement_png_assets: 21
+      reused_immutable_v1_3_resolved_assets: 28
+      desktop_pages: 10
+      flow_boards: 4
+      truth_boards: 2
+      mobile_390_viewports: 7
+      mobile_320_viewports: 7
+      chart_boards: 15
+      standard_boards: 2
+      responsive_boards: 2
+    old_v1_visual_assets_preserved: 5-of-5
+    old_v1_1_visual_assets_preserved: 28-of-28
+    old_v1_2_visual_assets_preserved: 49-of-49
+    old_v1_3_resolved_assets_preserved: 49-of-49
+    validation_status: machine-passed-independent-review-pending
+    validated_at: "2026-08-16T00:25:00+08:00"
+    review_contract:
+      machine_validation: machine-passed
+      independent_visual_review: pending-root-coordinator-round-5
+      generated_strings_are_not_manual-review: true
+      downstream_route_authorized: false
+    stop_gate: ui-design-review
+    auto_route_on_delivery: false
+    advance_limit: current-v1-4-design-review-only
     auto_advance_beyond_next: false

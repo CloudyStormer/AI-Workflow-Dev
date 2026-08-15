@@ -641,3 +641,49 @@ approvals:
       - self-claimed-independent-visual-review-pass
     stop_gate: ui-design-review
     auto_advance_beyond_next: false
+  - id: "review-20260815-career-release-completeness-ui-design-v1-3"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: ui-design-review
+    role: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    work_item: "CR-UI-002"
+    change_id: "ui-design-20260815-career-release-completeness-v1-3-004"
+    artifact: "artifact-career-release-completeness-ui-design-004"
+    visual_bundle: "artifact-career-release-completeness-ui-visuals-004"
+    decision: changes-requested
+    reviewed_by: AIWorkFlow-root-coordinator
+    reviewed_at: "2026-08-15T23:58:00+08:00"
+    evidence_commit: c31bce1f9c5abb2302703cb2cd5912a7169c8e34
+    severity: "0-P0-7-P1-groups-1-P2-group"
+    required_revision: "v1.4 必须修复页面04/06/08真相条重叠、25-01八方向与坐标轴、25-03八域五层矩阵、15图表简中、page05重复步骤、真实200%回流、实际文字/容器遮挡验证和四个状态胶囊垂直居中；保留此前已通过事实。"
+    historical_files_preserved: true
+    downstream_route_authorized: false
+    stop_gate: ui-design-review
+  - id: "approval-20260815-career-release-completeness-ui-design-v1-4-revision-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-reentry
+    role: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    work_item: "CR-UI-002"
+    change_id: "ui-design-20260815-career-release-completeness-v1-4-005"
+    authorization_source: "direct-user-delegation-of-fourth-independent-visual-review"
+    upstream_review: "review-20260815-career-release-completeness-ui-design-v1-3"
+    safe_base_commit: c31bce1f9c5abb2302703cb2cd5912a7169c8e34
+    expected_artifact: "artifact-career-release-completeness-ui-design-005"
+    expected_path: ui/09-release-completeness-ui-design-v1.4.md
+    expected_visual_bundle: "artifact-career-release-completeness-ui-visuals-005"
+    expected_version: "1.4"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-15T23:58:00+08:00"
+    scope: "只修订 CR-UI-002 v1.4 并关闭第四轮独立审查 7 组 P1 + 1 组 P2；保留 v1.0-v1.3，以版本化 overlay + resolved bundle 交付；固定 04 只登记机器事实，第五轮独立视觉结论由根协调后续给出。"
+    exclusions:
+      - approved-prompt-or-v1-through-v1-3-assets-overwrite-or-delete
+      - frontend-backend-architecture-or-deployment
+      - downstream-route-or-unfreeze
+      - english-or-other-project-files
+      - self-claimed-independent-visual-review-pass
+    stop_gate: ui-design-review
+    auto_advance_beyond_next: false

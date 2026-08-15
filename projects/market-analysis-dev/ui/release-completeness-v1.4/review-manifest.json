@@ -1,0 +1,515 @@
+{
+  "schema_version": 1,
+  "version": "1.4",
+  "generated_at": "2026-08-15T20:47:45+08:00",
+  "machine_validation": {
+    "status": "machine_passed",
+    "scope": [
+      "resolved-49-sha-and-png-dimensions",
+      "actual-svg-text-container-bounds",
+      "layout-text-occlusion",
+      "negative-fixture-nonzero",
+      "15-chart-model-visual-table-bidirectional-equality",
+      "complete-simplified-chinese-visible-fields-and-states",
+      "page-truth-filter-nonoverlap",
+      "single-page05-six-step-set",
+      "strict-browser-200-percent-eight-token-groups",
+      "immutable-history"
+    ]
+  },
+  "independent_visual_review": {
+    "status": "pending",
+    "owner": "AIWorkFlow-root-coordinator",
+    "round": 5,
+    "note": "机器几何计算与1:1 PNG渲染校验不替代独立逐图视觉审核。"
+  },
+  "downstream_route_authorized": false,
+  "bundle": {
+    "resolved_assets": 49,
+    "replaced_by_v1_4": 21,
+    "reused_immutable_v1_3_resolved": 28,
+    "category_counts": {
+      "desktop": 10,
+      "flow": 4,
+      "truth": 2,
+      "mobile": 14,
+      "standard": 2,
+      "chart": 15,
+      "responsive": 2
+    }
+  },
+  "truth_boundary": {
+    "runtime_sources": 0,
+    "connectors": 0,
+    "approved_recruitment_instances": 0
+  },
+  "chart_equivalence": {
+    "model": "resolved-chart-models.json",
+    "models": 15,
+    "checks": {
+      "25-01-direction-scatter": {
+        "records": 8,
+        "visual_records": 8,
+        "table_records": 8,
+        "bidirectional_equal": true,
+        "visible_language": "简体中文"
+      },
+      "25-02-direction-comparison": {
+        "records": 3,
+        "visual_records": 3,
+        "table_records": 3,
+        "bidirectional_equal": true,
+        "visible_language": "简体中文"
+      },
+      "25-03-capability-map": {
+        "records": 8,
+        "visual_records": 8,
+        "table_records": 8,
+        "bidirectional_equal": true,
+        "visible_language": "简体中文"
+      },
+      "25-04-sample-dotplot": {
+        "records": 4,
+        "visual_records": 4,
+        "table_records": 4,
+        "bidirectional_equal": true,
+        "visible_language": "简体中文"
+      },
+      "25-05-trend-line": {
+        "records": 4,
+        "visual_records": 4,
+        "table_records": 4,
+        "bidirectional_equal": true,
+        "visible_language": "简体中文"
+      },
+      "25-06-remote-constraints": {
+        "records": 3,
+        "visual_records": 3,
+        "table_records": 3,
+        "bidirectional_equal": true,
+        "visible_language": "简体中文"
+      },
+      "25-07-policy-runtime": {
+        "records": 3,
+        "visual_records": 3,
+        "table_records": 3,
+        "bidirectional_equal": true,
+        "visible_language": "简体中文"
+      },
+      "25-08-source-band": {
+        "records": 3,
+        "visual_records": 3,
+        "table_records": 3,
+        "bidirectional_equal": true,
+        "visible_language": "简体中文"
+      },
+      "25-09-dual-classification": {
+        "records": 4,
+        "visual_records": 4,
+        "table_records": 4,
+        "bidirectional_equal": true,
+        "visible_language": "简体中文"
+      },
+      "25-10-relation-matrix": {
+        "records": 6,
+        "visual_records": 6,
+        "table_records": 6,
+        "bidirectional_equal": true,
+        "visible_language": "简体中文"
+      },
+      "25-11-evidence-stair": {
+        "records": 5,
+        "visual_records": 5,
+        "table_records": 5,
+        "bidirectional_equal": true,
+        "visible_language": "简体中文"
+      },
+      "25-12-gap-matrix": {
+        "records": 4,
+        "visual_records": 4,
+        "table_records": 4,
+        "bidirectional_equal": true,
+        "visible_language": "简体中文"
+      },
+      "25-13-route-graph": {
+        "records": 4,
+        "visual_records": 4,
+        "table_records": 4,
+        "bidirectional_equal": true,
+        "visible_language": "简体中文"
+      },
+      "25-14-version-timeline": {
+        "records": 5,
+        "visual_records": 5,
+        "table_records": 5,
+        "bidirectional_equal": true,
+        "visible_language": "简体中文"
+      },
+      "25-15-sync-timeline": {
+        "records": 4,
+        "visual_records": 4,
+        "table_records": 4,
+        "bidirectional_equal": true,
+        "visible_language": "简体中文"
+      }
+    }
+  },
+  "geometry_validation": {
+    "replacement_assets": 21,
+    "method": "SVG实际文字包围盒与容器/画布计算；PNG与SVG一比一尺寸和SHA校验",
+    "checks": {
+      "04-desktop-page-04-sources-quality-1440.svg": {
+        "text_nodes": 20,
+        "layout_text_nodes": 20,
+        "containers": 11,
+        "canvas": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 1024
+        },
+        "png_render": {
+          "width": 1440,
+          "height": 1024,
+          "scale": "1:1"
+        }
+      },
+      "05-desktop-page-05-workbench-1440.svg": {
+        "text_nodes": 30,
+        "layout_text_nodes": 30,
+        "containers": 18,
+        "canvas": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 1024
+        },
+        "png_render": {
+          "width": 1440,
+          "height": 1024,
+          "scale": "1:1"
+        }
+      },
+      "06-desktop-page-06-personal-evidence-1440.svg": {
+        "text_nodes": 20,
+        "layout_text_nodes": 20,
+        "containers": 11,
+        "canvas": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 1024
+        },
+        "png_render": {
+          "width": 1440,
+          "height": 1024,
+          "scale": "1:1"
+        }
+      },
+      "08-desktop-page-08-future-history-1440.svg": {
+        "text_nodes": 20,
+        "layout_text_nodes": 20,
+        "containers": 11,
+        "canvas": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 1024
+        },
+        "png_render": {
+          "width": 1440,
+          "height": 1024,
+          "scale": "1:1"
+        }
+      },
+      "24-components-states.svg": {
+        "text_nodes": 14,
+        "layout_text_nodes": 14,
+        "containers": 11,
+        "canvas": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 1024
+        },
+        "png_render": {
+          "width": 1440,
+          "height": 1024,
+          "scale": "1:1"
+        }
+      },
+      "25-01-direction-scatter.svg": {
+        "text_nodes": 84,
+        "layout_text_nodes": 8,
+        "containers": 6,
+        "canvas": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 1024
+        },
+        "png_render": {
+          "width": 1440,
+          "height": 1024,
+          "scale": "1:1"
+        }
+      },
+      "25-02-direction-comparison.svg": {
+        "text_nodes": 47,
+        "layout_text_nodes": 8,
+        "containers": 6,
+        "canvas": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 1024
+        },
+        "png_render": {
+          "width": 1440,
+          "height": 1024,
+          "scale": "1:1"
+        }
+      },
+      "25-03-capability-map.svg": {
+        "text_nodes": 133,
+        "layout_text_nodes": 8,
+        "containers": 6,
+        "canvas": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 1024
+        },
+        "png_render": {
+          "width": 1440,
+          "height": 1024,
+          "scale": "1:1"
+        }
+      },
+      "25-04-sample-dotplot.svg": {
+        "text_nodes": 41,
+        "layout_text_nodes": 8,
+        "containers": 6,
+        "canvas": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 1024
+        },
+        "png_render": {
+          "width": 1440,
+          "height": 1024,
+          "scale": "1:1"
+        }
+      },
+      "25-05-trend-line.svg": {
+        "text_nodes": 46,
+        "layout_text_nodes": 8,
+        "containers": 6,
+        "canvas": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 1024
+        },
+        "png_render": {
+          "width": 1440,
+          "height": 1024,
+          "scale": "1:1"
+        }
+      },
+      "25-06-remote-constraints.svg": {
+        "text_nodes": 47,
+        "layout_text_nodes": 8,
+        "containers": 6,
+        "canvas": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 1024
+        },
+        "png_render": {
+          "width": 1440,
+          "height": 1024,
+          "scale": "1:1"
+        }
+      },
+      "25-07-policy-runtime.svg": {
+        "text_nodes": 47,
+        "layout_text_nodes": 8,
+        "containers": 6,
+        "canvas": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 1024
+        },
+        "png_render": {
+          "width": 1440,
+          "height": 1024,
+          "scale": "1:1"
+        }
+      },
+      "25-08-source-band.svg": {
+        "text_nodes": 34,
+        "layout_text_nodes": 8,
+        "containers": 6,
+        "canvas": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 1024
+        },
+        "png_render": {
+          "width": 1440,
+          "height": 1024,
+          "scale": "1:1"
+        }
+      },
+      "25-09-dual-classification.svg": {
+        "text_nodes": 46,
+        "layout_text_nodes": 8,
+        "containers": 6,
+        "canvas": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 1024
+        },
+        "png_render": {
+          "width": 1440,
+          "height": 1024,
+          "scale": "1:1"
+        }
+      },
+      "25-10-relation-matrix.svg": {
+        "text_nodes": 67,
+        "layout_text_nodes": 8,
+        "containers": 6,
+        "canvas": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 1024
+        },
+        "png_render": {
+          "width": 1440,
+          "height": 1024,
+          "scale": "1:1"
+        }
+      },
+      "25-11-evidence-stair.svg": {
+        "text_nodes": 43,
+        "layout_text_nodes": 8,
+        "containers": 6,
+        "canvas": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 1024
+        },
+        "png_render": {
+          "width": 1440,
+          "height": 1024,
+          "scale": "1:1"
+        }
+      },
+      "25-12-gap-matrix.svg": {
+        "text_nodes": 67,
+        "layout_text_nodes": 8,
+        "containers": 6,
+        "canvas": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 1024
+        },
+        "png_render": {
+          "width": 1440,
+          "height": 1024,
+          "scale": "1:1"
+        }
+      },
+      "25-13-route-graph.svg": {
+        "text_nodes": 45,
+        "layout_text_nodes": 8,
+        "containers": 6,
+        "canvas": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 1024
+        },
+        "png_render": {
+          "width": 1440,
+          "height": 1024,
+          "scale": "1:1"
+        }
+      },
+      "25-14-version-timeline.svg": {
+        "text_nodes": 57,
+        "layout_text_nodes": 8,
+        "containers": 6,
+        "canvas": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 1024
+        },
+        "png_render": {
+          "width": 1440,
+          "height": 1024,
+          "scale": "1:1"
+        }
+      },
+      "25-15-sync-timeline.svg": {
+        "text_nodes": 46,
+        "layout_text_nodes": 8,
+        "containers": 6,
+        "canvas": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 1024
+        },
+        "png_render": {
+          "width": 1440,
+          "height": 1024,
+          "scale": "1:1"
+        }
+      },
+      "28-accessibility-zoom-200.svg": {
+        "text_nodes": 20,
+        "layout_text_nodes": 20,
+        "containers": 11,
+        "canvas": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 1024
+        },
+        "png_render": {
+          "width": 1440,
+          "height": 1024,
+          "scale": "1:1"
+        }
+      }
+    }
+  },
+  "critical_fixes": {
+    "desktop_truth_overlap": "page04-page06-page08-zero",
+    "directions": "8-of-8-with-axes-ticks-end-labels",
+    "capabilities": "8-domains-by-5-levels-40-cells",
+    "page05": "one-six-step-set",
+    "component_pills": "4-of-4-actual-centered",
+    "zoom_200": "720-to-360-and-eight-token-groups-exactly-2x-same-content"
+  },
+  "immutable_checks": {
+    "prompt": "matched",
+    "v1": "matched",
+    "v1_1": "matched",
+    "v1_2": "matched",
+    "v1_3": "matched",
+    "v1_3_resolved": "matched"
+  }
+}
