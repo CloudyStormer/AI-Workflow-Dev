@@ -1,0 +1,693 @@
+{
+  "schema_version": 1,
+  "version": "1.5",
+  "generated_at": "2026-08-16T01:20:00+08:00",
+  "machine_validation": {
+    "status": "machine_passed",
+    "scope": [
+      "resolved-49-sha-png-signature-and-dimensions",
+      "authored-line-box-container-and-collision-contract",
+      "four-independent-negative-fixture-families",
+      "15-chart-model-visual-table-bidirectional-equality",
+      "explicit-chart-encoding-dom-contracts",
+      "table-body-minimum-14px",
+      "complete-simplified-chinese-connector-and-conditional-localization",
+      "strict-browser-200-percent-tokens-and-720-to-360",
+      "immutable-history"
+    ]
+  },
+  "independent_visual_review": {
+    "status": "pending",
+    "owner": "AIWorkFlow-root-coordinator",
+    "round": 6,
+    "note": "机器门只验证设计源结构、声明的 authored line-box、SVG DOM编码、PNG签名/尺寸/SHA；不读取字体轮廓或PNG像素内容，不声称真实字形边界、基线或视觉遮挡已经独立通过。"
+  },
+  "downstream_route_authorized": false,
+  "bundle": {
+    "resolved_assets": 49,
+    "replaced_by_v1_5": 35,
+    "reused_immutable_v1_4_resolved": 14,
+    "category_counts": {
+      "desktop": 10,
+      "flow": 4,
+      "truth": 2,
+      "mobile": 14,
+      "standard": 2,
+      "chart": 15,
+      "responsive": 2
+    }
+  },
+  "truth_boundary": {
+    "runtime_sources": 0,
+    "connectors": 0,
+    "approved_recruitment_instances": 0
+  },
+  "chart_equivalence": {
+    "model": "resolved-chart-models.json",
+    "models": 15,
+    "checks": {
+      "25-01-direction-scatter": {
+        "records": 8,
+        "visual_records": 8,
+        "table_records": 8,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "x": "横坐标",
+          "y": "纵坐标",
+          "evidence": "圆面积",
+          "confidence": "描边粗细与线型"
+        },
+        "legend": "圆=方向；面积=直接证据量；置信度中=4px实线，低=2px虚线",
+        "table_body_min_px": 14
+      },
+      "25-02-direction-comparison": {
+        "records": 3,
+        "visual_records": 3,
+        "table_records": 3,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "direction": "等权卡片列",
+          "value": "价值行",
+          "capability": "能力行",
+          "evidence": "证据行",
+          "limitation": "限制行"
+        },
+        "legend": "三张卡片等权中性边框；不使用首卡高亮，不生成排名",
+        "table_body_min_px": 14
+      },
+      "25-03-capability-map": {
+        "records": 8,
+        "visual_records": 8,
+        "table_records": 8,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "domain": "矩阵行",
+          "p0": "实色单元",
+          "p1": "实色单元",
+          "p1_ai": "实色单元",
+          "p2": "空框虚线单元",
+          "observe": "实色单元"
+        },
+        "legend": "实色=样本有实例；空框虚线=本样本暂无实例",
+        "table_body_min_px": 14
+      },
+      "25-04-sample-dotplot": {
+        "records": 4,
+        "visual_records": 4,
+        "table_records": 4,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "n": "实心点横向位置",
+          "N": "分母刻度",
+          "state": "实心点"
+        },
+        "legend": "实心点=有计数；位置=n/N；不外推市场份额",
+        "table_body_min_px": 14
+      },
+      "25-05-trend-line": {
+        "records": 4,
+        "visual_records": 4,
+        "table_records": 4,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "slot": "横轴时间槽",
+          "missing": "空心节点与虚线",
+          "source_coverage": "节点注记"
+        },
+        "legend": "空心节点+虚线=缺失；当前不绘制真实趋势线",
+        "table_body_min_px": 14
+      },
+      "25-06-remote-constraints": {
+        "records": 3,
+        "visual_records": 3,
+        "table_records": 3,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "disclosure": "形状与文字",
+          "authorization": "许可文字",
+          "contract": "合同文字"
+        },
+        "legend": "明确=实心圆；部分=三角；不足=空心菱形，并同步显示文字",
+        "table_body_min_px": 14
+      },
+      "25-07-policy-runtime": {
+        "records": 3,
+        "visual_records": 3,
+        "table_records": 3,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "policy": "填充纹理与符号",
+          "runtime": "运行时文字",
+          "instances": "实例数字"
+        },
+        "legend": "允许=实色✓；有条件允许=斜纹△；停用=交叉纹×",
+        "table_body_min_px": 14
+      },
+      "25-08-source-band": {
+        "records": 3,
+        "visual_records": 3,
+        "table_records": 3,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "h24": "24小时块纹理",
+          "h48": "48小时块纹理",
+          "state": "状态徽标纹理与文字"
+        },
+        "legend": "缺失=琥珀斜纹；不可用=灰色交叉纹；未配置/无实例=空框；无绿色成功块",
+        "table_body_min_px": 14
+      },
+      "25-09-dual-classification": {
+        "records": 4,
+        "visual_records": 4,
+        "table_records": 4,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "axis": "形状与颜色",
+          "confirmation": "边框线型与图标",
+          "confidence": "置信度文字"
+        },
+        "legend": "来源渠道=蓝色矩形；内容类型=紫色菱形；待确认=实线●；候选=虚线◇",
+        "table_body_min_px": 14
+      },
+      "25-10-relation-matrix": {
+        "records": 6,
+        "visual_records": 6,
+        "table_records": 6,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "selected": "实心/空心单选符",
+          "relation": "六类互斥标签",
+          "basis": "依据文字"
+        },
+        "legend": "●=唯一已选；○=未选；六类关系互斥",
+        "table_body_min_px": 14
+      },
+      "25-11-evidence-stair": {
+        "records": 5,
+        "visual_records": 5,
+        "table_records": 5,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "level": "阶梯高度",
+          "evidence_type": "阶梯标签",
+          "state": "状态文字"
+        },
+        "legend": "高度=可核验层次；标签=证据类型；不等于个人得分",
+        "table_body_min_px": 14
+      },
+      "25-12-gap-matrix": {
+        "records": 4,
+        "visual_records": 4,
+        "table_records": 4,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "judgement": "空心菱形与文字",
+          "selected": "不得出现实心已选",
+          "state": "未知文字"
+        },
+        "legend": "空心菱形=未知；不出现绿色已选标记",
+        "table_body_min_px": 14
+      },
+      "25-13-route-graph": {
+        "records": 4,
+        "visual_records": 4,
+        "table_records": 4,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "depends_on": "虚线连接",
+          "state": "锁符号与文字",
+          "node_type": "节点位置"
+        },
+        "legend": "锁=阻断；虚线=目标态依赖；未知时不生成路线",
+        "table_body_min_px": 14
+      },
+      "25-14-version-timeline": {
+        "records": 5,
+        "visual_records": 5,
+        "table_records": 5,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "track": "三条轨道",
+          "state": "标记形状/实空",
+          "source_identity": "来源身份文字"
+        },
+        "legend": "公共文档/快照=实心圆；个人演示=空心圆；规则=菱形",
+        "table_body_min_px": 14
+      },
+      "25-15-sync-timeline": {
+        "records": 4,
+        "visual_records": 4,
+        "table_records": 4,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "status": "同步结果文字与符号",
+          "state": "系统状态文字",
+          "action": "动作文字与↻"
+        },
+        "legend": "—=未接通；×=不可用；!=冲突示例；↻=可重试",
+        "table_body_min_px": 14
+      }
+    }
+  },
+  "authored_layout_validation": {
+    "method": "authored-line-box-contract-not-font-glyph-measurement",
+    "caveat": "这些框是设计源的保守布局约束，不是字体栅格化后的真实字形包围盒；真实字形、视觉碰撞与基线仍等待独立逐图审查。",
+    "containers": 18,
+    "negative_fixtures": {
+      "baseline": {
+        "status": "caught",
+        "expected_exit_code": 1,
+        "cli_flag": "--negative-baseline"
+      },
+      "container": {
+        "status": "caught",
+        "expected_exit_code": 1,
+        "cli_flag": "--negative-container"
+      },
+      "collision": {
+        "status": "caught",
+        "expected_exit_code": 1,
+        "cli_flag": "--negative-collision"
+      },
+      "viewport": {
+        "status": "caught",
+        "expected_exit_code": 1,
+        "cli_flag": "--negative-viewport"
+      }
+    }
+  },
+  "raster_integrity": {
+    "method": "PNG签名、外层像素尺寸与SHA；未做字体轮廓或逐像素碰撞识别",
+    "assets": {
+      "01-desktop-page-01-directions-1440.svg": {
+        "text_nodes": 32,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "02-desktop-page-02-tech-landscape-1440.svg": {
+        "text_nodes": 71,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "03-desktop-page-03-market-trends-1440.svg": {
+        "text_nodes": 77,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "04-desktop-page-04-sources-quality-1440.svg": {
+        "text_nodes": 22,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "05-desktop-page-05-workbench-1440.svg": {
+        "text_nodes": 32,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "06-desktop-page-06-personal-evidence-1440.svg": {
+        "text_nodes": 22,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "07-desktop-page-07-gap-roadmap-1440.svg": {
+        "text_nodes": 50,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "08-desktop-page-08-future-history-1440.svg": {
+        "text_nodes": 22,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "09-desktop-page-09-data-rights-1440.svg": {
+        "text_nodes": 44,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "10-desktop-page-10-quality-recovery-1440.svg": {
+        "text_nodes": 42,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "11-flow-01-workbench-six-step.svg": {
+        "text_nodes": 42,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "12-flow-02-evidence-confirmation.svg": {
+        "text_nodes": 31,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "13-flow-03-gap-roadmap-recompute.svg": {
+        "text_nodes": 38,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "14-flow-04-sync-export-delete.svg": {
+        "text_nodes": 35,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "15-truth-01-source-policy-runtime.svg": {
+        "text_nodes": 39,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "16-truth-02-eleven-states.svg": {
+        "text_nodes": 54,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "01-directions-390.svg": {
+        "text_nodes": 14,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "01-directions-320.svg": {
+        "text_nodes": 14,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 320,
+          "height": 844
+        }
+      },
+      "02-tech-390.svg": {
+        "text_nodes": 15,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "02-tech-320.svg": {
+        "text_nodes": 15,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 320,
+          "height": 844
+        }
+      },
+      "03-trends-390.svg": {
+        "text_nodes": 14,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "03-trends-320.svg": {
+        "text_nodes": 14,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 320,
+          "height": 844
+        }
+      },
+      "04-workbench-input-390.svg": {
+        "text_nodes": 12,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "04-workbench-input-320.svg": {
+        "text_nodes": 12,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 320,
+          "height": 844
+        }
+      },
+      "05-workbench-result-390.svg": {
+        "text_nodes": 12,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "05-workbench-result-320.svg": {
+        "text_nodes": 12,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 320,
+          "height": 844
+        }
+      },
+      "06-gap-unknown-390.svg": {
+        "text_nodes": 12,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "06-gap-unknown-320.svg": {
+        "text_nodes": 12,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 320,
+          "height": 844
+        }
+      },
+      "07-data-rights-390.svg": {
+        "text_nodes": 12,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "07-data-rights-320.svg": {
+        "text_nodes": 12,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 320,
+          "height": 844
+        }
+      },
+      "24-components-states.svg": {
+        "text_nodes": 16,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-01-direction-scatter.svg": {
+        "text_nodes": 86,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-02-direction-comparison.svg": {
+        "text_nodes": 49,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-03-capability-map.svg": {
+        "text_nodes": 136,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-04-sample-dotplot.svg": {
+        "text_nodes": 43,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-05-trend-line.svg": {
+        "text_nodes": 48,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-06-remote-constraints.svg": {
+        "text_nodes": 49,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-07-policy-runtime.svg": {
+        "text_nodes": 49,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-08-source-band.svg": {
+        "text_nodes": 42,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-09-dual-classification.svg": {
+        "text_nodes": 48,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-10-relation-matrix.svg": {
+        "text_nodes": 69,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-11-evidence-stair.svg": {
+        "text_nodes": 45,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-12-gap-matrix.svg": {
+        "text_nodes": 69,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-13-route-graph.svg": {
+        "text_nodes": 47,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-14-version-timeline.svg": {
+        "text_nodes": 59,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-15-sync-timeline.svg": {
+        "text_nodes": 48,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "26-foundation-contrast-tokens.svg": {
+        "text_nodes": 69,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "27-responsive-1024.svg": {
+        "text_nodes": 16,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "28-accessibility-zoom-200.svg": {
+        "text_nodes": 22,
+        "forbidden_connector_or_conditional": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      }
+    }
+  },
+  "critical_fixes": {
+    "zoom_200": "720-to-360-eight-token-groups-and-conservative-top-insets",
+    "chart_encoding": "named-P1-chart-contracts-present",
+    "public_timeline": "approved-historical-snapshot-plus-approved-product-document",
+    "visible_language": "14-affected-assets-localized",
+    "pill_and_chips": "authored-baseline-offset-five",
+    "table": "body-14px-status-and-state-distinct"
+  },
+  "immutable_checks": {
+    "prompt": "matched",
+    "v1": "matched",
+    "v1_1": "matched",
+    "v1_2": "matched",
+    "v1_3": "matched",
+    "v1_4": "matched",
+    "v1_4_resolved": "matched"
+  }
+}

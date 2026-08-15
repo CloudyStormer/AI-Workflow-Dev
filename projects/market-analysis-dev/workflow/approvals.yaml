@@ -687,3 +687,49 @@ approvals:
       - self-claimed-independent-visual-review-pass
     stop_gate: ui-design-review
     auto_advance_beyond_next: false
+  - id: "review-20260816-career-release-completeness-ui-design-v1-4"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: ui-design-review
+    role: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    work_item: "CR-UI-002"
+    change_id: "ui-design-20260815-career-release-completeness-v1-4-005"
+    artifact: "artifact-career-release-completeness-ui-design-005"
+    visual_bundle: "artifact-career-release-completeness-ui-visuals-005"
+    decision: changes-requested
+    reviewed_by: AIWorkFlow-root-coordinator
+    reviewed_at: "2026-08-16T00:40:00+08:00"
+    evidence_commit: 1806276db31760ef191629f2228ffd0540136cb3
+    severity: "0-P0-5-P1-groups-3-P2-groups"
+    required_revision: "v1.5 必须修复 200% 标题真实越界；诚实降级或真实实现字体/容器校验并提供基线、容器、互撞、720→360 四类负夹具；重做至少十张图的字段到视觉编码；25-14 同时标明获批历史研究快照与获批产品文档；清除 14 张 connector 和 conditional 用户文案；修复状态胶囊、desktop chips、等价表字号与 25-15 双语义字段。"
+    historical_files_preserved: true
+    downstream_route_authorized: false
+    stop_gate: ui-design-review
+  - id: "approval-20260816-career-release-completeness-ui-design-v1-5-revision-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-reentry
+    role: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    work_item: "CR-UI-002"
+    change_id: "ui-design-20260816-career-release-completeness-v1-5-006"
+    authorization_source: "direct-user-delegation-of-fifth-independent-visual-review"
+    upstream_review: "review-20260816-career-release-completeness-ui-design-v1-4"
+    safe_base_commit: 1806276db31760ef191629f2228ffd0540136cb3
+    expected_artifact: "artifact-career-release-completeness-ui-design-006"
+    expected_path: ui/10-release-completeness-ui-design-v1.5.md
+    expected_visual_bundle: "artifact-career-release-completeness-ui-visuals-006"
+    expected_version: "1.5"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-16T00:40:00+08:00"
+    scope: "只修订 CR-UI-002 v1.5 并关闭第五轮独立审查 5 组 P1 + 3 组 P2；保留 v1.0-v1.4，以版本化 overlay + resolved bundle 交付；固定 04 只登记机器事实，第六轮独立视觉结论由根协调给出。"
+    exclusions:
+      - approved-prompt-or-v1-through-v1-4-assets-overwrite-or-delete
+      - frontend-backend-architecture-or-deployment
+      - downstream-route-or-unfreeze
+      - english-or-other-project-files
+      - self-claimed-independent-visual-review-pass
+    stop_gate: ui-design-review
+    auto_advance_beyond_next: false

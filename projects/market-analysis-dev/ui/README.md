@@ -6,9 +6,14 @@
 
 | 产物 | 版本 | 状态 | SHA256 | 用途 |
 |---|---:|---|---|---|
-| `09-release-completeness-ui-design-v1.4.md` | 1.4 | machine-passed-independent-review-pending | `371c4b1e703b5718853b304477b1507fe0de3a100ef0d2993dac4b245a4b04d2` | CR-UI-002 v1.4 设计说明；关闭第四轮 7 组 P1 + 1 组 P2，等待第五轮独立视觉审查 |
-| `release-completeness-v1.4/resolved-manifest.json` | 1.4 | machine-passed-independent-review-pending | `02d11bc1ddb3a33a4d1fb5c448a70f4b54d2684e57410fa18244ce4f00e0fb38` | 49 张完整解析包：21 张 v1.4 修订 + 28 张按 SHA 复用 v1.3 resolved |
-| `release-completeness-v1.4/review-manifest.json` | 1.4 | machine-passed-independent-review-pending | `22320c9e1e5531060542dcf8cfb347aab5df65e002ada045fac58ca4cf88966e` | 实际文字/容器几何、15 图表双向等价、真正 200% 和负向非零退出机器证据；独立审查 pending |
+| `10-release-completeness-ui-design-v1.5.md` | 1.5 | machine-passed-independent-review-pending | `6decc0a7c72286724fc9b3c940c5d998ac6f73ec6c2bfa0ee98213759cab7bf7` | CR-UI-002 v1.5 设计说明；关闭第五轮 5 组 P1 + 3 组 P2，等待第六轮独立视觉审查 |
+| `release-completeness-v1.5/resolved-manifest.json` | 1.5 | machine-passed-independent-review-pending | `5d7a7e2101f4725b82a91b8e9fbe47601bb4877c5d072007129099d3aa10c551` | 49 张完整解析包：35 张 v1.5 修订 + 14 张按 SHA 复用 v1.4 resolved |
+| `release-completeness-v1.5/review-manifest.json` | 1.5 | machine-passed-independent-review-pending | `21a5f996f62bbef4226d5435c1b54c6bf0d39ad0d3f38e430201eaace3c3fdfe` | authored 布局结构、15 图表双向等价、简中、200% 与四类负夹具机器证据；真实字形/PNG视觉审查 pending |
+| `release-completeness-v1.5/png/` | 1.5 | overlay-ready-for-independent-review | 见 `overlay-manifest.json` | 35 张版本化修订 PNG；未变 14 张由 resolved manifest 按 SHA 引用 |
+| `release-completeness-v1.5/assets/` | 1.5 | editable-overlay-source | 见 `overlay-manifest.json` | 与 35 张修订 PNG 一一对应的 SVG，不覆盖旧资产 |
+| `09-release-completeness-ui-design-v1.4.md` | 1.4 | superseded-after-changes-requested | `371c4b1e703b5718853b304477b1507fe0de3a100ef0d2993dac4b245a4b04d2` | 保留历史；第五轮独立审查发现 5 组 P1 + 3 组 P2，已由 v1.5 overlay 取代 |
+| `release-completeness-v1.4/resolved-manifest.json` | 1.4 | superseded-after-changes-requested | `02d11bc1ddb3a33a4d1fb5c448a70f4b54d2684e57410fa18244ce4f00e0fb38` | 保留 v1.4 的 49 张完整解析包，作为 v1.5 不可变解析基线 |
+| `release-completeness-v1.4/review-manifest.json` | 1.4 | superseded-after-changes-requested | `22320c9e1e5531060542dcf8cfb347aab5df65e002ada045fac58ca4cf88966e` | 保留 v1.4 机器结果与第五轮独立审查依据，不作为当前通过结论 |
 | `release-completeness-v1.4/png/` | 1.4 | overlay-ready-for-independent-review | 见 `overlay-manifest.json` | 21 张版本化修订 PNG；未变 28 张由 resolved manifest 按 SHA 引用 |
 | `release-completeness-v1.4/assets/` | 1.4 | editable-overlay-source | 见 `overlay-manifest.json` | 与 21 张修订 PNG 一一对应的 SVG，不覆盖旧资产 |
 | `08-release-completeness-ui-design-v1.3.md` | 1.3 | superseded-after-changes-requested | `2278c7ecee8826fe2f8afa90c94af28070b3295dc88020f8c29e7442ee3175ba` | 保留历史；第四轮独立审查发现 7 组 P1 + 1 组 P2，已由 v1.4 overlay 取代 |
@@ -50,6 +55,6 @@
 | `grok-db65d339-3eb2-494f-9372-b4f003942a45.jpg` | 1728×1152 | `46c726017092a2992028c1604391d5b378b652ee6667d83a7c0ca09c0cde6e29` |
 | `grok-eb8b0476-0f04-42b3-afb0-df34e861f252.jpg` | 1728×1152 | `263610cbf127683647ffb6a9aed5dd92816cea09be2911ed4275bca3e77752b1` |
 
-当前发布完整性权威顺序为：已批准 `docs/02-prd.md` v1.3 + 已批准来源 allowlist/registry v1.0 → 已批准 `ui/04-release-completeness-ui-prompt.md` v1.0 → CR-UI-002 v1.0、v1.1、v1.2、v1.3 四轮独立视觉审查均为 `changes-requested` → 固定 04 完成 `ui/09-release-completeness-ui-design-v1.4.md` 与 resolved 49 张设计包（21 张新 overlay + 28 张 v1.3 resolved SHA 复用），机器门通过，重新停在 `ui-design-review` 等待根协调第五轮独立视觉审查。v1.0–v1.3 说明、全部历史画板、旧 `ui/03-ui-prompt.md` v1.1 与 10 张早期图片全部保留，不覆盖或删除。
+当前发布完整性权威顺序为：已批准 `docs/02-prd.md` v1.3 + 已批准来源 allowlist/registry v1.0 → 已批准 `ui/04-release-completeness-ui-prompt.md` v1.0 → CR-UI-002 v1.0–v1.4 五轮独立视觉审查均为 `changes-requested` → 固定 04 完成 `ui/10-release-completeness-ui-design-v1.5.md` 与 resolved 49 张设计包（35 张新 overlay + 14 张 v1.4 resolved SHA 复用），机器门通过，重新停在 `ui-design-review` 等待根协调第六轮独立视觉审查。v1.0–v1.4 说明、全部历史画板、旧 `ui/03-ui-prompt.md` v1.1 与 10 张早期图片全部保留，不覆盖或删除。
 
-来源批准仅为研究证据：当前真实运行时来源、连接器和获批招聘实例均为 0；Greenhouse、Lever、Ashby 仍是缺公司／board／site 允许清单的条件模板。v1.4 继续保留 14 张移动稿与既有真相边界，并把 15 张图表的用户可见字段/状态统一为简体中文；`failed` 只允许用于真实请求执行失败，当前无账号/服务时使用 `not_ready / unavailable`。当前仅机器门通过，第五轮独立视觉审查尚未完成；不修改或解冻 `artifact-career-frontend-001` 与 `artifact-career-f10-input-ui-preview-001`，也不自动授权前端、架构、后端、连接器或部署。
+来源批准仅为研究证据：当前真实运行时来源、连接器和获批招聘实例均为 0；Greenhouse、Lever、Ashby 仍是缺公司／board／site 允许清单的条件模板。v1.5 保留 14 张独立移动稿与既有真相边界，修订 15 张图表编码和 14 张裸露英文资产；机器门明确不声称真实字体轮廓、PNG 像素或独立视觉已经通过。当前仅机器门通过，第六轮独立视觉审查尚未完成；不修改或解冻 `artifact-career-frontend-001` 与 `artifact-career-f10-input-ui-preview-001`，也不自动授权前端、架构、后端、连接器或部署。
