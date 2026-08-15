@@ -32,17 +32,17 @@ artifacts:
     type: project-skill
     path: skills/project-ai-model-radar/SKILL.md
     status: active
-    owner: package-contractor
-    sha256: 16709c3a0028d98ef5c63a546138d5d2ee9bb89bd44d431776da99a40b7a437f
-    updated_at: "2026-08-04T11:13:14+08:00"
+    owner: role-ui-designer
+    sha256: 9cd8eab597474b72a50b60d163d76664f447c81e37eca1c0024a4e35b303e473
+    updated_at: "2026-08-15T10:45:49+08:00"
   - id: artifact-ui-index-001
     run_id: run-20260731-intake-001
     type: ui-asset-index
     path: ui/README.md
     status: active
     owner: role-ui-designer
-    sha256: 3d4066dca06b44bddc8e6394e1f0fbc848af597a626a6ba1297d09146bf82501
-    updated_at: "2026-08-15T10:12:27+08:00"
+    sha256: e68efa67cdbb5287ed069b714781cbcf0ad035d8d4b5eacafb6edbab957428ab
+    updated_at: "2026-08-15T10:45:49+08:00"
   - id: artifact-project-plan-001
     run_id: run-20260731-intake-001
     type: project-plan
@@ -671,7 +671,7 @@ artifacts:
     type: ui-ux-design-prompt
     path: ui/04-release-completeness-ui-prompt.md
     version: "1.0"
-    status: ready-for-review
+    status: approved
     owner: role-ui-designer
     role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
     role_task_title: "04 UI/UX设计师"
@@ -746,6 +746,11 @@ artifacts:
       - artifact-radar-frontend-001/frontend-delivery-review-held
     started_at: "2026-08-15T10:12:27+08:00"
     completed_at: "2026-08-15T10:12:27+08:00"
+    approval: approval-20260815-radar-release-completeness-ui-prompt-v1
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-15T10:33:38+08:00"
+    completed_gate: ui-prompt-review
+    next_work_item: MR-UI-002
     validation_status: passed
     validated_at: "2026-08-15T10:15:17+08:00"
     validation:
@@ -765,3 +770,93 @@ artifacts:
       - current-runtime-real-sources-remain-zero
       - no-mr-ui-002-design-prototype-or-images
       - existing-ui-design-and-held-frontend-gates-remain-preserved
+  - id: artifact-radar-release-completeness-ui-design-001
+    run_id: run-20260731-intake-001
+    type: ui-ux-design
+    path: ui/05-release-completeness-ui-design.md
+    version: "1.0"
+    status: ready-for-review
+    owner: role-ui-designer
+    role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+    role_task_title: "04 UI/UX设计师"
+    work_item: MR-UI-002
+    change_id: ui-design-20260815-radar-release-completeness-001
+    authorization: approval-20260815-radar-release-completeness-ui-design-entry
+    upstream:
+      artifact: artifact-radar-release-completeness-ui-prompt-001
+      path: ui/04-release-completeness-ui-prompt.md
+      version: "1.0"
+      sha256: a8a4b3b66cdaf31f5d43910d36aeb630f751ced1dfb9959a583603abbee12be7
+      approval: approval-20260815-radar-release-completeness-ui-prompt-v1
+    sha256: a731232994db118117043aa50503273c91e5c438bc20f948d9e5137e43ba9324
+    ui_index_sha256: e68efa67cdbb5287ed069b714781cbcf0ad035d8d4b5eacafb6edbab957428ab
+    asset_directory: ui/release-completeness-v1/
+    visual_assets:
+      - path: ui/release-completeness-v1/01-today-truth-states.png
+        dimensions: 1672x941
+        sha256: 19781af33d20e7fc4ec825f1d194fd935fd56e34d76123a5fe372f12e456b9f6
+        coverage: today-not-ready-live-target-and-degraded
+      - path: ui/release-completeness-v1/02-events-evidence-sources-quality.png
+        dimensions: 1536x1024
+        sha256: 99a0bb2975dcfb2516a95cf0baad228e4bd1c1d9a49c5a7875ce374ac95e3612
+        coverage: all-events-detail-sources-quality
+      - path: ui/release-completeness-v1/03-responsive-320-390-1024.png
+        dimensions: 1536x1024
+        sha256: f85adb4d323f1c92c066f866ca72ba5fdd022d77307a1c6e9f545d3d60b3a98d
+        coverage: responsive-tablet-mobile-small-screen
+      - path: ui/release-completeness-v1/04-component-state-board-64.png
+        dimensions: 1672x941
+        sha256: e3d0bf592ece369df9d58b8378b0909ec572c907620cf1eba47ae298d2c8480d
+        coverage: 64-state-component-and-accessibility-board
+      - path: ui/release-completeness-v1/05-open-source-refresh-accessibility.png
+        dimensions: 1672x941
+        sha256: a3393bfc02ce6e4bef822dd12f4ede4d7d8fbbd3b34ec7554dad0cdfd90bcc1f
+        coverage: open-source-refresh-and-accessibility
+    generation:
+      mode: built-in-imagegen
+      taxonomy: ui-mockup
+      generated_asset_count: 5
+      corrected_asset_count: 1
+      correction: "响应式来源页移除未授权‘配置连接器’，替换为只读‘查看来源研究’"
+    coverage:
+      primary_navigation: 6
+      business_pages: 8
+      chart_types: 9
+      state_matrix: 64
+      breakpoints: [1440px, 1024px, 390px, 320px]
+      zoom: 200-percent
+      accessibility: WCAG-2.2-AA
+      language: complete-simplified-chinese
+    truth_boundary:
+      source_approval_scope: research-only
+      current_runtime_enabled_sources: 0
+      current_live_connectors: 0
+      current_live_snapshot_proven: false
+      all_visual_examples: target-state-or-demo-data
+    modified_frontend_backend_architecture_or_task_breakdown: false
+    connector_runtime_collection_or_deployment_started: false
+    preserved_gates:
+      - artifact-radar-live-daily-user-ui-design-001/ui-design-review
+      - artifact-radar-frontend-001/frontend-delivery-review-held
+    started_at: "2026-08-15T10:33:38+08:00"
+    completed_at: "2026-08-15T10:45:49+08:00"
+    validation_status: passed
+    validated_at: "2026-08-15T10:47:41+08:00"
+    validation:
+      approved_prompt_sha256: matched
+      visual_assets: 5-of-5-png-readable-with-matched-dimensions-and-sha256
+      design_document_and_index_sha256: matched
+      yaml: 5-of-5-valid
+      jsonl_before_validation_event: 77-of-77-valid-and-unique
+      csv_registry: 72-rows-35-columns
+      project_structure: passed-with-0-warnings
+      git_boundary: passed
+      skill_drift: passed
+      diff_check: passed
+      sensitive_literal_scan: passed
+    stop_gate: ui-design-review
+    auto_route_on_delivery: false
+    known_limits:
+      - generated-copy-may-have-visual-approximation-design-document-is-authoritative
+      - current-runtime-real-sources-remain-zero
+      - no-architecture-development-connector-runtime-or-deployment

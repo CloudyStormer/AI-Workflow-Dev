@@ -6,7 +6,9 @@
 
 | 产物 | 版本 | 状态 | SHA256 | 说明 |
 |---|---|---|---|---|
-| [`04-release-completeness-ui-prompt.md`](04-release-completeness-ui-prompt.md) | `1.0` | `ready-for-review` | `a8a4b3b66cdaf31f5d43910d36aeb630f751ced1dfb9959a583603abbee12be7` | MR-UI-001 发布完整性 UI/UX 权威候选提示词；在 v1.2 基线上新增真实完成门、来源政策轴 × Runtime 轴、当前运行时来源为 0、`live / empty / not_ready / stale / degraded / failed`、完整 P0、320px、键盘、读屏与图表等价表 |
+| [`05-release-completeness-ui-design.md`](05-release-completeness-ui-design.md) | `1.0` | `ready-for-review` | `a731232994db118117043aa50503273c91e5c438bc20f948d9e5137e43ba9324` | MR-UI-002 发布完整性设计说明；权威登记 5 组视觉稿、设计系统、页面交互、9 类图表、64 状态、响应式和无障碍边界 |
+| [`release-completeness-v1/`](release-completeness-v1/) | `1.0` | `ready-for-review` | 见设计说明与下表 | MR-UI-002 的 5 组高保真视觉稿；全部示例为“目标状态方案 / 界面演示数据”，不证明当前 live、连接器或实现存在 |
+| [`04-release-completeness-ui-prompt.md`](04-release-completeness-ui-prompt.md) | `1.0` | `approved` | `a8a4b3b66cdaf31f5d43910d36aeb630f751ced1dfb9959a583603abbee12be7` | MR-UI-001 发布完整性 UI/UX 权威提示词；超级无敌帅超超总于 2026-08-15 通过，并一跳授权 MR-UI-002 |
 | [`03-ui-prompt.md`](03-ui-prompt.md) | `1.2` | `approved` | `967090f3ac97e0a0bb00070eb39a5af9b6efcd629ac1517e78bffa4f8f7605bd` | 已于 2026-08-10 通过；Live Daily Intelligence 权威 UI 生成提示词，含可直接复制给专业 UI 大模型的主提示词、关键页面、图表映射、56 状态、响应式和无障碍 |
 
 被本版继承并取代的 Prompt v1.0 SHA256 为 `d001cea2e85c36317ca1e38c657a32527b3705a3f276f8d938b8b0ac6e450318`；其批准记录保留在工作流中以便追溯。

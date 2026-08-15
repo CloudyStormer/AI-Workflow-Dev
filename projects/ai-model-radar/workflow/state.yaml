@@ -4,14 +4,14 @@ run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
 stage: ui-ux
-status: release-replanning-ui-prompt-ready-for-review
+status: release-completeness-ui-design-ready-for-review
 current_role: role-ui-designer
 blocked: false
 ui_assets:
   directory: ui
   index: ui/README.md
   new_deliveries: required
-  delivery_status: release-completeness-ui-prompt-ready-for-review
+  delivery_status: release-completeness-ui-design-ready-for-review
   preserve_active_legacy_paths: true
 delivery_priority:
   baseline_context: held-frontend-original-approved-scope
@@ -38,12 +38,12 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
-  gate: ui-prompt-review
-  scope: "审核固定 04 对 MR-UI-001 交付的 AI Model Radar 发布完整性 UI/UX 增量提示词；不包含设计生成、架构、开发、连接器或部署"
+  gate: ui-design-review
+  scope: "审核固定 04 对 MR-UI-002 交付的发布完整性设计说明、响应式原型视觉稿和状态/无障碍设计证据；不包含架构、开发、连接器或部署"
   decision_owner: 超级无敌帅超超总
   decision: pending
   delivery_status: ready-for-review
-  on_approved: authorize-only-MR-UI-002-after-independent-prompt-delivery-review
+  on_approved: authorize-only-unique-next-work-item-after-independent-design-review
   advance_limit: unique-next-stage-only
   auto_advance_beyond_next: false
 cross_project_replanning_plan_review:
@@ -69,7 +69,7 @@ active_release_replanning_ui_prompt_assignment:
   role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
   role_task_title: "04 UI/UX设计师"
   authorization: approval-20260814-radar-release-replanning-ui-prompt-entry
-  scheduling: completed-awaiting-user-review
+  scheduling: completed-approved
   upstream_plan:
     approval: approval-20260814-four-project-release-replanning-plan-v1
     artifact: artifact-four-project-release-replanning-plan-001
@@ -125,8 +125,11 @@ active_release_replanning_ui_prompt_assignment:
     git_boundary: passed
     skill_drift: passed
     diff_check: passed
-  delivery_status: ready-for-review
-  result: release-completeness-ui-prompt-ready-for-review
+  delivery_status: approved
+  result: release-completeness-ui-prompt-approved-and-mr-ui-002-authorized
+  approval: approval-20260815-radar-release-completeness-ui-prompt-v1
+  approved_by: 超级无敌帅超超总
+  approved_at: "2026-08-15T10:33:38+08:00"
   truth_boundary:
     source_registry_rows: 72
     atomic_endpoint_policy_rows: 29
@@ -139,8 +142,67 @@ active_release_replanning_ui_prompt_assignment:
   generated_prototype: false
   generated_images: false
   modified_business_code: false
-  stop_gate: ui-prompt-review
+  stop_gate: completed
   production_release: frozen
+  auto_route_on_delivery: true
+active_release_completeness_ui_design_assignment:
+  change_id: ui-design-20260815-radar-release-completeness-001
+  work_item: MR-UI-002
+  role: role-ui-designer
+  role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+  role_task_title: "04 UI/UX设计师"
+  authorization: approval-20260815-radar-release-completeness-ui-design-entry
+  upstream_approval: approval-20260815-radar-release-completeness-ui-prompt-v1
+  input:
+    artifact: artifact-radar-release-completeness-ui-prompt-001
+    path: ui/04-release-completeness-ui-prompt.md
+    version: "1.0"
+    sha256: a8a4b3b66cdaf31f5d43910d36aeb630f751ced1dfb9959a583603abbee12be7
+  expected_output:
+    artifact: artifact-radar-release-completeness-ui-design-001
+    path: ui/05-release-completeness-ui-design.md
+    version: "1.0"
+    sha256: a731232994db118117043aa50503273c91e5c438bc20f948d9e5137e43ba9324
+    ui_index_sha256: e68efa67cdbb5287ed069b714781cbcf0ad035d8d4b5eacafb6edbab957428ab
+    asset_directory: ui/release-completeness-v1/
+    asset_count: 5
+    assets:
+      - {path: ui/release-completeness-v1/01-today-truth-states.png, sha256: 19781af33d20e7fc4ec825f1d194fd935fd56e34d76123a5fe372f12e456b9f6}
+      - {path: ui/release-completeness-v1/02-events-evidence-sources-quality.png, sha256: 99a0bb2975dcfb2516a95cf0baad228e4bd1c1d9a49c5a7875ce374ac95e3612}
+      - {path: ui/release-completeness-v1/03-responsive-320-390-1024.png, sha256: f85adb4d323f1c92c066f866ca72ba5fdd022d77307a1c6e9f545d3d60b3a98d}
+      - {path: ui/release-completeness-v1/04-component-state-board-64.png, sha256: e3d0bf592ece369df9d58b8378b0909ec572c907620cf1eba47ae298d2c8480d}
+      - {path: ui/release-completeness-v1/05-open-source-refresh-accessibility.png, sha256: a3393bfc02ce6e4bef822dd12f4ede4d7d8fbbd3b34ec7554dad0cdfd90bcc1f}
+  truth_boundary:
+    source_approval_scope: research-only
+    current_runtime_enabled_sources: 0
+    current_live_connectors: 0
+    live_snapshot_proven: false
+  preserved_gates:
+    - artifact-radar-live-daily-user-ui-design-001/ui-design-review
+    - artifact-radar-frontend-001/frontend-delivery-review-held
+  scheduling: completed-awaiting-user-review
+  started_at: "2026-08-15T10:33:38+08:00"
+  completed_at: "2026-08-15T10:45:49+08:00"
+  validation_status: passed
+  validated_at: "2026-08-15T10:47:41+08:00"
+  validation:
+    approved_prompt_sha256: matched
+    visual_assets: 5-of-5-png-readable-with-matched-dimensions-and-sha256
+    design_document_and_index_sha256: matched
+    yaml: 5-of-5-valid
+    jsonl_before_validation_event: 77-of-77-valid-and-unique
+    project_structure: passed-with-0-warnings
+    git_boundary: passed
+    skill_drift: passed
+    diff_check: passed
+  delivery_status: ready-for-review
+  result: release-completeness-ui-design-ready-for-review
+  generated_ui_design: true
+  generated_prototype: true
+  generated_images: true
+  stop_gate: ui-design-review
+  frontend_unfrozen: false
+  architecture_or_development_started: false
   auto_route_on_delivery: false
 release_scope_product_assignment:
   change_group_id: prd-20260814-four-project-release-completeness-001
@@ -627,4 +689,4 @@ source_allowlist_approval_result:
   result: approved-and-returned-to-cross-project-replanning-direction
   effect: "只批准本来源证据产物并返回 cross-project-replanning-direction；不自动路由固定 02、产品、UI、架构、开发或部署"
   auto_advance_beyond_next: false
-updated_at: "2026-08-15T10:12:27+08:00"
+updated_at: "2026-08-15T10:47:41+08:00"
