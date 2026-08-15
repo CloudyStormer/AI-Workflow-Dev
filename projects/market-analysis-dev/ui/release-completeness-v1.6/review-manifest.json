@@ -1,0 +1,795 @@
+{
+  "schema_version": 1,
+  "version": "1.6",
+  "generated_at": "2026-08-16T02:15:00+08:00",
+  "machine_validation": {
+    "status": "machine_passed",
+    "scope": [
+      "resolved-49-sha-png-signature-and-dimensions",
+      "authored-line-box-container-and-collision-contract",
+      "four-independent-negative-fixture-families",
+      "15-chart-model-visual-table-bidirectional-data-equality",
+      "named-chart-encoding-dom-assertions-only",
+      "25-11-and-25-15-per-record-main-mark-state-mapping",
+      "25-10-evidence-insufficient-single-selection",
+      "table-body-minimum-14px",
+      "all-visible-text-internal-key-scan-with-annotation-rule",
+      "rendered-png-button-label-glyph-centering-20-of-20",
+      "authored-svg-zoom-attribute-pairs-only",
+      "immutable-history"
+    ]
+  },
+  "independent_visual_review": {
+    "status": "pending",
+    "owner": "AIWorkFlow-root-coordinator",
+    "round": 7,
+    "note": "机器门验证设计源结构、authored line-box、指定 SVG DOM 编码、PNG签名/尺寸/SHA，以及20个按钮标签在已渲染PNG中的前景字形像素中心；不声称通用字体几何、浏览器CSS运行时布局、所有图表视觉编码或独立视觉已经通过。"
+  },
+  "downstream_route_authorized": false,
+  "bundle": {
+    "resolved_assets": 49,
+    "replaced_by_v1_6": 41,
+    "reused_immutable_v1_5_resolved": 8,
+    "category_counts": {
+      "desktop": 10,
+      "flow": 4,
+      "truth": 2,
+      "mobile": 14,
+      "standard": 2,
+      "chart": 15,
+      "responsive": 2
+    }
+  },
+  "truth_boundary": {
+    "runtime_sources": 0,
+    "connectors": 0,
+    "approved_recruitment_instances": 0
+  },
+  "chart_equivalence": {
+    "model": "resolved-chart-models.json",
+    "models": 15,
+    "data_equality": "15-of-15",
+    "visual_encoding_claim": "named-assertions-only-no-blanket-15-of-15-claim",
+    "checks": {
+      "25-01-direction-scatter": {
+        "records": 8,
+        "visual_records": 8,
+        "table_records": 8,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "x": "横坐标",
+          "y": "纵坐标",
+          "evidence": "圆面积",
+          "confidence": "描边粗细与线型"
+        },
+        "legend": "圆=方向；面积=直接证据量；置信度中=4px实线，低=2px虚线",
+        "table_body_min_px": 14,
+        "main_mark_state_records": null
+      },
+      "25-02-direction-comparison": {
+        "records": 3,
+        "visual_records": 3,
+        "table_records": 3,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "direction": "等权卡片列",
+          "value": "价值行",
+          "capability": "能力行",
+          "evidence": "证据行",
+          "limitation": "限制行"
+        },
+        "legend": "三张卡片等权中性边框；不使用首卡高亮，不生成排名",
+        "table_body_min_px": 14,
+        "main_mark_state_records": null
+      },
+      "25-03-capability-map": {
+        "records": 8,
+        "visual_records": 8,
+        "table_records": 8,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "domain": "矩阵行",
+          "p0": "实色单元",
+          "p1": "实色单元",
+          "p1_ai": "实色单元",
+          "p2": "空框虚线单元",
+          "observe": "实色单元"
+        },
+        "legend": "实色=样本有实例；空框虚线=本样本暂无实例",
+        "table_body_min_px": 14,
+        "main_mark_state_records": null
+      },
+      "25-04-sample-dotplot": {
+        "records": 4,
+        "visual_records": 4,
+        "table_records": 4,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "n": "实心点横向位置",
+          "N": "分母刻度",
+          "state": "实心点"
+        },
+        "legend": "实心点=有计数；位置=n/N；不外推市场份额",
+        "table_body_min_px": 14,
+        "main_mark_state_records": null
+      },
+      "25-05-trend-line": {
+        "records": 4,
+        "visual_records": 4,
+        "table_records": 4,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "slot": "横轴时间槽",
+          "missing": "空心节点与虚线",
+          "source_coverage": "节点注记"
+        },
+        "legend": "空心节点+虚线=缺失；当前不绘制真实趋势线",
+        "table_body_min_px": 14,
+        "main_mark_state_records": null
+      },
+      "25-06-remote-constraints": {
+        "records": 3,
+        "visual_records": 3,
+        "table_records": 3,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "disclosure": "形状与文字",
+          "authorization": "许可文字",
+          "contract": "合同文字"
+        },
+        "legend": "明确=实心圆；部分=三角；不足=空心菱形，并同步显示文字",
+        "table_body_min_px": 14,
+        "main_mark_state_records": null
+      },
+      "25-07-policy-runtime": {
+        "records": 3,
+        "visual_records": 3,
+        "table_records": 3,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "policy": "填充纹理与符号",
+          "runtime": "运行时文字",
+          "instances": "实例数字"
+        },
+        "legend": "允许=实色✓；有条件允许=斜纹△；停用=交叉纹×",
+        "table_body_min_px": 14,
+        "main_mark_state_records": null
+      },
+      "25-08-source-band": {
+        "records": 3,
+        "visual_records": 3,
+        "table_records": 3,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "h24": "24小时块纹理",
+          "h48": "48小时块纹理",
+          "state": "状态徽标纹理与文字"
+        },
+        "legend": "缺失=琥珀斜纹；不可用=灰色交叉纹；未配置/无实例=空框；无绿色成功块",
+        "table_body_min_px": 14,
+        "main_mark_state_records": null
+      },
+      "25-09-dual-classification": {
+        "records": 4,
+        "visual_records": 4,
+        "table_records": 4,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "axis": "形状与颜色",
+          "confirmation": "边框线型与图标",
+          "confidence": "置信度文字"
+        },
+        "legend": "来源渠道=蓝色矩形；内容类型=紫色菱形；待确认=实线●；候选=虚线◇",
+        "table_body_min_px": 14,
+        "main_mark_state_records": null
+      },
+      "25-10-relation-matrix": {
+        "records": 6,
+        "visual_records": 6,
+        "table_records": 6,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "selected": "实心/空心单选符",
+          "relation": "六类互斥标签",
+          "basis": "依据文字"
+        },
+        "legend": "●=唯一已选；○=未选；六类关系互斥",
+        "table_body_min_px": 14,
+        "main_mark_state_records": null
+      },
+      "25-11-evidence-stair": {
+        "records": 5,
+        "visual_records": 5,
+        "table_records": 5,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "level": "阶梯高度",
+          "evidence_type": "阶梯标签",
+          "state": "状态文字"
+        },
+        "legend": "高度=可核验层次；标签=证据类型；不等于个人得分",
+        "table_body_min_px": 14,
+        "main_mark_state_records": [
+          {
+            "id": "ev-read",
+            "state": "user_reported",
+            "visible_label": "状态：用户自述",
+            "status": "matched-in-main-mark"
+          },
+          {
+            "id": "ev-practice",
+            "state": "user_reported",
+            "visible_label": "状态：用户自述",
+            "status": "matched-in-main-mark"
+          },
+          {
+            "id": "ev-project",
+            "state": "evidence_available",
+            "visible_label": "状态：有证据待核验",
+            "status": "matched-in-main-mark"
+          },
+          {
+            "id": "ev-production",
+            "state": "verifiable",
+            "visible_label": "状态：可核验",
+            "status": "matched-in-main-mark"
+          },
+          {
+            "id": "ev-peer",
+            "state": "verified",
+            "visible_label": "状态：已核验",
+            "status": "matched-in-main-mark"
+          }
+        ]
+      },
+      "25-12-gap-matrix": {
+        "records": 4,
+        "visual_records": 4,
+        "table_records": 4,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "judgement": "空心菱形与文字",
+          "selected": "不得出现实心已选",
+          "state": "未知文字"
+        },
+        "legend": "空心菱形=未知；不出现绿色已选标记",
+        "table_body_min_px": 14,
+        "main_mark_state_records": null
+      },
+      "25-13-route-graph": {
+        "records": 4,
+        "visual_records": 4,
+        "table_records": 4,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "depends_on": "虚线连接",
+          "state": "锁符号与文字",
+          "node_type": "节点位置"
+        },
+        "legend": "锁=阻断；虚线=目标态依赖；未知时不生成路线",
+        "table_body_min_px": 14,
+        "main_mark_state_records": null
+      },
+      "25-14-version-timeline": {
+        "records": 5,
+        "visual_records": 5,
+        "table_records": 5,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "track": "三条轨道",
+          "state": "标记形状/实空",
+          "source_identity": "来源身份文字"
+        },
+        "legend": "公共文档/快照=实心圆；个人演示=空心圆；规则=菱形",
+        "table_body_min_px": 14,
+        "main_mark_state_records": null
+      },
+      "25-15-sync-timeline": {
+        "records": 4,
+        "visual_records": 4,
+        "table_records": 4,
+        "bidirectional_equal": true,
+        "encoding_contract": {
+          "status": "同步结果文字与符号",
+          "state": "系统状态文字",
+          "action": "动作文字与↻"
+        },
+        "legend": "—=未接通；×=不可用；!=冲突示例；↻=可重试",
+        "table_body_min_px": 14,
+        "main_mark_state_records": [
+          {
+            "id": "sync-a",
+            "state": "not_ready",
+            "visible_label": "系统状态：未就绪",
+            "status": "matched-in-main-mark"
+          },
+          {
+            "id": "sync-b",
+            "state": "not_ready",
+            "visible_label": "系统状态：未就绪",
+            "status": "matched-in-main-mark"
+          },
+          {
+            "id": "sync-service",
+            "state": "unavailable",
+            "visible_label": "系统状态：不可用",
+            "status": "matched-in-main-mark"
+          },
+          {
+            "id": "sync-retry",
+            "state": "example_only",
+            "visible_label": "系统状态：允许状态示例",
+            "status": "matched-in-main-mark"
+          }
+        ]
+      }
+    }
+  },
+  "authored_layout_validation": {
+    "method": "authored-line-box-contract-not-font-glyph-measurement",
+    "caveat": "这些框是设计源的保守布局约束，不是字体栅格化后的真实字形包围盒；真实字形、视觉碰撞与基线仍等待独立逐图审查。",
+    "containers": 18,
+    "negative_fixtures": {
+      "baseline": {
+        "status": "caught",
+        "expected_exit_code": 1,
+        "cli_flag": "--negative-baseline"
+      },
+      "container": {
+        "status": "caught",
+        "expected_exit_code": 1,
+        "cli_flag": "--negative-container"
+      },
+      "collision": {
+        "status": "caught",
+        "expected_exit_code": 1,
+        "cli_flag": "--negative-collision"
+      },
+      "viewport": {
+        "status": "caught",
+        "expected_exit_code": 1,
+        "cli_flag": "--negative-viewport"
+      }
+    }
+  },
+  "raster_integrity": {
+    "general_assets": "PNG签名、外层像素尺寸与SHA；不做通用字体轮廓或逐像素碰撞识别",
+    "button_labels": {
+      "method": "rendered-png-glyph-pixel-bounds-via-coregraphics",
+      "scope": "button-label-glyph-pixels-only",
+      "count": 20,
+      "report": "button-raster-report.json",
+      "report_sha256": "1cca996004a5a171e143e7c9fb66137e3990a041a9d333ce552ad98c569fd611"
+    },
+    "assets": {
+      "01-desktop-page-01-directions-1440.svg": {
+        "text_nodes": 32,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "02-desktop-page-02-tech-landscape-1440.svg": {
+        "text_nodes": 71,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "03-desktop-page-03-market-trends-1440.svg": {
+        "text_nodes": 77,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "04-desktop-page-04-sources-quality-1440.svg": {
+        "text_nodes": 22,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "05-desktop-page-05-workbench-1440.svg": {
+        "text_nodes": 32,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "06-desktop-page-06-personal-evidence-1440.svg": {
+        "text_nodes": 22,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "07-desktop-page-07-gap-roadmap-1440.svg": {
+        "text_nodes": 50,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "08-desktop-page-08-future-history-1440.svg": {
+        "text_nodes": 22,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "09-desktop-page-09-data-rights-1440.svg": {
+        "text_nodes": 44,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "10-desktop-page-10-quality-recovery-1440.svg": {
+        "text_nodes": 42,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "11-flow-01-workbench-six-step.svg": {
+        "text_nodes": 42,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "12-flow-02-evidence-confirmation.svg": {
+        "text_nodes": 31,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "13-flow-03-gap-roadmap-recompute.svg": {
+        "text_nodes": 38,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "14-flow-04-sync-export-delete.svg": {
+        "text_nodes": 35,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "15-truth-01-source-policy-runtime.svg": {
+        "text_nodes": 39,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "16-truth-02-eleven-states.svg": {
+        "text_nodes": 54,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "01-directions-390.svg": {
+        "text_nodes": 14,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "01-directions-320.svg": {
+        "text_nodes": 14,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 320,
+          "height": 844
+        }
+      },
+      "02-tech-390.svg": {
+        "text_nodes": 15,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "02-tech-320.svg": {
+        "text_nodes": 15,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 320,
+          "height": 844
+        }
+      },
+      "03-trends-390.svg": {
+        "text_nodes": 14,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "03-trends-320.svg": {
+        "text_nodes": 14,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 320,
+          "height": 844
+        }
+      },
+      "04-workbench-input-390.svg": {
+        "text_nodes": 12,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "04-workbench-input-320.svg": {
+        "text_nodes": 12,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 320,
+          "height": 844
+        }
+      },
+      "05-workbench-result-390.svg": {
+        "text_nodes": 12,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "05-workbench-result-320.svg": {
+        "text_nodes": 12,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 320,
+          "height": 844
+        }
+      },
+      "06-gap-unknown-390.svg": {
+        "text_nodes": 12,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "06-gap-unknown-320.svg": {
+        "text_nodes": 12,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 320,
+          "height": 844
+        }
+      },
+      "07-data-rights-390.svg": {
+        "text_nodes": 12,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "07-data-rights-320.svg": {
+        "text_nodes": 12,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 320,
+          "height": 844
+        }
+      },
+      "24-components-states.svg": {
+        "text_nodes": 16,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-01-direction-scatter.svg": {
+        "text_nodes": 86,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-02-direction-comparison.svg": {
+        "text_nodes": 49,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-03-capability-map.svg": {
+        "text_nodes": 136,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-04-sample-dotplot.svg": {
+        "text_nodes": 43,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-05-trend-line.svg": {
+        "text_nodes": 48,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-06-remote-constraints.svg": {
+        "text_nodes": 49,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-07-policy-runtime.svg": {
+        "text_nodes": 49,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-08-source-band.svg": {
+        "text_nodes": 42,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-09-dual-classification.svg": {
+        "text_nodes": 48,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-10-relation-matrix.svg": {
+        "text_nodes": 69,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-11-evidence-stair.svg": {
+        "text_nodes": 50,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-12-gap-matrix.svg": {
+        "text_nodes": 69,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-13-route-graph.svg": {
+        "text_nodes": 47,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-14-version-timeline.svg": {
+        "text_nodes": 59,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "25-15-sync-timeline.svg": {
+        "text_nodes": 52,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "26-foundation-contrast-tokens.svg": {
+        "text_nodes": 69,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "27-responsive-1024.svg": {
+        "text_nodes": 16,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      },
+      "28-accessibility-zoom-200.svg": {
+        "text_nodes": 22,
+        "unannotated_internal_keys": 0,
+        "png_dimensions": {
+          "width": 1440,
+          "height": 1024
+        }
+      }
+    }
+  },
+  "authored_svg_zoom_attributes": {
+    "runtime_claim": "not-browser-runtime-validated",
+    "verified_pairs": [
+      "CSS视口属性720→360与physical_scale=2",
+      "标题字号24→48",
+      "正文字号16→32",
+      "辅助字号14→28",
+      "按钮高度44→88",
+      "卡片圆角8→16",
+      "卡片描边1→2"
+    ],
+    "not_verified_as_runtime": [
+      "浏览器CSS回流",
+      "padding实际布局",
+      "gap实际布局",
+      "真实浏览器缩放"
+    ]
+  },
+  "critical_fixes": {
+    "chart_main_mark_state": "25-11=5-of-5-and-25-15=4-of-4",
+    "relation": "missing-version-evidence-mapped-to-evidence-insufficient",
+    "visible_language": "all-49-visible-text-internal-key-scan",
+    "page10": "deduplicated-status-labels",
+    "button_raster": "20-of-20-within-plus-minus-1.5px",
+    "zoom_claim": "authored-svg-attributes-only"
+  },
+  "immutable_checks": {
+    "prompt": "matched",
+    "v1": "matched",
+    "v1_1": "matched",
+    "v1_2": "matched",
+    "v1_3": "matched",
+    "v1_4": "matched",
+    "v1_5": "matched",
+    "v1_5_resolved": "matched"
+  }
+}

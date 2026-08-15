@@ -1,0 +1,1099 @@
+{
+  "schema_version": 1,
+  "version": "1.6",
+  "generated_at": "2026-08-16T02:15:00+08:00",
+  "base_resolved_manifest": "../release-completeness-v1.5/resolved-manifest.json",
+  "base_resolved_manifest_sha256": "5d7a7e2101f4725b82a91b8e9fbe47601bb4877c5d072007129099d3aa10c551",
+  "overlay_manifest": "overlay-manifest.json",
+  "overlay_manifest_sha256": "29af273b6a76f88ffd73bd24790421adea8ffabe94d20bee7e0740fe82082e12",
+  "chart_model": "resolved-chart-models.json",
+  "chart_model_sha256": "6a66d9bab44052c4c7996839760e19a0b748f7b3fab5ed5a973f8f681da10a66",
+  "button_raster_contract": "button-raster-contract.json",
+  "button_raster_contract_sha256": "6f666e74fd0c861bd26791e534891434ff392d8cafc23e519ab3549cd4457d60",
+  "count": 49,
+  "replaced": 41,
+  "reused": 8,
+  "truth_boundary": {
+    "runtime_sources": 0,
+    "connectors": 0,
+    "approved_recruitment_instances": 0
+  },
+  "review_contract": {
+    "machine_validation": "machine-verifiable-authored-structure-and-targeted-raster-button-centering",
+    "font_glyph_geometry": "button-label-pixels-only-no-general-font-geometry-claim",
+    "independent_visual_review": "pending-root-coordinator-round-7",
+    "downstream_route_authorized": false
+  },
+  "assets": [
+    {
+      "name": "01-desktop-page-01-directions-1440.svg",
+      "category": "desktop",
+      "surface": "public",
+      "source": "localized-visible-copy-v1.5",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "../release-completeness-v1.5/assets/01-desktop-page-01-directions-1440.svg",
+      "png_path": "../release-completeness-v1.5/png/01-desktop-page-01-directions-1440.png",
+      "svg_sha256": "0c5e5c62038912302acbb39b6273168dd743dd604ab1ebb0e7b49b7a89eb5706",
+      "png_sha256": "0b1bc7c99409c83429c4fb0092b7dd699209c66a1016581276bf50852af988d2",
+      "machine_assertions": [
+        "visible-connector-and-conditional-localized",
+        "historical-layout-preserved"
+      ],
+      "resolution": "reused-immutable-v1.5-resolved-by-sha",
+      "base_svg_sha256": "c169854d851ba7cc40f006671c5791b70cc08a60aea2b18c8840dcb17d8e0c48",
+      "base_png_sha256": "a9984929efcf22ac97fa6dbd989caac093fbe88db0c65b9ccdfcf52849c8177b"
+    },
+    {
+      "name": "02-desktop-page-02-tech-landscape-1440.svg",
+      "category": "desktop",
+      "surface": "public",
+      "source": "localized-visible-copy-v1.5",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "../release-completeness-v1.5/assets/02-desktop-page-02-tech-landscape-1440.svg",
+      "png_path": "../release-completeness-v1.5/png/02-desktop-page-02-tech-landscape-1440.png",
+      "svg_sha256": "a63cb94b3e20ae6d36e685eefcf166f8fd011491e11f5cc0e91a8ef76997c636",
+      "png_sha256": "83185ea3c758888bb9ed81680d79c68495dbb7e22e66be746f1ceee44f3502ca",
+      "machine_assertions": [
+        "visible-connector-and-conditional-localized",
+        "historical-layout-preserved"
+      ],
+      "resolution": "reused-immutable-v1.5-resolved-by-sha",
+      "base_svg_sha256": "caf6eb216d91653b3557d40e193c70bfc91264ad7f173af87ee0346463e218af",
+      "base_png_sha256": "7be6a805b9d8d439d81c2377bc238f95f7bf8273357083bf80dd942661beb364"
+    },
+    {
+      "name": "03-desktop-page-03-market-trends-1440.svg",
+      "category": "desktop",
+      "surface": "public",
+      "source": "targeted-v1.6-correction",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/03-desktop-page-03-market-trends-1440.svg",
+      "png_path": "png/03-desktop-page-03-market-trends-1440.png",
+      "svg_sha256": "84a5fa3a688c6e16e2f40e1b7fe158e24a87c23a86656a9cfabea7ace4ddb3cf",
+      "png_sha256": "7521cac5ba534f8a81ca63944c5f113ac1861e60918964a1805ddcb2839b22e2",
+      "machine_assertions": [
+        "visible-internal-key-localized",
+        "button-not-applicable",
+        "historical-layout-preserved"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "d77e7790c1815c3f433e4d85144111aac4ebc877abba01908d9cbaf4cbf50ac2",
+      "base_png_sha256": "97d2f547a8637ff569f9f46feeef3ee1f4a899dbb5bb80884b7cd6bc59ba1fd7"
+    },
+    {
+      "name": "04-desktop-page-04-sources-quality-1440.svg",
+      "category": "desktop",
+      "surface": "public",
+      "source": "redrawn-v1.6",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/04-desktop-page-04-sources-quality-1440.svg",
+      "png_path": "png/04-desktop-page-04-sources-quality-1440.png",
+      "svg_sha256": "6a9f021405cd68b605aa3e2dd7fd4a7f56facc8d06c4d02116f539200e938255",
+      "png_sha256": "e4dc38e68c31b3b8a72200834cf8399802d017fd2fd3b65572a02db864f0afeb",
+      "machine_assertions": [
+        "authored-layout-contract",
+        "chip-baseline-offset-five",
+        "single-nonoverlapping-truth-strip"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "342fdd08e41f0822376b4fc14d034e870040f4e3a1f87867165ec391cc312fbc",
+      "base_png_sha256": "71fc7072ac92b1dfea6f3dd41564357244e5eb39537654c724e76d656bd7cc4b"
+    },
+    {
+      "name": "05-desktop-page-05-workbench-1440.svg",
+      "category": "desktop",
+      "surface": "private",
+      "source": "redrawn-v1.6",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/05-desktop-page-05-workbench-1440.svg",
+      "png_path": "png/05-desktop-page-05-workbench-1440.png",
+      "svg_sha256": "60468457f10a43a70a45f9126ded97b1f954f06be61fa486d6372de83eee0d03",
+      "png_sha256": "06d1a6506ac9e6d4527f454737e7c7842b50b3e66022c6cec5cff125602ff3ca",
+      "machine_assertions": [
+        "authored-layout-contract",
+        "chip-baseline-offset-five",
+        "single-nonoverlapping-truth-strip"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "1cc43d5d4b9a1da629d89b034f51bc2ac46a32dacd9c149312881eff3774e046",
+      "base_png_sha256": "500a53acb41f24b8349832f5e5f7616584e8cdb4aec7719be1b26d031ed55257"
+    },
+    {
+      "name": "06-desktop-page-06-personal-evidence-1440.svg",
+      "category": "desktop",
+      "surface": "private",
+      "source": "redrawn-v1.6",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/06-desktop-page-06-personal-evidence-1440.svg",
+      "png_path": "png/06-desktop-page-06-personal-evidence-1440.png",
+      "svg_sha256": "7a81541f99273ac20e6cc1c224ab1c2fc80da614e9d5cd7a0dee8c1e7b107997",
+      "png_sha256": "39319b3ee368c938e5bba68c8590dd60a955936481c41cc6c871f4cff4be20d9",
+      "machine_assertions": [
+        "authored-layout-contract",
+        "chip-baseline-offset-five",
+        "single-nonoverlapping-truth-strip"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "14a2b93c32b5176896164f5abac961c271d0ea2062816a5a5ed15536e97e97e2",
+      "base_png_sha256": "b3dc4dce51a5e9d091570ba55187fa732265bb42986f077b90e81b9dc78d804f"
+    },
+    {
+      "name": "07-desktop-page-07-gap-roadmap-1440.svg",
+      "category": "desktop",
+      "surface": "private",
+      "source": "targeted-v1.6-correction",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/07-desktop-page-07-gap-roadmap-1440.svg",
+      "png_path": "png/07-desktop-page-07-gap-roadmap-1440.png",
+      "svg_sha256": "4bd3184ba43973dfbfeb435f55f9a42ae3083dcb4d4468bbeb9fb2d199ea23e4",
+      "png_sha256": "93196ccf22149637a61940535952cd27df02903578aace5da327e9bd0d1108ce",
+      "machine_assertions": [
+        "visible-internal-key-localized",
+        "button-not-applicable",
+        "historical-layout-preserved"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "d0d5617a983af3e6d630c437a303592c19fafe11523c9b3789e29718c6ac90f2",
+      "base_png_sha256": "8a7529f966ee141105e675fea415b257d23148e0b4c432df06a97e6b3bae436d"
+    },
+    {
+      "name": "08-desktop-page-08-future-history-1440.svg",
+      "category": "desktop",
+      "surface": "mixed",
+      "source": "redrawn-v1.6",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/08-desktop-page-08-future-history-1440.svg",
+      "png_path": "png/08-desktop-page-08-future-history-1440.png",
+      "svg_sha256": "203c695f03dc218c78a4f44c25cdfabc869eab6df387b7f5f1ffec187770f1e0",
+      "png_sha256": "74811c099ae84dd9d78ac3e838aa36b9925f4583426e014e3cc4a9530f97d582",
+      "machine_assertions": [
+        "authored-layout-contract",
+        "chip-baseline-offset-five",
+        "single-nonoverlapping-truth-strip"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "606a43ba4832d9fbbfda2f42749c2c2020535e385d20d9d2110b91ab67e2b6a6",
+      "base_png_sha256": "398859430061bc3d5ee5fd46207b385e5112ebf53ec4004e662a03c2b704efd5"
+    },
+    {
+      "name": "09-desktop-page-09-data-rights-1440.svg",
+      "category": "desktop",
+      "surface": "private",
+      "source": "redrawn-v1.2",
+      "resolution": "reused-immutable-v1.5-resolved-by-sha",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "../release-completeness-v1.2/assets/09-desktop-page-09-data-rights-1440.svg",
+      "png_path": "../release-completeness-v1.2/png/09-desktop-page-09-data-rights-1440.png",
+      "svg_sha256": "e0e5dd2201099b1f10fa710e5eaa820bef652affd1fd5b8d830c4d948891487a",
+      "png_sha256": "69182d94390d987d4b8bb100bfcbded80ff5e30dcdbc5c9b3eb497bc0497f44b",
+      "machine_assertions": [
+        "ac27-account-isolation",
+        "ac29-dual-export"
+      ]
+    },
+    {
+      "name": "10-desktop-page-10-quality-recovery-1440.svg",
+      "category": "desktop",
+      "surface": "public",
+      "source": "targeted-v1.6-correction",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/10-desktop-page-10-quality-recovery-1440.svg",
+      "png_path": "png/10-desktop-page-10-quality-recovery-1440.png",
+      "svg_sha256": "166d5e129ee46705f12075b206a5e89f5691779f81cd907ede94e7411283364e",
+      "png_sha256": "fcb4609848c3c73cbbf7e3356ed503670b74fa95e217128d70f4b30ff60ebb45",
+      "machine_assertions": [
+        "visible-internal-key-localized",
+        "button-not-applicable",
+        "historical-layout-preserved"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "9ea6d86ff592165ed7368352f985ccae2d1121b9cf20f3c55ccb04328761dac5",
+      "base_png_sha256": "2fdb998f419aefa30ddd7c6610149e7802d8c3f654ef5ff5032d88681d36f764"
+    },
+    {
+      "name": "11-flow-01-workbench-six-step.svg",
+      "category": "flow",
+      "surface": "private",
+      "source": "redrawn-v1.3",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "../release-completeness-v1.3/assets/11-flow-01-workbench-six-step.svg",
+      "png_path": "../release-completeness-v1.3/png/11-flow-01-workbench-six-step.png",
+      "svg_sha256": "9941f33dd4f8208ae5b837810c4f96cc5a55fb354bc1ff12a4523b67cf877c31",
+      "png_sha256": "5497a610cefbeb36f7d06e7deb8c9c3edc2d439a90ab84b61bc0f4c2c778bb22",
+      "machine_assertions": [
+        "no-duplicate-step-string-or-label"
+      ],
+      "resolution": "reused-immutable-v1.5-resolved-by-sha",
+      "base_svg_sha256": "305a61d7ea1fa40ec01fd5a59248f7e19f693526ffb9d1ac72872c41978a7927",
+      "base_png_sha256": "da44fc49fda88a8667e61f3ecb9016768a9e677260d923646daff3217ed247df"
+    },
+    {
+      "name": "12-flow-02-evidence-confirmation.svg",
+      "category": "flow",
+      "surface": "mixed",
+      "source": "versioned-v1.1-baseline",
+      "resolution": "reused-immutable-v1.5-resolved-by-sha",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "../release-completeness-v1.2/assets/12-flow-02-evidence-confirmation.svg",
+      "png_path": "../release-completeness-v1.2/png/12-flow-02-evidence-confirmation.png",
+      "svg_sha256": "62d17550caf3f33177d07bcb55ada1e0e175aeab90667fadbf9db57ed23414b5",
+      "png_sha256": "a48e0d34680c595a78087f845c8412697941fbc03e48381ef7bea06a6f7d83ef",
+      "machine_assertions": []
+    },
+    {
+      "name": "13-flow-03-gap-roadmap-recompute.svg",
+      "category": "flow",
+      "surface": "mixed",
+      "source": "versioned-v1.1-baseline",
+      "resolution": "reused-immutable-v1.5-resolved-by-sha",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "../release-completeness-v1.2/assets/13-flow-03-gap-roadmap-recompute.svg",
+      "png_path": "../release-completeness-v1.2/png/13-flow-03-gap-roadmap-recompute.png",
+      "svg_sha256": "86921386a7eccefd3fae0360f4f63f8408202d5ffe4056f6ac4abd1573c549a2",
+      "png_sha256": "ec355df4032771d20fa17200bb196435c2e49d54b4e736e1063627b6ddee8e29",
+      "machine_assertions": []
+    },
+    {
+      "name": "14-flow-04-sync-export-delete.svg",
+      "category": "flow",
+      "surface": "private",
+      "source": "redrawn-v1.2",
+      "resolution": "reused-immutable-v1.5-resolved-by-sha",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "../release-completeness-v1.2/assets/14-flow-04-sync-export-delete.svg",
+      "png_path": "../release-completeness-v1.2/png/14-flow-04-sync-export-delete.png",
+      "svg_sha256": "26851949e0679fcc2f35f7ca71fa3b96a41aa0a304de2593d391f1deb2b60e4e",
+      "png_sha256": "ca8d65062e2486a733e5337c24fa7061a578be8057f6fc0fc5cf2e6775ba7888",
+      "machine_assertions": [
+        "ac29-two-independent-exports"
+      ]
+    },
+    {
+      "name": "15-truth-01-source-policy-runtime.svg",
+      "category": "truth",
+      "surface": "public",
+      "source": "targeted-v1.6-correction",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/15-truth-01-source-policy-runtime.svg",
+      "png_path": "png/15-truth-01-source-policy-runtime.png",
+      "svg_sha256": "63de3187d71102b1ca6b2ba98505d936f92ec634f175e4703119d3b73c67e07f",
+      "png_sha256": "68916aeb6bd982c65d43f1a3f5827b0cc82ca88aa6beb320d733bb5fafd4ecfb",
+      "machine_assertions": [
+        "visible-internal-key-localized",
+        "button-not-applicable",
+        "historical-layout-preserved"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "d9c11684795fc3a9b49b63e977af9453162814ab0ecc06a488888c3588c72af1",
+      "base_png_sha256": "8a283626101cdb5b13672869ee164448305bac97a8e0c6cb299fa4cf7a6d6eb5"
+    },
+    {
+      "name": "16-truth-02-eleven-states.svg",
+      "category": "truth",
+      "surface": "public",
+      "source": "localized-visible-copy-v1.5",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "../release-completeness-v1.5/assets/16-truth-02-eleven-states.svg",
+      "png_path": "../release-completeness-v1.5/png/16-truth-02-eleven-states.png",
+      "svg_sha256": "5731b99b9dd2a53ac6d914c9d04debaa96aebe768e97feb04bc64465cac78d19",
+      "png_sha256": "6078fb7eae51dd9e75671bc1a3f7140af2ea45fd1d8e97a10bde4203463088d4",
+      "machine_assertions": [
+        "visible-connector-and-conditional-localized",
+        "historical-layout-preserved"
+      ],
+      "resolution": "reused-immutable-v1.5-resolved-by-sha",
+      "base_svg_sha256": "d6c0a76cfb57135d64f2407709000e304e154050319a88d797905803521b48b0",
+      "base_png_sha256": "4331082559e3117f14735a20f27860f60344ba93fc4ec67a5decddf42c47379c"
+    },
+    {
+      "name": "01-directions-390.svg",
+      "category": "mobile",
+      "surface": "public",
+      "source": "targeted-v1.6-correction",
+      "outer_pixels": {
+        "width": 390,
+        "height": 844
+      },
+      "svg_path": "assets/01-directions-390.svg",
+      "png_path": "png/01-directions-390.png",
+      "svg_sha256": "3d984a747293e1267ffb4f5363680838c8f6a69b5efab8e52db67aca5a7ead4c",
+      "png_sha256": "dc5dcb2ec64b017bda2d59d759610a785d709d9ce5a2bbbe0d7f4ca2cf476f48",
+      "machine_assertions": [
+        "language-preserved",
+        "raster-button-glyph-center",
+        "historical-layout-preserved"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "10c812a2fcf01f652d884402ae79f7b01b838a98bfd0aaa8319bc98ccc4a91ba",
+      "base_png_sha256": "d62b26adb26b9e43667761773e8da6fcfa38957b1e8859a5f63ebb67589681c0"
+    },
+    {
+      "name": "01-directions-320.svg",
+      "category": "mobile",
+      "surface": "public",
+      "source": "targeted-v1.6-correction",
+      "outer_pixels": {
+        "width": 320,
+        "height": 844
+      },
+      "svg_path": "assets/01-directions-320.svg",
+      "png_path": "png/01-directions-320.png",
+      "svg_sha256": "9721e47dfd902a20b1a979c69748e1c4a8228df015e6237df24b3318bb36e30f",
+      "png_sha256": "0595dffca7a927742bed24c9c6a59e9684d271d075941a90766895251df51922",
+      "machine_assertions": [
+        "language-preserved",
+        "raster-button-glyph-center",
+        "historical-layout-preserved"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "e2f322ba33088a479f8314573620d58a03a0f1dbda9de72c3078f58a28ef2d1d",
+      "base_png_sha256": "fd703c68e4bfccad07eae471192060e62572390c145948401890c14aadf9fef5"
+    },
+    {
+      "name": "02-tech-390.svg",
+      "category": "mobile",
+      "surface": "public",
+      "source": "targeted-v1.6-correction",
+      "outer_pixels": {
+        "width": 390,
+        "height": 844
+      },
+      "svg_path": "assets/02-tech-390.svg",
+      "png_path": "png/02-tech-390.png",
+      "svg_sha256": "a05647cb32cf6af958f2bbd4b992dff848e1f0f634c5e134ae3dc924380fde1b",
+      "png_sha256": "6138bb70386a7eecd778da9e14c57b719fd953e13c39168a80524d934f373bff",
+      "machine_assertions": [
+        "language-preserved",
+        "raster-button-glyph-center",
+        "historical-layout-preserved"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "17c788e929b428b97a6c21ebc8b645d05856efb5a507199b95a45766ef78bf9d",
+      "base_png_sha256": "edf6d2c7678aefeb22fb6de3bf20cf412c4106d0e6568a275d6d9d64008f947a"
+    },
+    {
+      "name": "02-tech-320.svg",
+      "category": "mobile",
+      "surface": "public",
+      "source": "targeted-v1.6-correction",
+      "outer_pixels": {
+        "width": 320,
+        "height": 844
+      },
+      "svg_path": "assets/02-tech-320.svg",
+      "png_path": "png/02-tech-320.png",
+      "svg_sha256": "bca0801156815df25028484786d68e5184d8793211bac974ee5a61a2b772bdfb",
+      "png_sha256": "a5105ce4919848d7f8fe31b7268e416185e4682095f397d0b86ffb21091993c5",
+      "machine_assertions": [
+        "language-preserved",
+        "raster-button-glyph-center",
+        "historical-layout-preserved"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "6c93c1458a8f3609cb46f4a88247a16077c8319df16a872d6ee8472e14efaeea",
+      "base_png_sha256": "fa988b7ab7d12c6c97ed98c0ab11da6465700ce14e0e64010b44e7b3d8bef506"
+    },
+    {
+      "name": "03-trends-390.svg",
+      "category": "mobile",
+      "surface": "public",
+      "source": "targeted-v1.6-correction",
+      "outer_pixels": {
+        "width": 390,
+        "height": 844
+      },
+      "svg_path": "assets/03-trends-390.svg",
+      "png_path": "png/03-trends-390.png",
+      "svg_sha256": "f1fdd1b6eb7dc882d801caf0dbdbc7701aadc12644f33511b0f5fc8fbac5b18f",
+      "png_sha256": "eacc5b9e6dc3bf68853984d9930eb3fec9ddf411e1538bbdced8a9c38329e611",
+      "machine_assertions": [
+        "language-preserved",
+        "raster-button-glyph-center",
+        "historical-layout-preserved"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "5042bd378501a59bc466b4581e4b99fdeac8f0250b0b384d4c04e63bb2999550",
+      "base_png_sha256": "9aada8f54f073ec4ed01f3e7614b752a4a1f662371a6904f7c8a52557826b5f0"
+    },
+    {
+      "name": "03-trends-320.svg",
+      "category": "mobile",
+      "surface": "public",
+      "source": "targeted-v1.6-correction",
+      "outer_pixels": {
+        "width": 320,
+        "height": 844
+      },
+      "svg_path": "assets/03-trends-320.svg",
+      "png_path": "png/03-trends-320.png",
+      "svg_sha256": "914fac523b2ff73ce18ddc2a132af18b61ffe90af557b7b03518c8c1edf66c1d",
+      "png_sha256": "4f595d91223d3bfb7a2f437cd4fece02e6913dbb6dcb1ee078341b964908bc92",
+      "machine_assertions": [
+        "language-preserved",
+        "raster-button-glyph-center",
+        "historical-layout-preserved"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "2d1cfbd59894c46d2427e43258307b379d056ca834beb805ccbaf1ad555a4a2b",
+      "base_png_sha256": "a76ae96c1c5d18a15545092b0e1f594f6ad8b052de599bf65d064595ace1772c"
+    },
+    {
+      "name": "04-workbench-input-390.svg",
+      "category": "mobile",
+      "surface": "private",
+      "source": "targeted-v1.6-correction",
+      "outer_pixels": {
+        "width": 390,
+        "height": 844
+      },
+      "svg_path": "assets/04-workbench-input-390.svg",
+      "png_path": "png/04-workbench-input-390.png",
+      "svg_sha256": "20855496d30a24657fcd2e1466f51162f832905e0bb7df6172ad6ea65cf82419",
+      "png_sha256": "cf2b32f0b440aacf414e4748bf60c561d6261d0c113513ab4f971aed6c7b57b3",
+      "machine_assertions": [
+        "language-preserved",
+        "raster-button-glyph-center",
+        "historical-layout-preserved"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "23d30cee17980a205ee8e326b81d2906b0c05df4599f675fbaea007d37e0ccac",
+      "base_png_sha256": "ca315f0510f50032aad8ef07df3184b5e4bb05e9e0f253660ab90baad9e296ce"
+    },
+    {
+      "name": "04-workbench-input-320.svg",
+      "category": "mobile",
+      "surface": "private",
+      "source": "targeted-v1.6-correction",
+      "outer_pixels": {
+        "width": 320,
+        "height": 844
+      },
+      "svg_path": "assets/04-workbench-input-320.svg",
+      "png_path": "png/04-workbench-input-320.png",
+      "svg_sha256": "d122e7eb0144aa7e7de685fbfb429c9700e3c25868de739e1386fd2e29e68b5c",
+      "png_sha256": "1aa23cb584c9a22c3387257dccc7c989e83a2a03c011873cfc407cb77b1d04cf",
+      "machine_assertions": [
+        "language-preserved",
+        "raster-button-glyph-center",
+        "historical-layout-preserved"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "9e636e9deee4dc0217c5abc18e80e8d28622ee8179ac55dd0a3ce99874f6ffcb",
+      "base_png_sha256": "29a32c397a657e9ee3bc64b664631add8504e82c700b2f09d06cd0479d52e144"
+    },
+    {
+      "name": "05-workbench-result-390.svg",
+      "category": "mobile",
+      "surface": "private",
+      "source": "targeted-v1.6-correction",
+      "outer_pixels": {
+        "width": 390,
+        "height": 844
+      },
+      "svg_path": "assets/05-workbench-result-390.svg",
+      "png_path": "png/05-workbench-result-390.png",
+      "svg_sha256": "ec0edf767e2315e9cda5458caf83ace5cdbb4de281a8c64dede041ba6e76caf5",
+      "png_sha256": "db41ec6f159115a1ae22b502c9e5c4c297e574096c482f5ae920744dd238c167",
+      "machine_assertions": [
+        "language-preserved",
+        "raster-button-glyph-center",
+        "historical-layout-preserved"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "d5b6687288bafcfb3a7084444b0ab833803b0544c9eea00f053ca4c76c2fd64c",
+      "base_png_sha256": "e5789ba27a557383c761f8e427e65d5a602266eda27399468cbbaac70674105b"
+    },
+    {
+      "name": "05-workbench-result-320.svg",
+      "category": "mobile",
+      "surface": "private",
+      "source": "targeted-v1.6-correction",
+      "outer_pixels": {
+        "width": 320,
+        "height": 844
+      },
+      "svg_path": "assets/05-workbench-result-320.svg",
+      "png_path": "png/05-workbench-result-320.png",
+      "svg_sha256": "f1ecfb646277cd7b8c3fffbd5dbbe8c95ef6852490c7b71e578f970cf1e98a14",
+      "png_sha256": "fd46d5f74290042ec93b7ea987b71d9b033d0d48b25ae31f5c6111f9ba6cd8cd",
+      "machine_assertions": [
+        "language-preserved",
+        "raster-button-glyph-center",
+        "historical-layout-preserved"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "43c1a6aaac2114deac2cd9f8255ea7138f8df258becfb785b61e209ba93ba4e1",
+      "base_png_sha256": "0fdd36595cdcf965fe15a5195e568a801336ad51e420cd80195d51664d523b0d"
+    },
+    {
+      "name": "06-gap-unknown-390.svg",
+      "category": "mobile",
+      "surface": "private",
+      "source": "targeted-v1.6-correction",
+      "outer_pixels": {
+        "width": 390,
+        "height": 844
+      },
+      "svg_path": "assets/06-gap-unknown-390.svg",
+      "png_path": "png/06-gap-unknown-390.png",
+      "svg_sha256": "d8ee5bae6379a3e8445554772f69c049dd0074c46e8d1eca9815ba8b75544cec",
+      "png_sha256": "1990054eca636408db23d5e8e4cf7e325aa671215dbea9a8f4441001423cc782",
+      "machine_assertions": [
+        "language-preserved",
+        "raster-button-glyph-center",
+        "historical-layout-preserved"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "6ee652613c91dfcab26dfc44663826fed8a47a0a81409886dde1e093cd1e11c4",
+      "base_png_sha256": "bf75b4ae171092fd14c51e5c021d6ddfcaa2347ec2c608b65e383047b8b6a5cd"
+    },
+    {
+      "name": "06-gap-unknown-320.svg",
+      "category": "mobile",
+      "surface": "private",
+      "source": "targeted-v1.6-correction",
+      "outer_pixels": {
+        "width": 320,
+        "height": 844
+      },
+      "svg_path": "assets/06-gap-unknown-320.svg",
+      "png_path": "png/06-gap-unknown-320.png",
+      "svg_sha256": "7afa54ee9cad21385573fe21a59ba3be1a0aa1217f991a6f719da88eb90a94af",
+      "png_sha256": "e7ca99884c4ccbca9b32b94895207bc0754456aec57cdb564b0e7a38dbeb650f",
+      "machine_assertions": [
+        "language-preserved",
+        "raster-button-glyph-center",
+        "historical-layout-preserved"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "29a71800cb4665e7bdbcb092320c7d985f94c63ca116b46a4ec2abe5a0d1c8de",
+      "base_png_sha256": "0a54dd771fef399e53a0fe4518c639c3f7e263d94f42b1761b80e2f7e28fb44d"
+    },
+    {
+      "name": "07-data-rights-390.svg",
+      "category": "mobile",
+      "surface": "private",
+      "source": "targeted-v1.6-correction",
+      "outer_pixels": {
+        "width": 390,
+        "height": 844
+      },
+      "svg_path": "assets/07-data-rights-390.svg",
+      "png_path": "png/07-data-rights-390.png",
+      "svg_sha256": "e7b9b6acd862c463d3b1ae33e6540b2400ca5ccc434c114969ed952cdab0fbf2",
+      "png_sha256": "eb8bf0173a65c5a9df6148e3a5d13086c2b3e69ab232b8506a14ce2f912d8c86",
+      "machine_assertions": [
+        "language-preserved",
+        "raster-button-glyph-center",
+        "historical-layout-preserved"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "57eeb3c5eb67c8e00ac4794d4e3f4cedb6a0a5423cb79a387f82accbe654551e",
+      "base_png_sha256": "e57562dee6fd6043e12d085988e92fae607c1ec84dc76806609638943d90edd3"
+    },
+    {
+      "name": "07-data-rights-320.svg",
+      "category": "mobile",
+      "surface": "private",
+      "source": "targeted-v1.6-correction",
+      "outer_pixels": {
+        "width": 320,
+        "height": 844
+      },
+      "svg_path": "assets/07-data-rights-320.svg",
+      "png_path": "png/07-data-rights-320.png",
+      "svg_sha256": "4fe2a273f24c9b796efd520e22dcf28000023e28f03a758a83779d0903e3ba05",
+      "png_sha256": "d6e70d8bc0c6ca12f707fd7b7345fa26336919c91932548c920042504ccafa61",
+      "machine_assertions": [
+        "language-preserved",
+        "raster-button-glyph-center",
+        "historical-layout-preserved"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "dbc5c5575c9b24ed910ab7c855bbc8291dc0913a6a3dcbec3d3d397d48f7c328",
+      "base_png_sha256": "23f085df9ddd8779980d0dc435048dd3940efbd9eac2dd8c12c25113751a6eb2"
+    },
+    {
+      "name": "24-components-states.svg",
+      "category": "standard",
+      "surface": "mixed",
+      "source": "redrawn-v1.6",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/24-components-states.svg",
+      "png_path": "png/24-components-states.png",
+      "svg_sha256": "aaad877d7a107ec01189acdb6b8e40b84156212753c8561b153a77c1d720a7c8",
+      "png_sha256": "fbad65247c3744747c672ff937bda407f4ffa387953188840f721791f1d284a0",
+      "machine_assertions": [
+        "pill-baseline-offset-five",
+        "actual-buttons-at-least-44",
+        "raster-button-glyph-center"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "1ff8f7f16db1ae4363db8c5c5142cddf470258dc8e33c9c3c684435e8195dad2",
+      "base_png_sha256": "fce187de499fce7c96d0efb118d736e9362bd5a678e9b9236dfbbc163b7e69c8"
+    },
+    {
+      "name": "25-01-direction-scatter.svg",
+      "category": "chart",
+      "surface": "public",
+      "source": "shared-structured-model-v1.6",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/25-01-direction-scatter.svg",
+      "png_path": "png/25-01-direction-scatter.png",
+      "svg_sha256": "2378a4272f05618c41f68d5d38be534632ee9086cb4cd3ca03f3a880fe2630d1",
+      "png_sha256": "bad63c2e2e85dac3f0ad8004cb0656ed8666cbbc5778d5fd3e39b5987998e955",
+      "machine_assertions": [
+        "visual-table-model-bidirectional-equality",
+        "named-encoding-contracts-only",
+        "table-body-at-least-14",
+        "complete-simplified-chinese"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "6f10b15856336a76a05f751b83592ded9d4b2016c17edc2066e5e73cb7570fd6",
+      "base_png_sha256": "072a25d73688bfa861d137aba0bbb2d3813bbb6b33150c1a62259ca8c02c1050"
+    },
+    {
+      "name": "25-02-direction-comparison.svg",
+      "category": "chart",
+      "surface": "public",
+      "source": "shared-structured-model-v1.6",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/25-02-direction-comparison.svg",
+      "png_path": "png/25-02-direction-comparison.png",
+      "svg_sha256": "8b49a7df46615c3f1d2fdecf3982c842973c712a9f27500bf718333d94829350",
+      "png_sha256": "289bb97f4bdcc50a1545041497c02b879107225a023643cfc4554a394274e5d3",
+      "machine_assertions": [
+        "visual-table-model-bidirectional-equality",
+        "named-encoding-contracts-only",
+        "table-body-at-least-14",
+        "complete-simplified-chinese"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "722920af88122e4f5d214dc6598aa303659dba584bf2eaf4d698ed8b6aa90322",
+      "base_png_sha256": "92143de1c41d6c0ad3d5ea577e056965d27ad69c7895a717283b484caf31a08f"
+    },
+    {
+      "name": "25-03-capability-map.svg",
+      "category": "chart",
+      "surface": "public",
+      "source": "shared-structured-model-v1.6",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/25-03-capability-map.svg",
+      "png_path": "png/25-03-capability-map.png",
+      "svg_sha256": "a38f2158396541bb26ae50824d27ce66fc9de6a87bd1a39c2673e83ca5f30c9f",
+      "png_sha256": "dd2185e7605250ff2ca4e2f2ea3e15e26dd0ff1193ce2bcfa757ed75bad92a14",
+      "machine_assertions": [
+        "visual-table-model-bidirectional-equality",
+        "named-encoding-contracts-only",
+        "table-body-at-least-14",
+        "complete-simplified-chinese"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "ea77979a58b29b878b3c31db45aacc3f79696b1dccda69452c171d6085bcbdc3",
+      "base_png_sha256": "6f4c405d9d40606dcb7b682bf59f03f45e6dff373af64484da50dea0efb84e0a"
+    },
+    {
+      "name": "25-04-sample-dotplot.svg",
+      "category": "chart",
+      "surface": "public",
+      "source": "shared-structured-model-v1.6",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/25-04-sample-dotplot.svg",
+      "png_path": "png/25-04-sample-dotplot.png",
+      "svg_sha256": "0c75d93b3070fff99b92a2dc1b9b8da4cfb1a9b0fb22fa723976d76638b9b6fd",
+      "png_sha256": "7f13e2ae0571443fb6f8f67c9167a10586852c9f9d711a3f045baa9f7616397d",
+      "machine_assertions": [
+        "visual-table-model-bidirectional-equality",
+        "named-encoding-contracts-only",
+        "table-body-at-least-14",
+        "complete-simplified-chinese"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "b0caa578895f5bea318c4c2c346067cf009f2f5ae2d3d63a8eb3bbeb9fc2fe1d",
+      "base_png_sha256": "4f019a50e454a62851deab679fa96caf002bafeba6160944cf2c6620fb733e4c"
+    },
+    {
+      "name": "25-05-trend-line.svg",
+      "category": "chart",
+      "surface": "public",
+      "source": "shared-structured-model-v1.6",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/25-05-trend-line.svg",
+      "png_path": "png/25-05-trend-line.png",
+      "svg_sha256": "69c7a321f7060084c84cc1d0149c4525b4565845802f0b1637e9290ed3088882",
+      "png_sha256": "645c2c965dba8faffc90283e9872e6f8466c06514ec07427a81e60dc0ca14f85",
+      "machine_assertions": [
+        "visual-table-model-bidirectional-equality",
+        "named-encoding-contracts-only",
+        "table-body-at-least-14",
+        "complete-simplified-chinese"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "5b22c559bf5876605272dbaf5932114ffe00ba28dfc3d05555dcd3d348ebcbac",
+      "base_png_sha256": "4a32ad2d97642a4252950d4bc5d0b916e3e03e0ec312baa1eaac3a551031b6ee"
+    },
+    {
+      "name": "25-06-remote-constraints.svg",
+      "category": "chart",
+      "surface": "public",
+      "source": "shared-structured-model-v1.6",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/25-06-remote-constraints.svg",
+      "png_path": "png/25-06-remote-constraints.png",
+      "svg_sha256": "d6879150b984b7de92d4d718196d914b2d23b6fd455e5c3f34667bc3b6282107",
+      "png_sha256": "203bd3a0268adfd7e6e84fc76c19a2c626e55be6861ec3947bc186dcbec00780",
+      "machine_assertions": [
+        "visual-table-model-bidirectional-equality",
+        "named-encoding-contracts-only",
+        "table-body-at-least-14",
+        "complete-simplified-chinese"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "b28325d8598cd3d632b1267279dd1287c4590b433d25bd9e20735b9100e32a66",
+      "base_png_sha256": "766c699403e35a277efd9ebf848daedb1b53ea117d4d6c170bd6fca90dcb74c3"
+    },
+    {
+      "name": "25-07-policy-runtime.svg",
+      "category": "chart",
+      "surface": "public",
+      "source": "shared-structured-model-v1.6",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/25-07-policy-runtime.svg",
+      "png_path": "png/25-07-policy-runtime.png",
+      "svg_sha256": "99a4ddf41ea5924adb4f237ac814143ac6124e2cab2292712fd26110afcaaf59",
+      "png_sha256": "706cd691ace906cdecd1a30455f1ddb6f422e1fc698c556d64767b47663cbb20",
+      "machine_assertions": [
+        "visual-table-model-bidirectional-equality",
+        "named-encoding-contracts-only",
+        "table-body-at-least-14",
+        "complete-simplified-chinese"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "f9414e3606e669eacd1673cb45a05df668cf140a0170d190d7c466b5b718a25f",
+      "base_png_sha256": "4510c0817f35dadd92ace4982dd82025f25fa2da46b9fdd5c0fe0d4a4b1fce15"
+    },
+    {
+      "name": "25-08-source-band.svg",
+      "category": "chart",
+      "surface": "public",
+      "source": "shared-structured-model-v1.6",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/25-08-source-band.svg",
+      "png_path": "png/25-08-source-band.png",
+      "svg_sha256": "ac20538a71f3fa3973183b26308bf4a4a7a1a26e03e7d69d74342b5507257898",
+      "png_sha256": "6016f4e5a77962a6ecb1b52f733b2e227fa9b89277169cd4c39452ff8b2e2c3d",
+      "machine_assertions": [
+        "visual-table-model-bidirectional-equality",
+        "named-encoding-contracts-only",
+        "table-body-at-least-14",
+        "complete-simplified-chinese"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "97c8753ea46e10d6f4e5c8f43bb552fd4ac4915c8fab9e83d2b4d2fcbad657a9",
+      "base_png_sha256": "0a86c7f151e8831b54d6c95f9427f867f477e3fd623eaae7ccafecb93d3663d7"
+    },
+    {
+      "name": "25-09-dual-classification.svg",
+      "category": "chart",
+      "surface": "private",
+      "source": "shared-structured-model-v1.6",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/25-09-dual-classification.svg",
+      "png_path": "png/25-09-dual-classification.png",
+      "svg_sha256": "1d36f4724b49eaba5eb62cdbc1723bb08620960ff65670a7d872d315eaa77683",
+      "png_sha256": "66f203c74faf11898fcccf68172f8566e9d8088ffbecb8697d5b1e868408eb69",
+      "machine_assertions": [
+        "visual-table-model-bidirectional-equality",
+        "named-encoding-contracts-only",
+        "table-body-at-least-14",
+        "complete-simplified-chinese"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "5b48d6d9a7a5f3c90914b2313934044f4f5fed6fd62925dfb19766841cfee9b7",
+      "base_png_sha256": "f3f49a716ffdbeb0dda0d1f650304f7cd1425beb157dc4cca5ac57467af31d73"
+    },
+    {
+      "name": "25-10-relation-matrix.svg",
+      "category": "chart",
+      "surface": "private",
+      "source": "shared-structured-model-v1.6",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/25-10-relation-matrix.svg",
+      "png_path": "png/25-10-relation-matrix.png",
+      "svg_sha256": "150098919051f6123f0a29e1d460521d1189dac7d3789815db4d84d15323dd3d",
+      "png_sha256": "b8c8fe19043dccff38ce47ceb9893910d167841b1a002c5ba9913ebe851a8a65",
+      "machine_assertions": [
+        "visual-table-model-bidirectional-equality",
+        "named-encoding-contracts-only",
+        "table-body-at-least-14",
+        "complete-simplified-chinese"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "7998b024b2ae4ceeb354dd4e7c4591de5591b428ef87962be4f5fdbbbd4bf1c0",
+      "base_png_sha256": "3495ec4ef7a8be937d2b892fe1be0143bf370124dc02dc865425f46316ba57ab"
+    },
+    {
+      "name": "25-11-evidence-stair.svg",
+      "category": "chart",
+      "surface": "private",
+      "source": "shared-structured-model-v1.6",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/25-11-evidence-stair.svg",
+      "png_path": "png/25-11-evidence-stair.png",
+      "svg_sha256": "3f2bfeaa22255f9625873eaf6c240fb01dbeccf51303809dc88afa05614acbb2",
+      "png_sha256": "b2bb201f441d3776056e944d89b235661ffd5d264fb6beb3ea1fc3d679d39978",
+      "machine_assertions": [
+        "visual-table-model-bidirectional-equality",
+        "named-encoding-contracts-only",
+        "table-body-at-least-14",
+        "complete-simplified-chinese"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "efdd058374584c9f5eae8196bb671be5f40f2a22a92a027718a238d910052804",
+      "base_png_sha256": "9ad82d54649dc247d4873e6dc8f3676948c3e8da54182b67470b6eb23692751f"
+    },
+    {
+      "name": "25-12-gap-matrix.svg",
+      "category": "chart",
+      "surface": "private",
+      "source": "shared-structured-model-v1.6",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/25-12-gap-matrix.svg",
+      "png_path": "png/25-12-gap-matrix.png",
+      "svg_sha256": "d340cf87115673f761cc26c0cfd0bb5ef54deead55da098b12a85ac6cab9fece",
+      "png_sha256": "41f30725504a9a483398965e797fb78288c77e756d1255b4995665d303a185d4",
+      "machine_assertions": [
+        "visual-table-model-bidirectional-equality",
+        "named-encoding-contracts-only",
+        "table-body-at-least-14",
+        "complete-simplified-chinese"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "8609f63b5957224a08326917d8f8c4578e3a21aaf45ab97b18e80d786bffa005",
+      "base_png_sha256": "87b2838fad661cbb4030fad6b30dae427756ebb900eeb217fc27683bd9bb48da"
+    },
+    {
+      "name": "25-13-route-graph.svg",
+      "category": "chart",
+      "surface": "private",
+      "source": "shared-structured-model-v1.6",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/25-13-route-graph.svg",
+      "png_path": "png/25-13-route-graph.png",
+      "svg_sha256": "93c2e51283fa071a44b6632199daa3fd498d3b1da5c9dcd98e066e0b506bdfee",
+      "png_sha256": "6e80fdbd26b458f4d15e19a6827fc81b3f33ec8cd7196f0696fe707e567a8550",
+      "machine_assertions": [
+        "visual-table-model-bidirectional-equality",
+        "named-encoding-contracts-only",
+        "table-body-at-least-14",
+        "complete-simplified-chinese"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "0502e133133cb0c0d94ba40990cf74a20cd1934143b92593d944b0ab07281a04",
+      "base_png_sha256": "8b6bb4b760bea06fb3e86c88e7e15ebb667c9429865a3f9719c7300242ed28ac"
+    },
+    {
+      "name": "25-14-version-timeline.svg",
+      "category": "chart",
+      "surface": "mixed",
+      "source": "shared-structured-model-v1.6",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/25-14-version-timeline.svg",
+      "png_path": "png/25-14-version-timeline.png",
+      "svg_sha256": "1653903cb047a5b8cd06087397e6536eaee7bfe9e3654bbd0071c3c25e6aaf44",
+      "png_sha256": "340a00e81155e66b8307c1c074e7e2b780990232016bf531701a3c16149682eb",
+      "machine_assertions": [
+        "visual-table-model-bidirectional-equality",
+        "named-encoding-contracts-only",
+        "table-body-at-least-14",
+        "complete-simplified-chinese"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "4df292a0264684c8f9778ba62a4e553430b3d1f12290a25dbaa7d801b80ab556",
+      "base_png_sha256": "93d9f0870b9ef23bfcff0a1b74866fee89722dccd029ffb8c10dfb82d7c45957"
+    },
+    {
+      "name": "25-15-sync-timeline.svg",
+      "category": "chart",
+      "surface": "private",
+      "source": "shared-structured-model-v1.6",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/25-15-sync-timeline.svg",
+      "png_path": "png/25-15-sync-timeline.png",
+      "svg_sha256": "7bd3822dde18fd89879cefc5554d5c956601a6092a061b751c3e924d05be4bbd",
+      "png_sha256": "ae526de4037a9be0f1bea1a8ff39267cac97ceb27b70192e92e82e667b0c1aaf",
+      "machine_assertions": [
+        "visual-table-model-bidirectional-equality",
+        "named-encoding-contracts-only",
+        "table-body-at-least-14",
+        "complete-simplified-chinese"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "73d1cfe02495a86f0483c4aa3a68aaf1e925d6a1e7070565423cf5550792aa22",
+      "base_png_sha256": "22e778c9c48f62bd18669965085506876e5eb5c0d681679e13e28fbacbc03111"
+    },
+    {
+      "name": "26-foundation-contrast-tokens.svg",
+      "category": "standard",
+      "surface": "mixed",
+      "source": "targeted-v1.6-correction",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/26-foundation-contrast-tokens.svg",
+      "png_path": "png/26-foundation-contrast-tokens.png",
+      "svg_sha256": "4e4d97f892695a420eb0fa1eefc7dd2f5fda41ed714d79e6d872d8a1fa363e01",
+      "png_sha256": "da60f23cb2b793e13f5c5fc35e01d30659e689db442c420362483d566588209d",
+      "machine_assertions": [
+        "visible-internal-key-localized",
+        "button-not-applicable",
+        "historical-layout-preserved"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "58d01c6a5d7c6188b54bd54e93856a20c736d2a51205854bcffba97b6249120b",
+      "base_png_sha256": "5a1e8bc6c04cb12cf3bc0e372509a2594232a61387e47e1515b6275a852ad560"
+    },
+    {
+      "name": "27-responsive-1024.svg",
+      "category": "responsive",
+      "surface": "public",
+      "source": "targeted-v1.6-correction",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/27-responsive-1024.svg",
+      "png_path": "png/27-responsive-1024.png",
+      "svg_sha256": "2aec18a7bef04d48dd87c5eafee698b205821d7dc9f6b4535a88e87f36e905f7",
+      "png_sha256": "c6f4145b6d1872424412a2672efc3790d57135f1246ee76c0c94108fb2e26c9e",
+      "machine_assertions": [
+        "language-preserved",
+        "raster-button-glyph-center",
+        "historical-layout-preserved"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "84cb132845f4835d64a4ee923bcbae41b97cf66f502b72cdbdef6cf3b9f25fda",
+      "base_png_sha256": "bc899131692589cc9afb6d75135dcd1ba54ece06df09ae2fb607c05c501c3535"
+    },
+    {
+      "name": "28-accessibility-zoom-200.svg",
+      "category": "responsive",
+      "surface": "private",
+      "source": "redrawn-v1.6",
+      "outer_pixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "svg_path": "assets/28-accessibility-zoom-200.svg",
+      "png_path": "png/28-accessibility-zoom-200.png",
+      "svg_sha256": "0bafe7834d6cafe60a018c16e0b60af067149cd41b1163eb269a8fa13c96fd41",
+      "png_sha256": "fa905c0d904aebd6c239d3088830e30e4c0e72a31c4be07f68f5185cf535430a",
+      "machine_assertions": [
+        "same-content-reflow",
+        "authored-svg-attribute-token-pairs",
+        "conservative-authored-safe-insets",
+        "raster-button-glyph-center"
+      ],
+      "resolution": "replaced-by-v1.6-overlay",
+      "base_svg_sha256": "c43c0275b65d4440f490fa6677c77f1d2621c3ee0d86e64ab1b2caea8afa91ad",
+      "base_png_sha256": "71ebc5a263a098cee95f0e6cd8ae58cd288a6a71d7368f4dd436df1307deb9a7"
+    }
+  ]
+}

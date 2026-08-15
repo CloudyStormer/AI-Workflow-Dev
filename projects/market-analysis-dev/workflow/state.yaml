@@ -4,7 +4,7 @@ run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
 stage: ui-ux
-status: release-completeness-ui-design-v1-5-machine-passed-independent-review-pending
+status: release-completeness-ui-design-v1-6-machine-passed-independent-review-pending
 current_role: role-ui-designer
 blocked: false
 ui_assets:
@@ -215,20 +215,20 @@ release_scope_review:
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
   gate: ui-design-review
-  artifact: "artifact-career-release-completeness-ui-design-006"
-  visual_bundle: "artifact-career-release-completeness-ui-visuals-006"
-  path: ui/10-release-completeness-ui-design-v1.5.md
-  version: "1.5"
-  sha256: 6decc0a7c72286724fc9b3c940c5d998ac6f73ec6c2bfa0ee98213759cab7bf7
-  resolved_manifest: ui/release-completeness-v1.5/resolved-manifest.json
-  resolved_manifest_sha256: 5d7a7e2101f4725b82a91b8e9fbe47601bb4877c5d072007129099d3aa10c551
-  scope: "AIWorkFlow 根协调对 CR-UI-002 v1.5 resolved 49 张设计包执行第六轮独立视觉审查；35 张 v1.5 overlay 修订、14 张 v1.4 resolved 按 SHA 复用。机器门不声称真实字体或 PNG 像素视觉通过。"
+  artifact: "artifact-career-release-completeness-ui-design-007"
+  visual_bundle: "artifact-career-release-completeness-ui-visuals-007"
+  path: ui/11-release-completeness-ui-design-v1.6.md
+  version: "1.6"
+  sha256: 199ab0bbef1a57cac0c5d31e83a52f380775631fcc2455cce9481e80b7aeba47
+  resolved_manifest: ui/release-completeness-v1.6/resolved-manifest.json
+  resolved_manifest_sha256: 85965fa1580f3ec6e07213b71e87f530bf6e299826f8efb57dae68021a61551b
+  scope: "AIWorkFlow 根协调对 CR-UI-002 v1.6 resolved 49 张设计包执行第七轮独立视觉审查；41 张 v1.6 overlay 修订、8 张 v1.5 resolved 按 SHA 复用。机器门只对20个指定按钮证明真实PNG字形中心，不外推通用字体或浏览器CSS运行时。"
   decision_owner: AIWorkFlow-root-coordinator
   decision: independent_visual_review_pending
   delivery_status: machine-passed-independent-review-pending
   options: [通过, 修改, 打回]
-  on_approved: "只完成当前 v1.5 设计审批；是否恢复下游必须再按已批准根计划与架构影响确定唯一下一站，固定 04 不自行路由。"
-  advance_limit: current-v1-5-independent-design-review-only
+  on_approved: "只完成当前 v1.6 设计审批；是否恢复下游必须再按已批准根计划与架构影响确定唯一下一站，固定 04 不自行路由。"
+  advance_limit: current-v1-6-independent-design-review-only
   auto_advance_beyond_next: false
 release_scope_product_assignment:
   change_group_id: "prd-20260814-four-project-release-completeness-001"
@@ -953,13 +953,13 @@ release_completeness_ui_design_revision_v1_5:
       resolved_manifest_sha256: 5d7a7e2101f4725b82a91b8e9fbe47601bb4877c5d072007129099d3aa10c551
       review_manifest: ui/release-completeness-v1.5/review-manifest.json
       review_manifest_sha256: 21a5f996f62bbef4226d5435c1b54c6bf0d39ad0d3f38e430201eaace3c3fdfe
-  scheduling: completed-awaiting-sixth-independent-visual-review
-  delivery_status: machine-passed-independent-review-pending
+  scheduling: superseded-by-v1-6
+  delivery_status: superseded-after-changes-requested
   completed_at: "2026-08-16T01:20:00+08:00"
-  validation_status: machine-passed-independent-review-pending
+  validation_status: changes-requested-after-sixth-independent-visual-review
   validation:
     machine_gate: passed
-    independent_visual_review: pending-root-coordinator-round-6
+    independent_visual_review: changes-requested-0-P0-4-P1-groups-2-P2-groups
     resolved_assets: 49-svg-and-49-png
     resolution: 35-v1-5-overlay-plus-14-v1-4-resolved-sha-reuse
     chart_equivalence: 15-of-15-model-visual-table-bidirectional-equal
@@ -971,8 +971,64 @@ release_completeness_ui_design_revision_v1_5:
     browser_zoom_200: same-content-720-to-360-eight-token-groups-exactly-2x
     immutable_history: approved-prompt-v1-through-v1-4-and-v1-4-resolved-matched
     self_claimed_independent_review: prohibited-and-not-present
-  result: career-release-completeness-ui-design-v1-5-machine-passed-independent-review-pending
+  result: career-release-completeness-ui-design-v1-5-changes-requested
   return_gate: ui-design-review
   downstream_route_authorized: false
   other_projects_untouched: true
-updated_at: "2026-08-16T01:20:00+08:00"
+  review:
+    id: "review-20260816-career-release-completeness-ui-design-v1-5"
+    decision: changes-requested
+    reviewed_at: "2026-08-16T01:35:00+08:00"
+    evidence_commit: b27bb125e7fe5797a75bcd00d6d9e2737663147e
+    severity: "0-P0-4-P1-groups-2-P2-groups"
+    preserved_v1_5_files: true
+release_completeness_ui_design_revision_v1_6:
+  change_id: "ui-design-20260816-career-release-completeness-v1-6-007"
+  work_item: "CR-UI-002"
+  role: role-ui-designer
+  role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+  authorization: "approval-20260816-career-release-completeness-ui-design-v1-6-revision-entry"
+  upstream_review: "review-20260816-career-release-completeness-ui-design-v1-5"
+  safe_base_commit: b27bb125e7fe5797a75bcd00d6d9e2737663147e
+  outputs:
+    design:
+      artifact: "artifact-career-release-completeness-ui-design-007"
+      path: ui/11-release-completeness-ui-design-v1.6.md
+      version: "1.6"
+      sha256: 199ab0bbef1a57cac0c5d31e83a52f380775631fcc2455cce9481e80b7aeba47
+    visuals:
+      artifact: "artifact-career-release-completeness-ui-visuals-007"
+      overlay_assets: 41
+      resolved_assets: 49
+      resolved_manifest: ui/release-completeness-v1.6/resolved-manifest.json
+      resolved_manifest_sha256: 85965fa1580f3ec6e07213b71e87f530bf6e299826f8efb57dae68021a61551b
+      review_manifest: ui/release-completeness-v1.6/review-manifest.json
+      review_manifest_sha256: ef6641e605078129374c32d60f1b65190e03d825aed043689b82e298fc952613
+      button_raster_report: ui/release-completeness-v1.6/button-raster-report.json
+      button_raster_report_sha256: 1cca996004a5a171e143e7c9fb66137e3990a041a9d333ce552ad98c569fd611
+  scheduling: completed-awaiting-seventh-independent-visual-review
+  delivery_status: machine-passed-independent-review-pending
+  completed_at: "2026-08-16T02:15:00+08:00"
+  validation_status: machine-passed-independent-review-pending
+  validation:
+    machine_gate: passed
+    independent_visual_review: pending-root-coordinator-round-7
+    resolved_assets: 49-svg-and-49-png
+    resolution: 41-v1-6-overlay-plus-8-v1-5-resolved-sha-reuse
+    chart_data_equivalence: 15-of-15-model-visual-table-bidirectional-equal
+    chart_visual_encoding: named-assertions-only-no-blanket-15-of-15-claim
+    main_mark_state: 25-11-5-of-5-and-25-15-4-of-4
+    relation_matrix: missing-version-evidence-selects-evidence-insufficient
+    visible_unannotated_internal_keys: 0-of-49
+    button_label_png_pixel_centers: 20-of-20-within-plus-minus-1-5px
+    authored_svg_zoom_attributes: viewport-title-body-helper-control-radius-border
+    browser_css_runtime: not-machine-claimed
+    general_font_geometry: not-machine-claimed
+    negative_fixtures: baseline-container-collision-viewport-all-exit-1
+    immutable_history: approved-prompt-v1-through-v1-5-and-v1-5-resolved-matched
+    self_claimed_independent_review: prohibited-and-not-present
+  result: career-release-completeness-ui-design-v1-6-machine-passed-independent-review-pending
+  return_gate: ui-design-review
+  downstream_route_authorized: false
+  other_projects_untouched: true
+updated_at: "2026-08-16T02:15:00+08:00"

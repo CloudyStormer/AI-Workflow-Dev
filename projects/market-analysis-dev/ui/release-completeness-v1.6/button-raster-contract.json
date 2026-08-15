@@ -1,0 +1,329 @@
+{
+  "schema_version": 1,
+  "version": "1.6",
+  "method": "rendered-png-glyph-pixel-bounds-via-coregraphics",
+  "coordinate_system": "SVG top-left equals PNG top-left",
+  "tolerance_px": 1.5,
+  "entries": [
+    {
+      "asset": "24-components-states.svg",
+      "button_id": "cancel",
+      "container_id": "cancel-button",
+      "png_path": "png/24-components-states.png",
+      "rect": {
+        "x": 646,
+        "y": 640,
+        "width": 190,
+        "height": 48
+      },
+      "background_hex": "#FFFFFF",
+      "foreground_hex": "#17212B",
+      "label": "取消",
+      "expected_raster_center_tolerance_px": 1.5
+    },
+    {
+      "asset": "24-components-states.svg",
+      "button_id": "confirm",
+      "container_id": "confirm-button",
+      "png_path": "png/24-components-states.png",
+      "rect": {
+        "x": 858,
+        "y": 640,
+        "width": 230,
+        "height": 48
+      },
+      "background_hex": "#B4233C",
+      "foreground_hex": "#FFFFFF",
+      "label": "确认删除",
+      "expected_raster_center_tolerance_px": 1.5
+    },
+    {
+      "asset": "28-accessibility-zoom-200.svg",
+      "button_id": "zoom-base",
+      "container_id": "zoom-base-button",
+      "png_path": "png/28-accessibility-zoom-200.png",
+      "rect": {
+        "x": 68,
+        "y": 558,
+        "width": 240,
+        "height": 44
+      },
+      "background_hex": "#0B6B63",
+      "foreground_hex": "#FFFFFF",
+      "label": "继续确认",
+      "expected_raster_center_tolerance_px": 1.5
+    },
+    {
+      "asset": "28-accessibility-zoom-200.svg",
+      "button_id": "zoom-200",
+      "container_id": "zoom-200-button",
+      "png_path": "png/28-accessibility-zoom-200.png",
+      "rect": {
+        "x": 784,
+        "y": 798,
+        "width": 480,
+        "height": 88
+      },
+      "background_hex": "#0B6B63",
+      "foreground_hex": "#FFFFFF",
+      "label": "继续确认",
+      "expected_raster_center_tolerance_px": 1.5
+    },
+    {
+      "asset": "01-directions-390.svg",
+      "button_id": "bottom-cta",
+      "container_id": "bottom-cta",
+      "png_path": "png/01-directions-390.png",
+      "rect": {
+        "x": 16,
+        "y": 772,
+        "width": 358,
+        "height": 52
+      },
+      "background_hex": "#0B6B63",
+      "foreground_hex": "#FFFFFF",
+      "label": "查看技术栈",
+      "expected_raster_center_tolerance_px": 1.5
+    },
+    {
+      "asset": "01-directions-320.svg",
+      "button_id": "bottom-cta",
+      "container_id": "bottom-cta",
+      "png_path": "png/01-directions-320.png",
+      "rect": {
+        "x": 16,
+        "y": 772,
+        "width": 288,
+        "height": 52
+      },
+      "background_hex": "#0B6B63",
+      "foreground_hex": "#FFFFFF",
+      "label": "查看技术栈",
+      "expected_raster_center_tolerance_px": 1.5
+    },
+    {
+      "asset": "02-tech-390.svg",
+      "button_id": "bottom-cta",
+      "container_id": "bottom-cta",
+      "png_path": "png/02-tech-390.png",
+      "rect": {
+        "x": 16,
+        "y": 772,
+        "width": 358,
+        "height": 52
+      },
+      "background_hex": "#0B6B63",
+      "foreground_hex": "#FFFFFF",
+      "label": "查看等价表",
+      "expected_raster_center_tolerance_px": 1.5
+    },
+    {
+      "asset": "02-tech-320.svg",
+      "button_id": "bottom-cta",
+      "container_id": "bottom-cta",
+      "png_path": "png/02-tech-320.png",
+      "rect": {
+        "x": 16,
+        "y": 772,
+        "width": 288,
+        "height": 52
+      },
+      "background_hex": "#0B6B63",
+      "foreground_hex": "#FFFFFF",
+      "label": "查看等价表",
+      "expected_raster_center_tolerance_px": 1.5
+    },
+    {
+      "asset": "03-trends-390.svg",
+      "button_id": "bottom-cta",
+      "container_id": "bottom-cta",
+      "png_path": "png/03-trends-390.png",
+      "rect": {
+        "x": 16,
+        "y": 772,
+        "width": 358,
+        "height": 52
+      },
+      "background_hex": "#0B6B63",
+      "foreground_hex": "#FFFFFF",
+      "label": "查看数据表",
+      "expected_raster_center_tolerance_px": 1.5
+    },
+    {
+      "asset": "03-trends-320.svg",
+      "button_id": "bottom-cta",
+      "container_id": "bottom-cta",
+      "png_path": "png/03-trends-320.png",
+      "rect": {
+        "x": 16,
+        "y": 772,
+        "width": 288,
+        "height": 52
+      },
+      "background_hex": "#0B6B63",
+      "foreground_hex": "#FFFFFF",
+      "label": "查看数据表",
+      "expected_raster_center_tolerance_px": 1.5
+    },
+    {
+      "asset": "04-workbench-input-390.svg",
+      "button_id": "bottom-cta",
+      "container_id": "bottom-cta",
+      "png_path": "png/04-workbench-input-390.png",
+      "rect": {
+        "x": 16,
+        "y": 772,
+        "width": 358,
+        "height": 52
+      },
+      "background_hex": "#0B6B63",
+      "foreground_hex": "#FFFFFF",
+      "label": "继续分类",
+      "expected_raster_center_tolerance_px": 1.5
+    },
+    {
+      "asset": "04-workbench-input-320.svg",
+      "button_id": "bottom-cta",
+      "container_id": "bottom-cta",
+      "png_path": "png/04-workbench-input-320.png",
+      "rect": {
+        "x": 16,
+        "y": 772,
+        "width": 288,
+        "height": 52
+      },
+      "background_hex": "#0B6B63",
+      "foreground_hex": "#FFFFFF",
+      "label": "继续分类",
+      "expected_raster_center_tolerance_px": 1.5
+    },
+    {
+      "asset": "05-workbench-result-390.svg",
+      "button_id": "bottom-cta",
+      "container_id": "bottom-cta",
+      "png_path": "png/05-workbench-result-390.png",
+      "rect": {
+        "x": 16,
+        "y": 772,
+        "width": 358,
+        "height": 52
+      },
+      "background_hex": "#0B6B63",
+      "foreground_hex": "#FFFFFF",
+      "label": "逐条确认",
+      "expected_raster_center_tolerance_px": 1.5
+    },
+    {
+      "asset": "05-workbench-result-320.svg",
+      "button_id": "bottom-cta",
+      "container_id": "bottom-cta",
+      "png_path": "png/05-workbench-result-320.png",
+      "rect": {
+        "x": 16,
+        "y": 772,
+        "width": 288,
+        "height": 52
+      },
+      "background_hex": "#0B6B63",
+      "foreground_hex": "#FFFFFF",
+      "label": "逐条确认",
+      "expected_raster_center_tolerance_px": 1.5
+    },
+    {
+      "asset": "06-gap-unknown-390.svg",
+      "button_id": "bottom-cta",
+      "container_id": "bottom-cta",
+      "png_path": "png/06-gap-unknown-390.png",
+      "rect": {
+        "x": 16,
+        "y": 772,
+        "width": 358,
+        "height": 52
+      },
+      "background_hex": "#0B6B63",
+      "foreground_hex": "#FFFFFF",
+      "label": "补充证据",
+      "expected_raster_center_tolerance_px": 1.5
+    },
+    {
+      "asset": "06-gap-unknown-320.svg",
+      "button_id": "bottom-cta",
+      "container_id": "bottom-cta",
+      "png_path": "png/06-gap-unknown-320.png",
+      "rect": {
+        "x": 16,
+        "y": 772,
+        "width": 288,
+        "height": 52
+      },
+      "background_hex": "#0B6B63",
+      "foreground_hex": "#FFFFFF",
+      "label": "补充证据",
+      "expected_raster_center_tolerance_px": 1.5
+    },
+    {
+      "asset": "07-data-rights-390.svg",
+      "button_id": "bottom-cta",
+      "container_id": "bottom-cta",
+      "png_path": "png/07-data-rights-390.png",
+      "rect": {
+        "x": 16,
+        "y": 772,
+        "width": 358,
+        "height": 52
+      },
+      "background_hex": "#0B6B63",
+      "foreground_hex": "#FFFFFF",
+      "label": "管理数据",
+      "expected_raster_center_tolerance_px": 1.5
+    },
+    {
+      "asset": "07-data-rights-320.svg",
+      "button_id": "bottom-cta",
+      "container_id": "bottom-cta",
+      "png_path": "png/07-data-rights-320.png",
+      "rect": {
+        "x": 16,
+        "y": 772,
+        "width": 288,
+        "height": 52
+      },
+      "background_hex": "#0B6B63",
+      "foreground_hex": "#FFFFFF",
+      "label": "管理数据",
+      "expected_raster_center_tolerance_px": 1.5
+    },
+    {
+      "asset": "27-responsive-1024.svg",
+      "button_id": "tablet-table",
+      "container_id": "tablet-table",
+      "png_path": "png/27-responsive-1024.png",
+      "rect": {
+        "x": 862,
+        "y": 490,
+        "width": 326,
+        "height": 48
+      },
+      "background_hex": "#0B6B63",
+      "foreground_hex": "#FFFFFF",
+      "label": "查看完整等价表",
+      "expected_raster_center_tolerance_px": 1.5
+    },
+    {
+      "asset": "27-responsive-1024.svg",
+      "button_id": "tablet-reset",
+      "container_id": "tablet-reset",
+      "png_path": "png/27-responsive-1024.png",
+      "rect": {
+        "x": 862,
+        "y": 554,
+        "width": 326,
+        "height": 48
+      },
+      "background_hex": "#FFFFFF",
+      "foreground_hex": "#17212B",
+      "label": "重置筛选",
+      "expected_raster_center_tolerance_px": 1.5
+    }
+  ]
+}

@@ -6,11 +6,17 @@
 
 | 产物 | 版本 | 状态 | SHA256 | 用途 |
 |---|---:|---|---|---|
-| `10-release-completeness-ui-design-v1.5.md` | 1.5 | machine-passed-independent-review-pending | `6decc0a7c72286724fc9b3c940c5d998ac6f73ec6c2bfa0ee98213759cab7bf7` | CR-UI-002 v1.5 设计说明；关闭第五轮 5 组 P1 + 3 组 P2，等待第六轮独立视觉审查 |
-| `release-completeness-v1.5/resolved-manifest.json` | 1.5 | machine-passed-independent-review-pending | `5d7a7e2101f4725b82a91b8e9fbe47601bb4877c5d072007129099d3aa10c551` | 49 张完整解析包：35 张 v1.5 修订 + 14 张按 SHA 复用 v1.4 resolved |
-| `release-completeness-v1.5/review-manifest.json` | 1.5 | machine-passed-independent-review-pending | `21a5f996f62bbef4226d5435c1b54c6bf0d39ad0d3f38e430201eaace3c3fdfe` | authored 布局结构、15 图表双向等价、简中、200% 与四类负夹具机器证据；真实字形/PNG视觉审查 pending |
-| `release-completeness-v1.5/png/` | 1.5 | overlay-ready-for-independent-review | 见 `overlay-manifest.json` | 35 张版本化修订 PNG；未变 14 张由 resolved manifest 按 SHA 引用 |
-| `release-completeness-v1.5/assets/` | 1.5 | editable-overlay-source | 见 `overlay-manifest.json` | 与 35 张修订 PNG 一一对应的 SVG，不覆盖旧资产 |
+| `11-release-completeness-ui-design-v1.6.md` | 1.6 | machine-passed-independent-review-pending | `199ab0bbef1a57cac0c5d31e83a52f380775631fcc2455cce9481e80b7aeba47` | CR-UI-002 v1.6 设计说明；关闭第六轮 4 组 P1 + 2 组 P2，等待第七轮独立视觉审查 |
+| `release-completeness-v1.6/resolved-manifest.json` | 1.6 | machine-passed-independent-review-pending | `85965fa1580f3ec6e07213b71e87f530bf6e299826f8efb57dae68021a61551b` | 49 张完整解析包：41 张 v1.6 修订 + 8 张按 SHA 复用 v1.5 resolved |
+| `release-completeness-v1.6/review-manifest.json` | 1.6 | machine-passed-independent-review-pending | `ef6641e605078129374c32d60f1b65190e03d825aed043689b82e298fc952613` | 15 图表数据等价、命名视觉断言、全可见文本内部键扫描、20 个按钮真实 PNG 字形中心与 authored SVG 属性证据；独立视觉审查 pending |
+| `release-completeness-v1.6/button-raster-report.json` | 1.6 | machine-passed-button-label-raster-scope | `1cca996004a5a171e143e7c9fb66137e3990a041a9d333ce552ad98c569fd611` | 仅证明 20 个指定按钮标签的 PNG 前景字形像素中心偏移不超过 ±1.5px；不外推通用字体或浏览器布局 |
+| `release-completeness-v1.6/png/` | 1.6 | overlay-ready-for-independent-review | 见 `overlay-manifest.json` | 41 张版本化修订 PNG；未变 8 张由 resolved manifest 按 SHA 引用 |
+| `release-completeness-v1.6/assets/` | 1.6 | editable-overlay-source | 见 `overlay-manifest.json` | 与 41 张修订 PNG 一一对应的 SVG，不覆盖旧资产 |
+| `10-release-completeness-ui-design-v1.5.md` | 1.5 | superseded-after-changes-requested | `6decc0a7c72286724fc9b3c940c5d998ac6f73ec6c2bfa0ee98213759cab7bf7` | 保留历史；第六轮独立审查发现 4 组 P1 + 2 组 P2，已由 v1.6 overlay 取代 |
+| `release-completeness-v1.5/resolved-manifest.json` | 1.5 | superseded-after-changes-requested | `5d7a7e2101f4725b82a91b8e9fbe47601bb4877c5d072007129099d3aa10c551` | 保留 v1.5 的 49 张完整解析包，作为 v1.6 不可变解析基线 |
+| `release-completeness-v1.5/review-manifest.json` | 1.5 | superseded-after-changes-requested | `21a5f996f62bbef4226d5435c1b54c6bf0d39ad0d3f38e430201eaace3c3fdfe` | 保留 v1.5 机器结果与第六轮独立审查依据，不作为当前通过结论 |
+| `release-completeness-v1.5/png/` | 1.5 | superseded-after-changes-requested | 见 `overlay-manifest.json` | 35 张历史修订 PNG，完整保留 |
+| `release-completeness-v1.5/assets/` | 1.5 | superseded-after-changes-requested | 见 `overlay-manifest.json` | 与 35 张历史 PNG 一一对应的 SVG，完整保留 |
 | `09-release-completeness-ui-design-v1.4.md` | 1.4 | superseded-after-changes-requested | `371c4b1e703b5718853b304477b1507fe0de3a100ef0d2993dac4b245a4b04d2` | 保留历史；第五轮独立审查发现 5 组 P1 + 3 组 P2，已由 v1.5 overlay 取代 |
 | `release-completeness-v1.4/resolved-manifest.json` | 1.4 | superseded-after-changes-requested | `02d11bc1ddb3a33a4d1fb5c448a70f4b54d2684e57410fa18244ce4f00e0fb38` | 保留 v1.4 的 49 张完整解析包，作为 v1.5 不可变解析基线 |
 | `release-completeness-v1.4/review-manifest.json` | 1.4 | superseded-after-changes-requested | `22320c9e1e5531060542dcf8cfb347aab5df65e002ada045fac58ca4cf88966e` | 保留 v1.4 机器结果与第五轮独立审查依据，不作为当前通过结论 |
@@ -55,6 +61,6 @@
 | `grok-db65d339-3eb2-494f-9372-b4f003942a45.jpg` | 1728×1152 | `46c726017092a2992028c1604391d5b378b652ee6667d83a7c0ca09c0cde6e29` |
 | `grok-eb8b0476-0f04-42b3-afb0-df34e861f252.jpg` | 1728×1152 | `263610cbf127683647ffb6a9aed5dd92816cea09be2911ed4275bca3e77752b1` |
 
-当前发布完整性权威顺序为：已批准 `docs/02-prd.md` v1.3 + 已批准来源 allowlist/registry v1.0 → 已批准 `ui/04-release-completeness-ui-prompt.md` v1.0 → CR-UI-002 v1.0–v1.4 五轮独立视觉审查均为 `changes-requested` → 固定 04 完成 `ui/10-release-completeness-ui-design-v1.5.md` 与 resolved 49 张设计包（35 张新 overlay + 14 张 v1.4 resolved SHA 复用），机器门通过，重新停在 `ui-design-review` 等待根协调第六轮独立视觉审查。v1.0–v1.4 说明、全部历史画板、旧 `ui/03-ui-prompt.md` v1.1 与 10 张早期图片全部保留，不覆盖或删除。
+当前发布完整性权威顺序为：已批准 `docs/02-prd.md` v1.3 + 已批准来源 allowlist/registry v1.0 → 已批准 `ui/04-release-completeness-ui-prompt.md` v1.0 → CR-UI-002 v1.0–v1.5 六轮独立视觉审查均为 `changes-requested` → 固定 04 完成 `ui/11-release-completeness-ui-design-v1.6.md` 与 resolved 49 张设计包（41 张新 overlay + 8 张 v1.5 resolved SHA 复用），机器门通过，重新停在 `ui-design-review` 等待根协调第七轮独立视觉审查。v1.0–v1.5 说明、全部历史画板、旧 `ui/03-ui-prompt.md` v1.1 与 10 张早期图片全部保留，不覆盖或删除。
 
-来源批准仅为研究证据：当前真实运行时来源、连接器和获批招聘实例均为 0；Greenhouse、Lever、Ashby 仍是缺公司／board／site 允许清单的条件模板。v1.5 保留 14 张独立移动稿与既有真相边界，修订 15 张图表编码和 14 张裸露英文资产；机器门明确不声称真实字体轮廓、PNG 像素或独立视觉已经通过。当前仅机器门通过，第六轮独立视觉审查尚未完成；不修改或解冻 `artifact-career-frontend-001` 与 `artifact-career-f10-input-ui-preview-001`，也不自动授权前端、架构、后端、连接器或部署。
+来源批准仅为研究证据：当前真实运行时来源、连接器和获批招聘实例均为 0；Greenhouse、Lever、Ashby 仍是缺公司／board／site 允许清单的条件模板。v1.6 保留 14 张独立移动稿与既有真相边界，补齐 25-11/25-15 主图状态、纠正 25-10 关系、清除裸露内部键，并只对 20 个指定按钮执行真实 PNG 字形中心计算；机器门不外推通用字体几何、浏览器 CSS 运行时或独立视觉结论。当前仅机器门通过，第七轮独立视觉审查尚未完成；不修改或解冻 `artifact-career-frontend-001` 与 `artifact-career-f10-input-ui-preview-001`，也不自动授权前端、架构、后端、连接器或部署。
