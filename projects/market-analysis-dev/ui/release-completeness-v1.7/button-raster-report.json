@@ -1,0 +1,351 @@
+{
+  "button_count": 20,
+  "coordinate_system": "PNG top-left pixel coordinates",
+  "does_not_claim": "general SVG text bounds, browser CSS layout, or independent visual approval",
+  "method": "rendered-png-glyph-pixel-bounds-via-coregraphics",
+  "results": [
+    {
+      "asset": "01-directions-390.svg",
+      "button_center_y": 798,
+      "button_id": "bottom-cta",
+      "center_delta_y": -1.5,
+      "foreground_pixels": 462,
+      "glyph_bounds": {
+        "height": 14,
+        "width": 78,
+        "x": 157,
+        "y": 790
+      },
+      "glyph_center_y": 796.5,
+      "label": "查看技术栈",
+      "status": "passed",
+      "tolerance_px": 1.5
+    },
+    {
+      "asset": "01-directions-320.svg",
+      "button_center_y": 798,
+      "button_id": "bottom-cta",
+      "center_delta_y": -1.5,
+      "foreground_pixels": 462,
+      "glyph_bounds": {
+        "height": 14,
+        "width": 78,
+        "x": 122,
+        "y": 790
+      },
+      "glyph_center_y": 796.5,
+      "label": "查看技术栈",
+      "status": "passed",
+      "tolerance_px": 1.5
+    },
+    {
+      "asset": "02-tech-390.svg",
+      "button_center_y": 798,
+      "button_id": "bottom-cta",
+      "center_delta_y": -1.5,
+      "foreground_pixels": 452,
+      "glyph_bounds": {
+        "height": 14,
+        "width": 78,
+        "x": 157,
+        "y": 790
+      },
+      "glyph_center_y": 796.5,
+      "label": "查看等价表",
+      "status": "passed",
+      "tolerance_px": 1.5
+    },
+    {
+      "asset": "02-tech-320.svg",
+      "button_center_y": 798,
+      "button_id": "bottom-cta",
+      "center_delta_y": -1.5,
+      "foreground_pixels": 452,
+      "glyph_bounds": {
+        "height": 14,
+        "width": 78,
+        "x": 122,
+        "y": 790
+      },
+      "glyph_center_y": 796.5,
+      "label": "查看等价表",
+      "status": "passed",
+      "tolerance_px": 1.5
+    },
+    {
+      "asset": "03-trends-390.svg",
+      "button_center_y": 798,
+      "button_id": "bottom-cta",
+      "center_delta_y": -1.5,
+      "foreground_pixels": 511,
+      "glyph_bounds": {
+        "height": 14,
+        "width": 78,
+        "x": 157,
+        "y": 790
+      },
+      "glyph_center_y": 796.5,
+      "label": "查看数据表",
+      "status": "passed",
+      "tolerance_px": 1.5
+    },
+    {
+      "asset": "03-trends-320.svg",
+      "button_center_y": 798,
+      "button_id": "bottom-cta",
+      "center_delta_y": -1.5,
+      "foreground_pixels": 511,
+      "glyph_bounds": {
+        "height": 14,
+        "width": 78,
+        "x": 122,
+        "y": 790
+      },
+      "glyph_center_y": 796.5,
+      "label": "查看数据表",
+      "status": "passed",
+      "tolerance_px": 1.5
+    },
+    {
+      "asset": "04-workbench-input-390.svg",
+      "button_center_y": 798,
+      "button_id": "bottom-cta",
+      "center_delta_y": -1.5,
+      "foreground_pixels": 354,
+      "glyph_bounds": {
+        "height": 14,
+        "width": 62,
+        "x": 165,
+        "y": 790
+      },
+      "glyph_center_y": 796.5,
+      "label": "继续分类",
+      "status": "passed",
+      "tolerance_px": 1.5
+    },
+    {
+      "asset": "04-workbench-input-320.svg",
+      "button_center_y": 798,
+      "button_id": "bottom-cta",
+      "center_delta_y": -1.5,
+      "foreground_pixels": 354,
+      "glyph_bounds": {
+        "height": 14,
+        "width": 62,
+        "x": 130,
+        "y": 790
+      },
+      "glyph_center_y": 796.5,
+      "label": "继续分类",
+      "status": "passed",
+      "tolerance_px": 1.5
+    },
+    {
+      "asset": "05-workbench-result-390.svg",
+      "button_center_y": 798,
+      "button_id": "bottom-cta",
+      "center_delta_y": -1.5,
+      "foreground_pixels": 360,
+      "glyph_bounds": {
+        "height": 14,
+        "width": 62,
+        "x": 165,
+        "y": 790
+      },
+      "glyph_center_y": 796.5,
+      "label": "逐条确认",
+      "status": "passed",
+      "tolerance_px": 1.5
+    },
+    {
+      "asset": "05-workbench-result-320.svg",
+      "button_center_y": 798,
+      "button_id": "bottom-cta",
+      "center_delta_y": -1.5,
+      "foreground_pixels": 360,
+      "glyph_bounds": {
+        "height": 14,
+        "width": 62,
+        "x": 130,
+        "y": 790
+      },
+      "glyph_center_y": 796.5,
+      "label": "逐条确认",
+      "status": "passed",
+      "tolerance_px": 1.5
+    },
+    {
+      "asset": "06-gap-unknown-390.svg",
+      "button_center_y": 798,
+      "button_id": "bottom-cta",
+      "center_delta_y": -1.5,
+      "foreground_pixels": 321,
+      "glyph_bounds": {
+        "height": 14,
+        "width": 62,
+        "x": 165,
+        "y": 790
+      },
+      "glyph_center_y": 796.5,
+      "label": "补充证据",
+      "status": "passed",
+      "tolerance_px": 1.5
+    },
+    {
+      "asset": "06-gap-unknown-320.svg",
+      "button_center_y": 798,
+      "button_id": "bottom-cta",
+      "center_delta_y": -1.5,
+      "foreground_pixels": 321,
+      "glyph_bounds": {
+        "height": 14,
+        "width": 62,
+        "x": 130,
+        "y": 790
+      },
+      "glyph_center_y": 796.5,
+      "label": "补充证据",
+      "status": "passed",
+      "tolerance_px": 1.5
+    },
+    {
+      "asset": "07-data-rights-390.svg",
+      "button_center_y": 798,
+      "button_id": "bottom-cta",
+      "center_delta_y": -1.5,
+      "foreground_pixels": 417,
+      "glyph_bounds": {
+        "height": 14,
+        "width": 62,
+        "x": 165,
+        "y": 790
+      },
+      "glyph_center_y": 796.5,
+      "label": "管理数据",
+      "status": "passed",
+      "tolerance_px": 1.5
+    },
+    {
+      "asset": "07-data-rights-320.svg",
+      "button_center_y": 798,
+      "button_id": "bottom-cta",
+      "center_delta_y": -1.5,
+      "foreground_pixels": 417,
+      "glyph_bounds": {
+        "height": 14,
+        "width": 62,
+        "x": 130,
+        "y": 790
+      },
+      "glyph_center_y": 796.5,
+      "label": "管理数据",
+      "status": "passed",
+      "tolerance_px": 1.5
+    },
+    {
+      "asset": "24-components-states.svg",
+      "button_center_y": 664,
+      "button_id": "cancel",
+      "center_delta_y": -1.5,
+      "foreground_pixels": 113,
+      "glyph_bounds": {
+        "height": 14,
+        "width": 29,
+        "x": 727,
+        "y": 656
+      },
+      "glyph_center_y": 662.5,
+      "label": "取消",
+      "status": "passed",
+      "tolerance_px": 1.5
+    },
+    {
+      "asset": "24-components-states.svg",
+      "button_center_y": 664,
+      "button_id": "confirm",
+      "center_delta_y": -1.5,
+      "foreground_pixels": 409,
+      "glyph_bounds": {
+        "height": 14,
+        "width": 62,
+        "x": 943,
+        "y": 656
+      },
+      "glyph_center_y": 662.5,
+      "label": "确认删除",
+      "status": "passed",
+      "tolerance_px": 1.5
+    },
+    {
+      "asset": "27-responsive-1024.svg",
+      "button_center_y": 514,
+      "button_id": "tablet-table",
+      "center_delta_y": -1.5,
+      "foreground_pixels": 661,
+      "glyph_bounds": {
+        "height": 14,
+        "width": 110,
+        "x": 971,
+        "y": 506
+      },
+      "glyph_center_y": 512.5,
+      "label": "查看完整等价表",
+      "status": "passed",
+      "tolerance_px": 1.5
+    },
+    {
+      "asset": "27-responsive-1024.svg",
+      "button_center_y": 578,
+      "button_id": "tablet-reset",
+      "center_delta_y": -1.5,
+      "foreground_pixels": 229,
+      "glyph_bounds": {
+        "height": 14,
+        "width": 62,
+        "x": 995,
+        "y": 570
+      },
+      "glyph_center_y": 576.5,
+      "label": "重置筛选",
+      "status": "passed",
+      "tolerance_px": 1.5
+    },
+    {
+      "asset": "28-accessibility-zoom-200.svg",
+      "button_center_y": 580,
+      "button_id": "zoom-base",
+      "center_delta_y": -1.5,
+      "foreground_pixels": 384,
+      "glyph_bounds": {
+        "height": 14,
+        "width": 62,
+        "x": 158,
+        "y": 572
+      },
+      "glyph_center_y": 578.5,
+      "label": "继续确认",
+      "status": "passed",
+      "tolerance_px": 1.5
+    },
+    {
+      "asset": "28-accessibility-zoom-200.svg",
+      "button_center_y": 842,
+      "button_id": "zoom-200",
+      "center_delta_y": 0.5,
+      "foreground_pixels": 1421,
+      "glyph_bounds": {
+        "height": 30,
+        "width": 126,
+        "x": 963,
+        "y": 828
+      },
+      "glyph_center_y": 842.5,
+      "label": "继续确认",
+      "status": "passed",
+      "tolerance_px": 1.5
+    }
+  ],
+  "schema_version": 1,
+  "scope": "button-label-glyph-pixels-only",
+  "status": "machine_passed"
+}
