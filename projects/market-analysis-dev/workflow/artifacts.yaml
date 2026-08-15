@@ -61,8 +61,8 @@ artifacts:
     path: ui/README.md
     status: active
     owner: package-contractor
-    sha256: 95cd4b84e81d1365e683db0859f77af3feabf712a8ad7ae5fad82b4a3131ba62
-    updated_at: "2026-08-15T18:59:31+08:00"
+    sha256: da4556b58251d1bcd3652eb3917b8f6bc439b13091e542d94516a0a27c1028eb
+    updated_at: "2026-08-15T19:20:11+08:00"
   - id: "artifact-git-metadata-backup-001"
     run_id: "run-20260803-market-analysis-dev-init-001"
     type: external-git-metadata-backup
@@ -813,7 +813,7 @@ artifacts:
         visual_asset_count: 10
         role: read-only-historical-reference
     sha256: 983638cb6a802effe4148281233aa381802a7d542ce12e8c694640eee04f3900
-    ui_index_sha256: 95cd4b84e81d1365e683db0859f77af3feabf712a8ad7ae5fad82b4a3131ba62
+    ui_index_sha256: da4556b58251d1bcd3652eb3917b8f6bc439b13091e542d94516a0a27c1028eb
     coverage:
       primary_navigation: 9
       business_pages: 10
@@ -867,11 +867,105 @@ artifacts:
     approved_by: 超级无敌帅超超总
     approved_at: "2026-08-15T18:59:31+08:00"
     completed_gate: ui-prompt-review
-    next_gate: ui-design-input-awaiting-assets
-    next_owner: 超级无敌帅超超总
+    next_work_item: CR-UI-002
+    next_role: role-ui-designer
+    next_gate: ui-design-review
+    routed_at: "2026-08-15T19:20:11+08:00"
+    route_correction_event: event-20260815-career-release-completeness-ui-route-corrected
     auto_route_on_delivery: false
     known_limits:
-      - prompt-approved-but-no-new-ui-design-assets-received
+      - prompt-approved-and-routed-to-fixed-04-cr-ui-002
       - current-runtime-real-sources-and-recruitment-instances-remain-zero
-      - no-design-prototype-images-architecture-development-or-deployment
+      - design-generated-but-not-approved-or-implemented
       - existing-ui-prompt-and-frontend-gates-remain-preserved
+  - id: "artifact-career-release-completeness-ui-design-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: ui-ux-design-specification
+    path: ui/05-release-completeness-ui-design.md
+    version: "1.0"
+    status: ready-for-review
+    owner: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    work_item: "CR-UI-002"
+    change_id: "ui-design-20260815-career-release-completeness-001"
+    authorization: "approval-20260815-career-release-completeness-ui-design-entry"
+    upstream_artifact: "artifact-career-release-completeness-ui-prompt-001"
+    upstream_approval: "approval-20260815-career-release-completeness-ui-prompt-v1"
+    upstream_path: ui/04-release-completeness-ui-prompt.md
+    upstream_sha256: 983638cb6a802effe4148281233aa381802a7d542ce12e8c694640eee04f3900
+    sha256: ffc0251ac0c2bfc077e47a9b3352f1d6ccd30f584e6e352e160f07557afcfe3e
+    ui_index_sha256: da4556b58251d1bcd3652eb3917b8f6bc439b13091e542d94516a0a27c1028eb
+    visual_bundle: "artifact-career-release-completeness-ui-visuals-001"
+    coverage:
+      business_pages: 10
+      truth_states: 11
+      chart_types_with_equivalent_tables: 15
+      viewports: [1440, 1024, 390, 320]
+      zoom: 200-percent
+      language: complete-simplified-chinese
+      accessibility_target: WCAG-2.2-AA-design-target-not-audit-claim
+      acceptance_criteria: AC-CFR-REL-01..AC-CFR-REL-36
+    generated_at: "2026-08-15T19:20:11+08:00"
+    generated_by: built-in-imagegen-and-role-ui-designer
+    validation_status: passed
+    validated_at: "2026-08-15T19:23:30+08:00"
+    validation:
+      approved_prompt_sha256: matched
+      design_and_ui_index_sha256: matched
+      visual_asset_sha256: 5-of-5-matched
+      png_integrity_and_dimensions: 5-of-5-passed
+      responsive_viewports: 1440-1024-390-320-covered
+      truth_states: 11-of-11-covered
+      prd_acceptance_mapping: AC-CFR-REL-01..36-grouped
+      accessibility_and_equivalent_tables: covered
+      workflow_yaml: 5-of-5-valid
+      jsonl_before_validation_event: 78-of-78-valid-and-unique
+      project_structure: passed-with-0-warnings
+      git_boundary: passed
+      skill_drift: passed
+      diff_check: passed
+      unrelated_english_files_preserved: 6-of-6-unstaged
+    stop_gate: ui-design-review
+    auto_route_on_delivery: false
+    known_limits:
+      - visual-mockups-not-business-implementation
+      - generated-text-and-layout-require-user-design-review
+      - current-runtime-sources-connectors-and-approved-recruitment-instances-remain-zero
+      - existing-frontend-and-backend-gates-remain-frozen
+  - id: "artifact-career-release-completeness-ui-visuals-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: ui-visual-asset-bundle
+    version: "1.0"
+    status: ready-for-review
+    owner: role-ui-designer
+    work_item: "CR-UI-002"
+    change_id: "ui-design-20260815-career-release-completeness-001"
+    authorization: "approval-20260815-career-release-completeness-ui-design-entry"
+    generation_mode: built-in-imagegen
+    assets:
+      - path: ui/career-release-01-overview-1440.png
+        dimensions: 1731x909
+        sha256: 09c1e1ca0bac4ec3ae366b1d0a40f621dc502342abbf63f41148a2b2b605475a
+        coverage: direction-overview-to-technology-landscape-and-equivalent-table
+      - path: ui/career-release-02-workbench-evidence-1440.png
+        dimensions: 1536x1024
+        sha256: d581c15fbdba22683860f1f593845cc4c3b61aadc40c6c7162fb5a4e87dd217f
+        coverage: source-workbench-dual-axis-personal-evidence-gap-and-roadmap
+      - path: ui/career-release-03-rights-recovery-1024.png
+        dimensions: 1536x1024
+        sha256: 59a98ad4f0690240a3853ba76808ebc5dda8bce85469111132c2feda8a25daca
+        coverage: account-sync-export-delete-confirmation-and-recovery
+      - path: ui/career-release-04-mobile-390-320.png
+        dimensions: 1536x1024
+        sha256: b57df198b6d0a71b07bd79d724dcd22e9a158740c243792827c6b79656066001
+        coverage: 390-and-320-mobile-critical-flow
+      - path: ui/career-release-05-system-states.png
+        dimensions: 1568x1003
+        sha256: 70b00e52305512f7ea9390f3610c50a1ab25008283a88e221d96d4ba8d4737ad
+        coverage: visual-tokens-component-states-truth-states-and-equivalent-table
+    old_visual_assets_preserved: 10-of-10
+    validation_status: passed
+    validated_at: "2026-08-15T19:23:30+08:00"
+    stop_gate: ui-design-review
+    auto_route_on_delivery: false

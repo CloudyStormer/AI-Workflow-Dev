@@ -474,3 +474,37 @@ approvals:
     expected_next_input: user-generated-ui-assets
     auto_route_role: false
     auto_advance_beyond_next: false
+    route_interpretation_status: superseded-by-audit-correction
+    superseded_by: "approval-20260815-career-release-completeness-ui-design-entry"
+    corrected_current_effect: "已批准当前 Prompt，并自动授权唯一下一站固定 04 / CR-UI-002。本次只覆盖该站一个设计交付单元；设计交付后停 ui-design-review，不代表其产物或后续角色已获批准。"
+  - id: "approval-20260815-career-release-completeness-ui-design-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-entry
+    role: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    authorization_source: "approval-20260815-career-release-completeness-ui-prompt-v1"
+    authoritative_plan: ../../docs/04-four-project-release-completeness-replanning-plan.md
+    authoritative_plan_work_item: CR-UI-002
+    change_id: "ui-design-20260815-career-release-completeness-001"
+    work_item: "CR-UI-002"
+    expected_artifact: "artifact-career-release-completeness-ui-design-001"
+    expected_path: ui/05-release-completeness-ui-design.md
+    expected_visual_bundle: "artifact-career-release-completeness-ui-visuals-001"
+    expected_version: "1.0"
+    scope: "固定 04 本人基于已批准 Prompt 生成发布完整性增量设计说明、原型与全新视觉画板，覆盖样本边界、输入确认、个人证据/路线/历史、删除确认、1440/1024/390/320、多状态、完整简中、无障碍与图表等价表；完成后停 ui-design-review。"
+    exclusions:
+      - approved-prompt-or-old-ten-assets-modification
+      - frontend-or-backend-modification-or-unfreeze
+      - architecture-task-breakdown-or-source-connector
+      - other-projects
+      - production-deployment
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-15T18:59:31+08:00"
+    routed_at: "2026-08-15T19:20:11+08:00"
+    source_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    evidence: "超级无敌帅超超总对 CR-UI-001 Prompt 明确回复‘通过’；已批准根计划明确新发布增量提示词通过后唯一下一站为同一固定 04 的 CR-UI-002，旧用户外部生成链不得外推。"
+    stop_gate: ui-design-review
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false

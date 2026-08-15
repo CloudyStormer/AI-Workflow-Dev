@@ -6,6 +6,12 @@
 
 | 产物 | 版本 | 状态 | SHA256 | 用途 |
 |---|---:|---|---|---|
+| `05-release-completeness-ui-design.md` | 1.0 | ready-for-review | `ffc0251ac0c2bfc077e47a9b3352f1d6ccd30f584e6e352e160f07557afcfe3e` | CR-UI-002 发布完整性增量设计说明、原型契约与设计验收 |
+| `career-release-01-overview-1440.png` | 1.0 | ready-for-review | `09c1e1ca0bac4ec3ae366b1d0a40f621dc502342abbf63f41148a2b2b605475a` | 1440 桌面：职业方向总览→技术栈全景、样本边界与等价表格 |
+| `career-release-02-workbench-evidence-1440.png` | 1.0 | ready-for-review | `d581c15fbdba22683860f1f593845cc4c3b61aadc40c6c7162fb5a4e87dd217f` | 1440 桌面：信息源六步、双轴确认、个人证据与差距路线 |
+| `career-release-03-rights-recovery-1024.png` | 1.0 | ready-for-review | `59a98ad4f0690240a3853ba76808ebc5dda8bce85469111132c2feda8a25daca` | 1024 响应式：同步、导出、删除确认、失败与恢复 |
+| `career-release-04-mobile-390-320.png` | 1.0 | ready-for-review | `b57df198b6d0a71b07bd79d724dcd22e9a158740c243792827c6b79656066001` | 390/320 移动：方向、技术栈、工作台、路线与数据权利 |
+| `career-release-05-system-states.png` | 1.0 | ready-for-review | `70b00e52305512f7ea9390f3610c50a1ab25008283a88e221d96d4ba8d4737ad` | 视觉 Token、组件状态、11 类真相态和图表等价表 |
 | `04-release-completeness-ui-prompt.md` | 1.0 | approved | `983638cb6a802effe4148281233aa381802a7d542ce12e8c694640eee04f3900` | 发布完整性权威 Prompt：持续来源、公共／私有分域、个人证据、差距／路线／历史、账号同步与数据权利 |
 | `03-ui-prompt.md` | 1.1 | ready-for-review | `fcc08310cfb92d970fe8dbb38c400bc5193c9e4707353ced12b1570b55894d29` | 继承完整职业雷达 UI，并新增只读研究快照服务的真实性状态 |
 
@@ -26,6 +32,6 @@
 | `grok-db65d339-3eb2-494f-9372-b4f003942a45.jpg` | 1728×1152 | `46c726017092a2992028c1604391d5b378b652ee6667d83a7c0ca09c0cde6e29` |
 | `grok-eb8b0476-0f04-42b3-afb0-df34e861f252.jpg` | 1728×1152 | `263610cbf127683647ffb6a9aed5dd92816cea09be2911ed4275bca3e77752b1` |
 
-当前发布完整性权威顺序为：已批准 `docs/02-prd.md` v1.3 + 已批准来源 allowlist/registry v1.0 → 已批准 `ui/04-release-completeness-ui-prompt.md` v1.0 → 等待超级无敌帅超超总使用专业 UI 设计模型生成并放入 `ui/` 的新版资产。旧 `ui/03-ui-prompt.md` v1.1 与 10 张图片继续作为历史链和视觉参考，不覆盖 v1.3 的持续来源、公共／私有分域、个人证据、差距／路线／历史、账号同步与数据权利。
+当前发布完整性权威顺序为：已批准 `docs/02-prd.md` v1.3 + 已批准来源 allowlist/registry v1.0 → 已批准 `ui/04-release-completeness-ui-prompt.md` v1.0 → 固定 04 已完成 CR-UI-002 增量设计说明与 5 张全新画板，停在 `ui-design-review`。旧 `ui/03-ui-prompt.md` v1.1 与 10 张图片继续作为历史链和视觉参考，不覆盖 v1.3 的持续来源、公共／私有分域、个人证据、差距／路线／历史、账号同步与数据权利。
 
-来源批准仅为研究证据：当前真实运行时来源、连接器和获批招聘实例均为 0；Greenhouse、Lever、Ashby 仍是缺公司／board／site 允许清单的条件模板。Prompt v1.0 已于 2026-08-15 通过 `ui-prompt-review`，下一门为等待用户生成 UI 资产；固定 `04 UI/UX设计师`本轮不生成图片、原型或新设计，不修改或解冻 `artifact-career-frontend-001` 与 `artifact-career-f10-input-ui-preview-001`，也不自动授权前端、后端、第三方传输、持久化或部署。
+来源批准仅为研究证据：当前真实运行时来源、连接器和获批招聘实例均为 0；Greenhouse、Lever、Ashby 仍是缺公司／board／site 允许清单的条件模板。Prompt v1.0 已于 2026-08-15 通过 `ui-prompt-review`；根计划确认本轮新发布增量的唯一下一站为固定 04 的 CR-UI-002，旧链“用户外部生成资产”不外推。当前设计待审，不修改或解冻 `artifact-career-frontend-001` 与 `artifact-career-f10-input-ui-preview-001`，也不自动授权前端、架构、后端、连接器或部署。

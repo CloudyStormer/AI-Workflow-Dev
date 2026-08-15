@@ -4,7 +4,7 @@ run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
 stage: ui-ux
-status: release-completeness-ui-prompt-approved-awaiting-user-ui-assets
+status: release-completeness-ui-design-ready-for-review
 current_role: role-ui-designer
 blocked: false
 ui_assets:
@@ -214,17 +214,19 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
-  gate: ui-design-input-awaiting-assets
-  approved_prompt_artifact: "artifact-career-release-completeness-ui-prompt-001"
-  approved_prompt_path: ui/04-release-completeness-ui-prompt.md
-  approved_prompt_version: "1.0"
-  approved_prompt_sha256: 983638cb6a802effe4148281233aa381802a7d542ce12e8c694640eee04f3900
-  prompt_approval: "approval-20260815-career-release-completeness-ui-prompt-v1"
-  expected_input: "超级无敌帅超超总使用专业 UI 设计模型生成并放入 ui/ 的新版资产"
-  input_owner: 超级无敌帅超超总
-  status: awaiting-user-assets
-  on_assets_received: "固定 04 只登记精确路径、页面用途、尺寸和 SHA256，并停 ui-design-review；不得自行补图、修改前端或解冻下游。"
-  advance_limit: user-owned-design-input-only
+  gate: ui-design-review
+  artifact: "artifact-career-release-completeness-ui-design-001"
+  visual_bundle: "artifact-career-release-completeness-ui-visuals-001"
+  path: ui/05-release-completeness-ui-design.md
+  version: "1.0"
+  sha256: ffc0251ac0c2bfc077e47a9b3352f1d6ccd30f584e6e352e160f07557afcfe3e
+  scope: "审核 CR-UI-002 发布完整性增量设计说明与 5 张新画板；覆盖样本边界、输入确认、个人证据/路线/历史、删除确认、1440/1024/390/320、11 真相态、简中、无障碍和图表等价表。"
+  decision_owner: 超级无敌帅超超总
+  decision: pending
+  delivery_status: ready-for-review
+  options: [通过, 修改, 打回]
+  on_approved: "只批准当前设计，并按已批准根计划的一跳规则处理唯一下一站；不得凭本次交付自动解冻或启动前端、架构、后端、连接器或部署。"
+  advance_limit: current-design-review-only
   auto_advance_beyond_next: false
 release_scope_product_assignment:
   change_group_id: "prd-20260814-four-project-release-completeness-001"
@@ -263,6 +265,9 @@ release_scope_product_assignment:
   return_point: original-gates-preserved-pending-cross-project-replanning
   auto_route_on_delivery: false
 additional_pending_approval:
+  chain_scope: historical-20260810-backend-ui-prompt-only
+  route_effect_on_release_completeness: none
+  current_release_completeness_route: fixed-04-CR-UI-002-ui-design-review
   gate: ui-prompt-review
   artifact: "artifact-career-backend-ui-prompt-001"
   expected_path: ui/03-ui-prompt.md
@@ -577,7 +582,7 @@ release_completeness_ui_prompt_assignment:
     - artifact-career-frontend-001/frontend-delivery-review
     - artifact-career-f10-input-ui-preview-001/frontend-delivery-review
     - artifact-career-backend-ui-prompt-001/ui-prompt-review
-  scheduling: completed-approved-awaiting-user-ui-assets
+  scheduling: completed-approved-and-routed-to-cr-ui-002
   delivery_status: approved
   started_at: "2026-08-15T11:08:21+08:00"
   completed_at: "2026-08-15T11:08:21+08:00"
@@ -601,8 +606,74 @@ release_completeness_ui_prompt_assignment:
   approved_at: "2026-08-15T18:59:31+08:00"
   result: career-release-completeness-ui-prompt-approved
   completed_gate: ui-prompt-review
-  next_gate: ui-design-input-awaiting-assets
-  next_owner: 超级无敌帅超超总
+  next_work_item: CR-UI-002
+  next_role: role-ui-designer
+  next_gate: ui-design-review
+  routed_at: "2026-08-15T19:20:11+08:00"
+  route_correction_event: event-20260815-career-release-completeness-ui-route-corrected
   generated_ui_design_or_images: false
   auto_route_on_delivery: false
-updated_at: "2026-08-15T18:59:31+08:00"
+release_completeness_ui_design_assignment:
+  change_id: "ui-design-20260815-career-release-completeness-001"
+  work_item: "CR-UI-002"
+  role: role-ui-designer
+  role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+  role_task_title: "04 UI/UX设计师"
+  authorization: "approval-20260815-career-release-completeness-ui-design-entry"
+  authorized_via: "CR-UI-001 Prompt 通过后按已批准根计划唯一一跳进入"
+  corrected_prior_route_event: event-20260815-career-user-ui-assets-awaiting
+  safe_base_commit: 58880231945f60af92a4647a281a3ba5df0d416c
+  upstream:
+    artifact: "artifact-career-release-completeness-ui-prompt-001"
+    approval: "approval-20260815-career-release-completeness-ui-prompt-v1"
+    path: ui/04-release-completeness-ui-prompt.md
+    version: "1.0"
+    sha256: 983638cb6a802effe4148281233aa381802a7d542ce12e8c694640eee04f3900
+  outputs:
+    design:
+      artifact: "artifact-career-release-completeness-ui-design-001"
+      path: ui/05-release-completeness-ui-design.md
+      version: "1.0"
+      sha256: ffc0251ac0c2bfc077e47a9b3352f1d6ccd30f584e6e352e160f07557afcfe3e
+    visuals:
+      artifact: "artifact-career-release-completeness-ui-visuals-001"
+      asset_count: 5
+  scope: "发布完整性 UI 设计：样本与来源真相、方向→技术栈、双轴输入确认、个人证据/差距/路线/历史、同步/导出/删除、恢复、多端、简中、无障碍与等价表格。"
+  exclusions:
+    - approved-prompt-or-old-ten-assets-modification
+    - frontend-backend-architecture-task-breakdown-or-connector
+    - existing-gate-approval-or-unfreeze
+    - other-projects
+    - production-deployment
+  preserved_gates:
+    - artifact-career-frontend-001/frontend-delivery-review
+    - artifact-career-f10-input-ui-preview-001/frontend-delivery-review
+    - artifact-career-backend-ui-prompt-001/ui-prompt-review
+  scheduling: completed-awaiting-user-review
+  delivery_status: ready-for-review
+  started_at: "2026-08-15T19:20:11+08:00"
+  completed_at: "2026-08-15T19:20:11+08:00"
+  validation_status: passed
+  validated_at: "2026-08-15T19:23:30+08:00"
+  validation:
+    approved_prompt_sha256: matched
+    design_and_ui_index_sha256: matched
+    visual_asset_sha256: 5-of-5-matched
+    png_integrity_and_dimensions: 5-of-5-passed
+    responsive_viewports: 1440-1024-390-320-covered
+    truth_states: 11-of-11-covered
+    prd_acceptance_mapping: AC-CFR-REL-01..36-grouped
+    accessibility_and_equivalent_tables: covered
+    workflow_yaml: 5-of-5-valid
+    jsonl_before_validation_event: 78-of-78-valid-and-unique
+    project_structure: passed-with-0-warnings
+    git_boundary: passed
+    skill_drift: passed
+    diff_check: passed
+    unrelated_english_files_preserved: 6-of-6-unstaged
+  result: career-release-completeness-ui-design-ready-for-review
+  stop_gate: ui-design-review
+  generated_new_visual_assets: 5
+  modified_business_code: false
+  auto_route_on_delivery: false
+updated_at: "2026-08-15T19:23:30+08:00"
