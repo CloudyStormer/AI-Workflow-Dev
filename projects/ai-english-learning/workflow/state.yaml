@@ -101,7 +101,7 @@ completed_spaced_recall_product_assignment:
     path: docs/01-prd.md
     version: "1.3"
   scope: "只定义以记住为目标的闭环：查看答案即登记薄弱词；当天在后续题目中随机复现；跨日按可解释的记忆曲线定时推送；仅在无查看答案情况下独立正确拼写并满足掌握规则后退出；同时覆盖重复查看、漏学、时区、离线、上限、防骚扰、计分与历史记录"
-  delivery_status: ready-for-review
+  delivery_status: approved
   assigned_at: "2026-08-04T16:50:50+08:00"
   output:
     artifact: artifact-spaced-recall-prd-001
@@ -510,8 +510,41 @@ parallel_spaced_recall_storage_safety_frontend_fix:
     simplified_chinese: complete-for-changed-states
     git_boundary: passed
   completed_at: "2026-08-15T19:54:46+08:00"
-  result: storage-safety-frontend-fix-ready-for-review
-  stop_gate: frontend-fix-delivery-review
+  source_commit: 94c958d096357bbead86c7a16fbfe5674d2c2919
+  approval: approval-20260815-spaced-recall-storage-safety-frontend-fix-delivery
+  approved_by: 超级无敌帅超超总
+  approved_at: "2026-08-15T22:44:03+08:00"
+  review_decision: approved
+  result: approved-and-code-rereview-authorized
+  completed_gate: frontend-fix-delivery-review
+  next_gate: code-rereview-conclusion-review
+  preserved_top_level:
+    release_scope_artifact: artifact-english-release-completeness-prd-001
+    cross_project_replanning_gate: pending
+    backend_task_breakdown_gate: pending
+    production_deployment: frozen
+  auto_route_on_delivery: false
+parallel_spaced_recall_storage_safety_rereview:
+  change_id: rereview-20260815-spaced-recall-storage-safety-fix-003
+  role: role-code-reviewer
+  role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
+  role_task_title: "09 代码审查员"
+  authorization: approval-20260815-spaced-recall-storage-safety-code-rereview-entry
+  upstream_approval: approval-20260815-spaced-recall-storage-safety-frontend-fix-delivery
+  input:
+    artifact: artifact-spaced-recall-storage-safety-frontend-fix-003
+    path: frontend/
+    source_commit: 94c958d096357bbead86c7a16fbfe5674d2c2919
+    diff_base: cf14a6b1b54fe8a3c8334e277291a8c31d48b248
+    original_review_artifact: artifact-spaced-recall-storage-recovery-code-rereview-002
+  scope: "只读复审 CR-P1-001-R2 与 CR-P2-005 的修复、生产存储写路径、真实双标签竞态门、下载隔离、简体中文、无障碍及既有回归；不得代修代码或进入 QA、后端、PRD v1.4 新增实现和部署"
+  expected_output:
+    artifact: artifact-spaced-recall-storage-safety-code-rereview-003
+    path: docs/06-code-review.md
+  scheduling: routed-awaiting-fixed-09-role-announcement
+  routed_at: "2026-08-15T22:44:03+08:00"
+  delivery_status: authorized
+  stop_gate: code-rereview-conclusion-review
   preserved_top_level:
     release_scope_artifact: artifact-english-release-completeness-prd-001
     cross_project_replanning_gate: pending
@@ -564,17 +597,17 @@ held_downstream_delivery:
   resumed_again_by: approval-20260806-spaced-recall-ui-prompt-and-direct-frontend
   resumed_for: chg-20260806-spaced-recall-frontend-implementation-v1-3
   resumed_at: "2026-08-06T14:23:53+08:00"
-implementation_gate: "artifact-spaced-recall-storage-safety-frontend-fix-003 已由固定 06 完成验证并停在 frontend-fix-delivery-review，当前仅为 ready-for-review；不得登记用户批准或路由固定 09。PRD v1.4 新增实现、QA、后端与生产部署均未由本交付授权。"
+implementation_gate: "artifact-spaced-recall-storage-safety-frontend-fix-003 已获超级无敌帅超超总批准，并只一跳授权固定 09 执行 rereview-20260815-spaced-recall-storage-safety-fix-003。固定 09 交付后必须停 code-rereview-conclusion-review；QA、后端、PRD v1.4 新增实现和生产部署均未获授权。"
 latest_approved_artifact:
-  artifact: artifact-spaced-recall-frontend-fix-001
+  artifact: artifact-spaced-recall-storage-safety-frontend-fix-003
   path: frontend/
-  version: "fix-001"
-  sha256: 6de12d95dd96298061bab0468bef6786a43154fb7597abe684b0edc009d14389
-  source_commit: a6ae859aab648829ae65df75220c82990a690bb0
+  version: "fix-003"
+  sha256: dcafc87bbdbcc1a0a67d4d28bd98a1d7da4ae3fc271bc5ff32b2e32c512f8b57
+  source_commit: 94c958d096357bbead86c7a16fbfe5674d2c2919
   status: approved
-  approval: approval-20260811-spaced-recall-frontend-fix-delivery
+  approval: approval-20260815-spaced-recall-storage-safety-frontend-fix-delivery
   approved_by: 超级无敌帅超超总
-  approved_at: "2026-08-11T17:16:03+08:00"
+  approved_at: "2026-08-15T22:44:03+08:00"
 approved_product_delivery:
   artifact: artifact-spaced-recall-prd-001
   path: docs/01-prd.md
@@ -837,4 +870,4 @@ parallel_backend_task_breakdown_assignment:
   auto_route_on_delivery: false
 backend_planning_gate: "docs/03-dev-tasks.md v1.1 已 ready-for-review；固定 07 尚未获准启动。只有超级无敌帅超超总明确‘通过’本任务拆解后，才按一跳规则授权唯一 AEL-BE-001；AEL-BE-002+、固定 08/09/06/11/10 均继续未授权。"
 state_limit: "旧版计划与任务表仍需单独对账；本状态只声明已核实的最新交付和审批门"
-updated_at: "2026-08-15T19:54:46+08:00"
+updated_at: "2026-08-15T22:44:03+08:00"

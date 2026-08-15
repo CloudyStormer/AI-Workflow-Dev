@@ -975,7 +975,7 @@ artifacts:
   - id: artifact-spaced-recall-storage-safety-frontend-fix-003
     type: frontend-fix
     path: frontend/
-    status: ready-for-review
+    status: approved
     owner: role-frontend-dev
     role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
     change_id: fix-20260814-spaced-recall-storage-safety-followup-003
@@ -987,6 +987,7 @@ artifacts:
     review_commit: b39094edc029e25bf88dfdd27ec81436afa16138
     reviewed_source_commit: e56f49cb8990a7d529e4aa2b311036aa08235c10
     safe_base: cf14a6b1b54fe8a3c8334e277291a8c31d48b248
+    source_commit: 94c958d096357bbead86c7a16fbfe5674d2c2919
     hashes:
       browser_gate: d1ee2538094ced5a30a9fe26605717a392590a02f00cb74018a39dd6205afade
       domain_test: f7e4fe120486c02e5cb7c43a084be956a9762499e611b3ce76bd820d911ca732
@@ -1046,7 +1047,12 @@ artifacts:
       - deployment/
       - other-projects
     completed_at: "2026-08-15T19:54:46+08:00"
-    result: storage-safety-frontend-fix-ready-for-review
-    stop_gate: frontend-fix-delivery-review
-    next_role: none-until-user-approval
+    approval: approval-20260815-spaced-recall-storage-safety-frontend-fix-delivery
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-15T22:44:03+08:00"
+    review_decision: approved
+    result: approved-and-code-rereview-authorized
+    completed_gate: frontend-fix-delivery-review
+    next_change_id: rereview-20260815-spaced-recall-storage-safety-fix-003
+    next_gate: code-rereview-conclusion-review
     auto_route: false
