@@ -1,9 +1,9 @@
 schema_version: 1
 project_id: "ai-english-learning"
 structure_status: normalized
-stage: product-definition
-status: release-scope-approved-awaiting-cross-project-replanning
-current_role: role-product-manager
+stage: ui-design-prompt
+status: english-release-completeness-ui-prompt-ready-for-review-with-parallel-frontend-fix-preserved
+current_role: role-ui-designer
 approved_roles:
   - role-pm
   - role-product-manager
@@ -37,13 +37,17 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
-  gate: cross-project-replanning-direction
-  scope: "等待将已批准完整 P0 拆成唯一、输入完整的 UI/架构/任务重规划工作项；既有代码复审、后端任务拆解和固定 06 未提交现场继续保留但不得冒充完整发布计划"
+  gate: ui-prompt-review
+  artifact: artifact-english-release-completeness-ui-prompt-001
+  path: ui/05-release-completeness-ui-prompt.md
+  version: "1.0"
+  sha256: 2adba179503582f9c1bc9524a64ec1f04fd624fc653403e23ff69713bfa6a5ad
+  scope: "审核 English 正式发布完整性 UI/UX 增量 Prompt；本门不审核设计稿、前端实现、后端、QA 或部署。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: awaiting-explicit-unique-work-item
-  on_approved: authorize-one-explicit-non-production-work-item-only
-  advance_limit: no-automatic-route
+  delivery_status: ready-for-review
+  on_approved: authorize-unique-next-work-item-EL-UI-002-to-same-fixed-04-only
+  advance_limit: unique-next-stage-only
   auto_advance_beyond_next: false
 release_scope_product_assignment:
   change_group_id: prd-20260814-four-project-release-completeness-001
@@ -648,10 +652,15 @@ parallel_english_release_completeness_ui_prompt:
     artifact: artifact-english-release-completeness-ui-prompt-001
     path: ui/05-release-completeness-ui-prompt.md
     version: "1.0"
-  output_status: not-created
-  scheduling: authorized-awaiting-fixed-04-role-announcement
+    sha256: 2adba179503582f9c1bc9524a64ec1f04fd624fc653403e23ff69713bfa6a5ad
+  ui_index:
+    path: ui/README.md
+    sha256: c873dac4b7ce63203bf1649efa562dd033542192d31ce17c2b2a86137c93d247
+  output_status: ready-for-review
+  scheduling: completed-awaiting-user-review
   authorized_at: "2026-08-16T11:12:15+08:00"
-  delivery_status: authorized
+  completed_at: "2026-08-16T11:34:17+08:00"
+  delivery_status: ready-for-review
   stop_gate: ui-prompt-review
   exclusions:
     - EL-UI-002-or-design-assets
@@ -729,27 +738,30 @@ approved_product_delivery:
   approved_by: 超级无敌帅超超总
   approved_at: "2026-08-06T12:03:00+08:00"
 latest_ui_prompt_delivery:
-  artifact: artifact-spaced-recall-ui-prompt-001
-  path: ui/04-spaced-recall-ui-prompt-v1.3.md
-  version: "1.3"
-  sha256: 72791c27d60851710868ea5f5c30deb4215dea61c0628b287252a9843ad08017
-  change_id: chg-20260806-spaced-recall-ui-prompt-v1-3
-  status: approved-and-routed-to-frontend
-  entry_approval: approval-20260806-spaced-recall-ui-prompt-entry
-  upstream_approval: approval-20260806-spaced-recall-prd-v1-3
-  inherited_prompt:
-    path: docs/03-ui-prompt.md
-    version: "1.2"
-    sha256: c30be1da6e120a524976420c8c6b8d5dfaf62f0af444a4284708c96fa2094af1
-  approval: approval-20260806-spaced-recall-ui-prompt-and-direct-frontend
-  approved_by: 超级无敌帅超超总
-  approved_at: "2026-08-06T14:23:53+08:00"
-  frontend_status: authorized-to-resume-preserved-worktree
+  artifact: artifact-english-release-completeness-ui-prompt-001
+  path: ui/05-release-completeness-ui-prompt.md
+  version: "1.0"
+  sha256: 2adba179503582f9c1bc9524a64ec1f04fd624fc653403e23ff69713bfa6a5ad
+  change_id: ui-prompt-20260816-english-release-completeness-001
+  status: ready-for-review
+  entry_approval: approval-20260816-english-release-completeness-ui-prompt-entry
+  upstream_approval: approval-20260814-english-release-scope-v1-4
+  inherited_prompts:
+    - path: docs/03-ui-prompt.md
+      version: "1.2"
+      sha256: c30be1da6e120a524976420c8c6b8d5dfaf62f0af444a4284708c96fa2094af1
+    - path: ui/04-spaced-recall-ui-prompt-v1.3.md
+      version: "1.3"
+      sha256: 72791c27d60851710868ea5f5c30deb4215dea61c0628b287252a9843ad08017
+  previous_approved_prompt:
+    artifact: artifact-spaced-recall-ui-prompt-001
+    approval: approval-20260806-spaced-recall-ui-prompt-and-direct-frontend
+  frontend_status: parallel-fixed-06-scene-preserved-not-touched
   generated_new_ui: false
   design_generation_started: false
-  design_generation_required: false
-  completed_at: "2026-08-06T12:15:54+08:00"
-  stop_gate: completed
+  EL_UI_002_started: false
+  completed_at: "2026-08-16T11:34:17+08:00"
+  stop_gate: ui-prompt-review
 latest_product_delivery:
   artifact: artifact-spaced-recall-prd-001
   path: docs/01-prd.md
@@ -980,4 +992,4 @@ parallel_backend_task_breakdown_assignment:
   auto_route_on_delivery: false
 backend_planning_gate: "docs/03-dev-tasks.md v1.1 已 ready-for-review；固定 07 尚未获准启动。只有超级无敌帅超超总明确‘通过’本任务拆解后，才按一跳规则授权唯一 AEL-BE-001；AEL-BE-002+、固定 08/09/06/11/10 均继续未授权。"
 state_limit: "旧版计划与任务表仍需单独对账；本状态只声明已核实的最新交付和审批门"
-updated_at: "2026-08-16T11:12:15+08:00"
+updated_at: "2026-08-16T11:34:17+08:00"
