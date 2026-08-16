@@ -767,7 +767,10 @@ temporary_source_runtime_readiness_assignment:
     implementation_canary: not-run
     source_specificity: concrete-proposal-found
     source_runtime_readiness: blocked-no-go
-  delivery_status: ready-for-review
+  delivery_status: approved
+  review_status: approved
+  review_approval: approval-20260816-radar-source-runtime-readiness-v1
+  reviewed_at: "2026-08-16T13:11:21+08:00"
   validation_status: passed
   validated_at: "2026-08-16T12:57:35+08:00"
   validation:
@@ -781,6 +784,8 @@ temporary_source_runtime_readiness_assignment:
     skill_drift: passed
     diff_check: passed
   stop_gate: source-runtime-readiness-review
+  completed_gate: source-runtime-readiness-review
+  return_status: returned-to-recorded-return-gate
   return_gate: cross-project-real-product-delta-review
   primary_product_gate_preserved: true
   production_release: frozen
@@ -793,10 +798,16 @@ source_runtime_readiness_review:
   version: "1.0"
   sha256: c59c0647204caa63b4ac9acc9f229dfab22c8b239b4b844a957c1e065681649f
   decision_owner: 超级无敌帅超超总
-  decision: pending
-  delivery_status: ready-for-review
+  decision: approved
+  approval: approval-20260816-radar-source-runtime-readiness-v1
+  decided_at: "2026-08-16T13:11:21+08:00"
+  user_reply: "通过"
+  delivery_status: approved
   options: [通过, 补充指定调研, 打回重做]
   on_approved: approve-research-conclusion-only-and-return-to-preserved-product-gate
+  result: approved-research-only-and-returned-to-recorded-return-gate
+  proposal_effect: AIR-END-030-remains-pending-separate-policy-and-not-counted
+  approved_p0_allow_endpoint_count: 22
   runtime_enablement_effect: none
   return_gate: cross-project-real-product-delta-review
   downstream_role_authorized: false

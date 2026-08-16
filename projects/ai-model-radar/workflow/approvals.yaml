@@ -590,3 +590,32 @@ approvals:
     advance_limit: research-delivery-review-only
     downstream_role_authorized: false
     auto_advance_beyond_next: false
+  - id: approval-20260816-radar-source-runtime-readiness-v1
+    run_id: run-20260731-intake-001
+    gate: source-runtime-readiness-review
+    role: role-market-researcher
+    role_task_id: 019fb799-5686-7571-ab7f-25bf816128b0
+    role_task_title: "01 市场调研员"
+    change_group_id: research-20260816-real-runtime-source-readiness-002
+    change_id: research-20260816-radar-source-runtime-readiness-002
+    artifact: artifact-radar-source-runtime-readiness-001
+    path: docs/00-source-runtime-readiness.md
+    version: "1.0"
+    sha256: c59c0647204caa63b4ac9acc9f229dfab22c8b239b4b844a957c1e065681649f
+    source_commit: ca95ad366c9fb3ffb76f3e70243322d985799387
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-16T13:11:21+08:00"
+    source_task_id: 019fb799-5686-7571-ab7f-25bf816128b0
+    user_reply: "通过"
+    evidence: "固定 01 已明确交付 AI Model Radar 与 Frontend Career Radar 两份来源运行可行性报告、各自路径、SHA、阻塞边界和审核选项；超级无敌帅超超总随后回复“通过”。"
+    effect: "只批准 AIR-END-030 的来源研究建议并关闭临时研究审核门；不修改 registry、不把提案计入 N、不启用连接器或 runtime，不审批根产品增量，也不路由任何下游角色。"
+    approved_p0_allow_endpoint_baseline: 22
+    proposed_endpoint_status: pending-separate-source-policy-and-count-reconciliation
+    runtime_enabled: false
+    completed_gate: source-runtime-readiness-review
+    next_gate: cross-project-real-product-delta-review
+    production_release: frozen
+    downstream_role_authorized: false
+    advance_limit: return-to-preserved-gate-only
+    auto_advance_beyond_next: false
