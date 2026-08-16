@@ -158,6 +158,8 @@ export interface ReminderRequestRecord {
 
 export interface SpacedRecallState {
   storageVersion: typeof SPACED_RECALL_STORAGE_VERSION;
+  /** Opaque dataset identity. Revisions are only comparable inside one generation. */
+  generation: string;
   revision: number;
   learningTimeZone: string;
   pendingDeviceTimeZone: string | null;
@@ -253,7 +255,7 @@ export type LoadResult =
     };
 
 export type StorageRebuildResult =
-  | "rebuilt"
+  | { status: "rebuilt"; state: SpacedRecallState; raw: string }
   | "backup-required"
   | "confirmation-required"
   | "source-changed"
@@ -292,6 +294,28 @@ const DEFAULT_REMINDER_SETTINGS: ReminderSettings = {
   quietStart: "22:00",
   quietEnd: "08:00",
 };
+
+function createStorageGeneration(): string {
+  const cryptoApi = globalThis.crypto;
+  if (typeof cryptoApi?.randomUUID === "function") {
+    return `g-${cryptoApi.randomUUID()}`;
+  }
+  if (typeof cryptoApi?.getRandomValues === "function") {
+    const bytes = cryptoApi.getRandomValues(new Uint8Array(16));
+    bytes[6] = (bytes[6] & 0x0f) | 0x40;
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;
+    const hex = Array.from(bytes, (value) => value.toString(16).padStart(2, "0"));
+    return `g-${hex.slice(0, 4).join("")}-${hex.slice(4, 6).join("")}-${hex
+      .slice(6, 8)
+      .join("")}-${hex.slice(8, 10).join("")}-${hex.slice(10).join("")}`;
+  }
+  throw new Error("Secure storage generation is unavailable");
+}
+
+function isStorageGenerationValue(value: unknown): value is string {
+  return typeof value === "string" &&
+    /^g-[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
+}
 
 function cloneState(state: SpacedRecallState): SpacedRecallState {
   return structuredClone(state);
@@ -377,6 +401,7 @@ export function createInitialSpacedRecallState(learningTimeZone: string): Spaced
   }
   return {
     storageVersion: SPACED_RECALL_STORAGE_VERSION,
+    generation: createStorageGeneration(),
     revision: 0,
     learningTimeZone,
     pendingDeviceTimeZone: null,
@@ -1758,6 +1783,7 @@ function isSpacedRecallStateEnvelope(value: unknown): value is SpacedRecallState
   if (!isRecord(value)) return false;
   if (
     value.storageVersion !== SPACED_RECALL_STORAGE_VERSION ||
+    !isStorageGenerationValue(value.generation) ||
     !Number.isInteger(value.revision) ||
     Number(value.revision) < 0 ||
     typeof value.learningTimeZone !== "string" ||
@@ -2086,8 +2112,11 @@ export function loadSpacedRecallState(
   const raw = storage.getItem(key);
   if (raw === null) return { status: "empty", state: createInitialSpacedRecallState(fallbackTimeZone) };
   try {
-    const parsed = JSON.parse(raw) as { storageVersion?: number };
-    if (parsed.storageVersion !== SPACED_RECALL_STORAGE_VERSION) {
+    const parsedValue = JSON.parse(raw) as unknown;
+    if (!isRecord(parsedValue)) {
+      return { status: "storage-error", reason: "corrupt", rawPreserved: true, rawSnapshot: raw };
+    }
+    if (parsedValue.storageVersion !== SPACED_RECALL_STORAGE_VERSION) {
       return {
         status: "storage-error",
         reason: "unsupported-version",
@@ -2095,6 +2124,10 @@ export function loadSpacedRecallState(
         rawSnapshot: raw,
       };
     }
+    const requiresGenerationMigration = !Object.hasOwn(parsedValue, "generation");
+    const parsed = requiresGenerationMigration
+      ? { ...parsedValue, generation: createStorageGeneration() }
+      : parsedValue;
     if (!isSpacedRecallStateEnvelope(parsed)) {
       return { status: "storage-error", reason: "corrupt", rawPreserved: true, rawSnapshot: raw };
     }
@@ -2145,11 +2178,11 @@ export function loadSpacedRecallState(
         },
       });
     }
-    if (isolatedItemIds.length > 0) state.revision += 1;
+    if (isolatedItemIds.length > 0 || requiresGenerationMigration) state.revision += 1;
     if (!isSpacedRecallState(state)) {
       return { status: "storage-error", reason: "corrupt", rawPreserved: true, rawSnapshot: raw };
     }
-    return isolatedItemIds.length > 0
+    return isolatedItemIds.length > 0 || requiresGenerationMigration
       ? {
           status: "loaded",
           state,
@@ -2188,13 +2221,6 @@ export async function rebuildSpacedRecallStorage(
   if (!isSpacedRecallState(state)) return "invalid-state";
   if (!lockManager) return "lock-unavailable";
 
-  let serializedState: string;
-  try {
-    serializedState = JSON.stringify(state);
-  } catch {
-    return "invalid-state";
-  }
-
   try {
     return await lockManager.request(
       SPACED_RECALL_STORAGE_WRITE_LOCK,
@@ -2208,13 +2234,40 @@ export async function rebuildSpacedRecallStorage(
           return "storage-error";
         }
         if (currentRaw !== input.expectedRaw) return "source-changed";
+        const rebuiltState = structuredClone(state);
+        let currentGeneration: string | null = null;
+        try {
+          const currentValue = JSON.parse(currentRaw) as unknown;
+          if (isRecord(currentValue) && isStorageGenerationValue(currentValue.generation)) {
+            currentGeneration = currentValue.generation;
+          }
+        } catch {
+          // Corrupt JSON is an expected rebuild input and has no trusted generation.
+        }
+        try {
+          do {
+            rebuiltState.generation = createStorageGeneration();
+          } while (
+            rebuiltState.generation === state.generation ||
+            rebuiltState.generation === currentGeneration
+          );
+        } catch {
+          return "storage-error";
+        }
+        let serializedState: string;
+        try {
+          serializedState = JSON.stringify(rebuiltState);
+        } catch {
+          return "invalid-state";
+        }
         try {
           storage.setItem(key, serializedState);
         } catch {
           return "storage-error";
         }
         try {
-          return storage.getItem(key) === serializedState ? "rebuilt" : "write-unverified";
+          if (storage.getItem(key) !== serializedState) return "write-unverified";
+          return { status: "rebuilt", state: rebuiltState, raw: serializedState };
         } catch {
           return "write-unverified";
         }
@@ -2245,6 +2298,7 @@ export function saveSpacedRecallState(
       const stored = JSON.parse(raw) as unknown;
       if (!isSpacedRecallState(stored)) return "storage-error";
       if (stored.revision !== expectedPreviousRevision) return "revision-conflict";
+      if (stored.generation !== state.generation) return "revision-conflict";
     } catch {
       return "storage-error";
     }
@@ -2305,6 +2359,19 @@ export async function saveNormalizedSpacedRecallStateWithLock(
           return "storage-error";
         }
         if (currentRaw !== expectedRaw) return "revision-conflict";
+        try {
+          const currentValue = JSON.parse(currentRaw) as unknown;
+          if (!isRecord(currentValue)) return "storage-error";
+          if (Object.hasOwn(currentValue, "generation")) {
+            if (!isSpacedRecallStateEnvelope(currentValue)) return "storage-error";
+            if (currentValue.generation !== state.generation) return "revision-conflict";
+          } else {
+            const migratedEnvelope = { ...currentValue, generation: state.generation };
+            if (!isSpacedRecallStateEnvelope(migratedEnvelope)) return "storage-error";
+          }
+        } catch {
+          return "storage-error";
+        }
         try {
           storage.setItem(key, serializedState);
         } catch {

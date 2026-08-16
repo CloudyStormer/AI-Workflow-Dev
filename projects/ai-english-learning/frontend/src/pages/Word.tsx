@@ -363,7 +363,8 @@ function initializeRecallState() {
   })
   if (session.status === 'applied') state = session.state
 
-  const pendingPersist = storageStatus === 'ready' && state.revision !== previousRevision
+  const pendingPersist = storageStatus === 'ready'
+    && (normalizationSourceRaw !== undefined || state.revision !== previousRevision)
     ? {
         state,
         expectedRevision: previousRevision,
@@ -2389,8 +2390,10 @@ function Word() {
     )
     recallStorageRebuildInFlightRef.current = false
 
-    if (result === 'rebuilt') {
-      recallStorageRawRef.current = JSON.stringify(recallStateRef.current)
+    if (typeof result === 'object' && result.status === 'rebuilt') {
+      recallStateRef.current = result.state
+      setRecallState(result.state)
+      recallStorageRawRef.current = result.raw
       updateRecallStorageStatus('ready')
       setRecallStorageRecovery(null)
       setRecallDialog((current) => ({

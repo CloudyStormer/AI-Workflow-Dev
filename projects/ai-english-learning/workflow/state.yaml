@@ -620,9 +620,37 @@ parallel_spaced_recall_storage_generation_aba_frontend_fix:
     equal_byte_aba_domain_regression: required
     real_two_tab_equal_byte_aba_regression: required
     existing_regression: required
-  scheduling: authorized-awaiting-fixed-06-role-announcement
+  scheduling: completed-ready-for-review
   authorized_at: "2026-08-16T11:12:15+08:00"
-  delivery_status: authorized
+  delivery_status: ready-for-review
+  final_safe_base: a5d0d1f30c6635f293a20938a19ad4087bc5a2b3
+  output:
+    artifact: artifact-spaced-recall-storage-generation-aba-frontend-fix-004
+    path: frontend/
+    hashes:
+      browser_gate: c91db08433f5717af9a306ac2614f2fbddb3896d1ddef59f5ca20c8043e5970a
+      domain_test: f9f19d243153b1896f07d475cd693a384711425e45addcbbc3fc38cf716f3c24
+      word: dcb0ea395e786b645be4b099341b8f6d14edcc7c25efecfed7c7817bf31ac183
+      domain: 6420b0b66bc6734c42971746c889e352aef150c1ef25d3c9feeb2cb15eb45946
+  finding_disposition:
+    implemented_for_rereview:
+      - CR-P1-001-R3
+    formal_code_review_closure: pending-user-approval-and-separate-fixed-09-rereview
+  validation:
+    runtimes: Node.js-24.19.0-and-22.12.0
+    lint: passed-both-runtimes
+    typecheck_and_build: passed-both-runtimes
+    spaced_recall_test: passed-both-runtimes
+    inline_cloze_test: passed-1200-randomized-cases-both-runtimes
+    equal_byte_aba_domain_regression: passed
+    real_two_tab_equal_byte_aba_regression: passed-production-react-path
+    chrome_responsive_console: passed-1440-390-320-console-clean-both-runtimes
+    download_isolation_and_temp_cleanup: passed
+    independent_final_review: passed-0-p0-0-p1-0-p2
+    git_diff_check: passed
+    git_boundary: passed
+  completed_at: "2026-08-16T11:44:16+08:00"
+  result: ready-for-frontend-fix-delivery-review
   stop_gate: frontend-fix-delivery-review
   exclusions:
     - qa
@@ -716,7 +744,7 @@ held_downstream_delivery:
   resumed_again_by: approval-20260806-spaced-recall-ui-prompt-and-direct-frontend
   resumed_for: chg-20260806-spaced-recall-frontend-implementation-v1-3
   resumed_at: "2026-08-06T14:23:53+08:00"
-implementation_gate: "artifact-spaced-recall-storage-safety-code-rereview-003 的 changes-requested 结论已获批准，并只一跳授权固定 06 修复 CR-P1-001-R3；并行的固定 04 仅获准执行 EL-UI-001 Prompt。两分支互不覆盖，分别停 frontend-fix-delivery-review 与 ui-prompt-review；QA、后端、其他 PRD v1.4 实现和生产部署均未获本次授权。"
+implementation_gate: "artifact-spaced-recall-storage-generation-aba-frontend-fix-004 已完成并停 frontend-fix-delivery-review；未经超级无敌帅超超总审核通过，不得路由固定 09 复审或进入 QA。并行的 EL-UI-001 Prompt 继续独立停 ui-prompt-review；后端、其他 PRD v1.4 实现和生产部署均未获本次授权。"
 latest_approved_artifact:
   artifact: artifact-spaced-recall-storage-safety-frontend-fix-003
   path: frontend/

@@ -1380,6 +1380,339 @@ async function run() {
     secondaryTargetId = undefined;
     secondarySessionId = undefined;
 
+    // Prove the equal-value ABA boundary with two real destructive rebuilds
+    // and a stale React writer. A fixed business clock makes both rebuilt
+    // envelopes byte-identical after omitting `generation`; generation itself
+    // must still rotate. The old tab then edits reminder settings through the
+    // production UI and must fail closed instead of overwriting the new epoch.
+    const abaClockStorageKey = "__recall_cdp_aba_clock__";
+    const abaFrozenInstant = new Date().toISOString();
+    const fixedBusinessClockSource = `(() => {
+      try {
+        const frozenInstant = localStorage.getItem(${JSON.stringify(abaClockStorageKey)});
+        if (!frozenInstant) return;
+        const NativeDate = Date;
+        class FixedDate extends NativeDate {
+          constructor(...args) {
+            super(...(args.length > 0 ? args : [frozenInstant]));
+          }
+          static now() {
+            return NativeDate.parse(frozenInstant);
+          }
+        }
+        Object.defineProperty(globalThis, "Date", {
+          configurable: true,
+          writable: true,
+          value: FixedDate,
+        });
+      } catch {}
+    })();`;
+    await send("Page.addScriptToEvaluateOnNewDocument", { source: fixedBusinessClockSource });
+
+    async function prepareEqualValueAbaRebuild(raw, label) {
+      await evaluate(`(() => {
+        localStorage.setItem(${JSON.stringify(abaClockStorageKey)}, ${JSON.stringify(abaFrozenInstant)});
+        localStorage.setItem(${JSON.stringify(STORAGE_KEY)}, ${JSON.stringify(raw)});
+        sessionStorage.removeItem(${JSON.stringify(CLOZE_SESSION_KEY)});
+        return true;
+      })()`);
+      await send("Page.reload", { ignoreCache: true });
+      await send("Page.bringToFront");
+      await waitForDom(
+        `document.readyState === "complete" && document.body.innerText.includes("当前版本无法识别") &&
+          Array.from(document.querySelectorAll("button"))
+            .some((entry) => entry.textContent.trim() === "先导出原始备份")`,
+        `${label}: unknown-version recovery controls did not render`,
+      );
+      await clickButton("先导出原始备份");
+      await waitForDom(
+        `globalThis.__recallBackupText === ${JSON.stringify(raw)}`,
+        `${label}: exported backup did not preserve the exact ABA source bytes`,
+      );
+      assert.equal(await evaluate("globalThis.__recallBackupError"), null);
+      assert.equal(await evaluate(`globalThis.__recallBackupDownload?.nativeClickSuppressed === true &&
+        globalThis.__recallBackupDownloads.length === 1`), true);
+      await clickButton("重建本地复习记录");
+      await waitForDom(
+        `Boolean(document.getElementById("recall-storage-rebuild-title"))`,
+        `${label}: rebuild confirmation did not open`,
+      );
+    }
+
+    async function confirmEqualValueAbaRebuild(label) {
+      // The rebuild generation receives a real UUID, while any later attempt
+      // identifier created by the cloze activation is stable across the two
+      // rebuilds. This keeps the persisted business envelope exactly equal
+      // without weakening the production generation rotation.
+      await evaluate(`(() => {
+        const nativeRandomUuid = crypto.randomUUID.bind(crypto);
+        globalThis.__recallAbaUuidCalls = 0;
+        Object.defineProperty(crypto, "randomUUID", {
+          configurable: true,
+          value() {
+            globalThis.__recallAbaUuidCalls += 1;
+            return globalThis.__recallAbaUuidCalls === 1
+              ? nativeRandomUuid()
+              : "a11ce000-0000-4000-8000-000000000001";
+          },
+        });
+        return true;
+      })()`);
+      await clickButton("确认重建");
+      await waitForDom(
+        `JSON.parse(localStorage.getItem(${JSON.stringify(STORAGE_KEY)}))?.storageVersion === 1 &&
+          !document.getElementById("recall-storage-recovery-title")`,
+        `${label}: confirmed rebuild did not create a valid current-version store`,
+      );
+      await waitForDom(
+        `document.activeElement?.id === "cloze-answer"`,
+        `${label}: confirmed rebuild did not restore the cloze focus target`,
+      );
+      assert.ok(
+        await evaluate("globalThis.__recallAbaUuidCalls >= 2"),
+        `${label}: generation and stable attempt identifiers were not both created`,
+      );
+      return evaluate(`localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`);
+    }
+
+    const abaUnknownRawOne = JSON.stringify({
+      storageVersion: 99,
+      revision: 41,
+      sentinel: "ABA 中间态 B-1",
+    });
+    await prepareEqualValueAbaRebuild(abaUnknownRawOne, "ABA first rebuild");
+    const abaGenerationOneRaw = await confirmEqualValueAbaRebuild("ABA first rebuild");
+    const abaGenerationOne = JSON.parse(abaGenerationOneRaw);
+    assert.ok(abaGenerationOne.generation, "The first rebuilt envelope did not include generation");
+
+    const sharedRecallSession = await evaluate(`(() => {
+      const key = Object.keys(sessionStorage)
+        .find((entry) => entry.startsWith("ai-english-learning:recall-session:"));
+      return key ? { key, value: sessionStorage.getItem(key) } : null;
+    })()`);
+    assert.ok(sharedRecallSession?.key && sharedRecallSession.value);
+
+    const abaSecondaryTarget = await client.send("Target.createTarget", { url: "about:blank" });
+    secondaryTargetId = abaSecondaryTarget.targetId;
+    const abaSecondaryAttachment = await client.send("Target.attachToTarget", {
+      targetId: secondaryTargetId,
+      flatten: true,
+    });
+    secondarySessionId = abaSecondaryAttachment.sessionId;
+    trackedSessionIds.add(secondarySessionId);
+    await client.send("Page.enable", {}, secondarySessionId);
+    await client.send("Runtime.enable", {}, secondarySessionId);
+    await client.send("Log.enable", {}, secondarySessionId);
+    await client.send("Page.addScriptToEvaluateOnNewDocument", {
+      source: `${fixedBusinessClockSource}\n(() => {
+        try {
+          sessionStorage.setItem(
+            ${JSON.stringify(sharedRecallSession.key)},
+            ${JSON.stringify(sharedRecallSession.value)},
+          );
+          class AbaTestNotification {
+            static permission = "denied";
+            static requestPermission = async () => "denied";
+            close() {}
+          }
+          Object.defineProperty(globalThis, "Notification", {
+            configurable: true,
+            value: AbaTestNotification,
+          });
+        } catch {}
+      })();`,
+    }, secondarySessionId);
+    await client.send("Page.navigate", { url: `${baseUrl}/word` }, secondarySessionId);
+    await waitFor(
+      () => evaluateInSession(
+        secondarySessionId,
+        `document.readyState === "complete" && location.pathname === "/word" &&
+          Array.from(document.querySelectorAll("button"))
+            .some((entry) => entry.textContent.trim() === "查看队列")`,
+      ),
+      "ABA stale tab did not load the first rebuilt generation",
+    );
+    await evaluateInSession(secondarySessionId, "new Promise((resolve) => setTimeout(resolve, 250))");
+    assert.equal(
+      await evaluateInSession(
+        secondarySessionId,
+        `localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`,
+      ),
+      abaGenerationOneRaw,
+      "Loading the stale ABA tab unexpectedly changed the first generation bytes",
+    );
+    assert.equal(await evaluateInSession(secondarySessionId, `(() => {
+      const open = Array.from(document.querySelectorAll("button"))
+        .find((entry) => entry.textContent.trim() === "查看队列");
+      open?.click();
+      return Boolean(open);
+    })()`), true);
+    await waitFor(
+      () => evaluateInSession(secondarySessionId, `Boolean(document.querySelector("[role=dialog]"))`),
+      "ABA stale tab queue did not open",
+    );
+    assert.equal(await evaluateInSession(secondarySessionId, `(() => {
+      const settings = Array.from(document.querySelectorAll("button"))
+        .find((entry) => entry.textContent.trim() === "提醒与时区");
+      settings?.click();
+      return Boolean(settings);
+    })()`), true);
+    await waitFor(
+      () => evaluateInSession(
+        secondarySessionId,
+        `document.querySelector('.recall-settings input[type="time"]')?.value === "20:00"`,
+      ),
+      "ABA stale tab reminder settings did not render the generation-A value",
+    );
+    await evaluateInSession(secondarySessionId, `(() => {
+      globalThis.__recallProductionLockRequests = [];
+      globalThis.__recallAbaStorageEvents = [];
+      addEventListener("storage", (event) => {
+        if (event.key === ${JSON.stringify(STORAGE_KEY)}) {
+          globalThis.__recallAbaStorageEvents.push(event.newValue);
+        }
+      });
+      const nativeRequest = navigator.locks.request.bind(navigator.locks);
+      Object.defineProperty(navigator.locks, "request", {
+        configurable: true,
+        value(name, options, callback) {
+          globalThis.__recallProductionLockRequests.push({
+            name,
+            mode: options?.mode ?? null,
+            ifAvailable: options?.ifAvailable ?? false,
+          });
+          return nativeRequest(name, options, callback);
+        },
+      });
+      return true;
+    })()`);
+
+    const abaUnknownRawTwo = JSON.stringify({
+      storageVersion: 99,
+      revision: 42,
+      sentinel: "ABA 中间态 B-2",
+    });
+    await prepareEqualValueAbaRebuild(abaUnknownRawTwo, "ABA second rebuild");
+    await evaluateInSession(secondarySessionId, "globalThis.__recallAbaStorageEvents = []");
+    const abaGenerationTwoRaw = await confirmEqualValueAbaRebuild("ABA second rebuild");
+    const abaGenerationTwo = JSON.parse(abaGenerationTwoRaw);
+    assert.ok(abaGenerationTwo.generation, "The second rebuilt envelope did not include generation");
+    assert.notEqual(
+      abaGenerationTwo.generation,
+      abaGenerationOne.generation,
+      "A destructive rebuild must rotate generation even when business data returns to A",
+    );
+    const abaBusinessOne = structuredClone(abaGenerationOne);
+    const abaBusinessTwo = structuredClone(abaGenerationTwo);
+    delete abaBusinessOne.generation;
+    delete abaBusinessTwo.generation;
+    assert.deepEqual(
+      abaBusinessTwo,
+      abaBusinessOne,
+      "The browser ABA fixture must return to the exact same business value after omitting generation",
+    );
+    assert.notEqual(abaGenerationTwoRaw, abaGenerationOneRaw);
+    await waitFor(
+      () => evaluateInSession(
+        secondarySessionId,
+        `globalThis.__recallAbaStorageEvents.includes(${JSON.stringify(abaGenerationTwoRaw)})`,
+      ),
+      "The stale ABA tab did not observe the replacement generation storage event",
+    );
+
+    assert.equal(await evaluateInSession(secondarySessionId, `(() => {
+      const input = document.querySelector('.recall-settings input[type="checkbox"]');
+      input?.click();
+      return Boolean(input);
+    })()`), true);
+    await waitFor(
+      () => evaluateInSession(
+        secondarySessionId,
+        `document.body.innerText.includes("检测到另一页面的新记录，已安全刷新；请重试刚才的操作") &&
+          document.querySelector('.recall-settings input[type="checkbox"]')?.checked === false`,
+      ),
+      "The stale generation-A React writer did not fail closed and refresh generation B",
+    );
+    assert.deepEqual(
+      await evaluateInSession(secondarySessionId, "globalThis.__recallProductionLockRequests"),
+      [{ name: rebuildLockName, mode: "exclusive", ifAvailable: true }],
+      "The stale ABA attempt must use the real shared production write lock",
+    );
+    assert.equal(
+      await evaluate(`localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`),
+      abaGenerationTwoRaw,
+      "The stale React writer overwrote the new generation after an equal-value ABA",
+    );
+    assert.equal(
+      await evaluateInSession(
+        secondarySessionId,
+        `localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`,
+      ),
+      abaGenerationTwoRaw,
+    );
+    assert.equal(
+      JSON.parse(await evaluate(`localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`))
+        .reminderSettings.enabled,
+      false,
+      "The stale generation-A reminder setting leaked into the rebuilt generation",
+    );
+    assert.equal(await evaluateInSession(secondarySessionId, `(() => {
+      const input = document.querySelector('.recall-settings input[type="checkbox"]');
+      input?.click();
+      return Boolean(input);
+    })()`), true);
+    await waitFor(
+      () => evaluateInSession(
+        secondarySessionId,
+        `(() => {
+          const stored = JSON.parse(localStorage.getItem(${JSON.stringify(STORAGE_KEY)}));
+          return stored.generation === ${JSON.stringify(abaGenerationTwo.generation)} &&
+            stored.reminderSettings.enabled === true &&
+            document.querySelector('.recall-settings input[type="checkbox"]')?.checked === true &&
+            document.body.innerText.includes("提醒偏好已保存为 20:00");
+        })()`,
+      ),
+      "The refreshed generation-B React writer did not save successfully with generation B",
+    );
+    const abaGenerationTwoSavedRaw = await evaluateInSession(
+      secondarySessionId,
+      `localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`,
+    );
+    assert.equal(JSON.parse(abaGenerationTwoSavedRaw).generation, abaGenerationTwo.generation);
+    assert.deepEqual(
+      await evaluateInSession(secondarySessionId, "globalThis.__recallProductionLockRequests"),
+      [
+        { name: rebuildLockName, mode: "exclusive", ifAvailable: true },
+        { name: rebuildLockName, mode: "exclusive", ifAvailable: true },
+      ],
+      "Both the stale rejection and refreshed generation-B save must use the production write lock",
+    );
+    assert.equal(
+      await evaluate(`localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`),
+      abaGenerationTwoSavedRaw,
+      "The verified generation-B retry was not observed consistently by both tabs",
+    );
+    await waitFor(
+      async () => {
+        const snapshots = await Promise.all([
+          evaluate(`navigator.locks.query().then((value) => ({
+            held: (value.held ?? []).filter((entry) => entry.name === ${JSON.stringify(rebuildLockName)}).length,
+            pending: (value.pending ?? []).filter((entry) => entry.name === ${JSON.stringify(rebuildLockName)}).length,
+          }))`),
+          evaluateInSession(secondarySessionId, `navigator.locks.query().then((value) => ({
+            held: (value.held ?? []).filter((entry) => entry.name === ${JSON.stringify(rebuildLockName)}).length,
+            pending: (value.pending ?? []).filter((entry) => entry.name === ${JSON.stringify(rebuildLockName)}).length,
+          }))`),
+        ]);
+        return snapshots.every((snapshot) => snapshot.held === 0 && snapshot.pending === 0);
+      },
+      "The shared write lock leaked after the equal-value ABA rejection",
+    );
+    trackedSessionIds.delete(secondarySessionId);
+    await client.send("Target.closeTarget", { targetId: secondaryTargetId });
+    secondaryTargetId = undefined;
+    secondarySessionId = undefined;
+
     const rebuiltWordKey = await evaluate(`JSON.parse(sessionStorage.getItem(
       ${JSON.stringify(CLOZE_SESSION_KEY)}
     ))?.wordKey`);
@@ -1406,7 +1739,7 @@ async function run() {
     );
 
     assert.deepEqual(browserProblems, []);
-    console.log("recall browser integration verification passed (item recovery + storage rebuild + 1440px/390px/320px, console clean)");
+    console.log("recall browser integration verification passed (item recovery + equal-value A→B→A generation guard + storage rebuild + 1440px/390px/320px, console clean)");
   } finally {
     if (client && secondaryTargetId) {
       try {

@@ -939,9 +939,107 @@ function createMemoryStorage(initial) {
 // Versioned localStorage preserves corrupt/unknown data and detects revision conflicts.
 {
   let state = createInitialSpacedRecallState(SHANGHAI);
+  const independentInitialState = createInitialSpacedRecallState(SHANGHAI);
+  assert.match(state.generation, /^g-/);
+  assert.notEqual(
+    state.generation,
+    independentInitialState.generation,
+    "independent datasets must not share a generation",
+  );
+  const originalCryptoDescriptor = Object.getOwnPropertyDescriptor(globalThis, "crypto");
+  if (originalCryptoDescriptor?.configurable !== false) {
+    try {
+      Object.defineProperty(globalThis, "crypto", {
+        configurable: true,
+        value: {
+          getRandomValues(values) {
+            values.forEach((_, index) => {
+              values[index] = index;
+            });
+            return values;
+          },
+        },
+      });
+      assert.match(createInitialSpacedRecallState(SHANGHAI).generation, /^g-[0-9a-f-]{36}$/);
+      Object.defineProperty(globalThis, "crypto", { configurable: true, value: undefined });
+      assert.throws(
+        () => createInitialSpacedRecallState(SHANGHAI),
+        /Secure storage generation is unavailable/,
+      );
+    } finally {
+      if (originalCryptoDescriptor) {
+        Object.defineProperty(globalThis, "crypto", originalCryptoDescriptor);
+      } else {
+        Reflect.deleteProperty(globalThis, "crypto");
+      }
+    }
+  }
   const storage = createMemoryStorage();
   assert.equal(saveSpacedRecallState(storage, state, 0), "saved");
-  assert.equal(loadSpacedRecallState(storage, SHANGHAI).status, "loaded");
+  const firstLoaded = loadSpacedRecallState(storage, SHANGHAI);
+  assert.equal(firstLoaded.status, "loaded");
+  assert.equal(firstLoaded.state.generation, state.generation);
+  const invalidGenerationState = structuredClone(state);
+  invalidGenerationState.generation = "invalid";
+  assert.equal(saveSpacedRecallState(createMemoryStorage(), invalidGenerationState, 0), "storage-error");
+  const invalidGenerationRaw = JSON.stringify(invalidGenerationState);
+  assert.deepEqual(loadSpacedRecallState(createMemoryStorage(invalidGenerationRaw), SHANGHAI), {
+    status: "storage-error",
+    reason: "corrupt",
+    rawPreserved: true,
+    rawSnapshot: invalidGenerationRaw,
+  });
+
+  const legacyState = register(createInitialSpacedRecallState(SHANGHAI), "legacy-generation");
+  const legacyValue = structuredClone(legacyState);
+  delete legacyValue.generation;
+  const legacyRaw = JSON.stringify(legacyValue);
+  const legacyStorage = createMemoryStorage(legacyRaw);
+  const firstLegacyLoad = loadSpacedRecallState(legacyStorage, SHANGHAI);
+  const competingLegacyLoad = loadSpacedRecallState(legacyStorage, SHANGHAI);
+  assert.equal(firstLegacyLoad.status, "loaded");
+  assert.equal(competingLegacyLoad.status, "loaded");
+  assert.notEqual(firstLegacyLoad.state.generation, competingLegacyLoad.state.generation);
+  assert.equal(firstLegacyLoad.normalizedFromRevision, legacyState.revision);
+  assert.equal(firstLegacyLoad.normalizationSourceRaw, legacyRaw);
+  assert.equal(firstLegacyLoad.state.revision, legacyState.revision + 1);
+  assert.equal(legacyStorage.raw(), legacyRaw, "loading a legacy record must not migrate it unlocked");
+  assert.equal(await saveSpacedRecallStateWithLock(
+    legacyStorage,
+    firstLegacyLoad.state,
+    legacyState.revision,
+    legacyRaw,
+    immediateRebuildLock,
+  ), "storage-error", "ordinary writes must not double as legacy migration");
+  assert.equal(await saveNormalizedSpacedRecallStateWithLock(
+    legacyStorage,
+    firstLegacyLoad.state,
+    legacyRaw,
+    null,
+  ), "lock-unavailable");
+  assert.equal(await saveNormalizedSpacedRecallStateWithLock(
+    legacyStorage,
+    firstLegacyLoad.state,
+    legacyRaw,
+    busyWriteLock,
+  ), "lock-busy");
+  assert.equal(legacyStorage.raw(), legacyRaw);
+  assert.equal(await saveNormalizedSpacedRecallStateWithLock(
+    legacyStorage,
+    firstLegacyLoad.state,
+    legacyRaw,
+    immediateRebuildLock,
+  ), "saved");
+  const migratedLegacyLoad = loadSpacedRecallState(legacyStorage, SHANGHAI);
+  assert.equal(migratedLegacyLoad.status, "loaded");
+  assert.equal(migratedLegacyLoad.normalizedFromRevision, undefined);
+  assert.equal(migratedLegacyLoad.state.generation, firstLegacyLoad.state.generation);
+  assert.equal(await saveNormalizedSpacedRecallStateWithLock(
+    legacyStorage,
+    competingLegacyLoad.state,
+    legacyRaw,
+    immediateRebuildLock,
+  ), "revision-conflict", "only one legacy migration candidate may win the exact-raw CAS");
 
   const lockedStorage = createMemoryStorage();
   assert.equal(await saveSpacedRecallStateWithLock(
@@ -1045,9 +1143,17 @@ function createMemoryStorage(initial) {
   ), "lock-busy");
 
   state = register(state, "persist");
+  assert.equal(state.generation, firstLoaded.state.generation);
   assert.equal(saveSpacedRecallState(storage, state, 0), "saved");
   assert.equal(loadSpacedRecallState(storage, SHANGHAI).state.items.persist.itemId, "persist");
   assert.equal(saveSpacedRecallState(storage, state, 0), "revision-conflict");
+  const foreignGenerationState = structuredClone(state);
+  foreignGenerationState.generation = createInitialSpacedRecallState(SHANGHAI).generation;
+  assert.equal(
+    saveSpacedRecallState(storage, foreignGenerationState, state.revision),
+    "revision-conflict",
+    "ordinary writes must inherit the stored generation",
+  );
 
   const corrupt = createMemoryStorage("{not-json");
   assert.deepEqual(loadSpacedRecallState(corrupt, SHANGHAI), {
@@ -1122,14 +1228,64 @@ function createMemoryStorage(initial) {
   assert.equal(future.raw(), `${futureRaw}\nchanged-by-another-tab`);
 
   const confirmedFuture = createMemoryStorage(futureRaw);
-  assert.equal(await rebuildSpacedRecallStorage(confirmedFuture, rebuiltState, {
+  const confirmedRebuild = await rebuildSpacedRecallStorage(confirmedFuture, rebuiltState, {
     expectedRaw: futureRaw,
     backupExported: true,
     confirmed: true,
-  }, immediateRebuildLock), "rebuilt");
+  }, immediateRebuildLock);
+  assert.equal(confirmedRebuild.status, "rebuilt");
+  assert.equal(confirmedFuture.raw(), confirmedRebuild.raw);
+  assert.deepEqual(confirmedRebuild.state, JSON.parse(confirmedRebuild.raw));
+  assert.notEqual(confirmedRebuild.state.generation, rebuiltState.generation);
   const rebuiltLoad = loadSpacedRecallState(confirmedFuture, SHANGHAI);
   assert.equal(rebuiltLoad.status, "loaded");
   assert.equal(rebuiltLoad.state.items["rebuilt-current-item"].itemId, "rebuilt-current-item");
+
+  // Dataset A can be destructively replaced by B and then returned to A's
+  // exact business value. Each rebuild still advances the independent
+  // generation, so the bytes never return to stale A and its tab fails closed.
+  const abaStateA = register(createInitialSpacedRecallState(SHANGHAI), "aba-a");
+  const abaStorage = createMemoryStorage();
+  assert.equal(saveSpacedRecallState(abaStorage, abaStateA, 0), "saved");
+  const abaRawA = abaStorage.raw();
+  const abaGenerationA = abaStateA.generation;
+  const staleAWrite = register(structuredClone(abaStateA), "stale-a-write");
+  const abaStateB = register(structuredClone(abaStateA), "aba-b");
+  const abaRebuildB = await rebuildSpacedRecallStorage(abaStorage, abaStateB, {
+    expectedRaw: abaRawA,
+    backupExported: true,
+    confirmed: true,
+  }, immediateRebuildLock);
+  assert.equal(abaRebuildB.status, "rebuilt");
+  const abaRawB = abaStorage.raw();
+  const abaGenerationB = abaRebuildB.state.generation;
+  assert.notEqual(abaGenerationB, abaGenerationA);
+
+  const abaEquivalentA = structuredClone(abaStateA);
+  const abaRebuildA = await rebuildSpacedRecallStorage(abaStorage, abaEquivalentA, {
+    expectedRaw: abaRawB,
+    backupExported: true,
+    confirmed: true,
+  }, immediateRebuildLock);
+  assert.equal(abaRebuildA.status, "rebuilt");
+  const abaGenerationC = abaRebuildA.state.generation;
+  assert.notEqual(abaGenerationC, abaGenerationA);
+  assert.notEqual(abaGenerationC, abaGenerationB);
+  const stripGeneration = (candidate) => {
+    const comparable = structuredClone(candidate);
+    delete comparable.generation;
+    return comparable;
+  };
+  assert.deepEqual(stripGeneration(abaRebuildA.state), stripGeneration(abaStateA));
+  assert.notEqual(abaStorage.raw(), abaRawA, "A→B→A business equality must not recreate stale A bytes");
+  assert.equal(await saveSpacedRecallStateWithLock(
+    abaStorage,
+    staleAWrite,
+    abaStateA.revision,
+    abaRawA,
+    immediateRebuildLock,
+  ), "revision-conflict");
+  assert.equal(loadSpacedRecallState(abaStorage, SHANGHAI).state.items["stale-a-write"], undefined);
 
   // A pre-rebuild tab can hold a different valid snapshot with the same
   // revision. Exact-byte CAS must reject its later production save rather than
@@ -1148,7 +1304,7 @@ function createMemoryStorage(initial) {
     staleGenerationRaw,
     immediateRebuildLock,
   ), "revision-conflict");
-  assert.equal(confirmedFuture.raw(), JSON.stringify(rebuiltState));
+  assert.equal(confirmedFuture.raw(), confirmedRebuild.raw);
   assert.equal(loadSpacedRecallState(confirmedFuture, SHANGHAI).state.items["stale-generation-item"], undefined);
 
   const writeFailure = {
@@ -1157,11 +1313,17 @@ function createMemoryStorage(initial) {
       throw new Error("write blocked");
     },
   };
+  const generationBeforeFailedRebuild = rebuiltState.generation;
   assert.equal(await rebuildSpacedRecallStorage(writeFailure, rebuiltState, {
     expectedRaw: futureRaw,
     backupExported: true,
     confirmed: true,
   }, immediateRebuildLock), "storage-error");
+  assert.equal(
+    rebuiltState.generation,
+    generationBeforeFailedRebuild,
+    "a failed rebuild must not advance the caller's generation",
+  );
 
   const newerAfterWrite = `${futureRaw}\nnewer-after-write`;
   let readbackValue = futureRaw;
