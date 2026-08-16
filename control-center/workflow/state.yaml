@@ -1,9 +1,9 @@
 schema_version: 1
 project_id: "workflow-control-center"
 structure_status: normalized
-stage: cross-project-architecture-routing
-status: control-release-completeness-ui-design-approved-awaiting-XR-ARC-001-route
-current_role: package-contractor
+stage: cross-project-shared-boundary-architecture
+status: XR-ARC-001-routed-in-progress
+current_role: role-architect
 blocked: false
 ui_assets:
   directory: ui
@@ -31,40 +31,21 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
-  gate: ui-design-review
-  scope: "审核 CC-UI-002 发布完整性 UI 设计说明与版本化多端视觉资产；本门不自动批准架构、开发、QA、服务或部署。"
+  gate: architecture-review
+  scope: "审核 XR-ARC-001 四项目共享与独有边界 ADR；本门不自动批准项目级架构、任务拆解、开发、服务或部署。"
   decision_owner: 超级无敌帅超超总
-  decision: approved
-  approval: approval-20260817-control-release-completeness-ui-design-v1
-  decided_at: "2026-08-17T04:08:41+08:00"
-  delivery_status: approved
-  artifact: artifact-control-release-completeness-ui-design-001
-  expected_path: ui/03-release-completeness-ui-design-v1.0.md
-  actual_path: ui/03-release-completeness-ui-design-v1.0.md
-  sha256: c7c2f707f76afaae78d3da4404484cd12f0fb3a4e288da06bbeb7496ae5700c3
-  visual_bundle_artifact: artifact-control-release-completeness-ui-visuals-001
-  visual_bundle_manifest_sha256: 24cc9d208ba378f9191a86c83fe68f5be18b1a015f10ace39610405f2a53d5b1
-  visual_bundle_aggregate_sha256: a3296c16557ff224c0c456a4529544ce15e8cc6812069665164e842e87e9895c
-  previous_candidate_machine_validation: passed-superseded-by-independent-review
-  previous_candidate_fixed_04_visual_inspection: passed-superseded-by-independent-review
-  previous_candidate_browser_interaction_validation: passed-superseded-by-independent-review
-  previous_independent_visual_review: changes-requested-p0-0-p1-2-groups-p2-0-on-aggregate-81f
-  current_machine_validation: passed-two-consecutive-full-regeneration-identical-aggregate-a3296c16
-  current_fixed_04_visual_inspection: passed-prior-36-plus-fixed00-current-02-03-and-independent-current-02-03-D09-visual-p0-p1-zero
-  current_browser_interaction_validation: passed-fixed00-playwright-chromium-11-of-11-current-hashes
-  current_browser_console: zero-errors-zero-warnings
-  independent_visual_review: passed-p0-0-p1-0-p2-0
-  current_revision: approved-final-a329
-  work_item: CC-UI-002
-  change_id: ui-design-20260816-control-release-completeness-001
-  entry_authorization: approval-20260816-control-release-completeness-ui-design-entry
-  upstream_approval: approval-20260816-control-release-completeness-ui-prompt-v1
-  on_approved: authorize-XR-ARC-001-only
-  next_role: role-architect
-  next_role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
-  next_work_item: XR-ARC-001
-  next_change_id: arch-20260816-four-project-shared-boundary-001
-  next_gate: architecture-review
+  decision: pending
+  delivery_status: not-created
+  artifact: artifact-four-project-shared-boundary-adr-001
+  expected_path: architecture/03-four-project-shared-boundary-adr.md
+  expected_version: "1.0"
+  work_item: XR-ARC-001
+  change_id: arch-20260816-four-project-shared-boundary-001
+  entry_authorization: approval-20260817-four-project-shared-boundary-architecture-entry
+  role: role-architect
+  role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
+  safe_checkpoint: 94b72281aba7260af5ada246c3784b2e2fd8d837
+  on_approved: return-to-root-for-unique-MR-ARC-101-direction
   advance_limit: unique-next-stage-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
@@ -692,6 +673,39 @@ control_release_completeness_ui_design_assignment:
     - architecture-or-downstream-route
   production_release: frozen
   auto_route_on_delivery: false
+cross_project_shared_boundary_architecture_assignment:
+  change_id: arch-20260816-four-project-shared-boundary-001
+  work_item: XR-ARC-001
+  role: role-architect
+  role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
+  role_task_title: "05 架构师"
+  authorization: approval-20260817-four-project-shared-boundary-architecture-entry
+  safe_checkpoint: 94b72281aba7260af5ada246c3784b2e2fd8d837
+  prerequisite_approvals:
+    model_ui: approval-20260815-radar-release-completeness-ui-design-v1
+    career_ui: approval-20260816-career-release-completeness-ui-design-v1-7
+    english_ui: approval-20260816-english-release-completeness-ui-design-v1
+    control_ui: approval-20260817-control-release-completeness-ui-design-v1
+  expected_output:
+    artifact: artifact-four-project-shared-boundary-adr-001
+    path: architecture/03-four-project-shared-boundary-adr.md
+    version: "1.0"
+  required_boundaries:
+    - shared-versus-project-owned-contracts
+    - five-address-domain-cdn-service-separation
+    - identity-source-evidence-and-truth-state
+    - control-center-readonly-consumer-boundary
+    - provenance-version-sha-freshness-and-local-error-envelope
+    - acyclic-cross-project-dependency-DAG
+  status: routed-in-progress
+  stop_gate: architecture-review
+  exclusions:
+    - project-specific-architecture-or-MR-ARC-101
+    - implementation-data-collection-service-or-runtime-enablement
+    - DNS-CDN-certificate-nginx-cloud-or-production-change
+    - automatic-downstream-route
+  production_release: frozen
+  auto_route_on_delivery: false
 control_release_completeness_ui_prompt_assignment:
   change_id: ui-prompt-20260816-control-release-completeness-001
   work_item: CC-UI-001
@@ -740,4 +754,4 @@ control_release_completeness_ui_prompt_assignment:
     - downstream-route
   production_release: frozen
   auto_route_on_delivery: false
-updated_at: "2026-08-17T04:08:41+08:00"
+updated_at: "2026-08-17T04:17:00+08:00"

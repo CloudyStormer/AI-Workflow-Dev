@@ -492,3 +492,42 @@ approvals:
     production_release: frozen
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: approval-20260817-four-project-shared-boundary-architecture-entry
+    gate: role-entry
+    role: role-architect
+    role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
+    role_task_title: "05 架构师"
+    work_item: XR-ARC-001
+    change_id: arch-20260816-four-project-shared-boundary-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-17T04:17:00+08:00"
+    authorization_source: approval-20260817-control-release-completeness-ui-design-v1
+    safe_checkpoint: 94b72281aba7260af5ada246c3784b2e2fd8d837
+    prerequisites:
+      - approval-20260815-radar-release-completeness-ui-design-v1
+      - approval-20260816-career-release-completeness-ui-design-v1-7
+      - approval-20260816-english-release-completeness-ui-design-v1
+      - approval-20260817-control-release-completeness-ui-design-v1
+    inputs:
+      - artifact-four-project-release-replanning-plan-001
+      - artifact-four-project-real-usable-product-delta-001
+      - artifact-four-project-domain-cdn-service-boundary-001
+      - artifact-radar-release-completeness-ui-design-001
+      - artifact-career-release-completeness-ui-design-008
+      - artifact-english-release-completeness-ui-design-001
+      - artifact-control-release-completeness-ui-design-001
+    scope: "只产出四项目共享与独有边界 ADR，冻结五类地址、身份、来源、证据、真相态和 Control 只读监管接缝；所有未知保持 TBD/UNKNOWN，不选择生产平台。"
+    expected_output: artifact-four-project-shared-boundary-adr-001
+    expected_path: architecture/03-four-project-shared-boundary-adr.md
+    expected_version: "1.0"
+    stop_gate: architecture-review
+    exclusions:
+      - project-specific-architecture-or-task-breakdown
+      - application-database-connector-reader-service-or-test-code
+      - data-collection-or-runtime-enablement
+      - DNS-CDN-certificate-nginx-cloud-or-production-change
+      - automatic-route-to-MR-ARC-101-or-any-downstream-role
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
