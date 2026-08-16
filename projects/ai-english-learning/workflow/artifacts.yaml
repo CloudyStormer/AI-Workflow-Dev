@@ -1322,6 +1322,68 @@ artifacts:
     next_change_id: test-20260816-spaced-recall-storage-generation-aba-frontend-fix-004
     next_gate: test-report-review
     auto_route: false
+  - id: artifact-spaced-recall-storage-generation-aba-test-report-001
+    type: test-report
+    path: docs/07-test-report.md
+    status: ready-for-review
+    owner: role-qa
+    role_task_id: 019fb74a-acbb-7442-ae63-5e61246a26f5
+    change_id: test-20260816-spaced-recall-storage-generation-aba-frontend-fix-004
+    authorization: approval-20260816-spaced-recall-storage-generation-aba-qa-entry
+    upstream_approval: approval-20260816-spaced-recall-storage-generation-aba-code-rereview-conclusion
+    input_artifact: artifact-spaced-recall-storage-generation-aba-code-rereview-004
+    input_path: docs/06-code-review.md
+    input_sha256: b00e5b48324149f1e8b81f5bc3dee59e13cc65a8f4931a26e02445fee2bedf30
+    review_delivery_commit: 5ab9385e69b7cd8e8e18840241c6325872d0ec10
+    source_commit: d3277734804745fa092803c84419861443f0cdc1
+    diff_base: a5d0d1f30c6635f293a20938a19ad4087bc5a2b3
+    qa_routing_base: 38c3e0a23aff09a175588c73feebc09f92763e4d
+    qa_write_lock_release_base: e595b57971fc15c3feeefaddb75bf37fc9c5e880
+    report_write_base: e739c88b3a7024d58de177035162867f74c1f2ca
+    sha256: 90d4bebe39e61a565ad34fe2aa82d630c8402117479edf2f7b6b5ead4cdb297b
+    conclusion: passed
+    acceptance:
+      scope_items: 15-of-15-passed
+      execution_gates: 10-of-10-passed
+      blocker_open: 0
+      major_open: 0
+      minor_open: 0
+      must_fix: 0
+      accepted_legacy_defects: 0
+    validation:
+      node_24_19_fixed_10: passed-lint-typecheck-build-domain-cloze-1200-real-chrome
+      node_22_12_fixed_10: passed-lint-typecheck-build-domain-cloze-1200
+      node_22_12_browser_support: passed-real-chrome-cdp-by-explicit-closeout-evidence
+      generation_envelope: passed
+      legacy_v1_shared_lock_migration: passed
+      shared_web_lock_all_production_writes: passed
+      ordinary_write_generation_guard: passed
+      destructive_rebuild_generation_rotation: passed
+      word_state_ref_raw_sync: passed
+      equal_value_aba_domain: passed
+      real_two_tab_react_aba: passed-old-generation-fail-closed-new-generation-saved
+      storage_regression: passed
+      simplified_chinese: passed
+      keyboard_screen_reader_semantics: passed-without-voiceover-or-nvda-audio-session
+      responsive: passed-1440-390-320
+      chrome_console: clean
+      downloads_and_temp_profiles: passed-0-to-0
+      production_build: js-407.18kb-gzip-124.84kb-css-65.03kb-gzip-14.27kb
+    evidence_provenance:
+      fixed_10_independent: node-24-full-plus-node-22-non-browser-and-source-integrity
+      reused_support_by_explicit_closeout_instruction: node-22-real-chrome-cdp-full-gate
+    truth_boundary:
+      storage: current-browser-current-device-only
+      backend_integration: not-tested-as-implemented
+      cross_device_sync: not-tested-as-implemented
+      product_v1_4_other_scope: excluded
+      voiceover_or_nvda_audio_session: not-run
+      production_deployment: frozen
+    completed_at: "2026-08-16T23:46:17+08:00"
+    result: ready-for-test-report-review
+    stop_gate: test-report-review
+    next_role: none-until-user-review
+    auto_route: false
   - id: artifact-english-real-usable-product-delta-001
     type: cross-project-product-delta-reference
     source_artifact_id: artifact-four-project-real-usable-product-delta-001
