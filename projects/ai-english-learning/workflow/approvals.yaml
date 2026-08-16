@@ -550,3 +550,86 @@ approvals:
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
     evidence: "前端修复交付获批后，固定 09 是唯一明确、输入完整且非高风险的下一站；本授权不递归批准复审结论或再下一站。"
+  - id: approval-20260816-spaced-recall-storage-safety-code-rereview-conclusion
+    gate: code-rereview-conclusion-review
+    role: role-code-reviewer
+    role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
+    role_task_title: "09 代码审查员"
+    change_id: rereview-20260815-spaced-recall-storage-safety-fix-003
+    artifact: artifact-spaced-recall-storage-safety-code-rereview-003
+    path: docs/06-code-review.md
+    sha256: 65c39620c1bd5b27aeac4be757f710f27a4c9fbbb5678eb2a547d66acf98c488
+    review_delivery_commit: c33d12bfe15f11a3232ac5fde17bb41091110d9b
+    reviewed_source_commit: 94c958d096357bbead86c7a16fbfe5674d2c2919
+    conclusion: changes-requested
+    scope: "批准固定 09 对 CR-P1-001-R3 的复审结论：独立 generation/epoch 缺失使 A→B→A 等值 ABA 后旧标签写入仍可返回 saved；只批准结论，不代表缺陷修复、复审、QA、后端或发布已完成"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-16T11:12:15+08:00"
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    user_reply: "继续吧，今天所有的角色的任务都不需要我审核，全部默认通过"
+    evidence: "固定 00 上一条交付中明确列出 artifact-spaced-recall-storage-safety-code-rereview-003 为当前 English 待审产物；超级无敌帅超超总随后明确要求今天所有角色任务默认通过。"
+    effect: "已批准当前 changes-requested 结论，并自动授权唯一责任角色固定 06 只完成 CR-P1-001-R3 generation/epoch ABA 修复。本次只覆盖该修复交付单元；交付后停 frontend-fix-delivery-review。"
+    preserved_top_level:
+      release_scope_artifact: artifact-english-release-completeness-prd-001
+      cross_project_replanning_gate: pending
+      backend_task_breakdown_gate: pending
+      production_deployment: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+  - id: approval-20260816-spaced-recall-storage-generation-aba-frontend-fix-entry
+    gate: role-entry
+    role: role-frontend-dev
+    role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
+    role_task_title: "06 前端工程师"
+    change_id: fix-20260816-spaced-recall-storage-generation-aba-004
+    scope: "仅修复 CR-P1-001-R3：存储重建必须产生独立 generation/epoch，普通写继承并校验该代次，阻止 A→B→A 等值 ABA 后旧标签写入；补领域与真实双标签回归。不得扩张到 QA、后端、PRD v1.4 其他新增能力或部署。"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-16T11:12:15+08:00"
+    upstream_approval: approval-20260816-spaced-recall-storage-safety-code-rereview-conclusion
+    upstream_artifact: artifact-spaced-recall-storage-safety-code-rereview-003
+    input_path: docs/06-code-review.md
+    input_sha256: 65c39620c1bd5b27aeac4be757f710f27a4c9fbbb5678eb2a547d66acf98c488
+    reviewed_source_commit: 94c958d096357bbead86c7a16fbfe5674d2c2919
+    review_commit: c33d12bfe15f11a3232ac5fde17bb41091110d9b
+    expected_output: artifact-spaced-recall-storage-generation-aba-frontend-fix-004
+    expected_path: frontend/
+    required_validation:
+      - independent-generation-or-epoch-on-rebuild
+      - ordinary-write-inherits-and-checks-generation
+      - equal-byte-a-to-b-to-a-aba-domain-regression
+      - real-two-tab-equal-byte-aba-regression
+      - existing-lint-build-domain-cloze-and-browser-regression
+    stop_gate: frontend-fix-delivery-review
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+  - id: approval-20260816-english-release-completeness-ui-prompt-entry
+    gate: role-entry
+    role: role-ui-designer
+    role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+    role_task_title: "04 UI/UX设计师"
+    work_item: EL-UI-001
+    change_id: ui-prompt-20260816-english-release-completeness-001
+    scope: "基于已批准 English PRD v1.4 与四项目重排计划，只编制完整发布范围 UI/UX 增量提示词，覆盖账号、定级、今日、Word、AI/语音、统计、跨设备同步和数据权利；沿用用户提供的 English 权威 UI 母版，不生成设计、图片或代码。"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-16T11:12:15+08:00"
+    authorization_source: approval-20260816-career-release-completeness-ui-design-v1-7
+    upstream_plan_approval: approval-20260814-four-project-release-replanning-plan-v1
+    upstream_product_approval: approval-20260814-english-release-scope-v1-4
+    upstream_career_artifact: artifact-career-release-completeness-ui-design-008
+    expected_output: artifact-english-release-completeness-ui-prompt-001
+    expected_path: ui/05-release-completeness-ui-prompt.md
+    expected_version: "1.0"
+    stop_gate: ui-prompt-review
+    exclusions:
+      - EL-UI-002-or-design-assets
+      - architecture-frontend-backend-or-data-code
+      - qa-or-deployment
+      - overwrite-user-provided-ui-baseline
+      - auto-approve-prompt-or-next-stage
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false

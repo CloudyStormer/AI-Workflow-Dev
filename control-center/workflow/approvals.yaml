@@ -224,3 +224,48 @@ approvals:
     stop_gate: frontend-fix-delivery-review
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: approval-20260816-control-center-frontend-code-fix-delivery
+    gate: frontend-fix-delivery-review
+    role: role-frontend-dev
+    role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
+    role_task_title: "06 前端工程师"
+    change_id: fix-20260815-control-center-code-review-findings-001
+    artifact: artifact-control-center-frontend-code-fix-001
+    source_commit: 945b98320002d50605943697c5ce5c5e63ec2800
+    scope: "批准 Control Center 前端审查修复交付及其两遍完整测试、24 组响应式、搜索、导出、无障碍和独立终审零 P0/P1/P2 证据；不把演示数据说成真实后端，不批准 QA、后端或生产发布"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-16T11:12:15+08:00"
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    user_reply: "继续吧，今天所有的角色的任务都不需要我审核，全部默认通过"
+    evidence: "固定 00 上一条交付中明确列出 artifact-control-center-frontend-code-fix-001 为当前 Control 待审产物；超级无敌帅超超总随后明确要求今天所有角色任务默认通过。"
+    effect: "已批准当前产物，并自动授权唯一下一站固定 09 代码审查员执行一个只读复审单元。本次只覆盖该站一个交付；复审后停 code-rereview-conclusion-review，不代表复审结论、QA、后端或发布已获批准。"
+    preserved_top_level:
+      stage: product-definition
+      status: release-scope-approved-awaiting-cross-project-replanning
+      next_gate: cross-project-replanning-direction
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+  - id: approval-20260816-control-center-code-rereview-entry
+    gate: role-entry
+    role: role-code-reviewer
+    role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
+    role_task_title: "09 代码审查员"
+    change_id: rereview-20260816-control-center-frontend-code-fix-001
+    scope: "只读复审 source 945b983 的 artifact-control-center-frontend-code-fix-001，逐项确认原 6 项 Major、3 项 Minor 与已采纳建议的关闭、简体中文、真实性、响应式、无障碍、搜索/筛选/导出和既有回归；不得代修代码，不得进入 QA、后端或部署"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-16T11:12:15+08:00"
+    upstream_approval: approval-20260816-control-center-frontend-code-fix-delivery
+    upstream_artifact: artifact-control-center-frontend-code-fix-001
+    source_commit: 945b98320002d50605943697c5ce5c5e63ec2800
+    original_review_artifact: artifact-control-center-code-review-001
+    original_review_path: docs/06-code-review.md
+    original_review_sha256: c3d53359f5ecfe718557595797635d1e4c3dfc9de1d4af4f785ef79a15c01343
+    expected_output: artifact-control-center-frontend-code-rereview-001
+    expected_path: docs/06-code-review.md
+    stop_gate: code-rereview-conclusion-review
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false

@@ -845,3 +845,32 @@ approvals:
     downstream_route_authorized: false
     result: ready-for-user-ui-design-review
     stop_gate: ui-design-review
+  - id: "approval-20260816-career-release-completeness-ui-design-v1-7"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: ui-design-review
+    role: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    work_item: "CR-UI-002"
+    change_id: "ui-design-20260816-career-release-completeness-v1-7-008"
+    artifact: "artifact-career-release-completeness-ui-design-008"
+    visual_bundle: "artifact-career-release-completeness-ui-visuals-008"
+    path: ui/12-release-completeness-ui-design-v1.7.md
+    version: "1.7"
+    sha256: 636d3fcecc3266b8cdc3234614dda68222f67294016d9f22129f87fd552d7fae
+    independent_review: "review-20260815-career-release-completeness-ui-design-v1-7-round-8"
+    independent_review_result: "passed-0-P0-0-P1-0-P2"
+    evidence_commit: b5a972cfaa7309eead245f6a888410e1eeb5041b
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-16T11:12:15+08:00"
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    user_reply: "继续吧，今天所有的角色的任务都不需要我审核，全部默认通过"
+    evidence: "固定 00 上一条交付中明确列出 artifact-career-release-completeness-ui-design-008 为当前 Career UI 设计待审产物；超级无敌帅超超总随后明确要求今天所有角色任务默认通过。"
+    effect: "批准 CR-UI-002 v1.7 设计，并按已批准四项目重排计划只授权同一固定 04 的唯一下一站 English EL-UI-001；不批准 English Prompt、设计、架构、开发、QA 或部署。"
+    next_project: ai-english-learning
+    next_work_item: EL-UI-001
+    next_gate: ui-prompt-review
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
