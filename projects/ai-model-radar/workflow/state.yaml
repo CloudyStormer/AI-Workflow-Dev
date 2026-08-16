@@ -4,7 +4,7 @@ run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
 stage: architecture
-status: MR-ARC-101-routed-in-progress
+status: MR-ARC-101-ready-for-review
 current_role: role-architect
 blocked: false
 ui_assets:
@@ -42,10 +42,13 @@ next_approval:
   scope: "审核 MR-ARC-101 AI Model Radar 发布完整性架构；本门不自动批准任务拆解、实现、连接器、数据采集、runtime 或部署。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: not-created
+  delivery_status: ready-for-review
   expected_artifact: artifact-radar-release-completeness-architecture-001
   expected_path: docs/06-release-completeness-architecture.md
   expected_version: "1.0"
+  artifact_sha256: 4d94dfa91442d940a3e58e29519456ca29eb1f5386e1f7bbc22c51ddf767d6d6
+  completed_at: "2026-08-17T05:13:51+08:00"
+  validated_at: "2026-08-17T05:14:20+08:00"
   work_item: MR-ARC-101
   change_id: arch-20260817-radar-release-completeness-001
   entry_authorization: approval-20260817-radar-release-architecture-entry
@@ -879,7 +882,8 @@ release_completeness_architecture_assignment:
     artifact: artifact-radar-release-completeness-architecture-001
     path: docs/06-release-completeness-architecture.md
     version: "1.0"
-    delivery_status: not-created
+    sha256: 4d94dfa91442d940a3e58e29519456ca29eb1f5386e1f7bbc22c51ddf767d6d6
+    delivery_status: ready-for-review
   required_boundaries:
     - exact-source-policy-and-seven-step-runtime-enablement-sequence
     - connector-fetch-parse-evidence-retry-rate-limit-and-SSRF-boundaries
@@ -898,7 +902,15 @@ release_completeness_architecture_assignment:
     registry_mutation_authorized: false
     data_collection_authorized: false
     production_release: frozen
-  status: routed-in-progress
+  status: ready-for-review
+  completed_at: "2026-08-17T05:13:51+08:00"
+  validated_at: "2026-08-17T05:14:20+08:00"
+  validation_status: passed
+  content_self_check:
+    P0: 0
+    P1: 0
+    P2: 0
+    note: author-self-check-not-independent-review
   stop_gate: architecture-review
   exclusions:
     - implementation-or-task-breakdown
@@ -906,4 +918,4 @@ release_completeness_architecture_assignment:
     - service-start-test-environment-or-deployment
     - automatic-downstream-route
   auto_route_on_delivery: false
-updated_at: "2026-08-17T04:54:24+08:00"
+updated_at: "2026-08-17T05:14:20+08:00"

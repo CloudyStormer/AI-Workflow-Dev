@@ -971,3 +971,96 @@ artifacts:
       - N-remains-22-until-policy-product-and-plan-counts-are-reconciled
       - no-connector-canary-rev-qa-runtime-or-live-snapshot
       - legal-and-platform-conditions-may-change
+  - id: artifact-radar-release-completeness-architecture-001
+    run_id: run-20260731-intake-001
+    type: release-completeness-architecture
+    path: docs/06-release-completeness-architecture.md
+    version: "1.0"
+    sha256: 4d94dfa91442d940a3e58e29519456ca29eb1f5386e1f7bbc22c51ddf767d6d6
+    status: ready-for-review
+    owner: role-architect
+    role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
+    role_task_title: "05 架构师"
+    work_item: MR-ARC-101
+    change_id: arch-20260817-radar-release-completeness-001
+    authorization: approval-20260817-radar-release-architecture-entry
+    route_safe_checkpoint: c3f8554019e00e7cef293375a76143e12e5d43ed
+    write_baseline: 7e786f24ae16cbb13aa8d7e9028d52f2ceb12d71
+    upstream:
+      shared_boundary_adr:
+        path: ../../architecture/03-four-project-shared-boundary-adr.md
+        version: "1.0"
+        sha256: e3073a01ceda280b8dda4d77b58de7e9755d3f77d21f6ebb5497c8882508840a
+        approval: approval-20260817-four-project-shared-boundary-adr-v1
+      release_plan:
+        path: ../../docs/04-four-project-release-completeness-replanning-plan.md
+        sha256: 96decb8f1835cc85bd530c21b2969d4d077f31e6086425ea911f9d5b187bbe26
+      product_delta:
+        path: ../../docs/05-four-project-real-usable-product-delta.md
+        sha256: e613e79f44100840542fb6531e155cf0edd0079a6fc213af328fba075750bc01
+      domain_boundary:
+        path: ../../architecture/02-domain-cdn-service-boundary.md
+        sha256: d8d7a594b18195e85795b01c7c9c6829222571ba65ddb9629256fab2cf29114b
+      prd:
+        path: docs/02-prd.md
+        version: "1.2"
+        sha256: 3ce842ef8e2b9661f2114b3b4a2b3361eeb8fac0f98a5071cd8e27c38a81a020
+      release_appendix:
+        path: docs/02-prd-release-completeness-appendix.md
+        version: "1.0"
+        sha256: a27cfecc196c29749387302a692d93af0b5b534af7da6805b6b297e064133f1d
+      ui_design:
+        path: ui/05-release-completeness-ui-design.md
+        version: "1.0"
+        sha256: a731232994db118117043aa50503273c91e5c438bc20f948d9e5137e43ba9324
+      source_allowlist_sha256: 9aa9bb926cc52aae28d11bbf676507ca313add83238cd81be6300a4d9f2f0498
+      source_registry_sha256: c303e79e1fa9f7a1664ac718a1678bbcb6610b5309a5d5e4006e6d4b1d438f91
+      source_runtime_readiness_sha256: c59c0647204caa63b4ac9acc9f229dfab22c8b239b4b844a957c1e065681649f
+    decisions:
+      web_stack: existing-react-typescript-vite-plus-fastify-api
+      local_persistence: sqlite-wal-with-migrations-backup-and-restore
+      deployment_scaling_components: unknown-tbd-not-local-prerequisites
+      source_policy: immutable-bundle-plus-exact-endpoint-and-ssrf-gate
+      data_model: append-only-observation-evidence-event-revisions-and-immutable-published-snapshot
+      mode_isolation: live-and-seed-demo-hard-separated
+      runtime_sequence: policy-authorization-implementation-canary-rev-qa-environment-registration
+    frozen_facts:
+      approved_p0_allow_atomic_endpoints_N: 22
+      AIR_END_030: pending-not-in-registry-not-counted
+      runtime_enabled: false
+      live_connectors: 0
+      live_snapshots: 0
+      registry_mutated: false
+      service_or_collection_started: false
+      production_release: frozen
+    coverage:
+      - technology-modules-and-dependency-dag
+      - source-policy-exact-endpoint-ssrf-fetch-parse-evidence
+      - etag-rate-limit-timeout-retry-canary-and-seven-step-runtime-gate
+      - observation-event-evidence-immutable-snapshot-idempotency-and-migrations
+      - today-events-trends-open-source-source-quality-detail-refresh-and-local-preferences-apis
+      - truth-states-old-snapshot-preservation-health-readiness-and-error-envelope
+      - security-observability-cost-unknown-backup-restore-and-test-matrix
+    completed_at: "2026-08-17T05:13:51+08:00"
+    validation_status: passed
+    validated_at: "2026-08-17T05:14:20+08:00"
+    validation:
+      authoritative_input_sha256: 10-of-10-matched-plus-approval-sidecar-recorded
+      architecture_sha256: matched
+      architecture_sections: 22-numbered-sections
+      seven_step_sequence: exactly-one-complete-sequence
+      workflow_yaml: 5-of-5-valid
+      jsonl_before_validation_event: 91-of-91-valid-and-unique
+      registry_baseline: 72-rows-35-columns-29-endpoints-22-p0-allow-unchanged
+      git_boundary: passed-before-delivery
+      scoped_diff: architecture-and-model-workflow-only
+      sensitive_literal_scan: passed
+      content_self_check: P0-0-P1-0-P2-0
+    known_limits:
+      - backend-currently-only-gitkeep-and-all-backend-commands-not-implemented
+      - no-registry-connector-runtime-data-service-frontend-or-deployment-change
+      - production-domain-port-cloud-budget-credential-slo-rpo-rto-remain-unknown-tbd
+      - author-self-check-does-not-replace-independent-review
+    stop_gate: architecture-review
+    downstream_role_authorized: false
+    auto_route: false
