@@ -30,19 +30,37 @@
 - 范围：薄弱词登记、当天受控复现、跨日记忆曲线、提醒、独立拼写、掌握退出、计分与状态反馈、异常恢复。
 - 边界：继承 `docs/03-ui-prompt.md` v1.2 和本目录 13 项用户视觉母版；超级无敌帅超超总已明确免除独立设计稿、原型或图片生成，并授权固定 `06 前端工程师`在 PRD 与 Prompt 约束内自主完成前端细节。
 
-## 当前待审发布完整性 Prompt
+## 已批准发布完整性 Prompt
 
 - 权威路径：`ui/05-release-completeness-ui-prompt.md`
 - 版本：v1.0
 - SHA256：`2adba179503582f9c1bc9524a64ec1f04fd624fc653403e23ff69713bfa6a5ad`
-- 状态：ready-for-review
+- 状态：approved
+- 审批：`approval-20260816-english-release-completeness-ui-prompt-v1`
 - 工作项：`EL-UI-001`
 - 变更 ID：`ui-prompt-20260816-english-release-completeness-001`
 - 入场审批：`approval-20260816-english-release-completeness-ui-prompt-entry`
 - 已批准上游：`docs/01-prd.md` v1.4，SHA256 `8badf942aefc7ebd2c62526511aa69f0da334cefeb5688fd7281d0924e557e46`
 - 范围：在既有行内字母槽、查看答案和间隔复习 Prompt 之上，补齐账号与访客、A1–C2 测级、真实词库与今日任务、真实 AI/语音、统计、跨设备同步、数据说明、双导出、删除账号、服务真实性状态、响应式和无障碍。
 - 真实性边界：当前真实服务未全部接通；任何目标态与示例数字必须就近标注 `目标态演示` 或 `演示数据`，不得伪装已经上线。
-- 停止门：`ui-prompt-review`。本交付没有生成设计稿、原型或图片，也没有进入 `EL-UI-002` 或修改前端。
+- 审批效果：仅批准当前 Prompt，并按根重排计划唯一一跳授权固定 04 执行 `EL-UI-002`；不构成未来产物预审批，也不自动授权架构、开发或部署。
+
+## 当前待审发布完整性设计
+
+- 设计说明：`ui/06-release-completeness-ui-design-v1.0.md`
+- 设计说明 SHA256：`7c1f2318ec636b5f18ee4af543a042c5b873c511bfb3f95274c3d50c36ff899d`
+- 视觉包：`ui/release-completeness-v1.0/`
+- 视觉 manifest：`ui/release-completeness-v1.0/manifest.json`，SHA256 `a1dcd8753a64f7b443f34dec95eb0ff1f467619bb3d1ffc0a0f166ae9260d880`
+- 生成记录：`ui/release-completeness-v1.0/generation-prompts.md`，SHA256 `cd4d8debd4ffff157ffc14babbb9d950612b1904ef4b07c6b8d05cad70e49da8`
+- 版本：v1.0
+- 工作项：`EL-UI-002`
+- 变更 ID：`ui-design-20260816-english-release-completeness-001`
+- 入场审批：`approval-20260816-english-release-completeness-ui-design-entry`
+- 状态：ready-for-review
+- 视觉资产：4 张，分别为 1440×1024、1024×768、390×844、320×568。
+- 覆盖：入口真实性、今日双主入口、行内槽、保存未确认、跨端冲突、AI/STT/TTS 降级、统计证据、双导出、删除未就绪、完整简中、响应式与无障碍。
+- 真相边界：这是目标态设计和状态样例；当前真实服务尚未全部接通，图片或设计说明都不是运行时完成证据。
+- 停止门：`ui-design-review`。未经审核不得路由架构、前端、后端、服务或部署。
 
 ## 用户提供视觉母版登记
 

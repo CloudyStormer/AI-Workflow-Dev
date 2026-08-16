@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "project_id": "ai-english-learning",
+  "work_item": "EL-UI-002",
+  "change_id": "ui-design-20260816-english-release-completeness-001",
+  "artifact_id": "artifact-english-release-completeness-ui-visuals-001",
+  "version": "1.0",
+  "status": "ready-for-review",
+  "created_at": "2026-08-16T13:37:06+08:00",
+  "generator": {
+    "name": "image_gen.imagegen",
+    "mode": "reference-guided-generation",
+    "reference_policy": "user-provided-authoritative-visual-baseline",
+    "reference_asset_count_total": 13,
+    "reference_asset_limit_per_generation": 5,
+    "postprocess": "copy original generated output, then exact no-crop resize with macOS sips",
+    "originals_preserved": true
+  },
+  "truth_boundary": {
+    "target_state_demo": true,
+    "runtime_real_services_fully_connected": false,
+    "mock_or_seed_may_masquerade_as_live": false,
+    "design_is_runtime_completion_evidence": false
+  },
+  "assets": [
+    {
+      "id": "EL-VIS-1440-01",
+      "path": "ui/release-completeness-v1.0/01-desktop-1440-today-truth-state.png",
+      "logical_viewport": {"width": 1440, "height": 1024},
+      "pixel_size": {"width": 1440, "height": 1024},
+      "sha256": "ae40b7f71b57f12427f181d939f45750df9ba5656548119a7d58397d41aeb375",
+      "coverage": ["today-home", "entry-truth", "guest", "sync-not-ready", "ai-stt-tts-status", "demo-label"],
+      "source_generated_path": "/Users/qichao/.codex/generated_images/019fb74a-9f5f-7433-999e-2e30012296a0/exec-f948a5f7-736a-46b6-a08c-7e3175dcf978.png",
+      "source_sha256": "8bc1d1b601441bdeb150cceff020977e4b3e2b9ae1df13fd5a6829300ee0d871"
+    },
+    {
+      "id": "EL-VIS-1024-01",
+      "path": "ui/release-completeness-v1.0/02-tablet-1024-word-sync-conflict.png",
+      "logical_viewport": {"width": 1024, "height": 768},
+      "pixel_size": {"width": 1024, "height": 768},
+      "sha256": "85c6158ec6b550400cd18835e002a84d88208025ac6324d94c89e03d2e210d9e",
+      "coverage": ["inline-letter-slots", "unconfirmed-write", "cross-device-conflict", "recall-evidence", "idempotent-recovery"],
+      "source_generated_path": "/Users/qichao/.codex/generated_images/019fb74a-9f5f-7433-999e-2e30012296a0/exec-bf41247c-55d3-4356-ad48-0d14f9feb658.png",
+      "source_sha256": "e9bc4cb887f135ca4d05e0397926867ae1305df02ce8bbd95aac048b71b70e6c"
+    },
+    {
+      "id": "EL-VIS-390-01",
+      "path": "ui/release-completeness-v1.0/03-mobile-390-ai-voice-degraded.png",
+      "logical_viewport": {"width": 390, "height": 844},
+      "pixel_size": {"width": 390, "height": 844},
+      "sha256": "89665f6eff69ed1639027d244af3abd9b1eb8cb91805be212e0aece3164b2b13",
+      "coverage": ["real-ai-failed", "no-cached-script", "stt-unauthorized", "tts-not-ready", "text-fallback", "mobile-safe-area"],
+      "source_generated_path": "/Users/qichao/.codex/generated_images/019fb74a-9f5f-7433-999e-2e30012296a0/exec-f96c8036-5580-4b68-aca6-2817278e4e98.png",
+      "source_sha256": "f190b409cd147a6f23e20c65dbc1b66183c38a7a6e99855ec08bee32c062acf3"
+    },
+    {
+      "id": "EL-VIS-320-01",
+      "path": "ui/release-completeness-v1.0/04-mobile-320-export-delete-not-ready.png",
+      "logical_viewport": {"width": 320, "height": 568},
+      "pixel_size": {"width": 320, "height": 568},
+      "sha256": "890725e3eb710d3ec87b9369a132d52d025a9be0b80051766fa924e8c8361239",
+      "coverage": ["account-data", "unconfirmed-sync", "human-readable-export", "machine-readable-export", "delete-not-ready", "correctly-disabled"],
+      "source_generated_path": "/Users/qichao/.codex/generated_images/019fb74a-9f5f-7433-999e-2e30012296a0/exec-121dc38d-6c6a-4e5c-b07a-d6b6914486ef.png",
+      "source_sha256": "7409aad8d4c0753af0a6278c2e5847f7f939a5e7a614354298f01f02cab8f991"
+    }
+  ],
+  "review": {
+    "machine_validation": "passed",
+    "machine_checks": [
+      "manifest-json-parse",
+      "four-png-signature",
+      "exact-pixel-dimensions",
+      "four-of-four-sha256-match",
+      "project-structure-zero-warnings",
+      "workflow-yaml-and-jsonl-parse",
+      "git-boundary"
+    ],
+    "visual_inspection": "completed-by-fixed-04-not-independent-review",
+    "independent_visual_review": "pending",
+    "stop_gate": "ui-design-review"
+  }
+}

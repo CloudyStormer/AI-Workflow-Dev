@@ -677,3 +677,56 @@ approvals:
     downstream_role_authorized: false
     advance_limit: return-to-root-coordinator-for-one-unique-work-item
     auto_advance_beyond_next: false
+  - id: approval-20260816-english-release-completeness-ui-prompt-v1
+    gate: ui-prompt-review
+    role: role-ui-designer
+    role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+    role_task_title: "04 UI/UX设计师"
+    work_item: EL-UI-001
+    change_id: ui-prompt-20260816-english-release-completeness-001
+    artifact: artifact-english-release-completeness-ui-prompt-001
+    path: ui/05-release-completeness-ui-prompt.md
+    version: "1.0"
+    sha256: 2adba179503582f9c1bc9524a64ec1f04fd624fc653403e23ff69713bfa6a5ad
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-16T13:37:06+08:00"
+    user_reply: "我都通过，别再问我了"
+    effect: "批准当前已形成的 English 发布完整性 UI Prompt，并按根重排计划唯一一跳授权同一固定04执行 EL-UI-002；不构成未来产物预审批。"
+    next_work_item: EL-UI-002
+    next_authorization: approval-20260816-english-release-completeness-ui-design-entry
+    completed_gate: ui-prompt-review
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+  - id: approval-20260816-english-release-completeness-ui-design-entry
+    gate: role-entry
+    role: role-ui-designer
+    role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+    role_task_title: "04 UI/UX设计师"
+    work_item: EL-UI-002
+    change_id: ui-design-20260816-english-release-completeness-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-16T13:37:06+08:00"
+    authorization_source: approval-20260816-english-release-completeness-ui-prompt-v1
+    safe_checkpoint: 368c3cadb35e12020586e62643e6a95f39d93c87
+    inputs:
+      - artifact-english-release-completeness-prd-001
+      - artifact-english-release-completeness-ui-prompt-001
+      - artifact-english-real-usable-product-delta-001
+      - user-provided-authoritative-ui-baseline-13-assets
+    scope: "只生成 English 完整发布设计说明及 1440/1024/390/320 状态资产，覆盖全学习链、真实入口真相、AI/STT/TTS降级、跨端冲突、统计证据、双导出和删除；不实现代码或服务。"
+    expected_output: artifact-english-release-completeness-ui-design-001
+    expected_path: ui/06-release-completeness-ui-design-v1.0.md
+    expected_visual_bundle: artifact-english-release-completeness-ui-visuals-001
+    expected_visual_path: ui/release-completeness-v1.0/
+    stop_gate: ui-design-review
+    exclusions:
+      - architecture-frontend-backend-or-data-code
+      - service-connector-or-deployment
+      - overwrite-user-provided-ui-baseline
+      - automatic-downstream-route
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false

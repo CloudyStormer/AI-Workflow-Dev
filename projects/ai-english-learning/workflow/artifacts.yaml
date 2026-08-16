@@ -1131,12 +1131,15 @@ artifacts:
     type: ui-design-prompt
     path: ui/05-release-completeness-ui-prompt.md
     version: "1.0"
-    status: ready-for-review
+    status: approved
     owner: role-ui-designer
     role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
     work_item: EL-UI-001
     change_id: ui-prompt-20260816-english-release-completeness-001
     authorization: approval-20260816-english-release-completeness-ui-prompt-entry
+    approval: approval-20260816-english-release-completeness-ui-prompt-v1
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-16T13:37:06+08:00"
     sha256: 2adba179503582f9c1bc9524a64ec1f04fd624fc653403e23ff69713bfa6a5ad
     ui_index:
       path: ui/README.md
@@ -1164,8 +1167,8 @@ artifacts:
       target_state_requires_visible_label: true
       demo_numbers_require_visible_label: true
       prompt_is_approved_visual_design: false
-      design_or_image_generated: false
-      EL_UI_002_started: false
+      design_or_image_generated: in-progress
+      EL_UI_002_started: true
       frontend_modified_by_fixed_04: false
       production_release: frozen
     validation:
@@ -1278,4 +1281,117 @@ artifacts:
     completed_gate: cross-project-real-product-delta-review
     return_gate: cross-project-replanning-direction
     production_release: frozen
+    auto_route: false
+  - id: artifact-english-release-completeness-ui-design-001
+    type: ui-design-specification
+    path: ui/06-release-completeness-ui-design-v1.0.md
+    version: "1.0"
+    sha256: 7c1f2318ec636b5f18ee4af543a042c5b873c511bfb3f95274c3d50c36ff899d
+    status: ready-for-review
+    owner: role-ui-designer
+    role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+    work_item: EL-UI-002
+    change_id: ui-design-20260816-english-release-completeness-001
+    authorization: approval-20260816-english-release-completeness-ui-design-entry
+    upstream:
+      prompt_artifact: artifact-english-release-completeness-ui-prompt-001
+      prompt_version: "1.0"
+      prompt_sha256: 2adba179503582f9c1bc9524a64ec1f04fd624fc653403e23ff69713bfa6a5ad
+      prompt_approval: approval-20260816-english-release-completeness-ui-prompt-v1
+      product_artifact: artifact-english-release-completeness-prd-001
+      product_version: "1.4"
+      product_sha256: 8badf942aefc7ebd2c62526511aa69f0da334cefeb5688fd7281d0924e557e46
+      real_product_delta: artifact-english-real-usable-product-delta-001
+      real_product_delta_sha256: e613e79f44100840542fb6531e155cf0edd0079a6fc213af328fba075750bc01
+    visual_bundle: artifact-english-release-completeness-ui-visuals-001
+    coverage:
+      desktop_pages: 12
+      tablet_key_pages: 4
+      mobile_390_pages: 10
+      mobile_320_pages: 10
+      generated_state_assets: 4
+      chart_types: 6
+      truth_states:
+        - loading
+        - live
+        - empty
+        - not_ready
+        - stale
+        - degraded
+        - failed
+        - offline
+        - unauthorized
+        - forbidden
+        - processing
+        - unconfirmed
+        - conflict
+      acceptance_mapping: AC-AEL-REL-01..AC-AEL-REL-36
+    truth_boundary:
+      current_real_services_fully_connected: false
+      design_is_runtime_completion_evidence: false
+      target_state_and_demo_labels_required: true
+      frontend_or_backend_modified: false
+      downstream_routed: false
+      production_release: frozen
+    validation:
+      design_spec_structure: passed
+      simplified_chinese: passed
+      authoritative_visual_inheritance: passed-13-assets
+      real_product_delta_english_entry_groups: mapped-14
+      responsive_and_accessibility: passed-by-spec
+      project_structure: passed-0-warnings
+      workflow_yaml_jsonl: passed
+      git_boundary: passed
+      fixed_04_visual_inspection: passed-not-independent-review
+      independent_visual_review: pending
+    ui_index:
+      path: ui/README.md
+      sha256: 7e547921dd4d4817390f62c3da75555d0e0a6ca85f26e42bfe205f305cb922f6
+    completed_at: "2026-08-16T13:53:39+08:00"
+    result: ready-for-review
+    stop_gate: ui-design-review
+    next_role: none-until-user-review
+    auto_route: false
+  - id: artifact-english-release-completeness-ui-visuals-001
+    type: ui-visual-state-bundle
+    path: ui/release-completeness-v1.0/
+    manifest_path: ui/release-completeness-v1.0/manifest.json
+    manifest_sha256: a1dcd8753a64f7b443f34dec95eb0ff1f467619bb3d1ffc0a0f166ae9260d880
+    generation_record_path: ui/release-completeness-v1.0/generation-prompts.md
+    generation_record_sha256: cd4d8debd4ffff157ffc14babbb9d950612b1904ef4b07c6b8d05cad70e49da8
+    version: "1.0"
+    status: ready-for-review
+    owner: role-ui-designer
+    role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+    work_item: EL-UI-002
+    change_id: ui-design-20260816-english-release-completeness-001
+    authorization: approval-20260816-english-release-completeness-ui-design-entry
+    generation:
+      engine: built-in-image-gen
+      mode: reference-guided
+      user_authoritative_visual_asset_count: 13
+      original_generated_files_preserved: true
+      project_assets_are_new_versioned_paths: true
+    assets:
+      - path: ui/release-completeness-v1.0/01-desktop-1440-today-truth-state.png
+        size: 1440x1024
+        sha256: ae40b7f71b57f12427f181d939f45750df9ba5656548119a7d58397d41aeb375
+      - path: ui/release-completeness-v1.0/02-tablet-1024-word-sync-conflict.png
+        size: 1024x768
+        sha256: 85c6158ec6b550400cd18835e002a84d88208025ac6324d94c89e03d2e210d9e
+      - path: ui/release-completeness-v1.0/03-mobile-390-ai-voice-degraded.png
+        size: 390x844
+        sha256: 89665f6eff69ed1639027d244af3abd9b1eb8cb91805be212e0aece3164b2b13
+      - path: ui/release-completeness-v1.0/04-mobile-320-export-delete-not-ready.png
+        size: 320x568
+        sha256: 890725e3eb710d3ec87b9369a132d52d025a9be0b80051766fa924e8c8361239
+    validation:
+      png_signature: passed-4-of-4
+      exact_dimensions: passed-4-of-4
+      sha256: passed-4-of-4
+      fixed_04_visual_inspection: passed-not-independent-review
+      independent_visual_review: pending
+    completed_at: "2026-08-16T13:53:39+08:00"
+    result: ready-for-review
+    stop_gate: ui-design-review
     auto_route: false
