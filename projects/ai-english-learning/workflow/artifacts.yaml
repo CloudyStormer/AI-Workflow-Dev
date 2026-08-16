@@ -1255,6 +1255,68 @@ artifacts:
     next_change_id: rereview-20260816-spaced-recall-storage-generation-aba-fix-004
     next_gate: code-rereview-conclusion-review
     auto_route: false
+  - id: artifact-spaced-recall-storage-generation-aba-code-rereview-004
+    type: code-rereview
+    path: docs/06-code-review.md
+    status: ready-for-review
+    owner: role-code-reviewer
+    role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
+    change_id: rereview-20260816-spaced-recall-storage-generation-aba-fix-004
+    authorization: approval-20260816-spaced-recall-storage-generation-aba-code-rereview-entry
+    input_artifact: artifact-spaced-recall-storage-generation-aba-frontend-fix-004
+    input_path: frontend/
+    source_commit: d3277734804745fa092803c84419861443f0cdc1
+    diff_base: a5d0d1f30c6635f293a20938a19ad4087bc5a2b3
+    original_review_artifact: artifact-spaced-recall-storage-safety-code-rereview-003
+    original_review_path: docs/06-code-review.md
+    original_review_sha256: 65c39620c1bd5b27aeac4be757f710f27a4c9fbbb5678eb2a547d66acf98c488
+    sha256: b00e5b48324149f1e8b81f5bc3dee59e13cc65a8f4931a26e02445fee2bedf30
+    conclusion: passed
+    finding_disposition:
+      closed_in_this_rereview:
+        - CR-P1-001-R3
+      closed_without_regression:
+        - CR-P1-001-R2
+        - CR-P2-005
+        - CR-P1-002
+        - CR-P1-003
+        - CR-P2-001
+        - CR-P2-002
+        - CR-P2-003
+        - CR-P2-004
+    findings:
+      blocker_open: 0
+      major_open: 0
+      minor_open: 0
+    validation:
+      runtimes: Node.js-24.19.0-and-22.12.0
+      lint: passed-both-runtimes
+      typecheck: passed-both-runtimes
+      build: passed-both-runtimes
+      spaced_recall_test: passed-both-runtimes
+      inline_cloze_test: passed-1200-randomized-cases-both-runtimes
+      input_sha256_match: 4-of-4-passed
+      generation_envelope: passed-secure-random-initial-and-destructive-rebuild
+      legacy_v1_migration: passed-exact-raw-shared-web-lock-one-winner
+      ordinary_write_generation_guard: passed-inherit-and-match
+      equal_value_aba_domain: passed-a-to-b-to-a-stale-write-rejected
+      real_two_tab_react_aba: passed-old-generation-fail-closed-new-generation-saved
+      chrome_responsive_accessibility: passed-1440-390-320-console-clean-both-runtimes
+      download_isolation_and_temp_cleanup: passed-0-to-0-both-runs
+      git_diff_check: passed
+      dependency_audit: not-run-dependencies-unchanged-no-no-vulnerability-claim
+    truth_boundary:
+      storage: current-browser-current-device-only
+      backend_integration: not-claimed
+      product_v1_4_other_scope: not-reviewed-or-authorized
+      parallel_ui_design: preserved-not-used-as-input
+      qa: not-entered
+      production_deployment: frozen
+    completed_at: "2026-08-16T15:05:27+08:00"
+    result: ready-for-code-rereview-conclusion-review
+    stop_gate: code-rereview-conclusion-review
+    next_role: none-until-user-review
+    auto_route: false
   - id: artifact-english-real-usable-product-delta-001
     type: cross-project-product-delta-reference
     source_artifact_id: artifact-four-project-real-usable-product-delta-001

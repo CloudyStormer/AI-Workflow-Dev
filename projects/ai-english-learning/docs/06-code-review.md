@@ -334,8 +334,6 @@
   3. `打回`：本复审产物退回。
 - 本次交付不自动进入 QA、后端、PRD v1.4 新增实现、部署或生产发布；一次“通过”不得继续消费到再下一站。
 
----
-
 ## 存储安全复审更新（2026-08-15）
 
 ### 复审元数据
@@ -416,3 +414,77 @@
 - 当前决策：等待超级无敌帅超超总审核本复审结论
 - 推荐审批：若通过本结论，仅授权固定 `06 前端工程师`处理 `CR-P1-001-R3` 的独立 generation 与同值 ABA 双层门禁；修复交付后再次回固定 `09 代码审查员`复审。
 - 本次交付不自动进入 QA、后端、PRD v1.4 新增实现、部署或生产发布；一次“通过”不得继续消费到再下一站。
+
+---
+
+## generation ABA 复审更新（2026-08-16）
+
+### 复审元数据
+
+- change_id: `rereview-20260816-spaced-recall-storage-generation-aba-fix-004`
+- authorization: `approval-20260816-spaced-recall-storage-generation-aba-code-rereview-entry`
+- input_artifact: `artifact-spaced-recall-storage-generation-aba-frontend-fix-004`
+- source_commit: `d3277734804745fa092803c84419861443f0cdc1`
+- diff_base: `a5d0d1f30c6635f293a20938a19ad4087bc5a2b3`
+- routing_commit: `522075150a0f3d53acc4c48776e7e243313b99e1`
+- original_rereview: `artifact-spaced-recall-storage-safety-code-rereview-003`
+- original_rereview_sha256: `65c39620c1bd5b27aeac4be757f710f27a4c9fbbb5678eb2a547d66acf98c488`
+- reviewer: 固定 `09 代码审查员`（`role-code-reviewer`）
+- rereviewed_at: `2026-08-16T15:05:27+08:00`
+- scope: 只读复审 `CR-P1-001-R3` 的 generation/epoch envelope、旧 v1 锁内迁移、普通写代次继承与校验、破坏性重建换代、Word 状态同步、领域与真实双标签 A→B→A 回归，以及既有存储安全、下载隔离、简体中文、键盘/读屏和多视口回归
+- excluded: 代修业务代码、QA、后端、PRD v1.4 其他新增功能、服务管理、部署、生产发布以及并行 UI/其他项目现场
+
+### 复审结论
+
+**结论：通过。`CR-P1-001-R3` 已关闭，P0/P1/P2 = 0/0/0。**
+
+本批为持久化 envelope 增加独立、不可伪造为业务修订号的 `generation`；初始数据和破坏性重建均使用安全随机源生成代次，普通域写只继承当前代次，并在共享 Web Lock 内同时校验 exact raw、revision 与 generation。旧 v1 无 generation 数据不会在读取阶段无锁写回，而是携带 exact-raw 迁移令牌进入既有归一化写路径，只允许一个标签在共享锁内完成迁移；竞争标签必须冲突后刷新。重建成功会把换代后的 state/raw 同步回 `Word` 的 React state、ref 和 CAS raw，避免页面继续持有旧代。
+
+独立领域门构造了 A→B→A 业务等值回环，证明剔除 generation 后业务 envelope 完全相等，但最终 raw 和三次 generation 均不同，旧标签写返回 `revision-conflict`。真实 Chrome/CDP 门使用两个真实标签和生产 React 提醒设置写路径复现同一边界：旧代写在共享锁内 fail-closed、刷新到新代且没有覆盖，新代重试成功保存；两标签最终读取一致且锁没有残留。Node.js 24.19.0 与最低支持版本 22.12.0 下 lint、独立 typecheck、生产构建、领域测试、1,200 组 cloze 及 Chrome 门全部通过。两轮浏览器门前后匹配下载和临时 profile 均为 0，未向用户 Downloads 落盘。
+
+| 严重级别 | 当前打开 | 本轮关闭 | 门禁影响 |
+| --- | ---: | ---: | --- |
+| Blocker | 0 | 0 | 无 P0 |
+| Major | 0 | `CR-P1-001-R3` | 原 generation ABA 阻断已关闭 |
+| Minor | 0 | 0 | 无打开 P2 |
+| 既有建议 | 2 | 0 | `CR-S-001/002` 继续保留，不阻断本结论 |
+
+### 问题处置与证据
+
+| 编号 | 复审状态 | 独立证据与判断 |
+| --- | --- | --- |
+| `CR-P1-001-R3` | 已关闭 | `spacedRecall.ts:161-162,298-318,398-415,1784-1790,2106-2194,2208-2277,2281-2416` 完成 generation 生成、校验、旧 v1 锁内迁移、重建换代和全部保存路径代次校验；`Word.tsx:290-383,680-845,2362-2407` 保持 state/ref/raw 同步。领域 A→B→A 与真实双标签 React 旧代拒绝/新代保存均独立通过。 |
+| `CR-P1-001-R2`、`CR-P2-005` | 已关闭且无回归 | 比较、写入和逐字回读继续处于同一 origin 级 Web Lock；无锁、锁忙、写入/回读异常均 fail-closed。下载锚点继续拦截原生点击，Chrome 仅使用并清理本轮精确 `mkdtemp` profile。 |
+| `CR-P1-002`、`CR-P1-003`、`CR-P2-001..004` | 已关闭且无回归 | 领域、cloze 和真实浏览器回归继续覆盖队列/恢复/提醒主路径、完整简体中文、键盘焦点、读屏状态、1440/390/320px 与 console clean；本批没有修改对应产品或 UI 语义。 |
+
+### 安全、性能、真实性与架构边界
+
+- generation 使用 `crypto.randomUUID()`，兼容分支使用 `crypto.getRandomValues()`；安全随机能力缺失时拒绝创建代次，不降级为时间戳或可预测随机数。持久化校验拒绝缺失、格式非法或跨代的当前 envelope。
+- 全部复习主存储生产写继续收口到共享 Web Lock；未发现绕过锁直接写 `SPACED_RECALL_STORAGE_KEY` 的业务路径。旧版迁移依赖 exact source bytes，普通写不能冒充迁移覆盖旧数据。
+- 未发现新增 `dangerouslySetInnerHTML`、直接 `innerHTML`、动态代码执行、凭证写入、任意业务网络外发或依赖变更。未运行联网 `npm audit`，因此不声明第三方依赖无已知漏洞。
+- 构建产物为 JS `407.18 kB`（gzip `124.84 kB`）、CSS `65.03 kB`（gzip `14.27 kB`），无块大小告警；相对上一复审未见足以形成 P2 的性能回归。
+- 数据真实性边界不变：复习状态仍只保存在当前浏览器/当前设备；备份只表示生成本地下载，不代表云备份、自动导入或跨设备同步。后端、PRD v1.4 其他功能、服务管理和生产部署均未实现或获权。
+- 本次只审查 storage generation 修复；并行 `EL-UI-002` 设计分支及其他项目未作为输入、未修改、未暂存。
+
+### 独立验证记录
+
+| 检查 | 结果 |
+| --- | --- |
+| `git diff a5d0d1f...d327773 -- frontend` | 4 个前端/测试文件；输入范围锁定，source commit 为当前主线祖先 |
+| 输入 SHA-256 对照 `artifact-spaced-recall-storage-generation-aba-frontend-fix-004` | 4/4 一致 |
+| Node.js 24.19.0：lint / typecheck / cloze / domain / Chrome / build | 全部通过；1,200 组 cloze，真实双标签 1440/390/320px，console clean |
+| Node.js 22.12.0：lint / typecheck / cloze / domain / Chrome / build | 全部通过；最低支持运行时完整通过 |
+| 领域 A→B→A 等值 ABA | 通过：业务值等价、generation 每代不同、旧代写冲突且未落盘 |
+| 真实双标签 React ABA | 通过：旧代 fail-closed 并刷新，新代重试保存，两标签一致、锁无残留 |
+| 下载与临时目录隔离 | 两轮均为匹配 Downloads `0→0`、`english-recall-cdp-*` `0→0` |
+| 生产构建 | 通过；JS `407.18 kB`（gzip `124.84 kB`），CSS `65.03 kB`（gzip `14.27 kB`） |
+| `git diff --check` / 主存储写入口静态检查 | 通过；未发现绕过共享锁的生产写路径 |
+| `npm audit` | 未执行；依赖未改，不作无漏洞结论 |
+
+### 复审停止门
+
+- 当前产物：`artifact-spaced-recall-storage-generation-aba-code-rereview-004`
+- 当前结论：`passed`，P0/P1/P2 = `0/0/0`
+- 当前停止门：`code-rereview-conclusion-review`
+- 当前状态：复审产物已形成，等待结论审核；本角色不自动路由下一站。
+- 本次交付不进入 QA、后端、PRD v1.4 其他实现、服务管理、部署或生产发布，也不构成对任何未来产物的预审批。

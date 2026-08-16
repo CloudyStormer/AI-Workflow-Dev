@@ -736,9 +736,45 @@ parallel_spaced_recall_storage_generation_aba_rereview:
   expected_output:
     artifact: artifact-spaced-recall-storage-generation-aba-code-rereview-004
     path: docs/06-code-review.md
-  scheduling: routed-awaiting-role-announcement
+  scheduling: completed-ready-for-review
   routed_at: "2026-08-16T14:44:01+08:00"
-  delivery_status: routed
+  delivery_status: ready-for-review
+  completed_at: "2026-08-16T15:05:27+08:00"
+  output:
+    artifact: artifact-spaced-recall-storage-generation-aba-code-rereview-004
+    path: docs/06-code-review.md
+    sha256: b00e5b48324149f1e8b81f5bc3dee59e13cc65a8f4931a26e02445fee2bedf30
+    conclusion: passed
+  finding_disposition:
+    closed_in_this_rereview:
+      - CR-P1-001-R3
+    closed_without_regression:
+      - CR-P1-001-R2
+      - CR-P2-005
+      - CR-P1-002
+      - CR-P1-003
+      - CR-P2-001
+      - CR-P2-002
+      - CR-P2-003
+      - CR-P2-004
+    open_blocker: []
+    open_major: []
+    open_minor: []
+  validation:
+    runtimes: Node.js-24.19.0-and-22.12.0
+    lint_typecheck_build: passed-both-runtimes
+    spaced_recall_test: passed-both-runtimes
+    inline_cloze_test: passed-1200-randomized-cases-both-runtimes
+    input_sha256_match: 4-of-4-passed
+    generation_envelope: passed-secure-random-initial-and-destructive-rebuild
+    legacy_v1_migration: passed-exact-raw-shared-web-lock-one-winner
+    ordinary_write_generation_guard: passed-inherit-and-match
+    equal_value_aba_domain: passed-a-to-b-to-a-stale-write-rejected
+    real_two_tab_react_aba: passed-old-generation-fail-closed-new-generation-saved
+    chrome_responsive_accessibility: passed-1440-390-320-console-clean-both-runtimes
+    download_isolation_and_temp_cleanup: passed-0-to-0-both-runs
+    dependency_audit: not-run-dependencies-unchanged-no-no-vulnerability-claim
+  qa_recommendation: eligible-only-after-current-conclusion-approval-and-explicit-route
   stop_gate: code-rereview-conclusion-review
   preserved_top_level:
     release_scope_artifact: artifact-english-release-completeness-prd-001
@@ -927,7 +963,7 @@ held_downstream_delivery:
   resumed_again_by: approval-20260806-spaced-recall-ui-prompt-and-direct-frontend
   resumed_for: chg-20260806-spaced-recall-frontend-implementation-v1-3
   resumed_at: "2026-08-06T14:23:53+08:00"
-implementation_gate: "artifact-spaced-recall-storage-generation-aba-frontend-fix-004 已获批准，并仅路由固定 09 执行一个只读复审单元，复审后停 code-rereview-conclusion-review；EL-UI-002 设计仍独立 ready-for-review 并停 ui-design-review。未授权复审结论、QA、架构、后端、其他 PRD v1.4 实现或生产部署。"
+implementation_gate: "artifact-spaced-recall-storage-generation-aba-code-rereview-004 已形成 passed 结论并停 code-rereview-conclusion-review，P0/P1/P2=0/0/0；EL-UI-002 设计仍独立 ready-for-review 并停 ui-design-review。当前复审结论尚未批准，未授权 QA、架构、后端、其他 PRD v1.4 实现或生产部署。"
 latest_approved_artifact:
   artifact: artifact-spaced-recall-storage-generation-aba-frontend-fix-004
   path: frontend/
