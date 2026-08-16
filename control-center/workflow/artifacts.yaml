@@ -782,3 +782,52 @@ artifacts:
     stop_gate: architecture-routing
     production_release: frozen
     auto_route: false
+  - id: artifact-four-project-shared-boundary-adr-001
+    type: architecture-decision-record
+    path: ../architecture/03-four-project-shared-boundary-adr.md
+    repo_relative_path: architecture/03-four-project-shared-boundary-adr.md
+    version: "1.0"
+    sha256: 2d3e7fb026b4366f8c9fda033fc8e7866a9a653d19674e2241dccb79aca07c45
+    status: ready-for-review
+    owner: role-architect
+    role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
+    work_item: XR-ARC-001
+    change_id: arch-20260816-four-project-shared-boundary-001
+    entry_approval: approval-20260817-four-project-shared-boundary-architecture-entry
+    decision_base: 8d4020ff6fac2c1558c9cb2b5f12dcb4e6cd20e2
+    safe_checkpoint: 94b72281aba7260af5ada246c3784b2e2fd8d837
+    coverage:
+      shared_and_project_owned_responsibility_matrix: passed
+      data_class_owner_storage_cache_write_boundary: passed
+      same_root_head_readonly_projection_contract: passed
+      acyclic_runtime_and_governance_dependency_boundary: passed
+      five_address_four_project_three_environment_mapping: passed
+      truth_state_and_error_envelope: passed
+      identity_revision_CAS_and_source_hard_gates: passed
+      rejected_alternatives_and_re_review_triggers: passed
+      TBD_owner_stage_blocking_scope: passed
+      validation_and_deployment_blockers: passed
+    frozen_facts:
+      control_business_git_workflow_write_side_effects: 0
+      model_approved_p0_allow_atomic_endpoints_N: 22
+      career_approved_p0_allow_technical_endpoints_T: 13
+      career_approved_recruitment_instances_R: 0
+      model_runtime_enabled: false
+      model_live_connectors: 0
+      model_live_snapshots: 0
+      career_runtime_enabled: false
+      career_live_connectors: 0
+      career_live_snapshots: 0
+      production_release: frozen
+    validation:
+      authoritative_input_sha256: passed-14-of-14
+      control_visual_manifest_and_80_item_aggregate: passed
+      required_boundary_terms: passed
+      markdown_fences: passed
+      git_diff_check: passed
+      yaml_jsonl_and_git_boundary: passed
+      modified_application_database_connector_service_or_deployment: false
+    completed_at: "2026-08-17T04:30:57+08:00"
+    stop_gate: architecture-review
+    downstream_authorized: false
+    auto_route: false
