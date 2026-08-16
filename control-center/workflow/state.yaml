@@ -2,7 +2,7 @@ schema_version: 1
 project_id: "workflow-control-center"
 structure_status: normalized
 stage: cross-project-shared-boundary-architecture
-status: XR-ARC-001-ready-for-review
+status: XR-ARC-001-revised-ready-for-review
 current_role: role-architect
 blocked: false
 ui_assets:
@@ -35,14 +35,24 @@ next_approval:
   scope: "审核 XR-ARC-001 四项目共享与独有边界 ADR；本门不自动批准项目级架构、任务拆解、开发、服务或部署。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
+  delivery_status: revised-ready-for-review
   artifact: artifact-four-project-shared-boundary-adr-001
   expected_path: architecture/03-four-project-shared-boundary-adr.md
   expected_version: "1.0"
   delivered_path: architecture/03-four-project-shared-boundary-adr.md
   delivered_version: "1.0"
-  delivered_sha256: 2d3e7fb026b4366f8c9fda033fc8e7866a9a653d19674e2241dccb79aca07c45
-  delivered_at: "2026-08-17T04:30:57+08:00"
+  candidate_revision: 2
+  delivered_sha256: e3073a01ceda280b8dda4d77b58de7e9755d3f77d21f6ebb5497c8882508840a
+  delivered_at: "2026-08-17T04:46:00+08:00"
+  previous_candidate:
+    candidate_revision: 1
+    sha256: 2d3e7fb026b4366f8c9fda033fc8e7866a9a653d19674e2241dccb79aca07c45
+    decision: changes-requested
+    finding_summary:
+      p0: 0
+      p1: 2
+      p2: 0
+    review_event: event-20260817-four-project-shared-boundary-architecture-independent-content-review-changes-requested
   work_item: XR-ARC-001
   change_id: arch-20260816-four-project-shared-boundary-001
   entry_authorization: approval-20260817-four-project-shared-boundary-architecture-entry
@@ -705,17 +715,31 @@ cross_project_shared_boundary_architecture_assignment:
     artifact: artifact-four-project-shared-boundary-adr-001
     path: architecture/03-four-project-shared-boundary-adr.md
     version: "1.0"
-    sha256: 2d3e7fb026b4366f8c9fda033fc8e7866a9a653d19674e2241dccb79aca07c45
+    candidate_revision: 2
+    sha256: e3073a01ceda280b8dda4d77b58de7e9755d3f77d21f6ebb5497c8882508840a
+    supersedes_candidate_sha256: 2d3e7fb026b4366f8c9fda033fc8e7866a9a653d19674e2241dccb79aca07c45
   validation:
     authoritative_input_sha256: passed-14-of-14
     shared_and_owned_boundaries: passed
-    control_same_root_head_and_zero_write: passed-by-architecture-contract
+    control_frozen_commit_blobs_source_set_and_zero_write: passed-by-revised-architecture-contract
     runtime_and_governance_DAG_separated: passed
-    identity_revision_CAS_and_source_dual_gate: passed
+    identity_revision_CAS_and_source_unique_activation_sequence: passed
     five_address_mapping_and_TBD_completeness: passed
+    previous_candidate_review: changes-requested-p0-0-p1-2-p2-0
+    p1_01: fixed
+    p1_02: fixed
     no_implementation_service_cloud_or_deployment: passed
-  status: ready-for-review
-  completed_at: "2026-08-17T04:30:57+08:00"
+  review_history:
+    - candidate_revision: 1
+      sha256: 2d3e7fb026b4366f8c9fda033fc8e7866a9a653d19674e2241dccb79aca07c45
+      decision: changes-requested
+      finding_summary:
+        p0: 0
+        p1: 2
+        p2: 0
+      review_event: event-20260817-four-project-shared-boundary-architecture-independent-content-review-changes-requested
+  status: revised-ready-for-review
+  completed_at: "2026-08-17T04:46:00+08:00"
   stop_gate: architecture-review
   exclusions:
     - project-specific-architecture-or-MR-ARC-101
@@ -772,4 +796,4 @@ control_release_completeness_ui_prompt_assignment:
     - downstream-route
   production_release: frozen
   auto_route_on_delivery: false
-updated_at: "2026-08-17T04:30:57+08:00"
+updated_at: "2026-08-17T04:46:00+08:00"

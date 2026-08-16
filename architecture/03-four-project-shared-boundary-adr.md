@@ -6,6 +6,8 @@
 > - 变更：`arch-20260816-four-project-shared-boundary-001`
 > - 入场授权：`approval-20260817-four-project-shared-boundary-architecture-entry`
 > - 决策基线：`8d4020ff6fac2c1558c9cb2b5f12dcb4e6cd20e2`
+> - 修订基线：`a2dff74e9beffb005b33fda60934bd349a558018`
+> - 候选修订：2（前候选 SHA-256 `2d3e7fb026b4366f8c9fda033fc8e7866a9a653d19674e2241dccb79aca07c45`，独立内容终审 changes-requested）
 > - 产物：`artifact-four-project-shared-boundary-adr-001`
 > - 责任角色：固定 `05 架构师`（`role-architect`）
 > - 生产发布：冻结
@@ -18,7 +20,7 @@
 - AI Model Radar 独占公共来源研究、模型事件、证据、快照与趋势域。
 - Frontend Career Radar 独占职业公共研究域，并以硬边界隔离用户私有资料、差距分析与个人路线域。
 - AI English Learning 独占私有学习、记忆调度、AI 对话、语音与学习统计域。
-- AI Workflow Control Center 只消费同一 `root_head` 的版本化只读治理投影；缓存不具权威性，单项目解析失败必须隔离，业务、Git 与 workflow 写副作用恒为 `0`。
+- AI Workflow Control Center 只消费同一 `root_head` 冻结 commit blobs 形成的版本化只读治理投影；`source_set` 必须证明 blob 属于该 commit。缓存不具权威性，单项目解析失败必须隔离，业务、Git 与 workflow 写副作用恒为 `0`。
 - Model 与 Career 的来源研究批准不等于连接器执行授权。当前两项目均为 `runtime_enabled=false`、live connector `0`、live snapshot `0`；所有 conditional 来源继续 fail closed。
 - `live / empty / not_ready / stale / degraded / failed` 采用统一信封语义，但每个项目保留自身业务含义；demo、mock、seed、HTTP 200、CDN 新鲜度均不能冒充 `live`。
 - 五类地址严格区分：用户访问域、静态 CDN 域、API / 服务域、源站回源域、内部监听地址。浏览器访问走 CDN，API 默认 `private, no-store`，源站不得给浏览器直连。
@@ -55,7 +57,7 @@ Control 视觉包聚合值按 manifest 约定，以 NFC 规范化项目相对路
 
 1. 共享契约与项目独占业务边界。
 2. 数据分类、数据 owner、允许的消费者与禁止流向。
-3. 跨项目只读投影信封、同一 `root_head` 一致性和失败隔离。
+3. 跨项目只读投影信封、冻结 commit/blob/source_set 强一致性和失败隔离。
 4. 统一真相态、错误信封、来源与身份硬门。
 5. 无环依赖 DAG 与 Control 零写副作用。
 6. 五类地址在四项目及 local / staging / production 的逻辑映射。
@@ -77,13 +79,14 @@ Control 视觉包聚合值按 manifest 约定，以 NFC 规范化项目相对路
 | INV-01 | 共享层只包含稳定契约、枚举、错误与治理信封 | 阻断设计或实现 |
 | INV-02 | 四项目业务数据、数据库、账号、运行时与部署单元独立 | 阻断合并与发布 |
 | INV-03 | Control 只读且所有业务、Git、workflow 写副作用为 `0` | P0 阻断 |
-| INV-04 | 单次 Control 投影只消费同一 `root_head` | 丢弃混合快照并重读 |
-| INV-05 | 缓存不是权威来源，必须可由 `root_head + schema_version` 失效 | 不得展示为当前事实 |
-| INV-06 | 单项目解析失败不拖垮其他项目 | 局部 `failed/degraded`，其余继续 |
-| INV-07 | 来源政策批准与运行授权分轴，conditional 默认关闭 | fail closed |
-| INV-08 | demo / mock / seed 与 live 命名空间和指标隔离 | 不计入完成度或 live |
-| INV-09 | 用户域、静态域、API 域、源站域和 internal 不混用 | 部署阻断 |
-| INV-10 | 未核验的供应商、域名、端口、预算、账号和凭证为 `TBD/UNKNOWN` | 不得推断或伪造 |
+| INV-04 | Control 只从选定 `root_head` 的不可变 Git commit blobs 读取；index/worktree 永不进入权威快照 | 非 commit-blob 读取立即失败，不发布投影 |
+| INV-05 | `source_set` 必须以 commit tree entry + blob OID + 内容 SHA 证明每个字节属于声明 commit | 归属或哈希不一致则隔离失败 |
+| INV-06 | 缓存不是权威来源，键至少包含 `root_head + source_set_sha256 + schema_version + projection_kind` | 不得展示为当前事实 |
+| INV-07 | 单项目解析失败不拖垮其他项目 | 局部 `failed/degraded`，其余继续 |
+| INV-08 | 来源政策与运行启用分轴，且唯一启用序列的最后一步前 `runtime_enabled=false` | fail closed |
+| INV-09 | demo / mock / seed 与 live 命名空间和指标隔离 | 不计入完成度或 live |
+| INV-10 | 用户域、静态域、API 域、源站域和 internal 不混用 | 部署阻断 |
+| INV-11 | 未核验的供应商、域名、端口、预算、账号和凭证为 `TBD/UNKNOWN` | 不得推断或伪造 |
 
 ## 5. 共享与独有责任矩阵
 
@@ -112,7 +115,7 @@ Control 视觉包聚合值按 manifest 约定，以 NFC 规范化项目相对路
 | `PUBLIC_RESEARCH` | 产生事实的 Model 或 Career 项目 | 各项目批准的来源 registry、证据与未来项目库；具体实现未形成时为 `TBD` | 项目内或 CDN 上仅限已批准、可公开、可重建的派生视图 | 仅 owner 项目经本项目授权写；Control 只读 | allowlist、署名、保留策略、证据链 |
 | `PRIVATE_USER_MATERIAL` | Career 项目及对应用户主体 | Career 私有用户存储，技术实现当前 `TBD` | 仅用户/请求隔离的短期派生缓存；不得进公共 CDN 或 Control | 对应主体和 Career 受控服务；其他项目与 Control 无写权 | 明示同意、最小化、API `no-store`、日志脱敏 |
 | `PRIVATE_LEARNING` | English 项目及对应游客/账号主体 | English 项目私有学习存储；当前已批准 local Word 边界不等于全域实现 | 仅主体隔离、可失效、可重建的项目内缓存 | 对应主体和 English 受控服务；Career/Model/Control 无写权 | 最小留存、导出/删除、供应商传输需单独同意 |
-| `GOVERNANCE_METADATA` | 各项目治理文件 owner；根 Git 提交为版本锚点 | AIWorkFlow 同一根仓的 allowlisted workflow/project 文件 | Control 可按 `root_head + schema_version` 建非权威只读缓存 | 仅原工作流角色在既有审批链内写；Control runtime 无写权 | 根路径约束、版本化、SHA、同 head 读取 |
+| `GOVERNANCE_METADATA` | 各项目治理文件 owner；根 Git 提交为版本锚点 | AIWorkFlow 同一根仓的 allowlisted workflow/project commit blobs | Control 可按 `root_head + source_set_sha256 + schema_version + projection_kind` 建非权威只读缓存 | 仅原工作流角色在既有审批链内写；Control runtime 无写权 | 根路径约束、commit tree 归属、blob OID、SHA、同 commit 读取 |
 | `SECRET_OR_CREDENTIAL` | 对应项目/平台的安全责任人，当前责任人 `TBD` | 经批准的秘密管理设施，当前 `TBD`；永不以 Git 为权威存储 | 禁止业务缓存、Control 投影、CDN 和日志缓存 | 最小权限受控主体；普通应用/Control 读取默认拒绝 | 不进 Git、前端、日志、导出或 ADR |
 
 “公共来源”不等于“可无限复制内容”。版权、robots、API 条款、登录和署名限制仍由项目来源策略逐项约束。
@@ -125,7 +128,7 @@ Control 视觉包聚合值按 manifest 约定，以 NFC 规范化项目相对路
 | Career 公共研究域 | `market-analysis-dev` | 方向/技术栈/岗位来源治理摘要、公开证据状态 | conditional 招聘源数据在未授权前不得成为 live |
 | Career 私有资料域 | `market-analysis-dev` | 仅脱敏的存在性、处理状态和局部错误，不投影原文 | 用户粘贴文本、简历、个人差距细节、第三方请求体 |
 | English 私有学习/AI/语音域 | `ai-english-learning` | 仅脱敏的服务/能力状态与治理事实 | 作答内容、记忆明细、对话、音频、账号、供应商载荷 |
-| Control 只读治理投影域 | `workflow-control-center` | 相同 `root_head` 的只读治理视图、导出与局部错误 | 任何业务/Git/workflow 写操作；把缓存当权威；读取秘密 |
+| Control 只读治理投影域 | `workflow-control-center` | 相同冻结 commit 与可证明 `source_set` 的只读治理视图、导出与局部错误 | 任何业务/Git/workflow 写操作；读取 index/worktree；把缓存当权威；读取秘密 |
 
 数据 owner 对采集合法性、权限、保留、删除、质量与项目语义负责。Control 只是治理投影消费者，不能因展示或导出而取得业务数据所有权。
 
@@ -141,8 +144,10 @@ ProjectionEnvelope<T> {
   projection_id: string
   project_id: enum
   projection_kind: string
+  snapshot_mode: "git_commit_blobs"
   root_head: 40-hex-git-sha
-  source_set: [{ path, sha256 }]
+  source_set_sha256: sha256
+  source_set: [{ path, tree_mode, git_blob_oid, sha256 }]
   truth: TruthState
   mode: "real" | "demo"
   as_of: timestamp | null
@@ -158,16 +163,18 @@ ProjectionEnvelope<T> {
 
 约束：
 
-1. `schema_version` 不兼容变更必须升主版本；消费者不得猜字段。信封中的 `source_set` 即 `source + version` 的权威组合，version 至少由 `root_head` 与文件 SHA-256 构成。
-2. `source_set.path` 必须相对 allowlisted 项目根并规范化；每个文件必须带 SHA-256。
-3. `root_head` 是该轮所有项目投影的一致性锚点。Control 开始读前固定一次，读完后复核；发生变化就丢弃整轮混合结果并在新 head 重读。
-4. `observed_at` 是观察/读取时间，不替代业务事件时间 `as_of`；缺失业务时间时必须为 `null/UNKNOWN`。
-5. `revision` 只用于可变业务资源或投影修订；不能替代 Git SHA 或来源 SHA。
-6. `mode=demo` 与 `mode=real` 必须正交；demo 只能展示为 demo，不能映射到 `truth=live`。
-7. 数据为空时必须区分 `empty` 与 `not_ready`，不得以空数组掩盖依赖未就绪；`UNKNOWN` 表示未观察或不可判定，绝不等于数值 `0`。
-8. 错误只影响声明的 `scope`；其他项目和其他投影继续返回真实状态。
+1. `schema_version` 不兼容变更必须升主版本；消费者不得猜字段。信封中的 `root_head + source_set` 是 `source + version` 的权威组合。
+2. `source_set.path` 必须相对 allowlisted 项目根并规范化；每项必须记录声明 commit tree 中的 `tree_mode`、`git_blob_oid` 与对实际 blob bytes 计算的 SHA-256。
+3. `source_set_sha256` 必须对按 path 排序的 `path<TAB>tree_mode<TAB>git_blob_oid<TAB>sha256<LF>` 规范串计算；它证明完整集合，不能由读取工作树后独立记录文件 SHA 来替代。
+4. `root_head` 必须解析为存在的完整 commit。Reader 只能从该 commit 的 tree / object database 取 blob；不得读取 index、worktree、未提交文件或在读取后把独立文件 SHA 贴到该 commit 上。
+5. 当前 HEAD 在读取期间变化时，commit-blob 快照本身仍一致，但不能作为“当前”结果发布；整轮丢弃并在新 head 重读。
+6. `observed_at` 是观察/读取时间，不替代业务事件时间 `as_of`；缺失业务时间时必须为 `null/UNKNOWN`。
+7. `revision` 只用于可变业务资源或投影修订；不能替代 Git SHA、blob OID 或来源 SHA。
+8. `mode=demo` 与 `mode=real` 必须正交；demo 只能展示为 demo，不能映射到 `truth=live`。
+9. 数据为空时必须区分 `empty` 与 `not_ready`，不得以空数组掩盖依赖未就绪；`UNKNOWN` 表示未观察或不可判定，绝不等于数值 `0`。
+10. 错误只影响声明的 `impact_scope`；其他项目和其他投影继续返回真实状态。
 
-### 7.2 Control 同一 root_head 读取算法
+### 7.2 Control 冻结 commit-blob 读取算法
 
 Control 默认允许根仅为：
 
@@ -178,12 +185,14 @@ Control 默认允许根仅为：
 
 每个允许根内的默认允许文件只包括 `project.yaml`、`workflow/state.yaml`、`workflow/approvals.yaml`、`workflow/artifacts.yaml` 与 `workflow/events.jsonl`。未来 issue、release 或 source registry 只有在 `project.yaml` 或已验证 workflow artifact 中以**项目相对路径 + schema version + SHA-256** 显式登记后，才能逐文件加入 allowlist。Control 默认只消费 artifact ledger 中的业务产物元数据，不因出现一个 path 就读取业务正文；`.git/`、`.env*`、凭证/数据库、`node_modules/`、缓存、session、浏览器状态、未登记隐藏文件和四个允许根之外的路径全部拒绝。
 
-1. 从唯一允许的 AIWorkFlow 根取得 `root_head_before`。
-2. 对四个 allowlisted project root 分别解析版本化治理源；先以真实路径校验结果仍位于允许根内，拒绝 `..`、绝对路径、NUL、根外软链接、嵌套 Git、未登记文件和大小/行长超限输入。
-3. 每个项目独立验证 schema、SHA、时间与语义；坏文件或单条 JSONL 坏行只产生该项目/该记录的局部错误信封。只有依赖该坏行的投影降级或失败，不得终止其他项目解析。
-4. 聚合结果仅引用 `root_head_before`，缓存键至少包含 `root_head + schema_version + projection_kind`。
-5. 读取结束取得 `root_head_after`。若两者不同，丢弃本轮结果，不拼接旧新快照。
-6. 成功结果可进入短期只读缓存；缓存命中仍必须展示其 root_head、observed_at 与新鲜度，且绝不能写回源项目。
+1. 从唯一允许的 AIWorkFlow 根取得 `root_head_before`，解析为完整 commit 并固定；缺失、歧义、不可达或对象损坏立即失败。
+2. 仅从 `root_head_before^{tree}` 枚举 allowlisted project path。路径先规范化并匹配精确 allowlist；拒绝 `..`、绝对路径、NUL、非普通 blob mode、Git symlink、submodule、未登记文件及大小/行长超限对象。
+3. 按 tree entry 的 blob OID 从 Git object database 读取 bytes，重新计算内容 SHA-256；不得调用工作树文件读取作为权威输入，也不得读取 index 中的 staged blob。worktree/index 即使并发变化，也不能影响本轮 bytes。
+4. 为每项记录 `path/tree_mode/git_blob_oid/sha256`，按规范串计算 `source_set_sha256`，再反查每个 OID 确实是 `root_head_before` 对应 path 的 tree entry。任一归属或哈希不符，只隔离失败的项目投影。
+5. 每个项目独立验证 schema、时间与语义；坏文件或单条 JSONL 坏行只产生该项目/该记录的局部错误信封。只有依赖该坏行的投影降级或失败，不得终止其他项目解析。
+6. 聚合结果只引用 `root_head_before` 与对应 `source_set_sha256`；缓存键至少包含 `root_head + source_set_sha256 + schema_version + projection_kind`。
+7. 读取结束取得当前 `root_head_after`。若和 `root_head_before` 不同，整轮不作为当前结果发布；丢弃并在新 head 重读。禁止把两个 commit 的项目投影拼接。
+8. 成功结果可进入短期只读缓存；缓存命中仍须校验完整键并展示 root_head、source_set_sha256、observed_at 与新鲜度，且绝不能写回源项目。缓存可随时删除并只从 commit blobs 重建。
 
 ### 7.3 写副作用预算
 
@@ -211,7 +220,7 @@ flowchart LR
     PR["Career read-only projection"]
     PE["English read-only projection"]
     PC["Control self projection"]
-    A["Control read-only aggregator\n固定同一 root_head"]
+    A["Control read-only aggregator\n固定 commit blobs + source_set"]
     U["Control UI / read-only export"]
 
     C -. "schema validation" .-> PM
@@ -264,8 +273,9 @@ ErrorEnvelope {
   occurred_at: timestamp
   request_id: string
   root_head: 40-hex-git-sha | null
-  source: [{ source_id?, path?, sha256? }]
-  version: { schema_version, root_head?, revision? }
+  source_set_sha256: sha256 | null
+  source: [{ source_id?, path?, tree_mode?, git_blob_oid?, sha256? }]
+  version: { schema_version, root_head?, source_set_sha256?, revision? }
   as_of: timestamp | null
   observed_at: timestamp
   last_success_at: timestamp | null
@@ -280,7 +290,11 @@ ErrorEnvelope {
 
 | 错误码 | 含义 | 默认结果 |
 |---|---|---|
-| `ROOT_HEAD_CHANGED` | 读取期间根提交变化 | 丢弃整轮混合快照并重读 |
+| `ROOT_HEAD_CHANGED` | commit-blob 读取期间当前 HEAD 前移 | 冻结快照虽一致，但不作为当前结果发布；整轮丢弃并重读 |
+| `DECLARED_COMMIT_UNAVAILABLE` | 声明 root_head 不是可读取的完整 commit 或对象缺失/损坏 | 整轮 `failed`，不得回退读取工作树 |
+| `SOURCE_NOT_IN_DECLARED_COMMIT` | path/blob OID 不能由声明 commit tree 证明 | 隔离对应项目投影并重建 source_set |
+| `SOURCE_BLOB_MISMATCH` | commit tree 的 blob OID、实际 bytes 或 SHA-256 不一致 | 隔离对应项目投影；缓存失效并告警 |
+| `WORKTREE_READ_FORBIDDEN` | Reader 试图用 index/worktree 作为权威投影输入 | 整轮阻断，修复实现后重试 |
 | `PROJECTION_SCHEMA_UNSUPPORTED` | 契约版本不支持 | 该项目 `failed`，其他项目继续 |
 | `PROJECTION_PARSE_FAILED` | 项目治理源解析失败 | 该项目 `failed/degraded`，其他项目继续 |
 | `SOURCE_NOT_AUTHORIZED` | 来源未通过政策或运行授权 | fail closed，`not_ready/forbidden` |
@@ -289,6 +303,7 @@ ErrorEnvelope {
 | `IDENTITY_REQUIRED` | 能力要求主体但当前无有效身份 | `unauthorized` |
 | `IDENTITY_FORBIDDEN` | 主体无该资源权限 | `forbidden` |
 | `PRIVATE_DATA_REDACTED` | 私有内容按边界不进入投影 | 可审计的脱敏提示，不泄漏内容 |
+| `SOURCE_RUNTIME_SEQUENCE_VIOLATION` | runtime 启用步骤缺失、乱序或证据修订不一致 | 保持/恢复 `runtime_enabled=false`，返回 owner 修复 |
 
 错误信封不得包含凭证、Cookie、用户粘贴原文、对话/音频、堆栈中的秘密、绝对本机私密路径或第三方完整请求体。`impact_scope` 必须精确到可隔离的最小项目、投影、来源或记录；未观察到某项时使用 `null/UNKNOWN`，不能填 `0` 伪装已测量。
 
@@ -309,17 +324,22 @@ English 与 Career 必须维持独立账户/游客主体域，主体 ID 不跨�
 
 ### 10.2 来源双轴门控
 
-来源 policy 必须保持四态：`allow / conditional / manual_only / disabled`。该枚举表达政策结论，和布尔运行轴 `runtime_enabled` 完全分离。来源可执行必须同时满足：
+来源 policy 必须保持四态：`allow / conditional / manual_only / disabled`。该枚举只表达政策结论，和布尔运行轴 `runtime_enabled` 完全分离。每个精确 endpoint、实现修订与目标环境的运行启用只能按以下唯一顺序前进：
 
-1. **政策轴**：精确 endpoint 已在已批准 registry 中，decision 为可执行类别；conditional 的全部前置条件已逐项证实。
-2. **运行轴**：存在单独执行授权、`runtime_enabled=true`、实现与 canary 通过、速率/版权/robots/登录/署名/保留策略满足、失败开关可用。
+1. **政策获批**：endpoint 已在批准 registry 中；`conditional` 的全部前置条件已逐项形成证据，`manual_only/disabled` 不得进入自动运行序列。
+2. **单独执行授权**：针对精确 endpoint、用途和环境登记执行授权；研究报告、allowlist、registry 或 readiness 获批不能代替此步骤。
+3. **实现完成**：连接器实现产物形成不可变 revision/SHA，失败开关、速率、版权、robots、登录、署名和保留策略均可验证；此时 `runtime_enabled=false`。
+4. **canary 通过**：只在执行授权限定的隔离 canary 范围内验证；canary 不是 live 调度，不得将 `runtime_enabled` 改为 true。
+5. **对应 `.REV` 通过**：独立审查员对同一 endpoint、政策修订、实现 revision 与 canary 证据审查，结论必须为 P0=0、P1=0。
+6. **对应 `.QA` PASS**：独立 QA 对同一组不可变证据与目标环境给出 PASS；实现、政策或 canary 证据变化会使 `.REV/.QA` 同时失效。
+7. **环境登记启用**：只在前六步证据完整且同修订时，才可在已批准环境原子登记 `runtime_enabled=true`。该登记不自动授权其他 endpoint、环境或生产发布。
 
-任一轴不满足即 fail closed。研究报告、allowlist、registry、readiness 文档获批，均不自动把运行轴置为 true。
+步骤 7 是唯一允许从 false 变为 true 的位置。在此之前 `runtime_enabled` 必须始终为 false；任一步失败、缺失、乱序、修订不一致或条件变化，都返回对应 owner 修复并保持/恢复 false，产生 `SOURCE_RUNTIME_SEQUENCE_VIOLATION`。禁止“先启用再补 canary、`.REV` 或 `.QA`”。
 
 当前冻结事实：
 
-- Model：批准的 P0/allow 原子 endpoint 数 `N=22`；`AIR-END-030` 仍是待审提案，不能加入 N。当前 `runtime_enabled=false`，连接器、调度、canary/修订/QA 和 live 快照均为 `0`。
-- Career：批准的 P0/allow 技术 endpoint 数 `T=13`，批准的具体招聘实例数 `R=0`；`CAR-END-017` 仍是 conditional 候选，不是已批准招聘实例。当前 `runtime_enabled=false`、招聘连接器和 live 快照均为 `0`，`CR-CONN-002` 继续 `blocked-not-instantiated`。
+- Model：批准的 P0/allow 原子 endpoint 数 `N=22`；`AIR-END-030` 仍是待审提案，不能加入 N。当前 `runtime_enabled=false`，连接器、调度、canary、对应 `.REV`、对应 `.QA` 和 live 快照均为 `0`，没有 endpoint 到达步骤 7。
+- Career：批准的 P0/allow 技术 endpoint 数 `T=13`，批准的具体招聘实例数 `R=0`；`CAR-END-017` 仍是 conditional 候选，不是已批准招聘实例。当前 `runtime_enabled=false`、招聘连接器和 live 快照均为 `0`，`CR-CONN-002` 继续 `blocked-not-instantiated`；不存在可跳过步骤 1–6 的启用依据。
 - 401/403、登录挑战、条款/robots/Host 变化、持续 429、跨未批准域或无法履行署名时必须关闭该来源，不自动换源。
 
 ## 11. 五类地址映射
@@ -372,9 +392,11 @@ English 与 Career 必须维持独立账户/游客主体域，主体 ID 不跨�
 | 失败场景 | 隔离策略 | 恢复策略 | 禁止行为 |
 |---|---|---|---|
 | 单项目 YAML/JSONL/schema 解析失败 | 仅该项目 `failed`；其余投影继续 | 修复源后在同一新 root_head 重读 | Control 自动改源文件 |
-| 读取期间 root_head 变化 | 整轮结果不发布 | 在新 root_head 全量重读 | 混用旧新项目投影 |
-| 缓存过期或损坏 | 回退到权威源读取；必要时 `stale/failed` | 按 root_head 丢弃缓存 | 把缓存时间当业务新鲜度 |
-| 来源未授权或条件变化 | 单来源 fail closed | 重新研究、审批、canary、运行授权 | 自动换域、降级到未批准源 |
+| 读取期间 root_head 变化 | 已读 commit blobs 自身一致，但整轮不作为当前结果发布 | 在新 root_head 从 commit blobs 全量重读 | 混用旧新 commit 投影或回退工作树 |
+| index/worktree 并发变化或出现未提交文件 | 对 commit-blob 快照无影响；若 Reader 尝试读取则整轮阻断 | 移除工作树读取路径并从声明 commit 重试 | 对未提交 bytes 贴 root_head/source SHA |
+| path/blob 不属于声明 commit，或 blob/SHA 不一致 | 仅对应项目 `failed`，其余 commit 投影继续 | 从 commit tree 重建 source_set；对象损坏时停止并修复仓库 | 改读工作树、忽略 OID 或复用旧缓存 |
+| 缓存过期或损坏 | 回退到声明 commit blobs；必要时 `stale/failed` | 按 `root_head + source_set_sha256` 丢弃缓存 | 把缓存时间当业务新鲜度 |
+| 来源未授权、步骤乱序或条件变化 | 单来源 fail closed 且 `runtime_enabled=false` | 从缺失步骤返回 owner 修复并重新取得后续同修订证据 | 自动换域、先启用后 canary/REV/QA |
 | Model/Career 无 live 快照 | `not_ready` | 等待后续被授权实现和首个真实快照 | 用 demo、HTTP 200 或 UI 占位替代 |
 | Career/English 私有数据处理失败 | 只影响该主体与该能力 | 幂等重试、用户可见恢复路径由项目架构定义 | 进入公共缓存、Control 原文投影或普通日志 |
 | Control 自身不可用 | 不影响四项目源事实和业务运行 | 独立恢复 Control | 让 Control 成为四项目运行时单点 |
@@ -389,7 +411,7 @@ English 与 Career 必须维持独立账户/游客主体域，主体 ID 不跨�
 | 共用单一运行时/部署单元 | Control 或单项目故障会扩散，不能独立回滚和验证 |
 | Control 直接修复 workflow、Git 或业务数据 | 违反只读监管与零写副作用，是不可接受的控制面越权 |
 | 把 Control 缓存作为权威 | 缓存可能陈旧、混 head 或部分失败，不能替代项目源事实 |
-| allowlist/readiness 获批后自动启用连接器 | 混淆研究批准与执行授权，绕过版权、robots、登录和运行 canary |
+| allowlist/readiness 获批后自动启用连接器 | 混淆研究批准与执行授权，绕过实现、canary、同修订 `.REV` P0/P1=0 和 `.QA` PASS |
 | 无数据时自动展示 demo/mock 为 live | 破坏产品真实性与完成度判断 |
 | 用户域、静态域、API 域和源站域复用 | 缓存、Cookie、安全、回源和故障策略互相污染 |
 | 把 origin 当备用用户访问地址 | 绕过 CDN/WAF、缓存与回源身份边界，扩大攻击面 |
@@ -407,7 +429,7 @@ English 与 Career 必须维持独立账户/游客主体域，主体 ID 不跨�
 4. 需要跨项目 SSO、父域 Cookie、跨项目私有数据流、第三方 AI/语音/招聘数据传输或新身份提供方。
 5. 来源 policy 四态、runtime 双轴或 fail-closed 规则拟变化，或 `AIR-END-030` / `CAR-END-017` 等候选拟进入运行时。
 6. 用户域、静态域、API 域、origin、internal 的职责拟合并，或 origin 拟开放给浏览器。
-7. Control 无法维持同一 root_head、一项目失败隔离、缓存可重建或零业务/Git/workflow 写。
+7. Control 无法维持冻结 commit-blob 读取、source_set 归属证明、一项目失败隔离、缓存可重建或零业务/Git/workflow 写。
 8. 正式云厂商、域名、证书、网络拓扑、SLO、预算或生产授权形成，需要进入具体部署架构。
 
 ## 14. TBD、风险与缓解
@@ -430,7 +452,7 @@ English 与 Career 必须维持独立账户/游客主体域，主体 ID 不跨�
 | 风险 | 影响 | 缓解 / 门 |
 |---|---|---|
 | 共享契约膨胀为万能模型 | 项目迭代互相阻塞 | 共享字段需语义/权限/生命周期三重一致并另审 |
-| Control 读取混合 root_head | 展示不可能同时成立的治理事实 | 读前/读后 head 锁定，变化则整轮丢弃 |
+| Control 从 index/worktree 混读或 source_set 不属于声明 commit | 展示同一 root_head 下实际不可能同时成立的治理事实 | 只读冻结 commit blobs，记录 tree mode/blob OID/SHA/source_set digest；当前 HEAD 前移则整轮重读 |
 | 私有资料误入投影、CDN 或日志 | 隐私泄漏 | 分类、脱敏、allowlist、`no-store`、负向测试 |
 | conditional 来源被误启用 | 条款/版权/账号/稳定性风险 | 政策轴与运行轴双门，默认 false，审计 fail-closed |
 | demo/HTTP 200 被当作 live | 错误发布判断 | mode 与 truth 正交，live 需证据/时间/覆盖门 |
@@ -444,9 +466,9 @@ English 与 Career 必须维持独立账户/游客主体域，主体 ID 不跨�
 
 - [x] 共享与项目独有责任矩阵明确，未共享业务数据库、账号或运行时。
 - [x] Model、Career 公共/私有、English 私有、Control 只读域的 owner 与禁止流向明确。
-- [x] Control 同一 `root_head`、版本化 source SHA、缓存非权威、项目级失败隔离与零写副作用明确。
+- [x] Control 只读冻结 commit blobs；`source_set` 可证明内容归属声明 commit，index/worktree 并发不进入快照，缓存非权威、项目级失败隔离与零写副作用明确。
 - [x] 统一真相态、项目原始状态、demo 隔离和错误信封明确。
-- [x] 来源研究与运行授权分离，Model/Career 当前 runtime/connector/snapshot 为零且 conditional fail closed。
+- [x] 来源 policy 与 runtime 分离；唯一七步启用序列要求 canary 后依次通过同修订 `.REV` P0/P1=0 与 `.QA` PASS，最后一步前 runtime 始终 false。
 - [x] 无环 DAG 和禁止反向边明确。
 - [x] 五类地址及四项目三环境映射明确，未知项未编造。
 - [x] 被拒绝方案、TBD、风险与后续验证门明确。
@@ -456,9 +478,9 @@ English 与 Career 必须维持独立账户/游客主体域，主体 ID 不跨�
 
 1. 共享信封必须有版本兼容、未知字段、缺字段、`UNKNOWN != 0`、错误脱敏和项目语义保持的契约测试。
 2. 运行时 DAG 和治理 DAG 必须分别自动判环；项目运行测试须证明 Control 不可用时四项目仍可独立工作。
-3. Control 必须有 root_head 中途变化、单项目坏 YAML、单条 JSONL 坏行、未知 schema、缓存损坏/删除重建、`..` 路径穿越、根外软链接和秘密文件的负向测试。
+3. Control 必须有 root_head 中途变化、HEAD 不变但 index/worktree 并发变化、未提交文件、source path 不属于声明 commit、blob OID/SHA 不一致、单项目坏 YAML、单条 JSONL 坏行、未知 schema、缓存损坏/删除重建、`..` 路径穿越、Git symlink/submodule 和秘密文件的负向测试；必须证明输出 bytes 只来自冻结 commit blobs。
 4. 必须以文件、Git index、workflow ledger、业务数据库和调用记录前后快照证明 Control 的业务、Git 与 workflow 写为零；只读搜索/导出也不能改变源事实。
-5. Model/Career 必须验证 policy 四态与 `runtime_enabled` 分轴；未获运行授权时连接器、调度和 live 快照均为零，conditional/401/403/robots/条款变化触发 fail closed。
+5. Model/Career 必须验证 policy 四态与 `runtime_enabled` 分轴，并逐步验证“政策→独立执行授权→实现→canary→同修订 `.REV` P0/P1=0→同修订 `.QA` PASS→获批环境登记 true”。缺步、乱序、证据 revision 不一致、审查有 P0/P1、QA 非 PASS 及 conditional/401/403/robots/条款变化时，都必须保持/恢复 false 且不得产生 live 快照。
 6. Career 与 English 必须通过独立账号域、跨账号/游客隔离、revision/CAS 冲突、日志脱敏、CDN 排除、第三方传输同意和删除边界测试；localStorage 不能通过同步权威测试。
 7. 五类地址映射必须逐项目逐环境校验，覆盖 DNS/CNAME、证书/SNI、回源 Host、源站绕过、CORS/CSRF、host-only Cookie、SSE/WebSocket 和缓存负向测试。
 8. TBD 清单必须检查 owner、解决阶段和阻断范围完整性；未解决项不能用默认供应商、域名、端口、预算、凭证或 `0` 填充。
@@ -470,9 +492,9 @@ English 与 Career 必须维持独立账户/游客主体域，主体 ID 不跨�
 - 正式域名、DNS、CDN、证书、WAF、源站、责任人、预算或凭证仍为 `TBD/UNKNOWN`。
 - 用户域未走 CDN，或浏览器能直连源站。
 - API、HTML、静态资源或源站发生职责混用，或 API/健康被公共缓存。
-- Control 可产生业务/Git/workflow 写副作用，或无法保证同一 root_head。
+- Control 可产生业务/Git/workflow 写副作用，读取 index/worktree，无法证明 source_set 属于声明 commit，或无法保证同一冻结 commit 快照。
 - 私有数据可进入公共投影、CDN、跨用户响应或普通日志。
-- Model/Career 把研究批准当运行授权，或尚无真实快照却宣称 live。
+- Model/Career 把研究批准当运行授权、在 `.REV` P0/P1=0 与 `.QA` PASS 前登记 true，或尚无真实快照却宣称 live。
 - demo/mock/seed、HTTP 200 或 CDN 新鲜度能计入 live 完成度。
 - 四项目功能、前后端联调、失败恢复和真实性验收尚未完成。
 - 没有本次具体生产发布授权。

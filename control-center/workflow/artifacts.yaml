@@ -787,7 +787,8 @@ artifacts:
     path: ../architecture/03-four-project-shared-boundary-adr.md
     repo_relative_path: architecture/03-four-project-shared-boundary-adr.md
     version: "1.0"
-    sha256: 2d3e7fb026b4366f8c9fda033fc8e7866a9a653d19674e2241dccb79aca07c45
+    candidate_revision: 2
+    sha256: e3073a01ceda280b8dda4d77b58de7e9755d3f77d21f6ebb5497c8882508840a
     status: ready-for-review
     owner: role-architect
     role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
@@ -795,15 +796,30 @@ artifacts:
     change_id: arch-20260816-four-project-shared-boundary-001
     entry_approval: approval-20260817-four-project-shared-boundary-architecture-entry
     decision_base: 8d4020ff6fac2c1558c9cb2b5f12dcb4e6cd20e2
+    revision_base: a2dff74e9beffb005b33fda60934bd349a558018
     safe_checkpoint: 94b72281aba7260af5ada246c3784b2e2fd8d837
+    candidate_history:
+      - candidate_revision: 1
+        sha256: 2d3e7fb026b4366f8c9fda033fc8e7866a9a653d19674e2241dccb79aca07c45
+        status: changes-requested
+        review_event: event-20260817-four-project-shared-boundary-architecture-independent-content-review-changes-requested
+        finding_summary:
+          p0: 0
+          p1: 2
+          p2: 0
+          findings:
+            - P1-01-frozen-commit-blob-membership-and-worktree-index-isolation
+            - P1-02-unique-runtime-enablement-sequence-before-runtime-true
+        downstream_authorized: false
+        production_release: frozen
     coverage:
       shared_and_project_owned_responsibility_matrix: passed
       data_class_owner_storage_cache_write_boundary: passed
-      same_root_head_readonly_projection_contract: passed
+      frozen_commit_blob_source_set_projection_contract: passed
       acyclic_runtime_and_governance_dependency_boundary: passed
       five_address_four_project_three_environment_mapping: passed
       truth_state_and_error_envelope: passed
-      identity_revision_CAS_and_source_hard_gates: passed
+      identity_revision_CAS_and_unique_source_runtime_sequence: passed
       rejected_alternatives_and_re_review_triggers: passed
       TBD_owner_stage_blocking_scope: passed
       validation_and_deployment_blockers: passed
@@ -826,8 +842,14 @@ artifacts:
       markdown_fences: passed
       git_diff_check: passed
       yaml_jsonl_and_git_boundary: passed
+      previous_candidate_independent_content_review: changes-requested-p0-0-p1-2-p2-0
+      p1_01_frozen_commit_blob_consistency: passed-by-revised-architecture-contract
+      p1_02_unique_connector_activation_sequence: passed-by-revised-architecture-contract
       modified_application_database_connector_service_or_deployment: false
-    completed_at: "2026-08-17T04:30:57+08:00"
+    revised_at: "2026-08-17T04:46:00+08:00"
+    supersedes_candidate_sha256: 2d3e7fb026b4366f8c9fda033fc8e7866a9a653d19674e2241dccb79aca07c45
+    review_status: pending
+    completed_at: "2026-08-17T04:46:00+08:00"
     stop_gate: architecture-review
     downstream_authorized: false
     auto_route: false
