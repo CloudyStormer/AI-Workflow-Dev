@@ -600,3 +600,23 @@ artifacts:
     stop_gate: test-report-review
     next_role: none-until-user-review-and-separate-replanning
     auto_route: false
+  - id: artifact-control-release-completeness-ui-prompt-001
+    type: ui-design-prompt
+    path: ui/02-release-completeness-ui-prompt.md
+    version: "1.0"
+    status: in-progress
+    owner: role-ui-designer
+    role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+    work_item: CC-UI-001
+    change_id: ui-prompt-20260816-control-release-completeness-001
+    entry_approval: approval-20260816-control-release-completeness-ui-prompt-entry
+    safe_checkpoint: 38c3e0a23aff09a175588c73feebc09f92763e4d
+    previous_artifact: artifact-control-center-backend-ui-prompt-001
+    previous_path: ui/01-control-center-ui-design-prompt.md
+    previous_version: "1.1"
+    previous_sha256: bf1614e5f8fe9d6e2d7a9457bcf8ce0c6aadecfff9ef770c067560ed37368b52
+    historical_visual_asset_count: 9
+    result: role-entered-awaiting-prompt-delivery
+    stop_gate: ui-prompt-review
+    production_release: frozen
+    auto_route: false

@@ -834,3 +834,31 @@ approvals:
     production_release: frozen
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: approval-20260816-english-release-completeness-ui-design-v1
+    gate: ui-design-review
+    role: role-ui-designer
+    role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+    role_task_title: "04 UI/UX设计师"
+    work_item: EL-UI-002
+    change_id: ui-design-20260816-english-release-completeness-001
+    artifact: artifact-english-release-completeness-ui-design-001
+    path: ui/06-release-completeness-ui-design-v1.0.md
+    version: "1.0"
+    sha256: 7c1f2318ec636b5f18ee4af543a042c5b873c511bfb3f95274c3d50c36ff899d
+    visual_bundle: artifact-english-release-completeness-ui-visuals-001
+    manifest_path: ui/release-completeness-v1.0/manifest.json
+    manifest_sha256: a1dcd8753a64f7b443f34dec95eb0ff1f467619bb3d1ffc0a0f166ae9260d880
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-16T22:21:39+08:00"
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    user_reply: "继续"
+    evidence: "固定 00 已精确列出 EL-UI-002 设计说明、视觉包、SHA256、提交与独立逐图核对结论；超级无敌帅超超总明确‘继续’，批准当前已形成产物。"
+    effect: "只批准当前 English 发布完整性 UI 设计；按已批准根重排计划唯一一跳授权同一固定04进入 Control Center CC-UI-001。"
+    completed_gate: ui-design-review
+    next_project_id: workflow-control-center
+    next_work_item: CC-UI-001
+    next_authorization: approval-20260816-control-release-completeness-ui-prompt-entry
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false

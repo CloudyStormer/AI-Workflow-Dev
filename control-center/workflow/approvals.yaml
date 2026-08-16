@@ -376,3 +376,36 @@ approvals:
     production_release: frozen
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: approval-20260816-control-release-completeness-ui-prompt-entry
+    gate: role-entry
+    role: role-ui-designer
+    role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+    role_task_title: "04 UI/UX设计师"
+    work_item: CC-UI-001
+    change_id: ui-prompt-20260816-control-release-completeness-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-16T22:21:39+08:00"
+    authorization_source: approval-20260816-english-release-completeness-ui-design-v1
+    safe_checkpoint: 38c3e0a23aff09a175588c73feebc09f92763e4d
+    inputs:
+      - artifact-four-project-release-replanning-plan-001
+      - artifact-control-release-completeness-appendix-001
+      - artifact-control-real-usable-product-delta-001
+      - artifact-control-center-backend-product-increment-001
+      - artifact-control-center-backend-ui-prompt-001
+      - artifact-control-center-user-ui-design-001
+    scope: "只编制 Control Center 发布完整性 UI/UX Prompt，覆盖真实只读聚合、项目/角色/审批/产物/事件/问题/发布/来源、not_ready/degraded/新鲜度、完整简中和零写边界。"
+    expected_output: artifact-control-release-completeness-ui-prompt-001
+    expected_path: ui/02-release-completeness-ui-prompt.md
+    stop_gate: ui-prompt-review
+    exclusions:
+      - CC-UI-002-or-design-assets
+      - architecture-or-application-code
+      - database-reader-connector-or-service
+      - qa-devops-or-production-deployment
+      - overwrite-legacy-ui-prompt-or-nine-visual-baselines
+      - automatic-downstream-route
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false

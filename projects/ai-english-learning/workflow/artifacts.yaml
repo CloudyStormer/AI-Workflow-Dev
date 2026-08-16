@@ -1360,7 +1360,7 @@ artifacts:
     path: ui/06-release-completeness-ui-design-v1.0.md
     version: "1.0"
     sha256: 7c1f2318ec636b5f18ee4af543a042c5b873c511bfb3f95274c3d50c36ff899d
-    status: ready-for-review
+    status: approved
     owner: role-ui-designer
     role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
     work_item: EL-UI-002
@@ -1416,14 +1416,19 @@ artifacts:
       workflow_yaml_jsonl: passed
       git_boundary: passed
       fixed_04_visual_inspection: passed-not-independent-review
-      independent_visual_review: pending
+      independent_visual_review: passed-by-fixed-00-four-assets
     ui_index:
       path: ui/README.md
       sha256: 7e547921dd4d4817390f62c3da75555d0e0a6ca85f26e42bfe205f305cb922f6
     completed_at: "2026-08-16T13:53:39+08:00"
-    result: ready-for-review
-    stop_gate: ui-design-review
-    next_role: none-until-user-review
+    approval: approval-20260816-english-release-completeness-ui-design-v1
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-16T22:21:39+08:00"
+    review_decision: approved
+    result: approved-and-returned-to-cross-project-sequence
+    completed_gate: ui-design-review
+    next_project_id: workflow-control-center
+    next_work_item: CC-UI-001
     auto_route: false
   - id: artifact-english-release-completeness-ui-visuals-001
     type: ui-visual-state-bundle
@@ -1433,7 +1438,7 @@ artifacts:
     generation_record_path: ui/release-completeness-v1.0/generation-prompts.md
     generation_record_sha256: cd4d8debd4ffff157ffc14babbb9d950612b1904ef4b07c6b8d05cad70e49da8
     version: "1.0"
-    status: ready-for-review
+    status: approved
     owner: role-ui-designer
     role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
     work_item: EL-UI-002
@@ -1463,8 +1468,12 @@ artifacts:
       exact_dimensions: passed-4-of-4
       sha256: passed-4-of-4
       fixed_04_visual_inspection: passed-not-independent-review
-      independent_visual_review: pending
+      independent_visual_review: passed-by-fixed-00-four-assets
     completed_at: "2026-08-16T13:53:39+08:00"
-    result: ready-for-review
-    stop_gate: ui-design-review
+    approval: approval-20260816-english-release-completeness-ui-design-v1
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-16T22:21:39+08:00"
+    review_decision: approved
+    result: approved
+    completed_gate: ui-design-review
     auto_route: false
