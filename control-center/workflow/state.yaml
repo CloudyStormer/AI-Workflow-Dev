@@ -373,14 +373,57 @@ parallel_control_center_frontend_qa:
     path: docs/06-code-review.md
     sha256: 65606bd82da7948a02940cc35b0051193ebd32cc25a2c5872db1e1eb3d558adf
     source_commit: 945b98320002d50605943697c5ce5c5e63ec2800
-    workflow_safe_base: bf19a402bf494ffd5d32670979cf6917bbf0a48a
+    workflow_safe_base: 368c3cadb35e12020586e62643e6a95f39d93c87
   scope: "只测试既有前端演示纵切的功能、筛选/搜索/导出一致性、简体中文、响应式、键盘/读屏/AX、性能与回归；必须显式登记 demo/pending 数据边界、真实 workflow 后端与读取器缺失，不得宣称 Control Center 已真实可用。"
   expected_output:
     artifact: artifact-control-center-frontend-test-report-001
     path: docs/07-test-report.md
-  scheduling: routed-awaiting-fixed-10-role-announcement
+    sha256: 01e4155195908ec9badc04a92c17f43cbba6880c564dd119396190a755f164fc
+  scheduling: completed-awaiting-user-review
   routed_at: "2026-08-16T13:33:55+08:00"
-  delivery_status: authorized
+  delivery_status: pending-review
+  completed_at: "2026-08-16T14:45:57+08:00"
+  conclusion: passed-demo-frontend-slice-only
+  pass_rate:
+    scope_acceptance: 13-of-13
+    executable_gates: 9-of-9
+    browser_viewport_combinations: 24-of-24
+  finding_summary:
+    blocker_p0: 0
+    major_p1: 0
+    minor_p2: 0
+    must_fix_this_round: 0
+    accepted_legacy_defects: 0
+  independent_validation:
+    report_sha256: 01e4155195908ec9badc04a92c17f43cbba6880c564dd119396190a755f164fc
+    source_drift_from_945b983: none-in-target-frontend-test-scope
+    node: "24.19.0"
+    chrome: "151.0.7922.138"
+    macos: "15.7.4-arm64"
+    lint: passed-zero-errors-zero-warnings
+    typecheck: passed
+    build: passed
+    static_tests: passed-3-of-3
+    domain_tests: passed-3-of-3
+    performance_tests: passed-2-of-2
+    browser_test: passed-1-of-1
+    browser_viewports:
+      - 1440x1000
+      - 1024x768
+      - 390x844
+      - 320x720
+    browser_view_combinations: passed-24-of-24
+    browser_console: zero-error-zero-warning
+    accessibility_tree: passed
+    playwright_cli_spot_check: passed-isolated-production-build-and-320x720-ax-snapshot
+    max_client_chunk_bytes: 271360
+    dashboard_shell_bytes: 90117
+    lazy_loaded_first_level_views: passed-6-of-6
+  execution_notes:
+    initial_browser_gate: sandbox-listen-eperm-not-product-failure
+    rerun: passed-on-authorized-local-temporary-port
+    invalid_dev_tunnel_snapshot: discarded-and-retested-on-isolated-production-server
+  release_recommendation: do-not-release-as-real-regulatory-product
   stop_gate: test-report-review
   preserved_real_product_delta:
     artifact: artifact-control-real-usable-product-delta-001
@@ -398,7 +441,7 @@ parallel_control_center_frontend_qa:
     - approve-future-test-report
     - auto-route-after-test-delivery
   auto_route_on_delivery: false
-implementation_gate: "artifact-control-center-frontend-code-rereview-001 已正式批准，并仅一跳授权固定 10 QA 测试既有前端演示纵切；测试交付必须停 test-report-review。真实 workflow 后端、读取器与数据接入仍未实现，Control Center 不得宣称真实可用，生产部署继续冻结。"
+implementation_gate: "artifact-control-center-frontend-test-report-001 已由固定 10 QA 独立交付，当前只证明既有前端演示纵切 13/13 范围验收与 9/9 可执行门禁通过，停 test-report-review 等待超级无敌帅超超总审核。真实 workflow 后端、读取器、数据库状态聚合与数据接入仍未实现，Control Center 不得宣称真实可用，生产部署继续冻结，不自动路由 DevOps 或任何后续角色。"
 runtime:
   live_url: "https://ai-workflow-control-center.honest-flute-5906.chatgpt.site"
   deployed_version: 3
