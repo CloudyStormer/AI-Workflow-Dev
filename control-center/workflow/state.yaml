@@ -1,9 +1,9 @@
 schema_version: 1
 project_id: "workflow-control-center"
 structure_status: normalized
-stage: ui-design-prompt
-status: control-release-completeness-ui-prompt-ready-for-review
-current_role: role-ui-designer
+stage: cross-project-architecture-routing
+status: control-release-completeness-ui-design-approved-awaiting-XR-ARC-001-route
+current_role: package-contractor
 blocked: false
 ui_assets:
   directory: ui
@@ -31,18 +31,40 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
-  gate: ui-prompt-review
-  scope: "审核 CC-UI-001 发布完整性 UI/UX Prompt；本门不自动批准设计、架构、开发、QA、服务或部署。"
+  gate: ui-design-review
+  scope: "审核 CC-UI-002 发布完整性 UI 设计说明与版本化多端视觉资产；本门不自动批准架构、开发、QA、服务或部署。"
   decision_owner: 超级无敌帅超超总
-  decision: pending
-  delivery_status: ready-for-review
-  artifact: artifact-control-release-completeness-ui-prompt-001
-  expected_path: ui/02-release-completeness-ui-prompt.md
-  work_item: CC-UI-001
-  change_id: ui-prompt-20260816-control-release-completeness-001
-  entry_authorization: approval-20260816-control-release-completeness-ui-prompt-entry
-  upstream_approval: approval-20260816-control-real-usable-product-delta-v1
-  on_approved: authorize-CC-UI-002-only-under-approved-root-plan
+  decision: approved
+  approval: approval-20260817-control-release-completeness-ui-design-v1
+  decided_at: "2026-08-17T04:08:41+08:00"
+  delivery_status: approved
+  artifact: artifact-control-release-completeness-ui-design-001
+  expected_path: ui/03-release-completeness-ui-design-v1.0.md
+  actual_path: ui/03-release-completeness-ui-design-v1.0.md
+  sha256: c7c2f707f76afaae78d3da4404484cd12f0fb3a4e288da06bbeb7496ae5700c3
+  visual_bundle_artifact: artifact-control-release-completeness-ui-visuals-001
+  visual_bundle_manifest_sha256: 24cc9d208ba378f9191a86c83fe68f5be18b1a015f10ace39610405f2a53d5b1
+  visual_bundle_aggregate_sha256: a3296c16557ff224c0c456a4529544ce15e8cc6812069665164e842e87e9895c
+  previous_candidate_machine_validation: passed-superseded-by-independent-review
+  previous_candidate_fixed_04_visual_inspection: passed-superseded-by-independent-review
+  previous_candidate_browser_interaction_validation: passed-superseded-by-independent-review
+  previous_independent_visual_review: changes-requested-p0-0-p1-2-groups-p2-0-on-aggregate-81f
+  current_machine_validation: passed-two-consecutive-full-regeneration-identical-aggregate-a3296c16
+  current_fixed_04_visual_inspection: passed-prior-36-plus-fixed00-current-02-03-and-independent-current-02-03-D09-visual-p0-p1-zero
+  current_browser_interaction_validation: passed-fixed00-playwright-chromium-11-of-11-current-hashes
+  current_browser_console: zero-errors-zero-warnings
+  independent_visual_review: passed-p0-0-p1-0-p2-0
+  current_revision: approved-final-a329
+  work_item: CC-UI-002
+  change_id: ui-design-20260816-control-release-completeness-001
+  entry_authorization: approval-20260816-control-release-completeness-ui-design-entry
+  upstream_approval: approval-20260816-control-release-completeness-ui-prompt-v1
+  on_approved: authorize-XR-ARC-001-only
+  next_role: role-architect
+  next_role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
+  next_work_item: XR-ARC-001
+  next_change_id: arch-20260816-four-project-shared-boundary-001
+  next_gate: architecture-review
   advance_limit: unique-next-stage-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
@@ -571,14 +593,17 @@ latest_ui_prompt_delivery:
   path: ui/02-release-completeness-ui-prompt.md
   version: "1.0"
   sha256: caafe53a51a77283c363483bf34b9dba843f5a1add8d7fd17c9d74a1d336570e
-  ui_index_sha256: cb615ee74aa51aecf170d88e395db21325233c266296c7c7a2b830c3f2650544
+  ui_index_sha256: 4f2ce0a1d73f64349f3c1fb23318d451d2d6380c7aa75da811109ae8f57bb332
   change_id: ui-prompt-20260816-control-release-completeness-001
   work_item: CC-UI-001
-  status: ready-for-review
+  status: approved
   completed_by: role-ui-designer
   completed_at: "2026-08-16T22:34:21+08:00"
   entry_approval: approval-20260816-control-release-completeness-ui-prompt-entry
-  next_gate: ui-prompt-review
+  approval: approval-20260816-control-release-completeness-ui-prompt-v1
+  approved_at: "2026-08-16T22:45:33+08:00"
+  completed_gate: ui-prompt-review
+  next_gate: ui-design-review
   previous_artifact: artifact-control-center-backend-ui-prompt-001
   previous_path: ui/01-control-center-ui-design-prompt.md
   previous_version: "1.1"
@@ -589,6 +614,84 @@ latest_ui_prompt_delivery:
   generated_images: false
   modified_application_or_service_code: false
   held_mainline_artifact: artifact-control-center-code-review-001
+control_release_completeness_ui_design_assignment:
+  change_id: ui-design-20260816-control-release-completeness-001
+  work_item: CC-UI-002
+  role: role-ui-designer
+  role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+  role_task_title: "04 UI/UX设计师"
+  authorization: approval-20260816-control-release-completeness-ui-design-entry
+  safe_checkpoint: e739c88b3a7024d58de177035162867f74c1f2ca
+  input:
+    artifact: artifact-control-release-completeness-ui-prompt-001
+    path: ui/02-release-completeness-ui-prompt.md
+    version: "1.0"
+    sha256: caafe53a51a77283c363483bf34b9dba843f5a1add8d7fd17c9d74a1d336570e
+    approval: approval-20260816-control-release-completeness-ui-prompt-v1
+  expected_output:
+    artifact: artifact-control-release-completeness-ui-design-001
+    path: ui/03-release-completeness-ui-design-v1.0.md
+    asset_directory: ui/release-completeness-v1.0/
+    version: "1.0"
+  required_coverage:
+    primary_navigation_count: 6
+    p0_destination_view_count: 12
+    chart_type_count: 19
+    responsive_viewports:
+      - 1440x1024
+      - 1024x768
+      - 390x844
+      - 320x720
+      - 200-percent-reflow
+    truth_states:
+      - live
+      - empty
+      - not_ready
+      - stale
+      - degraded
+      - failed
+      - unknown
+  status: approved-awaiting-root-route
+  output:
+    design_artifact: artifact-control-release-completeness-ui-design-001
+    design_path: ui/03-release-completeness-ui-design-v1.0.md
+    design_sha256: c7c2f707f76afaae78d3da4404484cd12f0fb3a4e288da06bbeb7496ae5700c3
+    visual_artifact: artifact-control-release-completeness-ui-visuals-001
+    manifest_path: ui/release-completeness-v1.0/manifest.json
+    manifest_sha256: 24cc9d208ba378f9191a86c83fe68f5be18b1a015f10ace39610405f2a53d5b1
+    visual_bundle_aggregate_sha256: a3296c16557ff224c0c456a4529544ce15e8cc6812069665164e842e87e9895c
+    prototype_path: ui/release-completeness-v1.0/prototype.html
+    prototype_sha256: f256174eb0cb72ac9f146ef103e93fd8b99b236a80ffa1929f8bba2036e9ea3e
+  validation:
+    previous_candidate_machine_status: passed-superseded-by-independent-review
+    previous_candidate_fixed_04_visual_inspection: passed-superseded-by-independent-review
+    previous_candidate_browser_interaction_validation: passed-superseded-by-independent-review
+    previous_independent_visual_review: changes-requested-p0-0-p1-2-groups-p2-0-on-aggregate-81f
+    current_machine_status: passed-two-consecutive-full-regeneration-identical-aggregate-a3296c16
+    current_fixed_04_visual_inspection: passed-prior-36-plus-fixed00-current-02-03-and-independent-current-02-03-D09-visual-p0-p1-zero
+    current_browser_interaction_validation: passed-fixed00-playwright-chromium-11-of-11-current-hashes
+    current_browser_console: zero-errors-zero-warnings
+    independent_visual_review: passed-p0-0-p1-0-p2-0
+    current_revision: approved-final-a329
+    generated_svg_png_counts: 36-and-36
+    desktop_tablet_mobile: 12-4-16
+    chart_structures: 19-of-19
+    prototype_routes: 12
+    truth_and_zero_write_boundary: passed
+  approval: approval-20260817-control-release-completeness-ui-design-v1
+  approved_at: "2026-08-17T04:08:41+08:00"
+  completed_gate: ui-design-review
+  next_role: role-architect
+  next_role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
+  next_work_item: XR-ARC-001
+  next_change_id: arch-20260816-four-project-shared-boundary-001
+  stop_gate: architecture-routing
+  exclusions:
+    - application-database-worker-frontend-or-backend-code
+    - connector-reader-service-or-deployment
+    - architecture-or-downstream-route
+  production_release: frozen
+  auto_route_on_delivery: false
 control_release_completeness_ui_prompt_assignment:
   change_id: ui-prompt-20260816-control-release-completeness-001
   work_item: CC-UI-001
@@ -604,7 +707,7 @@ control_release_completeness_ui_prompt_assignment:
     version: "1.0"
     sha256: caafe53a51a77283c363483bf34b9dba843f5a1add8d7fd17c9d74a1d336570e
     ui_index_path: ui/README.md
-    ui_index_sha256: cb615ee74aa51aecf170d88e395db21325233c266296c7c7a2b830c3f2650544
+    ui_index_sha256: 4f2ce0a1d73f64349f3c1fb23318d451d2d6380c7aa75da811109ae8f57bb332
   coverage:
     primary_navigation_count: 6
     p0_destination_view_count: 12
@@ -637,4 +740,4 @@ control_release_completeness_ui_prompt_assignment:
     - downstream-route
   production_release: frozen
   auto_route_on_delivery: false
-updated_at: "2026-08-16T22:34:21+08:00"
+updated_at: "2026-08-17T04:08:41+08:00"

@@ -1,0 +1,1301 @@
+{
+  "schema_version": 1,
+  "project_id": "workflow-control-center",
+  "work_item": "CC-UI-002",
+  "change_id": "ui-design-20260816-control-release-completeness-001",
+  "artifact_id": "artifact-control-release-completeness-ui-visuals-001",
+  "version": "1.0",
+  "status": "machine-and-browser-passed-awaiting-independent-visual-review",
+  "created_at": "2026-08-16T22:45:33+08:00",
+  "authoritative_prompt": {
+    "path": "ui/02-release-completeness-ui-prompt.md",
+    "version": "1.0",
+    "sha256": "caafe53a51a77283c363483bf34b9dba843f5a1add8d7fd17c9d74a1d336570e",
+    "approval": "approval-20260816-control-release-completeness-ui-prompt-v1"
+  },
+  "coverage": {
+    "primary_navigation": [
+      "总览",
+      "项目与阶段",
+      "角色协作",
+      "质量与复测",
+      "迭代与发布",
+      "成熟度与治理"
+    ],
+    "p0_destinations": [
+      {
+        "name": "总览",
+        "path": "/overview"
+      },
+      {
+        "name": "项目与阶段",
+        "path": "/projects"
+      },
+      {
+        "name": "项目证据详情",
+        "path": "/projects/:projectId"
+      },
+      {
+        "name": "固定角色协作",
+        "path": "/roles"
+      },
+      {
+        "name": "审批与待审",
+        "path": "/approvals"
+      },
+      {
+        "name": "产物与哈希",
+        "path": "/artifacts"
+      },
+      {
+        "name": "事件审计",
+        "path": "/events"
+      },
+      {
+        "name": "问题、Bug 与复测",
+        "path": "/issues"
+      },
+      {
+        "name": "迭代与发布",
+        "path": "/releases"
+      },
+      {
+        "name": "来源、覆盖与新鲜度",
+        "path": "/sources"
+      },
+      {
+        "name": "成熟度与治理",
+        "path": "/maturity"
+      },
+      {
+        "name": "系统状态与恢复",
+        "path": "/system-status"
+      }
+    ],
+    "chart_catalog": [
+      {
+        "id": "CC-CHART-01",
+        "name": "项目×阶段矩阵",
+        "authoritative_mapping": "行=项目｜列=阶段0–10｜填充=阶段状态｜边框=当前阶段｜图标=审批状态",
+        "unit": "阶段序号（0–10）",
+        "legend": "填充=阶段；边框=当前；完/当/待=状态；✓/待/○=图标"
+      },
+      {
+        "id": "CC-CHART-02",
+        "name": "单项目阶段轨道",
+        "authoritative_mapping": "节点=阶段序号｜状态=完成/当前/风险/阻塞/待开始｜徽标=产物数与审批状态",
+        "unit": "阶段节点／产物数",
+        "legend": "节点=阶段；数字=产物；徽标=审批"
+      },
+      {
+        "id": "CC-CHART-03",
+        "name": "项目真实性四轨",
+        "authoritative_mapping": "行=项目｜轨道=前端/后端/真实数据/生产｜值=已登记真实性状态",
+        "unit": "真实性状态",
+        "legend": "◇演示；×未实现；○未就绪；锁未授权"
+      },
+      {
+        "id": "CC-CHART-04",
+        "name": "角色×项目占用矩阵",
+        "authoritative_mapping": "行=固定角色00–11｜列=项目｜值=执行/排队/待审/阻塞/未知",
+        "unit": "角色占用状态",
+        "legend": "▶执行中；审待审；◷排队；!阻塞；·无记录"
+      },
+      {
+        "id": "CC-CHART-05",
+        "name": "角色交接泳道",
+        "authoritative_mapping": "纵轴=角色｜横轴=阶段或时间｜节点=入场/交付/审核/等待｜边=交接事件",
+        "unit": "交接事件（条）",
+        "legend": "节点=交接；虚线=显式ID边"
+      },
+      {
+        "id": "CC-CHART-06",
+        "name": "待审老化分布",
+        "authoritative_mapping": "横轴=等待时长桶｜纵轴=待审数｜分组=审核门与项目",
+        "unit": "待审记录（条）",
+        "legend": "颜色=审核门；控/英/职/模=项目；X轴=等待桶"
+      },
+      {
+        "id": "CC-CHART-07",
+        "name": "审批结果趋势",
+        "authoritative_mapping": "横轴=日期｜纵轴=决策数｜系列=批准/修改/打回/未记录",
+        "unit": "审批决定（条）",
+        "legend": "●批准；■修改；▲打回；◆未记录"
+      },
+      {
+        "id": "CC-CHART-08",
+        "name": "产物覆盖与哈希矩阵",
+        "authoritative_mapping": "行=项目｜列=产物类型｜状态=有效/历史/待审/哈希不一致/未登记",
+        "unit": "产物记录（份）",
+        "legend": "✓有效；史历史；审待审；≠哈希不一致；·未登记"
+      },
+      {
+        "id": "CC-CHART-09",
+        "name": "事件审计时间线",
+        "authoritative_mapping": "横轴=事件时间｜泳道=项目与角色｜标记=事件类型与结果",
+        "unit": "事件（条）",
+        "legend": "入/交/测/审/路/!=事件；✓成功/△部分可用=结果"
+      },
+      {
+        "id": "CC-CHART-10",
+        "name": "问题严重度×状态堆叠柱",
+        "authoritative_mapping": "横轴=问题状态｜堆叠=严重度｜值=结构化问题数",
+        "unit": "问题（条）",
+        "legend": "分段=P0/P1/P2/P3；横轴=状态"
+      },
+      {
+        "id": "CC-CHART-11",
+        "name": "问题老化分布",
+        "authoritative_mapping": "横轴=0–1/2–3/4–7/7天以上｜纵轴=问题数｜纹理=高严重度",
+        "unit": "问题（条）",
+        "legend": "固定方标=记录；Y=问题数；斜纹=高严重度；?=时间未知"
+      },
+      {
+        "id": "CC-CHART-12",
+        "name": "复测趋势与矩阵",
+        "authoritative_mapping": "横轴=日期或迭代｜值=通过/失败/未执行｜矩阵=严重度×复测状态",
+        "unit": "复测记录（条）",
+        "legend": "格=矩阵；●实线通过；▲虚线失败；◆点线未执行"
+      },
+      {
+        "id": "CC-CHART-13",
+        "name": "迭代燃尽／累积流",
+        "authoritative_mapping": "横轴=迭代日｜纵轴=剩余工作｜系列=理想/实际/范围变更",
+        "unit": "工作量（项）",
+        "legend": "●理想；■实际；◆范围；线型与水平偏移双编码"
+      },
+      {
+        "id": "CC-CHART-14",
+        "name": "发布门禁证据矩阵",
+        "authoritative_mapping": "行=版本与环境｜列=构建/测试/安全/回滚/监控/授权｜值=门禁状态",
+        "unit": "门禁证据（项）",
+        "legend": "✓通过；×阻塞；…待证；○未执行；锁冻结/未授权；∅非发布"
+      },
+      {
+        "id": "CC-CHART-15",
+        "name": "发布列车时间线",
+        "authoritative_mapping": "横轴=计划与实际时间｜标记=环境/版本/状态/源提交",
+        "unit": "时间（Asia/Shanghai）",
+        "legend": "方=计划；点=实际；横轨=时间比例"
+      },
+      {
+        "id": "CC-CHART-16",
+        "name": "来源覆盖矩阵",
+        "authoritative_mapping": "行=项目｜列=项目/角色/审批/产物/事件/问题/发布｜值=覆盖状态",
+        "unit": "覆盖状态",
+        "legend": "完/部/错/未=覆盖状态"
+      },
+      {
+        "id": "CC-CHART-17",
+        "name": "新鲜度热力图",
+        "authoritative_mapping": "行=项目与数据域｜列=观测批次｜值=当前/陈旧/未知｜文本=时间",
+        "unit": "新鲜度状态／时间",
+        "legend": "格=状态；格内文字=观测时间"
+      },
+      {
+        "id": "CC-CHART-18",
+        "name": "成熟度证据矩阵与趋势",
+        "authoritative_mapping": "行=六维能力｜列=等级与迭代｜值=规则计算分｜注释=样本/规则/缺失",
+        "unit": "成熟度等级（0–3）",
+        "legend": "格=等级/样本/缺失；仅有证据点连线，缺失处断线"
+      },
+      {
+        "id": "CC-CHART-19",
+        "name": "选中记录证据链",
+        "authoritative_mapping": "节点=当前记录/来源文件/上游产物/审批/事件｜边=显式ID关系",
+        "unit": "显式关系（条）",
+        "legend": "节点=记录；虚线标签=显式ID关系"
+      }
+    ],
+    "chart_traceability_fields": [
+      "单位",
+      "图例",
+      "筛选",
+      "来源 ID",
+      "来源 SHA256",
+      "来源",
+      "覆盖",
+      "新鲜度",
+      "观测时间",
+      "root_head"
+    ],
+    "information_architecture": {
+      "primary_count": 6,
+      "secondary_destination_count": 12,
+      "mobile_bottom_navigation": [
+        "总览",
+        "项目",
+        "质量",
+        "更多"
+      ]
+    },
+    "truth_states": [
+      "live（仅目标态演示）",
+      "empty",
+      "not_ready",
+      "stale",
+      "degraded",
+      "failed",
+      "unknown"
+    ],
+    "readonly_actions": [
+      "搜索",
+      "项目筛选",
+      "时间筛选",
+      "迭代筛选",
+      "来源模式筛选",
+      "详情",
+      "图表标记下钻",
+      "问题到复测证据",
+      "发布到门禁证据",
+      "状态到来源错误",
+      "只读重新读取",
+      "导出当前查询"
+    ],
+    "prohibited_writes": [
+      "审批决定",
+      "问题流转",
+      "发布",
+      "回滚",
+      "文件修复",
+      "Git 写入",
+      "删除"
+    ]
+  },
+  "deliverable_counts": {
+    "design_system_pages": 1,
+    "desktop_p0_pages": 12,
+    "desktop_target_demo_variants": 1,
+    "tablet_key_pages": 4,
+    "paired_mobile_groups": 8,
+    "mobile_assets": 16,
+    "chart_types": 19,
+    "truth_state_boards": 4,
+    "reflow_200_percent_assets": 1,
+    "clickable_prototype": 1
+  },
+  "generator": {
+    "source": "ui/release-completeness-v1.0/generate-assets.mjs",
+    "sha256": "bdc385918b94b4f011ad133923853821830683ad3e094ebb4a9f7272b3141b7d",
+    "ai_visual_direction": "image_gen.imagegen reference-guided generation",
+    "exact_prototypes": "deterministic SVG authored from approved Prompt",
+    "rasterization": "sharp/libvips resolved from the installed project dependency graph or an explicit NODE_PATH candidate; reproducibility requires a lockfile-compatible or declared workspace tool environment; exact-size PNG, no crop",
+    "sharp_tooling_boundary": "sharp 为工作区依赖图或当前 Node 运行时同目录 node_modules 中的间接设计生成工具；本交付不声明 package.json 所有权。复跑者须提供与锁文件兼容的工作区依赖或同运行时工具候选。",
+    "historical_reference_assets_preserved": 9
+  },
+  "support_files": {
+    "verifier": {
+      "path": "ui/release-completeness-v1.0/verify-assets.mjs",
+      "sha256": "4b7595c7854d52be506b13e91fadb67c77416b8188fa175359d3111151ade6f0"
+    },
+    "browser_checker": {
+      "path": "ui/release-completeness-v1.0/verify-prototype-browser.mjs",
+      "sha256": "d23118a3e57eb1fae8803165574a06f33534d89b4a2afca86a434b56142518ce"
+    },
+    "browser_evidence": {
+      "path": "ui/release-completeness-v1.0/browser-evidence.json",
+      "sha256": "82f1bdca85aa7181e803e0ea0dea4e1d909189ec357b89b936078883d90518b0"
+    },
+    "generation_notes": {
+      "path": "ui/release-completeness-v1.0/generation-prompts.md",
+      "sha256": "fa1904dd3bb5ac07ec960dac9d98b41d5c9b2ac395d5ab2481d41ac05ec826bb"
+    },
+    "design_specification": {
+      "path": "ui/03-release-completeness-ui-design-v1.0.md",
+      "sha256": "c7c2f707f76afaae78d3da4404484cd12f0fb3a4e288da06bbeb7496ae5700c3"
+    }
+  },
+  "design_token_decisions": {
+    "warning_base": "#B65D0A",
+    "warning_text_on_warning_soft": "#8A3F00",
+    "warning_soft": "#FFF4E8",
+    "adjudication": "Prompt 基色保持 #B65D0A；小字位于浅警告底时使用 #8A3F00，以达到至少 4.5:1。"
+  },
+  "atlas_layout": {
+    "strategy": "two-column shortest-column packing",
+    "canvas_height": 9496,
+    "placements": [
+      {
+        "chart_id": "CC-CHART-01",
+        "column": 0,
+        "y": 142,
+        "height": 1904
+      },
+      {
+        "chart_id": "CC-CHART-02",
+        "column": 1,
+        "y": 142,
+        "height": 600
+      },
+      {
+        "chart_id": "CC-CHART-03",
+        "column": 1,
+        "y": 758,
+        "height": 952
+      },
+      {
+        "chart_id": "CC-CHART-04",
+        "column": 1,
+        "y": 1726,
+        "height": 2040
+      },
+      {
+        "chart_id": "CC-CHART-05",
+        "column": 0,
+        "y": 2062,
+        "height": 600
+      },
+      {
+        "chart_id": "CC-CHART-06",
+        "column": 0,
+        "y": 2678,
+        "height": 816
+      },
+      {
+        "chart_id": "CC-CHART-07",
+        "column": 0,
+        "y": 3510,
+        "height": 816
+      },
+      {
+        "chart_id": "CC-CHART-08",
+        "column": 1,
+        "y": 3782,
+        "height": 1088
+      },
+      {
+        "chart_id": "CC-CHART-09",
+        "column": 0,
+        "y": 4342,
+        "height": 612
+      },
+      {
+        "chart_id": "CC-CHART-10",
+        "column": 1,
+        "y": 4886,
+        "height": 952
+      },
+      {
+        "chart_id": "CC-CHART-11",
+        "column": 0,
+        "y": 4970,
+        "height": 600
+      },
+      {
+        "chart_id": "CC-CHART-12",
+        "column": 0,
+        "y": 5586,
+        "height": 1122
+      },
+      {
+        "chart_id": "CC-CHART-13",
+        "column": 1,
+        "y": 5854,
+        "height": 714
+      },
+      {
+        "chart_id": "CC-CHART-14",
+        "column": 1,
+        "y": 6584,
+        "height": 1020
+      },
+      {
+        "chart_id": "CC-CHART-15",
+        "column": 0,
+        "y": 6724,
+        "height": 600
+      },
+      {
+        "chart_id": "CC-CHART-16",
+        "column": 0,
+        "y": 7340,
+        "height": 1360
+      },
+      {
+        "chart_id": "CC-CHART-17",
+        "column": 1,
+        "y": 7620,
+        "height": 816
+      },
+      {
+        "chart_id": "CC-CHART-18",
+        "column": 1,
+        "y": 8452,
+        "height": 1020
+      },
+      {
+        "chart_id": "CC-CHART-19",
+        "column": 0,
+        "y": 8716,
+        "height": 600
+      }
+    ]
+  },
+  "truth_boundary": {
+    "real_regulatory_backend": "not-implemented",
+    "workflow_reader": "not-implemented",
+    "real_data_integration": "not-ready",
+    "current_fact_boards_may_show_fabricated_kpis": false,
+    "target_demo_is_current_runtime_fact": false,
+    "business_or_git_write_actions": 0,
+    "production_release": "frozen"
+  },
+  "ai_visual_direction_asset": {
+    "path": "ui/release-completeness-v1.0/00-ai-visual-direction-current-not-ready.png",
+    "pixel_size": {
+      "width": 1536,
+      "height": 1024
+    },
+    "sha256": "9a3c21195af17641c5db4835270399373afa1a2fefc575d696031ff17120c8f6",
+    "source_generated_reference": "image_gen local generation copied into this versioned bundle; bundled relative path is authoritative",
+    "review_role": "visual-direction-only; exact text and facts governed by SVG prototypes"
+  },
+  "assets": [
+    {
+      "id": "00_DESIGN_SYSTEM_1440",
+      "path": "ui/release-completeness-v1.0/00-design-system-1440.png",
+      "source_svg": "ui/release-completeness-v1.0/00-design-system-1440.svg",
+      "logical_viewport": {
+        "width": 1440,
+        "height": 1320
+      },
+      "pixel_size": {
+        "width": 1440,
+        "height": 1320
+      },
+      "sha256": "31f83db08490e14269f30b1e33d02c4522fb5a84d2c55f74d8bbcd2fbc036d03",
+      "source_svg_sha256": "f7df2ecbeeb52db3628ed5f4eb1c0fa075eaeaaf0bfa09acb6c298e943dbea05",
+      "coverage": [
+        "设计系统",
+        "全局顶栏",
+        "输入框",
+        "Toast",
+        "加载态",
+        "hover",
+        "pressed",
+        "disabled",
+        "error",
+        "motion token",
+        "组件状态",
+        "对比度",
+        "焦点",
+        "空错降级",
+        "零写"
+      ]
+    },
+    {
+      "id": "01_DESKTOP_1440_CURRENT_NOT_READY",
+      "path": "ui/release-completeness-v1.0/01-desktop-1440-current-not-ready.png",
+      "source_svg": "ui/release-completeness-v1.0/01-desktop-1440-current-not-ready.svg",
+      "logical_viewport": {
+        "width": 1440,
+        "height": 1024
+      },
+      "pixel_size": {
+        "width": 1440,
+        "height": 1024
+      },
+      "sha256": "839e5c724360ffcb553adeb3cb52259ebaef021be21e17709ac3baf32c4001db",
+      "source_svg_sha256": "f584bd3c5ec947c090661deeaae8dbf7676f79ff7251be6dc8db4736fa1f1d83",
+      "coverage": [
+        "总览",
+        "当前事实",
+        "not_ready",
+        "6个一级导航",
+        "未知不是0"
+      ]
+    },
+    {
+      "id": "02_DESKTOP_1440_TARGET_LIVE_DEMO",
+      "path": "ui/release-completeness-v1.0/02-desktop-1440-target-live-demo.png",
+      "source_svg": "ui/release-completeness-v1.0/02-desktop-1440-target-live-demo.svg",
+      "logical_viewport": {
+        "width": 1440,
+        "height": 1024
+      },
+      "pixel_size": {
+        "width": 1440,
+        "height": 1024
+      },
+      "sha256": "04ed2a9c10c0989aabc5c988078a8382b380a422d921f8d2524b333a1f7702ba",
+      "source_svg_sha256": "70df8a9f6f9a0d142690b7b2a259cb1e8bdb351ccbcf609b89ab4fd1829fb7d8",
+      "coverage": [
+        "目标态演示",
+        "live-demo",
+        "项目阶段",
+        "审批",
+        "来源",
+        "问题",
+        "发布"
+      ]
+    },
+    {
+      "id": "03_DESKTOP_1440_CHART_ATLAS",
+      "path": "ui/release-completeness-v1.0/03-desktop-1440-chart-atlas.png",
+      "source_svg": "ui/release-completeness-v1.0/03-desktop-1440-chart-atlas.svg",
+      "logical_viewport": {
+        "width": 1440,
+        "height": 9496
+      },
+      "pixel_size": {
+        "width": 1440,
+        "height": 9496
+      },
+      "sha256": "7c91c8f9dd50ac30fe0ec0c291c15d8b2236b39bc953e78d347e17d6c1bc383e",
+      "source_svg_sha256": "11542d867d57102b8f419279bf043c06fe5870edbb192fbf92ca2f20c8c6bd1f",
+      "coverage": [
+        "19类专属图表",
+        "权威维度",
+        "全部可视标记与字段值状态等价表",
+        "追溯元数据"
+      ]
+    },
+    {
+      "id": "10_DESKTOP_1440_D02_PROJECTS",
+      "path": "ui/release-completeness-v1.0/10-desktop-1440-D02-projects.png",
+      "source_svg": "ui/release-completeness-v1.0/10-desktop-1440-D02-projects.svg",
+      "logical_viewport": {
+        "width": 1440,
+        "height": 1024
+      },
+      "pixel_size": {
+        "width": 1440,
+        "height": 1024
+      },
+      "sha256": "18820840d8aefd43d05d2b04cd0bb7496954a78a67a06d07723618d8cf8be2dc",
+      "source_svg_sha256": "5c2982875a9b57683e82fe34e9e5deec79fea95402a27313079072f5a5a977be",
+      "coverage": [
+        "项目与阶段",
+        "目标态演示",
+        "只读动作",
+        "证据下钻"
+      ]
+    },
+    {
+      "id": "10_DESKTOP_1440_D03_PROJECT_DETAIL",
+      "path": "ui/release-completeness-v1.0/10-desktop-1440-D03-project-detail.png",
+      "source_svg": "ui/release-completeness-v1.0/10-desktop-1440-D03-project-detail.svg",
+      "logical_viewport": {
+        "width": 1440,
+        "height": 1024
+      },
+      "pixel_size": {
+        "width": 1440,
+        "height": 1024
+      },
+      "sha256": "2ff126aabc8ba9a62e09033a4242645b81190f338832ee0119668563ffcb23a9",
+      "source_svg_sha256": "9251ba1b2e6b0ebe1c0d688aa35008d0a4551e59e4477835af1d05ec0334745a",
+      "coverage": [
+        "项目证据详情",
+        "目标态演示",
+        "只读动作",
+        "证据下钻"
+      ]
+    },
+    {
+      "id": "10_DESKTOP_1440_D04_ROLES",
+      "path": "ui/release-completeness-v1.0/10-desktop-1440-D04-roles.png",
+      "source_svg": "ui/release-completeness-v1.0/10-desktop-1440-D04-roles.svg",
+      "logical_viewport": {
+        "width": 1440,
+        "height": 1024
+      },
+      "pixel_size": {
+        "width": 1440,
+        "height": 1024
+      },
+      "sha256": "4a057ef6f6fcc651cba155cca66556029e1e7718bd1e9cdb956849f6e306ff88",
+      "source_svg_sha256": "3157f1f6dd9639c58fe0ef153cf88ec0a13deac777486e615ef9acd857e610ed",
+      "coverage": [
+        "固定角色协作",
+        "目标态演示",
+        "只读动作",
+        "证据下钻"
+      ]
+    },
+    {
+      "id": "10_DESKTOP_1440_D05_APPROVALS",
+      "path": "ui/release-completeness-v1.0/10-desktop-1440-D05-approvals.png",
+      "source_svg": "ui/release-completeness-v1.0/10-desktop-1440-D05-approvals.svg",
+      "logical_viewport": {
+        "width": 1440,
+        "height": 1024
+      },
+      "pixel_size": {
+        "width": 1440,
+        "height": 1024
+      },
+      "sha256": "80794c14097b6fe30ce765083d191199e492c5f155460b614a0c7f19d4377171",
+      "source_svg_sha256": "5b7df5fc3939cf73b5f85bc7e234b1609c77f53c5a753132a1d6724f7ded2d4f",
+      "coverage": [
+        "审批与待审",
+        "目标态演示",
+        "只读动作",
+        "证据下钻"
+      ]
+    },
+    {
+      "id": "10_DESKTOP_1440_D06_ARTIFACTS",
+      "path": "ui/release-completeness-v1.0/10-desktop-1440-D06-artifacts.png",
+      "source_svg": "ui/release-completeness-v1.0/10-desktop-1440-D06-artifacts.svg",
+      "logical_viewport": {
+        "width": 1440,
+        "height": 1024
+      },
+      "pixel_size": {
+        "width": 1440,
+        "height": 1024
+      },
+      "sha256": "3540fa0d1d68f1f3f7b95ba0e029739d6138ed1d6f6e3b2510b449388f7d79df",
+      "source_svg_sha256": "04fba2e2092df39ca16989532f90ce8a9e75b20a692a7ad2206502ad7ddad015",
+      "coverage": [
+        "产物与哈希",
+        "目标态演示",
+        "只读动作",
+        "证据下钻"
+      ]
+    },
+    {
+      "id": "10_DESKTOP_1440_D07_EVENTS",
+      "path": "ui/release-completeness-v1.0/10-desktop-1440-D07-events.png",
+      "source_svg": "ui/release-completeness-v1.0/10-desktop-1440-D07-events.svg",
+      "logical_viewport": {
+        "width": 1440,
+        "height": 1024
+      },
+      "pixel_size": {
+        "width": 1440,
+        "height": 1024
+      },
+      "sha256": "6e3b46b4c0889c26ad25602ae5c410ec63e9217e4c4e83091600b4af30253d87",
+      "source_svg_sha256": "6aa2338860f18e6155d7ee583ebb1d3ac0d2d9a0b1d746528b0f2bae5f6dc40b",
+      "coverage": [
+        "事件审计",
+        "目标态演示",
+        "只读动作",
+        "证据下钻"
+      ]
+    },
+    {
+      "id": "10_DESKTOP_1440_D08_ISSUES",
+      "path": "ui/release-completeness-v1.0/10-desktop-1440-D08-issues.png",
+      "source_svg": "ui/release-completeness-v1.0/10-desktop-1440-D08-issues.svg",
+      "logical_viewport": {
+        "width": 1440,
+        "height": 1024
+      },
+      "pixel_size": {
+        "width": 1440,
+        "height": 1024
+      },
+      "sha256": "1724dac01b2eb5eb650ed9cbabd9c1171f433bc3ed9c0404e001152d7c0712b2",
+      "source_svg_sha256": "c546ba79d44e58170871950cff5fe7bd26ed7c3f7e429e19dbcc2902547e9ffa",
+      "coverage": [
+        "问题、Bug 与复测",
+        "目标态演示",
+        "只读动作",
+        "证据下钻"
+      ]
+    },
+    {
+      "id": "10_DESKTOP_1440_D09_RELEASES",
+      "path": "ui/release-completeness-v1.0/10-desktop-1440-D09-releases.png",
+      "source_svg": "ui/release-completeness-v1.0/10-desktop-1440-D09-releases.svg",
+      "logical_viewport": {
+        "width": 1440,
+        "height": 1024
+      },
+      "pixel_size": {
+        "width": 1440,
+        "height": 1024
+      },
+      "sha256": "6e109d1cc81c2aa43eaf43a2f592765349026b161709c7348255dad788452005",
+      "source_svg_sha256": "fde9ab9123ebe58a08f860b98d0770396000370aefa96ffb8deb02a87928b76c",
+      "coverage": [
+        "迭代与发布",
+        "目标态演示",
+        "只读动作",
+        "证据下钻"
+      ]
+    },
+    {
+      "id": "10_DESKTOP_1440_D10_SOURCES",
+      "path": "ui/release-completeness-v1.0/10-desktop-1440-D10-sources.png",
+      "source_svg": "ui/release-completeness-v1.0/10-desktop-1440-D10-sources.svg",
+      "logical_viewport": {
+        "width": 1440,
+        "height": 1024
+      },
+      "pixel_size": {
+        "width": 1440,
+        "height": 1024
+      },
+      "sha256": "7b4abe357146c17b75952d5f53892c72aebac75f4a14062a6b5bee6c0bb32aec",
+      "source_svg_sha256": "8a1b89616cab8c59885953e2df7487d6efc916f1230c4d247031ff519acd44af",
+      "coverage": [
+        "来源、覆盖与新鲜度",
+        "目标态演示",
+        "只读动作",
+        "证据下钻"
+      ]
+    },
+    {
+      "id": "10_DESKTOP_1440_D11_MATURITY",
+      "path": "ui/release-completeness-v1.0/10-desktop-1440-D11-maturity.png",
+      "source_svg": "ui/release-completeness-v1.0/10-desktop-1440-D11-maturity.svg",
+      "logical_viewport": {
+        "width": 1440,
+        "height": 1024
+      },
+      "pixel_size": {
+        "width": 1440,
+        "height": 1024
+      },
+      "sha256": "110dc45299dc5e44ac0698519ff9ee7caa7e446970adb9725454103e21e7e47f",
+      "source_svg_sha256": "4ee1c05d131ca3a5d4e74c67764570650597893048d4b83b073c20e9b9429152",
+      "coverage": [
+        "成熟度与治理",
+        "目标态演示",
+        "只读动作",
+        "证据下钻"
+      ]
+    },
+    {
+      "id": "10_DESKTOP_1440_D12_SYSTEM_STATUS",
+      "path": "ui/release-completeness-v1.0/10-desktop-1440-D12-system-status.png",
+      "source_svg": "ui/release-completeness-v1.0/10-desktop-1440-D12-system-status.svg",
+      "logical_viewport": {
+        "width": 1440,
+        "height": 1024
+      },
+      "pixel_size": {
+        "width": 1440,
+        "height": 1024
+      },
+      "sha256": "ec3372b4294ac9234394aadad0e00b0297d5b2d3b7d946fa3aa08605d3bbb1e1",
+      "source_svg_sha256": "322a2a872b4737a33fe61920fc2fed410850482bc59f875aad35bf9730223d88",
+      "coverage": [
+        "系统状态与恢复",
+        "目标态演示",
+        "只读动作",
+        "证据下钻"
+      ]
+    },
+    {
+      "id": "04_TABLET_1024_PROJECT_DEGRADED",
+      "path": "ui/release-completeness-v1.0/04-tablet-1024-project-degraded.png",
+      "source_svg": "ui/release-completeness-v1.0/04-tablet-1024-project-degraded.svg",
+      "logical_viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "pixel_size": {
+        "width": 1024,
+        "height": 768
+      },
+      "sha256": "038d3507226ff5476b94cfe82b26e8cea2530926fae13f6dacb9f9374f159738",
+      "source_svg_sha256": "dbe919f989131aa7cbd0d9e8436aba4e882399d5b7dd4ec9a716ea3b25a212e0",
+      "coverage": [
+        "项目详情",
+        "degraded",
+        "七页签",
+        "来源",
+        "失败范围"
+      ]
+    },
+    {
+      "id": "20_TABLET_1024_T01_OVERVIEW",
+      "path": "ui/release-completeness-v1.0/20-tablet-1024-T01-overview.png",
+      "source_svg": "ui/release-completeness-v1.0/20-tablet-1024-T01-overview.svg",
+      "logical_viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "pixel_size": {
+        "width": 1024,
+        "height": 768
+      },
+      "sha256": "8e899e6b5c03c5b90fd80b11b5270ec5203a0a1eb3845c7190eef967b8ccd8f3",
+      "source_svg_sha256": "ebe4b19215ef16e00127ba78dce2b86abb9ee0351e309cb51f5196336ba9bab5",
+      "coverage": [
+        "总览",
+        "1024独立重排",
+        "中文折叠导航",
+        "零写"
+      ]
+    },
+    {
+      "id": "20_TABLET_1024_T03_EVENTS_ISSUES",
+      "path": "ui/release-completeness-v1.0/20-tablet-1024-T03-events-issues.png",
+      "source_svg": "ui/release-completeness-v1.0/20-tablet-1024-T03-events-issues.svg",
+      "logical_viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "pixel_size": {
+        "width": 1024,
+        "height": 768
+      },
+      "sha256": "bfb2d17c3182cee24022820e49d85c73d451df373898464551ace337f2e510c0",
+      "source_svg_sha256": "613811d9c124c7f8d2a4cf5ea6946424b95b3655c1215b3aed65c55db23d7415",
+      "coverage": [
+        "事件与问题",
+        "1024独立重排",
+        "中文折叠导航",
+        "零写"
+      ]
+    },
+    {
+      "id": "20_TABLET_1024_T04_SOURCES_SYSTEM",
+      "path": "ui/release-completeness-v1.0/20-tablet-1024-T04-sources-system.png",
+      "source_svg": "ui/release-completeness-v1.0/20-tablet-1024-T04-sources-system.svg",
+      "logical_viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "pixel_size": {
+        "width": 1024,
+        "height": 768
+      },
+      "sha256": "ef31769c43820ce9ba53ed2bb682611088b10403969306dbdfc420eebc178d73",
+      "source_svg_sha256": "9e3162b8f778660e80a2a153373073d2a6b9aac97184bc9ee6c86aaef664c3e2",
+      "coverage": [
+        "来源与系统状态",
+        "1024独立重排",
+        "中文折叠导航",
+        "零写"
+      ]
+    },
+    {
+      "id": "05_MOBILE_390_SOURCE_STALE",
+      "path": "ui/release-completeness-v1.0/05-mobile-390-source-stale.png",
+      "source_svg": "ui/release-completeness-v1.0/05-mobile-390-source-stale.svg",
+      "logical_viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "pixel_size": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "47e9a664e2872103d203abd2ea0bffb1ddd8c2788efc7b013969039b6068b3d3",
+      "source_svg_sha256": "e6ba185b24273c5bf26b3d4ba752015474fbd513973d357c0d46e916c016c6d9",
+      "coverage": [
+        "390独立重排",
+        "stale",
+        "来源新鲜度",
+        "只读恢复"
+      ]
+    },
+    {
+      "id": "06_MOBILE_320_SOURCE_STALE",
+      "path": "ui/release-completeness-v1.0/06-mobile-320-source-stale.png",
+      "source_svg": "ui/release-completeness-v1.0/06-mobile-320-source-stale.svg",
+      "logical_viewport": {
+        "width": 320,
+        "height": 720
+      },
+      "pixel_size": {
+        "width": 320,
+        "height": 720
+      },
+      "sha256": "8526e6bcf217f4b64ac0dcf4e2bb4b68589973fe5e9df397422d3d1db298837e",
+      "source_svg_sha256": "011ef3fb29d078b26d8edd422db8ed7f541e2dd3cf25793782a3a6ba6e3325a7",
+      "coverage": [
+        "320独立重排",
+        "stale",
+        "来源新鲜度",
+        "错误原因",
+        "零写"
+      ]
+    },
+    {
+      "id": "30_MOBILE_390_OVERVIEW",
+      "path": "ui/release-completeness-v1.0/30-mobile-390-overview.png",
+      "source_svg": "ui/release-completeness-v1.0/30-mobile-390-overview.svg",
+      "logical_viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "pixel_size": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "cc380bf35b78fb3db61d7ba644db4538b1af92034604b660dff40cc440f1eaec",
+      "source_svg_sha256": "f0209146f9c1e305ee7ddc0e95d5201616856aa5626a5ff24d928693dc95d7b9",
+      "coverage": [
+        "总览",
+        "390独立重排",
+        "正文至少16",
+        "触控至少44"
+      ]
+    },
+    {
+      "id": "31_MOBILE_320_OVERVIEW",
+      "path": "ui/release-completeness-v1.0/31-mobile-320-overview.png",
+      "source_svg": "ui/release-completeness-v1.0/31-mobile-320-overview.svg",
+      "logical_viewport": {
+        "width": 320,
+        "height": 720
+      },
+      "pixel_size": {
+        "width": 320,
+        "height": 720
+      },
+      "sha256": "6291fd9e89be2c040c861e8364945f012d6fdfdc96512f7cc79f9580118073e5",
+      "source_svg_sha256": "1295eceeed9910f481982e042335831657f41808114a9ea4871021db894a5557",
+      "coverage": [
+        "总览",
+        "320独立重排",
+        "正文至少16",
+        "触控至少44"
+      ]
+    },
+    {
+      "id": "30_MOBILE_390_PROJECTS",
+      "path": "ui/release-completeness-v1.0/30-mobile-390-projects.png",
+      "source_svg": "ui/release-completeness-v1.0/30-mobile-390-projects.svg",
+      "logical_viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "pixel_size": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "356eedc14561f5f73b476a462bd18868799868ae8e05165952780b90902295bd",
+      "source_svg_sha256": "d972681f8742e14b0301763a1b36d8ab8c04b110ecdb61094c7117b6fa2c2dfa",
+      "coverage": [
+        "项目与阶段",
+        "390独立重排",
+        "正文至少16",
+        "触控至少44"
+      ]
+    },
+    {
+      "id": "31_MOBILE_320_PROJECTS",
+      "path": "ui/release-completeness-v1.0/31-mobile-320-projects.png",
+      "source_svg": "ui/release-completeness-v1.0/31-mobile-320-projects.svg",
+      "logical_viewport": {
+        "width": 320,
+        "height": 720
+      },
+      "pixel_size": {
+        "width": 320,
+        "height": 720
+      },
+      "sha256": "61956781f2b7dc75c3de52bdd7ae626dfe37e5101c7d33851b3061a4dc392364",
+      "source_svg_sha256": "e2068988cbea42f26b1dd7af6f233b7b5746804318f56413620125a10293b6b6",
+      "coverage": [
+        "项目与阶段",
+        "320独立重排",
+        "正文至少16",
+        "触控至少44"
+      ]
+    },
+    {
+      "id": "30_MOBILE_390_APPROVALS",
+      "path": "ui/release-completeness-v1.0/30-mobile-390-approvals.png",
+      "source_svg": "ui/release-completeness-v1.0/30-mobile-390-approvals.svg",
+      "logical_viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "pixel_size": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "6ba6538b6b0235d1a5cba2cd79d5e9c354770abf735355412b01720b3fd141d8",
+      "source_svg_sha256": "073ef42f67575d8f825a1974ba4f0a8614d083f73aba3a4ffe8f07686a6306ca",
+      "coverage": [
+        "审批与待审",
+        "390独立重排",
+        "正文至少16",
+        "触控至少44"
+      ]
+    },
+    {
+      "id": "31_MOBILE_320_APPROVALS",
+      "path": "ui/release-completeness-v1.0/31-mobile-320-approvals.png",
+      "source_svg": "ui/release-completeness-v1.0/31-mobile-320-approvals.svg",
+      "logical_viewport": {
+        "width": 320,
+        "height": 720
+      },
+      "pixel_size": {
+        "width": 320,
+        "height": 720
+      },
+      "sha256": "45bc56203b08b4dd2de5154251fb40e63ee65476bad7c4565a268651fb2f9e93",
+      "source_svg_sha256": "6eb9bfefe8809925e89a557571e662d9bb5c2841b18be031e42bae34bb04062b",
+      "coverage": [
+        "审批与待审",
+        "320独立重排",
+        "正文至少16",
+        "触控至少44"
+      ]
+    },
+    {
+      "id": "30_MOBILE_390_ARTIFACTS",
+      "path": "ui/release-completeness-v1.0/30-mobile-390-artifacts.png",
+      "source_svg": "ui/release-completeness-v1.0/30-mobile-390-artifacts.svg",
+      "logical_viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "pixel_size": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "76531176c7633a1895b7a3fb9d5f5848834b7b7d5219f721a6d3b67154df94e8",
+      "source_svg_sha256": "6dd78d5d52240deda875e8ef3d8ba28211666ee03e7014f5f9a1194cb698a03a",
+      "coverage": [
+        "产物与哈希",
+        "390独立重排",
+        "正文至少16",
+        "触控至少44"
+      ]
+    },
+    {
+      "id": "31_MOBILE_320_ARTIFACTS",
+      "path": "ui/release-completeness-v1.0/31-mobile-320-artifacts.png",
+      "source_svg": "ui/release-completeness-v1.0/31-mobile-320-artifacts.svg",
+      "logical_viewport": {
+        "width": 320,
+        "height": 720
+      },
+      "pixel_size": {
+        "width": 320,
+        "height": 720
+      },
+      "sha256": "e945b7dcbed829d53c2fc7942367bfd9164a17b90d754ed6102e92ebb5ff4820",
+      "source_svg_sha256": "cd23527db335daac6efaec7ae09cab4398bb33620faa9cf7f0ea9ece715ce96c",
+      "coverage": [
+        "产物与哈希",
+        "320独立重排",
+        "正文至少16",
+        "触控至少44"
+      ]
+    },
+    {
+      "id": "30_MOBILE_390_EVENTS",
+      "path": "ui/release-completeness-v1.0/30-mobile-390-events.png",
+      "source_svg": "ui/release-completeness-v1.0/30-mobile-390-events.svg",
+      "logical_viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "pixel_size": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "00229f7e48deebf0e7b03b661017d7ec8ab667f4c06fac9890ef19bb97b935e4",
+      "source_svg_sha256": "c80c2fbbe102268375cb0b93381b62667f545740221ae68562ec4d729cd860b0",
+      "coverage": [
+        "事件审计",
+        "390独立重排",
+        "正文至少16",
+        "触控至少44"
+      ]
+    },
+    {
+      "id": "31_MOBILE_320_EVENTS",
+      "path": "ui/release-completeness-v1.0/31-mobile-320-events.png",
+      "source_svg": "ui/release-completeness-v1.0/31-mobile-320-events.svg",
+      "logical_viewport": {
+        "width": 320,
+        "height": 720
+      },
+      "pixel_size": {
+        "width": 320,
+        "height": 720
+      },
+      "sha256": "f0eb25478555c6331207cde416bdfa785b8fc8cbe599861d8db57acfed8da879",
+      "source_svg_sha256": "1979f0bdf944e4732a72b0d918f6791518ca3ac1bc29d536d10fbf0c857aa313",
+      "coverage": [
+        "事件审计",
+        "320独立重排",
+        "正文至少16",
+        "触控至少44"
+      ]
+    },
+    {
+      "id": "30_MOBILE_390_ISSUES",
+      "path": "ui/release-completeness-v1.0/30-mobile-390-issues.png",
+      "source_svg": "ui/release-completeness-v1.0/30-mobile-390-issues.svg",
+      "logical_viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "pixel_size": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "e514012005aa670fc9320a829715d18983cb7e4e59ca8f22515fab1391d8051b",
+      "source_svg_sha256": "fb2cff0547b00a109c75f170c21c9a770f713569b28efb3c13f6df9365048df7",
+      "coverage": [
+        "问题、Bug 与复测",
+        "390独立重排",
+        "正文至少16",
+        "触控至少44"
+      ]
+    },
+    {
+      "id": "31_MOBILE_320_ISSUES",
+      "path": "ui/release-completeness-v1.0/31-mobile-320-issues.png",
+      "source_svg": "ui/release-completeness-v1.0/31-mobile-320-issues.svg",
+      "logical_viewport": {
+        "width": 320,
+        "height": 720
+      },
+      "pixel_size": {
+        "width": 320,
+        "height": 720
+      },
+      "sha256": "bc167d89bc02856373a8b4ae6e9f9887289c2bbd6eec886ed2224f6769629ea3",
+      "source_svg_sha256": "1067bc4b3893dba06b4277b6487a206b4050643286932bcdad1cf7be3140fb69",
+      "coverage": [
+        "问题、Bug 与复测",
+        "320独立重排",
+        "正文至少16",
+        "触控至少44"
+      ]
+    },
+    {
+      "id": "30_MOBILE_390_RELEASES",
+      "path": "ui/release-completeness-v1.0/30-mobile-390-releases.png",
+      "source_svg": "ui/release-completeness-v1.0/30-mobile-390-releases.svg",
+      "logical_viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "pixel_size": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "4f53de9b979d106af8c0f9ec5f91bb4d9c57f5e6e1c630b8b7007daf00e45bfe",
+      "source_svg_sha256": "0918f781639213143c680a787975c52b29a999f009235ef85c9684ad322bc8c3",
+      "coverage": [
+        "迭代与发布",
+        "390独立重排",
+        "正文至少16",
+        "触控至少44"
+      ]
+    },
+    {
+      "id": "31_MOBILE_320_RELEASES",
+      "path": "ui/release-completeness-v1.0/31-mobile-320-releases.png",
+      "source_svg": "ui/release-completeness-v1.0/31-mobile-320-releases.svg",
+      "logical_viewport": {
+        "width": 320,
+        "height": 720
+      },
+      "pixel_size": {
+        "width": 320,
+        "height": 720
+      },
+      "sha256": "08b59565bbbd177511b382a505bf17d4774729318f28965afa47109e9bcc67c9",
+      "source_svg_sha256": "2145ca806706b2f5f5dde3e1b8ae8aab223fa4af9d909375165e5331bb34c9f5",
+      "coverage": [
+        "迭代与发布",
+        "320独立重排",
+        "正文至少16",
+        "触控至少44"
+      ]
+    },
+    {
+      "id": "07_REFLOW_720_200_PERCENT",
+      "path": "ui/release-completeness-v1.0/07-reflow-720-200-percent.png",
+      "source_svg": "ui/release-completeness-v1.0/07-reflow-720-200-percent.svg",
+      "logical_viewport": {
+        "width": 360,
+        "height": 1300,
+        "zoom": "200%"
+      },
+      "pixel_size": {
+        "width": 720,
+        "height": 2600
+      },
+      "sha256": "d5fa1f83a6d17687d1a106a2bbe767ab428fad03750eacecce509c6fc551b5bd",
+      "source_svg_sha256": "3834df6a94c61562ecc2f2907cbe9085cec89ed555bfdb67c5ba097d42095905",
+      "coverage": [
+        "200%放大",
+        "有效视口360",
+        "导航",
+        "筛选",
+        "图例",
+        "表格卡片",
+        "抽屉",
+        "2倍token",
+        "无横向滚动"
+      ]
+    }
+  ],
+  "clickable_prototype": {
+    "path": "ui/release-completeness-v1.0/prototype.html",
+    "sha256": "f256174eb0cb72ac9f146ef103e93fd8b99b236a80ffa1929f8bba2036e9ea3e",
+    "p0_route_buttons": 12,
+    "interactions": [
+      "12目的页切换",
+      "项目/时间/迭代/来源筛选真实参与结果过滤",
+      "只读搜索包含00–11固定角色并按对象类型分组显示更新时间",
+      "交互图、完整等价表与导出共享筛选结果",
+      "图表数据点可切换或再次点击取消交叉筛选",
+      "当前事实页物理排除目标态/历史/陈旧示例",
+      "清除筛选",
+      "问题到复测证据",
+      "发布到六项门禁证据",
+      "状态到中文来源错误",
+      "证据抽屉 aria-controls/expanded、切页关闭、Escape关闭并返回焦点",
+      "390/320同真相态响应式资产切换",
+      "方向键切换页面",
+      "2px焦点可见",
+      "aria-live状态播报",
+      "URL保存并恢复页签和筛选上下文",
+      "只读读取未接通播报",
+      "当前查询可见导出预览含筛选/来源/哈希/错误/生成时间/真实性标签"
+    ],
+    "runtime_service_connected": false
+  },
+  "review": {
+    "machine_validation": "passed",
+    "visual_inspection": "fixed-04 prior full 36-PNG original review; fixed-00 reviewed current 02/03 assets; independent reviewer reviewed current 02/03/D09 assets with visual P0/P1=0; final independent decision pending governance closure",
+    "independent_visual_review": "pending new independent review",
+    "stop_gate": "ui-design-review",
+    "browser_validation": "passed for current prototype/generator/checker hashes",
+    "machine_checks": [
+      "36 generated PNG signatures/dimensions/SHA256 match manifest",
+      "36 SVG SHA256, unique title/desc ids and aria-labelledby targets; every user-visible SVG text is >=12px and an 11px negative fixture is rejected",
+      "12 desktop P0 pages, 4 tablet pages, 8 paired mobile groups/16 assets",
+      "19 chart-specific authored structures, authoritative dimension mappings, expected mark cardinalities, actual unit/legend and trace fields, and one chart atlas",
+      "release-gate six-state legends use two-column three-row geometry in target summary, chart 14 and D09 release page; bounds, matrix clearance, trace-column clearance and an overflowing single-line negative fixture are checked",
+      "19 normalized source payloads are embedded; each source SHA256 is recomputed from exact source identity, mapping and rows, and a mutated-row negative assertion proves the hash changes",
+      "19 chart structural dimensions include fourfold stage encoding, artifact_count and approval badges, project x truth tracks, role x project, handoff IDs/edges, project-identified aging buckets, four approval series with non-color patterns and offset labels, exact five artifact states, full-time project-role event lanes plus result glyphs, fixed-size issue-count marks, severity/retest matrix plus three line/point-shape trend encodings, three-series burn with non-color patterns, 3x6 release gates, release plan/actual timestamp-proportional positions plus version/commit/status, 4x7 coverage, 4x3 freshness with per-cell times, evidence-discontinuous 6x3 maturity, and spaced evidence IDs/edges",
+      "19 chart visual-mark and equivalent-table field/value/status sets are bidirectionally equal",
+      "each chart includes non-placeholder unit, legend, filter, source, coverage, freshness, observation time and root_head values marked as target-state demo",
+      "not-ready/unknown renders no marks and never infers evidenced zero; empty is reserved for successful evidenced zero",
+      "target summary and D09/D10/D12 compact cards retain full source-model rows without Math.min truncation",
+      "12 desktop pages expose project/time/iteration/source/search/refresh/export controls",
+      "design system includes input, Toast and loading state",
+      "240px desktop sidebar; button/input hover/pressed/disabled/error states and motion tokens",
+      "mobile authored font floor 14px; body tokens authored at 16px; empty uses distinct success-empty token; every 320 key page includes zero-write boundary; maturity mobile views expose six dimensions plus rule/sample/missing metadata with auditable line gaps; static bottom navigation has one mapped current item",
+      "390/320 source pages share stale truth, failure reason and Chinese error name",
+      "200% authored physical font floor 28px and 720→360 complete reflow covering navigation, filters, legend, chart/table, drawer and actions",
+      "no bare internal truth-state keys in visible SVG text",
+      "four critical text/background contrast pairs >=4.5:1",
+      "prototype 12 route buttons with current-unavailable/evidenced-empty/target-demo/stale-snapshot data modes, target-demo event, issue/retest and artifact records with historical truth isolation, project/time/iteration/source/search participating after page-level eligibility, stale clear restoring static fallback, 00–11 role search grouped by object type with update time, dynamic contextual chart/equivalent-table/export sharing rows, stale error preservation, evidenced-empty source identity/status/observed_at plus separate source/query SHA256 and locked scope, same-point cross-filter toggle, URL push/replace/popstate restoration, visible export preview with filters/source/hashes/error/time/truth, mobile bottom navigation mapping for all 12 destinations, three critical drilldowns, accurate 64-character Prompt SHA256 copy, drawer and mobile More focus return, paired stale mobile assets, arrow-key navigation, 2px focus-visible, aria-live and readonly boundary structure",
+      "manifest has no local absolute path; sharp reproduction boundary declares installed dependency graph or explicit NODE_PATH candidate"
+    ],
+    "machine_boundary": "File integrity plus authored SVG/HTML structure only. The gate proves shared field/value/status sets, normalized source hashes, declared controls, font floors and static attributes; it does not by itself prove browser reflow, keyboard order, screen-reader utterances, aria-live timing or real service behavior. Root-level browser interaction and independent visual review remain separate and are never inferred from this pass."
+  },
+  "content_aggregate": {
+    "algorithm": "UTF-8 NFC relative path + TAB + lowercase SHA256 per line; sort by relative-path code point; terminal LF; SHA256 over the complete line set",
+    "file_count": 80,
+    "exclusions": [
+      "manifest.json (avoids self-reference)",
+      "browser-evidence.json (mutable root-level review evidence)",
+      "workflow review ledgers"
+    ],
+    "sha256": "a3296c16557ff224c0c456a4529544ce15e8cc6812069665164e842e87e9895c"
+  }
+}

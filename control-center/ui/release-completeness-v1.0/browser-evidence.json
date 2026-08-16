@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "reviewed_candidate": "aggregate-a3296c16557ff224c0c456a4529544ce15e8cc6812069665164e842e87e9895c",
+  "recorded_at": "2026-08-17T04:02:31+08:00",
+  "executed_at": "2026-08-17T03:38:47+08:00",
+  "evidence_source": "fixed00 在 aggregate-81f 候选上通过既有 127.0.0.1:48175 静态入口独立运行真实 Playwright/Chromium 门；本记录只在精确复核 prototype、generator、browser checker 与运行时页面资产未变且全量确定性重生通过后，将该行为证据继承到 aggregate-a329，不冒充 a329 于 03:38 已形成或已重新执行浏览器门",
+  "environment": "Playwright CLI + 本机 Chromium；通过临时 127.0.0.1 静态测试服务器打开版本化 prototype.html，不启动业务服务",
+  "base_url": "http://127.0.0.1:48175/prototype.html?v=root-legend-fix-20260817-1",
+  "execution": "Playwright CLI run-code --filename verify-prototype-browser.mjs",
+  "exit_code": 0,
+  "console": {
+    "errors": 0,
+    "warnings": 0
+  },
+  "prototype_sha256": "f256174eb0cb72ac9f146ef103e93fd8b99b236a80ffa1929f8bba2036e9ea3e",
+  "generator_sha256": "bdc385918b94b4f011ad133923853821830683ad3e094ebb4a9f7272b3141b7d",
+  "browser_checker_sha256": "d23118a3e57eb1fae8803165574a06f33534d89b4a2afca86a434b56142518ce",
+  "applicability": {
+    "executed_candidate": "aggregate-81f1430631253b67d963c3e31ff609ef7ed12f81a61204ab07f515abec510bce",
+    "carried_forward_to": "aggregate-a3296c16557ff224c0c456a4529544ce15e8cc6812069665164e842e87e9895c",
+    "reason": "a329 只修正设计说明、验证器 D09 几何覆盖、浏览器证据口径与 workflow 台账；prototype、generator、browser checker 以及确定性重生后的页面资产保持不变",
+    "browser_rerun_performed_for_a329": false
+  },
+  "cases": [
+    {"name": "统一信息架构与当前未就绪无伪标记", "status": "passed"},
+    {"name": "十二目的页索引、H1、真相和数据模式逐页一致", "status": "passed"},
+    {"name": "审批成功空态来源证据与查询范围哈希分离且范围锁定", "status": "passed"},
+    {"name": "目标态事件与问题复测真实可筛选", "status": "passed"},
+    {"name": "产物与哈希页标记使用同真相态产物且排除历史", "status": "passed"},
+    {"name": "陈旧来源保留错误且清除筛选恢复静态回退", "status": "passed"},
+    {"name": "固定角色搜索按类型分组并显示更新时间", "status": "passed"},
+    {"name": "抽屉Escape关闭并返回焦点", "status": "passed"},
+    {"name": "URL保存页签与筛选并可恢复", "status": "passed"},
+    {"name": "移动底栏按十二目的页分组显示当前项", "status": "passed"},
+    {"name": "焦点2px、移动资产与机器值换行契约", "status": "passed"}
+  ],
+  "previous_run": {
+    "status": "passed-superseded-by-gate-legend-source-change",
+    "reviewed_candidate": "aggregate-329d77884554047047796356524f3b6c2f13bb0ed75540e10dc3955eba1949ba",
+    "recorded_at": "2026-08-17T03:16:44+08:00",
+    "evidence_source": "fixed00 在当前工作树通过 127.0.0.1:48175 对当时最新 prototype 独立运行真实 Playwright/Chromium 门",
+    "base_url": "http://127.0.0.1:48175/prototype.html",
+    "prototype_sha256": "f256174eb0cb72ac9f146ef103e93fd8b99b236a80ffa1929f8bba2036e9ea3e",
+    "generator_sha256": "e63ee1104f3712e69f7604c31d837793039e8dbd94999cde5cacba9a9260a50d",
+    "browser_checker_sha256": "d23118a3e57eb1fae8803165574a06f33534d89b4a2afca86a434b56142518ce",
+    "exit_code": 0,
+    "console": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "cases": [
+      {"name": "统一信息架构与当前未就绪无伪标记", "status": "passed"},
+      {"name": "十二目的页索引、H1、真相和数据模式逐页一致", "status": "passed"},
+      {"name": "审批成功空态来源证据与查询范围哈希分离且范围锁定", "status": "passed"},
+      {"name": "目标态事件与问题复测真实可筛选", "status": "passed"},
+      {"name": "产物与哈希页标记使用同真相态产物且排除历史", "status": "passed"},
+      {"name": "陈旧来源保留错误且清除筛选恢复静态回退", "status": "passed"},
+      {"name": "固定角色搜索按类型分组并显示更新时间", "status": "passed"},
+      {"name": "抽屉Escape关闭并返回焦点", "status": "passed"},
+      {"name": "URL保存页签与筛选并可恢复", "status": "passed"},
+      {"name": "移动底栏按十二目的页分组显示当前项", "status": "passed"},
+      {"name": "焦点2px、移动资产与机器值换行契约", "status": "passed"}
+    ]
+  },
+  "historical_run": {
+    "status": "passed-superseded-by-independent-review",
+    "reviewed_candidate": "aggregate-8c6f6fc5a3a1520d49556c0439880642ba28d25a44e4c6a1752d0d1b805287b3",
+    "base_url": "http://127.0.0.1:48175/prototype.html?v=ccui-a37-01",
+    "prototype_sha256": "3c0520cd1a6386ca356445907b4a9315811d927459b2cab4d815755ac7e63ba1",
+    "generator_sha256": "486b3f60f03210cf4a87bd56ef7c66c6d293ff66eb8a5bda4720f88acb5d9db8",
+    "browser_checker_sha256": "0600bbe71889d6d75423ace278e8b432a7917c723157bcf059f329ae97da7a69",
+    "exit_code": 0,
+    "console": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "cases": 9
+  },
+  "independent_visual_review": "pending"
+}

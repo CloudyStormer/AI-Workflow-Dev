@@ -409,3 +409,86 @@ approvals:
     production_release: frozen
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: approval-20260816-control-release-completeness-ui-prompt-v1
+    gate: ui-prompt-review
+    artifact: artifact-control-release-completeness-ui-prompt-001
+    path: ui/02-release-completeness-ui-prompt.md
+    version: "1.0"
+    sha256: caafe53a51a77283c363483bf34b9dba843f5a1add8d7fd17c9d74a1d336570e
+    source_commit: e739c88b3a7024d58de177035162867f74c1f2ca
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-16T22:45:33+08:00"
+    user_reply: "今天所有当前形成产物默认通过、不要再询问，并再次要求继续。"
+    effect: "批准 CC-UI-001 Prompt，并按已批准根重排计划只授权同一固定 04 执行唯一下一工作项 CC-UI-002；不批准未来设计产物或任何下游。"
+    completed_gate: ui-prompt-review
+    next_change_id: ui-design-20260816-control-release-completeness-001
+    next_gate: ui-design-review
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+  - id: approval-20260816-control-release-completeness-ui-design-entry
+    gate: role-entry
+    role: role-ui-designer
+    role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
+    role_task_title: "04 UI/UX设计师"
+    work_item: CC-UI-002
+    change_id: ui-design-20260816-control-release-completeness-001
+    upstream_approval: approval-20260816-control-release-completeness-ui-prompt-v1
+    upstream_artifact: artifact-control-release-completeness-ui-prompt-001
+    input_path: ui/02-release-completeness-ui-prompt.md
+    input_sha256: caafe53a51a77283c363483bf34b9dba843f5a1add8d7fd17c9d74a1d336570e
+    safe_checkpoint: e739c88b3a7024d58de177035162867f74c1f2ca
+    scope: "只生成 Control Center 发布完整性版本化设计说明与 1440/1024/390/320/200% 原型或视觉状态资产，覆盖 6 导航、12 个 P0 目的页、19 类可追溯图表、真相状态、来源新鲜度、只读交互、零写、完整简中与无障碍。"
+    expected_output: artifact-control-release-completeness-ui-design-001
+    expected_path: ui/03-release-completeness-ui-design-v1.0.md
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-16T22:45:33+08:00"
+    stop_gate: ui-design-review
+    exclusions:
+      - application-database-worker-frontend-or-backend-code
+      - connector-reader-service-or-deployment
+      - overwrite-prompt-01-prompt-02-or-nine-historical-assets
+      - architecture-qa-devops-or-production-release
+      - automatic-downstream-route
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+  - id: approval-20260817-control-release-completeness-ui-design-v1
+    gate: ui-design-review
+    artifact: artifact-control-release-completeness-ui-design-001
+    path: ui/03-release-completeness-ui-design-v1.0.md
+    version: "1.0"
+    sha256: c7c2f707f76afaae78d3da4404484cd12f0fb3a4e288da06bbeb7496ae5700c3
+    visual_artifact: artifact-control-release-completeness-ui-visuals-001
+    manifest_path: ui/release-completeness-v1.0/manifest.json
+    manifest_sha256: 24cc9d208ba378f9191a86c83fe68f5be18b1a015f10ace39610405f2a53d5b1
+    aggregate_sha256: a3296c16557ff224c0c456a4529544ce15e8cc6812069665164e842e87e9895c
+    browser_evidence_sha256: 82f1bdca85aa7181e803e0ea0dea4e1d909189ec357b89b936078883d90518b0
+    independent_review:
+      decision: passed
+      p0: 0
+      p1: 0
+      p2: 0
+      reviewed_at: "2026-08-17T04:06:00+08:00"
+      evidence: "36 PNG + 36 SVG 哈希零错误；80 项 aggregate 独立复算一致；02/03/D09 三组原图与治理增量终审通过；浏览器证据继承时序可追溯。"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-17T04:08:41+08:00"
+    user_reply: "今天所有的角色任务无需再次审核，当前形成产物全部默认通过；继续。"
+    effect: "批准 CC-UI-002 并关闭四项目发布完整性 UI 序列；只授权固定 00 按已批准根计划将唯一下一工作项 XR-ARC-001 路由给固定 05。"
+    completed_gate: ui-design-review
+    next_role: role-architect
+    next_role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
+    next_work_item: XR-ARC-001
+    next_change_id: arch-20260816-four-project-shared-boundary-001
+    next_gate: architecture-review
+    exclusions:
+      - application-database-worker-frontend-or-backend-code
+      - connector-reader-service-or-data-collection
+      - DNS-CDN-certificate-nginx-cloud-or-production-change
+      - automatic-route-beyond-XR-ARC-001
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false

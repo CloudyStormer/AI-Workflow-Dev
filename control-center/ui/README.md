@@ -4,10 +4,11 @@
 
 ## 当前索引
 
-- `02-release-completeness-ui-prompt.md`：CC-UI-001 发布完整性 UI/UX Prompt v1.0，当前 `ready-for-review`，是本轮待审权威 Prompt。
-- 当前 Prompt 版本：v1.0。
-- 当前 Prompt SHA256：`caafe53a51a77283c363483bf34b9dba843f5a1add8d7fd17c9d74a1d336570e`。
-- 当前 Prompt 入场审批：`approval-20260816-control-release-completeness-ui-prompt-entry`；当前停止门：`ui-prompt-review`。
+- `02-release-completeness-ui-prompt.md`：CC-UI-001 发布完整性 UI/UX Prompt v1.0，SHA256 `caafe53a51a77283c363483bf34b9dba843f5a1add8d7fd17c9d74a1d336570e`，已由 `approval-20260816-control-release-completeness-ui-prompt-v1` 批准。
+- `03-release-completeness-ui-design-v1.0.md`：CC-UI-002 发布完整性 UI 设计说明 v1.0；独立视觉与治理终审 P0/P1/P2 均为 0，并已按超级无敌帅超超总当天默认批准规则关闭 `ui-design-review`。该批准只完成设计门，不代表真实监管后端、业务实现或生产发布完成。
+- `release-completeness-v1.0/`：版本化视觉包，含 1 张 AI 方向图、36 个 SVG、36 个等尺寸 PNG、12 路由交互规范原型、manifest、生成器、验证器和生成说明。
+- 当前设计覆盖：设计系统 1 页、桌面 P0 目的页 12 页、1024 关键页 4 页、390/320 成对关键页 8 组／16 张、19 类权威结构图表、200% 完整回流证据 1 页。
+- 当前状态为 `approved · machine passed · independent P0/P1/P2=0 · fixed00 browser 11/11 passed · console 0/0`。329d、81f 及更早候选均保留为退修历史；最终 a329 候选已完成全量业务文字 ≥12px 与 11px 负夹具、发布门禁六态图例两列三行几何与旧单行负夹具、产物页同真相目标产物／历史隔离、图16图例一致性、移动成熟度六维＋规则／样本／缺失项和 12 页移动底栏当前态映射。共享图例 renderer 实际影响目标总览、19 图图谱与 D09 发布页三组资产，独立审查已复核三组且视觉 P0/P1/P2=0；浏览器行为证据明确记录实际执行候选与精确 SHA 继承关系，不冒充重新执行。
 - `01-control-center-ui-design-prompt.md`：真实监管后端状态 UI Prompt v1.1，SHA256 `bf1614e5f8fe9d6e2d7a9457bcf8ce0c6aadecfff9ef770c067560ed37368b52`，已批准并保留为历史输入，不被新文件覆盖。
 - 被本版继承的 Prompt v1.0.1 已批准，历史 SHA256：`6b7335068417f2402c7672b9d233a4b739142116af4671b442b9ddf578c7650e`。
 - 超级无敌帅超超总已于 2026-08-04 将 9 张生成界面放入本目录；本批是 v1.0.1 范围下获批的历史视觉基线，不覆盖 v1.1 的健康／就绪、真实根仓、静态回退、来源、新鲜度、错误与降级语义。
@@ -30,4 +31,4 @@
 
 当前增量的实现冲突按“已批准发布完整性附录与真实可用产品增量 → `02-release-completeness-ui-prompt.md` → 已批准 PRD v1.0 → 已批准旧 Prompt v1.1 → 全局简体中文版规则 → 历史图片视觉参考”的顺序裁决。图片中的示例数据不得冒充实时事实，必须继续标注为演示数据或待接入；真实监管服务尚未实现。
 
-本轮固定 `04 UI/UX设计师` 只交付 CC-UI-001 Prompt，不生成设计稿、原型或图片，不修改现有代码审查结论，也不启动架构、开发或部署。Prompt 通过最多只授权已批准根计划中的唯一下一工作项 CC-UI-002；设计交付仍须独立停在 `ui-design-review`。目录或文件存在不代表设计、实现或真实服务已经完成。
+本轮固定 `04 UI/UX设计师` 在同一 CC-UI-002 内已完成“修源→全量重生→增强机器门→36 张原尺寸自查”，fixed00 对图例修复候选完成 11/11 真实浏览器验证且 console 为 0 errors / 0 warnings，独立终审最终 P0/P1/P2=0。未修改现有业务代码、数据库、读取器、连接器、服务或部署，也未改变其他代码审查／QA 主线；设计通过仍不得被表述为真实监管后端、数据接入、实现或生产发布已经完成。
