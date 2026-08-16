@@ -816,7 +816,7 @@ parallel_spaced_recall_storage_generation_aba_qa:
     path: docs/07-test-report.md
   scheduling: completed
   routed_at: "2026-08-16T22:06:20+08:00"
-  delivery_status: ready-for-review
+  delivery_status: approved
   completed_at: "2026-08-16T23:46:17+08:00"
   output:
     artifact: artifact-spaced-recall-storage-generation-aba-test-report-001
@@ -855,8 +855,13 @@ parallel_spaced_recall_storage_generation_aba_qa:
     storage: current-browser-current-device-only
     backend_cross_device_and_prd_v1_4_other_scope: not-tested-as-implemented
     production_release: frozen
-  result: ready-for-test-report-review
-  stop_gate: test-report-review
+  approval: approval-20260816-spaced-recall-storage-generation-aba-test-report-conclusion
+  approved_by: 超级无敌帅超超总
+  approved_at: "2026-08-16T23:52:18+08:00"
+  delivery_commit: eb7dde3be0e66882bf826bbdb3177208b5e0da60
+  result: approved-and-parallel-qa-branch-closed
+  completed_gate: test-report-review
+  return_target: fixed-00-root-coordinator
   preserved_top_level:
     release_scope_artifact: artifact-english-release-completeness-prd-001
     ui_design_artifact: artifact-english-release-completeness-ui-design-001
@@ -1059,18 +1064,17 @@ held_downstream_delivery:
   resumed_again_by: approval-20260806-spaced-recall-ui-prompt-and-direct-frontend
   resumed_for: chg-20260806-spaced-recall-frontend-implementation-v1-3
   resumed_at: "2026-08-06T14:23:53+08:00"
-implementation_gate: "artifact-spaced-recall-storage-generation-aba-test-report-001 已形成并停 test-report-review，15/15 范围项和 10/10 执行门通过，P0/P1/P2=0/0/0；该结论仅适用于当前浏览器/当前设备的 spaced recall generation ABA 修复，不批准后端、跨设备、PRD v1.4 其他功能、Control QA、DevOps 或生产部署，也不自动路由后续角色。"
+implementation_gate: "artifact-spaced-recall-storage-generation-aba-test-report-001 已按今日默认通过规则批准并关闭并行 QA 分支，15/15 范围项和 10/10 执行门通过，P0/P1/P2=0/0/0；该结论仅适用于当前浏览器/当前设备的 spaced recall generation ABA 修复，不批准后端、跨设备、PRD v1.4 其他功能、Control QA、DevOps 或生产部署，后续返回固定 00 的跨项目完整性队列。"
 latest_approved_artifact:
-  artifact: artifact-spaced-recall-storage-generation-aba-code-rereview-004
-  path: docs/06-code-review.md
-  version: "rereview-004"
-  sha256: b00e5b48324149f1e8b81f5bc3dee59e13cc65a8f4931a26e02445fee2bedf30
-  source_commit: 5ab9385e69b7cd8e8e18840241c6325872d0ec10
-  reviewed_source_commit: d3277734804745fa092803c84419861443f0cdc1
+  artifact: artifact-spaced-recall-storage-generation-aba-test-report-001
+  path: docs/07-test-report.md
+  version: "qa-001"
+  sha256: 90d4bebe39e61a565ad34fe2aa82d630c8402117479edf2f7b6b5ead4cdb297b
+  source_commit: eb7dde3be0e66882bf826bbdb3177208b5e0da60
   status: approved
-  approval: approval-20260816-spaced-recall-storage-generation-aba-code-rereview-conclusion
+  approval: approval-20260816-spaced-recall-storage-generation-aba-test-report-conclusion
   approved_by: 超级无敌帅超超总
-  approved_at: "2026-08-16T22:06:20+08:00"
+  approved_at: "2026-08-16T23:52:18+08:00"
 approved_product_delivery:
   artifact: artifact-spaced-recall-prd-001
   path: docs/01-prd.md

@@ -1325,7 +1325,7 @@ artifacts:
   - id: artifact-spaced-recall-storage-generation-aba-test-report-001
     type: test-report
     path: docs/07-test-report.md
-    status: ready-for-review
+    status: approved
     owner: role-qa
     role_task_id: 019fb74a-acbb-7442-ae63-5e61246a26f5
     change_id: test-20260816-spaced-recall-storage-generation-aba-frontend-fix-004
@@ -1380,9 +1380,14 @@ artifacts:
       voiceover_or_nvda_audio_session: not-run
       production_deployment: frozen
     completed_at: "2026-08-16T23:46:17+08:00"
-    result: ready-for-test-report-review
-    stop_gate: test-report-review
-    next_role: none-until-user-review
+    approval: approval-20260816-spaced-recall-storage-generation-aba-test-report-conclusion
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-16T23:52:18+08:00"
+    delivery_commit: eb7dde3be0e66882bf826bbdb3177208b5e0da60
+    result: approved-and-parallel-qa-branch-closed
+    completed_gate: test-report-review
+    return_target: fixed-00-root-coordinator
+    next_role: none
     auto_route: false
   - id: artifact-english-real-usable-product-delta-001
     type: cross-project-product-delta-reference
