@@ -975,9 +975,9 @@ artifacts:
     run_id: run-20260731-intake-001
     type: release-completeness-architecture
     path: docs/06-release-completeness-architecture.md
-    version: "1.0"
-    sha256: 4d94dfa91442d940a3e58e29519456ca29eb1f5386e1f7bbc22c51ddf767d6d6
-    status: ready-for-review
+    version: "1.1"
+    sha256: edf2ee2528e2f85066f23c21f9871d361b5c472f5b5a554961edd840cb60cf24
+    status: revised-ready-for-review
     owner: role-architect
     role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
     role_task_title: "05 架构师"
@@ -986,6 +986,9 @@ artifacts:
     authorization: approval-20260817-radar-release-architecture-entry
     route_safe_checkpoint: c3f8554019e00e7cef293375a76143e12e5d43ed
     write_baseline: 7e786f24ae16cbb13aa8d7e9028d52f2ceb12d71
+    revision_baseline: 1e7b712ae102d2385b13cd69aea073b970609a96
+    previous_version: "1.0"
+    previous_sha256: 4d94dfa91442d940a3e58e29519456ca29eb1f5386e1f7bbc22c51ddf767d6d6
     upstream:
       shared_boundary_adr:
         path: ../../architecture/03-four-project-shared-boundary-adr.md
@@ -1018,12 +1021,14 @@ artifacts:
       source_runtime_readiness_sha256: c59c0647204caa63b4ac9acc9f229dfab22c8b239b4b844a957c1e065681649f
     decisions:
       web_stack: existing-react-typescript-vite-plus-fastify-api
-      local_persistence: sqlite-wal-with-migrations-backup-and-restore
+      local_persistence: physical-live-seed-user-sqlite-with-deletion-ledger
       deployment_scaling_components: unknown-tbd-not-local-prerequisites
-      source_policy: immutable-bundle-plus-exact-endpoint-and-ssrf-gate
+      source_policy: immutable-bundle-plus-dual-mode-network-permit-and-exact-endpoint-ssrf-gate
       data_model: append-only-observation-evidence-event-revisions-and-immutable-published-snapshot
-      mode_isolation: live-and-seed-demo-hard-separated
-      runtime_sequence: policy-authorization-implementation-canary-rev-qa-environment-registration
+      mode_isolation: physical-live-seed-demo-user-databases-and-mode-specific-restore
+      runtime_sequence: independent-append-only-evidence-chain-and-atomic-environment-registration
+      refresh_cancellation: idempotent-seven-state-machine-with-publication-fence
+      partial_failure_snapshot: immutable-per-source-watermarks-and-minimum-as-of
     frozen_facts:
       approved_p0_allow_atomic_endpoints_N: 22
       AIR_END_030: pending-not-in-registry-not-counted
@@ -1037,25 +1042,52 @@ artifacts:
       - technology-modules-and-dependency-dag
       - source-policy-exact-endpoint-ssrf-fetch-parse-evidence
       - etag-rate-limit-timeout-retry-canary-and-seven-step-runtime-gate
+      - canary-runtime-dual-mode-network-permit-and-no-implicit-enablement
+      - execution-connector-canary-rev-qa-environment-registration-authority-objects
       - observation-event-evidence-immutable-snapshot-idempotency-and-migrations
+      - refresh-cancel-api-state-machine-safe-points-and-publication-fence
+      - per-source-watermarks-inheritance-exclusion-blocking-as-of-and-coverage
       - today-events-trends-open-source-source-quality-detail-refresh-and-local-preferences-apis
       - truth-states-old-snapshot-preservation-health-readiness-and-error-envelope
-      - security-observability-cost-unknown-backup-restore-and-test-matrix
-    completed_at: "2026-08-17T05:13:51+08:00"
+      - physical-mode-backup-restore-deletion-tombstone-and-anti-resurrection
+      - security-observability-cost-unknown-and-complete-future-command-matrix
+    completed_at: "2026-08-17T05:32:35+08:00"
     validation_status: passed
-    validated_at: "2026-08-17T05:14:20+08:00"
+    validated_at: "2026-08-17T05:33:10+08:00"
     validation:
       authoritative_input_sha256: 10-of-10-matched-plus-approval-sidecar-recorded
       architecture_sha256: matched
       architecture_sections: 22-numbered-sections
       seven_step_sequence: exactly-one-complete-sequence
+      dual_network_mode: canary-steps-1-to-3-limited-permit-runtime-seven-step-closure
+      authority_objects: 6-independent-append-only-with-runtime-tuple-constraints
+      refresh_cancel_states: 7-complete-with-idempotency-and-publication-fence
+      source_watermark_contract: complete-with-inherit-exclude-block-and-min-as-of
+      physical_mode_restore: live-seed-user-separated-and-tombstone-replay
+      future_validation_commands: 13-of-13-declared-not-implemented-with-owner-and-deadline
       workflow_yaml: 5-of-5-valid
-      jsonl_before_validation_event: 91-of-91-valid-and-unique
+      jsonl_before_validation_event: 94-of-94-valid-and-unique
       registry_baseline: 72-rows-35-columns-29-endpoints-22-p0-allow-unchanged
       git_boundary: passed-before-delivery
       scoped_diff: architecture-and-model-workflow-only
       sensitive_literal_scan: passed
       content_self_check: P0-0-P1-0-P2-0
+    review_history:
+      - version: "1.0"
+        sha256: 4d94dfa91442d940a3e58e29519456ca29eb1f5386e1f7bbc22c51ddf767d6d6
+        commit: 1e7b712ae102d2385b13cd69aea073b970609a96
+        decision: changes-requested
+        reviewed_at: null
+        recorded_at: "2026-08-17T05:32:35+08:00"
+        review_type: independent-content-final-review
+        severity: {P0: 1, P1: 5, P2: 2}
+        preserved: true
+      - version: "1.1"
+        sha256: edf2ee2528e2f85066f23c21f9871d361b5c472f5b5a554961edd840cb60cf24
+        decision: pending-independent-review
+        result: revised-ready-for-review
+        completed_at: "2026-08-17T05:32:35+08:00"
+        content_self_check: {P0: 0, P1: 0, P2: 0}
     known_limits:
       - backend-currently-only-gitkeep-and-all-backend-commands-not-implemented
       - no-registry-connector-runtime-data-service-frontend-or-deployment-change

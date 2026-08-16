@@ -1,11 +1,14 @@
 # AI Model Radar 发布完整性架构
 
-> - 版本：v1.0
-> - 状态：待架构审核（`architecture-review`）
+> - 版本：v1.1
+> - 状态：独立终审定向修订候选，待架构复审（`architecture-review`）
 > - 工作项：`MR-ARC-101`
 > - 变更：`arch-20260817-radar-release-completeness-001`
 > - 入场授权：`approval-20260817-radar-release-architecture-entry`
 > - 安全写入基线：`7e786f24ae16cbb13aa8d7e9028d52f2ceb12d71`
+> - 修订基线：`1e7b712ae102d2385b13cd69aea073b970609a96`
+> - 前候选：v1.0，SHA-256 `4d94dfa91442d940a3e58e29519456ca29eb1f5386e1f7bbc22c51ddf767d6d6`
+> - 独立终审：`changes-requested`，`P0=1 / P1=5 / P2=2`
 > - 产物：`artifact-radar-release-completeness-architecture-001`
 > - 责任角色：固定 `05 架构师`（`role-architect`）
 > - 生产发布：冻结
@@ -21,10 +24,24 @@
 2. 当前旧架构中的 PostgreSQL、Redis/BullMQ、对象存储只保留为**未来生产候选**，本轮均为 `UNKNOWN/TBD`，不得作为本地可用性的前置依赖。是否迁移必须由真实容量、并发、SLO 和部署事实触发新审核。
 3. 来源政策装载、精确 endpoint 网络门、采集、解析、证据、去重、排序、发布与查询分模块；单一来源失败不能清空或污染最近成功快照。
 4. `Observation` 与 `Evidence` 追加且不可变；`Event` 通过追加修订演进；`PublishedSnapshot` 发布后不可变。发布使用数据库事务和原子当前指针，不允许半成品成为当前快照。
-5. `live` 与 `seed_demo` 在存储、查询、指标、刷新历史和快照身份上硬隔离。当前真实状态是 `not_ready`：`N=22`，`runtime_enabled=false`，live connector `0`，live snapshot `0`。
-6. 来源运行启用只能遵守共享 ADR 的唯一七步序列。第七步获批环境原子登记前，任何 endpoint 的 `runtime_enabled` 必须保持 `false`。
-7. 浏览器的查询只读，不得隐式触发外部采集；刷新只允许本地 owner/受控主体显式触发，具有幂等、限频、审计与真实进度。
-8. 生产域名、API 端口、云厂商、数据库、队列、对象存储、预算、凭证、SLO、RPO/RTO 均为 `UNKNOWN/TBD`。本地前端已记录入口为 `http://127.0.0.1:4174/today`；本地 API 监听端口仍为 `UNKNOWN`。
+5. `live`、`seed_demo` 与本地偏好采用物理独立 SQLite 数据库和独立备份清单；查询、指标、刷新历史与快照身份不得跨库拼接。当前真实状态是 `not_ready`：`N=22`，`runtime_enabled=false`，live connector `0`，live snapshot `0`。
+6. 唯一网络请求前门显式区分 `canary` 与 `runtime`。canary 只允许步骤 1–3 已成立且具有精确、限时、同修订授权的请求，期间 `runtime_enabled` 恒为 `false`；runtime 请求才要求七步证据与环境登记完整闭环。
+7. 来源运行启用只能遵守共享 ADR 的唯一七步序列。运行证据使用独立追加式权威对象，并以同一 `(source_id, policy_revision, connector_revision, environment_id)` 关联；不得写回 `SourcePolicyVersion`。
+8. 浏览器的查询只读，不得隐式触发外部采集；刷新只允许本地 owner/受控主体显式触发，具有幂等、限频、审计、取消状态机与真实进度。
+9. 部分来源失败时，快照必须携带逐源水位、继承/排除依据与整体最小 `as_of`；禁止把不同已知截止点拼成“同一完整当前事实”。
+10. 生产域名、API 端口、云厂商、数据库、队列、对象存储、预算、凭证、SLO、RPO/RTO 均为 `UNKNOWN/TBD`。本地前端已记录入口为 `http://127.0.0.1:4174/today`；本地 API 监听端口仍为 `UNKNOWN`。
+
+### 1.1 v1.1 定向闭环
+
+| 终审项 | v1.1 冻结结果 |
+|---|---|
+| P0 canary/runtime 前门混淆 | 双模式唯一网络门；canary 仅步骤 1–3 + 限时同修订授权，runtime 才要求七步闭环 |
+| P1 运行证据归属 | 六类独立追加式对象 + tuple 唯一/外键约束，policy 不承载 runtime 证据 |
+| P1 刷新取消 | 明确取消 API、幂等键、七态状态机、可取消点和发布临界点 |
+| P1 部分失败快照 | 冻结逐源水位、继承/排除/阻断规则和整体 `as_of/coverage` 算法 |
+| P1 live/seed 恢复 | 物理三库、分模式备份恢复、偏好删除 tombstone 与防复活门 |
+| P1 命令完整性 | 未来验证命令、owner、最晚解决门和当前 `NOT_IMPLEMENTED` 全量列明 |
+| P2 npm/错误范围 | npm 已冻结；错误 `impact_scope.project_id` 必填 |
 
 本架构是对 `docs/04-architecture.md` 的发布完整性增量。两者冲突时，本文件在真实服务、本地持久化、运行真相态、来源七步门和发布完整性范围内优先；旧文档的历史视觉基线与静态演示约束仍保留。
 
@@ -92,6 +109,10 @@
 | `MR-INV-12` | 正式日榜为 0–20 条，不以低质候选凑数 | 发布阻断 |
 | `MR-INV-13` | 所有时间保留原值/时区与规范值，抓取时间不冒充发布时间 | 记录隔离 |
 | `MR-INV-14` | 用户访问、静态 CDN、API、origin、internal 五类地址不混用 | 部署阻断 |
+| `MR-INV-15` | canary/runtime 必须显式选一；canary 时 runtime 恒为 false，且结果不得进入 live 数据面 | P0 阻断 |
+| `MR-INV-16` | 执行授权、实现、canary、REV、QA、环境登记独立追加，tuple 同修订同环境 | 启用事务拒绝 |
+| `MR-INV-17` | live、seed_demo、本地偏好物理分库，备份与恢复不得跨 mode | `DATA_MODE_VIOLATION` |
+| `MR-INV-18` | 每份 live 快照包含不可变逐源水位，整体 as_of 不晚于任何被计入来源的 included_until | 发布阻断 |
 
 ## 5. 技术选型与演进边界
 
@@ -100,7 +121,7 @@
 | 层 | 选择 | 理由与边界 |
 |---|---|---|
 | Web 前端 | 现有 React 19 + TypeScript + Vite + React Router | 保留现有前端；新增真实 API adapter，不以静态回退冒充 live |
-| 运行时 | Node.js `>=22.12.0` + npm | 与当前前端 `engines` 和 lockfile 对齐；后端精确 patch/lockfile 由实现提交冻结 |
+| 运行时 | Node.js `>=22.12.0` + npm | npm 已冻结为包管理器；与当前前端 `engines` 和 lockfile 对齐，后端精确 patch/lockfile 由实现提交冻结 |
 | 语言 | TypeScript strict | API、Worker、领域和契约共享类型；禁止隐式 `any` |
 | HTTP | Fastify + JSON Schema/OpenAPI | 结构校验、错误映射和低开销；OpenAPI 是生成物而非手工真相源 |
 | 持久化 | SQLite + WAL + foreign keys | 满足本地单机真实持久化、事务、迁移与备份；数据库文件不进 Git |
@@ -119,7 +140,7 @@ SQLite 选择只冻结**本地完整纵切**。当且仅当并发写、数据规
 
 - 本文定义的命令是后续实现必须满足的接口，不是已存在命令。
 - 当前后端 `dev/build/test/lint` 结论均为 `NOT_IMPLEMENTED`，不能声称通过。
-- API 端口、SQLite 路径、Node 精确 patch 和后端依赖锁定均为 `UNKNOWN`。
+- API 端口、SQLite 路径、Node 精确 patch 和后端依赖锁定均为 `UNKNOWN`；包管理器已确定为 npm，不属于未知项。
 
 未来实现必须提供以下稳定入口：
 
@@ -271,19 +292,31 @@ Bundle 生成本身不构成执行授权；`approval_id`、registry SHA、commit
 
 ### 7.2 唯一启用序列
 
-每个精确 endpoint、实现 revision 和目标环境只能按以下顺序推进：
+每个精确 endpoint、实现 revision 和目标环境只能按以下顺序推进；证据关联键统一为 `runtime_tuple = (source_id, policy_revision, connector_revision, environment_id)`：
 
 1. **policy approved**：精确 endpoint 已在批准 registry；`conditional` 条件全有证据，`manual_only/disabled` 不进入自动序列。
-2. **separate execution authorization**：针对 source_id、精确 endpoint、用途和环境取得单独执行授权。
-3. **implementation**：连接器实现形成不可变 revision/SHA，kill switch、限频、版权、robots、登录、署名与保留策略可验证；仍为 `runtime_enabled=false`。
-4. **canary**：仅在授权的隔离范围运行并通过；canary 不是 live 调度，仍为 `false`。
-5. **same revision `.REV`**：同一 policy、endpoint、实现 revision 与 canary 证据的独立审查必须 `P0=0/P1=0`。
-6. **same revision `.QA`**：同一不可变证据和目标环境必须 `PASS`。
-7. **approved environment registration**：前六步同修订完整后，才可在获批环境原子登记 `runtime_enabled=true`。
+2. **separate execution authorization**：形成追加式 `ExecutionAuthorization`，针对精确 source_id、endpoint hash、用途、环境、policy revision、时间窗和请求/字节预算授权；研究批准不能代替。
+3. **implementation**：形成追加式 `ConnectorRevision`，以不可变 artifact SHA 绑定 source_id、policy revision、connector revision 与安全控制；仍为 `runtime_enabled=false`。
+4. **canary**：仅在步骤 1–3 成立且 `ExecutionAuthorization.mode=canary`、未过期、tuple 同修订时运行；结果形成追加式 `CanaryEvidence`。canary 不是 live 调度，`runtime_enabled` 必须仍为 `false`。
+5. **same revision `.REV`**：形成 `RevReviewEvidence`，绑定相同 tuple 与 CanaryEvidence；独立审查必须 `P0=0/P1=0`。
+6. **same revision `.QA`**：形成 `QaEvidence`，绑定相同 tuple、CanaryEvidence 与 RevReviewEvidence，结论必须 `PASS`。
+7. **approved environment registration**：前六步同修订完整后，才可事务内追加 `EnvironmentRuntimeRegistration(enabled=true)`；该对象是运行启用的唯一权威来源。
 
-任何缺步、乱序、revision 不一致、P0/P1 非零、QA 非 PASS、条件变化或证据失效，都必须返回 owner 修复并保持/恢复 `false`。步骤 7 不授权其他 endpoint、其他环境或生产发布。
+步骤 2 的 ExecutionAuthorization 必须预留目标 `connector_revision` 标识；步骤 3 只能以同一标识和实际 artifact SHA 完成 ConnectorRevision。实现产生不同 revision 时原授权失效，必须重新取得授权，禁止授权“任意未来版本”。
 
-### 7.3 当前门状态
+任何缺步、乱序、revision/environment 不一致、P0/P1 非零、QA 非 PASS、授权过期、条件变化或证据失效，都必须返回 owner 修复并保持/恢复 `false`。步骤 7 不授权其他 endpoint、其他环境或生产发布。步骤 4 的 canary 成功只产生审查证据，不得隐式创建 EnvironmentRuntimeRegistration，也不得把同一次 FetchRun 改标为 runtime。
+
+### 7.3 原子环境登记
+
+`runtime_enabled` 不是 `SourcePolicyVersion` 字段，也不能由配置文件默认值推导。环境登记事务必须：
+
+1. 以完整 `runtime_tuple` 锁定 SourcePolicyVersion、ExecutionAuthorization、ConnectorRevision、CanaryEvidence、RevReviewEvidence 与 QaEvidence。
+2. 校验所有外键对象未撤销、未过期、SHA 完整，REV 为 `P0=0/P1=0`、QA 为 `PASS`，环境与 tuple 完全一致。
+3. 校验该 `(source_id, environment_id)` 没有另一条 active registration；以唯一约束和 CAS revision 防止并发双启用。
+4. 在同一数据库事务追加 EnvironmentRuntimeRegistration 与审计记录；只有事务提交后 runtime 请求前门才可读到 `enabled=true`。
+5. 任一条件变化时追加 `enabled=false/revoked` 的后继登记；不得删除历史，也不得回写 policy 对象。
+
+### 7.4 当前门状态
 
 | 项 | 当前事实 | 架构行为 |
 |---|---|---|
@@ -295,19 +328,36 @@ Bundle 生成本身不构成执行授权；`approval_id`、registry SHA、commit
 
 ## 8. 精确 endpoint、SSRF 与取得协议
 
-### 8.1 请求前门
+### 8.1 唯一网络请求前门：canary/runtime 双模式
 
-连接器只接受 `source_id + policy_revision`，不得接受前端或外部记录提供的任意 URL。请求前必须：
+连接器请求必须携带不可变 `NetworkRequestPermit`，其中显式包含 `request_mode=canary | runtime`、完整 `runtime_tuple`、endpoint hash、有效期和预算，并使用互斥权威引用：canary 填 `canary_authorization_id`、runtime 填 `runtime_registration_id`；不得同时填写或省略。不得从调用路径、环境变量或 `runtime_enabled` 猜测模式，也不得接受前端或外部记录提供的任意 URL。
 
-1. 从已装载 bundle 解析唯一 endpoint，校验 `runtime_enabled=true` 及七步证据。
-2. 仅允许 HTTPS；HTTP 例外必须另审，当前无例外。
-3. 主机、有效端口、路径和允许 query key 精确匹配。URL 用户名、密码、片段、未批准端口和 Unicode 混淆主机全部拒绝。
-4. DNS 解析后拒绝环回、私网、链路本地、组播、保留网段、云元数据、内部 DNS 与 Unix socket；IPv4/IPv6 同验。
-5. 连接时将目标约束到已验证地址；DNS 变化、CNAME 链或解析结果变化时重新执行完整门，防止 DNS rebinding。
-6. 每次 3xx 都对新 URL 从第一步重新校验；跨未批准 host/path、降级到 HTTP、循环或超过最大跳数即停止。
-7. 校验 MIME、Content-Length 和流式实际字节上限；压缩后/解压后双上限，防压缩炸弹。
+**canary 模式前置：**
+
+1. 步骤 1 policy approved 已成立，且 endpoint 精确存在于对应批准 bundle；`manual_only/disabled` 不得 canary，`conditional` 仅在条件证据已纳入同一 policy revision 时允许。
+2. 步骤 2 的 `ExecutionAuthorization(mode=canary)` 必须绑定相同 source_id、policy revision、connector revision、environment_id、endpoint hash，具有明确 `not_before/expires_at`、最大请求数、最大字节、允许方法与可停止责任人。
+3. 步骤 3 的 ConnectorRevision 必须存在且 artifact SHA 匹配；permit 签发时和每次请求前均强制断言 `runtime_enabled=false`、没有 active EnvironmentRuntimeRegistration。
+4. canary 不进入 scheduler，不写 live Observation/Event/Snapshot/CurrentPointer，不计 live 成功率；只追加最小 CanaryEvidence。canary permit 到期、预算耗尽、授权撤销或 tuple 变化即拒绝。
+
+**runtime 模式前置：**
+
+1. 相同 runtime_tuple 的步骤 1–7 必须全部闭环，`runtime_registration_id` 必须引用 active `EnvironmentRuntimeRegistration(enabled=true)`；前置 policy、connector、canary、REV、QA 证据均未撤销或失效。步骤 2 的限时 canary ExecutionAuthorization 只授权 canary，不得被 runtime permit 复用为网络权威。
+2. FetchRun 从创建时即固定 `request_mode=runtime`；canary run/evidence 不可重标、复制或提升为 runtime Observation。
+
+**两种模式共用且不可绕过的网络安全门：**
+
+1. 仅允许 HTTPS；HTTP 例外必须另审，当前无例外。
+2. 主机、有效端口、路径和允许 query key 精确匹配。URL 用户名、密码、片段、未批准端口和 Unicode 混淆主机全部拒绝。
+3. DNS 解析后拒绝环回、私网、链路本地、组播、保留网段、云元数据、内部 DNS 与 Unix socket；IPv4/IPv6 同验。
+4. 连接时将目标约束到已验证地址；DNS 变化、CNAME 链或解析结果变化时重新执行完整门，防止 DNS rebinding。
+5. 每次 3xx 都按原模式重新校验完整 permit、exact endpoint 与网络门；跨未批准 host/path、降级到 HTTP、循环或超过最大跳数即停止。
+6. 校验 MIME、Content-Length 和流式实际字节上限；压缩前/解压后双上限，防压缩炸弹。
+
+canary 结果无论成功与否都不能隐式开启 runtime；唯一开启动作仍是步骤 7 的原子 EnvironmentRuntimeRegistration。任何前门失败均不得发出网络字节。
 
 ### 8.2 条件请求、超时、限流与重试
+
+以下控制对 canary 与 runtime 两种模式完全共用；canary 的限时授权与请求/字节预算是在同一安全门之上的更严格上限，不能放宽 endpoint policy。
 
 - 只对批准的幂等 GET 使用 `ETag/If-None-Match` 或 `Last-Modified/If-Modified-Since`；无可靠验证器时使用允许字段规范化哈希。
 - `304` 只表示端点相对验证器未变，不表示事实已核验、快照已发布或来源 live。
@@ -334,9 +384,16 @@ Bundle 生成本身不构成执行授权；`approval_id`、registry SHA、commit
 
 | 对象 | 关键字段 | 不变量 |
 |---|---|---|
-| `SourcePolicyVersion` | source_id, bundle_sha, policy_revision, four-state policy, runtime registration evidence | 政策与 runtime 分轴，版本不可改写 |
-| `RefreshRequest` | id, idempotency_key, actor, scope, requested_at, status | 重复 key 返回同一逻辑任务 |
-| `FetchRun` | run_id, source_id, policy_revision, connector_revision, attempt, validators, times, outcome | 同一租约只一个 owner，运行结果可追溯 |
+| `SourcePolicyVersion` | source_id, bundle_sha, policy_revision, four-state policy, exact endpoint/rights/retention | 只承载政策；版本不可改写，禁止写入执行或运行证据 |
+| `ExecutionAuthorization` | authorization_id, runtime_tuple, mode, endpoint_hash, not_before/expires_at, request/byte budget, approved_by | 独立追加；精确、限时、同修订，撤销追加新记录 |
+| `ConnectorRevision` | runtime_tuple, artifact_path, artifact_sha256, security_controls_sha256, created_at | artifact SHA 不可变；tuple 唯一关联 policy/environment |
+| `CanaryEvidence` | evidence_id, runtime_tuple, authorization_id, run_ids, limits, started/finished, result, evidence_sha256 | 只来自 canary 模式；不得进入 live 数据面或开启 runtime |
+| `RevReviewEvidence` | review_id, runtime_tuple, canary_evidence_id, reviewer, P0/P1/P2, decision, evidence_sha256 | 启用候选必须 P0=0/P1=0 且同 tuple |
+| `QaEvidence` | qa_id, runtime_tuple, canary_evidence_id, rev_review_id, environment_fingerprint, result, evidence_sha256 | 启用候选必须 PASS 且同环境同修订 |
+| `EnvironmentRuntimeRegistration` | registration_id, runtime_tuple, execution/canary/rev/qa refs, enabled, revision, registered_at/revoked_at | 唯一 runtime 权威；事务追加，禁止回写 policy |
+| `RefreshRequest` | id, idempotency_key, actor, scope, requested_at, status, publication_fence_at | 重复 key 返回同一逻辑任务；取消受发布临界点约束 |
+| `CancelCommand` | cancel_id, run_id, idempotency_key, actor, requested_at, result, observed_run_revision | 同一 key 永远返回同一取消结果，不重复产生副作用 |
+| `FetchRun` | run_id, request_mode, runtime_tuple, attempt, validators, times, outcome | 模式创建后不可变；同一租约只一个 owner |
 | `Observation` | id, source_id, canonical_url, source times, obtained/fetched times, allowed fields, fingerprint | 追加且不可变；外部正文不入主表 |
 | `Evidence` | id, observation_id, root_id, role, relation, independent_party, hash | 不可变；转载共用 evidence_root |
 | `EventIdentity` | event_id, stable event key, created_at | 身份不因标题改写 |
@@ -345,13 +402,40 @@ Bundle 生成本身不构成执行授权；`approval_id`、registry SHA、commit
 | `RankingResult` | event revision, rule version, components, penalties, total, hard gate | 可复算；硬门失败不发布 |
 | `PublishedSnapshot` | snapshot_id, mode, schema/rule/policy revisions, as_of, published_at, truth metadata, manifest hash | 发布后不可变 |
 | `SnapshotItem` | snapshot_id, event_id, event_revision, rank, section | 固定引用，不跟随事件后续修改 |
+| `SnapshotSourceWatermark` | snapshot_id, source_id, attempted, succeeded, included_until, last_success, error, policy/connector revisions, inclusion_mode | 每个范围来源一行，不可变且进入 manifest hash |
 | `CurrentSnapshotPointer` | mode, snapshot_id, revision | 事务内 CAS/原子切换 |
 | `Preference/Interaction` | local subject, revision, event, type, value, times | 不修改客观证据/重要性；可撤销 |
+| `DeletionTombstone` | tombstone_id, subject_scope, delete_through_revision, deletion_generation, deleted_at, retain_until | 防旧备份恢复复活；独立追加账本优先于备份 |
 | `AuditRecord` | actor, action, target, before/after refs, request_id, time | 不含秘密或外部正文 |
 
-### 9.2 模式硬隔离
+### 9.2 运行证据约束
 
-每张业务表必须有受 CHECK/外键保护的 `data_mode = live | seed_demo`，或使用物理独立 SQLite 文件。实现必须选择一种并通过负向测试；禁止只依赖 API 参数过滤。
+六类运行证据与 policy 严格分表/分对象；所有对象都追加式、内容寻址且带撤销后继，不允许原地改结论。
+
+| 约束 | 冻结规则 |
+|---|---|
+| tuple | `runtime_tuple=(source_id, policy_revision, connector_revision, environment_id)` 四项均非空 |
+| policy FK | tuple 的 `(source_id, policy_revision)` 必须引用唯一 SourcePolicyVersion |
+| authorization unique | `authorization_id` 唯一；同 tuple + mode + authorization revision 唯一，时间窗与预算必填 |
+| connector unique | `(source_id, policy_revision, connector_revision, environment_id)` 唯一，artifact SHA 与安全控制 SHA 必填 |
+| canary FK | CanaryEvidence 必须引用同 tuple 的 active canary ExecutionAuthorization 与 ConnectorRevision |
+| REV FK | RevReviewEvidence 必须引用同 tuple 的 CanaryEvidence；用于启用的结论只能是 P0=0/P1=0 |
+| QA FK | QaEvidence 必须引用同 tuple 的 CanaryEvidence 与 RevReviewEvidence，environment fingerprint 相同且结果 PASS |
+| active registration | `(source_id, environment_id)` 最多一条 active `enabled=true`；registration 逐项 FK 到同 tuple 的五类前置证据 |
+| atomicity | 环境登记、active 唯一约束、CAS revision 与 AuditRecord 同事务提交，任一失败整笔回滚 |
+
+撤销 authorization、policy、connector、canary、REV 或 QA 时，必须追加对应 revoked/superseded 事实和 `EnvironmentRuntimeRegistration(enabled=false)` 后继；runtime 前门每次请求都读当前 active 链，不能只在进程启动时缓存一次。
+
+### 9.3 模式硬隔离：物理三库
+
+v1.1 冻结物理隔离，不再把“逻辑字段或物理文件二选一”留给实现：
+
+- `radar-live.sqlite`：只含 runtime 运行、真实 Observation/Event/Evidence/PublishedSnapshot 与逐源水位。
+- `radar-seed-demo.sqlite`：只含 seed_demo 数据、演示刷新历史和 seed current pointer。
+- `radar-local-user.sqlite`：只含本地单用户偏好、收藏、已读、不相关、纠错候选与 revision。
+- `deletion-ledger.sqlite`：只追加删除 tombstone 与 generation；不随前三个业务备份回滚。
+
+Repository 在构造时按 mode 绑定唯一数据库句柄；一个事务、查询或备份任务只能持有一个业务 mode，禁止 attach live+seed、跨库 JOIN 或运行时复制。API mode 路由只选择 repository，不能靠 WHERE `data_mode` 过滤来证明隔离。
 
 - live observation 只能由七步已启用来源的真实 FetchRun 产生。
 - seed_demo 使用独立 source IDs、run IDs、event IDs、snapshot IDs、指标和刷新历史。
@@ -359,7 +443,7 @@ Bundle 生成本身不构成执行授权；`approval_id`、registry SHA、commit
 - 趋势、来源覆盖、成功率、质量和完成度按 mode 分区，seed 对 live 指标贡献恒为 0。
 - 导入 seed 不能写 live 表；复制 seed 为 live 的管理能力不设计、不实现。
 
-### 9.3 幂等与并发
+### 9.4 幂等与并发
 
 - Refresh：客户端 `Idempotency-Key` + local subject + normalized scope 建唯一约束；重复请求返回原 run。
 - Schedule：`source_id + policy_revision + schedule_window` 唯一；租约含 owner、expiry、heartbeat 和 CAS revision。
@@ -368,7 +452,7 @@ Bundle 生成本身不构成执行授权；`approval_id`、registry SHA、commit
 - Publish：`candidate_manifest_hash + rule_revision + policy_bundle_sha + data_mode` 唯一；事务写 snapshot/items 后 CAS current pointer。
 - Preference：`If-Match/revision` 或等价 CAS；冲突返回 `409 REVISION_CONFLICT`，不以 last-write-wins 静默覆盖。
 
-### 9.4 SQLite 事务与迁移
+### 9.5 SQLite 事务与迁移
 
 - 启用 foreign keys；WAL、busy timeout 和同步级别由本地基准冻结，当前值 `UNKNOWN`。
 - 迁移为仅前进、编号、校验和、事务化脚本；应用启动先读取 schema version，不支持时 readiness 失败，不自动破坏性迁移。
@@ -376,13 +460,22 @@ Bundle 生成本身不构成执行授权；`approval_id`、registry SHA、commit
 - 每次发布 transaction 同时校验 event revision、证据、硬门、0–20、mode 与 current pointer revision。
 - 时区存储为 UTC 时间戳 + 原始时间/时区字段；产品日界使用 `Asia/Shanghai`，不得使用宿主机本地日期作为权威。
 
-### 9.5 备份与恢复
+### 9.6 分模式备份、恢复与删除防复活
 
 - 使用 SQLite online backup API 或经过验证的一致快照，不在写入时直接复制单个数据库文件。
-- 备份包含数据库、schema/migration manifest、policy/rule/parser revision 清单和 SHA-256；不包含凭证、临时正文缓存或 seed 与 live 混合包。
-- 恢复在新路径完成：校验哈希 → 运行 integrity/foreign-key check → 校验迁移版本 → 查询 last successful snapshot → 再原子替换本地运行目标。
+- 每个备份包只能对应 `live`、`seed_demo` 或 `local_user` 一种 mode，manifest 必须含 `backup_mode, source_database_id, schema_version, migration_manifest_sha256, policy/rule/parser revisions, created_at, expires_at, database_sha256`；缺失或 mode 不匹配立即拒绝。
+- `live` 与 `seed_demo` 使用不同目录、文件前缀和恢复 allowlist；恢复器要求请求 mode、manifest mode 与目标数据库三者一致，禁止跨 mode 导入、合并或“缺数据时回退”。
+- 恢复在新路径完成：校验 manifest/数据库哈希 → 校验 mode → 运行 integrity/foreign-key check → 校验迁移版本 → 查询对应 mode 的 last successful snapshot → 再原子替换目标；live 恢复不得打开 seed 备份。
 - 恢复演练必须证明事件身份、证据关系、去重决定、快照不可变性和 current pointer 一致，且重放 refresh 不产生重复事件。
-- 本地保留数量、RPO、RTO、异地备份和生产加密方案均为 `UNKNOWN`；未冻结前阻断生产承诺。
+- 本地业务备份保留冻结为最多 `30` 个自然日且不超过 `30` 份；达到任一上限先删除最旧备份。RPO、RTO、异地备份和生产加密仍为 `UNKNOWN`，未冻结前阻断生产承诺。
+
+本地偏好删除使用防复活两阶段：
+
+1. 先在 `deletion-ledger.sqlite` 追加并 fsync DeletionTombstone，包含 subject scope、`delete_through_revision`、单调 `deletion_generation`、deleted_at 与 retain_until。
+2. 再事务删除/匿名化 `radar-local-user.sqlite` 中不高于该 revision 的活动记录并写完成审计；崩溃重启会按 tombstone 重放，不能跳过。
+3. 删除发生前创建的 local_user 备份立即标记 `tombstone-required`，在本机 `24h` 内物理清除；即使尚未清除也不得直接恢复为可用库。
+4. local_user 恢复必须加载当前 deletion ledger，拒绝 `deletion_generation` 倒退，并在 readiness 之前重放全部有效 tombstone、验证被删记录数为 0；ledger 缺失/损坏则恢复失败。
+5. tombstone 至少保留到所有受影响备份到期/清除后再加 `31` 天；删除 tombstone 本身需要新的数据权利审核，不能随用户库备份回滚。
 
 ## 10. 发布流水线、调度与失败恢复
 
@@ -409,20 +502,61 @@ freeze candidate cut-off and revisions
   -> apply formal-event hard gates
   -> rank with versioned formula
   -> enforce 0..20 and publisher diversity constraints
+  -> freeze every source watermark and coverage calculation
   -> build immutable manifest and content hash
   -> transactionally persist snapshot/items
   -> compare-and-swap current live pointer
   -> expose new snapshot; old remains immutable
 ```
 
-若任何发布硬门失败，事务回滚，不改变 current pointer。
+若任何发布硬门或来源水位门失败，事务回滚，不改变 current pointer。
 
-### 10.3 失败矩阵
+### 10.3 部分来源失败、逐源水位与整体 as_of
+
+每次 RefreshRun 开始时冻结 `target_as_of`、runtime source set、policy bundle SHA、coverage policy revision 和完整 runtime tuple；运行期间新增、撤销或换 revision 的来源不得混入本轮。每个范围来源必须在不可变快照 manifest 中写一条 `SnapshotSourceWatermark`：
+
+```text
+SnapshotSourceWatermark {
+  source_id
+  attempted: boolean
+  attempted_at: timestamp | null
+  succeeded: boolean
+  succeeded_at: timestamp | null
+  included_until: timestamp | null
+  last_success_at: timestamp | null
+  error: safe_error_code | null
+  policy_revision
+  connector_revision
+  environment_id
+  inclusion_mode: current_success | inherited_last_success | excluded | blocked
+  inherited_from_snapshot_id: string | null
+}
+```
+
+`included_until` 表示该来源已完成取得、解析与证据门后可证明覆盖到的观察窗口上界，不是最后一条事件的发布时间，也不得晚于本轮 `target_as_of`。组成规则唯一如下：
+
+1. **本轮成功**：`attempted=true/succeeded=true/inclusion_mode=current_success`；使用本轮与既有不晚于 target_as_of 的有效事实，`included_until` 取该来源本轮已验证覆盖上界，`last_success_at=succeeded_at`。
+2. **失败但可继承**：`attempted=true/succeeded=false/inclusion_mode=inherited_last_success`；只在 source_id、policy_revision、connector_revision、environment_id 与上一成功水位完全一致，授权/policy/权利未撤销，Evidence 未撤回，且上一 `last_success_at` 未超过该来源 stale 上限时允许。只能继承至上一 `included_until`，记录原 snapshot_id 与本轮 error，禁止把本轮其他来源时间贴给它。
+3. **必须排除**：tuple/revision 改变、授权/条款/rights 撤销、证据损坏或撤回、超过 stale 上限、没有上一成功水位时，`inclusion_mode=excluded`、`included_until=null`；不得换用二手源、seed 或另一来源填洞。
+4. **必须阻断发布**：被 coverage policy 标为 required 的来源无法计入，或 `included/runtime_enabled` 低于已批准最小覆盖率，或 coverage policy revision 本身为 `UNKNOWN` 时，`inclusion_mode=blocked`；本轮不发布，current pointer 保持上一快照。
+5. **允许降级发布**：只有 coverage policy 明确允许剩余来源集合时才可发布；truth 必须是 `degraded`，逐源失败/继承/排除完整暴露，不能写成完整 live。
+
+整体字段计算：
+
+- `coverage.approved=22` 保持政策计数；`runtime_enabled` 是本轮冻结运行源数。
+- `attempted/succeeded/current_success/inherited/excluded/blocked/included` 均直接计数水位行，未知不填 0。
+- `coverage.ratio=included/runtime_enabled`；当 runtime_enabled=0 时 ratio 为 `null`，不是 0%。
+- 新快照 `as_of=min(included_until)`，范围是所有 `current_success` 与 `inherited_last_success` 来源；任一计入来源的 included_until 更早，整体 as_of 必须随之回退。
+- `published_at` 只表示不可变快照发布时刻，不能覆盖 as_of；每条事件仍保留自己的 source_published_at/effective_at/obtained_at。
+
+因此，不同水位可以在一份**显式 degraded 的集合**中被引用，但只能以最早共同水位作为整体 as_of，并展示逐源水位与 coverage；绝不允许把不同已知截止点标成同一“当前完整事实”。
+
+### 10.4 失败矩阵
 
 | 场景 | 真相态 | 读取行为 | 恢复 |
 |---|---|---|---|
 | 无执行授权/实现/首快照 | `not_ready` | 无 live 数据；可显式访问 seed_demo | 完成七步门与首个真实发布 |
-| 单源失败、仍有足够真实子集 | `degraded` | 返回最近/本轮可用数据并标影响范围 | 来源级有限重试/修复 |
+| 单源失败、coverage policy 允许降级 | `degraded` | 按逐源水位继承/排除，整体 as_of 取最早 included_until | 来源级有限重试/修复 |
 | 全源失败、有旧真实快照 | `stale` 或 `degraded` | 返回旧 snapshot_id、真实 as_of/last_success | 修复后新发布；不混 seed |
 | 全源失败、无旧快照 | `failed` 或 `not_ready` | 无假空榜/假 live | 修复依赖并首发 |
 | 查询成功且明确范围内 0 条 | `empty` | 返回空数组 + query scope/as_of/coverage | 无需凑数 |
@@ -464,7 +598,8 @@ RadarEnvelope<T> {
   observed_at: timestamp
   last_success_at: timestamp | null
   freshness: { status, age_seconds?, policy_id? }
-  coverage: { approved, runtime_enabled, attempted?, succeeded?, ratio? }
+  coverage: { approved, runtime_enabled, attempted?, succeeded?, current_success?, inherited?, excluded?, blocked?, included?, ratio? }
+  source_watermarks: SnapshotSourceWatermark[]
   data: T | null
   errors: RadarError[]
 }
@@ -479,7 +614,7 @@ RadarError {
   schema_version
   code
   message_zh_cn
-  impact_scope: { capability?, source_id?, run_id?, event_id?, field? }
+  impact_scope: { project_id: "ai-model-radar", capability?, source_id?, run_id?, event_id?, field? }
   retryable
   occurred_at
   request_id
@@ -500,6 +635,8 @@ RadarError {
 |---|---|---|
 | `SOURCE_NOT_AUTHORIZED` | policy/执行授权不满足 | fail closed |
 | `SOURCE_RUNTIME_SEQUENCE_VIOLATION` | 七步缺失、乱序或 revision 不同 | 保持/恢复 false |
+| `CANARY_PERMIT_INVALID` | canary 步骤 1–3、时间窗、tuple 或预算不成立 | 不发出网络请求，runtime 保持 false |
+| `REQUEST_MODE_VIOLATION` | canary/runtime 模式缺失、推断或跨模式重标 | P0 阻断 |
 | `SOURCE_ENDPOINT_NOT_ALLOWED` | URL 不匹配精确 endpoint | 阻断请求 |
 | `SOURCE_SSRF_BLOCKED` | DNS/IP/端口/重定向违反网络门 | 阻断并告警 |
 | `SOURCE_TERMS_OR_ROBOTS_CHANGED` | 条款/robots/Host 变化 | 熔断、等待复核 |
@@ -514,8 +651,9 @@ RadarError {
 | `SNAPSHOT_STALE` | 快照超过策略 | 标 stale |
 | `SNAPSHOT_PUBLISH_FAILED` | 原子发布失败 | current pointer 不变 |
 | `DATA_MODE_VIOLATION` | live/seed 混合尝试 | P0 阻断 |
+| `REFRESH_CANCEL_TOO_LATE` | 取消到达时已越过 publication fence | 返回已发布/进行中真实状态，不回滚指针 |
 
-错误不得包含 Token、Cookie、账号、外部正文、完整 URL query、内部堆栈、SQL、数据库路径或本机私密绝对路径。
+`impact_scope.project_id` 在所有错误中必填且固定为 `ai-model-radar`；其余 scope 细化到最小受影响能力/来源/运行/事件/字段。错误不得包含 Token、Cookie、账号、外部正文、完整 URL query、内部堆栈、SQL、数据库路径或本机私密绝对路径。
 
 ## 12. API 契约
 
@@ -548,7 +686,45 @@ RadarError {
 - 并发同 scope：返回“共用既有任务”及其 ID，不重复入队。
 - 限频/预算/熔断：`429/409` + 安全错误信封，不绕过策略。
 
-取消只允许取消未发布的调度/刷新工作，不删除已写 Observation 或历史；是否提供取消端点由任务拆解冻结，当前 `UNKNOWN`。
+取消契约在本架构冻结，不再留为 `UNKNOWN`：
+
+`POST /radar/refresh-runs/{run_id}/cancel` 仅允许原 refresh 主体或更高受控主体，必须提供独立 `Idempotency-Key`。服务创建/读取 `CancelCommand(run_id, key)`；同一 run + key 的任意重试都返回第一次保存的 HTTP 结果、run revision 与 cancel result，不重复写取消信号。
+
+状态机：
+
+```mermaid
+stateDiagram-v2
+    [*] --> queued
+    queued --> running: worker lease
+    queued --> cancelled: cancel before lease
+    running --> cancel_requested: cancel accepted before fence
+    cancel_requested --> cancelled: worker reaches safe cancel point
+    running --> too_late: cancel after publication fence
+    cancel_requested --> too_late: fence won concurrent CAS
+    too_late --> completed: publish transaction commits
+    too_late --> failed: publish transaction rolls back/fails
+    running --> completed
+    running --> failed
+    cancelled --> [*]
+    completed --> [*]
+    failed --> [*]
+```
+
+对外状态枚举固定为 `queued | running | cancel-requested | cancelled | too-late | completed | failed`；存储可用下划线，API 必须映射为上述连字符形式。
+
+| 当前状态 | 首次取消结果 | 副作用 |
+|---|---|---|
+| `queued` | `202 cancelled` | 原子撤销租约候选，不发网络请求 |
+| `running` 且未越 fence | `202 cancel-requested` | 写 cancel flag，等待安全取消点 |
+| `cancel-requested` | `200 cancel-requested` | 不重复发信号；新 key 也返回当前事实 |
+| 已越 publication fence | `409 too-late` + `REFRESH_CANCEL_TOO_LATE` | 不打断发布事务，随后进入 completed/failed |
+| `cancelled` | `200 cancelled` | 终态，无新副作用 |
+| `completed` | `200 completed` + `cancel_applied=false` | 不回滚已发布快照 |
+| `failed` | `200 failed` + `cancel_applied=false` | 不改写失败历史 |
+
+安全可取消点固定在：取得 worker lease 后首次网络请求前、两个来源任务之间、解析批次之间、快照候选构建前，以及**打开发布事务之前的最后一次 cancel flag 复核**。发布者通过 CAS 写入 `publication_fence_at` 并取得 current pointer publication fence 后即进入不可取消区；snapshot/items/watermarks 写入与 current pointer CAS 在同一事务完成，禁止中途取消形成半发布。
+
+取消不删除已经追加的 FetchRun、Observation、Evidence 或审计；在 fence 前取消时不得生成新 PublishedSnapshot，current pointer 保持不变。canary run 也使用同一取消协议，但永远没有 live publication fence，且取消/完成结果都不能改变 runtime_enabled。
 
 ### 12.3 本地偏好与反馈
 
@@ -561,9 +737,9 @@ RadarError {
 | `PUT /me/events/{id}/interaction` | 已读、收藏、不相关、纠错候选 | 幂等 + revision；纠错不直接修改事实 |
 | `DELETE /me/events/{id}/interaction` | 撤销 | 保留最小审计 |
 | `GET /me/export` | 导出本地个人使用数据 | 不包含第三方全文/秘密 |
-| `DELETE /me/data` | 删除本地偏好/反馈 | 高风险确认、可验证结果；不删公共事件证据 |
+| `DELETE /me/data` | 删除本地偏好/反馈 | 高风险确认；先写 tombstone，再删除活动数据并使旧备份不可直接恢复；不删公共事件证据 |
 
-localStorage 只能保存非权威 UI 缓存，不能作为服务持久化或同步完成证据。
+删除响应必须返回 deletion generation、删除范围、活动数据结果、受影响备份数量和最晚清除时间；不得在 tombstone 未持久化时返回成功。localStorage 只能保存非权威 UI 缓存，不能作为服务持久化或同步完成证据。
 
 ### 12.4 健康与就绪
 
@@ -643,22 +819,48 @@ localStorage 只能保存非权威 UI 缓存，不能作为服务持久化或同
 
 ## 17. 测试与验证矩阵
 
+### 17.1 未来验证命令合同
+
+以下命令均以 `cd projects/ai-model-radar/backend` 为前置。它们是后续实现必须提供的稳定 npm scripts，**当前全部为 `NOT_IMPLEMENTED`，本架构没有运行或伪造通过结果**。
+
+| 能力 | 规范命令 | 当前状态 | 实现/证据 owner | 最晚解决门 |
+|---|---|---|---|---|
+| lint | `npm run lint` | `NOT_IMPLEMENTED` | 固定 07 后端 | 首批后端开发交付审核前 |
+| typecheck | `npm run typecheck` | `NOT_IMPLEMENTED` | 固定 07 后端 | 首批后端开发交付审核前 |
+| unit | `npm run test:unit` | `NOT_IMPLEMENTED` | 固定 07 后端 | 首批后端开发交付审核前 |
+| integration | `npm run test:integration` | `NOT_IMPLEMENTED` | 固定 07 后端 | 首次真实前后端联调交付前 |
+| contract | `npm run test:contract` | `NOT_IMPLEMENTED` | 固定 07 后端，固定 06 消费契约 | 首次真实前后端联调交付前 |
+| canary gate fixtures | `npm run test:canary` | `NOT_IMPLEMENTED` | 固定 07 连接器实现 owner | 任一 endpoint 进入七步序列第 4 步前 |
+| authorized canary entry | `npm run canary:run -- --source-id <id> --environment-id <id> --authorization-id <id>` | `NOT_IMPLEMENTED`，且当前禁止运行 | 固定 07 + 来源 owner；固定 09/10 独立取证 | 仅在精确 canary 授权后、第 4 步执行时 |
+| scheduler fake clock | `npm run test:scheduler-fake-clock` | `NOT_IMPLEMENTED` | 固定 07 后端 | 调度器首次 `.REV` 前 |
+| snapshot replay/publish | `npm run test:snapshot-replay-publish` | `NOT_IMPLEMENTED` | 固定 07 后端 | Publisher 首次 `.REV` 前 |
+| migration up/down | `npm run test:migration-up-down` | `NOT_IMPLEMENTED` | 固定 07 后端 | SQLite 持久化联调前 |
+| backup/restore | `npm run test:backup-restore` | `NOT_IMPLEMENTED` | 固定 07 后端，固定 10 验收 | 发布完整性 `.QA` PASS 前 |
+| e2e | `npm run test:e2e` | `NOT_IMPLEMENTED` | 固定 10 QA，固定 06/07 提供实现 | 发布完整性 `.QA` PASS 前 |
+| security | `npm run test:security` | `NOT_IMPLEMENTED` | 固定 09 审查 + 固定 07 修复 | 首个 connector `.REV` 与发布完整性 `.QA` 中较早者前 |
+
+`test:canary` 只使用 fixture/本地受控服务器验证双模式前门，不能联网或生成真实 CanaryEvidence。`canary:run` 才是未来真实 canary 命令；它必须在执行时校验限时 ExecutionAuthorization、同一 runtime tuple、预算和 `runtime_enabled=false`，否则在发出网络请求前失败。
+
+迁移生产策略仍以 forward migration 为主；`test:migration-up-down` 必须证明可逆迁移能回退，不可逆迁移则证明“备份恢复到旧 schema + 应用回滚”路径，不能伪造 down SQL。
+
+### 17.2 测试内容矩阵
+
 | 层 | 必测内容 | 关键负向证据 |
 |---|---|---|
 | Unit | 时间、URL、四态 policy、硬门、排名、0–20、真相映射 | unknown 变 0、抓取时间替发布时间必须失败 |
 | Policy contract | registry→bundle、SHA、重复 ID、组合束、四态 | AIR-END-030、conditional/manual/disabled 不得运行 |
-| Seven-step gate | 七步顺序与同 revision | 缺 canary/REV/QA、P1>0、QA 非 PASS 均保持 false |
+| Canary/runtime gate | 双模式许可、七步顺序与同 tuple/revision/environment | canary 只能步骤 1–3 + 限时授权；缺 REV/QA/登记不得 runtime |
 | SSRF | DNS/IP/端口/path/query/redirect/MIME/压缩 | loopback、私网、metadata、DNS rebind、跨域 redirect 阻断 |
 | Fetch | ETag、Last-Modified、304、timeout、429、Retry-After、预算 | 401/403/login 不重试，不绕过 |
 | Parser fixtures | 每 endpoint revision 的固定合法/异常样本 | 提示注入、脚本、未来时间、超限正文不执行/不发布 |
 | Evidence | Claim/Evidence/root/反证/撤回 | 同稿转载不能提升独立证据数 |
 | Dedup | URL、精确、实体、跨语言候选、拆分 | 不同 version/tag/action 不得误并 |
-| Persistence | 迁移、FK、事务、CAS、重启恢复 | 半发布、重复 refresh、并发偏好不能静默覆盖 |
-| Mode isolation | live/seed 表、ID、查询、指标、备份 | seed 对 live 事件/趋势/成功率贡献必须 0 |
+| Persistence | 六类运行证据 FK、迁移、事务、CAS、重启恢复 | policy 塞运行证据、半发布、并发双启用必须失败 |
+| Mode isolation | live/seed/user 物理库、查询、指标、备份 | seed 对 live 事件/趋势/成功率贡献 0，跨 mode 恢复拒绝 |
 | API contract | today/events/trends/open-source/quality/detail/refresh | empty/not_ready/stale/degraded/failed 可区分 |
-| Scheduler | lease、重入、遗漏、停机恢复、取消 | 公开 GET 外部请求数必须 0 |
-| Snapshot | manifest hash、不可变、current CAS、旧快照保留 | 全失败不得生成当前快照 |
-| Backup/restore | online backup、hash、integrity、重放幂等 | 恢复后身份/证据/快照不可变化或重复 |
+| Scheduler | fake clock、lease、重入、遗漏、停机恢复、取消七态 | publication fence 后取消必须 too-late，公开 GET 外部请求 0 |
+| Snapshot | 逐源水位、replay、manifest hash、不可变、current CAS | 跨时点不得冒充完整当前；全失败不得生成当前快照 |
+| Backup/restore | 分模式 manifest、online backup、tombstone replay、hash/integrity | 跨 mode 恢复、偏好删除复活和 generation 倒退必须失败 |
 | Security | CORS/CSRF/host-only Cookie、XSS、外链、秘密扫描 | 父域 Cookie、`*` credentials、日志正文为 0 |
 | Observability | 日志脱敏、指标语义、last_success/freshness | HTTP 200/CDN fresh 不得产生 live 指标 |
 | Integration | 真实临时 SQLite + API + Worker fixture server | Mock 不能替代迁移/恢复/幂等证据 |
@@ -681,12 +883,12 @@ localStorage 只能保存非权威 UI 缓存，不能作为服务持久化或同
 
 | 未知项 | 解决 owner | 最早解决阶段 | 未解决阻断范围 |
 |---|---|---|---|
-| Node 大版本、包管理器、SQLite driver/query layer、API 端口/DB 路径 | 固定 02 拆解 + 后端实现 owner，架构复核 | 任务拆解/实现前 | 后端开工与联调 |
+| Node 精确 patch、SQLite driver/query layer、API 端口/DB 路径 | 固定 02 拆解 + 后端实现 owner，架构复核 | 任务拆解/实现前 | 后端开工与联调；包管理器 npm 已确定 |
 | endpoint 级 timeout/bytes/concurrency/retention 数值 | 来源 owner + 架构/安全 | 对应连接器设计 | 该 endpoint canary |
 | 生产 PostgreSQL/queue/object storage 是否需要 | 固定 05/11 + 实现 owner | 本地实测后生产方案 | 生产扩展，不阻断本地纵切 |
 | 正式域名、证书、DNS/CDN/WAF/origin/internal 拓扑 | 固定 11 + 资源 owner | 生产部署审核 | staging/production |
 | 身份实现、token/cookie 方案、公开 refresh 是否存在 | 产品/架构/安全 | 身份/部署设计 | 非 loopback 写能力 |
-| SLO、RPO/RTO、流量、数据量、日志/备份保留 | 产品 + 架构 + DevOps | 容量与发布准备 | 生产承诺 |
+| SLO、RPO/RTO、流量、数据量、生产日志/备份保留 | 产品 + 架构 + DevOps | 容量与发布准备 | 生产承诺；本地备份上限已冻结为 30 日/30 份 |
 | API/云/存储/带宽预算与付费 owner | 超级无敌帅超超总具体高风险授权 | 采购前 | 付费与生产 |
 | 告警渠道、OTel backend、责任人 | DevOps/运维 owner `TBD` | 联调/生产准备 | 生产告警 |
 
@@ -700,7 +902,9 @@ localStorage 只能保存非权威 UI 缓存，不能作为服务持久化或同
 | 版权/条款/登录变化 | 最小字段、变更熔断、no bypass、删除/撤回流程 |
 | SQLite 并发/损坏 | 单写租约、事务、WAL 参数实测、online backup/restore drill |
 | 误合并污染历史 | 四层去重、保守候选、可拆分审计、快照固定 revision |
-| seed 静默回退 | 物理/约束隔离、mode 必填、指标和指针分区、P0 负测 |
+| seed 静默回退或跨库恢复 | live/seed/user 物理分库、mode manifest、指标/指针分区、P0 负测 |
+| canary 越权成为 runtime | 双模式 permit、runtime=false 断言、六类证据对象、原子环境登记 |
+| 偏好删除后由旧备份复活 | 独立 deletion ledger、generation、tombstone replay、旧备份 24h 清除 |
 | 全失败清空内容 | 原子 current pointer、失败不发布、旧快照保留 |
 | UI 把进程健康说成 live | health/readiness/truth 分离、统一信封 |
 | 未知成本被默认成 0 | `UNKNOWN/null` 契约、预算形成前禁止生产 |
@@ -725,6 +929,13 @@ localStorage 只能保存非权威 UI 缓存，不能作为服务持久化或同
 - [x] Today/Events/Trends/Open Source/Source Quality/Detail/Refresh API 与健康就绪明确。
 - [x] live/seed_demo 硬隔离，empty/not_ready/stale/degraded/failed 和旧快照保留明确。
 - [x] 七步启用唯一序列在第七步前始终 false。
+- [x] canary/runtime 唯一网络门已拆分；canary 只用步骤 1–3 + 限时同修订授权，且不能进入 live 数据面。
+- [x] ExecutionAuthorization、ConnectorRevision、CanaryEvidence、RevReviewEvidence、QaEvidence、EnvironmentRuntimeRegistration 独立追加并以 tuple 约束。
+- [x] 刷新取消 API、幂等键、七态状态机、安全取消点和 publication fence 已冻结。
+- [x] 部分来源失败的逐源水位、继承/排除/阻断规则、整体 as_of 与 coverage 已冻结。
+- [x] live/seed/user 物理分库、分模式恢复、偏好 tombstone 和防复活语义已冻结。
+- [x] lint/typecheck/unit/integration/contract/canary/scheduler/snapshot/migration/backup/e2e/security 命令、owner、最晚门和 NOT_IMPLEMENTED 状态完整。
+- [x] npm 已确定，错误 impact_scope.project_id 必填。
 - [x] 安全、可观测性、成本/条款 UNKNOWN、测试矩阵和后端命令边界明确。
 - [x] 未修改 registry、代码、服务、runtime、数据或部署。
 
@@ -754,10 +965,12 @@ localStorage 只能保存非权威 UI 缓存，不能作为服务持久化或同
 | 方案 | 拒绝原因 |
 |---|---|
 | 研究/allowlist 获批即自动运行 | 绕过执行授权、实现、canary、REV、QA 与环境登记 |
+| canary 成功后把同一 run/结果提升为 runtime | canary 只形成审查证据，缺环境原子登记且会污染 live 身份 |
 | 首个连接器替代 N=22 完成门 | 覆盖与完成度失真 |
 | AIR-END-030 直接加入当前 bundle | 尚未进 registry、未计数、未获政策批准 |
 | 查询时现场抓取 | 公开读取产生外部副作用，无法幂等、限频和保旧 |
 | 全部失败回退 seed_demo | 污染 live 真相、趋势和完成度 |
+| live/seed 仅靠 data_mode WHERE 过滤 | 无法对备份、恢复、误查询和跨库事务给出强隔离证明 |
 | 前端内存/JSON/localStorage 作为 live 真相源 | 不能证明重启持久化、并发和恢复 |
 | 已发布事件/快照原地更新 | 破坏证据链、历史复算与审计 |
 | 默认使用 LLM 摘要/去重 | 成本、隐私、提示注入和可复算边界未批准 |
@@ -766,6 +979,6 @@ localStorage 只能保存非权威 UI 缓存，不能作为服务持久化或同
 
 ## 22. 停止门
 
-本产物只完成 `MR-ARC-101` 的架构候选，停在 `architecture-review`。它不构成 `CR-ARC-101` 内容审查结论，不授权 `MR-PM-101`、开发、连接器、数据采集、服务启停、runtime 登记或部署，也不预先形成任何未来 artifact。
+本产物只完成 `MR-ARC-101` v1.1 定向修订候选，停在 `architecture-review`。v1.0 SHA 与 `changes-requested(P0=1/P1=5/P2=2)` 历史继续保留；本修订不得自批。它不构成 `CR-ARC-101` 内容审查结论，不授权 `MR-PM-101`、开发、连接器、数据采集、服务启停、runtime 登记或部署，也不预先形成任何未来 artifact。
 
 架构审核只针对本文件与登记的不可变 SHA；任何内容修订都必须重算 SHA 并重新审核。
