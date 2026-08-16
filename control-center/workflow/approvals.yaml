@@ -313,3 +313,66 @@ approvals:
     downstream_role_authorized: false
     advance_limit: return-to-root-coordinator-for-one-unique-work-item
     auto_advance_beyond_next: false
+  - id: approval-20260816-control-center-frontend-code-rereview-conclusion
+    gate: code-rereview-conclusion-review
+    role: role-code-reviewer
+    role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
+    role_task_title: "09 代码审查员"
+    change_id: rereview-20260816-control-center-frontend-code-fix-001
+    artifact: artifact-control-center-frontend-code-rereview-001
+    path: docs/06-code-review.md
+    sha256: 65606bd82da7948a02940cc35b0051193ebd32cc25a2c5872db1e1eb3d558adf
+    conclusion: passed
+    finding_summary:
+      blocker_p0: 0
+      major_p1: 0
+      minor_p2: 0
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-16T13:33:55+08:00"
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    user_reply: "我都通过，别再问我了"
+    evidence: "固定 00 已把当前待审 artifact-control-center-frontend-code-rereview-001、报告路径、SHA、passed 结论和 P0/P1/P2=0/0/0 明确并列后，超级无敌帅超超总最新指令明确覆盖并批准该产物。"
+    effect: "只关闭既有前端演示纵切代码复审，并按一跳规则授权唯一下一站固定 10 QA 执行一个测试单元；不批准未来测试报告、真实 workflow 后端、数据接入、部署或生产发布。"
+    preserved_real_product_delta:
+      artifact: artifact-control-real-usable-product-delta-001
+      approval: approval-20260816-control-real-usable-product-delta-v1
+      status: approved-awaiting-unique-replanning-work-item
+      frontend_data: hardcoded-demo
+      backend_runtime: not-implemented
+      workflow_reader: not-implemented
+      production_release: frozen
+    completed_gate: code-rereview-conclusion-review
+    next_change_id: test-20260816-control-center-frontend-demo-vertical-slice-001
+    next_gate: test-report-review
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+  - id: approval-20260816-control-center-frontend-qa-entry
+    gate: role-entry
+    role: role-qa
+    role_task_id: 019fb74a-acbb-7442-ae63-5e61246a26f5
+    role_task_title: "10 测试工程师"
+    change_id: test-20260816-control-center-frontend-demo-vertical-slice-001
+    upstream_approval: approval-20260816-control-center-frontend-code-rereview-conclusion
+    upstream_artifact: artifact-control-center-frontend-code-rereview-001
+    input_path: docs/06-code-review.md
+    input_sha256: 65606bd82da7948a02940cc35b0051193ebd32cc25a2c5872db1e1eb3d558adf
+    source_commit: 945b98320002d50605943697c5ce5c5e63ec2800
+    safe_base: bf19a402bf494ffd5d32670979cf6917bbf0a48a
+    scope: "只测试既有 Control Center 前端演示纵切：六视图、四维全局筛选、项目局部筛选、搜索、筛选一致导出、English 演示样本跨视图一致性、Prompt v1.1 只读边界、完整简体中文、1440/1024/390/320 响应式、键盘、读屏/AX、性能预算与回归；必须把 demo/pending 数据、真实 workflow 后端和数据读取器缺失写入结论。"
+    exclusions:
+      - backend-or-workflow-reader-testing-as-implemented
+      - claim-control-center-real-usable
+      - business-code-or-product-ui-change
+      - production-deployment
+      - approve-future-test-report
+      - auto-route-devops-or-any-later-role
+    expected_output: artifact-control-center-frontend-test-report-001
+    expected_path: docs/07-test-report.md
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-16T13:33:55+08:00"
+    stop_gate: test-report-review
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false

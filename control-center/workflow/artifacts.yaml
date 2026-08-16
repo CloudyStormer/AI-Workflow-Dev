@@ -422,7 +422,7 @@ artifacts:
   - id: artifact-control-center-frontend-code-rereview-001
     type: code-rereview
     path: docs/06-code-review.md
-    status: ready-for-review
+    status: approved
     owner: role-code-reviewer
     role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
     change_id: rereview-20260816-control-center-frontend-code-fix-001
@@ -490,9 +490,14 @@ artifacts:
       next_gate: cross-project-replanning-direction
       production_release: frozen
     completed_at: "2026-08-16T11:27:20+08:00"
-    result: passed-awaiting-code-rereview-conclusion-review
-    completed_gate: code-rereview-delivery
-    next_gate: code-rereview-conclusion-review
+    approval: approval-20260816-control-center-frontend-code-rereview-conclusion
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-16T13:33:55+08:00"
+    review_decision: approved
+    result: approved-and-frontend-qa-authorized
+    completed_gate: code-rereview-conclusion-review
+    next_change_id: test-20260816-control-center-frontend-demo-vertical-slice-001
+    next_gate: test-report-review
     auto_route: false
   - id: artifact-control-real-usable-product-delta-001
     type: cross-project-product-delta-reference

@@ -318,9 +318,9 @@ parallel_control_center_frontend_code_rereview:
     artifact: artifact-control-center-frontend-code-rereview-001
     path: docs/06-code-review.md
     sha256: 65606bd82da7948a02940cc35b0051193ebd32cc25a2c5872db1e1eb3d558adf
-  scheduling: completed-awaiting-conclusion-review
+  scheduling: completed-and-approved
   routed_at: "2026-08-16T11:12:15+08:00"
-  delivery_status: ready-for-review
+  delivery_status: approved
   completed_at: "2026-08-16T11:27:20+08:00"
   conclusion: passed
   finding_summary:
@@ -347,15 +347,58 @@ parallel_control_center_frontend_code_rereview:
     accessibility_tree: passed
     max_client_chunk_bytes: 271360
     dashboard_shell_bytes: 90117
-  result: passed-awaiting-code-rereview-conclusion-review
-  stop_gate: code-rereview-conclusion-review
+  approval: approval-20260816-control-center-frontend-code-rereview-conclusion
+  approved_by: 超级无敌帅超超总
+  approved_at: "2026-08-16T13:33:55+08:00"
+  review_decision: approved
+  result: approved-and-frontend-qa-authorized
+  completed_gate: code-rereview-conclusion-review
+  next_change_id: test-20260816-control-center-frontend-demo-vertical-slice-001
+  next_gate: test-report-review
   preserved_top_level:
     stage: product-definition
     status: release-scope-approved-awaiting-cross-project-replanning
     next_gate: cross-project-replanning-direction
     production_release: frozen
   auto_route_on_delivery: false
-implementation_gate: "artifact-control-center-frontend-code-rereview-001 已由固定 09 独立复审通过并停 code-rereview-conclusion-review，等待超级无敌帅超超总审核结论；QA、后端、跨项目重规划和生产部署均未获本次授权。顶层重规划门与生产冻结保持不变。"
+parallel_control_center_frontend_qa:
+  change_id: test-20260816-control-center-frontend-demo-vertical-slice-001
+  role: role-qa
+  role_task_id: 019fb74a-acbb-7442-ae63-5e61246a26f5
+  role_task_title: "10 测试工程师"
+  authorization: approval-20260816-control-center-frontend-qa-entry
+  upstream_approval: approval-20260816-control-center-frontend-code-rereview-conclusion
+  input:
+    artifact: artifact-control-center-frontend-code-rereview-001
+    path: docs/06-code-review.md
+    sha256: 65606bd82da7948a02940cc35b0051193ebd32cc25a2c5872db1e1eb3d558adf
+    source_commit: 945b98320002d50605943697c5ce5c5e63ec2800
+    workflow_safe_base: bf19a402bf494ffd5d32670979cf6917bbf0a48a
+  scope: "只测试既有前端演示纵切的功能、筛选/搜索/导出一致性、简体中文、响应式、键盘/读屏/AX、性能与回归；必须显式登记 demo/pending 数据边界、真实 workflow 后端与读取器缺失，不得宣称 Control Center 已真实可用。"
+  expected_output:
+    artifact: artifact-control-center-frontend-test-report-001
+    path: docs/07-test-report.md
+  scheduling: routed-awaiting-fixed-10-role-announcement
+  routed_at: "2026-08-16T13:33:55+08:00"
+  delivery_status: authorized
+  stop_gate: test-report-review
+  preserved_real_product_delta:
+    artifact: artifact-control-real-usable-product-delta-001
+    approval: approval-20260816-control-real-usable-product-delta-v1
+    status: approved-awaiting-unique-replanning-work-item
+    frontend_data: hardcoded-demo
+    backend_runtime: not-implemented
+    workflow_reader: not-implemented
+    production_release: frozen
+  exclusions:
+    - backend-or-workflow-reader-testing-as-implemented
+    - claim-control-center-real-usable
+    - business-code-or-product-ui-change
+    - production-deployment
+    - approve-future-test-report
+    - auto-route-after-test-delivery
+  auto_route_on_delivery: false
+implementation_gate: "artifact-control-center-frontend-code-rereview-001 已正式批准，并仅一跳授权固定 10 QA 测试既有前端演示纵切；测试交付必须停 test-report-review。真实 workflow 后端、读取器与数据接入仍未实现，Control Center 不得宣称真实可用，生产部署继续冻结。"
 runtime:
   live_url: "https://ai-workflow-control-center.honest-flute-5906.chatgpt.site"
   deployed_version: 3
@@ -493,4 +536,4 @@ latest_ui_prompt_delivery:
   generated_images: false
   modified_application_or_service_code: false
   held_mainline_artifact: artifact-control-center-code-review-001
-updated_at: "2026-08-16T13:23:22+08:00"
+updated_at: "2026-08-16T13:33:55+08:00"
