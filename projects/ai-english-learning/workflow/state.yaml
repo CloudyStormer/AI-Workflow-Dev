@@ -667,10 +667,11 @@ parallel_spaced_recall_storage_generation_aba_frontend_fix:
     equal_byte_aba_domain_regression: required
     real_two_tab_equal_byte_aba_regression: required
     existing_regression: required
-  scheduling: completed-ready-for-review
+  scheduling: approved-routed-to-fixed-09-rereview
   authorized_at: "2026-08-16T11:12:15+08:00"
-  delivery_status: ready-for-review
+  delivery_status: approved
   final_safe_base: a5d0d1f30c6635f293a20938a19ad4087bc5a2b3
+  source_commit: d3277734804745fa092803c84419861443f0cdc1
   output:
     artifact: artifact-spaced-recall-storage-generation-aba-frontend-fix-004
     path: frontend/
@@ -682,7 +683,7 @@ parallel_spaced_recall_storage_generation_aba_frontend_fix:
   finding_disposition:
     implemented_for_rereview:
       - CR-P1-001-R3
-    formal_code_review_closure: pending-user-approval-and-separate-fixed-09-rereview
+    formal_code_review_closure: pending-fixed-09-rereview
   validation:
     runtimes: Node.js-24.19.0-and-22.12.0
     lint: passed-both-runtimes
@@ -697,8 +698,14 @@ parallel_spaced_recall_storage_generation_aba_frontend_fix:
     git_diff_check: passed
     git_boundary: passed
   completed_at: "2026-08-16T11:44:16+08:00"
-  result: ready-for-frontend-fix-delivery-review
-  stop_gate: frontend-fix-delivery-review
+  approval: approval-20260816-spaced-recall-storage-generation-aba-frontend-fix-delivery
+  approved_by: 超级无敌帅超超总
+  approved_at: "2026-08-16T14:44:01+08:00"
+  review_decision: approved
+  result: approved-and-code-rereview-authorized
+  completed_gate: frontend-fix-delivery-review
+  next_change_id: rereview-20260816-spaced-recall-storage-generation-aba-fix-004
+  next_gate: code-rereview-conclusion-review
   exclusions:
     - qa
     - backend-or-prd-v1-4-other-features
@@ -709,6 +716,37 @@ parallel_spaced_recall_storage_generation_aba_frontend_fix:
     backend_task_breakdown_gate: pending
     production_deployment: frozen
   parallel_ui_prompt_branch_preserved: true
+  auto_route_on_delivery: false
+parallel_spaced_recall_storage_generation_aba_rereview:
+  change_id: rereview-20260816-spaced-recall-storage-generation-aba-fix-004
+  role: role-code-reviewer
+  role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
+  role_task_title: "09 代码审查员"
+  authorization: approval-20260816-spaced-recall-storage-generation-aba-code-rereview-entry
+  upstream_approval: approval-20260816-spaced-recall-storage-generation-aba-frontend-fix-delivery
+  input:
+    artifact: artifact-spaced-recall-storage-generation-aba-frontend-fix-004
+    path: frontend/
+    source_commit: d3277734804745fa092803c84419861443f0cdc1
+    diff_base: a5d0d1f30c6635f293a20938a19ad4087bc5a2b3
+    original_review_artifact: artifact-spaced-recall-storage-safety-code-rereview-003
+    original_review_path: docs/06-code-review.md
+    original_review_sha256: 65c39620c1bd5b27aeac4be757f710f27a4c9fbbb5678eb2a547d66acf98c488
+  scope: "只读复审 CR-P1-001-R3 的 generation/epoch 修复、旧 v1 锁内迁移、普通写代次校验、重建换代、Word 状态同步、领域与真实双标签 A→B→A 回归及既有存储安全回归；不得代修代码或进入 QA、后端、PRD v1.4 其他新增实现和部署"
+  expected_output:
+    artifact: artifact-spaced-recall-storage-generation-aba-code-rereview-004
+    path: docs/06-code-review.md
+  scheduling: routed-awaiting-role-announcement
+  routed_at: "2026-08-16T14:44:01+08:00"
+  delivery_status: routed
+  stop_gate: code-rereview-conclusion-review
+  preserved_top_level:
+    release_scope_artifact: artifact-english-release-completeness-prd-001
+    ui_design_artifact: artifact-english-release-completeness-ui-design-001
+    ui_design_gate: ui-design-review
+    cross_project_replanning_gate: pending
+    backend_task_breakdown_gate: pending
+    production_deployment: frozen
   auto_route_on_delivery: false
 parallel_english_release_completeness_ui_prompt:
   change_id: ui-prompt-20260816-english-release-completeness-001
@@ -889,17 +927,17 @@ held_downstream_delivery:
   resumed_again_by: approval-20260806-spaced-recall-ui-prompt-and-direct-frontend
   resumed_for: chg-20260806-spaced-recall-frontend-implementation-v1-3
   resumed_at: "2026-08-06T14:23:53+08:00"
-implementation_gate: "artifact-spaced-recall-storage-generation-aba-frontend-fix-004 仍独立停 frontend-fix-delivery-review；EL-UI-001 Prompt 已批准，EL-UI-002 设计已 ready-for-review 并停 ui-design-review。两条门均未授权固定 09、QA、架构、后端、其他 PRD v1.4 实现或生产部署。"
+implementation_gate: "artifact-spaced-recall-storage-generation-aba-frontend-fix-004 已获批准，并仅路由固定 09 执行一个只读复审单元，复审后停 code-rereview-conclusion-review；EL-UI-002 设计仍独立 ready-for-review 并停 ui-design-review。未授权复审结论、QA、架构、后端、其他 PRD v1.4 实现或生产部署。"
 latest_approved_artifact:
-  artifact: artifact-spaced-recall-storage-safety-frontend-fix-003
+  artifact: artifact-spaced-recall-storage-generation-aba-frontend-fix-004
   path: frontend/
-  version: "fix-003"
-  sha256: dcafc87bbdbcc1a0a67d4d28bd98a1d7da4ae3fc271bc5ff32b2e32c512f8b57
-  source_commit: 94c958d096357bbead86c7a16fbfe5674d2c2919
+  version: "fix-004"
+  sha256: dcb0ea395e786b645be4b099341b8f6d14edcc7c25efecfed7c7817bf31ac183
+  source_commit: d3277734804745fa092803c84419861443f0cdc1
   status: approved
-  approval: approval-20260815-spaced-recall-storage-safety-frontend-fix-delivery
+  approval: approval-20260816-spaced-recall-storage-generation-aba-frontend-fix-delivery
   approved_by: 超级无敌帅超超总
-  approved_at: "2026-08-15T22:44:03+08:00"
+  approved_at: "2026-08-16T14:44:01+08:00"
 approved_product_delivery:
   artifact: artifact-spaced-recall-prd-001
   path: docs/01-prd.md

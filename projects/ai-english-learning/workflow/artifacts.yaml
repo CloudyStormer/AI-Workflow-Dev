@@ -1189,7 +1189,7 @@ artifacts:
   - id: artifact-spaced-recall-storage-generation-aba-frontend-fix-004
     type: frontend-fix
     path: frontend/
-    status: ready-for-review
+    status: approved
     owner: role-frontend-dev
     role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
     change_id: fix-20260816-spaced-recall-storage-generation-aba-004
@@ -1201,6 +1201,7 @@ artifacts:
     review_commit: c33d12bfe15f11a3232ac5fde17bb41091110d9b
     reviewed_source_commit: 94c958d096357bbead86c7a16fbfe5674d2c2919
     safe_base: a5d0d1f30c6635f293a20938a19ad4087bc5a2b3
+    source_commit: d3277734804745fa092803c84419861443f0cdc1
     hashes:
       browser_gate: c91db08433f5717af9a306ac2614f2fbddb3896d1ddef59f5ca20c8043e5970a
       domain_test: f9f19d243153b1896f07d475cd693a384711425e45addcbbc3fc38cf716f3c24
@@ -1216,7 +1217,7 @@ artifacts:
     finding_disposition:
       implemented_for_rereview:
         - CR-P1-001-R3
-      formal_code_review_closure: pending-user-approval-and-separate-fixed-09-rereview
+      formal_code_review_closure: pending-fixed-09-rereview
     validation:
       runtimes: Node.js-24.19.0-and-22.12.0
       lint: passed-both-runtimes
@@ -1245,9 +1246,14 @@ artifacts:
       - deployment/
       - other-projects
     completed_at: "2026-08-16T11:44:16+08:00"
-    result: ready-for-frontend-fix-delivery-review
-    stop_gate: frontend-fix-delivery-review
-    next_role: none-until-user-review
+    approval: approval-20260816-spaced-recall-storage-generation-aba-frontend-fix-delivery
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-16T14:44:01+08:00"
+    review_decision: approved
+    result: approved-and-code-rereview-authorized
+    completed_gate: frontend-fix-delivery-review
+    next_change_id: rereview-20260816-spaced-recall-storage-generation-aba-fix-004
+    next_gate: code-rereview-conclusion-review
     auto_route: false
   - id: artifact-english-real-usable-product-delta-001
     type: cross-project-product-delta-reference

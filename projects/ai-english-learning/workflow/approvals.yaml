@@ -730,3 +730,47 @@ approvals:
     production_release: frozen
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: approval-20260816-spaced-recall-storage-generation-aba-frontend-fix-delivery
+    gate: frontend-fix-delivery-review
+    role: role-frontend-dev
+    role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
+    role_task_title: "06 前端工程师"
+    change_id: fix-20260816-spaced-recall-storage-generation-aba-004
+    artifact: artifact-spaced-recall-storage-generation-aba-frontend-fix-004
+    source_commit: d3277734804745fa092803c84419861443f0cdc1
+    scope: "批准 CR-P1-001-R3 generation/epoch ABA 修复，以及 Node 22/24、领域、cloze 1200、真实双标签 Chrome、1440/390/320、下载隔离、简体中文和无障碍回归；不批准复审结论、QA、后端、PRD v1.4 其他新增实现或发布"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-16T14:44:01+08:00"
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    user_reply: "我都通过，别再问我了"
+    evidence: "固定 00 已明确 artifact-spaced-recall-storage-generation-aba-frontend-fix-004 是已形成且被用户当前表述覆盖的固定 06 待审产物，并在固定 04 写锁释放后要求执行排队批准。"
+    effect: "已批准当前前端修复产物，并自动授权唯一下一站固定 09 代码审查员执行一个只读复审单元；复审交付后必须停 code-rereview-conclusion-review，不代表复审结论、QA、后端或部署已获批准。"
+    next_gate: code-rereview-conclusion-review
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+  - id: approval-20260816-spaced-recall-storage-generation-aba-code-rereview-entry
+    gate: role-entry
+    role: role-code-reviewer
+    role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
+    role_task_title: "09 代码审查员"
+    change_id: rereview-20260816-spaced-recall-storage-generation-aba-fix-004
+    scope: "只读复审提交 d327773 中 CR-P1-001-R3 的 generation/epoch envelope、旧 v1 共享锁迁移、普通写代次继承与校验、破坏性重建换代、Word 状态同步、领域与真实双标签 A→B→A 回归，以及既有存储安全、下载隔离、简体中文和无障碍回归；不得代修代码或进入 QA、后端、PRD v1.4 其他新增实现及部署"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-16T14:44:01+08:00"
+    upstream_approval: approval-20260816-spaced-recall-storage-generation-aba-frontend-fix-delivery
+    upstream_artifact: artifact-spaced-recall-storage-generation-aba-frontend-fix-004
+    source_commit: d3277734804745fa092803c84419861443f0cdc1
+    diff_base: a5d0d1f30c6635f293a20938a19ad4087bc5a2b3
+    original_review_artifact: artifact-spaced-recall-storage-safety-code-rereview-003
+    original_review_path: docs/06-code-review.md
+    original_review_sha256: 65c39620c1bd5b27aeac4be757f710f27a4c9fbbb5678eb2a547d66acf98c488
+    expected_output: artifact-spaced-recall-storage-generation-aba-code-rereview-004
+    expected_path: docs/06-code-review.md
+    stop_gate: code-rereview-conclusion-review
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+    evidence: "当前前端修复交付获批后，固定 09 是唯一明确、输入完整且非高风险的下一站；本授权不递归批准复审结论或再下一站。"
