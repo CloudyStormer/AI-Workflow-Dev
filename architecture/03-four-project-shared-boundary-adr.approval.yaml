@@ -1,0 +1,64 @@
+schema_version: 1
+
+approval:
+  id: approval-20260817-four-project-shared-boundary-adr-v1
+  recorded_at: "2026-08-17T04:54:24+08:00"
+  actor: "超级无敌帅超超总"
+  source_role_task: "05 架构师"
+  source_role_task_id: "019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db"
+  source_coordinator_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+  decision: approved
+  user_reply: "今天所有当前形成产物默认通过，不再重复询问；继续。"
+  evidence: "修订候选已经独立内容审查与治理审查，结论均为 P0=0、P1=0、P2=0；超级无敌帅超超总的当日默认通过指令覆盖该已形成产物。"
+
+artifact:
+  id: artifact-four-project-shared-boundary-adr-001
+  change_id: arch-20260816-four-project-shared-boundary-001
+  path: architecture/03-four-project-shared-boundary-adr.md
+  version: "1.0"
+  candidate_revision: 2
+  sha256: e3073a01ceda280b8dda4d77b58de7e9755d3f77d21f6ebb5497c8882508840a
+  source_commit: c3f8554019e00e7cef293375a76143e12e5d43ed
+  supersedes_candidate_sha256: 2d3e7fb026b4366f8c9fda033fc8e7866a9a653d19674e2241dccb79aca07c45
+
+independent_review:
+  content_review: passed-p0-0-p1-0-p2-0
+  governance_review: passed-p0-0-p1-0-p2-0
+
+scope:
+  projects:
+    - ai-model-radar
+    - market-analysis-dev
+    - ai-english-learning
+    - workflow-control-center
+  approved_boundary: non-production-shared-architecture-only
+  registry_mutation_authorized: false
+  connector_or_runtime_authorized: false
+  data_collection_authorized: false
+  application_implementation_authorized: false
+  production_deployment: frozen
+
+routing:
+  auto_route: true
+  next_project: ai-model-radar
+  next_role: role-architect
+  next_role_task_id: "019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db"
+  next_role_task_title: "05 架构师"
+  next_work_item: MR-ARC-101
+  change_id: arch-20260817-radar-release-completeness-001
+  authorization: approval-20260817-radar-release-architecture-entry
+  expected_artifact: artifact-radar-release-completeness-architecture-001
+  expected_path: projects/ai-model-radar/docs/06-release-completeness-architecture.md
+  expected_version: "1.0"
+  delivery_status: not-created
+  stop_gate: architecture-review
+  advance_limit: unique-next-stage-only
+  auto_advance_beyond_next: false
+
+preserved_state:
+  model_approved_p0_allow_atomic_endpoints_N: 22
+  model_AIR_END_030: pending-not-in-registry-not-counted
+  model_runtime_enabled: false
+  model_live_connectors: 0
+  model_live_snapshots: 0
+  production_release: frozen

@@ -3,9 +3,9 @@ project_id: ai-model-radar
 run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
-stage: product-definition
-status: real-product-delta-approved-awaiting-unique-replanning-work-item
-current_role: role-product-manager
+stage: architecture
+status: MR-ARC-101-routed-in-progress
+current_role: role-architect
 blocked: false
 ui_assets:
   directory: ui
@@ -38,15 +38,24 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
-  gate: cross-project-replanning-direction
-  scope: "固定 00 基于已批准四项目真实可用产品增量、已批准来源研究结论、根重排计划与既有待审链，收敛并展示唯一非生产下一工作项；本状态不自动启动 UI、架构、开发、连接器或部署。"
+  gate: architecture-review
+  scope: "审核 MR-ARC-101 AI Model Radar 发布完整性架构；本门不自动批准任务拆解、实现、连接器、数据采集、runtime 或部署。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: awaiting-fixed-00-unique-work-item-reconciliation
-  upstream_approval: approval-20260816-radar-real-usable-product-delta-v1
+  delivery_status: not-created
+  expected_artifact: artifact-radar-release-completeness-architecture-001
+  expected_path: docs/06-release-completeness-architecture.md
+  expected_version: "1.0"
+  work_item: MR-ARC-101
+  change_id: arch-20260817-radar-release-completeness-001
+  entry_authorization: approval-20260817-radar-release-architecture-entry
+  role: role-architect
+  role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
+  safe_checkpoint: c3f8554019e00e7cef293375a76143e12e5d43ed
+  upstream_approval: approval-20260817-four-project-shared-boundary-adr-v1
   source_readiness_approval: approval-20260816-radar-source-runtime-readiness-v1
-  on_approved: authorize-one-explicit-non-production-work-item-only
-  advance_limit: no-automatic-route
+  on_approved: return-to-root-for-next-unique-architecture-sequence-direction
+  advance_limit: unique-next-stage-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
   gate: cross-project-real-product-delta-review
@@ -831,4 +840,70 @@ source_runtime_readiness_review:
   primary_product_gate_status: approved
   downstream_role_authorized: false
   auto_advance_beyond_next: false
-updated_at: "2026-08-16T13:23:22+08:00"
+release_completeness_architecture_assignment:
+  work_item: MR-ARC-101
+  change_id: arch-20260817-radar-release-completeness-001
+  role: role-architect
+  role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
+  role_task_title: "05 架构师"
+  authorization: approval-20260817-radar-release-architecture-entry
+  safe_checkpoint: c3f8554019e00e7cef293375a76143e12e5d43ed
+  prerequisites:
+    shared_boundary_adr: approval-20260817-four-project-shared-boundary-adr-v1
+    release_ui_design: approval-20260815-radar-release-completeness-ui-design-v1
+    source_allowlist_and_registry: approval-20260814-radar-source-allowlist-v1
+    source_runtime_readiness_research: approval-20260816-radar-source-runtime-readiness-v1
+  authoritative_inputs:
+    shared_adr:
+      path: ../../architecture/03-four-project-shared-boundary-adr.md
+      sha256: e3073a01ceda280b8dda4d77b58de7e9755d3f77d21f6ebb5497c8882508840a
+    prd:
+      path: docs/02-prd.md
+      sha256: 3ce842ef8e2b9661f2114b3b4a2b3361eeb8fac0f98a5071cd8e27c38a81a020
+    release_appendix:
+      path: docs/02-prd-release-completeness-appendix.md
+      sha256: a27cfecc196c29749387302a692d93af0b5b534af7da6805b6b297e064133f1d
+    ui_design:
+      path: ui/05-release-completeness-ui-design.md
+      sha256: a731232994db118117043aa50503273c91e5c438bc20f948d9e5137e43ba9324
+    source_allowlist:
+      path: docs/00-source-allowlist.md
+      sha256: 9aa9bb926cc52aae28d11bbf676507ca313add83238cd81be6300a4d9f2f0498
+    source_registry:
+      path: docs/00-source-registry.csv
+      sha256: c303e79e1fa9f7a1664ac718a1678bbcb6610b5309a5d5e4006e6d4b1d438f91
+    source_runtime_readiness:
+      path: docs/00-source-runtime-readiness.md
+      sha256: c59c0647204caa63b4ac9acc9f229dfab22c8b239b4b844a957c1e065681649f
+  expected_output:
+    artifact: artifact-radar-release-completeness-architecture-001
+    path: docs/06-release-completeness-architecture.md
+    version: "1.0"
+    delivery_status: not-created
+  required_boundaries:
+    - exact-source-policy-and-seven-step-runtime-enablement-sequence
+    - connector-fetch-parse-evidence-retry-rate-limit-and-SSRF-boundaries
+    - immutable-observation-event-evidence-and-published-snapshot-model
+    - today-events-trends-open-source-source-quality-detail-and-refresh-APIs
+    - live-versus-seed-demo-hard-isolation
+    - stale-degraded-failed-empty-and-not-ready-behavior
+    - persistence-migrations-backup-recovery-observability-security-and-tests
+    - backend-commands-explicit-or-UNKNOWN
+  frozen_facts:
+    approved_p0_allow_atomic_endpoints_N: 22
+    AIR_END_030: pending-not-in-registry-not-counted
+    runtime_enabled: false
+    live_connectors: 0
+    live_snapshots: 0
+    registry_mutation_authorized: false
+    data_collection_authorized: false
+    production_release: frozen
+  status: routed-in-progress
+  stop_gate: architecture-review
+  exclusions:
+    - implementation-or-task-breakdown
+    - registry-mutation-connector-canary-data-collection-or-runtime-enablement
+    - service-start-test-environment-or-deployment
+    - automatic-downstream-route
+  auto_route_on_delivery: false
+updated_at: "2026-08-17T04:54:24+08:00"

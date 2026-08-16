@@ -1,8 +1,8 @@
 schema_version: 1
 project_id: "workflow-control-center"
 structure_status: normalized
-stage: cross-project-shared-boundary-architecture
-status: XR-ARC-001-revised-ready-for-review
+stage: cross-project-release-architecture-sequence
+status: XR-ARC-001-approved-MR-ARC-101-routed
 current_role: role-architect
 blocked: false
 ui_assets:
@@ -34,8 +34,9 @@ next_approval:
   gate: architecture-review
   scope: "审核 XR-ARC-001 四项目共享与独有边界 ADR；本门不自动批准项目级架构、任务拆解、开发、服务或部署。"
   decision_owner: 超级无敌帅超超总
-  decision: pending
-  delivery_status: revised-ready-for-review
+  decision: approved
+  approval: approval-20260817-four-project-shared-boundary-adr-v1
+  delivery_status: approved
   artifact: artifact-four-project-shared-boundary-adr-001
   expected_path: architecture/03-four-project-shared-boundary-adr.md
   expected_version: "1.0"
@@ -44,6 +45,7 @@ next_approval:
   candidate_revision: 2
   delivered_sha256: e3073a01ceda280b8dda4d77b58de7e9755d3f77d21f6ebb5497c8882508840a
   delivered_at: "2026-08-17T04:46:00+08:00"
+  decided_at: "2026-08-17T04:54:24+08:00"
   previous_candidate:
     candidate_revision: 1
     sha256: 2d3e7fb026b4366f8c9fda033fc8e7866a9a653d19674e2241dccb79aca07c45
@@ -59,7 +61,13 @@ next_approval:
   role: role-architect
   role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
   safe_checkpoint: 94b72281aba7260af5ada246c3784b2e2fd8d837
-  on_approved: return-to-root-for-unique-MR-ARC-101-direction
+  completed_gate: architecture-review
+  on_approved: consumed-by-unique-MR-ARC-101-route
+  next_project: ai-model-radar
+  next_role: role-architect
+  next_work_item: MR-ARC-101
+  next_change_id: arch-20260817-radar-release-completeness-001
+  next_gate: architecture-review
   advance_limit: unique-next-stage-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
@@ -738,11 +746,21 @@ cross_project_shared_boundary_architecture_assignment:
         p1: 2
         p2: 0
       review_event: event-20260817-four-project-shared-boundary-architecture-independent-content-review-changes-requested
-  status: revised-ready-for-review
+  independent_review:
+    content_review: passed-p0-0-p1-0-p2-0
+    governance_review: passed-p0-0-p1-0-p2-0
+  approval: approval-20260817-four-project-shared-boundary-adr-v1
+  approved_at: "2026-08-17T04:54:24+08:00"
+  completed_gate: architecture-review
+  next_project: ai-model-radar
+  next_role: role-architect
+  next_work_item: MR-ARC-101
+  next_change_id: arch-20260817-radar-release-completeness-001
+  status: approved-and-MR-ARC-101-routed
   completed_at: "2026-08-17T04:46:00+08:00"
-  stop_gate: architecture-review
+  stop_gate: architecture-sequence-routing
   exclusions:
-    - project-specific-architecture-or-MR-ARC-101
+    - project-specific-architecture-beyond-MR-ARC-101
     - implementation-data-collection-service-or-runtime-enablement
     - DNS-CDN-certificate-nginx-cloud-or-production-change
     - automatic-downstream-route
@@ -796,4 +814,4 @@ control_release_completeness_ui_prompt_assignment:
     - downstream-route
   production_release: frozen
   auto_route_on_delivery: false
-updated_at: "2026-08-17T04:46:00+08:00"
+updated_at: "2026-08-17T04:54:24+08:00"

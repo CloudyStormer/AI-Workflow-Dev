@@ -789,7 +789,7 @@ artifacts:
     version: "1.0"
     candidate_revision: 2
     sha256: e3073a01ceda280b8dda4d77b58de7e9755d3f77d21f6ebb5497c8882508840a
-    status: ready-for-review
+    status: approved
     owner: role-architect
     role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
     work_item: XR-ARC-001
@@ -848,8 +848,21 @@ artifacts:
       modified_application_database_connector_service_or_deployment: false
     revised_at: "2026-08-17T04:46:00+08:00"
     supersedes_candidate_sha256: 2d3e7fb026b4366f8c9fda033fc8e7866a9a653d19674e2241dccb79aca07c45
-    review_status: pending
+    independent_review:
+      content_review: passed-p0-0-p1-0-p2-0
+      governance_review: passed-p0-0-p1-0-p2-0
+      reviewed_candidate_sha256: e3073a01ceda280b8dda4d77b58de7e9755d3f77d21f6ebb5497c8882508840a
+    review_status: approved
+    approval: approval-20260817-four-project-shared-boundary-adr-v1
+    approval_record: ../architecture/03-four-project-shared-boundary-adr.approval.yaml
+    approved_at: "2026-08-17T04:54:24+08:00"
+    completed_gate: architecture-review
+    next_project: ai-model-radar
+    next_role: role-architect
+    next_work_item: MR-ARC-101
+    next_change_id: arch-20260817-radar-release-completeness-001
+    next_gate: architecture-review
     completed_at: "2026-08-17T04:46:00+08:00"
-    stop_gate: architecture-review
-    downstream_authorized: false
+    stop_gate: architecture-sequence-routing
+    downstream_authorized: MR-ARC-101-architecture-only
     auto_route: false
