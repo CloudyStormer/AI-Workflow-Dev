@@ -975,8 +975,8 @@ artifacts:
     run_id: run-20260731-intake-001
     type: release-completeness-architecture
     path: docs/06-release-completeness-architecture.md
-    version: "1.1"
-    sha256: edf2ee2528e2f85066f23c21f9871d361b5c472f5b5a554961edd840cb60cf24
+    version: "1.2"
+    sha256: 18bfa0520f6d64a470c275195712ad82920ae2a13ec80ddd614197ff8dd66839
     status: revised-ready-for-review
     owner: role-architect
     role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
@@ -986,9 +986,9 @@ artifacts:
     authorization: approval-20260817-radar-release-architecture-entry
     route_safe_checkpoint: c3f8554019e00e7cef293375a76143e12e5d43ed
     write_baseline: 7e786f24ae16cbb13aa8d7e9028d52f2ceb12d71
-    revision_baseline: 1e7b712ae102d2385b13cd69aea073b970609a96
-    previous_version: "1.0"
-    previous_sha256: 4d94dfa91442d940a3e58e29519456ca29eb1f5386e1f7bbc22c51ddf767d6d6
+    revision_baseline: e966a1c84b6411852cf5cc23fab89d4cc51ffcd1
+    previous_version: "1.1"
+    previous_sha256: edf2ee2528e2f85066f23c21f9871d361b5c472f5b5a554961edd840cb60cf24
     upstream:
       shared_boundary_adr:
         path: ../../architecture/03-four-project-shared-boundary-adr.md
@@ -1028,13 +1028,19 @@ artifacts:
       mode_isolation: physical-live-seed-demo-user-databases-and-mode-specific-restore
       runtime_sequence: independent-append-only-evidence-chain-and-atomic-environment-registration
       refresh_cancellation: idempotent-seven-state-machine-with-publication-fence
-      partial_failure_snapshot: immutable-per-source-watermarks-and-minimum-as-of
+      coverage_freshness_policy: immutable-content-addressed-required-ratio-stale-environment-policy
+      partial_failure_snapshot: watermarks-before-common-as-of-trim-and-full-recompute
+      refresh_identity: request-to-refresh-run-to-many-fetch-runs-with-aggregate-cancel
+      envelope_contract: separate-content-user-and-operation-envelopes
+      governance_store: physical-governance-sqlite-with-registration-audit-transaction
+      local_user_restore: dual-deletion-generations-ledger-replay-zero-check-before-readiness
     frozen_facts:
       approved_p0_allow_atomic_endpoints_N: 22
       AIR_END_030: pending-not-in-registry-not-counted
       runtime_enabled: false
       live_connectors: 0
       live_snapshots: 0
+      coverage_freshness_policy: unknown-zero-approved
       registry_mutated: false
       service_or_collection_started: false
       production_release: frozen
@@ -1046,27 +1052,36 @@ artifacts:
       - execution-connector-canary-rev-qa-environment-registration-authority-objects
       - observation-event-evidence-immutable-snapshot-idempotency-and-migrations
       - refresh-cancel-api-state-machine-safe-points-and-publication-fence
-      - per-source-watermarks-inheritance-exclusion-blocking-as-of-and-coverage
+      - coverage-freshness-policy-required-ratio-stale-environment-approval-and-hash
+      - watermarks-attempted-false-subscope-common-as-of-trim-and-recompute
+      - refresh-request-run-fetch-identity-fk-revision-cancel-and-publication-fence
+      - content-user-operation-envelope-and-per-api-mapping
+      - governance-physical-store-table-ownership-and-registration-audit-transaction
       - today-events-trends-open-source-source-quality-detail-refresh-and-local-preferences-apis
-      - truth-states-old-snapshot-preservation-health-readiness-and-error-envelope
-      - physical-mode-backup-restore-deletion-tombstone-and-anti-resurrection
-      - security-observability-cost-unknown-and-complete-future-command-matrix
-    completed_at: "2026-08-17T05:32:35+08:00"
+      - deterministic-old-snapshot-truth-error-priority-and-local-owner-model
+      - physical-mode-backup-restore-dual-deletion-generations-and-anti-resurrection
+      - security-observability-cost-unknown-and-unique-command-contract
+    completed_at: "2026-08-17T06:09:23+08:00"
     validation_status: passed
-    validated_at: "2026-08-17T05:33:10+08:00"
+    validated_at: "2026-08-17T06:10:02+08:00"
     validation:
-      authoritative_input_sha256: 10-of-10-matched-plus-approval-sidecar-recorded
+      authoritative_input_sha256: 11-of-11-matched-including-approval-sidecar
       architecture_sha256: matched
       architecture_sections: 22-numbered-sections
       seven_step_sequence: exactly-one-complete-sequence
       dual_network_mode: canary-steps-1-to-3-limited-permit-runtime-seven-step-closure
       authority_objects: 6-independent-append-only-with-runtime-tuple-constraints
       refresh_cancel_states: 7-complete-with-idempotency-and-publication-fence
-      source_watermark_contract: complete-with-inherit-exclude-block-and-min-as-of
-      physical_mode_restore: live-seed-user-separated-and-tombstone-replay
-      future_validation_commands: 13-of-13-declared-not-implemented-with-owner-and-deadline
+      coverage_policy: immutable-required-ratio-stale-environment-approval-revision-hash-and-tbd-gate
+      snapshot_algorithm: watermarks-common-as-of-trim-reaggregate-dedup-rank-truncate-publish
+      attempted_false_and_subset: not-due-skipped-circuit-open-out-of-scope-and-full-policy-recomposition
+      refresh_identity: request-refresh-run-fetch-run-fk-revision-cancel-fence-complete
+      envelope_api_map: content-user-operation-separated-and-mapped
+      governance_store: physical-authority-tables-and-registration-audit-same-transaction
+      physical_mode_restore: dual-deletion-generation-ledger-replay-zero-check-before-readiness
+      future_command_contract: 17-of-17-unique-declared-not-implemented-with-owner-and-deadline
       workflow_yaml: 5-of-5-valid
-      jsonl_before_validation_event: 94-of-94-valid-and-unique
+      jsonl_before_validation_event: 97-of-97-valid-and-unique
       registry_baseline: 72-rows-35-columns-29-endpoints-22-p0-allow-unchanged
       git_boundary: passed-before-delivery
       scoped_diff: architecture-and-model-workflow-only
@@ -1084,14 +1099,24 @@ artifacts:
         preserved: true
       - version: "1.1"
         sha256: edf2ee2528e2f85066f23c21f9871d361b5c472f5b5a554961edd840cb60cf24
+        commit: e966a1c84b6411852cf5cc23fab89d4cc51ffcd1
+        decision: changes-requested
+        reviewed_at: null
+        recorded_at: "2026-08-17T06:09:23+08:00"
+        review_type: independent-merged-final-review
+        severity: {P0: 0, P1: 8, P2: 2}
+        preserved: true
+      - version: "1.2"
+        sha256: 18bfa0520f6d64a470c275195712ad82920ae2a13ec80ddd614197ff8dd66839
         decision: pending-independent-review
         result: revised-ready-for-review
-        completed_at: "2026-08-17T05:32:35+08:00"
+        completed_at: "2026-08-17T06:09:23+08:00"
         content_self_check: {P0: 0, P1: 0, P2: 0}
     known_limits:
       - backend-currently-only-gitkeep-and-all-backend-commands-not-implemented
       - no-registry-connector-runtime-data-service-frontend-or-deployment-change
       - production-domain-port-cloud-budget-credential-slo-rpo-rto-remain-unknown-tbd
+      - coverage-freshness-policy-currently-unknown-and-blocks-runtime-registration-live-publish-readiness
       - author-self-check-does-not-replace-independent-review
     stop_gate: architecture-review
     downstream_role_authorized: false
