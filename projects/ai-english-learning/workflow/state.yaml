@@ -1,9 +1,9 @@
 schema_version: 1
 project_id: "ai-english-learning"
 structure_status: normalized
-stage: ui-design-prompt
-status: english-release-completeness-ui-prompt-ready-for-review-with-parallel-frontend-fix-preserved
-current_role: role-ui-designer
+stage: product-definition
+status: cross-project-real-product-delta-ready-for-review
+current_role: role-product-manager
 approved_roles:
   - role-pm
   - role-product-manager
@@ -37,18 +37,45 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
-  gate: ui-prompt-review
-  artifact: artifact-english-release-completeness-ui-prompt-001
-  path: ui/05-release-completeness-ui-prompt.md
+  gate: cross-project-real-product-delta-review
+  artifact: artifact-english-real-usable-product-delta-001
+  path: docs/05-four-project-real-usable-product-delta.md
   version: "1.0"
-  sha256: 2adba179503582f9c1bc9524a64ec1f04fd624fc653403e23ff69713bfa6a5ad
-  scope: "审核 English 正式发布完整性 UI/UX 增量 Prompt；本门不审核设计稿、前端实现、后端、QA 或部署。"
+  sha256: e613e79f44100840542fb6531e155cf0edd0079a6fc213af328fba075750bc01
+  change_id: product-20260816-four-project-real-usable-ungray-001
+  scope: "审核 English 真实学习、持续复习、真实 AI/语音、同步与数据权利的入口真相映射；本门不审核或授权 UI、架构、代码、QA、服务启停或部署。"
   decision_owner: 超级无敌帅超超总
   decision: pending
   delivery_status: ready-for-review
-  on_approved: authorize-unique-next-work-item-EL-UI-002-to-same-fixed-04-only
-  advance_limit: unique-next-stage-only
+  on_approved: return-to-root-coordinator-for-one-explicit-next-work-item
+  advance_limit: no-automatic-route
   auto_advance_beyond_next: false
+cross_project_real_product_delta_assignment:
+  change_id: product-20260816-four-project-real-usable-ungray-001
+  role: role-product-manager
+  role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+  role_task_title: "03 产品经理"
+  authorization: approval-20260816-english-real-usable-product-entry
+  source: "固定 00 转交超级无敌帅超超总关于四项目真实可用、禁止假功能的直接要求"
+  safe_checkpoint: d3277734804745fa092803c84419861443f0cdc1
+  original_workflow:
+    stage: ui-design-prompt
+    status: english-release-completeness-ui-prompt-ready-for-review-with-parallel-frontend-fix-preserved
+    role: role-ui-designer
+    gates:
+      - ui-prompt-review
+      - frontend-fix-delivery-review
+  output:
+    artifact: artifact-english-real-usable-product-delta-001
+    source_artifact: artifact-four-project-real-usable-product-delta-001
+    repo_relative_path: docs/05-four-project-real-usable-product-delta.md
+    version: "1.0"
+    sha256: e613e79f44100840542fb6531e155cf0edd0079a6fc213af328fba075750bc01
+  delivery_status: ready-for-review
+  stop_gate: cross-project-real-product-delta-review
+  original_gates_status: held-not-approved-or-cancelled
+  production_release: frozen
+  auto_route_on_delivery: false
 release_scope_product_assignment:
   change_group_id: prd-20260814-four-project-release-completeness-001
   change_id: prd-20260814-english-full-release-scope-001

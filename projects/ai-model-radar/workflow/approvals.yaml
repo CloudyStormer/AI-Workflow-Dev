@@ -409,6 +409,26 @@ approvals:
     production_release: frozen
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: approval-20260816-radar-real-usable-product-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    role: role-product-manager
+    role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+    role_task_title: "03 产品经理"
+    change_id: product-20260816-four-project-real-usable-ungray-001
+    authorization_source: fixed-00-delegation-of-direct-user-command
+    safe_checkpoint: d3277734804745fa092803c84419861443f0cdc1
+    scope: "只形成 Model Radar live 每日情报、四个置灰入口与偏好反馈持久化边界；不修改 UI、架构、代码、连接器、服务或部署"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-16T12:30:52+08:00"
+    expected_output: artifact-radar-real-usable-product-delta-001
+    expected_path: docs/05-four-project-real-usable-product-delta.md
+    expected_version: "1.0"
+    stop_gate: cross-project-real-product-delta-review
+    production_release: frozen
+    advance_limit: no-automatic-route
+    auto_advance_beyond_next: false
   - id: approval-20260815-radar-release-completeness-ui-design-v1
     run_id: run-20260731-intake-001
     gate: ui-design-review

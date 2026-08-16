@@ -3,9 +3,9 @@ project_id: ai-model-radar
 run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
-stage: ui-ux
-status: release-completeness-ui-design-approved-and-career-ui-prompt-routed
-current_role: role-ui-designer
+stage: product-definition
+status: cross-project-real-product-delta-ready-for-review
+current_role: role-product-manager
 blocked: false
 ui_assets:
   directory: ui
@@ -38,18 +38,45 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
-  gate: completed
-  scope: "MR-UI-002 发布完整性设计已批准；按跨项目重排计划只路由同一固定 04 的 Career CR-UI-001，不启动 Model 架构、开发、连接器或部署。"
+  gate: cross-project-real-product-delta-review
+  artifact: artifact-radar-real-usable-product-delta-001
+  repo_relative_path: docs/05-four-project-real-usable-product-delta.md
+  version: "1.0"
+  sha256: e613e79f44100840542fb6531e155cf0edd0079a6fc213af328fba075750bc01
+  change_id: product-20260816-four-project-real-usable-ungray-001
+  scope: "审核 Model Radar 真实每日情报、四个置灰入口与偏好反馈持久化边界；本门不审核或授权 UI、架构、代码、连接器、服务启停或部署。"
   decision_owner: 超级无敌帅超超总
-  decision: approved
-  approval: approval-20260815-radar-release-completeness-ui-design-v1
-  decided_at: "2026-08-15T11:08:21+08:00"
-  delivery_status: approved
-  next_project: market-analysis-dev
-  next_work_item: CR-UI-001
-  on_approved: completed-and-routed-one-cross-project-step
-  advance_limit: unique-next-stage-only
+  decision: pending
+  delivery_status: ready-for-review
+  on_approved: return-to-root-coordinator-for-one-explicit-next-work-item
+  advance_limit: no-automatic-route
   auto_advance_beyond_next: false
+cross_project_real_product_delta_assignment:
+  change_id: product-20260816-four-project-real-usable-ungray-001
+  role: role-product-manager
+  role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+  role_task_title: "03 产品经理"
+  authorization: approval-20260816-radar-real-usable-product-entry
+  source: "固定 00 转交超级无敌帅超超总关于四项目真实可用、禁止假功能的直接要求"
+  safe_checkpoint: d3277734804745fa092803c84419861443f0cdc1
+  original_workflow:
+    stage: ui-ux
+    status: release-completeness-ui-design-approved-and-career-ui-prompt-routed
+    role: role-ui-designer
+    gates:
+      - release-completeness-ui-design-approved
+      - career-ui-prompt-routed
+  output:
+    artifact: artifact-radar-real-usable-product-delta-001
+    source_artifact: artifact-four-project-real-usable-product-delta-001
+    repo_relative_path: docs/05-four-project-real-usable-product-delta.md
+    version: "1.0"
+    sha256: e613e79f44100840542fb6531e155cf0edd0079a6fc213af328fba075750bc01
+  delivery_status: ready-for-review
+  stop_gate: cross-project-real-product-delta-review
+  original_gates_status: held-not-approved-or-cancelled
+  production_release: frozen
+  auto_route_on_delivery: false
 cross_project_replanning_plan_review:
   gate: cross-project-replanning-plan-review
   consumed_prior_gate: cross-project-replanning-direction

@@ -2,7 +2,7 @@ schema_version: 1
 project_id: "workflow-control-center"
 structure_status: normalized
 stage: product-definition
-status: release-scope-approved-awaiting-cross-project-replanning
+status: cross-project-real-product-delta-ready-for-review
 current_role: role-product-manager
 blocked: false
 ui_assets:
@@ -31,14 +31,45 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
-  gate: cross-project-replanning-direction
-  scope: "等待把真实只读监管后端、既有代码审查与 UI 设计等待项拆成唯一重规划工作项；不自动恢复原审查、设计或开发链"
+  gate: cross-project-real-product-delta-review
+  artifact: artifact-control-real-usable-product-delta-001
+  repo_relative_path: docs/05-four-project-real-usable-product-delta.md
+  version: "1.0"
+  sha256: e613e79f44100840542fb6531e155cf0edd0079a6fc213af328fba075750bc01
+  change_id: product-20260816-four-project-real-usable-ungray-001
+  scope: "审核 Control Center 只读真实监管纵切、入口真相映射与正确禁用边界；本门不审核或授权 UI、架构、代码、QA、服务启停或部署"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: awaiting-explicit-unique-work-item
-  on_approved: authorize-one-explicit-non-production-work-item-only
+  delivery_status: ready-for-review
+  on_approved: return-to-root-coordinator-for-one-explicit-next-work-item
   advance_limit: no-automatic-route
   auto_advance_beyond_next: false
+cross_project_real_product_delta_assignment:
+  change_id: product-20260816-four-project-real-usable-ungray-001
+  role: role-product-manager
+  role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+  role_task_title: "03 产品经理"
+  authorization: approval-20260816-control-real-usable-product-entry
+  source: "固定 00 转交超级无敌帅超超总关于四项目真实可用、禁止假功能的直接要求"
+  safe_checkpoint: d3277734804745fa092803c84419861443f0cdc1
+  original_workflow:
+    stage: product-definition
+    status: release-scope-approved-awaiting-cross-project-replanning
+    role: role-product-manager
+    gates:
+      - cross-project-replanning-direction
+      - code-rereview-conclusion-review
+  output:
+    artifact: artifact-control-real-usable-product-delta-001
+    source_artifact: artifact-four-project-real-usable-product-delta-001
+    repo_relative_path: docs/05-four-project-real-usable-product-delta.md
+    version: "1.0"
+    sha256: e613e79f44100840542fb6531e155cf0edd0079a6fc213af328fba075750bc01
+  delivery_status: ready-for-review
+  stop_gate: cross-project-real-product-delta-review
+  original_gates_status: held-not-approved-or-cancelled
+  production_release: frozen
+  auto_route_on_delivery: false
 release_scope_product_assignment:
   change_group_id: prd-20260814-four-project-release-completeness-001
   change_id: prd-20260814-control-release-completeness-appendix-001

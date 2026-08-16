@@ -494,3 +494,31 @@ artifacts:
     completed_gate: code-rereview-delivery
     next_gate: code-rereview-conclusion-review
     auto_route: false
+  - id: artifact-control-real-usable-product-delta-001
+    type: cross-project-product-delta-reference
+    source_artifact_id: artifact-four-project-real-usable-product-delta-001
+    repo_relative_path: docs/05-four-project-real-usable-product-delta.md
+    version: "1.0"
+    sha256: e613e79f44100840542fb6531e155cf0edd0079a6fc213af328fba075750bc01
+    status: ready-for-review
+    owner: role-product-manager
+    role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+    change_id: product-20260816-four-project-real-usable-ungray-001
+    authorization: approval-20260816-control-real-usable-product-entry
+    project_slice:
+      - real-readonly-root-workflow-aggregation
+      - six-dashboard-views-search-filter-detail-export
+      - readonly-write-boundary-and-correct-disabled-actions
+      - truth-states-provenance-health-readiness-and-partial-failure
+    baseline_truth:
+      frontend_data: hardcoded-demo
+      backend_runtime: not-implemented
+      database_schema: empty
+      workflow_reader: not-implemented
+      business_writes_allowed: false
+    acceptance_criteria: AC-XR-REAL-01..AC-XR-REAL-12-and-AC-CC-REAL-01..AC-CC-REAL-06
+    completed_at: "2026-08-16T12:30:52+08:00"
+    result: ready-for-cross-project-real-product-delta-review
+    stop_gate: cross-project-real-product-delta-review
+    production_release: frozen
+    auto_route: false

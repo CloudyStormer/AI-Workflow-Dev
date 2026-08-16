@@ -1246,3 +1246,31 @@ artifacts:
     stop_gate: frontend-fix-delivery-review
     next_role: none-until-user-review
     auto_route: false
+  - id: artifact-english-real-usable-product-delta-001
+    type: cross-project-product-delta-reference
+    source_artifact_id: artifact-four-project-real-usable-product-delta-001
+    repo_relative_path: docs/05-four-project-real-usable-product-delta.md
+    version: "1.0"
+    sha256: e613e79f44100840542fb6531e155cf0edd0079a6fc213af328fba075750bc01
+    status: ready-for-review
+    owner: role-product-manager
+    role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+    change_id: product-20260816-four-project-real-usable-ungray-001
+    authorization: approval-20260816-english-real-usable-product-entry
+    project_slice:
+      - account-placement-vocabulary-plan-and-word-settlement
+      - server-backed-spaced-recall-cross-device-and-statistics
+      - twenty-scenarios-free-chat-real-ai-stt-and-tts
+      - reminders-sync-export-delete-and-data-rights
+    baseline_truth:
+      word_recall: real-single-browser-only
+      backend_runtime: not-implemented
+      chat: fixed-tutor-replies
+      speech_to_text: mock-transcript
+      profile_and_statistics: preset-or-client-state
+    acceptance_criteria: AC-XR-REAL-01..AC-XR-REAL-12-and-AC-AEL-REAL-01..AC-AEL-REAL-08
+    completed_at: "2026-08-16T12:30:52+08:00"
+    result: ready-for-cross-project-real-product-delta-review
+    stop_gate: cross-project-real-product-delta-review
+    production_release: frozen
+    auto_route: false

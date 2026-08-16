@@ -866,3 +866,32 @@ artifacts:
       - generated-copy-may-have-visual-approximation-design-document-is-authoritative
       - current-runtime-real-sources-remain-zero
       - no-architecture-development-connector-runtime-or-deployment
+  - id: artifact-radar-real-usable-product-delta-001
+    run_id: run-20260731-intake-001
+    type: cross-project-product-delta-reference
+    source_artifact_id: artifact-four-project-real-usable-product-delta-001
+    repo_relative_path: docs/05-four-project-real-usable-product-delta.md
+    version: "1.0"
+    sha256: e613e79f44100840542fb6531e155cf0edd0079a6fc213af328fba075750bc01
+    status: ready-for-review
+    owner: role-product-manager
+    role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+    change_id: product-20260816-four-project-real-usable-ungray-001
+    authorization: approval-20260816-radar-real-usable-product-entry
+    project_slice:
+      - live-today-events-trends-versions-open-source-detail-sources-quality
+      - twenty-two-p0-allow-atomic-endpoints-and-runtime-evidence
+      - owner-refresh-daily-report-and-no-seed-live-fallback
+      - local-single-user-persistent-preferences-feedback-and-data-rights
+    baseline_truth:
+      frontend_data: hardcoded-seed-demo
+      enabled_routes: one-today-only
+      disabled_navigation_entries: four
+      backend_runtime: not-implemented
+      runtime_sources_connectors_live_snapshot: zero
+    acceptance_criteria: AC-XR-REAL-01..AC-XR-REAL-12-and-AC-AMR-REAL-01..AC-AMR-REAL-07
+    completed_at: "2026-08-16T12:30:52+08:00"
+    result: ready-for-cross-project-real-product-delta-review
+    stop_gate: cross-project-real-product-delta-review
+    production_release: frozen
+    auto_route: false

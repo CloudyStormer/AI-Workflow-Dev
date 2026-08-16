@@ -1905,3 +1905,32 @@ artifacts:
     auto_route_on_delivery: false
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: "artifact-career-real-usable-product-delta-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: cross-project-product-delta-reference
+    source_artifact_id: artifact-four-project-real-usable-product-delta-001
+    repo_relative_path: docs/05-four-project-real-usable-product-delta.md
+    version: "1.0"
+    sha256: e613e79f44100840542fb6531e155cf0edd0079a6fc213af328fba075750bc01
+    status: ready-for-review
+    owner: role-product-manager
+    role_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
+    change_id: product-20260816-four-project-real-usable-ungray-001
+    authorization: "approval-20260816-career-real-usable-product-entry"
+    project_slice:
+      - directions-stacks-recruitment-sources-quality-and-ai-increment-mapping
+      - thirteen-technical-endpoints-and-one-approved-company-ats-instance
+      - user-input-classification-summary-research-integration-and-private-save
+      - personal-evidence-gap-roadmap-history-sync-export-and-delete
+    baseline_truth:
+      enabled_routes: directions-and-source-workbench-only
+      source_workbench: browser-memory-preview-no-integration-engine
+      disabled_navigation_entries: stacks-evidence-ai-increment-personal-evidence-and-mobile-more
+      backend_runtime: not-implemented
+      runtime_sources_connectors_approved_ats_instances: zero
+    acceptance_criteria: AC-XR-REAL-01..AC-XR-REAL-12-and-AC-CFR-REAL-01..AC-CFR-REAL-08
+    completed_at: "2026-08-16T12:30:52+08:00"
+    result: ready-for-cross-project-real-product-delta-review
+    stop_gate: cross-project-real-product-delta-review
+    production_release: frozen
+    auto_route: false
