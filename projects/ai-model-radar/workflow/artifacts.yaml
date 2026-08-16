@@ -895,3 +895,68 @@ artifacts:
     stop_gate: cross-project-real-product-delta-review
     production_release: frozen
     auto_route: false
+  - id: artifact-radar-source-runtime-readiness-001
+    run_id: run-20260731-intake-001
+    type: source-runtime-readiness-research-report
+    path: docs/00-source-runtime-readiness.md
+    version: "1.0"
+    sha256: c59c0647204caa63b4ac9acc9f229dfab22c8b239b4b844a957c1e065681649f
+    status: ready-for-review
+    owner: role-market-researcher
+    role_task_id: 019fb799-5686-7571-ab7f-25bf816128b0
+    change_group_id: research-20260816-real-runtime-source-readiness-002
+    change_id: research-20260816-radar-source-runtime-readiness-002
+    authorization: approval-20260816-radar-source-runtime-readiness-entry
+    safe_checkpoint: a2f79f4df27c04244a764dc36d0b9d2e7ea2a808
+    inputs:
+      source_allowlist_artifact: artifact-radar-source-allowlist-001
+      source_allowlist_sha256: 9aa9bb926cc52aae28d11bbf676507ca313add83238cd81be6300a4d9f2f0498
+      source_registry_artifact: artifact-radar-source-registry-001
+      source_registry_sha256: c303e79e1fa9f7a1664ac718a1678bbcb6610b5309a5d5e4006e6d4b1d438f91
+      product_delta_artifact: artifact-radar-real-usable-product-delta-001
+      product_delta_sha256: e613e79f44100840542fb6531e155cf0edd0079a6fc213af328fba075750bc01
+    observed_window: "2026-08-16T12:28:45+08:00/2026-08-16T12:29:50+08:00"
+    recommendation:
+      work_item: MR-CONN-001
+      proposed_endpoint_id: AIR-END-030
+      parent_source_id: AIR-INT-004
+      endpoint_url: https://ai.google.dev/gemini-api/docs/changelog
+      proposed_decision: allow
+      proposal_status: pending-review-not-in-registry-not-counted
+      approved_p0_allow_endpoint_baseline: 22
+      proposed_post-policy-count: 23
+      product_and_plan_count_reconciliation_required: true
+      runtime_enabled: false
+      connector_canary_completed: false
+      connector_authorized: false
+    baseline_truth:
+      registry_mutated: false
+      runtime_enabled_sources: 0
+      live_connectors: 0
+      live_snapshots: 0
+      source_specificity_blocker: resolved-as-proposal-only
+      runtime_readiness: blocked-no-go
+    completed_at: "2026-08-16T12:53:45+08:00"
+    validation_status: passed
+    validated_at: "2026-08-16T12:57:35+08:00"
+    validation:
+      report_sha256: matched
+      workflow_yaml: 3-of-3-valid
+      jsonl_before_validation_event: 84-of-84-valid-and-unique
+      registry_baseline: 72-rows-35-columns-29-endpoints-22-p0-allow-unchanged
+      product_delta_sha256: matched-and-unchanged
+      project_structure: passed-with-0-warnings
+      git_boundary: passed
+      skill_drift: passed
+      diff_check: passed
+    stop_gate: source-runtime-readiness-review
+    return_gate: cross-project-real-product-delta-review
+    primary_product_gate_preserved: true
+    downstream_role_authorized: false
+    production_release: frozen
+    auto_route: false
+    known_limits:
+      - proposed-endpoint-not-yet-an-approved-registry-row
+      - N-remains-22-until-policy-product-and-plan-counts-are-reconciled
+      - no-connector-canary-rev-qa-runtime-or-live-snapshot
+      - legal-and-platform-conditions-may-change

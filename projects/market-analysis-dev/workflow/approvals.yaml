@@ -894,3 +894,40 @@ approvals:
     production_release: frozen
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: "approval-20260816-career-source-runtime-readiness-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-entry
+    role: role-market-researcher
+    role_task_id: "019fb799-5686-7571-ab7f-25bf816128b0"
+    role_task_title: "01 市场调研员"
+    change_group_id: "research-20260816-real-runtime-source-readiness-002"
+    change_id: "research-20260816-career-source-runtime-readiness-002"
+    authorization_source: fixed-00-delegation-of-direct-user-command
+    scope: "只读核验一个具体公司、官方 careers 回链、Greenhouse/Lever/Ashby 精确公开实例及最小字段复用边界；只交付来源运行可行性报告和 workflow 登记"
+    exclusions:
+      - source-registry-or-allowlist-mutation
+      - connector-canary-or-runtime-enablement
+      - bulk-fetch-login-cookie-api-key-or-bypass
+      - content-parameter-application-post-or-candidate-data
+      - product-architecture-code-or-deployment
+      - downstream-role-routing
+    expected_artifact: "artifact-career-source-runtime-readiness-001"
+    expected_path: docs/00-source-runtime-readiness.md
+    expected_version: "1.0"
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-16T12:42:44+08:00"
+    source_task_id: "019fb799-5686-7571-ab7f-25bf816128b0"
+    source_coordinator_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    evidence: "固定 00 转交超级无敌帅超超总关于两 Radar 必须使用真实来源、禁止示例与伪实时的明确要求，并在固定 03 提交后释放 a2f79f4 安全写入窗口。"
+    research_authorization_baseline: d3277734804745fa092803c84419861443f0cdc1
+    safe_checkpoint: a2f79f4df27c04244a764dc36d0b9d2e7ea2a808
+    original_stage: product-definition
+    original_status: cross-project-real-product-delta-ready-for-review
+    original_gate: cross-project-real-product-delta-review
+    return_gate_after_review: cross-project-real-product-delta-review
+    stop_gate: source-runtime-readiness-review
+    production_release: frozen
+    advance_limit: research-delivery-review-only
+    downstream_role_authorized: false
+    auto_advance_beyond_next: false
