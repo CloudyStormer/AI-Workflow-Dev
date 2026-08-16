@@ -1252,7 +1252,7 @@ artifacts:
     repo_relative_path: docs/05-four-project-real-usable-product-delta.md
     version: "1.0"
     sha256: e613e79f44100840542fb6531e155cf0edd0079a6fc213af328fba075750bc01
-    status: ready-for-review
+    status: approved
     owner: role-product-manager
     role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
     change_id: product-20260816-four-project-real-usable-ungray-001
@@ -1270,7 +1270,12 @@ artifacts:
       profile_and_statistics: preset-or-client-state
     acceptance_criteria: AC-XR-REAL-01..AC-XR-REAL-12-and-AC-AEL-REAL-01..AC-AEL-REAL-08
     completed_at: "2026-08-16T12:30:52+08:00"
-    result: ready-for-cross-project-real-product-delta-review
-    stop_gate: cross-project-real-product-delta-review
+    approval: approval-20260816-english-real-usable-product-delta-v1
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-16T13:23:22+08:00"
+    review_decision: approved
+    result: approved-awaiting-unique-replanning-work-item
+    completed_gate: cross-project-real-product-delta-review
+    return_gate: cross-project-replanning-direction
     production_release: frozen
     auto_route: false

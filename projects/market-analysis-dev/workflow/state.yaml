@@ -4,7 +4,7 @@ run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
 stage: product-definition
-status: cross-project-real-product-delta-ready-for-review
+status: real-product-delta-approved-awaiting-unique-replanning-work-item
 current_role: role-product-manager
 blocked: false
 ui_assets:
@@ -214,19 +214,32 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
+  gate: cross-project-replanning-direction
+  scope: "固定 00 基于已批准四项目真实可用产品增量、已批准来源研究结论、根重排计划与既有待审链，收敛并展示唯一非生产下一工作项；本状态不自动启动 UI、架构、开发、连接器或部署。"
+  decision_owner: 超级无敌帅超超总
+  decision: pending
+  delivery_status: awaiting-fixed-00-unique-work-item-reconciliation
+  upstream_approval: "approval-20260816-career-real-usable-product-delta-v1"
+  source_readiness_approval: "approval-20260816-career-source-runtime-readiness-v1"
+  on_approved: authorize-one-explicit-non-production-work-item-only
+  advance_limit: no-automatic-route
+  auto_advance_beyond_next: false
+cross_project_real_product_delta_review:
   gate: cross-project-real-product-delta-review
   artifact: "artifact-career-real-usable-product-delta-001"
+  source_artifact: artifact-four-project-real-usable-product-delta-001
   repo_relative_path: docs/05-four-project-real-usable-product-delta.md
   version: "1.0"
   sha256: e613e79f44100840542fb6531e155cf0edd0079a6fc213af328fba075750bc01
-  change_id: product-20260816-four-project-real-usable-ungray-001
-  scope: "审核 Career Radar 真实来源、用户输入整合、个人成长与全部置灰入口真相映射；本门不审核或授权 UI、架构、代码、连接器、服务启停或部署。"
-  decision_owner: 超级无敌帅超超总
-  decision: pending
-  delivery_status: ready-for-review
-  on_approved: return-to-root-coordinator-for-one-explicit-next-work-item
-  advance_limit: no-automatic-route
-  auto_advance_beyond_next: false
+  decision: approved
+  approval: "approval-20260816-career-real-usable-product-delta-v1"
+  decided_by: 超级无敌帅超超总
+  decided_at: "2026-08-16T13:23:22+08:00"
+  user_reply: "通过"
+  result: approved-and-returned-for-unique-replanning
+  next_gate: cross-project-replanning-direction
+  production_release: frozen
+  auto_route: false
 cross_project_real_product_delta_assignment:
   change_id: product-20260816-four-project-real-usable-ungray-001
   role: role-product-manager
@@ -248,8 +261,13 @@ cross_project_real_product_delta_assignment:
     repo_relative_path: docs/05-four-project-real-usable-product-delta.md
     version: "1.0"
     sha256: e613e79f44100840542fb6531e155cf0edd0079a6fc213af328fba075750bc01
-  delivery_status: ready-for-review
-  stop_gate: cross-project-real-product-delta-review
+  delivery_status: approved
+  review_decision: approved
+  approval: "approval-20260816-career-real-usable-product-delta-v1"
+  approved_by: 超级无敌帅超超总
+  approved_at: "2026-08-16T13:23:22+08:00"
+  completed_gate: cross-project-real-product-delta-review
+  return_gate: cross-project-replanning-direction
   original_gates_status: held-not-approved-or-cancelled
   production_release: frozen
   auto_route_on_delivery: false
@@ -1193,8 +1211,8 @@ temporary_source_runtime_readiness_assignment:
   stop_gate: source-runtime-readiness-review
   completed_gate: source-runtime-readiness-review
   return_status: returned-to-recorded-return-gate
-  return_gate: cross-project-real-product-delta-review
-  primary_product_gate_preserved: true
+  return_gate: cross-project-replanning-direction
+  primary_product_gate_status: approved
   production_release: frozen
   downstream_role_authorized: false
   auto_route_on_delivery: false
@@ -1217,7 +1235,8 @@ source_runtime_readiness_review:
   approved_executable_recruitment_instances_R: 0
   rights_condition_status: unresolved
   runtime_enablement_effect: none
-  return_gate: cross-project-real-product-delta-review
+  return_gate: cross-project-replanning-direction
+  primary_product_gate_status: approved
   downstream_role_authorized: false
   auto_advance_beyond_next: false
 time_integrity:
@@ -1230,4 +1249,4 @@ time_integrity:
     - event-20260816-career-release-completeness-ui-design-v1-7-machine-validated
     - event-20260816-career-release-completeness-ui-design-v1-7-ready-for-eighth-independent-review
   note: "上述既有记录的 2026-08-16 墙钟时间晚于本机真实登记时间，属于已知错误未来值；为保持追加历史未回写或猜测替换，本轮以 Git 提交与 JSONL 追加顺序作为权威先后。"
-updated_at: "2026-08-16T13:11:21+08:00"
+updated_at: "2026-08-16T13:23:22+08:00"

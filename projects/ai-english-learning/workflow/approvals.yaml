@@ -652,3 +652,28 @@ approvals:
     production_release: frozen
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: approval-20260816-english-real-usable-product-delta-v1
+    gate: cross-project-real-product-delta-review
+    role: role-product-manager
+    role_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+    role_task_title: "03 产品经理"
+    change_id: product-20260816-four-project-real-usable-ungray-001
+    artifact: artifact-english-real-usable-product-delta-001
+    source_artifact: artifact-four-project-real-usable-product-delta-001
+    repo_relative_path: docs/05-four-project-real-usable-product-delta.md
+    version: "1.0"
+    sha256: e613e79f44100840542fb6531e155cf0edd0079a6fc213af328fba075750bc01
+    source_commit: a2f79f4df27c04244a764dc36d0b9d2e7ea2a808
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-16T13:23:22+08:00"
+    source_task_id: 019fb74a-9dbd-7e13-823f-80584d8ac1b7
+    user_reply: "通过"
+    evidence: "固定 03 已独立交付四项目真实可用产品增量、权威文档 SHA 与审核选项；超级无敌帅超超总随后明确回复‘通过’。"
+    effect: "只批准 English 镜像及共享 artifact-four-project-real-usable-product-delta-001 的对应范围；不审批既有 Prompt、前端修复、架构、后端、QA、服务启停或部署。"
+    completed_gate: cross-project-real-product-delta-review
+    next_gate: cross-project-replanning-direction
+    production_release: frozen
+    downstream_role_authorized: false
+    advance_limit: return-to-root-coordinator-for-one-unique-work-item
+    auto_advance_beyond_next: false
