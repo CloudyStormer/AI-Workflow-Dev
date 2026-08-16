@@ -4,7 +4,7 @@ run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
 stage: ui-ux
-status: release-completeness-ui-design-v1-7-independent-review-passed-user-review-pending
+status: release-completeness-ui-design-v1-7-approved-english-el-ui-001-routed
 current_role: role-ui-designer
 blocked: false
 ui_assets:
@@ -214,21 +214,17 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
-  gate: ui-design-review
-  artifact: "artifact-career-release-completeness-ui-design-008"
-  visual_bundle: "artifact-career-release-completeness-ui-visuals-008"
-  path: ui/12-release-completeness-ui-design-v1.7.md
-  version: "1.7"
-  sha256: 636d3fcecc3266b8cdc3234614dda68222f67294016d9f22129f87fd552d7fae
-  resolved_manifest: ui/release-completeness-v1.7/resolved-manifest.json
-  resolved_manifest_sha256: e075431cbe55764ad4959a55702272bbfea52d3318847284146d7a8dbe863474
-  scope: "CR-UI-002 v1.7 resolved 49 张设计包已完成第八轮独立视觉审查：29 张 v1.7 overlay 修订、20 张 v1.6 resolved 按 SHA 复用，P0/P1/P2 均为 0；当前只等待超级无敌帅超超总执行用户 UI 设计审核。"
+  gate: completed
+  scope: "Career CR-UI-002 v1.7 已获批准；按已批准四项目重排计划，只路由同一固定 04 的 English EL-UI-001，不启动 Career 架构、开发、服务或部署。"
   decision_owner: 超级无敌帅超超总
-  decision: pending
-  delivery_status: independent-review-passed-ready-for-user-review
-  options: [通过, 修改, 打回]
-  on_approved: "只完成当前 v1.7 设计审批；是否恢复下游必须再按已批准根计划与架构影响确定唯一下一站，固定 04 不自行路由。"
-  advance_limit: current-v1-7-user-ui-design-review-only
+  decision: approved
+  approval: "approval-20260816-career-release-completeness-ui-design-v1-7"
+  decided_at: "2026-08-16T11:12:15+08:00"
+  delivery_status: approved
+  next_project: ai-english-learning
+  next_work_item: EL-UI-001
+  on_approved: completed-and-routed-one-cross-project-step
+  advance_limit: unique-next-stage-only
   auto_advance_beyond_next: false
 release_scope_product_assignment:
   change_group_id: "prd-20260814-four-project-release-completeness-001"
@@ -1062,8 +1058,8 @@ release_completeness_ui_design_revision_v1_7:
       review_manifest_sha256: 1752413f09362e3b41e07798da3cbcb87d79f00e70e2cc57cb0acc5425281a13
       button_raster_report: ui/release-completeness-v1.7/button-raster-report.json
       button_raster_report_sha256: 5c70e022d2e1112d04bd591b7f26933b0908365df9e64e4a8ef90fe7edb68290
-  scheduling: completed-awaiting-user-ui-design-review
-  delivery_status: ready-for-user-review
+  scheduling: completed-approved-and-next-work-item-routed
+  delivery_status: approved
   completed_at: "2026-08-16T03:10:00+08:00"
   completed_at_timestamp_status: known-invalid-future-value-preserved
   validation_status: independent-review-passed
@@ -1090,9 +1086,19 @@ release_completeness_ui_design_revision_v1_7:
     negative_fixtures: baseline-container-collision-viewport-all-exit-1
     immutable_history: approved-prompt-v1-through-v1-6-and-v1-6-resolved-matched
     self_claimed_independent_review: prohibited-and-not-present
-  result: career-release-completeness-ui-design-v1-7-ready-for-user-ui-design-review
-  return_gate: ui-design-review
-  downstream_route_authorized: false
+  approval: "approval-20260816-career-release-completeness-ui-design-v1-7"
+  approved_by: 超级无敌帅超超总
+  approved_at: "2026-08-16T11:12:15+08:00"
+  review_decision: approved
+  result: career-release-completeness-ui-design-v1-7-approved-and-english-el-ui-001-routed
+  completed_gate: ui-design-review
+  next_project: ai-english-learning
+  next_work_item: EL-UI-001
+  next_change_id: ui-prompt-20260816-english-release-completeness-001
+  next_gate: ui-prompt-review
+  downstream_route_authorized: true
+  route_authorization: approval-20260816-english-release-completeness-ui-prompt-entry
+  production_release: frozen
   other_projects_untouched: true
 time_integrity:
   recorded_at: "2026-08-15T23:41:10+08:00"
@@ -1104,4 +1110,4 @@ time_integrity:
     - event-20260816-career-release-completeness-ui-design-v1-7-machine-validated
     - event-20260816-career-release-completeness-ui-design-v1-7-ready-for-eighth-independent-review
   note: "上述既有记录的 2026-08-16 墙钟时间晚于本机真实登记时间，属于已知错误未来值；为保持追加历史未回写或猜测替换，本轮以 Git 提交与 JSONL 追加顺序作为权威先后。"
-updated_at: "2026-08-15T23:41:10+08:00"
+updated_at: "2026-08-16T11:12:15+08:00"

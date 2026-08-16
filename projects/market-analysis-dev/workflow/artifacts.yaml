@@ -1754,7 +1754,7 @@ artifacts:
     type: ui-ux-design-specification
     path: ui/12-release-completeness-ui-design-v1.7.md
     version: "1.7"
-    status: ready-for-user-review
+    status: approved
     owner: role-ui-designer
     role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
     role_task_title: "04 UI/UX设计师"
@@ -1813,15 +1813,23 @@ artifacts:
       negative_fixtures: four-of-four-exit-code-1
       immutable_history: approved-prompt-and-v1-through-v1-6-matched
       forbidden_self_claims: no-self-claimed-independent-visual-review-pass
-    user_ui_design_review: pending
-    downstream_route_authorized: false
-    stop_gate: ui-design-review
+    user_ui_design_review: approved
+    approval: "approval-20260816-career-release-completeness-ui-design-v1-7"
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-16T11:12:15+08:00"
+    review_decision: approved
+    result: approved-and-english-el-ui-001-authorized
+    completed_gate: ui-design-review
+    next_project: ai-english-learning
+    next_work_item: EL-UI-001
+    next_gate: ui-prompt-review
+    downstream_route_authorized: true
     auto_route_on_delivery: false
   - id: "artifact-career-release-completeness-ui-visuals-008"
     run_id: "run-20260803-market-analysis-dev-init-001"
     type: ui-visual-prototype-resolved-overlay-bundle
     version: "1.7"
-    status: ready-for-user-review
+    status: approved
     owner: role-ui-designer
     work_item: "CR-UI-002"
     change_id: "ui-design-20260816-career-release-completeness-v1-7-008"
@@ -1883,9 +1891,17 @@ artifacts:
       button_label_png_pixel_centers: machine-passed-20-of-20
       generated_strings_are_not_manual-review: true
       downstream_route_authorized: false
-    user_ui_design_review: pending
-    downstream_route_authorized: false
-    stop_gate: ui-design-review
+    user_ui_design_review: approved
+    approval: "approval-20260816-career-release-completeness-ui-design-v1-7"
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-16T11:12:15+08:00"
+    review_decision: approved
+    result: approved-as-linked-visual-bundle
+    completed_gate: ui-design-review
+    next_project: ai-english-learning
+    next_work_item: EL-UI-001
+    next_gate: ui-prompt-review
+    downstream_route_authorized: true
     auto_route_on_delivery: false
-    advance_limit: current-v1-7-design-review-only
+    advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false

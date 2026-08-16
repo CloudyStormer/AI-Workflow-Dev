@@ -1059,7 +1059,7 @@ artifacts:
   - id: artifact-spaced-recall-storage-safety-code-rereview-003
     type: code-rereview
     path: docs/06-code-review.md
-    status: ready-for-review
+    status: approved
     owner: role-code-reviewer
     role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
     change_id: rereview-20260815-spaced-recall-storage-safety-fix-003
@@ -1118,5 +1118,12 @@ artifacts:
       production_deployment: not-authorized
     qa_recommendation: blocked-pending-generation-fix-and-rereview
     completed_at: "2026-08-15T22:56:16+08:00"
-    stop_gate: code-rereview-conclusion-review
+    approval: approval-20260816-spaced-recall-storage-safety-code-rereview-conclusion
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-16T11:12:15+08:00"
+    review_decision: approved
+    result: changes-requested-approved-and-frontend-generation-fix-authorized
+    completed_gate: code-rereview-conclusion-review
+    next_change_id: fix-20260816-spaced-recall-storage-generation-aba-004
+    next_gate: frontend-fix-delivery-review
     auto_route: false
