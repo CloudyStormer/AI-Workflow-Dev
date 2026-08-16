@@ -19,8 +19,8 @@ artifacts:
     path: ui/README.md
     status: active
     owner: package-contractor
-    sha256: 613f89efa9766a8cc53b9e4319b5af663d8ec7393267301e79fb40ad62e86e33
-    updated_at: "2026-08-10T17:00:23+08:00"
+    sha256: cb615ee74aa51aecf170d88e395db21325233c266296c7c7a2b830c3f2650544
+    updated_at: "2026-08-16T22:34:21+08:00"
   - id: artifact-ui-prompt-001
     type: ui-design-prompt
     path: ui/01-control-center-ui-design-prompt.md
@@ -604,19 +604,73 @@ artifacts:
     type: ui-design-prompt
     path: ui/02-release-completeness-ui-prompt.md
     version: "1.0"
-    status: in-progress
+    status: ready-for-review
     owner: role-ui-designer
     role_task_id: 019fb74a-9f5f-7433-999e-2e30012296a0
     work_item: CC-UI-001
     change_id: ui-prompt-20260816-control-release-completeness-001
     entry_approval: approval-20260816-control-release-completeness-ui-prompt-entry
     safe_checkpoint: 38c3e0a23aff09a175588c73feebc09f92763e4d
+    write_base: e595b57971fc15c3feeefaddb75bf37fc9c5e880
+    upstream:
+      release_replanning_plan:
+        path: docs/04-four-project-release-completeness-replanning-plan.md
+        version: "1.0"
+        sha256: 96decb8f1835cc85bd530c21b2969d4d077f31e6086425ea911f9d5b187bbe26
+      release_completeness_appendix:
+        path: docs/02-prd-release-completeness-appendix.md
+        version: "1.0"
+        sha256: 624e6e8cfc724f909e912faa00de8726101a38bd1a05ef7f10471f9d20ad4aa5
+      real_usable_product_delta:
+        path: docs/05-four-project-real-usable-product-delta.md
+        version: "1.0"
+        sha256: e613e79f44100840542fb6531e155cf0edd0079a6fc213af328fba075750bc01
+      backend_product_increment:
+        path: docs/02-prd.md
+        version: "1.0"
+        sha256: cb41e5e4184fd8df69b8bf1269ae0ef11b540f17f2cb621f6e5da484f9660b93
     previous_artifact: artifact-control-center-backend-ui-prompt-001
     previous_path: ui/01-control-center-ui-design-prompt.md
     previous_version: "1.1"
     previous_sha256: bf1614e5f8fe9d6e2d7a9457bcf8ce0c6aadecfff9ef770c067560ed37368b52
     historical_visual_asset_count: 9
-    result: role-entered-awaiting-prompt-delivery
+    sha256: caafe53a51a77283c363483bf34b9dba843f5a1add8d7fd17c9d74a1d336570e
+    ui_index:
+      path: ui/README.md
+      sha256: cb615ee74aa51aecf170d88e395db21325233c266296c7c7a2b830c3f2650544
+    coverage:
+      primary_navigation_count: 6
+      p0_destination_view_count: 12
+      chart_type_count: 19
+      fixed_role_identity_count: 12
+      desktop_pages: 12
+      tablet_key_pages: 4
+      paired_mobile_page_groups: 8
+      truth_state_assets: 4
+      acceptance_mapping:
+        - AC-CC-REL-01..AC-CC-REL-16
+        - AC-CC-REAL-01..AC-CC-REAL-06
+        - AC-CC-BE-01..AC-CC-BE-28
+    truth_boundary:
+      current_frontend_data: hardcoded-demo-and-pending
+      backend_runtime: not-implemented
+      workflow_reader: not-implemented
+      real_data_integration: not-implemented
+      business_and_git_write_actions: zero-by-design
+      prompt_is_approved_visual_design: false
+      generated_design_or_images: false
+      production_release: frozen
+    validation:
+      prompt_structure: passed
+      simplified_chinese: passed
+      real_readonly_domains: mapped-project-role-approval-artifact-event-issue-release-source
+      health_readiness_freshness_degradation: passed
+      responsive_accessibility: passed-by-spec
+      historical_assets_preserved: 9-of-9
+      no_design_image_code_service_or_downstream_route: passed
+    completed_at: "2026-08-16T22:34:21+08:00"
+    result: ready-for-review
     stop_gate: ui-prompt-review
+    next_role: none-until-review
     production_release: frozen
     auto_route: false

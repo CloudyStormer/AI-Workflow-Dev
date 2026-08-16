@@ -2,7 +2,7 @@ schema_version: 1
 project_id: "workflow-control-center"
 structure_status: normalized
 stage: ui-design-prompt
-status: control-release-completeness-ui-prompt-in-progress
+status: control-release-completeness-ui-prompt-ready-for-review
 current_role: role-ui-designer
 blocked: false
 ui_assets:
@@ -35,7 +35,7 @@ next_approval:
   scope: "审核 CC-UI-001 发布完整性 UI/UX Prompt；本门不自动批准设计、架构、开发、QA、服务或部署。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: in-progress
+  delivery_status: ready-for-review
   artifact: artifact-control-release-completeness-ui-prompt-001
   expected_path: ui/02-release-completeness-ui-prompt.md
   work_item: CC-UI-001
@@ -567,18 +567,23 @@ authorized_ui_prompt_assignment:
   next_gate: ui-design-review
   auto_route_on_delivery: false
 latest_ui_prompt_delivery:
-  artifact: artifact-control-center-backend-ui-prompt-001
-  path: ui/01-control-center-ui-design-prompt.md
-  version: "1.1"
-  sha256: bf1614e5f8fe9d6e2d7a9457bcf8ce0c6aadecfff9ef770c067560ed37368b52
-  ui_index_sha256: 613f89efa9766a8cc53b9e4319b5af663d8ec7393267301e79fb40ad62e86e33
-  change_id: ui-prompt-20260810-control-center-backend-state-001
-  status: approved
+  artifact: artifact-control-release-completeness-ui-prompt-001
+  path: ui/02-release-completeness-ui-prompt.md
+  version: "1.0"
+  sha256: caafe53a51a77283c363483bf34b9dba843f5a1add8d7fd17c9d74a1d336570e
+  ui_index_sha256: cb615ee74aa51aecf170d88e395db21325233c266296c7c7a2b830c3f2650544
+  change_id: ui-prompt-20260816-control-release-completeness-001
+  work_item: CC-UI-001
+  status: ready-for-review
   completed_by: role-ui-designer
-  completed_at: "2026-08-10T16:11:53+08:00"
-  approval: approval-20260810-control-center-backend-ui-prompt-v1-1
-  approved_at: "2026-08-10T17:00:23+08:00"
-  next_gate: ui-design-review
+  completed_at: "2026-08-16T22:34:21+08:00"
+  entry_approval: approval-20260816-control-release-completeness-ui-prompt-entry
+  next_gate: ui-prompt-review
+  previous_artifact: artifact-control-center-backend-ui-prompt-001
+  previous_path: ui/01-control-center-ui-design-prompt.md
+  previous_version: "1.1"
+  previous_sha256: bf1614e5f8fe9d6e2d7a9457bcf8ce0c6aadecfff9ef770c067560ed37368b52
+  historical_visual_asset_count: 9
   generated_ui_design: false
   generated_prototype: false
   generated_images: false
@@ -592,11 +597,33 @@ control_release_completeness_ui_prompt_assignment:
   role_task_title: "04 UI/UX设计师"
   authorization: approval-20260816-control-release-completeness-ui-prompt-entry
   safe_checkpoint: 38c3e0a23aff09a175588c73feebc09f92763e4d
+  write_base: e595b57971fc15c3feeefaddb75bf37fc9c5e880
   expected_output:
     artifact: artifact-control-release-completeness-ui-prompt-001
     path: ui/02-release-completeness-ui-prompt.md
     version: "1.0"
-  status: in-progress
+    sha256: caafe53a51a77283c363483bf34b9dba843f5a1add8d7fd17c9d74a1d336570e
+    ui_index_path: ui/README.md
+    ui_index_sha256: cb615ee74aa51aecf170d88e395db21325233c266296c7c7a2b830c3f2650544
+  coverage:
+    primary_navigation_count: 6
+    p0_destination_view_count: 12
+    chart_type_count: 19
+    fixed_role_identity_count: 12
+    acceptance_mapping:
+      - AC-CC-REL-01..AC-CC-REL-16
+      - AC-CC-REAL-01..AC-CC-REAL-06
+      - AC-CC-BE-01..AC-CC-BE-28
+  validation:
+    prompt_structure: passed
+    simplified_chinese: passed
+    truth_and_zero_write_boundary: passed
+    responsive_and_accessibility: passed-by-spec
+    historical_assets_preserved: 9-of-9
+    generated_design_prototype_or_images: false
+    modified_application_database_reader_or_service: false
+  status: ready-for-review
+  completed_at: "2026-08-16T22:34:21+08:00"
   stop_gate: ui-prompt-review
   preserved_history:
     prompt: ui/01-control-center-ui-design-prompt.md
@@ -610,4 +637,4 @@ control_release_completeness_ui_prompt_assignment:
     - downstream-route
   production_release: frozen
   auto_route_on_delivery: false
-updated_at: "2026-08-16T22:21:39+08:00"
+updated_at: "2026-08-16T22:34:21+08:00"
