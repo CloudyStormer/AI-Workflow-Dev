@@ -303,12 +303,13 @@ artifacts:
   - id: artifact-control-center-frontend-code-fix-001
     type: frontend-fix
     path: app/
-    status: ready-for-review
+    status: approved
     owner: role-frontend-dev
     role_task_id: 019fb74a-a427-7101-9941-442c34b157e3
     change_id: fix-20260815-control-center-code-review-findings-001
     authorization: approval-20260815-control-center-frontend-code-fix-entry
     safe_base: b5a972cfaa7309eead245f6a888410e1eeb5041b
+    source_commit: 945b98320002d50605943697c5ce5c5e63ec2800
     input:
       artifact: artifact-control-center-code-review-001
       path: docs/06-code-review.md
@@ -380,7 +381,7 @@ artifacts:
       suggestion_deferred_by_scope:
         - CR-S-001-deployment-security-verification
         - CR-S-002-real-network-interaction-timing
-      formal_closure: pending-user-approval-and-fixed-09-rereview
+      formal_closure: pending-fixed-09-rereview
     validation:
       node: "24.19.0"
       typecheck: passed
@@ -409,7 +410,12 @@ artifacts:
       write_actions: readonly-not-supported
       production_deployment: not-authorized
     completed_at: "2026-08-15T23:35:34+08:00"
-    result: ready-for-frontend-fix-delivery-review
-    stop_gate: frontend-fix-delivery-review
-    next_role: none-until-user-approval
+    approval: approval-20260816-control-center-frontend-code-fix-delivery
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-16T11:12:15+08:00"
+    review_decision: approved
+    result: approved-and-code-rereview-authorized
+    completed_gate: frontend-fix-delivery-review
+    next_change_id: rereview-20260816-control-center-frontend-code-fix-001
+    next_gate: code-rereview-conclusion-review
     auto_route: false

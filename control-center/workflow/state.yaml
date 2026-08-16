@@ -100,13 +100,14 @@ authorized_user_ui_generation:
   role_ui_designer_generation_required: false
   frontend_or_code_authorized: false
 latest_approved_artifact:
-  artifact: artifact-control-center-frontend-redesign-001
+  artifact: artifact-control-center-frontend-code-fix-001
   path: app/
-  source_commit: a35316d
+  version: "fix-001"
+  source_commit: 945b98320002d50605943697c5ce5c5e63ec2800
   status: approved
-  approval: approval-20260806-control-center-frontend-delivery
+  approval: approval-20260816-control-center-frontend-code-fix-delivery
   approved_by: 超级无敌帅超超总
-  approved_at: "2026-08-06T12:03:00+08:00"
+  approved_at: "2026-08-16T11:12:15+08:00"
 ui_visual_baseline:
   artifact: artifact-control-center-user-ui-baseline-001
   path: ui/
@@ -219,8 +220,8 @@ parallel_control_center_frontend_code_fix:
     - CR-P2-002
     - CR-P2-003
     - CR-S-002-responsive-and-chunk-budget
-  delivery_status: ready-for-review
-  formal_finding_closure: pending-user-approval-and-fixed-09-rereview
+  delivery_status: approved
+  formal_finding_closure: pending-fixed-09-rereview
   validation:
     node: "24.19.0"
     lint: passed-zero-warnings
@@ -236,16 +237,49 @@ parallel_control_center_frontend_code_fix:
     npm_test_stability: passed-two-consecutive-clean-exits
     independent_final_review: passed-0-p0-0-p1-0-p2
   completed_at: "2026-08-15T23:35:34+08:00"
-  result: control-center-frontend-code-fix-ready-for-review
-  stop_gate: frontend-fix-delivery-review
-  next_role: none-until-user-approval
+  source_commit: 945b98320002d50605943697c5ce5c5e63ec2800
+  approval: approval-20260816-control-center-frontend-code-fix-delivery
+  approved_by: 超级无敌帅超超总
+  approved_at: "2026-08-16T11:12:15+08:00"
+  review_decision: approved
+  result: approved-and-code-rereview-authorized
+  completed_gate: frontend-fix-delivery-review
+  next_gate: code-rereview-conclusion-review
   preserved_top_level:
     stage: product-definition
     status: release-scope-approved-awaiting-cross-project-replanning
     next_gate: cross-project-replanning-direction
     production_release: frozen
   auto_route_on_delivery: false
-implementation_gate: "固定 09 的 changes-requested 结论已获批准，固定 06 修复交付现停在 frontend-fix-delivery-review；未经超级无敌帅超超总通过不得启动固定 09 复审、QA、后端或部署。跨项目重规划门和生产冻结保持不变。"
+parallel_control_center_frontend_code_rereview:
+  change_id: rereview-20260816-control-center-frontend-code-fix-001
+  role: role-code-reviewer
+  role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
+  role_task_title: "09 代码审查员"
+  authorization: approval-20260816-control-center-code-rereview-entry
+  upstream_approval: approval-20260816-control-center-frontend-code-fix-delivery
+  input:
+    artifact: artifact-control-center-frontend-code-fix-001
+    path: app/
+    source_commit: 945b98320002d50605943697c5ce5c5e63ec2800
+    diff_base: b5a972cfaa7309eead245f6a888410e1eeb5041b
+    original_review_artifact: artifact-control-center-code-review-001
+    original_review_path: docs/06-code-review.md
+  scope: "只读复审原 6 项 Major、3 项 Minor 与本批 CR-S-002 的修复，独立核对筛选、搜索、导出、只读边界、跨视图真实性、简体中文、响应式、无障碍、性能与测试门禁；不得代修代码或进入 QA、后端、跨项目重规划和部署。"
+  expected_output:
+    artifact: artifact-control-center-frontend-code-rereview-001
+    path: docs/06-code-review.md
+  scheduling: routed-awaiting-fixed-09-role-announcement
+  routed_at: "2026-08-16T11:12:15+08:00"
+  delivery_status: authorized
+  stop_gate: code-rereview-conclusion-review
+  preserved_top_level:
+    stage: product-definition
+    status: release-scope-approved-awaiting-cross-project-replanning
+    next_gate: cross-project-replanning-direction
+    production_release: frozen
+  auto_route_on_delivery: false
+implementation_gate: "artifact-control-center-frontend-code-fix-001 已获超级无敌帅超超总批准，并只一跳授权固定 09 执行 rereview-20260816-control-center-frontend-code-fix-001。固定 09 交付后必须停 code-rereview-conclusion-review；QA、后端、跨项目重规划和生产部署均未获本次授权。顶层重规划门与生产冻结保持不变。"
 runtime:
   live_url: "https://ai-workflow-control-center.honest-flute-5906.chatgpt.site"
   deployed_version: 3
@@ -383,4 +417,4 @@ latest_ui_prompt_delivery:
   generated_images: false
   modified_application_or_service_code: false
   held_mainline_artifact: artifact-control-center-code-review-001
-updated_at: "2026-08-15T23:35:34+08:00"
+updated_at: "2026-08-16T11:12:15+08:00"
