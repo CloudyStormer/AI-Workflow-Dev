@@ -1,5 +1,83 @@
 # AI Workflow Control Center 前端代码审查
 
+## 复审更新：前端代码修复 001
+
+### 复审元数据
+
+- artifact: `artifact-control-center-frontend-code-rereview-001`
+- change_id: `rereview-20260816-control-center-frontend-code-fix-001`
+- authorization: `approval-20260816-control-center-code-rereview-entry`
+- input_artifact: `artifact-control-center-frontend-code-fix-001`
+- source_commit: `945b98320002d50605943697c5ce5c5e63ec2800`
+- diff_base: `b5a972cfaa7309eead245f6a888410e1eeb5041b`
+- original_review: `artifact-control-center-code-review-001`
+- original_report_sha256: `c3d53359f5ecfe718557595797635d1e4c3dfc9de1d4af4f785ef79a15c01343`
+- reviewer: 固定 `09 代码审查员`（`role-code-reviewer`）
+- reviewed_at: `2026-08-16T11:27:20+08:00`
+- scope: 只读复审原 6 项 Major、3 项 Minor 与本批采纳的 CR-S-002 响应式和分块预算，独立核对筛选、搜索、导出、只读边界、跨视图真实性、简体中文、响应式、无障碍、性能与回归门禁
+- excluded: 代修业务代码、后端、QA、跨项目重规划、部署与生产发布
+
+### 复审结论
+
+**结论：通过。原 6 项 Major 与 3 项 Minor 全部关闭；本次未发现新的 P0、P1 或 P2。**
+
+源提交是 `diff_base` 的直接子提交；登记的 21 个修复文件 SHA-256 全部与当前文件一致，且从 `source_commit` 到复审基线没有业务源码漂移。四类全局筛选现在统一校验、恢复并写入 URL；各视图对无法证明的项目、时间、迭代或来源覆盖会停止显示旧数值。项目页三类局部筛选从结构化当前阶段派生，卡片、矩阵和详情使用同一结果集；搜索定位与导出范围也服从同一筛选域。AI English Learning 的质量、发布演示样本在总览、质量与发布视图中的归属一致，其他单项目不会复用该样本。
+
+只读边界已改为原生禁用控件或明确的非交互样例，没有虚假成功状态；角色泳道保留原生按钮语义和 `aria-pressed`，阶段矩阵使用原生表格。六个一级视图均独立懒加载，最大客户端 JavaScript 块为 `271,360 B`，Dashboard 壳块为 `90,117 B`。真实 Chrome 门禁覆盖 1440、1024、390、320 四档、六个视图共 24 组组合，页面级无横向溢出，控制台 0 error / 0 warning；键盘、焦点恢复与 Chrome AX tree 中的表格、行列标题、筛选名称、pressed 和 disabled 状态均通过。
+
+| 严重级别 | 数量 | 门禁影响 |
+| --- | ---: | --- |
+| Blocker / P0 | 0 | 无 |
+| Major / P1 | 0 | 原 6 项全部关闭 |
+| Minor / P2 | 0 | 原 3 项全部关闭 |
+| 新发现 | 0 | 无新增修复项 |
+
+### 原 finding 处置
+
+| Finding | 复审状态 | 独立证据 |
+| --- | --- | --- |
+| CR-P1-001 | 已关闭 | `dashboard-filtering.ts` 建立四维筛选模型；URL 恢复、非法值回退、六视图覆盖停显与重置在真实 Chrome 中通过 |
+| CR-P1-002 | 已关闭 | 项目状态取 `project.stages[project.stage]`，责任角色取 `STAGE_OWNERS[project.stage]`，来源取结构化字段；卡片、矩阵、详情和空状态一致 |
+| CR-P1-003 | 已关闭 | 原模拟流转与虚假成功提示已移除；桌面和移动端状态流转控件均为原生 `disabled`，AX tree 暴露 `disabled=true` |
+| CR-P1-004 | 已关闭 | 角色泳道改为 `ul > li > button`，无 role 覆盖，单选状态以 `aria-pressed` 表达并通过键盘回归 |
+| CR-P1-005 | 已关闭 | 阶段矩阵改为原生 `table/thead/tbody/th/td`，详情按钮保留可操作语义；AX tree 可识别表格、列标题与项目行标题 |
+| CR-P1-006 | 已关闭 | 新增领域、客户端预算和真实 Chrome/CDP 门禁；关键筛选、搜索、导出、键盘、焦点、AX tree 与四档响应式均由可执行断言覆盖 |
+| CR-P2-001 | 已关闭 | 项目卡片使用 `article/h2/dl`，选择行为由独立命名按钮承载并暴露 `aria-pressed` |
+| CR-P2-002 | 已关闭 | 状态规范中的无行为按钮已降级为明确标注“样例”的非交互文本 |
+| CR-P2-003 | 已关闭 | 六个一级视图为独立动态入口；所有客户端块低于 500 kB，Dashboard 壳低于 180 kB 项目预算 |
+| CR-S-002 已采纳部分 | 已验证 | 1440/1024/390/320 运行时溢出断言与可重复客户端分块预算通过；真实网络交互时序仍属于后续非阻断性能基线 |
+
+### 独立验证记录
+
+| 检查 | 结果 |
+| --- | --- |
+| Git 与输入完整性 | `HEAD == origin/main == 95f33855815951386cb14496e44d33dfb976897b`；输入 21/21 SHA-256 一致；源码从 `945b983` 后无漂移 |
+| Node.js | `24.19.0`，满足 `>=22.13.0` |
+| `npm run lint` | 通过，0 error / 0 warning |
+| `npm run typecheck` | 通过 |
+| `npm test` | 通过；build、静态 3/3、领域 3/3、性能 2/2、真实 Chrome 1/1 |
+| 真实 Chrome | 24 个视图/视口组合通过；控制台 0 error / 0 warning；键盘、焦点与 AX tree 通过 |
+| 客户端预算 | 最大块 `271,360 B`；Dashboard 壳 `90,117 B`；六视图均为动态入口 |
+| 安全与真实性静态复核 | 未发现危险 HTML/动态代码执行、浏览器凭证存储、前端网络写入或新增后端；导出只包含当前筛选内演示字段 |
+| Prompt v1.1 与架构契约 | 完整简体中文、演示/待接入标识、只读边界和 Sites/Vinext 无新增后端契约保持 |
+
+### 保留限制
+
+- 本批没有依赖版本变更，且原审查已记录当前镜像的 npm audit endpoint 返回 404；本次未重复联网审计，因此不能把复审结论解释为“依赖无已知漏洞”。
+- CSP、HSTS 等真实响应头与真实网络交互时序仍需在获批的部署或性能门禁中验证；本复审不授权访问生产环境或扩大部署范围。
+- 页面数据仍是明确标注日期的前端演示快照，不是当前根仓真实状态源；复审通过不改变这一真实性边界。
+
+### 复审停止门
+
+- 当前停止门：`code-rereview-conclusion-review`
+- 当前决策：等待超级无敌帅超超总审核 `artifact-control-center-frontend-code-rereview-001`。
+- 本次通过只表示本批代码修复满足复审范围；不自动进入 QA、后端、跨项目重规划、部署或生产发布。
+- 顶层状态继续保持 `product-definition / release-scope-approved-awaiting-cross-project-replanning`，下一门仍为 `cross-project-replanning-direction`，生产发布继续冻结。
+
+---
+
+以下保留原始代码审查记录，便于逐项追溯。
+
 ## 审查元数据
 
 - project_id: `workflow-control-center`

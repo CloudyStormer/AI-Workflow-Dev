@@ -419,3 +419,78 @@ artifacts:
     next_change_id: rereview-20260816-control-center-frontend-code-fix-001
     next_gate: code-rereview-conclusion-review
     auto_route: false
+  - id: artifact-control-center-frontend-code-rereview-001
+    type: code-rereview
+    path: docs/06-code-review.md
+    status: ready-for-review
+    owner: role-code-reviewer
+    role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
+    change_id: rereview-20260816-control-center-frontend-code-fix-001
+    authorization: approval-20260816-control-center-code-rereview-entry
+    input:
+      artifact: artifact-control-center-frontend-code-fix-001
+      source_commit: 945b98320002d50605943697c5ce5c5e63ec2800
+      diff_base: b5a972cfaa7309eead245f6a888410e1eeb5041b
+      registered_files: 21
+      sha256_match: 21-of-21
+    original_review:
+      artifact: artifact-control-center-code-review-001
+      path: docs/06-code-review.md
+      sha256: c3d53359f5ecfe718557595797635d1e4c3dfc9de1d4af4f785ef79a15c01343
+    sha256: 65606bd82da7948a02940cc35b0051193ebd32cc25a2c5872db1e1eb3d558adf
+    conclusion: passed
+    finding_summary:
+      blocker_p0: 0
+      major_p1: 0
+      minor_p2: 0
+      new_findings: 0
+      closed:
+        - CR-P1-001
+        - CR-P1-002
+        - CR-P1-003
+        - CR-P1-004
+        - CR-P1-005
+        - CR-P1-006
+        - CR-P2-001
+        - CR-P2-002
+        - CR-P2-003
+      suggestion_verified:
+        - CR-S-002-responsive-and-chunk-budget
+      non_blocking_follow_up:
+        - CR-S-001-deployment-security-verification
+        - CR-S-002-real-network-interaction-timing
+    independent_validation:
+      safe_base: 95f33855815951386cb14496e44d33dfb976897b
+      node: "24.19.0"
+      lint: passed-zero-warnings
+      typecheck: passed
+      build: passed
+      static_tests: passed-3-of-3
+      domain_tests: passed-3-of-3
+      performance_tests: passed-2-of-2
+      browser_test: passed-1-of-1
+      browser_viewports:
+        - 1440x1000
+        - 1024x768
+        - 390x844
+        - 320x720
+      browser_view_combinations: 24-passed
+      browser_console: zero-error-zero-warning
+      accessibility_tree: passed-names-roles-pressed-disabled-table-headers
+      max_client_chunk_bytes: 271360
+      dashboard_shell_bytes: 90117
+    truth_boundary:
+      data_status: demo-and-pending-only
+      backend_runtime_implemented: false
+      write_actions: readonly-not-supported
+      production_deployment: frozen-not-authorized
+    preserved_top_level:
+      stage: product-definition
+      status: release-scope-approved-awaiting-cross-project-replanning
+      next_gate: cross-project-replanning-direction
+      production_release: frozen
+    completed_at: "2026-08-16T11:27:20+08:00"
+    result: passed-awaiting-code-rereview-conclusion-review
+    completed_gate: code-rereview-delivery
+    next_gate: code-rereview-conclusion-review
+    auto_route: false
