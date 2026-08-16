@@ -1258,7 +1258,7 @@ artifacts:
   - id: artifact-spaced-recall-storage-generation-aba-code-rereview-004
     type: code-rereview
     path: docs/06-code-review.md
-    status: ready-for-review
+    status: approved
     owner: role-code-reviewer
     role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
     change_id: rereview-20260816-spaced-recall-storage-generation-aba-fix-004
@@ -1313,9 +1313,14 @@ artifacts:
       qa: not-entered
       production_deployment: frozen
     completed_at: "2026-08-16T15:05:27+08:00"
-    result: ready-for-code-rereview-conclusion-review
-    stop_gate: code-rereview-conclusion-review
-    next_role: none-until-user-review
+    approval: approval-20260816-spaced-recall-storage-generation-aba-code-rereview-conclusion
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-16T22:06:20+08:00"
+    review_decision: approved
+    result: approved-and-qa-authorized
+    completed_gate: code-rereview-conclusion-review
+    next_change_id: test-20260816-spaced-recall-storage-generation-aba-frontend-fix-004
+    next_gate: test-report-review
     auto_route: false
   - id: artifact-english-real-usable-product-delta-001
     type: cross-project-product-delta-reference

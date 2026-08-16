@@ -774,3 +774,63 @@ approvals:
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
     evidence: "当前前端修复交付获批后，固定 09 是唯一明确、输入完整且非高风险的下一站；本授权不递归批准复审结论或再下一站。"
+  - id: approval-20260816-spaced-recall-storage-generation-aba-code-rereview-conclusion
+    gate: code-rereview-conclusion-review
+    role: role-code-reviewer
+    role_task_id: 019fb74a-b82f-76c3-ae1c-bef178d2939b
+    role_task_title: "09 代码审查员"
+    change_id: rereview-20260816-spaced-recall-storage-generation-aba-fix-004
+    artifact: artifact-spaced-recall-storage-generation-aba-code-rereview-004
+    path: docs/06-code-review.md
+    sha256: b00e5b48324149f1e8b81f5bc3dee59e13cc65a8f4931a26e02445fee2bedf30
+    review_delivery_commit: 5ab9385e69b7cd8e8e18840241c6325872d0ec10
+    reviewed_source_commit: d3277734804745fa092803c84419861443f0cdc1
+    conclusion: passed
+    finding_summary:
+      blocker_p0: 0
+      major_p1: 0
+      minor_p2: 0
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-16T22:06:20+08:00"
+    source_task_id: 019fb746-5875-77b3-809a-08a16100d950
+    user_reply: "继续"
+    evidence: "固定 00 已明确列出当前唯一待审产物 artifact-spaced-recall-storage-generation-aba-code-rereview-004、报告路径、SHA256、提交、passed 结论和 P0/P1/P2=0/0/0；超级无敌帅超超总随后明确‘继续’，并沿用今日已执行的当前产物默认通过/不重复询问规则。"
+    effect: "只批准当前 generation ABA 代码复审结论，并按一跳规则授权唯一下一站固定 10 测试工程师执行一个独立 QA 单元；不批准未来测试报告、后端、PRD v1.4 其他功能、Control demo QA、DevOps、部署或生产发布。"
+    completed_gate: code-rereview-conclusion-review
+    next_change_id: test-20260816-spaced-recall-storage-generation-aba-frontend-fix-004
+    next_gate: test-report-review
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+  - id: approval-20260816-spaced-recall-storage-generation-aba-qa-entry
+    gate: role-entry
+    role: role-qa
+    role_task_id: 019fb74a-acbb-7442-ae63-5e61246a26f5
+    role_task_title: "10 测试工程师"
+    change_id: test-20260816-spaced-recall-storage-generation-aba-frontend-fix-004
+    upstream_approval: approval-20260816-spaced-recall-storage-generation-aba-code-rereview-conclusion
+    upstream_artifact: artifact-spaced-recall-storage-generation-aba-code-rereview-004
+    input_path: docs/06-code-review.md
+    input_sha256: b00e5b48324149f1e8b81f5bc3dee59e13cc65a8f4931a26e02445fee2bedf30
+    review_delivery_commit: 5ab9385e69b7cd8e8e18840241c6325872d0ec10
+    source_commit: d3277734804745fa092803c84419861443f0cdc1
+    diff_base: a5d0d1f30c6635f293a20938a19ad4087bc5a2b3
+    scope: "只独立测试本次 spaced recall 存储 generation ABA 修复及既有回归：generation/epoch envelope、旧 v1 锁内迁移、共享 Web Lock、普通写代次校验、破坏性重建换代、A→B→A 领域与真实双标签 React 竞态、下载隔离、完整简体中文、键盘/读屏、1440/390/320 响应式及 console clean；必须保持当前浏览器/当前设备本地数据真实性边界。"
+    exclusions:
+      - backend-or-cross-device-service-testing-as-implemented
+      - prd-v1-4-other-features
+      - control-center-demo-qa
+      - product-ui-or-business-code-change
+      - devops-or-production-deployment
+      - approve-future-test-report
+      - auto-route-any-later-role
+    expected_output: artifact-spaced-recall-storage-generation-aba-test-report-001
+    expected_path: docs/07-test-report.md
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-16T22:06:20+08:00"
+    stop_gate: test-report-review
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
