@@ -2017,3 +2017,69 @@ artifacts:
       - conditional-candidate-one-does-not-change-R-zero
       - no-connector-canary-rev-qa-runtime-or-live-snapshot
       - one-board-snapshot-cannot-support-market-share-or-trend-claims
+  - id: "artifact-career-release-completeness-architecture-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: release-completeness-architecture
+    path: docs/06-release-completeness-architecture.md
+    version: "1.0"
+    sha256: 0f6cebe45056ea5171805348f1ecc92bb5ac97b7ee3b6404aa4e05cfad9e6029
+    status: ready-for-review
+    owner: role-architect
+    role_task_id: "019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db"
+    work_item: CR-ARC-101
+    change_id: arch-20260817-career-release-completeness-001
+    authorization: approval-20260817-career-release-architecture-entry
+    authorization_source: approval-20260817-radar-release-completeness-architecture-v1-5
+    safe_write_baseline: a68f881a1ceebaac50c22417c968700a50e74750
+    inputs:
+      shared_adr_sha256: e3073a01ceda280b8dda4d77b58de7e9755d3f77d21f6ebb5497c8882508840a
+      release_plan_sha256: 96decb8f1835cc85bd530c21b2969d4d077f31e6086425ea911f9d5b187bbe26
+      product_delta_sha256: e613e79f44100840542fb6531e155cf0edd0079a6fc213af328fba075750bc01
+      domain_boundary_sha256: d8d7a594b18195e85795b01c7c9c6829222571ba65ddb9629256fab2cf29114b
+      prd_sha256: 680a399c4984c443e7bf5f5c0aa0c628e919a061839d5659c3ddbc22ddf08705
+      legacy_architecture_sha256: bcc782409ebde28e003c9e4a1c20d45ddcb3b787f8a2de020c451ef05957d144
+      ui_prompt_sha256: 983638cb6a802effe4148281233aa381802a7d542ce12e8c694640eee04f3900
+      ui_design_sha256: 636d3fcecc3266b8cdc3234614dda68222f67294016d9f22129f87fd552d7fae
+      source_allowlist_sha256: 8e590b31a19b8d4aecd910561ebcc5ee5e423d1dc299ebc4c2d6e4379c3e607e
+      source_registry_sha256: 43355d302df64a323e3ee6fe299530d72fd6df8a54bb4b24a06158a9f3621b06
+      source_runtime_readiness_sha256: ee6f32549187ed51939a3b2c11accf4c9cd67b9e50d3c5fbcc70c29949536dbd
+    frozen_truth:
+      registry_dimensions: 60-data-rows-by-35-columns
+      approved_p0_allow_technical_endpoints_T: 13
+      approved_executable_recruitment_instances_R: 0
+      CAR_END_017: conditional-outside-registry-rights-unresolved
+      CR_CONN_002: blocked-not-instantiated
+      runtime_enabled: false
+      live_connectors: 0
+      live_snapshots: 0
+      overall_readiness: not_ready
+    scope:
+      - public-research-private-user-and-governance-physical-boundaries
+      - source-seven-step-gate-coverage-snapshot-and-scheduling-contracts
+      - personal-evidence-gap-roadmap-history-sync-export-delete-and-recovery
+      - api-security-observability-five-address-test-and-tbd-matrices
+    exclusions:
+      - CR-PM-101-or-any-downstream-route
+      - registry-or-approval-mutation
+      - connector-code-data-collection-runtime-or-service
+      - frontend-backend-business-code
+      - cloud-resource-deployment-or-production
+    completed_at: "2026-08-17T11:05:18+08:00"
+    validated_at: "2026-08-17T11:06:52+08:00"
+    validation_status: passed
+    validation:
+      body_sha256: matched
+      body_lines: 727
+      workflow_yaml: 4-of-4-valid
+      events_jsonl_before_validation_event: 122-of-122-valid-and-unique
+      registry_baseline: 60-data-rows-by-35-columns-unchanged
+      project_structure: passed-with-0-warnings
+      git_boundary: passed
+      skill_drift: passed
+      diff_check: passed
+      sensitive_pattern_scan: passed
+      pre_review_hard_gates: 12-of-12-explicitly-covered
+    stop_gate: architecture-review
+    CR_PM_101_authorized: false
+    production_release: frozen
+    auto_route: false
