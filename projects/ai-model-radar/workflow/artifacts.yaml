@@ -1194,3 +1194,84 @@ artifacts:
     authorized_next_work_item: CR-ARC-101
     MR_PM_101_authorized: false
     auto_route: false
+  - id: artifact-radar-release-completeness-task-breakdown-001
+    run_id: run-20260731-intake-001
+    type: release-completeness-task-breakdown
+    path: docs/07-release-completeness-task-breakdown.md
+    version: "1.0"
+    sha256: 8d878f9a4de7e5787a3f97030f65f944194bc5f9edd58e4a6ef46ae92f9c61c7
+    status: ready-for-review
+    owner: role-pm
+    role_task_id: 019fb738-5706-7552-849f-35c8a124e2f0
+    role_task_title: "02 项目经理"
+    work_item: MR-PM-101
+    change_id: plan-20260817-radar-release-completeness-task-breakdown-001
+    authorization: approval-20260817-radar-release-completeness-task-breakdown-entry
+    authorization_source: approval-20260817-control-release-completeness-architecture-v1-1
+    write_baseline: fdfc6c75bd40b31d19ee3560b203402ccd06c3a0
+    upstream:
+      release_plan: {path: ../../docs/04-four-project-release-completeness-replanning-plan.md, sha256: 96decb8f1835cc85bd530c21b2969d4d077f31e6086425ea911f9d5b187bbe26}
+      shared_adr: {path: ../../architecture/03-four-project-shared-boundary-adr.md, sha256: e3073a01ceda280b8dda4d77b58de7e9755d3f77d21f6ebb5497c8882508840a}
+      architecture: {path: docs/06-release-completeness-architecture.md, version: "1.5", sha256: 1529a866855eb1b5cbf34b349d38a7e2f50be8c8f914aeb7f8ed114fd2d99c10, approval: approval-20260817-radar-release-completeness-architecture-v1-5}
+      prd: {path: docs/02-prd.md, version: "1.2", sha256: 3ce842ef8e2b9661f2114b3b4a2b3361eeb8fac0f98a5071cd8e27c38a81a020}
+      release_appendix: {path: docs/02-prd-release-completeness-appendix.md, version: "1.0", sha256: a27cfecc196c29749387302a692d93af0b5b534af7da6805b6b297e064133f1d}
+      ui_design: {path: ui/05-release-completeness-ui-design.md, version: "1.0", sha256: a731232994db118117043aa50503273c91e5c438bc20f948d9e5137e43ba9324}
+      source_allowlist: {path: docs/00-source-allowlist.md, sha256: 9aa9bb926cc52aae28d11bbf676507ca313add83238cd81be6300a4d9f2f0498, scope: research-only}
+      source_registry: {path: docs/00-source-registry.csv, sha256: c303e79e1fa9f7a1664ac718a1678bbcb6610b5309a5d5e4006e6d4b1d438f91, scope: research-only}
+      source_runtime_readiness: {path: docs/00-source-runtime-readiness.md, sha256: c59c0647204caa63b4ac9acc9f229dfab22c8b239b4b844a957c1e065681649f}
+    frozen_facts:
+      approved_p0_allow_atomic_endpoints_N: 22
+      AIR_END_030: pending-not-in-registry-not-counted
+      runtime_enabled: false
+      live_connectors: 0
+      live_snapshots: 0
+      coverage_freshness_policy: unknown-zero-approved
+      production_release: frozen
+    task_summary:
+      direct_planned_items: 50
+      implementation_atoms: 46
+      continuous_review_and_qa_items: 92
+      total_planned_items: 142
+      total_estimated_hours: 359
+      direct_task_hours: 175
+      all_tasks_status: planned-not-authorized
+    unique_proposed_first_work_item:
+      id: MR-DATA-001
+      role: role-data-engineer
+      status: proposed-first-planned-not-authorized
+      requires:
+        - task-breakdown-review-approved
+        - XR-DATA-001-XR-QA-001-XR-SEC-001-approved
+        - independent-fixed-08-entry-authorization
+        - clean-non-overlapping-worktree
+    scope:
+      - approved-architecture-to-1-to-4-hour-atomic-plan
+      - dependency-DoR-DoD-validation-output-risk-and-stop-gate-per-task
+      - continuous-REV-and-QA-gates
+      - no-authorized-implementation
+    exclusions:
+      - docs-05-task-breakdown-history-remains-unchanged
+      - MR-PM-102-and-per-endpoint-connector-queue
+      - registry-or-policy-mutation-or-approval
+      - connector-canary-collection-runtime-or-live-snapshot
+      - frontend-backend-database-worker-or-service-code
+      - service-start-test-environment-or-deployment
+      - downstream-role-routing
+    validation:
+      authoritative_input_sha256: 9-of-9-matched
+      task_ids_and_hours: 50-direct-items-1-to-4-hours-142-with-derived-gates
+      frozen_facts: preserved
+      workflow_status: ready-for-task-breakdown-review
+      git_boundary: passed
+      yaml_jsonl: passed-4-yaml-111-jsonl
+    known_limits:
+      - backend-commands-remain-not-implemented
+      - CoverageFreshnessPolicy-remains-unknown-zero-approved
+      - source-approvals-are-research-only-not-runtime-permission
+      - N22-has-no-endpoint-specific-connector-task-in-this-delivery
+      - production-parameters-remain-tbd-and-production-is-frozen
+    completed_at: "2026-08-17T16:51:45+08:00"
+    result: ready-for-task-breakdown-review
+    stop_gate: task-breakdown-review
+    downstream_role_authorized: false
+    auto_route: false

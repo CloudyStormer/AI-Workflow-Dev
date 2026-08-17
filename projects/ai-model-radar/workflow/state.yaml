@@ -4,7 +4,7 @@ run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
 stage: release-completeness-task-breakdown
-status: MR-PM-101-authorized-awaiting-role-entry
+status: MR-PM-101-task-breakdown-ready-for-review
 current_role: role-pm
 blocked: false
 ui_assets:
@@ -115,10 +115,12 @@ next_approval:
   scope: "审核 MR-PM-101 AI Model Radar 发布完整性权威任务拆解；本门不自动批准数据、连接器、后端、前端、服务、测试环境或部署。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: not-created
+  delivery_status: ready-for-review
   expected_artifact: artifact-radar-release-completeness-task-breakdown-001
   expected_path: docs/07-release-completeness-task-breakdown.md
   expected_version: "1.0"
+  artifact_sha256: 8d878f9a4de7e5787a3f97030f65f944194bc5f9edd58e4a6ef46ae92f9c61c7
+  completed_at: "2026-08-17T16:51:45+08:00"
   work_item: MR-PM-101
   change_id: plan-20260817-radar-release-completeness-task-breakdown-001
   entry_authorization: approval-20260817-radar-release-completeness-task-breakdown-entry
@@ -1077,7 +1079,8 @@ release_completeness_task_breakdown_assignment:
     artifact: artifact-radar-release-completeness-task-breakdown-001
     path: docs/07-release-completeness-task-breakdown.md
     version: "1.0"
-    delivery_status: not-created
+    sha256: 8d878f9a4de7e5787a3f97030f65f944194bc5f9edd58e4a6ef46ae92f9c61c7
+    delivery_status: ready-for-review
   scope: "只把已批准的 Model 发布完整性架构拆为 1–4 小时的权威原子开发任务、唯一首项、依赖、DoR/DoD、验证和停止门；保留 docs/05-task-breakdown.md 的历史静态演示范围，不复用或覆盖它。"
   frozen_facts:
     approved_p0_allow_atomic_endpoints_N: 22
@@ -1085,6 +1088,7 @@ release_completeness_task_breakdown_assignment:
     runtime_enabled: false
     live_connectors: 0
     live_snapshots: 0
+    coverage_freshness_policy: unknown-zero-approved
     production_release: frozen
   exclusions:
     - source-registry-mutation-or-policy-approval
@@ -1092,7 +1096,39 @@ release_completeness_task_breakdown_assignment:
     - frontend-backend-database-worker-or-service-code
     - service-start-test-environment-or-deployment
     - MR-PM-102-or-any-other-downstream-route
-  status: authorized-awaiting-role-entry
+  write_baseline: fdfc6c75bd40b31d19ee3560b203402ccd06c3a0
+  started_at: "2026-08-17T16:51:45+08:00"
+  completed_at: "2026-08-17T16:51:45+08:00"
+  status: ready-for-review
+  output:
+    artifact: artifact-radar-release-completeness-task-breakdown-001
+    path: docs/07-release-completeness-task-breakdown.md
+    version: "1.0"
+    sha256: 8d878f9a4de7e5787a3f97030f65f944194bc5f9edd58e4a6ef46ae92f9c61c7
+  task_summary:
+    direct_planned_items: 50
+    implementation_atoms: 46
+    continuous_review_and_qa_items: 92
+    total_planned_items: 142
+    total_estimated_hours: 359
+    all_tasks_status: planned-not-authorized
+  unique_proposed_first_work_item:
+    id: MR-DATA-001
+    role: role-data-engineer
+    status: proposed-first-planned-not-authorized
+    prerequisites:
+      - task-breakdown-review-approved
+      - XR-DATA-001-XR-QA-001-XR-SEC-001-approved
+      - independent-fixed-08-entry-authorization
+      - no-overlapping-worktree-or-git-lock
+  validation:
+    authoritative_input_sha256: 9-of-9-matched
+    task_ids_and_hours: 50-direct-items-1-to-4-hours-142-with-derived-gates
+    dependency_boundary: MR-DATA-001-only-proposed-first-MR-PM-102-excluded
+    frozen_runtime_facts_preserved: true
+    yaml_jsonl_and_git_checks: passed-4-yaml-111-jsonl-project-structure-skill-drift-git-boundary-and-diff-check
+  result: task-breakdown-ready-for-review-no-downstream-route
+  downstream_role_authorized: false
   stop_gate: task-breakdown-review
   auto_route_on_delivery: false
-updated_at: "2026-08-17T16:33:37+08:00"
+updated_at: "2026-08-17T16:51:45+08:00"
