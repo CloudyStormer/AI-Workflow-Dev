@@ -892,3 +892,43 @@ approvals:
     production_release: frozen
     advance_limit: current-artifact-only
     auto_advance_beyond_next: false
+  - id: approval-20260817-english-release-completeness-architecture-entry
+    gate: role-entry
+    role: role-architect
+    role_task_id: "019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db"
+    role_task_title: "05 架构师"
+    project_id: ai-english-learning
+    work_item: EL-ARC-101
+    change_id: arch-20260817-english-release-completeness-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-17T11:15:00+08:00"
+    authorization_source: approval-20260817-career-release-completeness-architecture-v1
+    safe_checkpoint: 5b6e754037000d4b9efc8245dea80030423862b9
+    prerequisites:
+      - approval-20260817-four-project-shared-boundary-adr-v1
+      - approval-20260817-career-release-completeness-architecture-v1
+      - approval-20260814-english-release-scope-v1-4
+      - approval-20260816-english-real-usable-product-delta-v1
+      - approval-20260816-english-release-completeness-ui-design-v1
+    scope: "只交付 AI English Learning 发布完整性架构：多用户/定级/词库、服务端记忆与间隔复习、AI/STT/TTS 边界、同步/导出/删除恢复，以及旧浏览器 localStorage Word 子范围迁移；保留历史 docs/02-architecture.md 和已关闭的本地浏览器 QA 链，不实现业务。"
+    expected_output: artifact-english-release-completeness-architecture-001
+    expected_path: docs/08-release-completeness-architecture.md
+    expected_version: "1.0"
+    stop_gate: architecture-review
+    frozen_truth:
+      current_spaced_recall_storage: browser-current-device-only
+      backend_runtime: not-implemented
+      cross_device_sync: not-implemented
+      AI_STT_TTS_provider: UNKNOWN
+      real_user_data_or_accounts: not-authorized
+      production_release: frozen
+    exclusions:
+      - code-or-service-implementation
+      - real-model-or-speech-provider-call
+      - account-credential-or-privacy-data-operation
+      - data-collection-or-deployment
+      - automatic-route-to-EL-PM-101-or-any-downstream-role
+    user_rule: "今日已形成的非高风险角色交付默认通过；无需重复向超级无敌帅超超总请求允许或通过。"
+    advance_limit: one-architecture-delivery-unit-only
+    auto_advance_beyond_next: false

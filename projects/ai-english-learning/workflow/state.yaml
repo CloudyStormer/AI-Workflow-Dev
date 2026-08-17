@@ -1343,4 +1343,53 @@ parallel_backend_task_breakdown_assignment:
   auto_route_on_delivery: false
 backend_planning_gate: "docs/03-dev-tasks.md v1.1 已 ready-for-review；固定 07 尚未获准启动。只有超级无敌帅超超总明确‘通过’本任务拆解后，才按一跳规则授权唯一 AEL-BE-001；AEL-BE-002+、固定 08/09/06/11/10 均继续未授权。"
 state_limit: "旧版计划与任务表仍需单独对账；本状态只声明已核实的最新交付和审批门"
-updated_at: "2026-08-16T23:46:17+08:00"
+release_completeness_architecture_assignment:
+  work_item: EL-ARC-101
+  change_id: arch-20260817-english-release-completeness-001
+  role: role-architect
+  role_task_id: "019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db"
+  role_task_title: "05 架构师"
+  authorization: approval-20260817-english-release-completeness-architecture-entry
+  authorization_source: approval-20260817-career-release-completeness-architecture-v1
+  safe_checkpoint: 5b6e754037000d4b9efc8245dea80030423862b9
+  prerequisites:
+    shared_boundary_adr: approval-20260817-four-project-shared-boundary-adr-v1
+    career_release_architecture: approval-20260817-career-release-completeness-architecture-v1
+    english_release_product: approval-20260814-english-release-scope-v1-4
+    english_real_product_delta: approval-20260816-english-real-usable-product-delta-v1
+    english_release_ui: approval-20260816-english-release-completeness-ui-design-v1
+  authoritative_inputs:
+    shared_adr: {path: ../../architecture/03-four-project-shared-boundary-adr.md, sha256: e3073a01ceda280b8dda4d77b58de7e9755d3f77d21f6ebb5497c8882508840a}
+    release_plan: {path: ../../docs/04-four-project-release-completeness-replanning-plan.md, sha256: 96decb8f1835cc85bd530c21b2969d4d077f31e6086425ea911f9d5b187bbe26}
+    product_delta: {path: ../../docs/05-four-project-real-usable-product-delta.md, sha256: e613e79f44100840542fb6531e155cf0edd0079a6fc213af328fba075750bc01}
+    domain_boundary: {path: ../../architecture/02-domain-cdn-service-boundary.md, sha256: d8d7a594b18195e85795b01c7c9c6829222571ba65ddb9629256fab2cf29114b}
+    prd: {path: docs/01-prd.md, sha256: 8badf942aefc7ebd2c62526511aa69f0da334cefeb5688fd7281d0924e557e46}
+    legacy_architecture: {path: docs/02-architecture.md, sha256: 0f80bfd20820d795904893778f68f40a2366b29d13db2766d4f3dabd190b88c6}
+    ui_prompt: {path: ui/05-release-completeness-ui-prompt.md, sha256: 2adba179503582f9c1bc9524a64ec1f04fd624fc653403e23ff69713bfa6a5ad}
+    ui_design: {path: ui/06-release-completeness-ui-design-v1.0.md, sha256: 7c1f2318ec636b5f18ee4af543a042c5b873c511bfb3f95274c3d50c36ff899d}
+  expected_output:
+    artifact: artifact-english-release-completeness-architecture-001
+    path: docs/08-release-completeness-architecture.md
+    version: "1.0"
+    delivery_status: not-created
+  frozen_truth:
+    current_spaced_recall_storage: browser-current-device-only
+    backend_runtime: not-implemented
+    cross_device_sync: not-implemented
+    AI_STT_TTS_provider: UNKNOWN
+    real_user_data_or_accounts: not-authorized
+    production_release: frozen
+  exclusions:
+    - code-service-or-data-implementation
+    - real-model-speech-or-external-provider-call
+    - real-account-credential-or-private-data-operation
+    - deployment-or-production
+    - EL-PM-101-or-any-downstream-route
+  status: authorized-awaiting-role-entry
+  started_at: null
+  EL_PM_101_authorized: false
+  implementation_or_service_authorized: false
+  production_release: frozen
+  stop_gate: architecture-review
+  auto_route_on_delivery: false
+updated_at: "2026-08-17T11:15:00+08:00"

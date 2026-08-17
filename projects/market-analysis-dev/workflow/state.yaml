@@ -1289,7 +1289,7 @@ release_completeness_architecture_assignment:
     path: docs/06-release-completeness-architecture.md
     version: "1.0"
     sha256: 0f6cebe45056ea5171805348f1ecc92bb5ac97b7ee3b6404aa4e05cfad9e6029
-    delivery_status: ready-for-review
+    delivery_status: approved
   frozen_facts:
     approved_p0_allow_technical_endpoints_T: 13
     approved_executable_recruitment_instances_R: 0
@@ -1301,7 +1301,7 @@ release_completeness_architecture_assignment:
     registry_mutation_authorized: false
     data_collection_authorized: false
     production_release: frozen
-  status: completed-awaiting-architecture-review
+  status: approved-and-architecture-review-closed
   started_at: "2026-08-17T10:48:00+08:00"
   completed_at: "2026-08-17T11:05:18+08:00"
   validated_at: "2026-08-17T11:06:52+08:00"
@@ -1317,7 +1317,19 @@ release_completeness_architecture_assignment:
     skill_drift: passed
     diff_check: passed
     sensitive_pattern_scan: passed
+  review_decision: approved
+  approval: approval-20260817-career-release-completeness-architecture-v1
+  approved_by: 超级无敌帅超超总
+  approved_at: "2026-08-17T11:15:00+08:00"
+  independent_review: {P0: 0, P1: 0, P2: 0, conclusion: passed}
+  completed_gate: architecture-review
+  next_project_id: ai-english-learning
+  next_work_item: EL-ARC-101
+  next_authorization: approval-20260817-english-release-completeness-architecture-entry
   CR_PM_101_authorized: false
+  MR_PM_101_authorized: false
+  registry_or_runtime_authorized: false
+  implementation_or_service_authorized: false
   stop_gate: architecture-review
   auto_route_on_delivery: false
-updated_at: "2026-08-17T11:06:52+08:00"
+updated_at: "2026-08-17T11:15:00+08:00"

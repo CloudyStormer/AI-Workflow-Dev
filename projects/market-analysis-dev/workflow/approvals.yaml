@@ -1031,3 +1031,37 @@ approvals:
     production_release: frozen
     advance_limit: one-architecture-delivery-unit-only
     auto_advance_beyond_next: false
+  - id: "approval-20260817-career-release-completeness-architecture-v1"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: architecture-review
+    role: role-architect
+    role_task_id: "019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db"
+    role_task_title: "05 架构师"
+    project_id: market-analysis-dev
+    work_item: CR-ARC-101
+    change_id: arch-20260817-career-release-completeness-001
+    artifact: artifact-career-release-completeness-architecture-001
+    path: docs/06-release-completeness-architecture.md
+    version: "1.0"
+    sha256: 0f6cebe45056ea5171805348f1ecc92bb5ac97b7ee3b6404aa4e05cfad9e6029
+    source_commit: 5b6e754037000d4b9efc8245dea80030423862b9
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-17T11:15:00+08:00"
+    user_rule: "今日已形成的非高风险角色交付默认通过；无需重复向超级无敌帅超超总请求允许或通过。"
+    evidence: "固定05已在本人任务独立交付 CR-ARC-101；固定00独立复核权威输入哈希、60×35 registry、T=13/R=0 冻结事实、公共/私有边界、七步门、快照、同步、删除恢复、API、五类地址、项目验证、Skill drift、YAML/JSONL、Git 边界与精确四文件范围，P0/P1/P2=0/0/0。"
+    review_breakdown:
+      independent_architecture_review: {P0: 0, P1: 0, P2: 0}
+      workflow_and_scope_review: {P0: 0, P1: 0, P2: 0}
+    effect: "批准当前 Career 发布完整性架构并关闭 architecture-review；按已批准根重排计划，只一跳授权固定05进入 AI English Learning 的 EL-ARC-101。不得同时授权 CR-PM-101、MR-PM-101、任何连接器、代码、服务、采集、部署或生产。"
+    completed_gate: architecture-review
+    next_project_id: ai-english-learning
+    next_work_item: EL-ARC-101
+    next_authorization: approval-20260817-english-release-completeness-architecture-entry
+    CR_PM_101_authorized: false
+    MR_PM_101_authorized: false
+    registry_or_runtime_authorized: false
+    implementation_or_service_authorized: false
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
