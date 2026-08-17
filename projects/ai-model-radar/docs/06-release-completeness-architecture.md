@@ -1,14 +1,14 @@
 # AI Model Radar 发布完整性架构
 
-> - 版本：v1.3
-> - 状态：独立合并终审定向修订候选，待架构复审（`architecture-review`）
+> - 版本：v1.4
+> - 状态：契约终审最小定向修订候选，待架构复审（`architecture-review`）
 > - 工作项：`MR-ARC-101`
 > - 变更：`arch-20260817-radar-release-completeness-001`
 > - 入场授权：`approval-20260817-radar-release-architecture-entry`
 > - 安全写入基线：`7e786f24ae16cbb13aa8d7e9028d52f2ceb12d71`
-> - 修订基线：`e5c319ad5e69c8a00d050669a2f4b251960fbdaf`
-> - 前候选：v1.2，SHA-256 `18bfa0520f6d64a470c275195712ad82920ae2a13ec80ddd614197ff8dd66839`
-> - 三路终审：治理 `P0=0/P1=0/P2=0`；契约 `P0=1/P1=2`；部分来源 `P0=0/P1=3/P2=2`；合并决策 `changes-requested(P0=1/P1=5/P2=2)`
+> - 修订基线：`95b0de52199d520f743b29bc6b3fac5c42fb37b6`
+> - 前候选：v1.3，SHA-256 `61cb38c79baadf9933cb00a31db865b266a2f32b873faa01adb80c24285eefaf`
+> - v1.3 三路复审：治理 `P0=0/P1=0/P2=0`；部分来源 `P0=0/P1=0/P2=0`；契约 `P0=1/P1=1/P2=0`；决策 `changes-requested(P0=1/P1=1/P2=0)`
 > - 产物：`artifact-radar-release-completeness-architecture-001`
 > - 责任角色：固定 `05 架构师`（`role-architect`）
 > - 生产发布：冻结
@@ -28,10 +28,17 @@
 6. 唯一网络请求前门显式区分 `canary` 与 `runtime`。canary 只允许步骤 1–3 已成立且具有精确、限时、同修订授权的请求，期间 `runtime_enabled` 恒为 `false`；runtime 请求才要求七步证据与环境登记完整闭环。
 7. 来源运行启用只能遵守共享 ADR 的唯一七步序列。运行证据使用独立追加式权威对象，并以同一 `(source_id, policy_revision, connector_revision, environment_id)` 关联；不得写回 `SourcePolicyVersion`。
 8. 浏览器的查询只读，不得隐式触发外部采集；刷新只允许唯一可写人类主体 `local-owner` 显式触发，具有幂等、限频、审计、取消状态机与真实进度。
-9. 覆盖与新鲜度由不可变 `CoverageFreshnessPolicyVersion` 冻结，且只适用于 `request_mode=runtime/data_mode=live` 的登记、刷新、发布和 readiness。canary 的覆盖引用必须为 `null/not_applicable`，不得进入覆盖分母、快照、指针或 live readiness。live 发布必须先完成逐源水位与继承/排除判定，且本轮至少有一个 `current_success`，再求共同 `as_of`，按已知时间裁掉晚于该时点的事实后重新聚合、去重、排序和截断；禁止先排名再回退时间。
+9. 覆盖与新鲜度由不可变 `CoverageFreshnessPolicyVersion` 冻结，且只适用于 `request_mode=runtime/data_mode=live` 的登记、刷新、发布和 readiness。步骤 7 的环境登记和 runtime permit 必须精确绑定同一环境的 policy id/revision/hash；policy supersede 不自动迁移登记。canary 的覆盖引用必须为 `null/not_applicable`，不得进入覆盖分母、快照、指针或 live readiness。live 发布必须先完成逐源水位与继承/排除判定，且本轮至少有一个 `current_success`，再求共同 `as_of`，按已知时间裁掉晚于该时点的事实后重新聚合、去重、排序和截断；禁止先排名再回退时间。
 10. 生产域名、API 端口、云厂商、数据库、队列、对象存储、预算、凭证、SLO、RPO/RTO 均为 `UNKNOWN/TBD`。本地前端已记录入口为 `http://127.0.0.1:4174/today`；本地 API 监听端口仍为 `UNKNOWN`。
 
-### 1.1 v1.3 最小定向闭环
+### 1.1 v1.4 最小定向闭环
+
+| 终审项 | v1.4 冻结结果 |
+|---|---|
+| P0 旧 governance 备份可复活撤销授权 | 新增独立于 governance DB 及其所有备份的单调 `GovernanceRollbackAnchor`，冻结 generation/audit head/revocation head、更新时机、manifest 绑定和恢复比较；任何恢复登记先隔离为 disabled，完成当前权利复核并新追加步骤 7 登记+同事务审计后才能开放 runtime/readiness |
+| P1 coverage policy 未成为登记身份 | `EnvironmentRuntimeRegistration` 必填 coverage policy id/revision/hash 并同环境 FK/内容寻址校验；runtime `NetworkRequestPermit` 精确匹配 active registration；policy supersede 必须先追加旧登记 disabled/revoked 后继，再为新 policy 执行新步骤 7，禁止原地换引用或自动跟随 latest |
+
+### 1.2 v1.3 已完成闭环
 
 | 终审项 | v1.3 冻结结果 |
 |---|---|
@@ -44,7 +51,7 @@
 | P2 evidence-only 水位被错误继承 | live 发布只允许继承已发布 `SnapshotSourceWatermark`；evidence-only RefreshSourceWatermark 永不成为后续发布继承源 |
 | P2 coverage policy 校验不完整 | 冻结 eligible 非空、count/ratio 范围、required 子集、同获批 bundle/环境及所有 eligible 逐源 stale 完整性；缺一即 invalid/fail closed |
 
-### 1.2 v1.2 已完成闭环
+### 1.3 v1.2 已完成闭环
 
 | 终审项 | v1.2 冻结结果 |
 |---|---|
@@ -59,7 +66,7 @@
 | P2 旧快照真相优先级 | 全源失败时按旧快照 freshness 决定 degraded/stale；硬策略失败不改指针且错误优先展示 |
 | P2 主体权限模糊 | 当前唯一可写人类主体为 `local-owner`；内部服务主体不是更高管理员，身份实现仍为 UNKNOWN |
 
-v1.1/v1.2 已通过的 canary/runtime 双模式、六类逻辑运行证据、七态取消行为、npm、`impact_scope.project_id`、三信封、算法顺序、治理独立库与删除代际全部保留。
+v1.1/v1.2/v1.3 已通过的 canary/runtime 双模式、六类逻辑运行证据、七态取消行为、npm、`impact_scope.project_id`、三信封、算法顺序、治理独立库、canary coverage 不适用与删除代际全部保留。
 
 本架构是对 `docs/04-architecture.md` 的发布完整性增量。两者冲突时，本文件在真实服务、本地持久化、运行真相态、来源七步门和发布完整性范围内优先；旧文档的历史视觉基线与静态演示约束仍保留。
 
@@ -142,6 +149,8 @@ v1.1/v1.2 已通过的 canary/runtime 双模式、六类逻辑运行证据、七
 | `MR-INV-27` | live 发布继承源只能是已发布 SnapshotSourceWatermark；evidence-only 水位不能被后续发布继承 | 发布阻断 |
 | `MR-INV-28` | effective_at 是事件属性而非可知时间；未来生效不延迟已宣布事件出现 | 时间契约校验失败 |
 | `MR-INV-29` | CoverageFreshnessPolicyVersion 必须通过完整结构、同 bundle/环境和逐源 stale 校验后才可登记 | `COVERAGE_POLICY_INVALID` |
+| `MR-INV-30` | governance 恢复必须对上独立单调 rollback anchor；备份登记恢复后一律 disabled/quarantined，禁止从旧备份直接恢复 enabled | `GOVERNANCE_ROLLBACK_DETECTED` 或 `GOVERNANCE_ROLLBACK_ANCHOR_REQUIRED` |
+| `MR-INV-31` | active EnvironmentRuntimeRegistration、CoverageFreshnessPolicyVersion 与 runtime NetworkRequestPermit 的 environment/id/revision/hash 必须精确一致；policy supersede 不自动迁移登记 | `REGISTRATION_COVERAGE_POLICY_MISMATCH` |
 
 ## 5. 技术选型与演进边界
 
@@ -350,6 +359,7 @@ CoverageFreshnessPolicyVersion {
 - `minimum_included_count` 必须是整数且 `0 <= minimum_included_count <= eligible_source_ids.length`；`minimum_coverage_ratio` 必须是有限数且 `0 <= ratio <= 1`。两者同时成立才可发布，所有 required source 也必须可计入。
 - 所有 eligible source（包括 optional）必须来自该 `environment_id` 的同一个已批准 `SourcePolicyBundle` revision/hash；不得跨 bundle、跨环境拼接。`stale_after_by_source` 必须对每一个 eligible source 恰好给出一个合法正时长，不能只覆盖 required，也不能出现集合外 source。
 - eligible 集合、required 集合、阈值、任一逐源 stale 上限、环境或 subset 规则任一变化都生成新 revision/hash，禁止原地覆盖。canonical payload 必须包含 SourcePolicyBundle revision/hash 以证明同 bundle。
+- `supersedes_revision` 生效时不得让旧 active registration 自动跟随新 policy。治理写必须先为所有绑定旧 revision/hash 的 active registration 追加 `enabled=false/revoked` 后继与 AuditRecord；新 policy 只有重新执行步骤 7、形成绑定其 id/revision/hash 的新 EnvironmentRuntimeRegistration 后才能 runtime。禁止更新旧登记行、原地换 policy 引用、使用 `latest` 别名或由读取端自动选最高 revision。
 - 比率分母固定为该版本对目标环境的 eligible source 数，不随本轮 attempted 数、active runtime 数或手动 scope 缩小；缺 active runtime registration 的 eligible 仍在分母中并按第 10.3 节 blocked。
 - 仅 runtime/live RefreshRun、runtime `RefreshSourceWatermark`、Snapshot manifest 与 `SnapshotSourceWatermark` 必须保存 coverage_policy_id、revision 与 payload SHA；任一不一致或 hash 不可复算时发布失败。
 - canary RefreshRun 及其 canary 水位必须保存 `coverage_applicability=not_applicable`，同时 `coverage_policy_id=null`、`coverage_policy_revision=null`、`coverage_policy_sha256=null`。任何非空 coverage 引用、覆盖分母/比例、snapshot、current pointer 或 live readiness 贡献都属于 P0 契约违规；canary 只形成控制面运行证据。
@@ -367,7 +377,7 @@ CoverageFreshnessPolicyVersion {
 4. **canary**：仅在步骤 1–3 成立且 `ExecutionAuthorization.mode=canary`、未过期、tuple 同修订时运行；结果形成追加式 `CanaryEvidence`。canary 不是 live 调度，`runtime_enabled` 必须仍为 `false`；CoverageFreshnessPolicyVersion 不适用，RefreshRun/水位 coverage 三引用必须为 null 且 applicability=not_applicable。
 5. **same revision `.REV`**：形成 `RevReviewEvidence`，绑定相同 tuple 与 CanaryEvidence；独立审查必须 `P0=0/P1=0`。
 6. **same revision `.QA`**：形成 `QaEvidence`，绑定相同 tuple、CanaryEvidence 与 RevReviewEvidence，结论必须 `PASS`。
-7. **approved environment registration**：前六步同修订完整、目标环境已有通过第 7.2 节全部校验的获批 `CoverageFreshnessPolicyVersion` 后，才可事务内追加 `EnvironmentRuntimeRegistration(enabled=true)`；该对象是运行启用的唯一权威来源。
+7. **approved environment registration**：前六步同修订完整、目标环境已有通过第 7.2 节全部校验的获批 `CoverageFreshnessPolicyVersion` 后，才可事务内追加 `EnvironmentRuntimeRegistration(enabled=true)`；登记必须保存精确 `coverage_policy_id`、`coverage_policy_revision`、`coverage_policy_sha256`，不得使用 latest。该对象及其外部 rollback anchor 一致性是运行启用的唯一权威来源。
 
 步骤 2 的 ExecutionAuthorization 必须预留目标 `connector_revision` 标识；步骤 3 只能以同一标识和实际 artifact SHA 完成 ConnectorRevision。实现产生不同 revision 时原授权失效，必须重新取得授权，禁止授权“任意未来版本”。
 
@@ -377,11 +387,12 @@ CoverageFreshnessPolicyVersion {
 
 `runtime_enabled` 不是 `SourcePolicyVersion` 字段，也不能由配置文件默认值推导。环境登记事务必须：
 
-1. 以完整 `runtime_tuple` 锁定 SourcePolicyVersion、ExecutionAuthorization、ConnectorRevision、CanaryEvidence、RevReviewEvidence 与 QaEvidence，并锁定目标环境的 CoverageFreshnessPolicyVersion revision/hash。
-2. 校验所有外键对象未撤销、未过期、SHA 完整，REV 为 `P0=0/P1=0`、QA 为 `PASS`，环境与 tuple 完全一致。
+1. 以完整 `runtime_tuple` 锁定 SourcePolicyVersion、ExecutionAuthorization、ConnectorRevision、CanaryEvidence、RevReviewEvidence 与 QaEvidence，并锁定目标环境的 CoverageFreshnessPolicyVersion id/revision/hash。
+2. 校验所有外键对象未撤销、未过期、SHA 完整，REV 为 `P0=0/P1=0`、QA 为 `PASS`；登记的 environment_id 必须同时匹配 runtime tuple 与 CoverageFreshnessPolicyVersion，policy payload SHA 必须现场复算一致。
 3. 校验该 `(source_id, environment_id)` 没有另一条 active registration；以唯一约束和 CAS revision 防止并发双启用。
-4. 在 `radar-governance.sqlite` 同一事务追加 EnvironmentRuntimeRegistration 与 AuditRecord；只有事务提交后 runtime 请求前门才可读到 `enabled=true`。
-5. 任一条件变化时追加 `enabled=false/revoked` 的后继登记；不得删除历史，也不得回写 policy 对象。
+4. 读取可信外部 `GovernanceRollbackAnchor`，以其 generation 作为 CAS 前值；不可读、缺失或与治理库当前 audit/revocation head 不一致时拒绝登记。
+5. 在 `radar-governance.sqlite` 同一事务追加带精确 coverage policy 三引用的 EnvironmentRuntimeRegistration、AuditRecord 和 `governance_generation=anchor+1` 的治理头；提交后以 CAS 原子持久化并 fsync 新外部 anchor。只有治理库与 anchor 的 generation/audit head/revocation head 完全一致后，runtime 请求前门才可读到 `enabled=true`。
+6. 任一前置条件或 coverage policy 变化/撤销/supersede 时，先追加 `enabled=false/revoked` 的登记后继与同事务 AuditRecord，并推进外部 anchor；不得删除历史、回写 policy 对象或让旧登记自动跟随新 policy。新 policy 必须重新执行步骤 7。
 
 ### 7.5 当前门状态
 
@@ -398,7 +409,7 @@ CoverageFreshnessPolicyVersion {
 
 ### 8.1 唯一网络请求前门：canary/runtime 双模式
 
-连接器请求必须携带不可变 `NetworkRequestPermit`，其中显式包含 `request_mode=canary | runtime`、完整 `runtime_tuple`、endpoint hash、有效期和预算，并使用互斥权威引用：canary 填 `canary_authorization_id`、runtime 填 `runtime_registration_id`；不得同时填写或省略。permit 还必须携带 `coverage_applicability=not_applicable|runtime_required`：canary 固定 `not_applicable` 且 coverage policy 三引用为 null，runtime 固定 `runtime_required` 且三引用必须匹配 active registration。不得从调用路径、环境变量或 `runtime_enabled` 猜测模式，也不得接受前端或外部记录提供的任意 URL。
+连接器请求必须携带不可变 `NetworkRequestPermit`，其中显式包含 `request_mode=canary | runtime`、完整 `runtime_tuple`、endpoint hash、有效期和预算，并使用互斥权威引用：canary 填 `canary_authorization_id`、runtime 填 `runtime_registration_id`；不得同时填写或省略。permit 还必须携带 `coverage_applicability=not_applicable|runtime_required`：canary 固定 `not_applicable` 且 coverage policy 三引用为 null；runtime 固定 `runtime_required`，并把 `coverage_policy_id`、`coverage_policy_revision`、`coverage_policy_sha256`、`environment_id` 与 active registration 的同名字段逐项精确匹配。不得解析 `latest`、从调用路径/环境变量/`runtime_enabled` 猜测模式，也不得接受前端或外部记录提供的任意 URL。
 
 **canary 模式前置：**
 
@@ -409,7 +420,7 @@ CoverageFreshnessPolicyVersion {
 
 **runtime 模式前置：**
 
-1. 相同 runtime_tuple 的步骤 1–7 必须全部闭环，`runtime_registration_id` 必须引用 active `EnvironmentRuntimeRegistration(enabled=true)`，CoverageFreshnessPolicyVersion 必须有效且与登记一致；前置 policy、connector、canary、REV、QA 证据均未撤销或失效。步骤 2 的限时 canary ExecutionAuthorization 只授权 canary，不得被 runtime permit 复用为网络权威。
+1. 相同 runtime_tuple 的步骤 1–7 必须全部闭环，`runtime_registration_id` 必须引用 active `EnvironmentRuntimeRegistration(enabled=true)`；登记、permit 和 CoverageFreshnessPolicyVersion 的 environment/id/revision/hash 必须完全相同且 governance DB 与外部 rollback anchor 当前头一致。任一 policy 已被 supersede、登记链已追加 disabled/revoked 后继、anchor 不可用/不一致，或前置 policy、connector、canary、REV、QA 证据已撤销/失效，均不得发出网络字节。步骤 2 的限时 canary ExecutionAuthorization 只授权 canary，不得被 runtime permit 复用为网络权威。
 2. FetchRun 从创建时即固定 `request_mode=runtime`；canary FetchRun/evidence 不可重标、复制或提升为 runtime Observation。
 
 **两种模式共用且不可绕过的网络安全门：**
@@ -459,7 +470,7 @@ canary 结果无论成功与否都不能隐式开启 runtime；唯一开启动�
 | `CanaryEvidence` | evidence_id, runtime_tuple, authorization_id, refresh_run_id, fetch_run_ids, limits, started/finished, result, evidence_sha256 | 只来自 canary 模式；不得进入 live 数据面或开启 runtime |
 | `RevReviewEvidence` | review_id, runtime_tuple, canary_evidence_id, reviewer, P0/P1/P2, decision, evidence_sha256 | 启用候选必须 P0=0/P1=0 且同 tuple |
 | `QaEvidence` | qa_id, runtime_tuple, canary_evidence_id, rev_review_id, environment_fingerprint, result, evidence_sha256 | 启用候选必须 PASS 且同环境同修订 |
-| `EnvironmentRuntimeRegistration` | registration_id, runtime_tuple, execution/canary/rev/qa refs, enabled, revision, registered_at/revoked_at | 唯一 runtime 权威；事务追加，禁止回写 policy |
+| `EnvironmentRuntimeRegistration` | registration_id, runtime_tuple, environment_id, execution/canary/rev/qa refs, coverage_policy_id, coverage_policy_revision, coverage_policy_sha256, governance_generation, enabled, revision, registered_at/revoked_at | 唯一 runtime 权威；coverage policy 同环境 FK+内容寻址，事务追加，禁止回写或自动跟随 policy |
 | `RefreshRequest` | request_id, idempotency_key, actor_type/id, requested_scope, request_mode, requested_at | 每个逻辑请求唯一；重复 key 返回同一 request_id/refresh_run_id |
 | `RefreshRun` | refresh_run_id, request_id, request_mode, coverage_applicability, nullable/required coverage refs, scope_mode, target_as_of, policy/bundle hashes, status, status_revision, cancel flag, publication_fence_at | 聚合任务唯一身份；canary coverage 恒 null/not_applicable；runtime coverage 必填；持有 1:N FetchRun 和唯一发布决定 |
 | `CancelCommand` | cancel_id, refresh_run_id, idempotency_key, actor, requested_at, result, observed_status_revision | 只接受聚合 ID；同一 key 永远返回同一取消结果 |
@@ -479,6 +490,7 @@ canary 结果无论成功与否都不能隐式开启 runtime；唯一开启动�
 | `UserStoreMetadata` | storage_id, schema_version, deletion_generation, applied_tombstone_generation, ledger_head_sha256 | local_user 单例元数据；readiness 前必须追平 ledger |
 | `DeletionTombstone` | tombstone_id, subject_scope, delete_through_revision, deletion_generation, deleted_at, retain_until | 防旧备份恢复复活；独立追加账本优先于备份 |
 | `AuditRecord` | audit_id, actor, action, target, before/after refs, request_id, transaction_id, time | 治理控制面审计；不含秘密或外部正文 |
+| `GovernanceRollbackAnchor` | project_id, environment_id, governance_generation, latest_audit_head_sha256, latest_revocation_head_sha256, active_registration_set_sha256, previous_anchor_sha256, anchor_sha256, updated_at | 独立于 governance DB 及其备份的外部单调权威；只允许 CAS 前进，缺失/不一致时 runtime/readiness fail closed |
 
 ### 9.2 运行证据约束
 
@@ -493,10 +505,11 @@ canary 结果无论成功与否都不能隐式开启 runtime；唯一开启动�
 | canary FK | CanaryEvidence 必须引用同 tuple 的 active canary ExecutionAuthorization 与 ConnectorRevision |
 | REV FK | RevReviewEvidence 必须引用同 tuple 的 CanaryEvidence；用于启用的结论只能是 P0=0/P1=0 |
 | QA FK | QaEvidence 必须引用同 tuple 的 CanaryEvidence 与 RevReviewEvidence，environment fingerprint 相同且结果 PASS |
-| active registration | `(source_id, environment_id)` 最多一条 active `enabled=true`；registration 逐项 FK 到同 tuple 的五类前置证据 |
-| atomicity | 环境登记、active 唯一约束、CAS revision 与 AuditRecord 同事务提交，任一失败整笔回滚 |
+| active registration | `(source_id, environment_id)` 最多一条 active `enabled=true`；registration 逐项 FK 到同 tuple 的五类前置证据，并以 `(coverage_policy_id, coverage_policy_revision, environment_id)` FK 到 policy、复算 `coverage_policy_sha256` |
+| permit binding | runtime NetworkRequestPermit 的 registration_id、environment_id 与 coverage policy id/revision/hash 必须精确等于当前 active registration；任一 supersede/revoke 后立即无效 |
+| atomicity | 环境登记、active 唯一约束、CAS revision、精确 coverage policy 引用与 AuditRecord 同治理事务提交，提交后外部 anchor CAS 前进；任一步失败或两侧头不一致均不开放 runtime |
 
-撤销 authorization、policy、connector、canary、REV 或 QA 时，必须追加对应 revoked/superseded 事实和 `EnvironmentRuntimeRegistration(enabled=false)` 后继；runtime 前门每次请求都读当前 active 链，不能只在进程启动时缓存一次。
+撤销 authorization、policy、connector、canary、REV 或 QA 时，必须追加对应 revoked/superseded 事实和 `EnvironmentRuntimeRegistration(enabled=false)` 后继；CoverageFreshnessPolicyVersion supersede 也必须先追加旧登记 disabled/revoked 后继，再以新 policy 重新形成步骤 7。runtime 前门每次请求都读当前 active 链及外部 rollback anchor，不能只在进程启动时缓存一次。
 
 ### 9.3 治理物理权威库与事务边界
 
@@ -514,16 +527,29 @@ canary 结果无论成功与否都不能隐式开启 runtime；唯一开启动�
 | `canary_evidence` | CanaryEvidence | FK 到同库 `canary_refresh_runs/canary_fetch_runs`；runtime_enabled=false 时允许且必须持久化；永不写 live 业务事实库 |
 | `rev_review_evidence` | RevReviewEvidence | 同 tuple 引用 canary；P0/P1 结论不可改写 |
 | `qa_evidence` | QaEvidence | 同 tuple/环境引用 REV+canary；结果不可改写 |
-| `environment_runtime_registrations` | EnvironmentRuntimeRegistration | active 唯一 + CAS；启停均追加 |
+| `environment_runtime_registrations` | EnvironmentRuntimeRegistration | active 唯一 + CAS；coverage policy 同环境 FK/hash；启停与 supersede 失效均追加 |
 | `audit_records` | AuditRecord | 与对应治理写同 transaction_id；只记最小 before/after refs |
 
-`EnvironmentRuntimeRegistration(enabled=true|false)` 与其 `AuditRecord` 必须在 `radar-governance.sqlite` 同一 SQLite 事务提交：锁定 active registration/CAS → 验证六类前置证据和 CoverageFreshnessPolicyVersion → 插入后继 registration → 插入 audit → commit。任一步失败整笔回滚，runtime 前门看不到半登记。
+`EnvironmentRuntimeRegistration(enabled=true|false)` 与其 `AuditRecord` 必须在 `radar-governance.sqlite` 同一 SQLite 事务提交：锁定 active registration/CAS → 验证六类前置证据和精确 CoverageFreshnessPolicyVersion environment/id/revision/hash → 插入后继 registration → 插入 audit/revocation chain head 与下一 governance generation → commit。提交后还必须完成第 9.4 节外部 anchor CAS；任一步失败、崩溃或两侧头不一致，runtime 前门都看不到可用登记。
 
 `radar-live.sqlite` 只保存 request_mode=runtime/data_mode=live 的 `refresh_requests`、`refresh_runs`、`fetch_runs`、`refresh_source_watermarks`、`cancel_commands`、Observation/Event/Evidence、PublicationRecord、PublishedSnapshot 与 snapshot 水位；这些 runtime 表的 ID 使用 `live_rq_`/`live_rr_`/`live_fr_`/`live_cc_` 前缀，run/fetch/cancel 在同库以非空 FK 和唯一键约束。`radar-seed-demo.sqlite` 保存 seed 事实及显式 control 运行；`radar-local-user.sqlite` 保存用户域。治理库不得 `ATTACH` 任一业务库，业务库也不得 `ATTACH` 治理库。
 
-跨治理与 live 业务库不宣称分布式原子事务。两类 RefreshRun 创建时都冻结适用的 governance revision/hash：canary 只冻结并重验步骤 1–3/授权/connector，coverage_applicability=not_applicable；runtime 额外冻结并重验 active registration 与 coverage policy hash。每次网络请求前按模式重验，只有 runtime 在打开发布事务前再次重验 active 链和 coverage policy。发生撤销/换版时对应 RefreshRun 失败且不发布。live 发布事务只在 live DB 内原子写 snapshot/items/watermarks/PublicationRecord/current pointer；其治理引用为不可变外部内容地址。
+跨治理与 live 业务库不宣称分布式原子事务。两类 RefreshRun 创建时都冻结适用的 governance revision/hash：canary 只冻结并重验步骤 1–3/授权/connector，coverage_applicability=not_applicable；runtime 额外冻结并重验 active registration、登记绑定的 coverage policy hash 与 rollback anchor head。每次网络请求前按模式重验，只有 runtime 在打开发布事务前再次重验 active 链、coverage policy 和 anchor。发生撤销/supersede/换版或 anchor 不一致时对应 RefreshRun 失败且不发布。live 发布事务只在 live DB 内原子写 snapshot/items/watermarks/PublicationRecord/current pointer；其治理引用为不可变外部内容地址。
 
-### 9.4 模式硬隔离：物理三库
+### 9.4 独立单调 GovernanceRollbackAnchor
+
+`GovernanceRollbackAnchor` 必须持久化在独立本机控制存储中：不位于 `radar-governance.sqlite`、不位于 governance 备份目录、不会被任何 governance backup/restore 覆盖，也不能从待恢复数据库自行推导。实现路径、OS 保护机制与原子文件 API 由后续实现冻结，但安全语义已固定：本地必须存在一个受限写入、append/CAS、写后 fsync 的锚点；无法取得该锚点等同治理不可验证，全部 runtime permit、scheduler、live refresh/publish 与 live readiness fail closed。锚点正文按 canonical payload 计算 `anchor_sha256`，并串联 `previous_anchor_sha256`。
+
+每次会改变 policy/rights/active registration/revocation/audit head 的治理写只能按以下顺序：
+
+1. 取得治理写租约并读取可信外部 anchor；验证治理库当前 `governance_generation/latest_audit_head/latest_revocation_head` 与 anchor 完全相同。
+2. 令 `next_generation=anchor.governance_generation+1`，在 governance SQLite 同一事务追加治理事实、必要的 registration 后继和 AuditRecord，并写入下一 audit/revocation head、active registration set hash 与 generation；commit 前 runtime 仍使用旧头，不能看见候选 enabled。
+3. governance commit 成功后，以旧 `anchor_sha256` 为 CAS 前值原子写临时文件、fsync、rename 并 fsync 所在目录，形成包含下一 generation/head 的新 anchor；CAS 失败不得重试为覆盖写。
+4. 只有 governance DB 与新 anchor 的 generation、audit head、revocation head、active registration set hash 完全一致后，新 enabled registration 才可被 runtime/readiness 读取。崩溃导致 DB 超前 anchor、anchor 超前 DB 或任一头不一致时都进入 quarantine/fail closed；恢复只能依据受保护审计链证明严格后继并走受控修复，禁止按数值较大者自动覆盖。
+
+policy supersede 的生效事务必须把旧 policy 所绑定的 active registration 逐条追加 `enabled=false/revoked` 后继，更新 revocation head/audit head 并推进 anchor；新 policy 的 approval 本身不产生 active 登记。完成新的步骤 7、同事务 AuditRecord 与新 anchor CAS 前，所有旧 permit 均无效且 runtime/readiness 关闭。
+
+### 9.5 模式硬隔离：物理三库
 
 本架构冻结物理隔离，不再把“逻辑字段或物理文件二选一”留给实现：
 
@@ -540,7 +566,7 @@ Repository 在构造时按 mode 绑定唯一数据库句柄；一个事务、查
 - 趋势、来源覆盖、成功率、质量和完成度按 mode 分区，seed 对 live 指标贡献恒为 0。
 - 导入 seed 不能写 live 表；复制 seed 为 live 的管理能力不设计、不实现。
 
-### 9.5 幂等与并发
+### 9.6 幂等与并发
 
 - RefreshRequest：`actor_id + Idempotency-Key + normalized scope + request_mode` 在所属模式库内唯一；重复请求返回原 `request_id` 与 `refresh_run_id`。
 - RefreshRun：canary 使用 `cny_rr_<opaque>`，runtime 使用 `live_rr_<opaque>`；各自 `refresh_runs.request_id` 是同库非空、唯一 FK，每个 request_id 恰好一个聚合 refresh_run_id。状态以 `status_revision` CAS 演进，`cancel_requested_at/by` 只属于聚合 run；`publication_fence_at` 在 canary 永为 null，在 runtime 才可设置。
@@ -564,7 +590,7 @@ API、日志、错误信封和数据库 FK 必须写明 ID 类型。只有 `refr
 
 **路由先于读库且不做跨库 FK：** 公共 runtime API 只接受 `live_rr_`，先按前缀/端点类型选择 `radar-live.sqlite` 后才查询；受控 canary API 只接受 `cny_rr_`，先选择 `radar-governance.sqlite` 后才查询。模式不匹配返回 `REFRESH_RUN_MODE_MISMATCH`，不存在返回 mode-scoped 404；禁止用“先遍历两个库找到 ID”、跨库 FK、跨库 JOIN 或碰撞后猜模式。全局定位键是 `(request_mode, refresh_run_id)`，前缀为强校验而不是唯一安全门。
 
-### 9.6 SQLite 事务与迁移
+### 9.7 SQLite 事务与迁移
 
 - 启用 foreign keys；WAL、busy timeout 和同步级别由本地基准冻结，当前值 `UNKNOWN`。
 - 迁移为仅前进、编号、校验和、事务化脚本；应用启动先读取 schema version，不支持时 readiness 失败，不自动破坏性迁移。
@@ -572,16 +598,17 @@ API、日志、错误信封和数据库 FK 必须写明 ID 类型。只有 `refr
 - 每次发布 transaction 同时校验 event revision、证据、硬门、0–20、mode 与 current pointer revision。
 - 时区存储为 UTC 时间戳 + 原始时间/时区字段；产品日界使用 `Asia/Shanghai`，不得使用宿主机本地日期作为权威。
 
-### 9.7 分模式备份、恢复与删除防复活
+### 9.8 分模式备份、恢复与删除防复活
 
 - 使用 SQLite online backup API 或经过验证的一致快照，不在写入时直接复制单个数据库文件。
 - 每个备份包只能对应 `governance`、`live`、`seed_demo` 或 `local_user` 一种 mode，manifest 基础字段必须含 `backup_mode, source_database_id, schema_version, migration_manifest_sha256, created_at, expires_at, database_sha256`。live/seed 另含 policy/rule/parser revisions；local_user 另含 `deletion_generation, applied_tombstone_generation, ledger_head_sha256`。任一必填字段缺失、代际非法或 mode 不匹配立即拒绝。
-- `governance` 使用独立目录、密钥边界与 manifest schema；manifest 必须额外包含 `source_policy_bundle_sha256, coverage_policy_set_sha256, execution_evidence_chain_head_sha256, active_registration_set_sha256, audit_head_sha256, table_hashes, foreign_key_schema_sha256`。它只恢复 `radar-governance.sqlite`，不能与 live/seed/user 合包，也不能由业务库推断治理状态。
+- `governance` 使用独立目录、密钥边界与 manifest schema；manifest 必须额外包含 `source_policy_bundle_sha256, coverage_policy_set_sha256, execution_evidence_chain_head_sha256, active_registration_set_sha256, governance_generation, latest_audit_head_sha256, latest_revocation_head_sha256, observed_anchor_sha256, table_hashes, foreign_key_schema_sha256`。备份只在 governance DB 与外部 anchor 完全一致时生成，manifest 把数据库 generation/heads 与只读取得的 anchor SHA 绑定；anchor 自身不得进入备份包。它只恢复 `radar-governance.sqlite`，不能与 live/seed/user 合包，也不能由业务库推断治理状态。
 - `live` 与 `seed_demo` 使用不同目录、文件前缀和恢复 allowlist；恢复器要求请求 mode、manifest mode 与目标数据库三者一致，禁止跨 mode 导入、合并或“缺数据时回退”。
 - 所有恢复都在新路径完成：校验 manifest/数据库哈希 → 校验 mode → 运行 integrity/foreign-key check → 校验迁移版本。live/seed 再校验对应 mode 的 last successful snapshot，local_user 走下述 deletion ledger 流程，governance 走下述证据链/CAS/audit 流程；各自全部通过后才可原子替换目标，live 恢复不得打开 seed 备份。
-- governance 恢复必须在隔离路径依次完成 manifest/schema/table hash、SQLite integrity、foreign keys、SourcePolicy/CoveragePolicy payload hash、ExecutionAuthorization→ConnectorRevision→CanaryEvidence→REV→QA→EnvironmentRuntimeRegistration 同 tuple 证据链、active 唯一约束、registration revision/CAS 连续性与 audit head/transaction_id 对账。任何缺损、断链、hash 不符、active 集合不符或 CAS 回退都拒绝替换。
+- governance 恢复开始前必须先读取可信的当前外部 anchor，再在隔离路径依次完成 manifest/schema/table hash、SQLite integrity、foreign keys、SourcePolicy/CoveragePolicy payload hash、ExecutionAuthorization→ConnectorRevision→CanaryEvidence→REV→QA→EnvironmentRuntimeRegistration 同 tuple 证据链、active 唯一约束、registration revision/CAS 连续性与 audit/revocation head/transaction_id 对账。备份 `governance_generation < anchor.governance_generation`、anchor 缺失/不可读、generation 任一方向不等、`latest_audit_head` 或 `latest_revocation_head` 与 anchor 不一致、manifest 的 observed_anchor_sha 不匹配，或不能证明备份包含当前最新治理头时，一律 `GOVERNANCE_ROLLBACK_DETECTED/ANCHOR_REQUIRED`，不得替换为可运行库。
+- 即使 generation/heads 全部一致且备份内部完整，隔离恢复出的每条 `EnvironmentRuntimeRegistration(enabled=true)` 也必须先投影为 `disabled/quarantined`，不能直接成为 active。恢复器须用当前外部政策/rights/revocation 事实重新核验全部 tuple 与 coverage policy id/revision/hash；随后为仍符合条件的来源按原七步重新追加新的步骤 7 `EnvironmentRuntimeRegistration` 与同一治理事务 `AuditRecord`，推进 generation/audit/revocation heads 并完成外部 anchor CAS。新登记与 anchor 完全一致前，runtime permit、scheduler、live refresh/publish 和 readiness 全部关闭。旧但未过期、内部一致的备份不得复活任何已撤销授权。
 - governance 库不可读、丢失或恢复失败时，所有 runtime permit、scheduler、live refresh/publish 和 live readiness 必须立即 fail closed；已有 live current pointer 只能按旧快照 integrity/rights/freshness 返回 stale/degraded/failed 真相，绝不能把“找不到登记”解释为默认启用。
-- 若未来允许从外部不可变政策/证据存档重建 governance，重建结果也只是一组待验证候选：必须重新复算全部 hash/FK/tuple，重新完成对应 REV/QA 有效性确认，并按照原七步至少重新追加新的目标环境 `EnvironmentRuntimeRegistration` 与同事务 `AuditRecord`；新登记提交前 runtime/readiness 恒关闭。禁止复用丢失库中的 active 标志或静默恢复 enabled=true。
+- 若未来允许从外部不可变政策/证据存档重建 governance，重建结果也只是一组待验证候选：外部 rollback anchor 仍必须可读且用于阻断倒退；必须重新复算全部 hash/FK/tuple，重新完成对应 REV/QA、当前 policy/rights/revocation 有效性确认，并按照原七步至少重新追加新的目标环境 `EnvironmentRuntimeRegistration` 与同事务 `AuditRecord`、推进并匹配 anchor；新登记提交前 runtime/readiness 恒关闭。禁止复用丢失库中的 active 标志、把 anchor 缺失解释为首次初始化或静默恢复 enabled=true。
 - 恢复演练必须证明事件身份、证据关系、去重决定、快照不可变性和 current pointer 一致，且重放 refresh 不产生重复事件。
 - 本地业务备份保留冻结为最多 `30` 个自然日且不超过 `30` 份；达到任一上限先删除最旧备份。RPO、RTO、异地备份和生产加密仍为 `UNKNOWN`，未冻结前阻断生产承诺。
 
@@ -823,6 +850,7 @@ RadarError {
 | `CANARY_COVERAGE_SCOPE_VIOLATION` | canary 带非空 coverage 引用、进入分母/快照/指针/readiness | P0 阻断；canary evidence 隔离 |
 | `COVERAGE_POLICY_NOT_READY` | 覆盖策略 UNKNOWN 或未批准 | runtime 登记/RefreshRun/live 发布与 readiness 阻断；不阻断 canary |
 | `COVERAGE_POLICY_INVALID` | eligible/count/ratio/required/bundle/environment/stale/hash 任一校验失败 | 不得登记或运行 runtime/live |
+| `REGISTRATION_COVERAGE_POLICY_MISMATCH` | 登记、permit 与 policy 的 environment/id/revision/hash 不完全一致，或 policy 已 supersede | 不发网络字节；旧登记失效，必须重新步骤 7 |
 | `COVERAGE_POLICY_VIOLATION` | required/count/ratio/stale 门不满足 | 不生成新快照，current pointer 不变 |
 | `SOURCE_RUNTIME_REGISTRATION_REQUIRED` | eligible source 缺 active 同 tuple 登记或登记已撤销 | 水位 blocked，live RefreshRun 不发布 |
 | `SOURCE_ENDPOINT_NOT_ALLOWED` | URL 不匹配精确 endpoint | 阻断请求 |
@@ -840,6 +868,8 @@ RadarError {
 | `SNAPSHOT_PUBLISH_FAILED` | 原子发布失败 | current pointer 不变 |
 | `SNAPSHOT_CURRENT_SUCCESS_REQUIRED` | 本轮 current_success_count=0 | operation failed，不生成全继承快照 |
 | `GOVERNANCE_RESTORE_FAILED` | governance manifest/FK/hash/证据链/CAS/audit 恢复失败 | 全部 runtime 与 readiness fail closed |
+| `GOVERNANCE_ROLLBACK_ANCHOR_REQUIRED` | 外部单调 anchor 缺失、不可读或无法验证 | 恢复与全部 runtime/readiness fail closed；禁止首次初始化式绕过 |
+| `GOVERNANCE_ROLLBACK_DETECTED` | 备份 generation 低于 anchor、两侧 generation/head 不等或不能证明最新治理头 | 恢复登记全部隔离，拒绝 enabled/runtime/readiness |
 | `DATA_MODE_VIOLATION` | live/seed 混合尝试 | P0 阻断 |
 | `ENVELOPE_SCOPE_VIOLATION` | 内容/用户/操作信封或 mode/storage_scope 混用 | 契约拒绝 |
 | `REFRESH_RUN_ID_REQUIRED` | 取消请求使用 fetch_run_id 或含混 run_id | 400，不猜父 run |
@@ -1062,24 +1092,33 @@ stateDiagram-v2
 |---|---|---|
 | Unit | 时间、URL、四态 policy、硬门、排名、0–20、真相映射 | unknown 变 0、effective_at 进入 known-at 最大值、正常未来生效事件被隔离必须失败 |
 | Policy contract | registry→bundle、SHA、重复 ID、组合束、四态 | AIR-END-030、conditional/manual/disabled 不得运行 |
-| Coverage policy | eligible 非空、required 子集、count 整数范围、ratio 范围、同获批 bundle/环境、所有 eligible stale、revision/hash | UNKNOWN/invalid、跨 bundle、optional stale 缺失、active registration 缺失必须阻断 runtime/live；canary 不适用 |
-| Canary/runtime gate | 双模式许可、七步顺序与同 tuple/revision/environment | canary coverage refs 必须 null/not_applicable 且不能进入分母/快照/指针/readiness；缺 REV/QA/登记不得 runtime |
+| Coverage policy | eligible 非空、required 子集、count 整数范围、ratio 范围、同获批 bundle/环境、所有 eligible stale、revision/hash、登记绑定与 supersede | UNKNOWN/invalid、跨 bundle、optional stale 缺失、active registration 缺失、登记-policy hash/environment 不匹配必须阻断 runtime/live；supersede 后旧登记/permit 必须失败；canary 不适用 |
+| Canary/runtime gate | 双模式许可、七步顺序与同 tuple/revision/environment、permit-registration-policy 精确匹配 | canary coverage refs 必须 null/not_applicable 且不能进入分母/快照/指针/readiness；缺 REV/QA/登记、旧 policy 登记或 anchor 不一致不得 runtime |
 | SSRF | DNS/IP/端口/path/query/redirect/MIME/压缩 | loopback、私网、metadata、DNS rebind、跨域 redirect 阻断 |
 | Fetch | ETag、Last-Modified、304、timeout、429、Retry-After、预算 | 401/403/login 不重试，不绕过 |
 | Parser fixtures | 每 endpoint revision 的固定合法/异常样本 | 提示注入、脚本、未来时间、超限正文不执行/不发布 |
 | Evidence | Claim/Evidence/root/反证/撤回 | 同稿转载不能提升独立证据数 |
 | Dedup | URL、精确、实体、跨语言候选、拆分 | 不同 version/tag/action 不得误并 |
-| Governance persistence | governance 物理库、六类运行证据 FK、canary run/fetch/cancel 同库、coverage policy、登记+audit 同事务、CAS | policy 塞运行证据、canary/runtime cancel 跨库、跨库 attach、半登记、并发双启用必须失败 |
+| Governance persistence | governance 物理库、六类运行证据 FK、canary run/fetch/cancel 同库、coverage policy、登记+audit 同事务、外部单调 anchor CAS | policy 塞运行证据、canary/runtime cancel 跨库、跨库 attach、半登记、并发双启用、登记-policy 错配、supersede 后旧登记仍 active 必须失败 |
 | Refresh identity | Request→RefreshRun→1:N FetchRun、模式前缀、同库 FK/唯一键、status_revision、cancel flag/fence | fetch_run_id 取消、cny/live 错路由、跨库 FK、孤儿 FetchRun、含混 run_id 必须失败 |
 | Mode isolation | live/seed/user 物理库、查询、指标、备份 | seed 对 live 事件/趋势/成功率贡献 0，跨 mode 恢复拒绝 |
 | API contract | content/user/operation 三信封及逐 API 映射 | local_user/canary 冒充 live、错误 envelope/mode 必须失败 |
 | Scheduler | fake clock、lease、重入、遗漏、停机恢复、取消七态 | publication fence 后取消必须 too-late，公开 GET 外部请求 0 |
 | Snapshot | attempted=false + runtime_not_enabled/revoked、水位→current_success>=1→as_of→known-at 裁剪→重聚合/排序、manifest、current CAS | 全继承新快照、evidence-only 水位继承、effective_at 延迟新闻、非法 subset 更新指针必须失败 |
-| Backup/restore | governance/live/seed/user 分模式 manifest、online backup、governance 证据链/CAS/audit、双 deletion generation、ledger 重放/验零/readiness | governance 丢库默认启用、active 登记缺损仍 readiness、跨 mode 恢复、偏好删除复活和代际倒退必须失败 |
+| Backup/restore | governance/live/seed/user 分模式 manifest、online backup、governance 证据链/CAS/audit/revocation、外部 rollback anchor、恢复后重登记、双 deletion generation、ledger 重放/验零/readiness | `backup generation < anchor`、missing anchor、revocation head mismatch、恢复 active registration 未重登记即启用、governance 丢库默认启用、跨 mode 恢复、偏好删除复活和代际倒退必须失败 |
 | Security | CORS/CSRF/host-only Cookie、XSS、外链、秘密扫描 | 父域 Cookie、`*` credentials、日志正文为 0 |
 | Observability | 日志脱敏、指标语义、last_success/freshness | HTTP 200/CDN fresh 不得产生 live 指标 |
 | Integration | 真实临时 SQLite + API + Worker fixture server | Mock 不能替代迁移/恢复/幂等证据 |
 | E2E | 简中、320px、200%、键盘/读屏、八类页面状态 | disabled/占位/seed 不得算正式完成 |
+
+v1.4 契约测试必须把以下反例固定为强断言，任一反例被接受即 P0/P1 失败：
+
+1. `backup.governance_generation < external_anchor.governance_generation` 时，恢复返回 `GOVERNANCE_ROLLBACK_DETECTED`，恢复 registration 全部不可 active，runtime/readiness 为 false。
+2. 外部 anchor 缺失、不可读或未通过 canonical hash/CAS 链验证时，恢复返回 `GOVERNANCE_ROLLBACK_ANCHOR_REQUIRED`；不得把缺锚点当新安装、不得从备份生成锚点。
+3. 备份/恢复库的 `latest_revocation_head_sha256` 与外部 anchor 不同，即使 audit head、过期时间和 SQLite integrity 均正常，也必须 fail closed。
+4. 恢复库仍含历史 `enabled=true` registration，但尚未完成当前 policy/rights/revocation 复核、新步骤 7 registration、同事务 AuditRecord 和 anchor CAS 时，NetworkRequestPermit 签发数必须为 0，runtime/readiness 必须为 false。
+5. active registration、CoverageFreshnessPolicyVersion 与 runtime permit 的任一 environment/id/revision/hash 不匹配时，返回 `REGISTRATION_COVERAGE_POLICY_MISMATCH` 且外部网络字节为 0。
+6. 新 coverage policy supersede 已生效而旧 active registration 没有 disabled/revoked 后继，或新 policy 尚未形成新步骤 7 registration 时，旧/新 policy 的 runtime permit 均必须被拒绝；禁止自动解析 latest。
 
 影子运行只有在 22 个 endpoint 各自到达第七步后才能用于完成门；首个连接器不能替代 N=22 覆盖。质量目标沿用 PRD：至少 14 日、必要时 30 日；去重 precision ≥95%、recall ≥85%、相关性通过率 ≥80%、重复泄漏 ≤5%，未实测时不得声称达标。
 
@@ -1088,8 +1127,8 @@ stateDiagram-v2
 1. **应用回滚**：只能回到兼容当前 schema 的已验证版本；不伪改快照 as_of/published_at。
 2. **规则回滚**：使用旧 rule revision 从同一冻结输入重算候选，发布新 snapshot；不原地改旧 snapshot。
 3. **parser 回滚**：新 Observation 关联实际 parser revision；旧记录不重写，重处理产生新 revision/关联。
-4. **policy 回滚/停用**：来源条款/访问变化立即将 runtime 恢复 false；CoverageFreshnessPolicyVersion 只能追加 superseding revision，旧快照保留其原 hash。新策略未获批前不发布，不以回滚代码放宽门；已发布事实进入复核，不静默删除审计。
-5. **数据库恢复**：从已验证备份恢复到新路径，完成一致性检查后切换；失败继续保留原库只读副本。
+4. **policy 回滚/停用**：来源条款/访问变化立即将 runtime 恢复 false；CoverageFreshnessPolicyVersion 只能追加 superseding revision，旧快照保留其原 hash。supersede 生效时必须追加旧 active registration 的 disabled/revoked 后继并推进 anchor；新策略未获批且未重新步骤 7 前不发布，不以回滚代码放宽门；已发布事实进入复核，不静默删除审计。
+5. **数据库恢复**：从已验证备份恢复到新路径；governance 先与独立单调 anchor 比较并把恢复登记全部 quarantined，完成当前权利核验、新步骤 7 登记、同事务审计及 anchor 前进后才允许切换 runtime。失败继续保留原库只读副本并保持 fail closed。
 6. **全部失败**：不切 seed，不清 current pointer；展示旧真实快照的准确陈旧状态。
 
 ## 19. TBD、风险与重审触发
@@ -1100,6 +1139,7 @@ stateDiagram-v2
 |---|---|---|---|
 | Node 精确 patch、SQLite driver/query layer、API 端口/DB 路径 | 固定 02 拆解 + 后端实现 owner，架构复核 | 任务拆解/实现前 | 后端开工与联调；包管理器 npm 已确定 |
 | CoverageFreshnessPolicyVersion 的 eligible/required 集合、最小 count/ratio、逐源 stale 上限与 subset_publish_rule | 固定 03 产品经理（产品 owner）+ 固定 05 架构师 + 对应来源 owner，共同形成可审批 payload | 任一来源执行七步第 7 步之前，且最迟首个 live RefreshRun 创建前 | 所有 runtime=true 环境登记、live refresh/publish/readiness；不阻断 fixture 与获批 canary 证据 |
+| GovernanceRollbackAnchor 的本机受保护控制根路径、OS 权限实现与原子 CAS API | 固定 07 后端 + 固定 05 架构 + 固定 09 安全复核 | governance 首个迁移/恢复实现 `.REV` 前，且最迟任一步骤 7 登记前 | 全部 environment registration、runtime permit、live refresh/publish/readiness；不得以默认路径或备份内文件代替 |
 | endpoint 级 timeout/bytes/concurrency/retention 数值 | 来源 owner + 架构/安全 | 对应连接器设计 | 该 endpoint canary |
 | 生产 PostgreSQL/queue/object storage 是否需要 | 固定 05/11 + 实现 owner | 本地实测后生产方案 | 生产扩展，不阻断本地纵切 |
 | 正式域名、证书、DNS/CDN/WAF/origin/internal 拓扑 | 固定 11 + 资源 owner | 生产部署审核 | staging/production |
@@ -1129,6 +1169,8 @@ stateDiagram-v2
 | RefreshRun/FetchRun 身份混用 | 强 FK、命名字段、取消只接受 refresh_run_id |
 | canary/runtime run 或 cancel 跨库定位 | cny/live 模式前缀、端点先路由、同库 FK/唯一键、禁止跨库搜索 |
 | governance 丢失后错误默认启用 | governance 专用 manifest/隔离恢复/证据链+CAS+audit 校验，缺损时全 runtime fail closed |
+| 旧但内部完整 governance 备份复活撤销授权 | DB/备份外单调 rollback anchor、generation/audit/revocation head 比较、恢复登记强制 quarantine 与重新步骤 7 |
+| coverage policy supersede 后旧登记继续运行 | 登记内固定 policy id/revision/hash、追加 disabled/revoked 后继、permit 精确匹配、新步骤 7 + audit |
 | 全源失败被全继承重发 | `current_success_count>=1` 发布硬门，operation failed 且旧指针不动 |
 | evidence-only 水位污染后续发布 | 继承源只允许已发布 SnapshotSourceWatermark |
 | local_user/canary 冒充 live | Content/User/Operation 三信封与逐 API 契约负测 |
@@ -1141,6 +1183,7 @@ stateDiagram-v2
 - `AIR-END-030` 或新 endpoint 拟进入 registry/runtime，或 N 发生变化。
 - policy 四态、七步启用序列、精确 endpoint/SSRF 门拟放宽。
 - CoverageFreshnessPolicyVersion 的 required/eligible 集合、最小覆盖、逐源 stale、环境或 subset 发布规则形成或变更。
+- GovernanceRollbackAnchor 的存储保护/CAS/恢复模型或 EnvironmentRuntimeRegistration 的 coverage policy 绑定拟变更。
 - 需要登录、Cookie、付费、浏览器自动化、受限全文、图片/视频/权重存储。
 - 引入 LLM、向量服务、跨语言第三方传输或自动摘要发布。
 - 引入账号、跨设备同步、多用户、公开写 API、消息通知。
@@ -1163,6 +1206,7 @@ stateDiagram-v2
 - [x] CoverageFreshnessPolicyVersion 的 required/eligible、最小 count/ratio、逐源 stale、环境、审批/revision/hash 与 TBD owner/最晚门已冻结。
 - [x] CoverageFreshnessPolicyVersion 仅适用于 runtime/live；canary RefreshRun/水位 coverage refs=null + not_applicable，且不进入 denominator/snapshot/pointer/readiness。
 - [x] CoverageFreshnessPolicyVersion 的 eligible 非空、count/ratio 范围、required 子集、同获批 bundle/环境及全部 eligible stale 校验已冻结，invalid fail closed。
+- [x] EnvironmentRuntimeRegistration 已固定 coverage policy id/revision/hash 与同环境 FK；runtime permit 精确匹配，supersede 先撤旧登记再重新步骤 7。
 - [x] 刷新取消 API、幂等键、七态状态机、安全取消点和 publication fence 已冻结。
 - [x] RefreshRequest→RefreshRun→1:N FetchRun 的 ID、FK、revision、cancel flag 与 fence 已冻结，取消只接受 refresh_run_id。
 - [x] canary 与 runtime 的 run/fetch/cancel 已冻结为 governance/live 同模式同库、cny/live 前缀先路由且无跨库 FK。
@@ -1173,6 +1217,7 @@ stateDiagram-v2
 - [x] Content/User/Operation 三信封和逐 API 映射明确，local_user/canary 不能冒充 live。
 - [x] 治理权威库及表归属、runtime=false canary 证据、环境登记+audit 同事务已冻结。
 - [x] governance 独立备份 manifest、隔离恢复、FK/hash/证据链/CAS/audit 校验与缺损时 runtime 全 fail closed 已冻结。
+- [x] 独立于 governance DB/备份的单调 rollback anchor、generation/audit/revocation head 更新与 manifest 绑定已冻结；旧/缺锚点/头不符及恢复未重登记均 fail closed。
 - [x] live/seed/user 物理分库、分模式恢复、偏好 tombstone 和防复活语义已冻结。
 - [x] local_user DB 元数据与备份 manifest 双代际、ledger 重放、验零、更新水位与 readiness 顺序已冻结。
 - [x] 唯一 17 项命令合同、npm test 聚合、无 test:restore 别名及 db:migrate 操作语义已冻结；全部 NOT_IMPLEMENTED。
@@ -1198,7 +1243,7 @@ stateDiagram-v2
 - 正式域名、DNS/CDN/证书/WAF/origin/internal、云资源、预算、凭证或 owner 为 `TBD/UNKNOWN`。
 - runtime 未按七步启用、N 覆盖不完整、无真实 live snapshot 或影子质量未达门。
 - CoverageFreshnessPolicyVersion 为 UNKNOWN、未批准、hash/环境不匹配，或 required/count/ratio/stale 门未通过。
-- governance 库/备份/证据链/CAS/audit 不完整，active registration 无法可信恢复，或任一 eligible source 缺 active 同 tuple runtime 登记。
+- governance 库/备份/证据链/CAS/audit/revocation 不完整，外部 rollback anchor 缺失/不一致，恢复登记未重新步骤 7，active registration 无法可信恢复，或任一 eligible source 缺 active 同 tuple+coverage-policy runtime 登记。
 - API/源站可被浏览器绕过边界，业务响应被 CDN 误缓存，或五类地址混用。
 - seed/demo/HTTP 200/CDN 新鲜度可冒充 live。
 - 备份恢复、回滚、安全、CORS/CSRF/身份、条款或合规未验证。
@@ -1226,6 +1271,8 @@ stateDiagram-v2
 | 所有 API 共用 live/seed RadarEnvelope | local_user 和 canary/control 会被误标为 live 内容真相 |
 | 把治理证据塞入 radar-live.sqlite | runtime=false canary 无处安全持久化，并混淆治理与业务真相 |
 | governance 库丢失后依据旧 live 数据默认恢复 enabled=true | live 事实不能替代七步治理证据、环境登记与审计 |
+| 只校验治理备份内部完整性就恢复 enabled=true | 旧备份可能早于撤销事实；必须通过外部单调 anchor 并强制 quarantine/重登记 |
+| Coverage policy supersede 后原地改 registration 引用或自动跟随 latest | 破坏内容寻址和七步审计；旧登记必须追加撤销，新 policy 重新步骤 7 |
 | 同时保留 test:restore 与 test:backup-restore | 命令证据不可唯一识别，CI/审核可能跑错合同 |
 | 引入“更高受控主体”但不定义身份 | 形成隐形管理员和越权取消/写入 |
 | live/seed 仅靠 data_mode WHERE 过滤 | 无法对备份、恢复、误查询和跨库事务给出强隔离证明 |
@@ -1237,6 +1284,6 @@ stateDiagram-v2
 
 ## 22. 停止门
 
-本产物只完成 `MR-ARC-101` v1.3 最小定向修订候选，停在 `architecture-review`。v1.0 `changes-requested(P0=1/P1=5/P2=2)`、v1.1 `changes-requested(P0=0/P1=8/P2=2)` 与 v1.2 三路合并 `changes-requested(P0=1/P1=5/P2=2)` 的 SHA/提交/审查历史继续保留；本修订不得自批。它不构成 `CR-ARC-101` 内容审查结论，不授权 `MR-PM-101`、开发、连接器、数据采集、服务启停、runtime 登记或部署，也不预先形成任何未来 artifact。
+本产物只完成 `MR-ARC-101` v1.4 最小定向修订候选，停在 `architecture-review`。v1.0 `changes-requested(P0=1/P1=5/P2=2)`、v1.1 `changes-requested(P0=0/P1=8/P2=2)`、v1.2 三路合并 `changes-requested(P0=1/P1=5/P2=2)` 与 v1.3 `changes-requested(P0=1/P1=1/P2=0)` 的 SHA/提交/审查历史继续保留；本修订不得自批。它不构成 `CR-ARC-101` 内容审查结论，不授权 `MR-PM-101`、开发、连接器、数据采集、服务启停、runtime 登记或部署，也不预先形成任何未来 artifact。
 
 架构审核只针对本文件与登记的不可变 SHA；任何内容修订都必须重算 SHA 并重新审核。
