@@ -45,10 +45,10 @@ next_approval:
   delivery_status: revised-ready-for-review
   expected_artifact: artifact-radar-release-completeness-architecture-001
   expected_path: docs/06-release-completeness-architecture.md
-  expected_version: "1.2"
-  artifact_sha256: 18bfa0520f6d64a470c275195712ad82920ae2a13ec80ddd614197ff8dd66839
-  completed_at: "2026-08-17T06:09:23+08:00"
-  validated_at: "2026-08-17T06:10:02+08:00"
+  expected_version: "1.3"
+  artifact_sha256: 61cb38c79baadf9933cb00a31db865b266a2f32b873faa01adb80c24285eefaf
+  completed_at: "2026-08-17T09:51:09+08:00"
+  validated_at: "2026-08-17T09:54:05+08:00"
   review_history:
     - version: "1.0"
       sha256: 4d94dfa91442d940a3e58e29519456ca29eb1f5386e1f7bbc22c51ddf767d6d6
@@ -62,6 +62,15 @@ next_approval:
       severity: {P0: 0, P1: 8, P2: 2}
     - version: "1.2"
       sha256: 18bfa0520f6d64a470c275195712ad82920ae2a13ec80ddd614197ff8dd66839
+      commit: e5c319ad5e69c8a00d050669a2f4b251960fbdaf
+      decision: changes-requested
+      severity: {P0: 1, P1: 5, P2: 2}
+      review_breakdown:
+        governance: {P0: 0, P1: 0, P2: 0}
+        contract: {P0: 1, P1: 2, P2: 0}
+        partial_source: {P0: 0, P1: 3, P2: 2}
+    - version: "1.3"
+      sha256: 61cb38c79baadf9933cb00a31db865b266a2f32b873faa01adb80c24285eefaf
       decision: pending
       result: revised-ready-for-review
   work_item: MR-ARC-101
@@ -896,8 +905,8 @@ release_completeness_architecture_assignment:
   expected_output:
     artifact: artifact-radar-release-completeness-architecture-001
     path: docs/06-release-completeness-architecture.md
-    version: "1.2"
-    sha256: 18bfa0520f6d64a470c275195712ad82920ae2a13ec80ddd614197ff8dd66839
+    version: "1.3"
+    sha256: 61cb38c79baadf9933cb00a31db865b266a2f32b873faa01adb80c24285eefaf
     delivery_status: revised-ready-for-review
   required_boundaries:
     - exact-source-policy-and-seven-step-runtime-enablement-sequence
@@ -912,6 +921,11 @@ release_completeness_architecture_assignment:
     - attempted-false-subscope-and-aggregate-refresh-identity-contract
     - content-user-operation-envelope-separation-and-api-map
     - governance-physical-authority-store-and-dual-deletion-generation-restore
+    - canary-coverage-null-not-applicable-and-runtime-live-only-coverage-policy
+    - coverage-policy-full-validation-and-runtime-registration-dispositions
+    - mode-prefixed-same-store-run-fetch-cancel-and-api-first-routing
+    - governance-backup-restore-evidence-cas-audit-and-runtime-fail-closed
+    - current-success-hard-gate-known-time-trim-and-published-watermark-only-inheritance
   frozen_facts:
     approved_p0_allow_atomic_endpoints_N: 22
     AIR_END_030: pending-not-in-registry-not-counted
@@ -923,9 +937,9 @@ release_completeness_architecture_assignment:
     data_collection_authorized: false
     production_release: frozen
   status: revised-ready-for-review
-  revision_baseline: e966a1c84b6411852cf5cc23fab89d4cc51ffcd1
-  completed_at: "2026-08-17T06:09:23+08:00"
-  validated_at: "2026-08-17T06:10:02+08:00"
+  revision_baseline: e5c319ad5e69c8a00d050669a2f4b251960fbdaf
+  completed_at: "2026-08-17T09:51:09+08:00"
+  validated_at: "2026-08-17T09:54:05+08:00"
   validation_status: passed
   review_history:
     - version: "1.0"
@@ -940,6 +954,15 @@ release_completeness_architecture_assignment:
       severity: {P0: 0, P1: 8, P2: 2}
     - version: "1.2"
       sha256: 18bfa0520f6d64a470c275195712ad82920ae2a13ec80ddd614197ff8dd66839
+      commit: e5c319ad5e69c8a00d050669a2f4b251960fbdaf
+      decision: changes-requested
+      severity: {P0: 1, P1: 5, P2: 2}
+      review_breakdown:
+        governance: {P0: 0, P1: 0, P2: 0}
+        contract: {P0: 1, P1: 2, P2: 0}
+        partial_source: {P0: 0, P1: 3, P2: 2}
+    - version: "1.3"
+      sha256: 61cb38c79baadf9933cb00a31db865b266a2f32b873faa01adb80c24285eefaf
       decision: pending-independent-review
       result: revised-ready-for-review
   content_self_check:
@@ -954,4 +977,4 @@ release_completeness_architecture_assignment:
     - service-start-test-environment-or-deployment
     - automatic-downstream-route
   auto_route_on_delivery: false
-updated_at: "2026-08-17T06:10:02+08:00"
+updated_at: "2026-08-17T09:54:05+08:00"

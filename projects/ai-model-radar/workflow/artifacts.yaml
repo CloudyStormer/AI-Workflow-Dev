@@ -975,8 +975,8 @@ artifacts:
     run_id: run-20260731-intake-001
     type: release-completeness-architecture
     path: docs/06-release-completeness-architecture.md
-    version: "1.2"
-    sha256: 18bfa0520f6d64a470c275195712ad82920ae2a13ec80ddd614197ff8dd66839
+    version: "1.3"
+    sha256: 61cb38c79baadf9933cb00a31db865b266a2f32b873faa01adb80c24285eefaf
     status: revised-ready-for-review
     owner: role-architect
     role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
@@ -986,9 +986,9 @@ artifacts:
     authorization: approval-20260817-radar-release-architecture-entry
     route_safe_checkpoint: c3f8554019e00e7cef293375a76143e12e5d43ed
     write_baseline: 7e786f24ae16cbb13aa8d7e9028d52f2ceb12d71
-    revision_baseline: e966a1c84b6411852cf5cc23fab89d4cc51ffcd1
-    previous_version: "1.1"
-    previous_sha256: edf2ee2528e2f85066f23c21f9871d361b5c472f5b5a554961edd840cb60cf24
+    revision_baseline: e5c319ad5e69c8a00d050669a2f4b251960fbdaf
+    previous_version: "1.2"
+    previous_sha256: 18bfa0520f6d64a470c275195712ad82920ae2a13ec80ddd614197ff8dd66839
     upstream:
       shared_boundary_adr:
         path: ../../architecture/03-four-project-shared-boundary-adr.md
@@ -1021,18 +1021,18 @@ artifacts:
       source_runtime_readiness_sha256: c59c0647204caa63b4ac9acc9f229dfab22c8b239b4b844a957c1e065681649f
     decisions:
       web_stack: existing-react-typescript-vite-plus-fastify-api
-      local_persistence: physical-live-seed-user-sqlite-with-deletion-ledger
+      local_persistence: physical-governance-live-seed-user-sqlite-with-deletion-ledger
       deployment_scaling_components: unknown-tbd-not-local-prerequisites
       source_policy: immutable-bundle-plus-dual-mode-network-permit-and-exact-endpoint-ssrf-gate
       data_model: append-only-observation-evidence-event-revisions-and-immutable-published-snapshot
       mode_isolation: physical-live-seed-demo-user-databases-and-mode-specific-restore
       runtime_sequence: independent-append-only-evidence-chain-and-atomic-environment-registration
-      refresh_cancellation: idempotent-seven-state-machine-with-publication-fence
-      coverage_freshness_policy: immutable-content-addressed-required-ratio-stale-environment-policy
-      partial_failure_snapshot: watermarks-before-common-as-of-trim-and-full-recompute
-      refresh_identity: request-to-refresh-run-to-many-fetch-runs-with-aggregate-cancel
+      refresh_cancellation: idempotent-seven-state-machine-with-mode-prefixed-same-store-run-fetch-cancel
+      coverage_freshness_policy: runtime-live-only-immutable-validated-content-addressed-policy-canary-not-applicable
+      partial_failure_snapshot: published-watermark-inheritance-current-success-before-common-as-of-known-time-trim-recompute
+      refresh_identity: mode-prefixed-request-refresh-fetch-with-same-store-fk-and-api-first-routing
       envelope_contract: separate-content-user-and-operation-envelopes
-      governance_store: physical-governance-sqlite-with-registration-audit-transaction
+      governance_store: physical-governance-sqlite-with-canary-cancel-chain-registration-audit-and-verified-restore
       local_user_restore: dual-deletion-generations-ledger-replay-zero-check-before-readiness
     frozen_facts:
       approved_p0_allow_atomic_endpoints_N: 22
@@ -1053,17 +1053,21 @@ artifacts:
       - observation-event-evidence-immutable-snapshot-idempotency-and-migrations
       - refresh-cancel-api-state-machine-safe-points-and-publication-fence
       - coverage-freshness-policy-required-ratio-stale-environment-approval-and-hash
+      - coverage-policy-runtime-live-only-canary-null-not-applicable-and-complete-validation
       - watermarks-attempted-false-subscope-common-as-of-trim-and-recompute
+      - runtime-not-enabled-revoked-current-success-hard-gate-and-published-watermark-only-inheritance
+      - known-time-trimming-with-future-effective-preserved
       - refresh-request-run-fetch-identity-fk-revision-cancel-and-publication-fence
+      - canary-governance-and-runtime-live-same-store-cancel-with-mode-prefixed-routing
       - content-user-operation-envelope-and-per-api-mapping
-      - governance-physical-store-table-ownership-and-registration-audit-transaction
+      - governance-physical-store-table-ownership-registration-audit-and-backup-restore-fail-closed
       - today-events-trends-open-source-source-quality-detail-refresh-and-local-preferences-apis
       - deterministic-old-snapshot-truth-error-priority-and-local-owner-model
       - physical-mode-backup-restore-dual-deletion-generations-and-anti-resurrection
       - security-observability-cost-unknown-and-unique-command-contract
-    completed_at: "2026-08-17T06:09:23+08:00"
+    completed_at: "2026-08-17T09:51:09+08:00"
     validation_status: passed
-    validated_at: "2026-08-17T06:10:02+08:00"
+    validated_at: "2026-08-17T09:54:05+08:00"
     validation:
       authoritative_input_sha256: 11-of-11-matched-including-approval-sidecar
       architecture_sha256: matched
@@ -1072,16 +1076,20 @@ artifacts:
       dual_network_mode: canary-steps-1-to-3-limited-permit-runtime-seven-step-closure
       authority_objects: 6-independent-append-only-with-runtime-tuple-constraints
       refresh_cancel_states: 7-complete-with-idempotency-and-publication-fence
-      coverage_policy: immutable-required-ratio-stale-environment-approval-revision-hash-and-tbd-gate
-      snapshot_algorithm: watermarks-common-as-of-trim-reaggregate-dedup-rank-truncate-publish
-      attempted_false_and_subset: not-due-skipped-circuit-open-out-of-scope-and-full-policy-recomposition
-      refresh_identity: request-refresh-run-fetch-run-fk-revision-cancel-fence-complete
+      coverage_policy: runtime-live-only-eligible-nonempty-count-ratio-required-bundle-environment-all-stale-and-canary-not-applicable
+      canary_coverage_scope: null-policy-refs-not-applicable-zero-live-denominator-snapshot-pointer-readiness
+      snapshot_algorithm: watermarks-current-success-common-as-of-known-time-trim-reaggregate-dedup-rank-truncate-publish
+      attempted_false_and_subset: not-due-skipped-circuit-open-out-of-scope-runtime-registration-dispositions-published-watermark-only
+      refresh_identity: cny-live-prefixed-same-store-run-fetch-cancel-fk-and-api-first-routing
       envelope_api_map: content-user-operation-separated-and-mapped
-      governance_store: physical-authority-tables-and-registration-audit-same-transaction
-      physical_mode_restore: dual-deletion-generation-ledger-replay-zero-check-before-readiness
+      governance_store: physical-authority-tables-canary-cancel-registration-audit-and-verified-restore-fail-closed
+      governance_restore: isolated-manifest-integrity-fk-hash-evidence-cas-audit-and-no-default-enable
+      physical_mode_restore: governance-evidence-chain-cas-audit-plus-dual-deletion-generation-ledger-replay-zero-check
+      time_contract: known-time-excludes-effective-at-and-preserves-future-effective
+      current_success_gate: at-least-one-and-all-inherited-run-does-not-publish
       future_command_contract: 17-of-17-unique-declared-not-implemented-with-owner-and-deadline
       workflow_yaml: 5-of-5-valid
-      jsonl_before_validation_event: 97-of-97-valid-and-unique
+      jsonl_before_validation_event: 100-of-100-valid-and-unique
       registry_baseline: 72-rows-35-columns-29-endpoints-22-p0-allow-unchanged
       git_boundary: passed-before-delivery
       scoped_diff: architecture-and-model-workflow-only
@@ -1108,15 +1116,30 @@ artifacts:
         preserved: true
       - version: "1.2"
         sha256: 18bfa0520f6d64a470c275195712ad82920ae2a13ec80ddd614197ff8dd66839
+        commit: e5c319ad5e69c8a00d050669a2f4b251960fbdaf
+        decision: changes-requested
+        reviewed_at: null
+        recorded_at: "2026-08-17T09:51:09+08:00"
+        review_type: three-way-final-review-merged
+        review_breakdown:
+          governance: {P0: 0, P1: 0, P2: 0}
+          contract: {P0: 1, P1: 2, P2: 0}
+          partial_source: {P0: 0, P1: 3, P2: 2}
+        severity: {P0: 1, P1: 5, P2: 2}
+        completed_at: "2026-08-17T06:09:23+08:00"
+        preserved: true
+      - version: "1.3"
+        sha256: 61cb38c79baadf9933cb00a31db865b266a2f32b873faa01adb80c24285eefaf
         decision: pending-independent-review
         result: revised-ready-for-review
-        completed_at: "2026-08-17T06:09:23+08:00"
+        completed_at: "2026-08-17T09:51:09+08:00"
         content_self_check: {P0: 0, P1: 0, P2: 0}
     known_limits:
       - backend-currently-only-gitkeep-and-all-backend-commands-not-implemented
       - no-registry-connector-runtime-data-service-frontend-or-deployment-change
       - production-domain-port-cloud-budget-credential-slo-rpo-rto-remain-unknown-tbd
-      - coverage-freshness-policy-currently-unknown-and-blocks-runtime-registration-live-publish-readiness
+      - coverage-freshness-policy-currently-unknown-and-blocks-runtime-registration-live-refresh-publish-readiness-but-not-authorized-canary
+      - backend-governance-backup-restore-and-mode-routed-cancel-contracts-not-implemented
       - author-self-check-does-not-replace-independent-review
     stop_gate: architecture-review
     downstream_role_authorized: false
