@@ -731,3 +731,48 @@ approvals:
     production_release: frozen
     advance_limit: one-explicit-next-architecture-work-item-only
     auto_advance_beyond_next: false
+  - id: approval-20260817-radar-release-completeness-task-breakdown-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    role: role-pm
+    role_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
+    role_task_title: "02 项目经理"
+    project_id: ai-model-radar
+    work_item: MR-PM-101
+    change_id: plan-20260817-radar-release-completeness-task-breakdown-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-17T16:33:37+08:00"
+    authorization_source: approval-20260817-control-release-completeness-architecture-v1-1
+    prerequisite_architecture_approval: approval-20260817-radar-release-completeness-architecture-v1-5
+    safe_checkpoint: b683327e0e8c3919dcc6318491a8c33af991ad51
+    inputs:
+      - artifact-four-project-release-replanning-plan-001
+      - artifact-four-project-shared-boundary-adr-001
+      - artifact-radar-release-completeness-architecture-001
+      - artifact-radar-live-daily-prd-001
+      - artifact-radar-release-completeness-appendix-001
+      - artifact-radar-release-completeness-ui-design-001
+      - artifact-radar-source-allowlist-001
+      - artifact-radar-source-registry-001
+      - artifact-radar-source-runtime-readiness-001
+    scope: "只将已批准的 AI Model Radar 发布完整性架构拆解为 1–4 小时原子任务、唯一首项、依赖、DoR/DoD、验证、风险和逐项停止门；不得编写或解冻业务代码。"
+    expected_output: artifact-radar-release-completeness-task-breakdown-001
+    expected_path: docs/07-release-completeness-task-breakdown.md
+    expected_version: "1.0"
+    frozen_facts:
+      approved_p0_allow_atomic_endpoints_N: 22
+      AIR_END_030: pending-not-in-registry-not-counted
+      runtime_enabled: false
+      live_connectors: 0
+      live_snapshots: 0
+      production_release: frozen
+    exclusions:
+      - source-registry-mutation-or-policy-approval
+      - connector-canary-data-collection-or-runtime-enablement
+      - frontend-backend-database-worker-or-service-code
+      - service-start-test-environment-or-deployment
+      - MR-PM-102-or-any-other-downstream-route
+    stop_gate: task-breakdown-review
+    advance_limit: one-task-breakdown-delivery-unit-only
+    auto_advance_beyond_next: false

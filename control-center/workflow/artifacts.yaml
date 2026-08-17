@@ -872,7 +872,7 @@ artifacts:
     version: "1.1"
     candidate_revision: 2
     sha256: de44b04e034b402f35be119eeb5f49ba202e2f21d9f59e0ee267d76c6ccfb8b5
-    status: ready-for-review
+    status: approved
     owner: role-architect
     role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
     work_item: CC-ARC-101
@@ -944,10 +944,21 @@ artifacts:
         reviewed_sha256: de44b04e034b402f35be119eeb5f49ba202e2f21d9f59e0ee267d76c6ccfb8b5
         revision_event: event-20260817-control-release-completeness-architecture-v1-1-revised-ready-for-review
         self_assessment: p0-0-p1-0-p2-0-not-independent-approval
-    review_status: pending-independent-review
+    review_status: approved
+    independent_review:
+      fixed_00_architecture_review: passed-p0-0-p1-0-p2-0
+      working_copy_probe_boundary: passed
+    approval: approval-20260817-control-release-completeness-architecture-v1-1
+    approved_at: "2026-08-17T16:33:37+08:00"
+    approval_source_commit: b683327e0e8c3919dcc6318491a8c33af991ad51
+    completed_gate: architecture-review
+    next_project: ai-model-radar
+    next_role: role-pm
+    next_work_item: MR-PM-101
+    next_change_id: plan-20260817-radar-release-completeness-task-breakdown-001
     revised_at: "2026-08-17T16:23:24+08:00"
     completed_at: "2026-08-17T16:23:24+08:00"
-    stop_gate: architecture-review
-    downstream_authorized: false
+    stop_gate: architecture-review-completed
+    downstream_authorized: MR-PM-101-task-breakdown-only
     production_release: frozen
     auto_route: false

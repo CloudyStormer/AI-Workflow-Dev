@@ -1,9 +1,9 @@
 schema_version: 1
 project_id: "workflow-control-center"
 structure_status: normalized
-stage: cross-project-release-architecture-sequence
-status: EL-ARC-101-approved-CC-ARC-101-routed
-current_role: role-architect
+stage: cross-project-release-task-breakdown-sequence
+status: CC-ARC-101-approved-MR-PM-101-routed
+current_role: role-pm
 blocked: false
 ui_assets:
   directory: ui
@@ -30,15 +30,19 @@ release_scope_review:
   decided_at: "2026-08-14T16:20:21+08:00"
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
-next_approval:
+completed_release_completeness_architecture_review:
   gate: architecture-review
   scope: "审核 CC-ARC-101 AI Workflow Control Center 发布完整性架构；本门不自动批准任务拆解、实现、数据读取、服务或部署。"
   decision_owner: 超级无敌帅超超总
-  decision: pending
-  delivery_status: not-created
+  decision: approved
+  approval: approval-20260817-control-release-completeness-architecture-v1-1
+  approved_at: "2026-08-17T16:33:37+08:00"
+  delivery_status: approved
   artifact: artifact-control-release-completeness-architecture-001
   expected_path: docs/03-release-completeness-architecture.md
-  expected_version: "1.0"
+  expected_version: "1.1"
+  artifact_sha256: de44b04e034b402f35be119eeb5f49ba202e2f21d9f59e0ee267d76c6ccfb8b5
+  source_commit: b683327e0e8c3919dcc6318491a8c33af991ad51
   work_item: CC-ARC-101
   change_id: arch-20260817-control-release-completeness-001
   entry_authorization: approval-20260817-control-release-completeness-architecture-entry
@@ -47,6 +51,25 @@ next_approval:
   role_task_id: "019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db"
   safe_checkpoint: 9aa80dee3bb35dd729423e4fad88944073b413f6
   advance_limit: unique-next-stage-only
+  auto_advance_beyond_next: false
+next_approval:
+  gate: task-breakdown-review
+  scope: "审核固定 02 的 MR-PM-101 AI Model Radar 发布完整性权威任务拆解；本门不授权任何实现、连接器、数据采集、服务、测试环境或部署。"
+  decision_owner: 超级无敌帅超超总
+  decision: pending
+  delivery_status: not-created
+  expected_artifact: artifact-radar-release-completeness-task-breakdown-001
+  expected_path: projects/ai-model-radar/docs/07-release-completeness-task-breakdown.md
+  expected_version: "1.0"
+  work_item: MR-PM-101
+  change_id: plan-20260817-radar-release-completeness-task-breakdown-001
+  entry_authorization: approval-20260817-radar-release-completeness-task-breakdown-entry
+  role: role-pm
+  role_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
+  safe_checkpoint: b683327e0e8c3919dcc6318491a8c33af991ad51
+  authorization_source: approval-20260817-control-release-completeness-architecture-v1-1
+  selection_basis: "四项目发布完整性主纵切顺序；Control 架构闭环后只前进 Model 的首个任务拆解单元。"
+  advance_limit: one-explicit-main-vertical-work-item-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
   gate: cross-project-real-product-delta-review
@@ -830,10 +853,10 @@ release_completeness_architecture_assignment:
     business_and_git_workflow_writes: zero-by-design
     real_data_integration: not-ready
     production_release: frozen
-  status: ready-for-architecture-review
+  status: approved
   started_at: "2026-08-17T16:11:32+08:00"
   completed_at: "2026-08-17T16:23:24+08:00"
-  review_status: pending-independent-review
+  review_status: approved
   review_history:
     - candidate_revision: 1
       version: "1.0"
@@ -847,6 +870,13 @@ release_completeness_architecture_assignment:
       sha256: de44b04e034b402f35be119eeb5f49ba202e2f21d9f59e0ee267d76c6ccfb8b5
       decision: revised-ready-for-review
       self_assessment: p0-0-p1-0-p2-0-not-independent-approval
+    - candidate_revision: 2
+      version: "1.1"
+      sha256: de44b04e034b402f35be119eeb5f49ba202e2f21d9f59e0ee267d76c6ccfb8b5
+      decision: approved
+      review_breakdown: {P0: 0, P1: 0, P2: 0}
+      approval: approval-20260817-control-release-completeness-architecture-v1-1
+      review_event: event-20260817-control-release-completeness-architecture-v1-1-approved-and-mr-pm-101-routed
   validation:
     authoritative_input_sha256: passed-8-of-8
     markdown_structure_and_required_boundaries: passed
@@ -863,4 +893,22 @@ release_completeness_architecture_assignment:
     - DNS-CDN-certificate-nginx-cloud-or-production-deployment
   stop_gate: architecture-review
   auto_route_on_delivery: false
-updated_at: "2026-08-17T16:23:24+08:00"
+main_vertical_next_route:
+  project_id: ai-model-radar
+  work_item: MR-PM-101
+  change_id: plan-20260817-radar-release-completeness-task-breakdown-001
+  role: role-pm
+  role_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
+  authorization: approval-20260817-radar-release-completeness-task-breakdown-entry
+  authorization_source: approval-20260817-control-release-completeness-architecture-v1-1
+  result: authorized-and-routed-awaiting-role-entry
+  deferred_candidates:
+    - XR-DATA-001
+    - XR-SEC-001
+    - XR-OPS-001
+  exclusions:
+    - model-implementation-or-runtime-enablement
+    - cross-project-baseline-parallel-start
+    - production-or-deployment
+  auto_route_beyond_next: false
+updated_at: "2026-08-17T16:33:37+08:00"

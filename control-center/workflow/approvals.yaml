@@ -605,3 +605,38 @@ approvals:
     stop_gate: architecture-review
     advance_limit: one-architecture-delivery-unit-only
     auto_advance_beyond_next: false
+  - id: approval-20260817-control-release-completeness-architecture-v1-1
+    gate: architecture-review
+    role: role-architect
+    role_task_id: "019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db"
+    role_task_title: "05 架构师"
+    project_id: workflow-control-center
+    work_item: CC-ARC-101
+    change_id: arch-20260817-control-release-completeness-001
+    artifact: artifact-control-release-completeness-architecture-001
+    path: docs/03-release-completeness-architecture.md
+    version: "1.1"
+    sha256: de44b04e034b402f35be119eeb5f49ba202e2f21d9f59e0ee267d76c6ccfb8b5
+    source_commit: b683327e0e8c3919dcc6318491a8c33af991ad51
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-17T16:33:37+08:00"
+    approval_basis: "今日已形成的非高风险角色交付默认通过；固定 00 对 v1.1 完成独立架构审查，P0=0、P1=0、P2=0，且 v1.0 P1 的孤立三态工作副本状态探针已闭环。"
+    review_breakdown: {P0: 0, P1: 0, P2: 0}
+    completed_gate: architecture-review
+    effect: "批准 CC-ARC-101 v1.1；按已批准主纵切顺序只授权固定 02 执行 MR-PM-101 权威任务拆解。XR-DATA-001、XR-SEC-001、XR-OPS-001 保持排队，未授权并行入场。"
+    next_project: ai-model-radar
+    next_role: role-pm
+    next_role_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
+    next_work_item: MR-PM-101
+    next_change_id: plan-20260817-radar-release-completeness-task-breakdown-001
+    next_gate: task-breakdown-review
+    exclusions:
+      - model-or-control-implementation
+      - registry-mutation-connector-canary-data-collection-or-runtime-enablement
+      - cross-project-baseline-parallel-start
+      - service-start-test-environment-or-deployment
+      - DNS-CDN-certificate-nginx-cloud-or-production-change
+    production_release: frozen
+    advance_limit: one-explicit-main-vertical-work-item-only
+    auto_advance_beyond_next: false

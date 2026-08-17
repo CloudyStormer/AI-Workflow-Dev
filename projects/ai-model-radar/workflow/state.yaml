@@ -3,9 +3,9 @@ project_id: ai-model-radar
 run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
-stage: architecture
-status: MR-ARC-101-approved-CR-ARC-101-routed
-current_role: role-architect
+stage: release-completeness-task-breakdown
+status: MR-PM-101-authorized-awaiting-role-entry
+current_role: role-pm
 blocked: false
 ui_assets:
   directory: ui
@@ -37,7 +37,7 @@ release_scope_review:
   decided_at: "2026-08-14T16:20:21+08:00"
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
-next_approval:
+completed_release_completeness_architecture_review:
   gate: architecture-review
   scope: "审核 MR-ARC-101 AI Model Radar 发布完整性架构；本门不自动批准任务拆解、实现、连接器、数据采集、runtime 或部署。"
   decision_owner: 超级无敌帅超超总
@@ -109,6 +109,25 @@ next_approval:
   next_work_item: CR-ARC-101
   MR_PM_101_authorized: false
   advance_limit: unique-next-stage-only
+  auto_advance_beyond_next: false
+next_approval:
+  gate: task-breakdown-review
+  scope: "审核 MR-PM-101 AI Model Radar 发布完整性权威任务拆解；本门不自动批准数据、连接器、后端、前端、服务、测试环境或部署。"
+  decision_owner: 超级无敌帅超超总
+  decision: pending
+  delivery_status: not-created
+  expected_artifact: artifact-radar-release-completeness-task-breakdown-001
+  expected_path: docs/07-release-completeness-task-breakdown.md
+  expected_version: "1.0"
+  work_item: MR-PM-101
+  change_id: plan-20260817-radar-release-completeness-task-breakdown-001
+  entry_authorization: approval-20260817-radar-release-completeness-task-breakdown-entry
+  role: role-pm
+  role_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
+  safe_checkpoint: b683327e0e8c3919dcc6318491a8c33af991ad51
+  authorization_source: approval-20260817-control-release-completeness-architecture-v1-1
+  prerequisite_architecture_approval: approval-20260817-radar-release-completeness-architecture-v1-5
+  advance_limit: one-explicit-task-breakdown-delivery-unit-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
   gate: cross-project-real-product-delta-review
@@ -1032,4 +1051,48 @@ release_completeness_architecture_assignment:
     - service-start-test-environment-or-deployment
     - automatic-downstream-route
   auto_route_on_delivery: false
-updated_at: "2026-08-17T10:42:13+08:00"
+release_completeness_task_breakdown_assignment:
+  work_item: MR-PM-101
+  change_id: plan-20260817-radar-release-completeness-task-breakdown-001
+  role: role-pm
+  role_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
+  role_task_title: "02 项目经理"
+  authorization: approval-20260817-radar-release-completeness-task-breakdown-entry
+  authorization_source: approval-20260817-control-release-completeness-architecture-v1-1
+  safe_checkpoint: b683327e0e8c3919dcc6318491a8c33af991ad51
+  prerequisites:
+    release_plan: approval-20260814-four-project-release-replanning-plan-v1
+    model_architecture: approval-20260817-radar-release-completeness-architecture-v1-5
+  authoritative_inputs:
+    release_plan: {path: ../../docs/04-four-project-release-completeness-replanning-plan.md, sha256: 96decb8f1835cc85bd530c21b2969d4d077f31e6086425ea911f9d5b187bbe26}
+    shared_adr: {path: ../../architecture/03-four-project-shared-boundary-adr.md, sha256: e3073a01ceda280b8dda4d77b58de7e9755d3f77d21f6ebb5497c8882508840a}
+    architecture: {path: docs/06-release-completeness-architecture.md, sha256: 1529a866855eb1b5cbf34b349d38a7e2f50be8c8f914aeb7f8ed114fd2d99c10}
+    prd: {path: docs/02-prd.md, sha256: 3ce842ef8e2b9661f2114b3b4a2b3361eeb8fac0f98a5071cd8e27c38a81a020}
+    release_appendix: {path: docs/02-prd-release-completeness-appendix.md, sha256: a27cfecc196c29749387302a692d93af0b5b534af7da6805b6b297e064133f1d}
+    ui_design: {path: ui/05-release-completeness-ui-design.md, sha256: a731232994db118117043aa50503273c91e5c438bc20f948d9e5137e43ba9324}
+    source_allowlist: {path: docs/00-source-allowlist.md, sha256: 9aa9bb926cc52aae28d11bbf676507ca313add83238cd81be6300a4d9f2f0498}
+    source_registry: {path: docs/00-source-registry.csv, sha256: c303e79e1fa9f7a1664ac718a1678bbcb6610b5309a5d5e4006e6d4b1d438f91}
+    source_runtime_readiness: {path: docs/00-source-runtime-readiness.md, sha256: c59c0647204caa63b4ac9acc9f229dfab22c8b239b4b844a957c1e065681649f}
+  expected_output:
+    artifact: artifact-radar-release-completeness-task-breakdown-001
+    path: docs/07-release-completeness-task-breakdown.md
+    version: "1.0"
+    delivery_status: not-created
+  scope: "只把已批准的 Model 发布完整性架构拆为 1–4 小时的权威原子开发任务、唯一首项、依赖、DoR/DoD、验证和停止门；保留 docs/05-task-breakdown.md 的历史静态演示范围，不复用或覆盖它。"
+  frozen_facts:
+    approved_p0_allow_atomic_endpoints_N: 22
+    AIR_END_030: pending-not-in-registry-not-counted
+    runtime_enabled: false
+    live_connectors: 0
+    live_snapshots: 0
+    production_release: frozen
+  exclusions:
+    - source-registry-mutation-or-policy-approval
+    - connector-canary-data-collection-or-runtime-enablement
+    - frontend-backend-database-worker-or-service-code
+    - service-start-test-environment-or-deployment
+    - MR-PM-102-or-any-other-downstream-route
+  status: authorized-awaiting-role-entry
+  stop_gate: task-breakdown-review
+  auto_route_on_delivery: false
+updated_at: "2026-08-17T16:33:37+08:00"
