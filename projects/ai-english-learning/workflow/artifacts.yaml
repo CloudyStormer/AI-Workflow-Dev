@@ -1549,7 +1549,7 @@ artifacts:
     path: docs/08-release-completeness-architecture.md
     version: "1.0"
     sha256: e81e8b060f152c6b3a5359ab1dce08c8f2a8058151cc1eef23cdd2729c38b49a
-    status: ready-for-review
+    status: approved
     owner: role-architect
     role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
     work_item: EL-ARC-101
@@ -1615,9 +1615,20 @@ artifacts:
       implementation_or_provider_calls: not-run-by-scope
       deployment_or_service_start: not-run-by-scope
     completed_at: "2026-08-17T15:27:34+08:00"
-    result: ready-for-review
-    stop_gate: architecture-review
-    downstream_routed: false
+    review_decision: approved
+    approval: approval-20260817-english-release-completeness-architecture-v1
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-17T15:59:09+08:00"
+    independent_review:
+      P0: 0
+      P1: 0
+      P2: 0
+      conclusion: passed
+    result: approved-and-unique-control-architecture-authorized
+    completed_gate: architecture-review
+    next_project_id: workflow-control-center
+    next_work_item: CC-ARC-101
+    downstream_routed: true
     EL_PM_101_authorized: false
     implementation_or_service_authorized: false
     production_release: frozen

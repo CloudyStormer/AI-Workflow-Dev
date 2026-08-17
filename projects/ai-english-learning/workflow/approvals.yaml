@@ -932,3 +932,34 @@ approvals:
     user_rule: "今日已形成的非高风险角色交付默认通过；无需重复向超级无敌帅超超总请求允许或通过。"
     advance_limit: one-architecture-delivery-unit-only
     auto_advance_beyond_next: false
+  - id: approval-20260817-english-release-completeness-architecture-v1
+    gate: architecture-review
+    role: role-architect
+    role_task_id: "019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db"
+    role_task_title: "05 架构师"
+    project_id: ai-english-learning
+    work_item: EL-ARC-101
+    change_id: arch-20260817-english-release-completeness-001
+    artifact: artifact-english-release-completeness-architecture-001
+    path: docs/08-release-completeness-architecture.md
+    version: "1.0"
+    sha256: e81e8b060f152c6b3a5359ab1dce08c8f2a8058151cc1eef23cdd2729c38b49a
+    source_commit: 9aa80dee3bb35dd729423e4fad88944073b413f6
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-17T15:59:09+08:00"
+    user_rule: "今日已形成的非高风险角色交付默认通过；无需重复向超级无敌帅超超总请求允许或通过。"
+    evidence: "固定05已在本人任务独立交付 EL-ARC-101；固定00独立复核8份权威输入SHA、当前真相、数据域/租户隔离、服务端记忆与调度、localStorage迁移、AI/STT/TTS七步门、同步冲突、导出删除恢复、API、五类地址、安全可观测性、TBD、YAML/JSONL、Skill drift、Git边界与精确四文件范围，P0/P1/P2=0/0/0。"
+    review_breakdown:
+      independent_architecture_review: {P0: 0, P1: 0, P2: 0}
+      workflow_and_scope_review: {P0: 0, P1: 0, P2: 0}
+    effect: "批准当前 English 发布完整性架构并关闭 architecture-review；按已批准根重排计划，只一跳授权固定05进入 AI Workflow Control Center 的 CC-ARC-101。不得同时授权 EL-PM-101、MR-PM-101、CR-PM-101、任何连接器、代码、服务、采集、部署或生产。"
+    completed_gate: architecture-review
+    next_project_id: workflow-control-center
+    next_work_item: CC-ARC-101
+    next_authorization: approval-20260817-control-release-completeness-architecture-entry
+    EL_PM_101_authorized: false
+    implementation_or_service_authorized: false
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false

@@ -1,9 +1,9 @@
 schema_version: 1
 project_id: "ai-english-learning"
 structure_status: normalized
-stage: ui-design
-status: english-release-completeness-ui-design-approved-and-returned-to-fixed-00
-current_role: role-ui-designer
+stage: cross-project-release-architecture-sequence
+status: EL-ARC-101-approved-CC-ARC-101-routed
+current_role: role-architect
 approved_roles:
   - role-pm
   - role-product-manager
@@ -37,21 +37,20 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
-  gate: ui-design-review
-  scope: "审核 EL-UI-002 完整发布设计说明及 1440/1024/390/320 状态资产；本门不自动批准架构、前端、后端、服务或部署。"
+  gate: architecture-review
+  scope: "审核 CC-ARC-101 AI Workflow Control Center 发布完整性架构；本门不自动批准任务拆解、实现、数据读取、服务或部署。"
   decision_owner: 超级无敌帅超超总
-  decision: approved
-  approval: approval-20260816-english-release-completeness-ui-design-v1
-  decided_at: "2026-08-16T22:21:39+08:00"
-  delivery_status: approved
-  artifact: artifact-english-release-completeness-ui-design-001
-  visual_bundle: artifact-english-release-completeness-ui-visuals-001
-  upstream_approval: approval-20260816-english-release-completeness-ui-prompt-v1
-  entry_authorization: approval-20260816-english-release-completeness-ui-design-entry
-  completed_gate: ui-design-review
-  on_approved: fixed-04-enters-control-center-CC-UI-001
-  next_project_id: workflow-control-center
-  next_work_item: CC-UI-001
+  decision: pending
+  delivery_status: not-created
+  artifact: artifact-control-release-completeness-architecture-001
+  expected_path: control-center/docs/03-release-completeness-architecture.md
+  expected_version: "1.0"
+  work_item: CC-ARC-101
+  change_id: arch-20260817-control-release-completeness-001
+  role: role-architect
+  role_task_id: "019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db"
+  entry_authorization: approval-20260817-control-release-completeness-architecture-entry
+  upstream_approval: approval-20260817-english-release-completeness-architecture-v1
   advance_limit: unique-next-stage-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
@@ -1385,7 +1384,7 @@ release_completeness_architecture_assignment:
     - real-account-credential-or-private-data-operation
     - deployment-or-production
     - EL-PM-101-or-any-downstream-route
-  status: ready-for-review
+  status: approved-and-architecture-review-closed
   started_at: "2026-08-17T15:27:34+08:00"
   write_baseline: c8eb8192c2e2367d9122e0da13dcc43bb260f345
   delivered_artifact:
@@ -1405,10 +1404,19 @@ release_completeness_architecture_assignment:
       note: self-check-only-not-independent-review-or-approval
     implementation_or_provider_calls: not-run-by-scope
     deployment_or_service_start: not-run-by-scope
-  result: architecture-v1-ready-for-review
+  review_decision: approved
+  approval: approval-20260817-english-release-completeness-architecture-v1
+  approved_by: 超级无敌帅超超总
+  approved_at: "2026-08-17T15:59:09+08:00"
+  independent_review: {P0: 0, P1: 0, P2: 0, conclusion: passed}
+  result: approved-and-unique-control-architecture-authorized
+  completed_gate: architecture-review
+  next_project_id: workflow-control-center
+  next_work_item: CC-ARC-101
+  next_authorization: approval-20260817-control-release-completeness-architecture-entry
   EL_PM_101_authorized: false
   implementation_or_service_authorized: false
   production_release: frozen
-  stop_gate: architecture-review
+  stop_gate: architecture-review-completed
   auto_route_on_delivery: false
-updated_at: "2026-08-17T15:27:34+08:00"
+updated_at: "2026-08-17T15:59:09+08:00"

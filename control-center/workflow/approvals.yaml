@@ -565,3 +565,43 @@ approvals:
     production_release: frozen
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: approval-20260817-control-release-completeness-architecture-entry
+    gate: role-entry
+    role: role-architect
+    role_task_id: "019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db"
+    role_task_title: "05 架构师"
+    project_id: workflow-control-center
+    work_item: CC-ARC-101
+    change_id: arch-20260817-control-release-completeness-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-17T15:59:09+08:00"
+    authorization_source: approval-20260817-english-release-completeness-architecture-v1
+    safe_checkpoint: 9aa80dee3bb35dd729423e4fad88944073b413f6
+    prerequisites:
+      - approval-20260817-four-project-shared-boundary-adr-v1
+      - approval-20260817-english-release-completeness-architecture-v1
+      - approval-20260814-control-release-completeness-appendix-v1
+      - approval-20260816-control-real-usable-product-delta-v1
+      - approval-20260817-control-release-completeness-ui-design-v1
+    scope: "只交付 AI Workflow Control Center 发布完整性架构：允许路径只读采集、冻结提交/工作树隔离、项目级隔离解析、非权威缓存、查询API、not_ready/stale/degraded/failed、重建、最小权限、零写威胁模型与验证边界；不得实现读取器、业务代码或服务。"
+    expected_output: artifact-control-release-completeness-architecture-001
+    expected_path: docs/03-release-completeness-architecture.md
+    expected_version: "1.0"
+    frozen_truth:
+      current_dashboard_data: demo-and-pending-static-data
+      workflow_reader: not-implemented
+      database_schema: empty
+      business_and_git_workflow_writes: zero-by-design
+      real_data_integration: not-ready
+      production_release: frozen
+    exclusions:
+      - application-database-worker-frontend-or-backend-code
+      - actual-workflow-or-git-reading-or-data-collection
+      - connector-service-or-runtime-enablement
+      - task-breakdown-or-any-downstream-route
+      - DNS-CDN-certificate-nginx-cloud-or-production-deployment
+    user_rule: "今日已形成的非高风险角色交付默认通过；无需重复向超级无敌帅超超总请求允许或通过。"
+    stop_gate: architecture-review
+    advance_limit: one-architecture-delivery-unit-only
+    auto_advance_beyond_next: false
