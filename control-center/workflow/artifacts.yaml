@@ -869,8 +869,9 @@ artifacts:
   - id: artifact-control-release-completeness-architecture-001
     type: release-completeness-architecture
     path: docs/03-release-completeness-architecture.md
-    version: "1.0"
-    sha256: e0b16cc08d65aaf758a2d04de27764859cc2b554eea064103f62ee33d630fad6
+    version: "1.1"
+    candidate_revision: 2
+    sha256: de44b04e034b402f35be119eeb5f49ba202e2f21d9f59e0ee267d76c6ccfb8b5
     status: ready-for-review
     owner: role-architect
     role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
@@ -879,6 +880,7 @@ artifacts:
     entry_approval: approval-20260817-control-release-completeness-architecture-entry
     safe_checkpoint: 9aa80dee3bb35dd729423e4fad88944073b413f6
     write_base: 5c88e3d177a059369fb98a7861a4953556f0dcb9
+    supersedes_candidate_sha256: e0b16cc08d65aaf758a2d04de27764859cc2b554eea064103f62ee33d630fad6
     authoritative_inputs:
       shared_adr: e3073a01ceda280b8dda4d77b58de7e9755d3f77d21f6ebb5497c8882508840a
       release_plan: 96decb8f1835cc85bd530c21b2969d4d077f31e6086425ea911f9d5b187bbe26
@@ -909,6 +911,9 @@ artifacts:
       authoritative_input_sha256: passed-8-of-8
       markdown_structure_and_required_boundaries: passed
       frozen_commit_blob_not_worktree_index_contract: passed-by-document-review
+      p1_01_working_copy_status_probe_isolation: passed-by-v1-1-document-review
+      p1_01_dirty_hash_not_verified_semantics: passed-by-v1-1-document-review
+      p1_01_negative_assertions: passed-by-v1-1-document-review
       zero_write_and_no_downstream_route_contract: passed-by-document-review
       git_diff_check: passed
       modified_application_database_reader_service_or_deployment: false
@@ -917,8 +922,31 @@ artifacts:
       p1: 0
       p2: 0
       scope: self-review-only-not-independent-approval
+    candidate_history:
+      - candidate_revision: 1
+        version: "1.0"
+        sha256: e0b16cc08d65aaf758a2d04de27764859cc2b554eea064103f62ee33d630fad6
+        commit: c05528150e32f88d88eb92b59afda13944dca5e8
+        status: changes-requested
+        review_event: event-20260817-control-release-completeness-architecture-independent-review-changes-requested
+        finding_summary: {p0: 0, p1: 1, p2: 0}
+        finding: P1-01-working-copy-status-probe-must-be-isolated-from-frozen-blob-projection
+        downstream_authorized: false
+    review_history:
+      - decision: changes-requested
+        candidate_revision: 1
+        reviewed_sha256: e0b16cc08d65aaf758a2d04de27764859cc2b554eea064103f62ee33d630fad6
+        review_event: event-20260817-control-release-completeness-architecture-independent-review-changes-requested
+        finding_summary: {p0: 0, p1: 1, p2: 0}
+        required_repair: P1-01-working-copy-status-probe-tristate-sidecar-and-dirty-hash-not-verified
+      - decision: revised-ready-for-review
+        candidate_revision: 2
+        reviewed_sha256: de44b04e034b402f35be119eeb5f49ba202e2f21d9f59e0ee267d76c6ccfb8b5
+        revision_event: event-20260817-control-release-completeness-architecture-v1-1-revised-ready-for-review
+        self_assessment: p0-0-p1-0-p2-0-not-independent-approval
     review_status: pending-independent-review
-    completed_at: "2026-08-17T16:11:32+08:00"
+    revised_at: "2026-08-17T16:23:24+08:00"
+    completed_at: "2026-08-17T16:23:24+08:00"
     stop_gate: architecture-review
     downstream_authorized: false
     production_release: frozen
