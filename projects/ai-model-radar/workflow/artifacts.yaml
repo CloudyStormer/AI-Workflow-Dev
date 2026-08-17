@@ -975,8 +975,8 @@ artifacts:
     run_id: run-20260731-intake-001
     type: release-completeness-architecture
     path: docs/06-release-completeness-architecture.md
-    version: "1.4"
-    sha256: 9628613617b2ce1f440a6aa81b2183e72196536da71a660613f022aec15a13af
+    version: "1.5"
+    sha256: 1529a866855eb1b5cbf34b349d38a7e2f50be8c8f914aeb7f8ed114fd2d99c10
     status: revised-ready-for-review
     owner: role-architect
     role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
@@ -986,9 +986,9 @@ artifacts:
     authorization: approval-20260817-radar-release-architecture-entry
     route_safe_checkpoint: c3f8554019e00e7cef293375a76143e12e5d43ed
     write_baseline: 7e786f24ae16cbb13aa8d7e9028d52f2ceb12d71
-    revision_baseline: 95b0de52199d520f743b29bc6b3fac5c42fb37b6
-    previous_version: "1.3"
-    previous_sha256: 61cb38c79baadf9933cb00a31db865b266a2f32b873faa01adb80c24285eefaf
+    revision_baseline: 1218f635269ef4876e3f566af0699073114f7216
+    previous_version: "1.4"
+    previous_sha256: 9628613617b2ce1f440a6aa81b2183e72196536da71a660613f022aec15a13af
     upstream:
       shared_boundary_adr:
         path: ../../architecture/03-four-project-shared-boundary-adr.md
@@ -1033,6 +1033,7 @@ artifacts:
       refresh_identity: mode-prefixed-request-refresh-fetch-with-same-store-fk-and-api-first-routing
       envelope_contract: separate-content-user-and-operation-envelopes
       governance_store: physical-governance-sqlite-plus-independent-monotonic-rollback-anchor-and-quarantined-restore-reregistration
+      active_registration_set_integrity: canonical-onsite-recompute-must-match-db-head-and-external-anchor-for-governance-write-runtime-readiness-backup-restore
       local_user_restore: dual-deletion-generations-ledger-replay-zero-check-before-readiness
     frozen_facts:
       approved_p0_allow_atomic_endpoints_N: 22
@@ -1063,13 +1064,14 @@ artifacts:
       - governance-physical-store-table-ownership-registration-audit-and-backup-restore-fail-closed
       - governance-external-monotonic-anchor-generation-audit-revocation-head-and-restore-reregistration
       - environment-registration-exact-coverage-policy-binding-permit-match-and-supersede-revocation
+      - canonical-active-registration-set-onsite-recompute-three-way-gate-and-controlled-repair
       - today-events-trends-open-source-source-quality-detail-refresh-and-local-preferences-apis
       - deterministic-old-snapshot-truth-error-priority-and-local-owner-model
       - physical-mode-backup-restore-dual-deletion-generations-and-anti-resurrection
       - security-observability-cost-unknown-and-unique-command-contract
-    completed_at: "2026-08-17T10:08:45+08:00"
+    completed_at: "2026-08-17T10:31:06+08:00"
     validation_status: passed
-    validated_at: "2026-08-17T10:11:27+08:00"
+    validated_at: "2026-08-17T10:31:40+08:00"
     validation:
       authoritative_input_sha256: 11-of-11-matched-including-approval-sidecar
       architecture_sha256: matched
@@ -1085,9 +1087,10 @@ artifacts:
       refresh_identity: cny-live-prefixed-same-store-run-fetch-cancel-fk-and-api-first-routing
       envelope_api_map: content-user-operation-separated-and-mapped
       governance_store: physical-authority-tables-canary-cancel-registration-audit-plus-independent-monotonic-anchor
-      governance_restore: anchor-generation-audit-revocation-head-compare-quarantine-current-rights-check-and-new-step7-registration
+      active_registration_set_integrity: canonical-onsite-recompute-equals-db-head-and-external-anchor-at-all-governance-writes-runtime-permit-readiness-backup-restore
+      governance_restore: anchor-generation-audit-revocation-active-set-head-compare-quarantine-current-rights-check-and-new-step7-registration
       registration_coverage_binding: exact-environment-policy-id-revision-sha-permit-match-and-no-auto-latest
-      targeted_negative_assertions: six-of-six-fail-closed
+      targeted_negative_assertions: eight-of-eight-fail-closed-including-no-governance-write-anchor-advance-permit-network-or-restore-on-active-set-mismatch
       physical_mode_restore: governance-anchor-evidence-chain-cas-audit-plus-dual-deletion-generation-ledger-replay-zero-check
       time_contract: known-time-excludes-effective-at-and-preserves-future-effective
       current_success_gate: at-least-one-and-all-inherited-run-does-not-publish
@@ -1147,16 +1150,30 @@ artifacts:
         preserved: true
       - version: "1.4"
         sha256: 9628613617b2ce1f440a6aa81b2183e72196536da71a660613f022aec15a13af
+        commit: 1218f635269ef4876e3f566af0699073114f7216
+        decision: changes-requested
+        reviewed_at: null
+        recorded_at: "2026-08-17T10:31:06+08:00"
+        review_type: independent-contract-review-active-registration-set-precondition
+        review_breakdown:
+          governance: {P0: 0, P1: 0, P2: 0}
+          partial_source: {P0: 0, P1: 0, P2: 0}
+          contract: {P0: 0, P1: 1, P2: 0}
+        severity: {P0: 0, P1: 1, P2: 0}
+        completed_at: "2026-08-17T10:08:45+08:00"
+        preserved: true
+      - version: "1.5"
+        sha256: 1529a866855eb1b5cbf34b349d38a7e2f50be8c8f914aeb7f8ed114fd2d99c10
         decision: pending-independent-review
         result: revised-ready-for-review
-        completed_at: "2026-08-17T10:08:45+08:00"
+        completed_at: "2026-08-17T10:31:06+08:00"
         content_self_check: {P0: 0, P1: 0, P2: 0}
     known_limits:
       - backend-currently-only-gitkeep-and-all-backend-commands-not-implemented
       - no-registry-connector-runtime-data-service-frontend-or-deployment-change
       - production-domain-port-cloud-budget-credential-slo-rpo-rto-remain-unknown-tbd
       - coverage-freshness-policy-currently-unknown-and-blocks-runtime-registration-live-refresh-publish-readiness-but-not-authorized-canary
-      - backend-governance-backup-restore-rollback-anchor-registration-policy-binding-and-mode-routed-cancel-contracts-not-implemented
+      - backend-governance-backup-restore-rollback-anchor-active-set-three-way-recompute-registration-policy-binding-and-mode-routed-cancel-contracts-not-implemented
       - author-self-check-does-not-replace-independent-review
     stop_gate: architecture-review
     downstream_role_authorized: false
