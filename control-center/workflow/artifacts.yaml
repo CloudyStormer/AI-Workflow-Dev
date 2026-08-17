@@ -866,3 +866,60 @@ artifacts:
     stop_gate: architecture-sequence-routing
     downstream_authorized: MR-ARC-101-architecture-only
     auto_route: false
+  - id: artifact-control-release-completeness-architecture-001
+    type: release-completeness-architecture
+    path: docs/03-release-completeness-architecture.md
+    version: "1.0"
+    sha256: e0b16cc08d65aaf758a2d04de27764859cc2b554eea064103f62ee33d630fad6
+    status: ready-for-review
+    owner: role-architect
+    role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
+    work_item: CC-ARC-101
+    change_id: arch-20260817-control-release-completeness-001
+    entry_approval: approval-20260817-control-release-completeness-architecture-entry
+    safe_checkpoint: 9aa80dee3bb35dd729423e4fad88944073b413f6
+    write_base: 5c88e3d177a059369fb98a7861a4953556f0dcb9
+    authoritative_inputs:
+      shared_adr: e3073a01ceda280b8dda4d77b58de7e9755d3f77d21f6ebb5497c8882508840a
+      release_plan: 96decb8f1835cc85bd530c21b2969d4d077f31e6086425ea911f9d5b187bbe26
+      product_delta: e613e79f44100840542fb6531e155cf0edd0079a6fc213af328fba075750bc01
+      domain_boundary: d8d7a594b18195e85795b01c7c9c6829222571ba65ddb9629256fab2cf29114b
+      prd: cb41e5e4184fd8df69b8bf1269ae0ef11b540f17f2cb621f6e5da484f9660b93
+      release_prd_appendix: 624e6e8cfc724f909e912faa00de8726101a38bd1a05ef7f10471f9d20ad4aa5
+      ui_prompt: caafe53a51a77283c363483bf34b9dba843f5a1add8d7fd17c9d74a1d336570e
+      ui_design: c7c2f707f76afaae78d3da4404484cd12f0fb3a4e288da06bbeb7496ae5700c3
+    coverage:
+      frozen_commit_blob_and_source_set_contract: defined
+      allowlist_and_path_isolation: defined
+      project_and_jsonl_failure_isolation: defined
+      non_authoritative_rebuildable_memory_cache: defined
+      readonly_query_health_readiness_export_api: defined
+      truth_error_and_impact_scope_envelope: defined
+      zero_write_threat_model_and_observability: defined
+      five_address_cache_and_origin_boundary: defined
+      future_test_and_deployment_blockers: defined
+    frozen_truth:
+      dashboard_data: demo-and-pending-static-data
+      workflow_reader: not-implemented
+      real_data_integration: not-ready
+      database_schema: empty
+      business_git_workflow_write_side_effects: 0
+      production_release: frozen
+    validation:
+      authoritative_input_sha256: passed-8-of-8
+      markdown_structure_and_required_boundaries: passed
+      frozen_commit_blob_not_worktree_index_contract: passed-by-document-review
+      zero_write_and_no_downstream_route_contract: passed-by-document-review
+      git_diff_check: passed
+      modified_application_database_reader_service_or_deployment: false
+    self_assessment:
+      p0: 0
+      p1: 0
+      p2: 0
+      scope: self-review-only-not-independent-approval
+    review_status: pending-independent-review
+    completed_at: "2026-08-17T16:11:32+08:00"
+    stop_gate: architecture-review
+    downstream_authorized: false
+    production_release: frozen
+    auto_route: false
