@@ -3,9 +3,9 @@ project_id: "market-analysis-dev"
 run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
-stage: product-definition
-status: real-product-delta-approved-awaiting-unique-replanning-work-item
-current_role: role-product-manager
+stage: architecture
+status: CR-ARC-101-authorized-awaiting-role-entry
+current_role: role-architect
 blocked: false
 ui_assets:
   directory: ui
@@ -214,15 +214,21 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
-  gate: cross-project-replanning-direction
-  scope: "固定 00 基于已批准四项目真实可用产品增量、已批准来源研究结论、根重排计划与既有待审链，收敛并展示唯一非生产下一工作项；本状态不自动启动 UI、架构、开发、连接器或部署。"
+  gate: architecture-review
+  scope: "审核 CR-ARC-101 Frontend Career Radar 发布完整性架构；本门不自动批准任务拆解、实现、来源 registry、连接器、数据采集、runtime 或部署。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: awaiting-fixed-00-unique-work-item-reconciliation
-  upstream_approval: "approval-20260816-career-real-usable-product-delta-v1"
+  delivery_status: not-created
+  expected_artifact: artifact-career-release-completeness-architecture-001
+  expected_path: docs/06-release-completeness-architecture.md
+  expected_version: "1.0"
+  work_item: CR-ARC-101
+  change_id: arch-20260817-career-release-completeness-001
+  entry_authorization: approval-20260817-career-release-architecture-entry
+  upstream_approval: approval-20260817-radar-release-completeness-architecture-v1-5
   source_readiness_approval: "approval-20260816-career-source-runtime-readiness-v1"
-  on_approved: authorize-one-explicit-non-production-work-item-only
-  advance_limit: no-automatic-route
+  on_approved: return-to-root-for-next-unique-sequence-direction
+  advance_limit: one-architecture-delivery-unit-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
   gate: cross-project-real-product-delta-review
@@ -1249,4 +1255,54 @@ time_integrity:
     - event-20260816-career-release-completeness-ui-design-v1-7-machine-validated
     - event-20260816-career-release-completeness-ui-design-v1-7-ready-for-eighth-independent-review
   note: "上述既有记录的 2026-08-16 墙钟时间晚于本机真实登记时间，属于已知错误未来值；为保持追加历史未回写或猜测替换，本轮以 Git 提交与 JSONL 追加顺序作为权威先后。"
-updated_at: "2026-08-16T13:23:22+08:00"
+release_completeness_architecture_assignment:
+  work_item: CR-ARC-101
+  change_id: arch-20260817-career-release-completeness-001
+  role: role-architect
+  role_task_id: "019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db"
+  role_task_title: "05 架构师"
+  authorization: approval-20260817-career-release-architecture-entry
+  authorization_source: approval-20260817-radar-release-completeness-architecture-v1-5
+  safe_checkpoint: ed569a6616c2d384c4dfc23618bdc1af94c949cc
+  prerequisites:
+    shared_boundary_adr: approval-20260817-four-project-shared-boundary-adr-v1
+    radar_release_architecture: approval-20260817-radar-release-completeness-architecture-v1-5
+    career_release_product: approval-20260814-career-release-scope-v1-3
+    career_real_product_delta: approval-20260816-career-real-usable-product-delta-v1
+    career_release_ui: approval-20260816-career-release-completeness-ui-design-v1-7
+    career_source_allowlist: approval-20260814-career-source-allowlist-v1
+    career_source_runtime_readiness: approval-20260816-career-source-runtime-readiness-v1
+  authoritative_inputs:
+    shared_adr: {path: ../../architecture/03-four-project-shared-boundary-adr.md, sha256: e3073a01ceda280b8dda4d77b58de7e9755d3f77d21f6ebb5497c8882508840a}
+    release_plan: {path: ../../docs/04-four-project-release-completeness-replanning-plan.md, sha256: 96decb8f1835cc85bd530c21b2969d4d077f31e6086425ea911f9d5b187bbe26}
+    product_delta: {path: ../../docs/05-four-project-real-usable-product-delta.md, sha256: e613e79f44100840542fb6531e155cf0edd0079a6fc213af328fba075750bc01}
+    domain_boundary: {path: ../../architecture/02-domain-cdn-service-boundary.md, sha256: d8d7a594b18195e85795b01c7c9c6829222571ba65ddb9629256fab2cf29114b}
+    prd: {path: docs/02-prd.md, sha256: 680a399c4984c443e7bf5f5c0aa0c628e919a061839d5659c3ddbc22ddf08705}
+    legacy_architecture: {path: docs/04-architecture.md, sha256: bcc782409ebde28e003c9e4a1c20d45ddcb3b787f8a2de020c451ef05957d144}
+    ui_prompt: {path: ui/04-release-completeness-ui-prompt.md, sha256: 983638cb6a802effe4148281233aa381802a7d542ce12e8c694640eee04f3900}
+    ui_design: {path: ui/12-release-completeness-ui-design-v1.7.md, sha256: 636d3fcecc3266b8cdc3234614dda68222f67294016d9f22129f87fd552d7fae}
+    source_allowlist: {path: docs/00-source-allowlist.md, sha256: 8e590b31a19b8d4aecd910561ebcc5ee5e423d1dc299ebc4c2d6e4379c3e607e}
+    source_registry: {path: docs/00-source-registry.csv, sha256: 43355d302df64a323e3ee6fe299530d72fd6df8a54bb4b24a06158a9f3621b06}
+    source_runtime_readiness: {path: docs/00-source-runtime-readiness.md, sha256: ee6f32549187ed51939a3b2c11accf4c9cd67b9e50d3c5fbcc70c29949536dbd}
+  expected_output:
+    artifact: artifact-career-release-completeness-architecture-001
+    path: docs/06-release-completeness-architecture.md
+    version: "1.0"
+    delivery_status: not-created
+  frozen_facts:
+    approved_p0_allow_technical_endpoints_T: 13
+    approved_executable_recruitment_instances_R: 0
+    CAR_END_017: conditional-not-in-registry-rights-unresolved
+    CR_CONN_002: blocked-not-instantiated
+    runtime_enabled: false
+    live_connectors: 0
+    live_snapshots: 0
+    registry_mutation_authorized: false
+    data_collection_authorized: false
+    production_release: frozen
+  status: authorized-awaiting-role-entry
+  started_at: null
+  CR_PM_101_authorized: false
+  stop_gate: architecture-review
+  auto_route_on_delivery: false
+updated_at: "2026-08-17T10:42:13+08:00"

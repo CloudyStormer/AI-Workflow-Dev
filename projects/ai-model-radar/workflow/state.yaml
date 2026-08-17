@@ -4,7 +4,7 @@ run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
 stage: architecture
-status: MR-ARC-101-revised-ready-for-review
+status: MR-ARC-101-approved-CR-ARC-101-routed
 current_role: role-architect
 blocked: false
 ui_assets:
@@ -41,8 +41,10 @@ next_approval:
   gate: architecture-review
   scope: "审核 MR-ARC-101 AI Model Radar 发布完整性架构；本门不自动批准任务拆解、实现、连接器、数据采集、runtime 或部署。"
   decision_owner: 超级无敌帅超超总
-  decision: pending
-  delivery_status: revised-ready-for-review
+  decision: approved
+  approval: approval-20260817-radar-release-completeness-architecture-v1-5
+  approved_at: "2026-08-17T10:42:13+08:00"
+  delivery_status: approved
   expected_artifact: artifact-radar-release-completeness-architecture-001
   expected_path: docs/06-release-completeness-architecture.md
   expected_version: "1.5"
@@ -89,8 +91,10 @@ next_approval:
         contract: {P0: 0, P1: 1, P2: 0}
     - version: "1.5"
       sha256: 1529a866855eb1b5cbf34b349d38a7e2f50be8c8f914aeb7f8ed114fd2d99c10
-      decision: pending
-      result: revised-ready-for-review
+      commit: ed569a6616c2d384c4dfc23618bdc1af94c949cc
+      decision: approved
+      result: approved
+      severity: {P0: 0, P1: 0, P2: 0}
   work_item: MR-ARC-101
   change_id: arch-20260817-radar-release-completeness-001
   entry_authorization: approval-20260817-radar-release-architecture-entry
@@ -99,7 +103,11 @@ next_approval:
   safe_checkpoint: c3f8554019e00e7cef293375a76143e12e5d43ed
   upstream_approval: approval-20260817-four-project-shared-boundary-adr-v1
   source_readiness_approval: approval-20260816-radar-source-runtime-readiness-v1
-  on_approved: return-to-root-for-next-unique-architecture-sequence-direction
+  completed_gate: architecture-review
+  on_approved: route-fixed-05-to-market-analysis-dev-CR-ARC-101-only
+  next_project: market-analysis-dev
+  next_work_item: CR-ARC-101
+  MR_PM_101_authorized: false
   advance_limit: unique-next-stage-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
@@ -925,7 +933,7 @@ release_completeness_architecture_assignment:
     path: docs/06-release-completeness-architecture.md
     version: "1.5"
     sha256: 1529a866855eb1b5cbf34b349d38a7e2f50be8c8f914aeb7f8ed114fd2d99c10
-    delivery_status: revised-ready-for-review
+    delivery_status: approved
   required_boundaries:
     - exact-source-policy-and-seven-step-runtime-enablement-sequence
     - connector-fetch-parse-evidence-retry-rate-limit-and-SSRF-boundaries
@@ -957,7 +965,7 @@ release_completeness_architecture_assignment:
     registry_mutation_authorized: false
     data_collection_authorized: false
     production_release: frozen
-  status: revised-ready-for-review
+  status: approved
   revision_baseline: 1218f635269ef4876e3f566af0699073114f7216
   completed_at: "2026-08-17T10:31:06+08:00"
   validated_at: "2026-08-17T10:31:40+08:00"
@@ -1002,18 +1010,26 @@ release_completeness_architecture_assignment:
         contract: {P0: 0, P1: 1, P2: 0}
     - version: "1.5"
       sha256: 1529a866855eb1b5cbf34b349d38a7e2f50be8c8f914aeb7f8ed114fd2d99c10
-      decision: pending-independent-review
-      result: revised-ready-for-review
+      commit: ed569a6616c2d384c4dfc23618bdc1af94c949cc
+      decision: approved
+      result: approved
+      severity: {P0: 0, P1: 0, P2: 0}
   content_self_check:
     P0: 0
     P1: 0
     P2: 0
     note: author-self-check-not-independent-review
-  stop_gate: architecture-review
+  approval: approval-20260817-radar-release-completeness-architecture-v1-5
+  approved_at: "2026-08-17T10:42:13+08:00"
+  completed_gate: architecture-review
+  next_project: market-analysis-dev
+  next_work_item: CR-ARC-101
+  MR_PM_101_authorized: false
+  stop_gate: architecture-review-completed
   exclusions:
     - implementation-or-task-breakdown
     - registry-mutation-connector-canary-data-collection-or-runtime-enablement
     - service-start-test-environment-or-deployment
     - automatic-downstream-route
   auto_route_on_delivery: false
-updated_at: "2026-08-17T10:31:40+08:00"
+updated_at: "2026-08-17T10:42:13+08:00"

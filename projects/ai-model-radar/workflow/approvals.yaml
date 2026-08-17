@@ -698,3 +698,36 @@ approvals:
     production_release: frozen
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: approval-20260817-radar-release-completeness-architecture-v1-5
+    run_id: run-20260731-intake-001
+    gate: architecture-review
+    role: role-architect
+    role_task_id: 019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db
+    role_task_title: "05 架构师"
+    project_id: ai-model-radar
+    work_item: MR-ARC-101
+    change_id: arch-20260817-radar-release-completeness-001
+    artifact: artifact-radar-release-completeness-architecture-001
+    path: docs/06-release-completeness-architecture.md
+    version: "1.5"
+    sha256: 1529a866855eb1b5cbf34b349d38a7e2f50be8c8f914aeb7f8ed114fd2d99c10
+    source_commit: ed569a6616c2d384c4dfc23618bdc1af94c949cc
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-17T10:42:13+08:00"
+    approval_basis: "超级无敌帅超超总已明确今日所有已形成角色交付默认通过；v1.5 又经治理、部分来源/快照与契约三路独立终审，三路均为 P0=0/P1=0/P2=0。"
+    review_breakdown:
+      governance: {P0: 0, P1: 0, P2: 0}
+      partial_source: {P0: 0, P1: 0, P2: 0}
+      contract: {P0: 0, P1: 0, P2: 0}
+    completed_gate: architecture-review
+    effect: "批准 MR-ARC-101 v1.5 并关闭 Model 架构审核门；只按根重排计划把固定 05 的唯一容量顺序切换到 Career CR-ARC-101。"
+    next_project: market-analysis-dev
+    next_work_item: CR-ARC-101
+    MR_PM_101_authorized: false
+    registry_mutation_authorized: false
+    connector_or_runtime_authorized: false
+    implementation_or_service_authorized: false
+    production_release: frozen
+    advance_limit: one-explicit-next-architecture-work-item-only
+    auto_advance_beyond_next: false

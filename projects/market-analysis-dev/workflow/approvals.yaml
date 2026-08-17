@@ -988,3 +988,46 @@ approvals:
     downstream_role_authorized: false
     advance_limit: return-to-root-coordinator-for-one-unique-work-item
     auto_advance_beyond_next: false
+  - id: "approval-20260817-career-release-architecture-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-entry
+    role: role-architect
+    role_task_id: "019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db"
+    role_task_title: "05 架构师"
+    project_id: market-analysis-dev
+    work_item: CR-ARC-101
+    change_id: arch-20260817-career-release-completeness-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-17T10:42:13+08:00"
+    authorization_source: approval-20260817-radar-release-completeness-architecture-v1-5
+    safe_checkpoint: ed569a6616c2d384c4dfc23618bdc1af94c949cc
+    prerequisites:
+      - approval-20260817-four-project-shared-boundary-adr-v1
+      - approval-20260817-radar-release-completeness-architecture-v1-5
+      - approval-20260814-career-release-scope-v1-3
+      - approval-20260816-career-real-usable-product-delta-v1
+      - approval-20260816-career-release-completeness-ui-design-v1-7
+      - approval-20260814-career-source-allowlist-v1
+      - approval-20260816-career-source-runtime-readiness-v1
+    scope: "只交付 Frontend Career Radar 真实技术与招聘来源、用户证据、方向整合、历史/成长/差距、跨设备与隐私边界的发布完整性架构；保留旧 v1.0 架构历史，不实现业务。"
+    expected_output: artifact-career-release-completeness-architecture-001
+    expected_path: docs/06-release-completeness-architecture.md
+    expected_version: "1.0"
+    stop_gate: architecture-review
+    frozen_facts:
+      approved_p0_allow_technical_endpoints_T: 13
+      approved_executable_recruitment_instances_R: 0
+      CAR_END_017: conditional-not-in-registry-rights-unresolved
+      CR_CONN_002: blocked-not-instantiated
+      runtime_enabled: false
+      live_connectors: 0
+      live_snapshots: 0
+    exclusions:
+      - source-registry-mutation-or-rights-approval
+      - connector-canary-data-collection-or-runtime-enablement
+      - task-breakdown-code-service-test-or-deployment
+      - automatic-route-to-CR-PM-101-or-any-downstream-role
+    production_release: frozen
+    advance_limit: one-architecture-delivery-unit-only
+    auto_advance_beyond_next: false
