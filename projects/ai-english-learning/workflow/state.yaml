@@ -1371,7 +1371,7 @@ release_completeness_architecture_assignment:
     artifact: artifact-english-release-completeness-architecture-001
     path: docs/08-release-completeness-architecture.md
     version: "1.0"
-    delivery_status: not-created
+    delivery_status: ready-for-review
   frozen_truth:
     current_spaced_recall_storage: browser-current-device-only
     backend_runtime: not-implemented
@@ -1385,11 +1385,30 @@ release_completeness_architecture_assignment:
     - real-account-credential-or-private-data-operation
     - deployment-or-production
     - EL-PM-101-or-any-downstream-route
-  status: authorized-awaiting-role-entry
-  started_at: null
+  status: ready-for-review
+  started_at: "2026-08-17T15:27:34+08:00"
+  write_baseline: c8eb8192c2e2367d9122e0da13dcc43bb260f345
+  delivered_artifact:
+    id: artifact-english-release-completeness-architecture-001
+    path: docs/08-release-completeness-architecture.md
+    version: "1.0"
+    sha256: e81e8b060f152c6b3a5359ab1dce08c8f2a8058151cc1eef23cdd2729c38b49a
+    completed_at: "2026-08-17T15:27:34+08:00"
+  validation:
+    authoritative_input_sha256: passed-8-of-8
+    markdown_diff_check: passed
+    workflow_yaml_jsonl: passed
+    architecture_self_check:
+      p0_open: 0
+      p1_open: 0
+      p2_open: 0
+      note: self-check-only-not-independent-review-or-approval
+    implementation_or_provider_calls: not-run-by-scope
+    deployment_or_service_start: not-run-by-scope
+  result: architecture-v1-ready-for-review
   EL_PM_101_authorized: false
   implementation_or_service_authorized: false
   production_release: frozen
   stop_gate: architecture-review
   auto_route_on_delivery: false
-updated_at: "2026-08-17T11:15:00+08:00"
+updated_at: "2026-08-17T15:27:34+08:00"
