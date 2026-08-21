@@ -3,9 +3,9 @@ project_id: "market-analysis-dev"
 run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
-stage: architecture-review
-status: CR-ARC-101-ready-for-review
-current_role: role-architect
+stage: project-planning
+status: career-release-completeness-task-breakdown-ready-for-review
+current_role: role-pm
 blocked: false
 ui_assets:
   directory: ui
@@ -214,21 +214,21 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
-  gate: architecture-review
-  scope: "审核 CR-ARC-101 Frontend Career Radar 发布完整性架构；本门不自动批准任务拆解、实现、来源 registry、连接器、数据采集、runtime 或部署。"
+  gate: task-breakdown-review
+  scope: "审核 CR-PM-101 的真实本地产品任务拆解；本门不启动后端、前端、数据、连接器、canary、runtime、服务、部署或任何其他角色。"
   decision_owner: 超级无敌帅超超总
   decision: pending
   delivery_status: ready-for-review
-  expected_artifact: artifact-career-release-completeness-architecture-001
-  expected_path: docs/06-release-completeness-architecture.md
+  expected_artifact: artifact-career-release-completeness-task-breakdown-001
+  expected_path: docs/07-release-completeness-task-breakdown.md
   expected_version: "1.0"
-  work_item: CR-ARC-101
-  change_id: arch-20260817-career-release-completeness-001
-  entry_authorization: approval-20260817-career-release-architecture-entry
-  upstream_approval: approval-20260817-radar-release-completeness-architecture-v1-5
+  work_item: CR-PM-101
+  change_id: plan-20260821-career-real-local-product-task-breakdown-001
+  entry_authorization: direct-user-command-20260821-career-real-local-product-task-breakdown
+  upstream_approval: approval-20260817-career-release-completeness-architecture-v1
   source_readiness_approval: "approval-20260816-career-source-runtime-readiness-v1"
-  on_approved: return-to-root-for-next-unique-sequence-direction
-  advance_limit: one-architecture-delivery-unit-only
+  on_approved: authorize-only-CR-BE-101-if-single-step-inputs-and-safe-worktree-still-match
+  advance_limit: one-task-breakdown-delivery-unit-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
   gate: cross-project-real-product-delta-review
@@ -1332,4 +1332,83 @@ release_completeness_architecture_assignment:
   implementation_or_service_authorized: false
   stop_gate: architecture-review
   auto_route_on_delivery: false
-updated_at: "2026-08-17T11:15:00+08:00"
+release_completeness_task_breakdown_assignment:
+  work_item: CR-PM-101
+  change_id: plan-20260821-career-real-local-product-task-breakdown-001
+  role: role-pm
+  role_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
+  role_task_title: "02 项目经理"
+  authorization:
+    type: direct-user-command
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    summary: "两个项目都做成真的、真实后端/网络数据/输入利用，部署后排；仅完成 CR-PM-101 任务拆解。"
+  requested_safe_checkpoint: 2ec7ac1b02713daa641718a896cbc5bbddb275a6
+  safe_write_baseline: fa8e9f3bb298a379012a71a4e070b8acaeeeeb5f
+  original_workflow:
+    stage: architecture-review
+    status: CR-ARC-101-ready-for-review
+    current_role: role-architect
+    next_gate: architecture-review
+    preserved_architecture_artifact: artifact-career-release-completeness-architecture-001
+  authoritative_inputs:
+    release_plan: {path: ../../docs/04-four-project-release-completeness-replanning-plan.md, sha256: 96decb8f1835cc85bd530c21b2969d4d077f31e6086425ea911f9d5b187bbe26}
+    shared_adr: {path: ../../architecture/03-four-project-shared-boundary-adr.md, sha256: e3073a01ceda280b8dda4d77b58de7e9755d3f77d21f6ebb5497c8882508840a}
+    prd: {path: docs/02-prd.md, sha256: 680a399c4984c443e7bf5f5c0aa0c628e919a061839d5659c3ddbc22ddf08705}
+    ui_design: {path: ui/12-release-completeness-ui-design-v1.7.md, sha256: 636d3fcecc3266b8cdc3234614dda68222f67294016d9f22129f87fd552d7fae}
+    architecture: {path: docs/06-release-completeness-architecture.md, sha256: 0f6cebe45056ea5171805348f1ecc92bb5ac97b7ee3b6404aa4e05cfad9e6029}
+    source_allowlist: {path: docs/00-source-allowlist.md, sha256: 8e590b31a19b8d4aecd910561ebcc5ee5e423d1dc299ebc4c2d6e4379c3e607e}
+    source_registry: {path: docs/00-source-registry.csv, sha256: 43355d302df64a323e3ee6fe299530d72fd6df8a54bb4b24a06158a9f3621b06}
+    source_runtime_readiness: {path: docs/00-source-runtime-readiness.md, sha256: ee6f32549187ed51939a3b2c11accf4c9cd67b9e50d3c5fbcc70c29949536dbd}
+  frozen_facts:
+    approved_p0_allow_technical_endpoints_T: 13
+    approved_executable_recruitment_instances_R: 0
+    CAR_END_017: conditional-not-in-registry-rights-unresolved
+    CR_CONN_002: blocked-not-instantiated
+    runtime_enabled: false
+    live_connectors: 0
+    live_snapshots: 0
+    coverage_freshness_policy: UNKNOWN-0-approved
+    production_release: frozen
+  expected_output:
+    artifact: artifact-career-release-completeness-task-breakdown-001
+    path: docs/07-release-completeness-task-breakdown.md
+    version: "1.0"
+    sha256: c94be2efad6efa0356fe62df1d0a22e8ed2f47f127aa38f7297a210f72b9516d
+  direct_task_count: 60
+  unique_first_work_item:
+    id: CR-BE-101
+    role: role-backend-dev
+    role_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+    status: declared-not-authorized
+    stop_gate: atomic-delivery-review
+  exclusions:
+    - business-code-or-database-write-in-this-pm-unit
+    - registry-or-allowlist-mutation
+    - connector-canary-data-collection-runtime-or-live-snapshot
+    - service-start-or-test-environment
+    - production-deployment-domain-cdn-cloud-or-credentials
+    - CR-PM-102-or-any-other-downstream-route
+  preserved_gates:
+    - architecture-review-approved-history
+    - ui-design-review-history
+    - frontend-delivery-review-held-history
+    - source-runtime-readiness-review-approved-conditional-research-only
+  delivery_status: ready-for-review
+  result: task-breakdown-ready-for-review
+  completed_at: "2026-08-21T17:23:02+08:00"
+  validated_at: "2026-08-21T17:32:05+08:00"
+  validation_status: passed
+  validation:
+    task_graph: 60-unique-tasks-one-root-CR-BE-101
+    direct_effort_hours: 195
+    authoritative_input_hashes: matched-8-of-8
+    workflow_yaml: 2-of-2-valid
+    events_jsonl_before_validation_event: 126-of-126-valid-and-unique
+    project_structure: passed-with-0-warnings
+    git_boundary: passed
+    skill_drift: passed
+    diff_check: passed
+    business_code_or_runtime_started: false
+  stop_gate: task-breakdown-review
+  auto_route_on_delivery: false
+updated_at: "2026-08-21T17:32:05+08:00"

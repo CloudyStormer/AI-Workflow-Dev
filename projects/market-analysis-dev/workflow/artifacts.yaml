@@ -2099,3 +2099,75 @@ artifacts:
     stop_gate: architecture-review
     production_release: frozen
     auto_route: false
+  - id: "artifact-career-release-completeness-task-breakdown-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: release-completeness-task-breakdown
+    path: docs/07-release-completeness-task-breakdown.md
+    version: "1.0"
+    sha256: c94be2efad6efa0356fe62df1d0a22e8ed2f47f127aa38f7297a210f72b9516d
+    status: ready-for-review
+    owner: role-pm
+    role_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
+    work_item: CR-PM-101
+    change_id: plan-20260821-career-real-local-product-task-breakdown-001
+    authorization:
+      type: direct-user-command
+      source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+      summary: "真实后端/网络数据/输入利用，部署后排；仅任务拆解。"
+    requested_safe_checkpoint: 2ec7ac1b02713daa641718a896cbc5bbddb275a6
+    safe_write_baseline: fa8e9f3bb298a379012a71a4e070b8acaeeeeb5f
+    upstream:
+      release_plan_sha256: 96decb8f1835cc85bd530c21b2969d4d077f31e6086425ea911f9d5b187bbe26
+      shared_adr_sha256: e3073a01ceda280b8dda4d77b58de7e9755d3f77d21f6ebb5497c8882508840a
+      prd_sha256: 680a399c4984c443e7bf5f5c0aa0c628e919a061839d5659c3ddbc22ddf08705
+      ui_design_sha256: 636d3fcecc3266b8cdc3234614dda68222f67294016d9f22129f87fd552d7fae
+      architecture_sha256: 0f6cebe45056ea5171805348f1ecc92bb5ac97b7ee3b6404aa4e05cfad9e6029
+      source_allowlist_sha256: 8e590b31a19b8d4aecd910561ebcc5ee5e423d1dc299ebc4c2d6e4379c3e607e
+      source_registry_sha256: 43355d302df64a323e3ee6fe299530d72fd6df8a54bb4b24a06158a9f3621b06
+      source_runtime_readiness_sha256: ee6f32549187ed51939a3b2c11accf4c9cd67b9e50d3c5fbcc70c29949536dbd
+    frozen_facts:
+      T: 13
+      R: 0
+      CAR_END_017: conditional-not-in-registry-rights-unresolved
+      CR_CONN_002: blocked-not-instantiated
+      runtime_enabled: false
+      live_connectors: 0
+      live_snapshots: 0
+      production_release: frozen
+    task_inventory:
+      direct_task_count: 60
+      direct_estimate_hours: 195
+      status: all-planned-not-authorized
+      companion_gate_pattern: X.REV-then-X.QA
+    unique_first_work_item:
+      id: CR-BE-101
+      role: role-backend-dev
+      role_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+      status: declared-not-authorized
+      stop_gate: atomic-delivery-review
+    scope:
+      - local-real-backend-private-input-analysis-source-and-frontend-integration-task-breakdown
+      - local-operations-recovery-security-and-simplified-chinese-acceptance-planning
+    exclusions:
+      - business-code-database-service-or-test-environment-in-this-unit
+      - registry-or-allowlist-mutation
+      - connector-canary-data-collection-runtime-or-live-snapshot
+      - production-deployment-domain-cdn-cloud-credentials
+      - downstream-role-route
+    completed_at: "2026-08-21T17:23:02+08:00"
+    validated_at: "2026-08-21T17:32:05+08:00"
+    validation:
+      task_graph: 60-unique-tasks-one-root-CR-BE-101
+      direct_effort_hours: 195
+      authoritative_input_hashes: matched-8-of-8
+      workflow_yaml: 2-of-2-valid
+      events_jsonl_before_validation_event: 126-of-126-valid-and-unique
+      project_structure: passed-with-0-warnings
+      git_boundary: passed
+      skill_drift: passed
+      diff_check: passed
+      business_code_or_runtime_started: false
+    result: ready-for-task-breakdown-review
+    stop_gate: task-breakdown-review
+    production_release: frozen
+    auto_route: false
