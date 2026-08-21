@@ -41,8 +41,8 @@ artifacts:
     path: ui/README.md
     status: active
     owner: role-ui-designer
-    sha256: e68efa67cdbb5287ed069b714781cbcf0ad035d8d4b5eacafb6edbab957428ab
-    updated_at: "2026-08-15T10:45:49+08:00"
+    sha256: b2a3d85b68b85197d6c5038ecf4474ca34e0c376c16692cfe04656b1ae9d0c55
+    updated_at: "2026-08-21T17:43:11+08:00"
   - id: artifact-project-plan-001
     run_id: run-20260731-intake-001
     type: project-plan
@@ -1357,3 +1357,77 @@ artifacts:
     authorized_next_role: role-ui-designer
     authorized_next_work_item: AMR-UI-NEWS-001
     auto_route: true
+  - id: artifact-radar-ai-developer-news-ui-prompt-increment-001
+    run_id: run-20260731-intake-001
+    type: ai-developer-news-ui-prompt-increment
+    path: ui/06-ai-developer-news-ui-prompt-increment.md
+    version: "1.0"
+    sha256: f43050320c6091aee3ceffc077d5c568e6558f2cac9136c543e285ed992d39d1
+    status: ready-for-review
+    owner: role-ui-designer
+    role_task_id: "01a00b3d-89e7-7fa0-a963-5a2bf0ef6c51"
+    role_task_title: "04 UI/UX设计师"
+    work_item: AMR-UI-NEWS-001
+    change_id: ui-prompt-20260821-radar-ai-developer-news-001
+    authorization: approval-20260821-radar-ai-developer-news-ui-prompt-entry
+    authorization_source: approval-20260821-radar-ai-developer-news-prd-v1
+    write_baseline: fa8e9f3bb298a379012a71a4e070b8acaeeeeb5f
+    upstream:
+      artifact: artifact-radar-ai-developer-news-prd-increment-001
+      path: docs/02-prd-ai-developer-news-increment.md
+      version: "1.0"
+      sha256: 4dc41646f62022b29b1e79e0385d073050bc7d04bff2f1b42472f83ef6fd6b34
+      approval: approval-20260821-radar-ai-developer-news-prd-v1
+    inherited_ui:
+      live_daily_prompt: {path: ui/03-ui-prompt.md, version: "1.2", sha256: 967090f3ac97e0a0bb00070eb39a5af9b6efcd629ac1517e78bffa4f8f7605bd, mode: preserved-history}
+      release_prompt: {path: ui/04-release-completeness-ui-prompt.md, version: "1.0", sha256: a8a4b3b66cdaf31f5d43910d36aeb630f751ced1dfb9959a583603abbee12be7, mode: preserved-history}
+      release_design: {path: ui/05-release-completeness-ui-design.md, version: "1.0", sha256: a731232994db118117043aa50503273c91e5c438bc20f948d9e5137e43ba9324, mode: held-historical-reference}
+    coverage:
+      - real-domestic-and-international-ai-developer-news
+      - daily-0830-summary-and-hourly-increment
+      - today-all-events-trends-open-source-source-quality-detail-and-refresh
+      - freshness-provenance-evidence-time-and-deduplication
+      - live-empty-not-ready-stale-degraded-failed
+      - simplified-chinese-1440-1024-390-320-200-percent-accessibility
+      - minimal-clean-news-first-design-and-ten-chart-data-mappings
+    preserved_truth:
+      today_acceptance: failed-static-demo-not-real-usable
+      runtime_enabled: false
+      live_connectors: 0
+      live_snapshots: 0
+      held_frontend_artifact: artifact-radar-frontend-001
+      held_task_breakdown: artifact-radar-release-completeness-task-breakdown-001
+      production_release: frozen
+    exclusions:
+      - ui-design-prototype-or-image-generation
+      - existing-ui-prompt-design-or-asset-overwrite
+      - architecture-or-task-breakdown
+      - source-registry-connector-data-collection-or-runtime
+      - frontend-backend-service-or-deployment
+      - account-favorite-read-later-notification-or-feedback-write
+      - production-domain-cdn-cloud-ha-or-certificate
+    ui_index:
+      path: ui/README.md
+      sha256: b2a3d85b68b85197d6c5038ecf4474ca34e0c376c16692cfe04656b1ae9d0c55
+    validation_status: passed
+    validation:
+      upstream_prd_sha256: matched
+      prompt_sha256: matched
+      ui_index_sha256: matched
+      prompt_markers: 1-start-and-1-end
+      required_coverage: passed-news-daily-hourly-pages-six-truth-states-responsive-accessibility
+      workflow_yaml: 4-of-4-valid
+      events_jsonl_before_validation_event: 121-of-121-valid-and-unique
+      project_structure: passed-with-0-warnings
+      git_boundary: passed
+      skill_drift: passed
+      diff_check: passed
+      historical_ui_hashes: 3-of-3-preserved
+      scoped_paths: model-ui-and-essential-workflow-only
+    completed_at: "2026-08-21T17:43:11+08:00"
+    validated_at: "2026-08-21T17:45:00+08:00"
+    review_status: ready-for-review
+    result: ready-for-ui-prompt-review-no-downstream-route
+    stop_gate: ui-prompt-review
+    downstream_role_authorized: false
+    auto_route: false

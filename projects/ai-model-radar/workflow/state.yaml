@@ -4,7 +4,7 @@ run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
 stage: ui-ux
-status: ai-developer-news-ui-prompt-authorized-awaiting-fixed-04-entry
+status: ai-developer-news-ui-prompt-ready-for-review
 current_role: role-ui-designer
 blocked: false
 ui_assets:
@@ -115,10 +115,11 @@ next_approval:
   scope: "审核 AI 开发圈新闻 UI Prompt 增量 v1.0；本门不自动批准 UI 设计、架构、任务拆解、数据、连接器、前后端、服务或部署。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: not-created
+  delivery_status: ready-for-review
   expected_artifact: artifact-radar-ai-developer-news-ui-prompt-increment-001
   expected_path: ui/06-ai-developer-news-ui-prompt-increment.md
   expected_version: "1.0"
+  artifact_sha256: f43050320c6091aee3ceffc077d5c568e6558f2cac9136c543e285ed992d39d1
   work_item: AMR-UI-NEWS-001
   change_id: ui-prompt-20260821-radar-ai-developer-news-001
   entry_authorization: approval-20260821-radar-ai-developer-news-ui-prompt-entry
@@ -1199,7 +1200,7 @@ ai_developer_news_ui_prompt_assignment:
   role_task_title: "04 UI/UX设计师"
   authorization: approval-20260821-radar-ai-developer-news-ui-prompt-entry
   authorization_source: approval-20260821-radar-ai-developer-news-prd-v1
-  scheduling: authorized-awaiting-role-entry
+  scheduling: completed-ready-for-review
   safe_checkpoint: 2ec7ac1b02713daa641718a896cbc5bbddb275a6
   upstream:
     artifact: artifact-radar-ai-developer-news-prd-increment-001
@@ -1211,7 +1212,9 @@ ai_developer_news_ui_prompt_assignment:
     artifact: artifact-radar-ai-developer-news-ui-prompt-increment-001
     path: ui/06-ai-developer-news-ui-prompt-increment.md
     version: "1.0"
-    delivery_status: not-created
+    sha256: f43050320c6091aee3ceffc077d5c568e6558f2cac9136c543e285ed992d39d1
+    ui_index_sha256: b2a3d85b68b85197d6c5038ecf4474ca34e0c376c16692cfe04656b1ae9d0c55
+    delivery_status: ready-for-review
   scope: "只形成 AI 开发圈新闻 UI Prompt 增量，覆盖今日、全部事件、趋势、开源、来源与质量、搜索筛选、详情证据、国内/国际和 live/empty/not_ready/stale/degraded/failed；交付后停 ui-prompt-review。"
   preserved_truth:
     today_acceptance: failed-static-demo-not-real-usable
@@ -1230,5 +1233,20 @@ ai_developer_news_ui_prompt_assignment:
     - production-domain-cdn-cloud-ha-or-certificate
     - automatic-route-beyond-ui-prompt-review
   stop_gate: ui-prompt-review
+  started_at: "2026-08-21T17:43:11+08:00"
+  completed_at: "2026-08-21T17:43:11+08:00"
+  validation_status: passed
+  validated_at: "2026-08-21T17:45:00+08:00"
+  validation:
+    upstream_prd_sha256: matched
+    prompt_and_ui_index_sha256: matched
+    prompt_contract: passed
+    workflow_yaml_jsonl: passed-4-yaml-121-jsonl-before-validation-event
+    project_structure: passed-with-0-warnings
+    git_boundary: passed
+    skill_drift: passed
+    diff_check: passed
+    historical_ui_hashes: preserved
+  result: ready-for-ui-prompt-review-no-downstream-route
   auto_route_on_delivery: false
-updated_at: "2026-08-21T15:21:24+08:00"
+updated_at: "2026-08-21T17:43:11+08:00"

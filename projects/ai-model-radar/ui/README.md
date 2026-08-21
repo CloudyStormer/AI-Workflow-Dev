@@ -6,6 +6,7 @@
 
 | 产物 | 版本 | 状态 | SHA256 | 说明 |
 |---|---|---|---|---|
+| [`06-ai-developer-news-ui-prompt-increment.md`](06-ai-developer-news-ui-prompt-increment.md) | `1.0` | `ready-for-review` | `f43050320c6091aee3ceffc077d5c568e6558f2cac9136c543e285ed992d39d1` | AMR-UI-NEWS-001 AI 开发圈新闻 UI Prompt 增量；覆盖国内外真实新闻、08:30 每日摘要、小时级增量、今日/事件/趋势/开源/来源质量/详情证据、六个真相态、1440/1024/390/320、200% 与无障碍；当前真实运行仍为来源/连接器/live 快照 0 |
 | [`05-release-completeness-ui-design.md`](05-release-completeness-ui-design.md) | `1.0` | `ready-for-review` | `a731232994db118117043aa50503273c91e5c438bc20f948d9e5137e43ba9324` | MR-UI-002 发布完整性设计说明；权威登记 5 组视觉稿、设计系统、页面交互、9 类图表、64 状态、响应式和无障碍边界 |
 | [`release-completeness-v1/`](release-completeness-v1/) | `1.0` | `ready-for-review` | 见设计说明与下表 | MR-UI-002 的 5 组高保真视觉稿；全部示例为“目标状态方案 / 界面演示数据”，不证明当前 live、连接器或实现存在 |
 | [`04-release-completeness-ui-prompt.md`](04-release-completeness-ui-prompt.md) | `1.0` | `approved` | `a8a4b3b66cdaf31f5d43910d36aeb630f751ced1dfb9959a583603abbee12be7` | MR-UI-001 发布完整性 UI/UX 权威提示词；超级无敌帅超超总于 2026-08-15 通过，并一跳授权 MR-UI-002 |
@@ -29,4 +30,4 @@
 
 PRD v1.2 与 Prompt v1.2 的真实性边界优先于图片示例：图片中出现的“真实连接”“活动源”“系统运行中”或混用日期只能作为历史视觉占位，设计、架构和实现不得据此声称真实服务已接入。
 
-Prompt v1.2 的既有批准和用户 UI 生成等待链继续保留，不被新文件覆盖。发布完整性重排另起 `04-release-completeness-ui-prompt.md` v1.0 审核链：当前只完成 MR-UI-001 Prompt，尚未执行 MR-UI-002，未生成任何新版设计、原型或图片。该 Prompt 获批后也只允许按工作流推进唯一下一站并再次停门；既有 `artifact-radar-frontend-001` 继续冻结在 `frontend-delivery-review`，不授权架构、开发、真实来源接入、服务或部署。
+Prompt v1.2、发布完整性 Prompt/设计及其历史审批链继续保留，不被新文件覆盖。2026-08-21 已批准的产品增量将主定位改为“真实国内外 AI 开发圈新闻”，因此本次新增 `06-ai-developer-news-ui-prompt-increment.md` v1.0；既有发布完整性设计只作历史参考，不能作为新定位的实现或验收证据。当前仅形成新 Prompt，未生成新设计、原型或图片；`artifact-radar-frontend-001` 与 `MR-PM-101` 继续冻结，不授权架构、开发、真实来源接入、服务或部署。
