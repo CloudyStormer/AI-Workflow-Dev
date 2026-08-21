@@ -814,3 +814,72 @@ approvals:
     stop_gate: product-change-review
     advance_limit: one-product-change-delivery-unit-only
     auto_advance_beyond_next: false
+  - id: approval-20260821-radar-ai-developer-news-prd-v1
+    run_id: run-20260731-intake-001
+    gate: product-change-review
+    role: role-product-manager
+    role_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
+    role_task_title: "03 产品经理"
+    project_id: ai-model-radar
+    work_item: AMR-PM-NEWS-001
+    change_id: prd-20260821-radar-ai-developer-news-reposition-v1
+    artifact: artifact-radar-ai-developer-news-prd-increment-001
+    path: docs/02-prd-ai-developer-news-increment.md
+    version: "1.0"
+    sha256: 4dc41646f62022b29b1e79e0385d073050bc7d04bff2f1b42472f83ef6fd6b34
+    source_commit: 2ec7ac1b02713daa641718a896cbc5bbddb275a6
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-21T15:21:24+08:00"
+    user_reply: "通过"
+    source_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
+    effect: "已批准当前产物，并自动授权唯一下一站固定 04 / AMR-UI-NEWS-001。本次只覆盖该站一个 UI Prompt 交付单元；该角色交付后停止等待审核，不代表其产物或后续角色已获批准。"
+    completed_gate: product-change-review
+    authorized_next_role: role-ui-designer
+    authorized_next_work_item: AMR-UI-NEWS-001
+    downstream_role_authorized: true
+    production_release: frozen
+    advance_limit: one-ui-prompt-delivery-unit-only
+    auto_advance_beyond_next: false
+  - id: approval-20260821-radar-ai-developer-news-ui-prompt-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    role: role-ui-designer
+    role_task_id: "01a00b3d-89e7-7fa0-a963-5a2bf0ef6c51"
+    role_task_title: "04 UI/UX设计师"
+    project_id: ai-model-radar
+    work_item: AMR-UI-NEWS-001
+    change_id: ui-prompt-20260821-radar-ai-developer-news-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-21T15:21:24+08:00"
+    authorization_source: approval-20260821-radar-ai-developer-news-prd-v1
+    source_artifact: artifact-radar-ai-developer-news-prd-increment-001
+    source_path: docs/02-prd-ai-developer-news-increment.md
+    source_version: "1.0"
+    source_sha256: 4dc41646f62022b29b1e79e0385d073050bc7d04bff2f1b42472f83ef6fd6b34
+    safe_checkpoint: 2ec7ac1b02713daa641718a896cbc5bbddb275a6
+    target_task_resolution: unique-fixed-04-title-match
+    scope: "只形成 AI 开发圈新闻 UI Prompt 增量；从已批准产品契约转译信息架构、页面、状态、交互、移动端与无障碍要求；交付后停 ui-prompt-review。"
+    expected_output: artifact-radar-ai-developer-news-ui-prompt-increment-001
+    expected_path: ui/06-ai-developer-news-ui-prompt-increment.md
+    expected_version: "1.0"
+    preserved_truth:
+      today_acceptance: failed-static-demo-not-real-usable
+      held_frontend_artifact: artifact-radar-frontend-001
+      MR_PM_101: held-awaiting-product-reconciliation
+      runtime_enabled: false
+      live_connectors: 0
+      live_snapshots: 0
+      production_release: frozen
+    exclusions:
+      - ui-design-prototype-or-image-generation
+      - existing-approved-ui-assets-overwrite-or-removal
+      - architecture-or-task-breakdown
+      - source-registry-connector-or-data-collection
+      - frontend-backend-service-or-deployment
+      - production-domain-cdn-cloud-ha-or-certificate
+      - automatic-route-beyond-ui-prompt-review
+    stop_gate: ui-prompt-review
+    advance_limit: one-ui-prompt-delivery-unit-only
+    auto_advance_beyond_next: false

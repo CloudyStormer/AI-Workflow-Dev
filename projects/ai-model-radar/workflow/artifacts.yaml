@@ -1285,7 +1285,7 @@ artifacts:
     path: docs/02-prd-ai-developer-news-increment.md
     version: "1.0"
     sha256: 4dc41646f62022b29b1e79e0385d073050bc7d04bff2f1b42472f83ef6fd6b34
-    status: ready-for-review
+    status: approved
     owner: role-product-manager
     role_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
     role_task_title: "03 产品经理"
@@ -1345,7 +1345,15 @@ artifacts:
       diff_check: passed
     completed_at: "2026-08-21T15:11:09+08:00"
     validated_at: "2026-08-21T15:14:15+08:00"
-    result: ready-for-product-change-review-no-downstream-route
-    stop_gate: product-change-review
-    downstream_role_authorized: false
-    auto_route: false
+    review_status: approved
+    review_decision: approved
+    approval: approval-20260821-radar-ai-developer-news-prd-v1
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-21T15:21:24+08:00"
+    source_commit: 2ec7ac1b02713daa641718a896cbc5bbddb275a6
+    result: approved-and-fixed-04-ui-prompt-authorized
+    stop_gate: product-change-review-completed
+    downstream_role_authorized: true
+    authorized_next_role: role-ui-designer
+    authorized_next_work_item: AMR-UI-NEWS-001
+    auto_route: true
