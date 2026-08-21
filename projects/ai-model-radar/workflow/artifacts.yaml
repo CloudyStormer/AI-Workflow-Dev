@@ -385,7 +385,7 @@ artifacts:
   - id: artifact-radar-frontend-001
     run_id: run-20260731-intake-001
     type: frontend-implementation
-    status: ready-for-review
+    status: frozen-awaiting-product-reconciliation
     owner: role-frontend-dev
     version: "1.0"
     change_id: dev-20260806-ai-model-radar-fe-001
@@ -437,6 +437,8 @@ artifacts:
     started_at: "2026-08-06T15:47:11+08:00"
     completed_at: "2026-08-07T14:50:10+08:00"
     validated_at: "2026-08-07T14:50:10+08:00"
+    held_at: "2026-08-21T15:11:09+08:00"
+    held_reason: "超级无敌帅超超总验收当前 /today 静态演示不合格，并将产品重新定位为真实国内外 AI 开发圈新闻；不应将静态前端作为真实可用交付。"
     stop_gate: frontend-delivery-review
   - id: artifact-radar-backend-prd-increment-001
     run_id: run-20260731-intake-001
@@ -1200,7 +1202,7 @@ artifacts:
     path: docs/07-release-completeness-task-breakdown.md
     version: "1.0"
     sha256: 8d878f9a4de7e5787a3f97030f65f944194bc5f9edd58e4a6ef46ae92f9c61c7
-    status: ready-for-review
+    status: held-awaiting-product-reconciliation
     owner: role-pm
     role_task_id: 019fb738-5706-7552-849f-35c8a124e2f0
     role_task_title: "02 项目经理"
@@ -1271,7 +1273,79 @@ artifacts:
       - N22-has-no-endpoint-specific-connector-task-in-this-delivery
       - production-parameters-remain-tbd-and-production-is-frozen
     completed_at: "2026-08-17T16:51:45+08:00"
-    result: ready-for-task-breakdown-review
+    held_at: "2026-08-21T15:06:17+08:00"
+    held_reason: "新的 AI 开发圈新闻产品定位已获角色入场授权；MR-PM-101 尚未获任务拆解审核批准，必须在产品、UI 和架构协调后重建。"
+    result: held-awaiting-product-reconciliation
     stop_gate: task-breakdown-review
+    downstream_role_authorized: false
+    auto_route: false
+  - id: artifact-radar-ai-developer-news-prd-increment-001
+    run_id: run-20260731-intake-001
+    type: product-reposition-prd-increment
+    path: docs/02-prd-ai-developer-news-increment.md
+    version: "1.0"
+    sha256: 4dc41646f62022b29b1e79e0385d073050bc7d04bff2f1b42472f83ef6fd6b34
+    status: ready-for-review
+    owner: role-product-manager
+    role_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
+    role_task_title: "03 产品经理"
+    work_item: AMR-PM-NEWS-001
+    change_id: prd-20260821-radar-ai-developer-news-reposition-v1
+    authorization: approval-20260821-radar-ai-developer-news-product-reentry
+    write_baseline: 9ead2dde08ce5aa2e30514c24faba263b79e459a
+    upstream:
+      prd_v1_2: {path: docs/02-prd.md, version: "1.2", sha256: 3ce842ef8e2b9661f2114b3b4a2b3361eeb8fac0f98a5071cd8e27c38a81a020}
+      release_appendix: {path: docs/02-prd-release-completeness-appendix.md, version: "1.0", sha256: a27cfecc196c29749387302a692d93af0b5b534af7da6805b6b297e064133f1d}
+      ui_design: {path: ui/05-release-completeness-ui-design.md, version: "1.0", sha256: a731232994db118117043aa50503273c91e5c438bc20f948d9e5137e43ba9324}
+      architecture: {path: docs/06-release-completeness-architecture.md, version: "1.5", sha256: 1529a866855eb1b5cbf34b349d38a7e2f50be8c8f914aeb7f8ed114fd2d99c10}
+      held_task_breakdown: {artifact: artifact-radar-release-completeness-task-breakdown-001, path: docs/07-release-completeness-task-breakdown.md, version: "1.0", sha256: 8d878f9a4de7e5787a3f97030f65f944194bc5f9edd58e4a6ef46ae92f9c61c7}
+      source_allowlist: {path: docs/00-source-allowlist.md, sha256: 9aa9bb926cc52aae28d11bbf676507ca313add83238cd81be6300a4d9f2f0498, scope: research-policy-not-runtime-permission}
+      source_registry: {path: docs/00-source-registry.csv, sha256: c303e79e1fa9f7a1664ac718a1678bbcb6610b5309a5d5e4006e6d4b1d438f91, scope: research-policy-not-runtime-permission}
+      source_runtime_readiness: {path: docs/00-source-runtime-readiness.md, sha256: c59c0647204caa63b4ac9acc9f229dfab22c8b239b4b844a957c1e065681649f}
+    product_decisions:
+      positioning: real-domestic-and-international-ai-developer-news-with-primary-source-return
+      P0: local-real-backend-persistence-sources-daily-refresh-failure-isolation-full-frontend-backend-integration-and-verifiable-freshness
+      product_truth: static-today-http-200-seed-demo-or-policy-research-never-equals-live
+      read_later: excluded-no-identity-privacy-persistence-scope-approved
+      production: deferred-no-domain-cdn-cloud-ha-or-certificate-plan-in-this-unit
+    frozen_facts:
+      today_acceptance: failed-static-demo-not-real-usable
+      held_frontend_artifact: artifact-radar-frontend-001
+      MR_PM_101: held-awaiting-product-reconciliation
+      runtime_enabled: false
+      live_connectors: 0
+      live_snapshots: 0
+      production_release: frozen
+    acceptance_scope:
+      - primary-source-evidence-and-domestic-international-coverage
+      - event-time-version-confidence-and-cross-source-deduplication
+      - daily-summary-hourly-increment-manual-refresh-and-true-empty
+      - live-empty-not-ready-stale-degraded-failed-with-source-coverage
+      - local-restart-persistence-and-full-frontend-backend-integration
+      - chinese-mobile-accessible-p0-reading-paths
+    exclusions:
+      - ui-prompt-or-ui-design
+      - architecture-or-task-breakdown-rewrite
+      - source-registry-mutation-connector-data-collection-or-runtime-enablement
+      - frontend-backend-service-or-deployment
+      - account-favorite-read-later-feedback-or-notification-write-scope
+      - production-domain-cdn-cloud-ha-or-certificate-plan
+    impact:
+      prd_v1_2: product-priority-reconciliation-required
+      release_appendix: retained-but-reinterpreted-by-new-real-news-contract
+      ui_design: held-for-ui-prompt-and-design-reconciliation-after-product-approval
+      architecture_v1_5: held-awaiting-product-reconciliation-after-ui
+      MR_PM_101: held-awaiting-product-reconciliation-no-MR-DATA-001
+    validation:
+      yaml_jsonl: passed-3-yaml-116-jsonl-unique-ids
+      workflow_cross_references: passed-11-checks
+      prd_contract: passed-23-AC-and-required-markers
+      markdown_whitespace: passed
+      git_boundary: passed
+      diff_check: passed
+    completed_at: "2026-08-21T15:11:09+08:00"
+    validated_at: "2026-08-21T15:14:15+08:00"
+    result: ready-for-product-change-review-no-downstream-route
+    stop_gate: product-change-review
     downstream_role_authorized: false
     auto_route: false

@@ -3,9 +3,9 @@ project_id: ai-model-radar
 run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
-stage: release-completeness-task-breakdown
-status: MR-PM-101-task-breakdown-ready-for-review
-current_role: role-pm
+stage: product-definition
+status: ai-developer-news-product-change-in-progress
+current_role: role-product-manager
 blocked: false
 ui_assets:
   directory: ui
@@ -111,25 +111,24 @@ completed_release_completeness_architecture_review:
   advance_limit: unique-next-stage-only
   auto_advance_beyond_next: false
 next_approval:
-  gate: task-breakdown-review
-  scope: "审核 MR-PM-101 AI Model Radar 发布完整性权威任务拆解；本门不自动批准数据、连接器、后端、前端、服务、测试环境或部署。"
+  gate: product-change-review
+  scope: "审核 AI 开发圈新闻重新定位产品增量 v1.0；本门不自动批准 UI、架构、任务拆解、数据、连接器、后端、前端、服务或部署。"
   decision_owner: 超级无敌帅超超总
   decision: pending
   delivery_status: ready-for-review
-  expected_artifact: artifact-radar-release-completeness-task-breakdown-001
-  expected_path: docs/07-release-completeness-task-breakdown.md
+  expected_artifact: artifact-radar-ai-developer-news-prd-increment-001
+  expected_path: docs/02-prd-ai-developer-news-increment.md
   expected_version: "1.0"
-  artifact_sha256: 8d878f9a4de7e5787a3f97030f65f944194bc5f9edd58e4a6ef46ae92f9c61c7
-  completed_at: "2026-08-17T16:51:45+08:00"
-  work_item: MR-PM-101
-  change_id: plan-20260817-radar-release-completeness-task-breakdown-001
-  entry_authorization: approval-20260817-radar-release-completeness-task-breakdown-entry
-  role: role-pm
-  role_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
-  safe_checkpoint: b683327e0e8c3919dcc6318491a8c33af991ad51
-  authorization_source: approval-20260817-control-release-completeness-architecture-v1-1
-  prerequisite_architecture_approval: approval-20260817-radar-release-completeness-architecture-v1-5
-  advance_limit: one-explicit-task-breakdown-delivery-unit-only
+  artifact_sha256: 4dc41646f62022b29b1e79e0385d073050bc7d04bff2f1b42472f83ef6fd6b34
+  completed_at: "2026-08-21T15:11:09+08:00"
+  validated_at: "2026-08-21T15:14:15+08:00"
+  work_item: AMR-PM-NEWS-001
+  change_id: prd-20260821-radar-ai-developer-news-reposition-v1
+  entry_authorization: approval-20260821-radar-ai-developer-news-product-reentry
+  role: role-product-manager
+  role_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
+  safe_checkpoint: 9ead2dde08ce5aa2e30514c24faba263b79e459a
+  advance_limit: one-product-change-delivery-unit-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
   gate: cross-project-real-product-delta-review
@@ -499,6 +498,9 @@ held_frontend_assignment:
   role_task_title: "06 前端工程师"
   authorization: approval-20260806-radar-fe-001-entry
   scheduling: completed-awaiting-user-review
+  current_disposition: frozen-awaiting-product-reconciliation
+  held_at: "2026-08-21T15:11:09+08:00"
+  held_reason: "当前 /today 只有静态演示，未达到真实 AI 开发圈新闻产品要求；仅在本次产品、UI、架构和任务协调完成后可重新评估。"
   upstream:
     approval: approval-20260806-radar-task-breakdown-v1
     artifact: docs/05-task-breakdown.md
@@ -1099,7 +1101,9 @@ release_completeness_task_breakdown_assignment:
   write_baseline: fdfc6c75bd40b31d19ee3560b203402ccd06c3a0
   started_at: "2026-08-17T16:51:45+08:00"
   completed_at: "2026-08-17T16:51:45+08:00"
-  status: ready-for-review
+  status: held-awaiting-product-reconciliation
+  held_at: "2026-08-21T15:06:17+08:00"
+  held_reason: "超级无敌帅超超总将产品主定位重新定为真实国内外 AI 开发圈新闻；现有 MR-PM-101 未获批准，须在本产品增量、UI 和架构协调后重建。"
   output:
     artifact: artifact-radar-release-completeness-task-breakdown-001
     path: docs/07-release-completeness-task-breakdown.md
@@ -1127,8 +1131,62 @@ release_completeness_task_breakdown_assignment:
     dependency_boundary: MR-DATA-001-only-proposed-first-MR-PM-102-excluded
     frozen_runtime_facts_preserved: true
     yaml_jsonl_and_git_checks: passed-4-yaml-111-jsonl-project-structure-skill-drift-git-boundary-and-diff-check
-  result: task-breakdown-ready-for-review-no-downstream-route
+  result: held-awaiting-product-reconciliation-no-downstream-route
   downstream_role_authorized: false
   stop_gate: task-breakdown-review
   auto_route_on_delivery: false
-updated_at: "2026-08-17T16:51:45+08:00"
+ai_developer_news_product_change_assignment:
+  work_item: AMR-PM-NEWS-001
+  change_id: prd-20260821-radar-ai-developer-news-reposition-v1
+  role: role-product-manager
+  role_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
+  role_task_title: "03 产品经理"
+  authorization: approval-20260821-radar-ai-developer-news-product-reentry
+  entered_at: "2026-08-21T15:06:17+08:00"
+  original_workflow:
+    stage: release-completeness-task-breakdown
+    status: MR-PM-101-task-breakdown-ready-for-review
+    role: role-pm
+    current_gate: task-breakdown-review
+  safe_checkpoint:
+    git_head: 9ead2dde08ce5aa2e30514c24faba263b79e459a
+    origin_main: 9ead2dde08ce5aa2e30514c24faba263b79e459a
+    worktree: clean
+    index_lock: clear
+  return_point: product-change-review
+  expected_output:
+    artifact: artifact-radar-ai-developer-news-prd-increment-001
+    path: docs/02-prd-ai-developer-news-increment.md
+    version: "1.0"
+    sha256: 4dc41646f62022b29b1e79e0385d073050bc7d04bff2f1b42472f83ef6fd6b34
+    delivery_status: ready-for-review
+  current_truth:
+    today_acceptance: failed-static-demo-not-real-usable
+    held_frontend_artifact: artifact-radar-frontend-001
+    held_frontend_status: frozen-awaiting-product-reconciliation
+    MR_PM_101: held-awaiting-product-reconciliation
+    runtime_enabled: false
+    live_connectors: 0
+    live_snapshots: 0
+    production_release: frozen
+  scope: "将 AI Model Radar 重新定义为每日可追溯的国内外 AI 开发圈新闻产品，定义覆盖、来源、时间、质量、真相态、验收与下游影响。"
+  exclusions:
+    - ui-prompt-or-ui-design
+    - architecture-or-task-breakdown-rewrite
+    - source-registry-mutation-or-policy-approval
+    - connector-or-data-collection-or-runtime-enablement
+    - frontend-backend-service-or-deployment
+    - automatic-downstream-route
+  completed_at: "2026-08-21T15:11:09+08:00"
+  validation:
+    yaml_jsonl: passed-3-yaml-116-jsonl-unique-ids
+    workflow_cross_references: passed-11-checks
+    prd_contract: passed-23-AC-and-required-markers
+    markdown_whitespace: passed
+    git_boundary: passed
+    diff_check: passed
+  validated_at: "2026-08-21T15:14:15+08:00"
+  result: product-change-ready-for-review-no-downstream-route
+  stop_gate: product-change-review
+  auto_route_on_delivery: false
+updated_at: "2026-08-21T15:14:15+08:00"

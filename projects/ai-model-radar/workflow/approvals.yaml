@@ -776,3 +776,41 @@ approvals:
     stop_gate: task-breakdown-review
     advance_limit: one-task-breakdown-delivery-unit-only
     auto_advance_beyond_next: false
+  - id: approval-20260821-radar-ai-developer-news-product-reentry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    role: role-product-manager
+    role_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
+    role_task_title: "03 产品经理"
+    project_id: ai-model-radar
+    work_item: AMR-PM-NEWS-001
+    change_id: prd-20260821-radar-ai-developer-news-reposition-v1
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-21T15:06:17+08:00"
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    evidence: "超级无敌帅超超总在固定 03 产品经理任务中对 /today 本地验收判定不合格，并明确授权本次 AI 开发圈新闻产品变更单元。"
+    safe_checkpoint: 9ead2dde08ce5aa2e30514c24faba263b79e459a
+    original_workflow: "release-completeness-task-breakdown / MR-PM-101-task-breakdown-ready-for-review"
+    scope: "只形成 AI 开发圈新闻重新定位 PRD 增量并登记工作流；冻结历史静态前端，协调未获批 MR-PM-101，不实施 UI、架构、数据、连接器、前后端或部署。"
+    expected_output: artifact-radar-ai-developer-news-prd-increment-001
+    expected_path: docs/02-prd-ai-developer-news-increment.md
+    expected_version: "1.0"
+    frozen_facts:
+      today_acceptance: failed-static-demo-not-real-usable
+      held_frontend_artifact: artifact-radar-frontend-001
+      MR_PM_101: held-awaiting-product-reconciliation
+      runtime_enabled: false
+      live_connectors: 0
+      live_snapshots: 0
+      production_release: frozen
+    exclusions:
+      - ui-prompt-or-ui-design
+      - architecture-or-task-breakdown-rewrite
+      - source-registry-mutation-or-policy-approval
+      - connector-or-data-collection-or-runtime-enablement
+      - frontend-backend-service-or-deployment
+      - automatic-downstream-route
+    stop_gate: product-change-review
+    advance_limit: one-product-change-delivery-unit-only
+    auto_advance_beyond_next: false
