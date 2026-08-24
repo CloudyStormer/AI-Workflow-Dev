@@ -1538,3 +1538,82 @@ approvals:
     production_release: frozen
     advance_limit: one-code-review-delivery-unit-only
     auto_advance_beyond_next: false
+  - id: "approval-20260824-career-cr-be-102-delivery"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: atomic-delivery-review
+    role: role-backend-dev
+    role_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+    role_task_title: "07 后端工程师"
+    project_id: market-analysis-dev
+    work_item: CR-BE-102
+    change_id: dev-20260824-career-cr-be-102-runtime-contract-001
+    artifact: artifact-career-cr-be-102-001
+    path: backend/src/config/runtime-config.ts
+    version: "1.0"
+    sha256: 39c665426982526cb6154e2232dc2906b564185157d8bc51c60f542bc886960d
+    source_commit: b6b28a6767c07ae523c07120edeea34583b0877d
+    workflow_delivery_commit: 0814905e2a454b0a5889822313df9cfac8fae765
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T16:04:27+08:00"
+    user_reply: "通过并启动固定 09 代码审查员"
+    source_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+    evidence: "固定07已本人正式交付 CR-BE-102，代码提交 b6b28a6、工作流提交 0814905，固定00复跑 Node 24.19 lint/typecheck/build 与全量 5 files 41/41 通过；超级无敌帅超超总明确回复‘通过并启动固定 09 代码审查员’。"
+    effect: "批准 CR-BE-102 当前交付，并只自动授权固定09审查该交付；不批准 CR-DATA-101 的审查结论、QA、CR-BE-103+、SQLite/migrations 实施、网络采集、业务分析、前端或部署。"
+    completed_gate: atomic-delivery-review
+    next_role: role-code-reviewer
+    next_work_item: CR-BE-102.REV
+    next_entry_authorization: approval-20260824-career-cr-be-102-code-review-entry
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+  - id: "approval-20260824-career-cr-be-102-code-review-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-entry
+    role: role-code-reviewer
+    role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+    role_task_title: "09 代码审查员"
+    project_id: market-analysis-dev
+    work_item: CR-BE-102.REV
+    change_id: review-20260824-career-cr-be-102-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T16:04:27+08:00"
+    authorization_source: approval-20260824-career-cr-be-102-delivery
+    upstream_approval: approval-20260824-career-cr-be-102-delivery
+    source_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+    source_commit: b6b28a6767c07ae523c07120edeea34583b0877d
+    input:
+      artifact: artifact-career-cr-be-102-001
+      path: backend/src/config/runtime-config.ts
+      version: "1.0"
+      sha256: 39c665426982526cb6154e2232dc2906b564185157d8bc51c60f542bc886960d
+      diff_base: 9cc64cc3fcb86a1c2715c3f2535f3d545ea885b8
+      workflow_delivery_commit: 0814905e2a454b0a5889822313df9cfac8fae765
+      authoritative_path_count: 8
+      prior_review_report:
+        path: docs/06-code-review.md
+        version: "1.2"
+        sha256: bfb3976ddb4d0ce4cea8806beaea06a3051a378eeb561252c09ffa834c1ad1f1
+        delivery_commit: 085038f06c1110eb0e99125b7297fbcde75bd54c
+    scope: "独立只读审查 CR-BE-102 的 8 个权威路径：命令合同、显式 PORT/DATA_DIR 校验、127.0.0.1 绑定、优雅启停、失败真相态和回归测试。"
+    exclusions:
+      - CR-DATA-101-review-or-conclusion
+      - CR-BE-103-or-later
+      - code-or-configuration-modification
+      - SQLite-or-migrations-implementation
+      - backend/migrations
+      - source-collection-or-network-requests
+      - business-analysis-or-private-user-data
+      - frontend-changes
+      - service-start-or-deployment
+      - QA-or-any-downstream-route-before-user-review
+    expected_output:
+      artifact: artifact-career-cr-be-102-code-review-001
+      path: docs/06-code-review.md
+      version: "1.3"
+    authorization_text: "已批准当前产物，并自动授权唯一下一站固定 09 / CR-BE-102.REV。本次只覆盖该站一个交付单元；该角色交付后停止等待审核，不代表其产物或后续角色已获批准。"
+    stop_gate: code-review-conclusion-review
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false

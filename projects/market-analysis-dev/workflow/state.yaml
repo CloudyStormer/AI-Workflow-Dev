@@ -3,9 +3,9 @@ project_id: "market-analysis-dev"
 run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
-stage: implementation
-status: career-cr-be-102-ready-for-review
-current_role: role-backend-dev
+stage: code-review
+status: career-cr-be-102-approved-awaiting-fixed-09-review-entry
+current_role: role-code-reviewer
 blocked: false
 ui_assets:
   directory: ui
@@ -214,23 +214,22 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
-  gate: atomic-delivery-review
-  scope: "审核固定07的 CR-BE-102 原子后端交付：dev/build/lint/typecheck/test 命令合同、显式本地端口与数据目录配置校验、127.0.0.1 绑定、优雅启停和失败真相态；不批准 CR-BE-103+、SQLite/migrations、网络采集、业务分析、前端或部署。"
+  gate: code-review-conclusion-review
+  scope: "审核固定09对 CR-BE-102 的独立代码审查结论；只覆盖 b6b28a6 的 8 个后端运行合同路径及相关回归证据，不合并审查 CR-DATA-101。本门不批准 QA、CR-BE-103+、SQLite/migrations 实施、网络采集、业务分析、前端或部署。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
-  expected_artifact: artifact-career-cr-be-102-001
-  expected_path: backend/src/config/runtime-config.ts
-  expected_version: "1.0"
-  work_item: CR-BE-102
-  change_id: dev-20260824-career-cr-be-102-runtime-contract-001
-  entry_authorization: approval-20260824-career-cr-be-102-entry
-  upstream_artifact: artifact-career-cr-be-101-test-report-001
-  upstream_sha256: 2083ecbba42962a7d6edb3414f5aae367ff231a989aa26902f1ccf9a44368ea6
-  upstream_source_commit: b36911952151b911565331101b495e1de23ba79d
-  artifact_sha256: 39c665426982526cb6154e2232dc2906b564185157d8bc51c60f542bc886960d
-  on_approved: route-only-CR-BE-102.REV-to-role-code-reviewer
-  advance_limit: one-backend-delivery-unit-only
+  delivery_status: authorized-awaiting-role-entry
+  expected_artifact: artifact-career-cr-be-102-code-review-001
+  expected_path: docs/06-code-review.md
+  expected_version: "1.3"
+  work_item: CR-BE-102.REV
+  change_id: review-20260824-career-cr-be-102-001
+  entry_authorization: approval-20260824-career-cr-be-102-code-review-entry
+  upstream_artifact: artifact-career-cr-be-102-001
+  upstream_sha256: 39c665426982526cb6154e2232dc2906b564185157d8bc51c60f542bc886960d
+  upstream_source_commit: b6b28a6767c07ae523c07120edeea34583b0877d
+  on_approved: route-by-code-review-conclusion-only
+  advance_limit: one-code-review-delivery-unit-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
   gate: cross-project-real-product-delta-review
@@ -327,7 +326,7 @@ additional_pending_approval:
   sha256: fcc08310cfb92d970fe8dbb38c400bc5193c9e4707353ced12b1570b55894d29
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
+  delivery_status: approved
   options: [通过, 修改, 打回]
   on_approved: "批准 Prompt 后由超级无敌帅超超总使用专业 UI 设计模型生成新版资产并独立进入 ui-design-review；固定 04 不生成图片，不批准或解冻现有前端产物"
 latest_approved_delivery:
@@ -1884,12 +1883,63 @@ backend_runtime_contract_assignment:
     source_runtime_implemented: false
     service_deployment_authorized: false
   environment_observation: "本机默认 Node 18.12.1 低于项目 engines，首次 lint 未运行；切换内置 Node 24.19.0 后全部质量门通过。真实 127.0.0.1 端口绑定被桌面沙箱 EPERM 拒绝，未计作产品失败或通过；进程生命周期由无网络单元测试覆盖。"
-  result: ready-for-atomic-delivery-review
-  stop_gate: atomic-delivery-review
-  next_role_if_approved: role-code-reviewer
-  next_work_item_if_approved: CR-BE-102.REV
+  approval: approval-20260824-career-cr-be-102-delivery
+  approved_at: "2026-08-24T16:04:27+08:00"
+  completed_gate: atomic-delivery-review
+  result: approved-and-routed-to-code-review
+  stop_gate: code-review-conclusion-review
+  next_role: role-code-reviewer
+  next_work_item: CR-BE-102.REV
+  next_entry_authorization: approval-20260824-career-cr-be-102-code-review-entry
   production_release: frozen
   auto_route_on_delivery: false
+backend_runtime_contract_code_review_assignment:
+  work_item: CR-BE-102.REV
+  change_id: review-20260824-career-cr-be-102-001
+  role: role-code-reviewer
+  role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+  role_task_title: "09 代码审查员"
+  authorization: approval-20260824-career-cr-be-102-code-review-entry
+  authorized_via: user-approval-of-current-artifact-one-hop
+  upstream_approval: approval-20260824-career-cr-be-102-delivery
+  source_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+  scheduling: authorized-awaiting-role-entry
+  input:
+    artifact: artifact-career-cr-be-102-001
+    path: backend/src/config/runtime-config.ts
+    version: "1.0"
+    sha256: 39c665426982526cb6154e2232dc2906b564185157d8bc51c60f542bc886960d
+    reviewed_source_commit: b6b28a6767c07ae523c07120edeea34583b0877d
+    diff_base: 9cc64cc3fcb86a1c2715c3f2535f3d545ea885b8
+    workflow_delivery_commit: 0814905e2a454b0a5889822313df9cfac8fae765
+    authoritative_path_count: 8
+    prior_review_report:
+      artifact: artifact-career-cr-data-101-code-review-001
+      path: docs/06-code-review.md
+      version: "1.2"
+      sha256: bfb3976ddb4d0ce4cea8806beaea06a3051a378eeb561252c09ffa834c1ad1f1
+      delivery_commit: 085038f06c1110eb0e99125b7297fbcde75bd54c
+      preservation: "保留 CR-DATA-101 changes-requested 与 CR-P1-003，不合并结论或覆盖证据。"
+  scope: "独立只读审查 CR-BE-102 的命令合同、显式 PORT/DATA_DIR 校验、127.0.0.1 绑定、优雅启停、启动/关闭失败真相态及自动化测试；差异严格限定 b6b28a6 的 8 个路径。"
+  exclusions:
+    - CR-DATA-101-review-or-conclusion
+    - CR-BE-103-or-later
+    - code-or-configuration-modification
+    - SQLite-or-migrations-implementation
+    - backend/migrations
+    - source-collection-or-network-requests
+    - business-analysis-or-private-user-data
+    - frontend-changes
+    - service-start-or-deployment
+    - QA-or-any-downstream-route-before-user-review
+  expected_output:
+    artifact: artifact-career-cr-be-102-code-review-001
+    path: docs/06-code-review.md
+    version: "1.3"
+  stop_gate: code-review-conclusion-review
+  production_release: frozen
+  advance_limit: unique-next-stage-only
+  auto_route_beyond: false
 data_migration_manifest_contract_assignment:
   work_item: CR-DATA-101
   change_id: data-20260824-career-cr-data-101-migration-contract-001
@@ -2014,4 +2064,4 @@ data_migration_manifest_code_review_assignment:
   downstream_role_authorized: false
   production_release: frozen
   auto_route_beyond: false
-updated_at: "2026-08-24T15:56:36+08:00"
+updated_at: "2026-08-24T16:04:27+08:00"

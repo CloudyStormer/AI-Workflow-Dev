@@ -2503,7 +2503,7 @@ artifacts:
     path: backend/src/config/runtime-config.ts
     version: "1.0"
     sha256: 39c665426982526cb6154e2232dc2906b564185157d8bc51c60f542bc886960d
-    status: ready-for-review
+    status: approved-and-routed-to-code-review
     owner: role-backend-dev
     role_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
     role_task_title: "07 后端工程师"
@@ -2564,10 +2564,13 @@ artifacts:
       - ai-english-learning
     completed_at: "2026-08-24T15:28:11+08:00"
     validated_at: "2026-08-24T15:28:11+08:00"
-    result: ready-for-atomic-delivery-review
-    stop_gate: atomic-delivery-review
-    next_role_if_approved: role-code-reviewer
-    next_work_item_if_approved: CR-BE-102.REV
+    approval: approval-20260824-career-cr-be-102-delivery
+    approved_at: "2026-08-24T16:04:27+08:00"
+    result: approved-and-routed-to-code-review
+    stop_gate: code-review-conclusion-review
+    next_role: role-code-reviewer
+    next_work_item: CR-BE-102.REV
+    next_entry_authorization: approval-20260824-career-cr-be-102-code-review-entry
     production_release: frozen
     auto_route: false
   - id: "artifact-career-cr-data-101-001"
