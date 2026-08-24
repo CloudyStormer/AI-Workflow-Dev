@@ -3,9 +3,9 @@ project_id: "market-analysis-dev"
 run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
-stage: implementation
-status: career-cr-be-101-fix-ready-for-review
-current_role: role-backend-dev
+stage: code-review
+status: career-cr-be-101-fix-approved-awaiting-fixed-09-rereview-entry
+current_role: role-code-reviewer
 blocked: false
 ui_assets:
   directory: ui
@@ -214,22 +214,22 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
-  gate: backend-fix-delivery-review
-  scope: "审核固定07对 CR-P1-001、CR-P1-002、CR-P2-001、CR-P2-002 的精确修复及自动化测试；本门不批准 CR-BE-102+、SQLite/迁移、真实来源采集、业务分析、前端改动、QA 或部署。"
+  gate: code-rereview-conclusion-review
+  scope: "审核固定09对 CR-BE-101-FIX-001 的独立复审结论；只核验 CR-P1-001、CR-P1-002、CR-P2-001、CR-P2-002 是否关闭及是否引入回归。本门不预先批准 QA、CR-BE-102+、SQLite/迁移、真实来源采集、业务分析、前端改动或部署。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
-  expected_artifact: artifact-career-cr-be-101-fix-001
-  expected_path: backend/
-  expected_version: "1.0"
-  work_item: CR-BE-101-FIX-001
-  change_id: fix-20260824-career-cr-be-101-review-findings-001
-  entry_authorization: approval-20260824-career-cr-be-101-fix-entry
-  upstream_artifact: artifact-career-cr-be-101-code-review-001
-  upstream_sha256: cbf8e4970a24d72cd71f9f7ae845364f2ab8a35abb398373ca440474fdea3540
-  upstream_source_commit: 01ed90bc1439cf7e707b1cd5d2b26d05f4bcc8cf
-  on_approved: route-only-CR-BE-101-FIX-001.REV-to-role-code-reviewer
-  advance_limit: one-backend-fix-delivery-unit-only
+  delivery_status: authorized-awaiting-role-entry
+  expected_artifact: artifact-career-cr-be-101-fix-rereview-001
+  expected_path: docs/06-code-review.md
+  expected_version: "1.1"
+  work_item: CR-BE-101-FIX-001.REV
+  change_id: rereview-20260824-career-cr-be-101-fix-001
+  entry_authorization: approval-20260824-career-cr-be-101-fix-rereview-entry
+  upstream_artifact: artifact-career-cr-be-101-fix-001
+  upstream_sha256: 465b07f163ede46d9ccee2166a69eab1dc575aa4124331e2cc5d95cde564fa52
+  upstream_source_commit: c6a9a1cc28d5251b57b4ce6375dd30ebe887fb11
+  on_approved: route-by-rereview-conclusion-only
+  advance_limit: one-code-rereview-delivery-unit-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
   gate: cross-project-real-product-delta-review
@@ -1596,7 +1596,7 @@ backend_foundation_fix_assignment:
     - frontend-changes
     - service-start-or-deployment
     - QA-or-downstream-route
-  delivery_status: ready-for-review
+  delivery_status: approved
   started_at: "2026-08-24T11:54:19+08:00"
   completed_at: "2026-08-24T12:00:25+08:00"
   validated_at: "2026-08-24T12:00:25+08:00"
@@ -1643,11 +1643,54 @@ backend_foundation_fix_assignment:
     diff_check: passed
     service_started: false
     network_or_sqlite_implementation: absent-by-scope
-  result: ready-for-backend-fix-delivery-review
-  stop_gate: backend-fix-delivery-review
+  approval: approval-20260824-career-cr-be-101-fix-delivery
+  approved_at: "2026-08-24T12:15:08+08:00"
+  completed_gate: backend-fix-delivery-review
+  result: approved-and-routed-to-code-rereview
+  stop_gate: code-rereview-conclusion-review
   return_point: backend-fix-delivery-review
-  next_role_if_approved: role-code-reviewer
-  next_work_item_if_approved: CR-BE-101-FIX-001.REV
+  next_role: role-code-reviewer
+  next_work_item: CR-BE-101-FIX-001.REV
+  next_entry_authorization: approval-20260824-career-cr-be-101-fix-rereview-entry
   production_release: frozen
   auto_route_on_delivery: false
-updated_at: "2026-08-24T12:00:25+08:00"
+backend_foundation_fix_rereview_assignment:
+  work_item: CR-BE-101-FIX-001.REV
+  change_id: rereview-20260824-career-cr-be-101-fix-001
+  role: role-code-reviewer
+  role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+  role_task_title: "09 代码审查员"
+  authorization: approval-20260824-career-cr-be-101-fix-rereview-entry
+  authorized_via: user-approval-of-current-artifact-one-hop
+  upstream_approval: approval-20260824-career-cr-be-101-fix-delivery
+  source_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+  scheduling: authorized-awaiting-role-entry
+  input:
+    artifact: artifact-career-cr-be-101-fix-001
+    path: backend/
+    version: "1.0"
+    primary_sha256: 465b07f163ede46d9ccee2166a69eab1dc575aa4124331e2cc5d95cde564fa52
+    reviewed_source_commit: c6a9a1cc28d5251b57b4ce6375dd30ebe887fb11
+    diff_base: 01ed90bc1439cf7e707b1cd5d2b26d05f4bcc8cf
+    original_review_artifact: artifact-career-cr-be-101-code-review-001
+    original_review_path: docs/06-code-review.md
+    original_review_sha256: cbf8e4970a24d72cd71f9f7ae845364f2ab8a35abb398373ca440474fdea3540
+  scope: "独立复审四项已登记问题是否真实关闭，并核验 request_id 契约、api_schema 真相态、healthz/readyz no-store、SQLite sidecar 忽略矩阵及相关回归测试。"
+  exclusions:
+    - CR-BE-102-or-later
+    - code-or-configuration-modification
+    - SQLite-or-migrations
+    - source-collection-or-network-requests
+    - business-analysis-or-private-user-data
+    - frontend-changes
+    - service-start-or-deployment
+    - QA-or-any-downstream-route-before-user-review
+  expected_output:
+    artifact: artifact-career-cr-be-101-fix-rereview-001
+    path: docs/06-code-review.md
+    version: "1.1"
+  stop_gate: code-rereview-conclusion-review
+  production_release: frozen
+  advance_limit: unique-next-stage-only
+  auto_route_beyond: false
+updated_at: "2026-08-24T12:15:08+08:00"

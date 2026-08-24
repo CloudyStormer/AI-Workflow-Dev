@@ -2304,7 +2304,7 @@ artifacts:
     path: backend/src/modules/health/delivery/http-routes.ts
     version: "1.0"
     sha256: 465b07f163ede46d9ccee2166a69eab1dc575aa4124331e2cc5d95cde564fa52
-    status: ready-for-review
+    status: approved-and-routed-to-rereview
     owner: role-backend-dev
     role_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
     role_task_title: "07 后端工程师"
@@ -2364,9 +2364,12 @@ artifacts:
       - deployment-or-QA
     completed_at: "2026-08-24T12:00:25+08:00"
     validated_at: "2026-08-24T12:00:25+08:00"
-    result: ready-for-backend-fix-delivery-review
-    stop_gate: backend-fix-delivery-review
-    next_role_if_approved: role-code-reviewer
-    next_work_item_if_approved: CR-BE-101-FIX-001.REV
+    approval: approval-20260824-career-cr-be-101-fix-delivery
+    approved_at: "2026-08-24T12:15:08+08:00"
+    result: approved-and-routed-to-code-rereview
+    stop_gate: code-rereview-conclusion-review
+    next_role: role-code-reviewer
+    next_work_item: CR-BE-101-FIX-001.REV
+    next_entry_authorization: approval-20260824-career-cr-be-101-fix-rereview-entry
     production_release: frozen
     auto_route: false

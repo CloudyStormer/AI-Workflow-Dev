@@ -1217,3 +1217,75 @@ approvals:
     production_release: frozen
     advance_limit: one-backend-fix-delivery-unit-only
     auto_advance_beyond_next: false
+  - id: "approval-20260824-career-cr-be-101-fix-delivery"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: backend-fix-delivery-review
+    role: role-backend-dev
+    role_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+    role_task_title: "07 后端工程师"
+    project_id: market-analysis-dev
+    work_item: CR-BE-101-FIX-001
+    change_id: fix-20260824-career-cr-be-101-review-findings-001
+    artifact: artifact-career-cr-be-101-fix-001
+    path: backend/
+    version: "1.0"
+    primary_sha256: 465b07f163ede46d9ccee2166a69eab1dc575aa4124331e2cc5d95cde564fa52
+    source_commit: c6a9a1cc28d5251b57b4ce6375dd30ebe887fb11
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T12:15:08+08:00"
+    user_reply: "通过并启动固定 09 代码审查员复审"
+    source_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+    evidence: "固定07已独立交付四项审查问题修复、12/12 自动化测试与提交 c6a9a1cc28d5251b57b4ce6375dd30ebe887fb11；超级无敌帅超超总明确回复‘通过并启动固定 09 代码审查员复审’。"
+    effect: "批准 CR-BE-101-FIX-001 当前修复交付，并只自动授权唯一下一站固定09复审；不批准 QA、CR-BE-102+、SQLite/迁移、真实来源采集、业务分析、前端改动、部署或复审结论后的任何下游工作。"
+    completed_gate: backend-fix-delivery-review
+    next_role: role-code-reviewer
+    next_work_item: CR-BE-101-FIX-001.REV
+    next_entry_authorization: approval-20260824-career-cr-be-101-fix-rereview-entry
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+  - id: "approval-20260824-career-cr-be-101-fix-rereview-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-entry
+    role: role-code-reviewer
+    role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+    role_task_title: "09 代码审查员"
+    project_id: market-analysis-dev
+    work_item: CR-BE-101-FIX-001.REV
+    change_id: rereview-20260824-career-cr-be-101-fix-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T12:15:08+08:00"
+    authorization_source: approval-20260824-career-cr-be-101-fix-delivery
+    upstream_approval: approval-20260824-career-cr-be-101-fix-delivery
+    source_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+    source_commit: c6a9a1cc28d5251b57b4ce6375dd30ebe887fb11
+    input:
+      artifact: artifact-career-cr-be-101-fix-001
+      path: backend/
+      version: "1.0"
+      primary_sha256: 465b07f163ede46d9ccee2166a69eab1dc575aa4124331e2cc5d95cde564fa52
+      diff_base: 01ed90bc1439cf7e707b1cd5d2b26d05f4bcc8cf
+      original_review_artifact: artifact-career-cr-be-101-code-review-001
+      original_review_path: docs/06-code-review.md
+      original_review_sha256: cbf8e4970a24d72cd71f9f7ae845364f2ab8a35abb398373ca440474fdea3540
+    scope: "独立复审 CR-P1-001、CR-P1-002、CR-P2-001、CR-P2-002 是否真实关闭，并检查修复回归和边界合规。"
+    exclusions:
+      - CR-BE-102-or-later
+      - code-or-configuration-modification
+      - SQLite-or-migrations
+      - source-collection-or-network-requests
+      - business-analysis-or-private-user-data
+      - frontend-changes
+      - service-start-or-deployment
+      - QA-or-any-downstream-route-before-user-review
+    expected_output:
+      artifact: artifact-career-cr-be-101-fix-rereview-001
+      path: docs/06-code-review.md
+      version: "1.1"
+    authorization_text: "已批准当前产物，并自动授权唯一下一站固定 09 / CR-BE-101-FIX-001.REV。本次只覆盖该站一个交付单元；该角色交付后停止等待审核，不代表其产物或后续角色已获批准。"
+    stop_gate: code-rereview-conclusion-review
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
