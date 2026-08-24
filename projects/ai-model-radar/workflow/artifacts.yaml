@@ -1504,3 +1504,54 @@ artifacts:
     authorized_next_work_item: MR-DATA-001.REV
     code_review_authorization: approval-20260824-radar-mr-data-001-code-review-entry
     auto_route: true
+  - id: artifact-radar-mr-data-001-code-review-001
+    run_id: run-20260731-intake-001
+    type: code-review-report
+    project_id: ai-model-radar
+    work_item: MR-DATA-001.REV
+    change_id: review-20260824-radar-mr-data-001-001
+    owner: role-code-reviewer
+    role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+    role_task_title: "09 代码审查员"
+    authorization: approval-20260824-radar-mr-data-001-code-review-entry
+    input_artifact: artifact-radar-mr-data-001-policy-loader-001
+    source_commit: a29e9c020a1d11cf9c8584af1edbcc481005169a
+    diff_base: 01ed90bc1439cf7e707b1cd5d2b26d05f4bcc8cf
+    path: docs/06-code-review.md
+    version: "1.0"
+    sha256: 5e835a649cad886112ee19210c8aa4c835fcd6a1326b3d1a8a508e9d2c1a66f7
+    status: ready-for-review
+    conclusion: changes-requested
+    findings: {P0: 0, P1: 1, P2: 1}
+    blocking_findings:
+      - CR-P1-001
+    non_blocking_findings:
+      - CR-P2-001
+    validation:
+      upstream_policy_tests: 8-of-8-passed
+      parser_boundary_probe: passed
+      schema_and_project_fail_closed_probe: passed
+      url_fail_closed_probe: passed
+      deep_immutability_probe: passed
+      independent_registry_recompute: 72-rows-35-columns-29-endpoints-22-4-0-3
+      AIR_END_030: absent-and-negative-fixture-rejected
+      network_collection_executed: false
+    truth_boundary:
+      approval_scope: research-only
+      execution_authorized: false
+      runtime_enabled: false
+      live_connectors: 0
+      live_snapshots: 0
+      production_release: frozen
+    exclusions:
+      - business-code-fix
+      - registry-mutation-or-policy-adjudication
+      - connector-runtime-live-or-network-collection
+      - QA-or-deployment
+      - MR-DATA-002-and-later
+      - English-project
+    completed_at: "2026-08-24T12:11:29+08:00"
+    result: changes-requested-P1-blocks-QA-and-MR-DATA-002
+    stop_gate: code-review-conclusion-review
+    downstream_role_authorized: false
+    auto_route: false

@@ -1312,7 +1312,7 @@ mr_data_001_code_review_assignment:
   role_task_title: "09 代码审查员"
   authorization: approval-20260824-radar-mr-data-001-code-review-entry
   authorization_source: approval-20260824-radar-mr-data-001-delivery
-  scheduling: routed-awaiting-role-entry
+  scheduling: completed-ready-for-review
   input:
     artifact: artifact-radar-mr-data-001-policy-loader-001
     path: backend/src/policy
@@ -1338,7 +1338,31 @@ mr_data_001_code_review_assignment:
     - QA-or-deployment
     - MR-DATA-002-and-later
     - English-project
+  output:
+    artifact: artifact-radar-mr-data-001-code-review-001
+    path: docs/06-code-review.md
+    version: "1.0"
+    sha256: 5e835a649cad886112ee19210c8aa4c835fcd6a1326b3d1a8a508e9d2c1a66f7
+    conclusion: changes-requested
+    findings: {P0: 0, P1: 1, P2: 1}
+  blocking_findings:
+    - id: CR-P1-001
+      summary: loader-output-drops-policy-fields-required-by-later-persistence-and-collection-consumers
+  non_blocking_findings:
+    - id: CR-P2-001
+      summary: committed-tests-do-not-pin-parser-schema-project-url-and-deep-freeze-boundaries
+  validation:
+    upstream_policy_tests: 8-of-8-passed
+    parser_boundary_probe: passed
+    schema_and_project_fail_closed_probe: passed
+    url_fail_closed_probe: passed
+    deep_immutability_probe: passed
+    independent_registry_recompute: 72-rows-35-columns-29-endpoints-22-4-0-3
+    AIR_END_030: absent-and-negative-fixture-rejected
+    no_network_import_or_collection: passed
+  result: changes-requested-P1-blocks-QA-and-MR-DATA-002
+  completed_at: "2026-08-24T12:11:29+08:00"
   stop_gate: code-review-conclusion-review
   downstream_role_authorized: false
   auto_route: false
-updated_at: "2026-08-24T12:05:33+08:00"
+updated_at: "2026-08-24T12:11:29+08:00"
