@@ -2171,3 +2171,70 @@ artifacts:
     stop_gate: task-breakdown-review
     production_release: frozen
     auto_route: false
+  - id: "artifact-career-backend-foundation-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: local-fastify-backend-foundation
+    path: backend/src/apps/api/app.ts
+    version: "1.0"
+    sha256: e63d153c186259026a8c10d8d670522cd960d9acda0c045881a79b45ce17432b
+    status: ready-for-review
+    owner: role-backend-dev
+    role_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+    role_task_title: "07 后端工程师"
+    project_id: market-analysis-dev
+    work_item: CR-BE-101
+    change_id: dev-20260821-career-backend-foundation-001
+    authorization: approval-20260821-career-cr-be-101-entry
+    authorization_source: direct-user-command
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    source_commit: 886269e1e73464a8d8639befb59251d03eca4e4d
+    inputs:
+      task_breakdown:
+        path: docs/07-release-completeness-task-breakdown.md
+        sha256: c94be2efad6efa0356fe62df1d0a22e8ed2f47f127aa38f7297a210f72b9516d
+      architecture:
+        path: docs/06-release-completeness-architecture.md
+        sha256: 0f6cebe45056ea5171805348f1ecc92bb5ac97b7ee3b6404aa4e05cfad9e6029
+    outputs:
+      package: {path: backend/package.json, sha256: 77cc30f46860d78e3e68359cac0f026d31e664b687ee6ec9bbf68f7aab93bd2a}
+      lockfile: {path: backend/package-lock.json, sha256: 9b5c2e238971cc48e6c67e28364697d19985d775b11d3944ccdb93d95904082d}
+      documentation: {path: backend/README.md, sha256: de5c1212753baa2e284829d6286f820d40fa82f4c0c4c21ee83404fe5662e2d9}
+      api_entry: {path: backend/src/apps/api/app.ts, sha256: e63d153c186259026a8c10d8d670522cd960d9acda0c045881a79b45ce17432b}
+      api_launcher: {path: backend/src/apps/api/main.ts, sha256: c6e333d976bceb1aa6e5855038921fea0352a8a14d2aea11d7eca79876e1ecc0}
+      loopback_server: {path: backend/src/apps/api/server.ts, sha256: 807bf595d3ed1cc42a6ba7c8280828339e5c4003a159a6c3eafcd586aef12b47}
+      operation_contract: {path: backend/src/contracts/operation.ts, sha256: 68df4988c2b2836aed132d4c6de77d4f2d4e0a2eab69e22e8938a8ed88fe8431}
+      health_service: {path: backend/src/modules/health/application/health-service.ts, sha256: 1e00d8bf1a4f2d9827f8eb64b4b579e390327d6d1f34fd9719680517f43a0868}
+      health_routes: {path: backend/src/modules/health/delivery/http-routes.ts, sha256: 208e7e407867204a260b8af59d9caeb1155c52c3a884e8c6f933cddb3ee56dd7}
+      health_domain: {path: backend/src/modules/health/domain/health-status.ts, sha256: 4fabad02626a5137cf47c501d425e8f47c9cb779866cea2e9acc2522b1211b21}
+      unit_tests: {path: backend/tests/unit/health-routes.test.ts, sha256: 01cead3ccb7bdcbe39c9d7fe48ce6757a5a674715070c797c369c03708159421}
+    command_contract:
+      dev: npm run dev
+      build: npm run build
+      lint: npm run lint
+      typecheck: npm run typecheck
+      test_unit: npm run test:unit
+    runtime_truth:
+      host: 127.0.0.1-only
+      healthz: 200-process-alive-only
+      readyz: 503-not-ready
+      sqlite_or_migrations: not-implemented
+      network_requests_permitted: 0
+      runtime_enabled: false
+      live_connectors: 0
+      live_snapshots: 0
+    validation:
+      lint: passed
+      typecheck: passed
+      build: passed
+      unit_tests: 3-passed
+      fastify_inject: healthz-200-readyz-503-not-ready
+      git_boundary: passed
+      skill_drift: passed
+      workflow_yaml_and_jsonl: parsed
+      sqlite_wal_ignore: passed
+    completed_at: "2026-08-24T10:44:51+08:00"
+    validated_at: "2026-08-24T10:44:51+08:00"
+    result: ready-for-atomic-delivery-review
+    stop_gate: atomic-delivery-review
+    production_release: frozen
+    auto_route: false

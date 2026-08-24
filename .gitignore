@@ -36,3 +36,6 @@ auth.json
 *.db
 *.sqlite
 *.sqlite3
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite-journal

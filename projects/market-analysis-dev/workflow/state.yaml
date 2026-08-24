@@ -3,9 +3,9 @@ project_id: "market-analysis-dev"
 run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
-stage: project-planning
-status: career-release-completeness-task-breakdown-ready-for-review
-current_role: role-pm
+stage: implementation
+status: career-cr-be-101-backend-foundation-ready-for-review
+current_role: role-backend-dev
 blocked: false
 ui_assets:
   directory: ui
@@ -214,21 +214,21 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
-  gate: task-breakdown-review
-  scope: "审核 CR-PM-101 的真实本地产品任务拆解；本门不启动后端、前端、数据、连接器、canary、runtime、服务、部署或任何其他角色。"
+  gate: atomic-delivery-review
+  scope: "审核固定07的 CR-BE-101 本机 Fastify 后端基座；本门不授权 CR-BE-102、SQLite/迁移、真实来源采集、业务分析、前端改动或部署。"
   decision_owner: 超级无敌帅超超总
   decision: pending
   delivery_status: ready-for-review
-  expected_artifact: artifact-career-release-completeness-task-breakdown-001
-  expected_path: docs/07-release-completeness-task-breakdown.md
+  expected_artifact: artifact-career-backend-foundation-001
+  expected_path: backend/
   expected_version: "1.0"
-  work_item: CR-PM-101
-  change_id: plan-20260821-career-real-local-product-task-breakdown-001
-  entry_authorization: direct-user-command-20260821-career-real-local-product-task-breakdown
-  upstream_approval: approval-20260817-career-release-completeness-architecture-v1
-  source_readiness_approval: "approval-20260816-career-source-runtime-readiness-v1"
-  on_approved: authorize-only-CR-BE-101-if-single-step-inputs-and-safe-worktree-still-match
-  advance_limit: one-task-breakdown-delivery-unit-only
+  work_item: CR-BE-101
+  change_id: dev-20260821-career-backend-foundation-001
+  entry_authorization: approval-20260821-career-cr-be-101-entry
+  upstream_artifact: artifact-career-release-completeness-task-breakdown-001
+  upstream_sha256: c94be2efad6efa0356fe62df1d0a22e8ed2f47f127aa38f7297a210f72b9516d
+  on_approved: route-only-CR-BE-101.REV-to-role-code-reviewer
+  advance_limit: one-backend-delivery-unit-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
   gate: cross-project-real-product-delta-review
@@ -1411,4 +1411,78 @@ release_completeness_task_breakdown_assignment:
     business_code_or_runtime_started: false
   stop_gate: task-breakdown-review
   auto_route_on_delivery: false
-updated_at: "2026-08-21T17:32:05+08:00"
+backend_foundation_assignment:
+  work_item: CR-BE-101
+  change_id: dev-20260821-career-backend-foundation-001
+  role: role-backend-dev
+  role_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+  role_task_title: "07 后端工程师"
+  authorization: approval-20260821-career-cr-be-101-entry
+  authorized_via: direct-user-command
+  source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+  source_commit: 886269e1e73464a8d8639befb59251d03eca4e4d
+  original_workflow:
+    stage: project-planning
+    status: career-release-completeness-task-breakdown-ready-for-review
+    current_role: role-pm
+    next_gate: task-breakdown-review
+    held_artifact: artifact-career-release-completeness-task-breakdown-001
+  safe_write_baseline: f8d7ebab924993b227110d1228baaee909cacc29
+  worktree_status: clean
+  index_lock: absent
+  authoritative_input:
+    path: docs/07-release-completeness-task-breakdown.md
+    sha256: c94be2efad6efa0356fe62df1d0a22e8ed2f47f127aa38f7297a210f72b9516d
+  approved_architecture:
+    path: docs/06-release-completeness-architecture.md
+    sha256: 0f6cebe45056ea5171805348f1ecc92bb5ac97b7ee3b6404aa4e05cfad9e6029
+  scope:
+    - Node.js-and-TypeScript-strict
+    - Fastify-loopback-foundation
+    - real-healthz
+    - truthful-readyz-not-ready
+    - dev-build-lint-typecheck-test-unit-command-entrypoints
+    - minimal-Fastify-inject-tests
+  exclusions:
+    - SQLite-or-migrations
+    - database-file-creation
+    - source-collection-or-network-requests
+    - business-analysis-or-private-user-data
+    - frontend-changes
+    - service-start-or-deployment
+    - CR-BE-102-or-later
+  runtime_truth:
+    runtime_enabled: false
+    live_connectors: 0
+    live_snapshots: 0
+    readiness: not_ready
+  delivery_status: ready-for-review
+  started_at: "2026-08-21T18:08:49+08:00"
+  completed_at: "2026-08-24T10:44:51+08:00"
+  validated_at: "2026-08-24T10:44:51+08:00"
+  delivery_base_head: 91c26a5c391c6edb738acb2637bd5498ae0856f4
+  output:
+    artifact: artifact-career-backend-foundation-001
+    path: backend/src/apps/api/app.ts
+    version: "1.0"
+    sha256: e63d153c186259026a8c10d8d670522cd960d9acda0c045881a79b45ce17432b
+    package_lock_sha256: 9b5c2e238971cc48e6c67e28364697d19985d775b11d3944ccdb93d95904082d
+    health_service_sha256: 1e00d8bf1a4f2d9827f8eb64b4b579e390327d6d1f34fd9719680517f43a0868
+    health_route_sha256: 208e7e407867204a260b8af59d9caeb1155c52c3a884e8c6f933cddb3ee56dd7
+    unit_test_sha256: 01cead3ccb7bdcbe39c9d7fe48ce6757a5a674715070c797c369c03708159421
+  validation:
+    lint: passed
+    typecheck: passed
+    build: passed
+    unit_tests: 3-passed
+    fastify_inject: healthz-200-and-readyz-503-not-ready
+    git_boundary: passed
+    skill_drift: passed
+    workflow_contracts: parsed
+    sqlite_wal_ignore: passed
+    network_or_sqlite_implementation: absent-by-scope
+  result: ready-for-atomic-delivery-review
+  stop_gate: atomic-delivery-review
+  return_point: atomic-delivery-review
+  auto_route_on_delivery: false
+updated_at: "2026-08-24T10:44:51+08:00"
