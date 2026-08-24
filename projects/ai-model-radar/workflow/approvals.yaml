@@ -915,3 +915,54 @@ approvals:
     stop_gate: atomic-delivery-review
     direct_user_command: true
     auto_advance_beyond_next: false
+  - id: approval-20260824-radar-mr-data-001-delivery
+    run_id: run-20260731-intake-001
+    gate: atomic-delivery-review
+    role: role-data-engineer
+    role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+    role_task_title: "08 数据工程师"
+    project_id: ai-model-radar
+    work_item: MR-DATA-001
+    change_id: data-20260824-radar-policy-loader-001
+    artifact: artifact-radar-mr-data-001-policy-loader-001
+    path: backend/src/policy
+    version: "1.0"
+    sha256: 1d48faadd1398c3f7a965e89cee521b0ab6f9b8add31b14340fb6593cc6b7171
+    source_commit: a29e9c020a1d11cf9c8584af1edbcc481005169a
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T12:05:33+08:00"
+    source_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+    user_reply: "通过并启动固定 09 代码审查员"
+    effect: "批准当前 MR-DATA-001 原子交付，并只授权唯一下一站固定 09 执行 MR-DATA-001.REV 独立代码审查；审查交付后停在 code-review-conclusion-review，不批准 QA、MR-DATA-002 或其他下游。"
+    production_release: frozen
+    auto_advance_beyond_next: false
+  - id: approval-20260824-radar-mr-data-001-code-review-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    role: role-code-reviewer
+    role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+    role_task_title: "09 代码审查员"
+    project_id: ai-model-radar
+    work_item: MR-DATA-001.REV
+    change_id: review-20260824-radar-mr-data-001-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T12:05:33+08:00"
+    authorization_source: approval-20260824-radar-mr-data-001-delivery
+    upstream_artifact: artifact-radar-mr-data-001-policy-loader-001
+    upstream_commit: a29e9c020a1d11cf9c8584af1edbcc481005169a
+    diff_base: 01ed90bc1439cf7e707b1cd5d2b26d05f4bcc8cf
+    scope: "只读审查 MR-DATA-001 policy loader、CSV 解析、四态且 0 runtime 授权、N=22、内容地址锁、AIR-END-030 与重复 ID/组合束/模板/未知字段 fail-closed、不可变输出及测试；只写审查报告和必要 workflow。"
+    expected_output: artifact-radar-mr-data-001-code-review-001
+    expected_path: docs/06-code-review.md
+    exclusions:
+      - business-code-fix
+      - registry-mutation-or-policy-adjudication
+      - connector-runtime-live-or-network-collection
+      - QA-or-deployment
+      - MR-DATA-002-and-later
+      - English-project
+    stop_gate: code-review-conclusion-review
+    advance_limit: one-independent-code-review-unit-only
+    auto_advance_beyond_next: false

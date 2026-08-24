@@ -1200,7 +1200,7 @@ ai_developer_news_ui_prompt_assignment:
   role_task_title: "04 UI/UX设计师"
   authorization: approval-20260821-radar-ai-developer-news-ui-prompt-entry
   authorization_source: approval-20260821-radar-ai-developer-news-prd-v1
-  scheduling: completed-ready-for-review
+  scheduling: completed-approved
   safe_checkpoint: 2ec7ac1b02713daa641718a896cbc5bbddb275a6
   upstream:
     artifact: artifact-radar-ai-developer-news-prd-increment-001
@@ -1291,9 +1291,54 @@ direct_mr_data_001_assignment:
     git_boundary: passed
     skill_drift: passed
     diff_check: passed
-  result: ready-for-atomic-delivery-review
+  review_decision: approved
+  review_approval: approval-20260824-radar-mr-data-001-delivery
+  approved_at: "2026-08-24T12:05:33+08:00"
+  source_commit: a29e9c020a1d11cf9c8584af1edbcc481005169a
+  result: approved-and-fixed-09-code-review-routed
   completed_at: "2026-08-24T11:58:54+08:00"
-  stop_gate: atomic-delivery-review
+  completed_gate: atomic-delivery-review
+  stop_gate: completed
+  downstream_role_authorized: true
+  authorized_next_role: role-code-reviewer
+  authorized_next_work_item: MR-DATA-001.REV
+  code_review_authorization: approval-20260824-radar-mr-data-001-code-review-entry
+  auto_route: true
+mr_data_001_code_review_assignment:
+  work_item: MR-DATA-001.REV
+  change_id: review-20260824-radar-mr-data-001-001
+  role: role-code-reviewer
+  role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+  role_task_title: "09 代码审查员"
+  authorization: approval-20260824-radar-mr-data-001-code-review-entry
+  authorization_source: approval-20260824-radar-mr-data-001-delivery
+  scheduling: routed-awaiting-role-entry
+  input:
+    artifact: artifact-radar-mr-data-001-policy-loader-001
+    path: backend/src/policy
+    version: "1.0"
+    sha256: 1d48faadd1398c3f7a965e89cee521b0ab6f9b8add31b14340fb6593cc6b7171
+    source_commit: a29e9c020a1d11cf9c8584af1edbcc481005169a
+    diff_base: 01ed90bc1439cf7e707b1cd5d2b26d05f4bcc8cf
+  expected_output:
+    artifact: artifact-radar-mr-data-001-code-review-001
+    path: docs/06-code-review.md
+  scope: independent-read-only-policy-loader-code-review
+  preserved_truth:
+    approval_scope: research-only
+    runtime_enabled: false
+    live_connectors: 0
+    live_snapshots: 0
+    production_release: frozen
+    AIR_END_030: pending-not-in-registry-not-counted
+  exclusions:
+    - business-code-fix
+    - registry-mutation-or-policy-adjudication
+    - connector-runtime-live-or-network-collection
+    - QA-or-deployment
+    - MR-DATA-002-and-later
+    - English-project
+  stop_gate: code-review-conclusion-review
   downstream_role_authorized: false
   auto_route: false
-updated_at: "2026-08-24T11:58:54+08:00"
+updated_at: "2026-08-24T12:05:33+08:00"
