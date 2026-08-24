@@ -1572,7 +1572,8 @@ artifacts:
     path: backend/src/policy
     version: "1.1"
     sha256: 20de761e854554e7caf29608803aeae888efd92e8dc0014ddfc71df62ca1c0b5
-    status: ready-for-review
+    status: approved
+    source_commit: 69ee48262f447a58c5d6677ef6537ab21213bc85
     files:
       - {path: backend/src/policy/constants.mjs, sha256: 598da1d582030553d50bd562fdcf45fee3ed0174718666353988a08f218e9ada}
       - {path: backend/src/policy/csv.mjs, sha256: 4043dede6d6a90ce7a7563baa3e2061b8274592597f2decedc601dda82472e95}
@@ -1633,7 +1634,14 @@ artifacts:
       - English-project
       - Control-project
     completed_at: "2026-08-24T15:03:00+08:00"
-    result: ready-for-backend-data-fix-delivery-review
-    stop_gate: backend-data-fix-delivery-review
-    downstream_role_authorized: false
-    auto_route: false
+    review_decision: approved
+    review_approval: approval-20260824-radar-mr-data-001-fix-001-delivery
+    approved_at: "2026-08-24T15:08:42+08:00"
+    result: approved-and-fixed-09-rereview-routed
+    completed_gate: backend-data-fix-delivery-review
+    stop_gate: completed
+    downstream_role_authorized: true
+    authorized_next_role: role-code-reviewer
+    authorized_next_work_item: MR-DATA-001-FIX-001.REV
+    rereview_authorization: approval-20260824-radar-mr-data-001-fix-rereview-entry
+    auto_route: true

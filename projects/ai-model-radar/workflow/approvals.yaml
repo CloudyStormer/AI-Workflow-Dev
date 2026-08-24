@@ -1009,3 +1009,62 @@ approvals:
     stop_gate: backend-data-fix-delivery-review
     direct_user_command: true
     auto_advance_beyond_next: false
+  - id: approval-20260824-radar-mr-data-001-fix-001-delivery
+    run_id: run-20260731-intake-001
+    gate: backend-data-fix-delivery-review
+    role: role-data-engineer
+    role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+    role_task_title: "08 数据工程师"
+    project_id: ai-model-radar
+    work_item: MR-DATA-001-FIX-001
+    change_id: data-20260824-radar-policy-loader-review-fix-001
+    artifact: artifact-radar-mr-data-001-fix-001
+    path: backend/src/policy
+    version: "1.1"
+    sha256: 20de761e854554e7caf29608803aeae888efd92e8dc0014ddfc71df62ca1c0b5
+    source_commit: 69ee48262f447a58c5d6677ef6537ab21213bc85
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T15:08:42+08:00"
+    source_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+    user_reply: "通过并启动固定 09 代码审查员复审"
+    effect: "已批准当前产物，并自动授权唯一下一站固定 09 / MR-DATA-001-FIX-001.REV。本次只覆盖该站一个复审交付单元；固定 09 交付后停止等待审核，不代表其产物、QA、MR-DATA-002 或后续角色已获批准。"
+    completed_gate: backend-data-fix-delivery-review
+    authorized_next_role: role-code-reviewer
+    authorized_next_work_item: MR-DATA-001-FIX-001.REV
+    production_release: frozen
+    auto_advance_beyond_next: false
+  - id: approval-20260824-radar-mr-data-001-fix-rereview-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    role: role-code-reviewer
+    role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+    role_task_title: "09 代码审查员"
+    project_id: ai-model-radar
+    work_item: MR-DATA-001-FIX-001.REV
+    change_id: rereview-20260824-radar-mr-data-001-fix-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T15:08:42+08:00"
+    authorization_source: approval-20260824-radar-mr-data-001-fix-001-delivery
+    upstream_artifact: artifact-radar-mr-data-001-fix-001
+    upstream_commit: 69ee48262f447a58c5d6677ef6537ab21213bc85
+    diff_base: 673df8be92516c2185979a98e4f00ea4dee0a3a3
+    original_review_artifact: artifact-radar-mr-data-001-code-review-001
+    original_review_sha256: 5e835a649cad886112ee19210c8aa4c835fcd6a1326b3d1a8a508e9d2c1a66f7
+    scope: "只读复审 CR-P1-001 与 CR-P2-001 是否被完整关闭，并核验 35 字段无损政策输入、显式命名、JSON 序列化、深度冻结、无 MR-DATA-002 bundle 身份，以及 21 项确定性边界回归；只写复审报告和必要 workflow。"
+    expected_output: artifact-radar-mr-data-001-fix-rereview-001
+    expected_path: docs/06-code-review.md
+    expected_version: "1.1"
+    exclusions:
+      - business-code-fix
+      - registry-mutation-or-policy-adjudication
+      - connector-runtime-live-or-network-collection
+      - SQLite
+      - QA-or-deployment
+      - MR-DATA-002-and-later
+      - English-project
+      - Control-project
+    stop_gate: code-rereview-conclusion-review
+    advance_limit: one-independent-code-rereview-unit-only
+    auto_advance_beyond_next: false
