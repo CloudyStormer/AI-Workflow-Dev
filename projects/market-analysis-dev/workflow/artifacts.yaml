@@ -2802,3 +2802,64 @@ artifacts:
     downstream_role_authorized: false
     production_release: frozen
     auto_route: false
+  - id: "artifact-career-cr-be-102-test-report-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: qa-test-report
+    path: docs/07-test-report.md
+    version: "2.0"
+    sha256: 062fa1a49c751db62d34fad81c95ec7f6a0089f707f2ea7169ce13cdbccc0c2d
+    status: ready-for-review
+    owner: role-qa
+    role_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    role_task_title: "10 测试工程师"
+    project_id: market-analysis-dev
+    work_item: CR-BE-102.QA
+    change_id: test-20260824-career-cr-be-102-qa-001
+    authorization: approval-20260824-career-cr-be-102-qa-entry
+    upstream_approval: approval-20260824-career-cr-be-102-code-review-conclusion
+    input_artifact: artifact-career-cr-be-102-code-review-001
+    input_path: docs/06-code-review.md
+    input_version: "1.3"
+    input_sha256: ff4b320e87099b117b924fe44a4a08442a02ddd3cb75ba21be127b8a499b209b
+    reviewed_source_commit: b6b28a6767c07ae523c07120edeea34583b0877d
+    review_delivery_commit: ca9f15258de8406c806eab12bbb6c649dec56948
+    execution_baseline: ca9f15258de8406c806eab12bbb6c649dec56948
+    registration_baseline: c20b328ee143992c5d31e6584e18781e8aaa6122
+    conclusion: passed-with-accepted-legacy
+    qa_items: 12-of-12-passed
+    finding_counts: {P0: 0, P1: 0, P2: 1}
+    accepted_legacy:
+      CR_P2_003:
+        status: open-non-blocking-for-current-QA
+        final_completion_gate: blocked-until-output-hash-traceability-is-8-of-8
+        omitted_path: backend/tests/unit/health-routes.test.ts
+        omitted_path_sha256: e2ec44e59dd6bb0ef8dedae74252f6798c3bd158976177fad613f1646c6edb42
+    validation:
+      node: 24.19.0
+      npm: 10.9.0
+      lint: passed
+      typecheck: passed
+      build: passed
+      qa_items: 12-of-12-passed
+      execution_baseline_aggregate_tests: 41-of-41-passed
+      post_lock_regression_aggregate_tests: 45-of-45-passed
+      focused_runtime_lifecycle_tests: 15-of-15-passed
+      authoritative_cr_be_102_paths_drift: 0-of-8
+      readyz: 503-not-ready
+      listener_started: false
+      network_collection: 0
+      database_or_business_writes: 0
+    truth_boundary:
+      real_career_data_available: false
+      SQLite_or_migrations_QA_in_scope: false
+      source_runtime_implemented: false
+      frontend_integrated_with_real_backend: false
+      service_deployment_authorized: false
+      production_release: frozen
+    completed_at: "2026-08-24T17:05:11+08:00"
+    validated_at: "2026-08-24T17:05:11+08:00"
+    result: passed-with-accepted-legacy-ready-for-test-report-review
+    stop_gate: test-report-review
+    downstream_role_authorized: false
+    production_release: frozen
+    auto_route: false

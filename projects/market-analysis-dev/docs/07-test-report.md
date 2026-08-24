@@ -1,4 +1,142 @@
-# Frontend Career Radar CR-BE-101 本地后端基座 QA 测试报告
+# Frontend Career Radar（前端职业成长雷达）持续 QA 测试报告
+
+## v2.0｜CR-BE-102 本地运行合同 QA
+
+### 1. 交付元数据
+
+- 项目 ID：`market-analysis-dev`
+- 工作项：`CR-BE-102.QA`
+- 变更 ID：`test-20260824-career-cr-be-102-qa-001`
+- 报告版本：`2.0`
+- 报告产物：`artifact-career-cr-be-102-test-report-001`
+- 固定角色：`10 测试工程师` / `role-qa`
+- 角色任务 ID：`019fb746-5875-77b3-809a-08a16100d950`
+- QA 入场授权：`approval-20260824-career-cr-be-102-qa-entry`
+- 输入审查产物：`artifact-career-cr-be-102-code-review-001`
+- 输入报告：`docs/06-code-review.md` v1.3
+- 输入报告 SHA256：`ff4b320e87099b117b924fe44a4a08442a02ddd3cb75ba21be127b8a499b209b`
+- 已审查源码提交：`b6b28a6767c07ae523c07120edeea34583b0877d`
+- 审查交付提交：`ca9f15258de8406c806eab12bbb6c649dec56948`
+- QA 执行基线：`ca9f15258de8406c806eab12bbb6c649dec56948`
+- 写锁释放与回归基线：`c20b328ee143992c5d31e6584e18781e8aaa6122`
+- 执行环境：Node.js `v24.19.0` / npm `10.9.0`
+- 执行日期：2026-08-24
+- 停止门：`test-report-review`
+
+### 2. QA 结论
+
+**CR-BE-102.QA 结论为 `passed-with-accepted-legacy`：12/12 个 QA 测试项通过；本批 P0=0、P1=0，保留 1 项已由超级无敌帅超超总明确接受为非阻断遗留的 P2。**
+
+Node 24 下 lint、typecheck、build、聚合 test 与 runtime/lifecycle 聚焦测试全部通过；原 QA 执行基线为 41/41，对齐固定08交付后的安全基线全量回归为 45/45，CR-BE-102 聚焦回归仍为 15/15。运行配置在构建 Fastify app 前 fail closed，host 固定为 `127.0.0.1`，启动/关闭失败不会冒充成功，SIGINT/SIGTERM 与幂等关闭合同通过，`/readyz` 继续返回 503/not_ready。
+
+`CR-P2-003` 不阻断当前 QA，但必须在项目最终完成门前补齐 `artifact-career-cr-be-102-001.outputs` 中遗漏的 `backend/tests/unit/health-routes.test.ts` 及其 SHA256，且需增加权威路径数与 outputs 数一致性检查。本报告不将其伪装为已修复。
+
+### 3. 测试范围与排除项
+
+#### 3.1 已测试
+
+- `dev/build/lint/typecheck/test` 命令声明、分发和失败传播合同。
+- Node 24 下 lint、TypeScript strict typecheck、build、聚合测试及 runtime/lifecycle 聚焦测试。
+- 显式 `PORT` 与 `DATA_DIR`、非法值 fail-closed、配置在 build app 前加载。
+- `HOST` 环境覆盖无效，监听参数始终为 `127.0.0.1`。
+- 启动失败回滚关闭、启动与关闭同时失败的 `AggregateError` 真相态。
+- 并发/重复 stop 复用同一 Promise，只调用一次 close。
+- SIGINT/SIGTERM 共用 shutdown、监听器清理与关闭失败 exitCode=1。
+- `/readyz` 503、`not_ready`、`api_schema=not_ready`、`private, no-store`。
+
+#### 3.2 明确排除
+
+- `CR-BE-103+`。
+- `CR-DATA-101` 及其当前并行修复、SQLite、migration 和数据库状态。
+- 真实来源、网络采集、业务分析、私有用户数据。
+- 前端、English、Control、部署与生产发布。
+
+### 4. 测试结果
+
+| ID | 测试项 | 结果 | 核心证据 |
+|---|---|---|---|
+| QA-102-01 | 输入与源码完整性 | 通过 | 输入报告 SHA256 匹配；CR-BE-102 的 8 个权威路径从 `b6b28a6` 到 QA 基线零漂移 |
+| QA-102-02 | 命令合同 | 通过（环境限制已隔离） | package 明确 `dev/build/lint/typecheck/test`；`npm run dev` 正确分发到 tsx watch，同源无 watch 入口按配置合同执行 |
+| QA-102-03 | Lint | 通过 | Node 24 下 `npm run lint` exit 0，0 warning |
+| QA-102-04 | Typecheck | 通过 | `npm run typecheck` exit 0 |
+| QA-102-05 | Build | 通过 | `npm run build` exit 0，仅写入已忽略 `dist/` |
+| QA-102-06 | 聚合回归 | 通过 | CR-BE-102 QA 执行基线 5 个文件、41/41；写锁释放后 `c20b328` 回归 5 个文件、45/45 |
+| QA-102-07 | Runtime/lifecycle 聚焦回归 | 通过 | 2 个文件、15/15 测试通过 |
+| QA-102-08 | `PORT` fail-closed | 通过 | 0/65535 接受；10 组缺失、格式错误或越界输入拒绝 |
+| QA-102-09 | `DATA_DIR` 与配置顺序 | 通过 | 7 组缺失/相对/空白/NUL/根目录输入拒绝；配置失败前 buildApp 调用数为 0 |
+| QA-102-10 | Loopback、启动和幂等关闭 | 通过 | host 固定 127.0.0.1；并发 stop 复用 Promise、close=1；启动失败回滚 close=1；双失败保留两项原因 |
+| QA-102-11 | SIGINT/SIGTERM 与关闭失败 | 通过 | 两信号共用一次 stop；监听器归零；关闭失败设置 exitCode=1 并记录原错误 |
+| QA-102-12 | `readyz` 真相态 | 通过 | HTTP 503、not_ready、api_schema=not_ready、private/no-store |
+
+通过率：`12 / 12 = 100%`。
+
+说明：聚合测试包含当前仓库内 CR-DATA 测试，仅用于验证 `npm test` 命令合同与本批无破坏回归；从 41 增至 45 的 4 项测试来自固定08在 `c20b328` 登记的 CR-DATA-101-FIX-001，不纳入本 QA 的 12 项结论，也不代表固定10复审或批准该修复。
+
+### 5. 独立运行证据
+
+```json
+{
+  "node": "v24.19.0",
+  "host": "127.0.0.1",
+  "invalid_ports_rejected": 10,
+  "invalid_data_dirs_rejected": 7,
+  "config_before_build": true,
+  "idempotent_close_calls": 1,
+  "start_failure_rollback_close_calls": 1,
+  "aggregate_start_and_close_failure": true,
+  "signals": ["SIGINT", "SIGTERM"],
+  "signal_stop_calls": 1,
+  "shutdown_failure_exit_code": 1,
+  "readyz": {
+    "status": 503,
+    "truth": "not_ready",
+    "api_schema": "not_ready",
+    "cache_control": "private, no-store"
+  }
+}
+```
+
+编译入口与同源 TypeScript 入口在未设置 `PORT`/`DATA_DIR` 时均真实退出 1，并输出完整简体中文配置错误；没有调用 Fastify build、没有监听、没有创建数据目录。
+
+### 6. 沙箱 EPERM 真实性说明
+
+`npm run dev` 已正确解析并启动 `tsx watch src/apps/api/main.ts`，但 tsx 在进入项目代码前创建内部 IPC Unix socket 时被桌面沙箱以 `listen EPERM` 拒绝。该 EPERM：
+
+- 不来自 Frontend Career Radar 的监听逻辑；
+- 不作为产品测试通过证据；
+- 不作为产品缺陷或启动失败结论；
+- 由无 watch 的同源 TypeScript 入口、编译入口、15 项聚焦测试和独立 fake-listener/lifecycle 探针补足产品合同验证。
+
+本轮未尝试绕过沙箱、未请求旧式工具审批，也未启动常驻服务。
+
+### 7. 缺陷与遗留分类
+
+- 本轮必须修复：0。
+- 已明确接受为遗留：1（`CR-P2-003`）。
+- P0：0。
+- P1：0。
+- P2：1。
+- 新发现缺陷：0。
+
+`CR-P2-003` 的遗漏文件当前 SHA256 为 `e2ec44e59dd6bb0ef8dedae74252f6798c3bd158976177fad613f1646c6edb42`；当前 artifact outputs 为 7 项、权威路径为 8 项。该遗留不阻断 CR-BE-102.QA，但阻断项目最终完成门宣称“制品 8/8 完整可追溯”。
+
+### 8. 真实性边界与上线建议
+
+- 当前验证的是本地后端运行合同，不是 SQLite、来源、分析或前端联通。
+- `/readyz=503/not_ready` 是正确且必须保留的真实状态。
+- 本轮没有真实监听成功证据，不声称实际端口服务已在沙箱内运行。
+- 当前仍不能看到真实职业数据，也不能宣称 Career 已真实可用。
+- QA 建议：**允许 CR-BE-102 测试报告进入 `test-report-review`；不进入部署或生产，不启动 CR-BE-103+。最终完成门前必须补齐 CR-P2-003，并等待独立 CR-DATA 链路闭环。**
+
+### 9. 停止门与并发写锁
+
+固定00已在 `c20b328ee143992c5d31e6584e18781e8aaa6122` 释放 Career workflow 写锁。固定10以可恢复方式保护并恢复本报告，安全对齐后仅登记 CR-BE-102.QA 必要事实；固定08的 CR-DATA-101-FIX-001 产物、验证结果与 `backend-data-fix-delivery-review` 停止门均保持不变。
+
+本测试单元完成后停在 `test-report-review`，不批准本报告、不路由下游、不启动 CR-BE-103+、部署或生产发布。
+
+---
+
+## v1.0｜CR-BE-101 本地后端基座 QA（历史版本）
 
 ## 1. 交付元数据
 

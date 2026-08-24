@@ -1682,3 +1682,76 @@ approvals:
     production_release: frozen
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: "approval-20260824-career-cr-be-102-code-review-conclusion"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: code-review-conclusion-review
+    role: role-code-reviewer
+    project_id: market-analysis-dev
+    work_item: CR-BE-102.REV
+    change_id: review-20260824-career-cr-be-102-001
+    artifact: artifact-career-cr-be-102-code-review-001
+    path: docs/06-code-review.md
+    version: "1.3"
+    sha256: ff4b320e87099b117b924fe44a4a08442a02ddd3cb75ba21be127b8a499b209b
+    reviewed_source_commit: b6b28a6767c07ae523c07120edeea34583b0877d
+    review_delivery_commit: ca9f15258de8406c806eab12bbb6c649dec56948
+    conclusion: passed-with-minor
+    finding_counts: {P0: 0, P1: 0, P2: 1}
+    accepted_legacy:
+      id: CR-P2-003
+      disposition: non-blocking-for-current-QA-must-fix-before-final-completion-gate
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T17:05:11+08:00"
+    authorization_source: direct-user-command-forwarded-by-fixed-00
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    effect: "批准 CR-BE-102 passed-with-minor 代码审查结论，并仅授权固定10执行 CR-BE-102.QA；CR-P2-003 不阻断当前 QA，但必须在最终完成门前补齐。"
+    next_role: role-qa
+    next_work_item: CR-BE-102.QA
+    next_entry_authorization: approval-20260824-career-cr-be-102-qa-entry
+    production_release: frozen
+    advance_limit: one-QA-delivery-unit-only
+    auto_advance_beyond_next: false
+  - id: "approval-20260824-career-cr-be-102-qa-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-entry
+    role: role-qa
+    role_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    role_task_title: "10 测试工程师"
+    project_id: market-analysis-dev
+    work_item: CR-BE-102.QA
+    change_id: test-20260824-career-cr-be-102-qa-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T17:05:11+08:00"
+    authorization_source: direct-user-command-forwarded-by-fixed-00
+    upstream_approval: approval-20260824-career-cr-be-102-code-review-conclusion
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    execution_baseline: ca9f15258de8406c806eab12bbb6c649dec56948
+    registration_baseline: c20b328ee143992c5d31e6584e18781e8aaa6122
+    input:
+      artifact: artifact-career-cr-be-102-code-review-001
+      path: docs/06-code-review.md
+      version: "1.3"
+      sha256: ff4b320e87099b117b924fe44a4a08442a02ddd3cb75ba21be127b8a499b209b
+      reviewed_source_commit: b6b28a6767c07ae523c07120edeea34583b0877d
+      review_delivery_commit: ca9f15258de8406c806eab12bbb6c649dec56948
+    scope: "独立验证 CR-BE-102 的 Node24 命令合同、PORT/DATA_DIR fail-closed、127.0.0.1、SIGINT/SIGTERM、幂等关闭、启动与关闭失败真相态、readyz 503 及既有回归。"
+    exclusions:
+      - CR-BE-103-or-later
+      - SQLite-or-migrations
+      - sources-or-network-collection
+      - business-analysis
+      - frontend
+      - deployment
+      - ai-english-learning
+      - control-center
+      - downstream-route
+    expected_output:
+      artifact: artifact-career-cr-be-102-test-report-001
+      path: docs/07-test-report.md
+      version: "2.0"
+    stop_gate: test-report-review
+    production_release: frozen
+    advance_limit: one-QA-delivery-unit-only
+    auto_advance_beyond_next: false
