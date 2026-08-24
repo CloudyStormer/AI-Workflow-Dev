@@ -1,6 +1,85 @@
-# Frontend Career Radar（前端职业成长雷达）CR-BE-101 后端基座代码审查与修复复审
+# Frontend Career Radar（前端职业成长雷达）持续代码审查报告
 
-## v1.1 修复复审结论
+## v1.2 CR-DATA-101 migration contract 代码审查
+
+### 审查元数据
+
+- project_id: `market-analysis-dev`
+- work_item: `CR-DATA-101.REV`
+- change_id: `review-20260824-career-cr-data-101-001`
+- authorization: `approval-20260824-career-cr-data-101-code-review-entry`
+- input_artifact: `artifact-career-cr-data-101-001`
+- artifact_version: `1.0`
+- artifact_sha256: `8b4c06d783825f507f9cac81d44bdab2aa46b13a6d1c5929effe278d7f27c5ed`
+- reviewed_source_commit: `2a688f6267cc9dff40e90b0ac672553d5d7a8406`
+- diff_base: `b6b28a6767c07ae523c07120edeea34583b0877d`
+- repository_review_baseline: `3f59d57d7fc1e947391a7e16d98af55beda781e5`
+- reviewer: 固定 `09 代码审查员`（`role-code-reviewer`）
+- reviewed_at: `2026-08-24T16:02:14+08:00`
+- report_version: `1.2`
+- conclusion: `changes-requested`
+- finding_counts: `P0=0 / P1=1 / P2=0`
+- stop_gate: `code-review-conclusion-review`
+
+### 结论
+
+**请求修改，阻断进入 QA。** 五域 manifest、精确字节 SHA-256、显式 down、restore-only、空合同真相态和现有测试在正常文件场景下工作正确；但迁移文件的目录约束只校验词法路径，随后使用会跟随符号链接的 `readFile`。独立探针证明，目录内规范文件名可以通过符号链接指向目录外 SQL，并在哈希匹配时被 loader 接受。这违反交付声明的 unsafe-path fail-closed 核心边界，形成 1 项 Major。
+
+当前五个正式 manifest 均为空且为 `contract-only-not-applied`，项目内数据库文件数为 0，本轮也没有启动服务、联网、执行迁移或写入业务数据。因此未发生当前数据损坏；风险在于该 loader 后续一旦被迁移执行器消费，目录外文件可能被当成已验证 migration 读取或执行。
+
+| 严重级别 | 数量 | 门禁影响 |
+| --- | ---: | --- |
+| Blocker / P0 | 0 | 无 P0 |
+| Major / P1 | 1 | 阻断 QA，须由固定 `08 数据工程师`修复后复审 |
+| Minor / P2 | 0 | 无独立 P2 |
+
+### Major
+
+#### CR-P1-003：词法路径检查无法阻止 migration 文件通过符号链接逃逸目录
+
+- 位置：`backend/src/infrastructure/sqlite/migrations/manifest.ts:245-283`
+- 问题：`verifyMigrationFiles` 对 up/down 文件先执行 `resolve(root, filename)` 并检查字符串前缀，随后直接 `readFile`。规范 basename 能阻止 `../`，但不能阻止目录内同名符号链接；`readFile` 会跟随链接到目录外真实文件。up 与 explicit-down 两条路径均存在相同行为。
+- 独立复现：在仓外临时目录建立 `governance/0001_contract_probe.up.sql`，使其符号链接到同级目录外的 `outside.sql`；manifest 使用规范 ID/文件名并登记目标文件真实 SHA-256。`loadMigrationManifest(..., "governance")` 返回成功，探针输出 `SYMLINK_ESCAPE_ACCEPTED`，而不是 fail closed。临时目录已在探针结束时清理。
+- 影响：交付 README 明确宣称 unsafe-path 输入 fail closed，但当前实现的验证边界可被链接绕过。未来执行器若信任本 loader 的成功结果并读取该路径，可能执行仓库 migration 目录外的环境依赖内容；即使当前仅做哈希校验，也会产生不稳定、不可封装的制品合同。
+- 修复要求：对 manifest 引用的每个 up/down 文件使用不跟随链接的打开方式；至少 `lstat` 后拒绝符号链接和非普通文件，并对 manifest 根与候选文件执行 `realpath` 后确认真实父目录精确等于权威根。为避免检查与读取之间的替换竞态，优先使用带 `O_NOFOLLOW` 的只读文件句柄读取并对同一打开句柄计算 SHA-256。up 与 explicit-down 必须对称处理。
+- 回归要求：增加 up symlink escape、down symlink escape、非普通文件和检查后替换边界的确定性负测；断言均抛出 `MigrationManifestError`。不得在修复中执行 migration、创建 SQLite、启动 `CR-DATA-102+` 或改变五域真相态。
+
+### 已通过项
+
+- 权威差异精确为 15 个新增文件；`b6b28a6…` 是 `2a688f6…` 祖先，源码提交至路由基线的 15 个目标文件无漂移。
+- 按路径排序、换行终止的 15 条 `shasum -a 256` 记录聚合值为 `8b4c06d783825f507f9cac81d44bdab2aa46b13a6d1c5929effe278d7f27c5ed`，与输入产物完全一致；各 fixture 的 up/down 哈希也与精确文件字节一致。
+- governance/public/private/seed/ledger 五个 manifest 的 mode、filename、stream_id 独立绑定；schema head 均为 0、migrations 为空、数据库未物化且状态为 `contract-only-not-applied`。
+- loader 对 root/database/checksum/state/migration/rollback 使用精确字段集合；模式、文件名、stream、版本连续性、ID/版本一致性、checksum 格式、跨域、未知字段、重复 ID、非连续版本、非法 rollback、普通路径穿越、缺文件和哈希不匹配均采用 fail-closed 逻辑。
+- SHA-256 直接计算 `readFile` 返回的原始 Buffer，符合 lowercase-hex/exact-file-bytes；没有换行或文本规范化。
+- `restore-only` 只接受 strategy 字段；`explicit-down` 要求规范 down 文件名与独立 SHA-256，并对 down 文件再次验哈希。没有伪造不可逆迁移的 down SQL。
+- 返回 manifest 进行递归冻结；现有非空 fixture 的 migration 与 rollback 也进入同一冻结树。
+- 业务范围内未发现 SQLite driver、连接、ATTACH、迁移执行器、网络客户端、业务写入或 runtime enable 路径；项目数据库、WAL、SHM、journal 文件数量为 0。
+
+### 独立验证
+
+| 检查 | 结果 |
+| --- | --- |
+| Git 基线 | `HEAD == origin/main == 3f59d57d7fc1e947391a7e16d98af55beda781e5`；工作树/缓存区干净，无 index lock |
+| 输入提交关系 | `b6b28a6…` 是 `2a688f6…` 祖先；15 个目标文件到路由基线无漂移 |
+| 产物 SHA-256 | 15 文件聚合哈希精确匹配 `8b4c06d7…c5ed` |
+| Node.js | `v24.19.0` |
+| `npm run lint` | 通过，0 warning |
+| `npm run typecheck` | 通过 |
+| `npm run build` | 通过，只生成已忽略 `dist/` |
+| `npm test` | 5 个文件、41/41 通过 |
+| focused Vitest | `migration-manifest.test.ts` 1 个文件、14/14 通过 |
+| 数据库/运行真相 | DB/SQLite/sidecar 文件 0；服务未启动、network=0、业务写入=0、runtime_enabled=false |
+| 额外 symlink 负向探针 | 失败：目录外目标被接受，输出 `SYMLINK_ESCAPE_ACCEPTED`，形成 `CR-P1-003` |
+
+`npm test` 输出本机 npm mirror 配置弃用警告，但命令退出码为 0，不影响测试结果。未执行联网依赖审计，未启动 Fastify 监听、SQLite、migration runner、真实来源、分析或任何业务数据路径。
+
+### 停止门与审核选项
+
+- 当前停止门：`code-review-conclusion-review`。
+- 推荐审核选项：`通过审查结论并仅授权固定 08 数据工程师修复 CR-P1-003` / `修改审查结论` / `打回审查`。
+- 本次交付不自动启动修复，不进入 QA、`CR-BE-102` 审查、`CR-DATA-102+`、联网、实际数据库/业务数据写入、分析、前端、部署或任何下游。
+
+## v1.1 CR-BE-101 修复复审结论（保留追溯）
 
 - project_id: `market-analysis-dev`
 - work_item: `CR-BE-101-FIX-001.REV`
