@@ -1521,4 +1521,87 @@ mr_data_001_fix_001_rereview_assignment:
   stop_gate: code-rereview-conclusion-review
   downstream_role_authorized: false
   auto_route: false
-updated_at: "2026-08-24T15:11:42+08:00"
+mr_data_001_qa_assignment:
+  work_item: MR-DATA-001.QA
+  change_id: test-20260824-radar-mr-data-001-qa-001
+  role: role-qa
+  role_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+  role_task_title: "10 测试工程师"
+  authorization: approval-20260824-radar-mr-data-001-qa-entry
+  authorization_source: direct-user-command
+  upstream_approval: approval-20260824-radar-mr-data-001-fix-rereview-conclusion
+  scheduling: completed-ready-for-review
+  safe_checkpoint: b36911952151b911565331101b495e1de23ba79d
+  original_state:
+    stage: ui-ux
+    status: ai-developer-news-ui-prompt-ready-for-review
+    current_role: role-ui-designer
+    held_project_gate: ui-prompt-review
+    held_work_item: AMR-UI-NEWS-001
+    immediate_input_gate: code-rereview-conclusion-review
+    input_artifact: artifact-radar-mr-data-001-fix-rereview-001
+    input_artifact_decision: approved-by-direct-user-command
+  input:
+    artifact: artifact-radar-mr-data-001-fix-rereview-001
+    path: docs/06-code-review.md
+    version: "1.1"
+    sha256: c911c06cb8d7c43dd824160fb69e4d41dc2f89ad229417fda8d001967ea83987
+    reviewed_source_commit: 69ee48262f447a58c5d6677ef6537ab21213bc85
+    rereview_delivery_commit: b89945f0188facd43ed31d685a65d9b0a5d4cdec
+  scope:
+    - independently-rerun-21-policy-tests
+    - verify-29-endpoints-times-35-fields-lossless
+    - verify-BOM-CRLF-quoted-malformed-row-width-cross-project-URL-HTTPS-boundaries
+    - verify-deep-freeze-and-JSON-round-trip
+    - verify-bundle-identity-fields-absent
+    - preserve-runtime-connectors-snapshots-network-SQLite-zero-truth
+  exclusions:
+    - MR-DATA-002-and-later
+    - connector-runtime-live-or-network-collection
+    - SQLite-or-migrations
+    - registry-policy-adjudication-or-mutation
+    - frontend
+    - deployment-or-production-release
+    - English-project
+    - Control-project
+  output:
+    artifact: artifact-radar-mr-data-001-test-report-001
+    path: docs/07-test-report.md
+    version: "1.0"
+    sha256: b624a9a5c6f0bca677c4c5bf8649c857298f91db5072edbeb22c7fd685d7c933
+  conclusion: passed
+  test_cases: 12-of-12-passed
+  findings: {P0: 0, P1: 0, P2: 0}
+  finding_disposition:
+    must_fix_this_round: 0
+    explicitly_accepted_legacy: 0
+  validation:
+    node: 22.12.0
+    policy_tests: 21-of-21-passed
+    approved_policy_input: 29-endpoints-times-35-of-35-fields-exact
+    field_comparisons: 1015-of-1015-passed
+    registry_recompute: 72-rows-35-columns-29-endpoints-22-4-0-3
+    BOM_CRLF_quoted_fields: passed
+    malformed_quotes_exact_errors: passed
+    row_width_cross_project_URL_HTTPS_fail_closed: passed
+    json_serializable: passed
+    deep_immutability: passed
+    bundle_identity_fields: absent
+    source_drift: none
+  truth_boundary:
+    approval_scope: research-only
+    execution_authorized: false
+    runtime_enabled: false
+    live_connectors: 0
+    live_snapshots: 0
+    network_collection_executed: false
+    SQLite_started: false
+    MR_DATA_002_started: false
+    production_release: frozen
+  completed_at: "2026-08-24T15:25:26+08:00"
+  result: passed-ready-for-test-report-review
+  stop_gate: test-report-review
+  original_queue_return: ui-prompt-review-held-unchanged
+  downstream_role_authorized: false
+  auto_route: false
+updated_at: "2026-08-24T15:25:26+08:00"

@@ -1068,3 +1068,72 @@ approvals:
     stop_gate: code-rereview-conclusion-review
     advance_limit: one-independent-code-rereview-unit-only
     auto_advance_beyond_next: false
+  - id: approval-20260824-radar-mr-data-001-fix-rereview-conclusion
+    run_id: run-20260731-intake-001
+    gate: code-rereview-conclusion-review
+    role: role-code-reviewer
+    role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+    role_task_title: "09 代码审查员"
+    project_id: ai-model-radar
+    work_item: MR-DATA-001-FIX-001.REV
+    change_id: rereview-20260824-radar-mr-data-001-fix-001
+    artifact: artifact-radar-mr-data-001-fix-rereview-001
+    path: docs/06-code-review.md
+    version: "1.1"
+    sha256: c911c06cb8d7c43dd824160fb69e4d41dc2f89ad229417fda8d001967ea83987
+    reviewed_source_commit: 69ee48262f447a58c5d6677ef6537ab21213bc85
+    rereview_delivery_commit: b89945f0188facd43ed31d685a65d9b0a5d4cdec
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T15:25:26+08:00"
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    authorization_source: direct-user-command
+    user_reply: "继续"
+    effect: "批准 MR-DATA-001 修复复审结论，并只授权固定10执行 MR-DATA-001.QA；不批准测试报告、MR-DATA-002+、connector/runtime/live、网络采集、SQLite、前端或部署。"
+    completed_gate: code-rereview-conclusion-review
+    authorized_next_role: role-qa
+    authorized_next_work_item: MR-DATA-001.QA
+    next_entry_authorization: approval-20260824-radar-mr-data-001-qa-entry
+    production_release: frozen
+    auto_advance_beyond_next: false
+  - id: approval-20260824-radar-mr-data-001-qa-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    role: role-qa
+    role_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    role_task_title: "10 测试工程师"
+    project_id: ai-model-radar
+    work_item: MR-DATA-001.QA
+    change_id: test-20260824-radar-mr-data-001-qa-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T15:25:26+08:00"
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    authorization_source: direct-user-command
+    upstream_approval: approval-20260824-radar-mr-data-001-fix-rereview-conclusion
+    safe_checkpoint: b36911952151b911565331101b495e1de23ba79d
+    original_gate: ui-prompt-review
+    input:
+      artifact: artifact-radar-mr-data-001-fix-rereview-001
+      path: docs/06-code-review.md
+      version: "1.1"
+      sha256: c911c06cb8d7c43dd824160fb69e4d41dc2f89ad229417fda8d001967ea83987
+      reviewed_source_commit: 69ee48262f447a58c5d6677ef6537ab21213bc85
+      rereview_delivery_commit: b89945f0188facd43ed31d685a65d9b0a5d4cdec
+    scope: "独立验证 21 项 policy 测试、29 endpoint×35 字段无损、CSV/项目/URL 边界、深冻结、JSON 往返和 bundle 身份隔离，并保持 runtime/connectors/snapshots/network/SQLite 全部为 0。"
+    exclusions:
+      - MR-DATA-002-and-later
+      - connector-runtime-live-or-network-collection
+      - SQLite-or-migrations
+      - registry-policy-adjudication-or-mutation
+      - frontend
+      - deployment-or-production-release
+      - English-project
+      - Control-project
+    expected_output:
+      artifact: artifact-radar-mr-data-001-test-report-001
+      path: docs/07-test-report.md
+      version: "1.0"
+    stop_gate: test-report-review
+    advance_limit: one-independent-QA-unit-only
+    auto_advance_beyond_next: false
