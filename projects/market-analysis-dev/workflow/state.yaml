@@ -3,9 +3,9 @@ project_id: "market-analysis-dev"
 run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
-stage: implementation
-status: career-cr-be-101-backend-foundation-ready-for-review
-current_role: role-backend-dev
+stage: code-review
+status: career-cr-be-101-approved-awaiting-fixed-09-code-review-entry
+current_role: role-code-reviewer
 blocked: false
 ui_assets:
   directory: ui
@@ -214,21 +214,23 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
-  gate: atomic-delivery-review
-  scope: "审核固定07的 CR-BE-101 本机 Fastify 后端基座；本门不授权 CR-BE-102、SQLite/迁移、真实来源采集、业务分析、前端改动或部署。"
+  gate: code-review-conclusion-review
+  scope: "审核固定09对 CR-BE-101 本机 Fastify 后端基座的独立代码审查结论；本门不批准 CR-BE-102、SQLite/迁移、真实来源采集、业务分析、前端改动、部署或审查结论后的任何下游工作。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
-  expected_artifact: artifact-career-backend-foundation-001
-  expected_path: backend/
+  delivery_status: authorized-awaiting-fixed-09-role-entry
+  expected_artifact: artifact-career-cr-be-101-code-review-001
+  expected_path: docs/06-code-review.md
   expected_version: "1.0"
-  work_item: CR-BE-101
-  change_id: dev-20260821-career-backend-foundation-001
-  entry_authorization: approval-20260821-career-cr-be-101-entry
-  upstream_artifact: artifact-career-release-completeness-task-breakdown-001
-  upstream_sha256: c94be2efad6efa0356fe62df1d0a22e8ed2f47f127aa38f7297a210f72b9516d
-  on_approved: route-only-CR-BE-101.REV-to-role-code-reviewer
-  advance_limit: one-backend-delivery-unit-only
+  work_item: CR-BE-101.REV
+  change_id: review-20260824-career-cr-be-101-001
+  entry_authorization: approval-20260824-career-cr-be-101-code-review-entry
+  upstream_approval: approval-20260824-career-cr-be-101-delivery
+  upstream_artifact: artifact-career-backend-foundation-001
+  upstream_sha256: e63d153c186259026a8c10d8d670522cd960d9acda0c045881a79b45ce17432b
+  upstream_source_commit: f90d10605819f07c8131338162ab7b9e4bae466e
+  on_approved: route-by-reviewed-conclusion-only
+  advance_limit: one-code-review-delivery-unit-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
   gate: cross-project-real-product-delta-review
@@ -1456,7 +1458,7 @@ backend_foundation_assignment:
     live_connectors: 0
     live_snapshots: 0
     readiness: not_ready
-  delivery_status: ready-for-review
+  delivery_status: approved
   started_at: "2026-08-21T18:08:49+08:00"
   completed_at: "2026-08-24T10:44:51+08:00"
   validated_at: "2026-08-24T10:44:51+08:00"
@@ -1481,8 +1483,49 @@ backend_foundation_assignment:
     workflow_contracts: parsed
     sqlite_wal_ignore: passed
     network_or_sqlite_implementation: absent-by-scope
-  result: ready-for-atomic-delivery-review
-  stop_gate: atomic-delivery-review
+  approval: approval-20260824-career-cr-be-101-delivery
+  approved_at: "2026-08-24T11:01:07+08:00"
+  completed_gate: atomic-delivery-review
+  result: approved-and-routed-to-code-review
+  next_work_item: CR-BE-101.REV
+  next_role: role-code-reviewer
+  next_entry_authorization: approval-20260824-career-cr-be-101-code-review-entry
+  stop_gate: code-review-conclusion-review
   return_point: atomic-delivery-review
   auto_route_on_delivery: false
-updated_at: "2026-08-24T10:44:51+08:00"
+backend_foundation_code_review_assignment:
+  work_item: CR-BE-101.REV
+  change_id: review-20260824-career-cr-be-101-001
+  role: role-code-reviewer
+  role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+  role_task_title: "09 代码审查员"
+  authorization: approval-20260824-career-cr-be-101-code-review-entry
+  authorized_via: user-approval-of-current-artifact-one-hop
+  upstream_approval: approval-20260824-career-cr-be-101-delivery
+  source_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+  scheduling: authorized-awaiting-role-entry
+  scope: "独立只读审查 CR-BE-101 的 Fastify/TypeScript strict/loopback、healthz 与 readyz 真相态、命令入口、测试和 SQLite/WAL 忽略边界；记录问题分级与验证证据。"
+  exclusions:
+    - CR-BE-102-or-later
+    - code-or-configuration-modification
+    - SQLite-or-migrations
+    - source-collection-or-network-requests
+    - business-analysis-or-private-user-data
+    - frontend-changes
+    - service-start-or-deployment
+    - QA-or-any-downstream-route-before-user-review
+  input:
+    artifact: artifact-career-backend-foundation-001
+    path: backend/
+    version: "1.0"
+    sha256: e63d153c186259026a8c10d8d670522cd960d9acda0c045881a79b45ce17432b
+    reviewed_source_commit: f90d10605819f07c8131338162ab7b9e4bae466e
+    diff_base: 91c26a5c391c6edb738acb2637bd5498ae0856f4
+  expected_output:
+    artifact: artifact-career-cr-be-101-code-review-001
+    path: docs/06-code-review.md
+    version: "1.0"
+  stop_gate: code-review-conclusion-review
+  production_release: frozen
+  auto_route_beyond: false
+updated_at: "2026-08-24T11:01:07+08:00"

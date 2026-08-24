@@ -2177,7 +2177,7 @@ artifacts:
     path: backend/src/apps/api/app.ts
     version: "1.0"
     sha256: e63d153c186259026a8c10d8d670522cd960d9acda0c045881a79b45ce17432b
-    status: ready-for-review
+    status: approved-and-routed-to-code-review
     owner: role-backend-dev
     role_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
     role_task_title: "07 后端工程师"
@@ -2234,7 +2234,13 @@ artifacts:
       sqlite_wal_ignore: passed
     completed_at: "2026-08-24T10:44:51+08:00"
     validated_at: "2026-08-24T10:44:51+08:00"
-    result: ready-for-atomic-delivery-review
-    stop_gate: atomic-delivery-review
+    approval: approval-20260824-career-cr-be-101-delivery
+    approved_at: "2026-08-24T11:01:07+08:00"
+    completed_gate: atomic-delivery-review
+    result: approved-and-routed-to-code-review
+    next_role: role-code-reviewer
+    next_work_item: CR-BE-101.REV
+    next_entry_authorization: approval-20260824-career-cr-be-101-code-review-entry
+    stop_gate: code-review-conclusion-review
     production_release: frozen
     auto_route: false

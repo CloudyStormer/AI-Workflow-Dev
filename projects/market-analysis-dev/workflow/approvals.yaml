@@ -1103,3 +1103,72 @@ approvals:
     production_release: frozen
     advance_limit: one-backend-delivery-unit-only
     auto_advance_beyond_next: false
+  - id: "approval-20260824-career-cr-be-101-delivery"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: atomic-delivery-review
+    role: role-backend-dev
+    role_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+    role_task_title: "07 后端工程师"
+    project_id: market-analysis-dev
+    work_item: CR-BE-101
+    change_id: dev-20260821-career-backend-foundation-001
+    artifact: artifact-career-backend-foundation-001
+    path: backend/src/apps/api/app.ts
+    version: "1.0"
+    sha256: e63d153c186259026a8c10d8d670522cd960d9acda0c045881a79b45ce17432b
+    source_commit: f90d10605819f07c8131338162ab7b9e4bae466e
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T11:01:07+08:00"
+    user_reply: "通过"
+    source_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+    evidence: "固定07已独立交付 CR-BE-101 本机 Fastify 后端基座、验证结果、提交 f90d10605819f07c8131338162ab7b9e4bae466e 与审核选项；超级无敌帅超超总随后明确回复‘通过’。"
+    effect: "批准 CR-BE-101 当前交付，并只自动授权唯一下一站固定09对该交付进行独立代码审查；不批准 CR-BE-102、SQLite/迁移、真实来源采集、业务分析、前端改动、QA、部署或任何审查结论后的下游工作。"
+    completed_gate: atomic-delivery-review
+    next_role: role-code-reviewer
+    next_work_item: CR-BE-101.REV
+    next_entry_authorization: approval-20260824-career-cr-be-101-code-review-entry
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+  - id: "approval-20260824-career-cr-be-101-code-review-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-entry
+    role: role-code-reviewer
+    role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+    role_task_title: "09 代码审查员"
+    project_id: market-analysis-dev
+    work_item: CR-BE-101.REV
+    change_id: review-20260824-career-cr-be-101-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T11:01:07+08:00"
+    authorization_source: approval-20260824-career-cr-be-101-delivery
+    upstream_approval: approval-20260824-career-cr-be-101-delivery
+    source_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+    source_commit: f90d10605819f07c8131338162ab7b9e4bae466e
+    input:
+      artifact: artifact-career-backend-foundation-001
+      path: backend/
+      version: "1.0"
+      sha256: e63d153c186259026a8c10d8d670522cd960d9acda0c045881a79b45ce17432b
+      diff_base: 91c26a5c391c6edb738acb2637bd5498ae0856f4
+    scope: "独立只读审查 CR-BE-101 的 Fastify/TypeScript strict/loopback、healthz/readyz 真相态、命令入口、最小测试与 SQLite/WAL 忽略边界；记录问题分级和可复核证据。"
+    exclusions:
+      - CR-BE-102-or-later
+      - code-or-configuration-modification
+      - SQLite-or-migrations
+      - source-collection-or-network-requests
+      - business-analysis-or-private-user-data
+      - frontend-changes
+      - service-start-or-deployment
+      - QA-or-any-downstream-route-before-user-review
+    expected_output:
+      artifact: artifact-career-cr-be-101-code-review-001
+      path: docs/06-code-review.md
+      version: "1.0"
+    authorization_text: "已批准当前产物，并自动授权唯一下一站固定 09 / CR-BE-101.REV。本次只覆盖该站一个交付单元；该角色交付后停止等待审核，不代表其产物或后续角色已获批准。"
+    stop_gate: code-review-conclusion-review
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
