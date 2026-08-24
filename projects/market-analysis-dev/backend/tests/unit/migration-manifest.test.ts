@@ -1,4 +1,13 @@
-import { cp, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import {
+  cp,
+  mkdir,
+  mkdtemp,
+  readFile,
+  rename,
+  rm,
+  symlink,
+  writeFile,
+} from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 
@@ -131,6 +140,73 @@ describe("CR-DATA-101 migration manifest contract", () => {
       loadMigrationManifest(manifestPath, "governance"),
     ).rejects.toBeInstanceOf(MigrationManifestError);
   });
+
+  it("rejects an up migration symbolic link even when its target bytes match", async () => {
+    const manifestPath = await copyMutableFixture();
+    const fixtureRoot = resolve(manifestPath, "..");
+    const upPath = join(fixtureRoot, "0001_contract_probe.up.sql");
+    const outsideDirectory = join(fixtureRoot, "outside");
+    const outsidePath = join(outsideDirectory, "outside-up.sql");
+    const bytes = await readFile(upPath);
+    await mkdir(outsideDirectory);
+    await writeFile(outsidePath, bytes);
+    await rm(upPath);
+    await symlink(outsidePath, upPath);
+
+    await expect(
+      loadMigrationManifest(manifestPath, "governance"),
+    ).rejects.toBeInstanceOf(MigrationManifestError);
+  });
+
+  it("rejects an explicit down symbolic link even when its target bytes match", async () => {
+    const manifestPath = await copyMutableFixture("explicit-down");
+    const fixtureRoot = resolve(manifestPath, "..");
+    const downPath = join(fixtureRoot, "0001_contract_probe.down.sql");
+    const outsideDirectory = join(fixtureRoot, "outside");
+    const outsidePath = join(outsideDirectory, "outside-down.sql");
+    const bytes = await readFile(downPath);
+    await mkdir(outsideDirectory);
+    await writeFile(outsidePath, bytes);
+    await rm(downPath);
+    await symlink(outsidePath, downPath);
+
+    await expect(
+      loadMigrationManifest(manifestPath, "governance"),
+    ).rejects.toBeInstanceOf(MigrationManifestError);
+  });
+
+  it("rejects a non-regular migration file", async () => {
+    const manifestPath = await copyMutableFixture();
+    const upPath = join(resolve(manifestPath, ".."), "0001_contract_probe.up.sql");
+    await rm(upPath);
+    await mkdir(upPath);
+
+    await expect(
+      loadMigrationManifest(manifestPath, "governance"),
+    ).rejects.toBeInstanceOf(MigrationManifestError);
+  });
+
+  it("rejects a path replacement after the no-follow file handle is open", async () => {
+    const manifestPath = await copyMutableFixture();
+    const upPath = join(resolve(manifestPath, ".."), "0001_contract_probe.up.sql");
+    const openedPath = `${upPath}.opened`;
+    const originalBytes = await readFile(upPath);
+    let replaced = false;
+
+    await expect(
+      loadMigrationManifest(manifestPath, "governance", {
+        afterFileOpenForTesting: async (filePath) => {
+          if (filePath !== upPath || replaced) {
+            return;
+          }
+          replaced = true;
+          await rename(upPath, openedPath);
+          await writeFile(upPath, originalBytes);
+        },
+      }),
+    ).rejects.toBeInstanceOf(MigrationManifestError);
+    expect(replaced).toBe(true);
+  });
 });
 
 interface MutableManifest {
@@ -151,10 +227,12 @@ interface MutableManifest {
   }>;
 }
 
-async function copyMutableFixture(): Promise<string> {
+async function copyMutableFixture(
+  fixtureName = "valid-governance",
+): Promise<string> {
   const directory = await mkdtemp(join(tmpdir(), "career-migration-manifest-"));
   temporaryDirectories.push(directory);
-  await cp(join(FIXTURES_ROOT, "valid-governance"), directory, {
+  await cp(join(FIXTURES_ROOT, fixtureName), directory, {
     recursive: true,
   });
   return join(directory, "manifest.json");

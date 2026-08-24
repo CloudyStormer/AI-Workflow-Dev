@@ -1,5 +1,12 @@
 import { createHash } from "node:crypto";
-import { readFile } from "node:fs/promises";
+import { constants, type Stats } from "node:fs";
+import {
+  lstat,
+  open,
+  readFile,
+  realpath,
+  type FileHandle,
+} from "node:fs/promises";
 import { basename, dirname, resolve, sep } from "node:path";
 
 export const MIGRATION_DATABASE_MODES = [
@@ -95,9 +102,14 @@ export class MigrationManifestError extends Error {
   }
 }
 
+export interface MigrationManifestLoadOptions {
+  readonly afterFileOpenForTesting?: (filePath: string) => Promise<void>;
+}
+
 export async function loadMigrationManifest(
   manifestPath: string,
   expectedMode: MigrationDatabaseMode,
+  options: MigrationManifestLoadOptions = {},
 ): Promise<MigrationManifest> {
   const bytes = await readFile(manifestPath);
   let input: unknown;
@@ -109,7 +121,7 @@ export async function loadMigrationManifest(
   }
 
   const manifest = validateManifest(input, expectedMode);
-  await verifyMigrationFiles(manifest, dirname(manifestPath));
+  await verifyMigrationFiles(manifest, dirname(manifestPath), options);
   return deepFreeze(manifest);
 }
 
@@ -245,42 +257,151 @@ function validateRollback(input: unknown, migrationId: string, label: string): v
 async function verifyMigrationFiles(
   manifest: MigrationManifest,
   manifestDirectory: string,
+  options: MigrationManifestLoadOptions,
 ): Promise<void> {
   const root = resolve(manifestDirectory);
+  const authoritativeRoot = await realpath(root).catch(() => {
+    throw new MigrationManifestError(
+      "manifest directory is missing or unreadable",
+    );
+  });
+  const rootStats = await lstat(authoritativeRoot).catch(() => {
+    throw new MigrationManifestError(
+      "manifest directory is missing or unreadable",
+    );
+  });
+  if (!rootStats.isDirectory()) {
+    fail("manifest directory must be a directory");
+  }
 
   for (const migration of manifest.migrations) {
     const filePath = resolve(root, migration.up_file);
-    if (!filePath.startsWith(`${root}${sep}`)) {
-      fail(`migration path escapes manifest directory: ${migration.up_file}`);
-    }
-    const bytes = await readFile(filePath).catch(() => {
-      throw new MigrationManifestError(
-        `migration file is missing or unreadable: ${migration.up_file}`,
-      );
-    });
-    const actualChecksum = createHash("sha256").update(bytes).digest("hex");
+    requireDirectChild(filePath, root, migration.up_file, "migration");
+    const actualChecksum = await checksumAuthoritativeFile(
+      filePath,
+      authoritativeRoot,
+      migration.up_file,
+      "migration",
+      options,
+    );
     if (actualChecksum !== migration.up_sha256) {
       fail(`checksum mismatch for migration ${migration.id}`);
     }
     if (migration.rollback.strategy === "explicit-down") {
       const rollback = migration.rollback;
       const downFilePath = resolve(root, rollback.down_file);
-      if (!downFilePath.startsWith(`${root}${sep}`)) {
-        fail(`rollback path escapes manifest directory: ${rollback.down_file}`);
-      }
-      const downBytes = await readFile(downFilePath).catch(() => {
-        throw new MigrationManifestError(
-          `rollback file is missing or unreadable: ${rollback.down_file}`,
-        );
-      });
-      const actualDownChecksum = createHash("sha256")
-        .update(downBytes)
-        .digest("hex");
+      requireDirectChild(downFilePath, root, rollback.down_file, "rollback");
+      const actualDownChecksum = await checksumAuthoritativeFile(
+        downFilePath,
+        authoritativeRoot,
+        rollback.down_file,
+        "rollback",
+        options,
+      );
       if (actualDownChecksum !== rollback.down_sha256) {
         fail(`checksum mismatch for rollback ${migration.id}`);
       }
     }
   }
+}
+
+function requireDirectChild(
+  filePath: string,
+  root: string,
+  registeredName: string,
+  kind: "migration" | "rollback",
+): void {
+  if (!filePath.startsWith(`${root}${sep}`) || dirname(filePath) !== root) {
+    fail(`${kind} path escapes manifest directory: ${registeredName}`);
+  }
+}
+
+async function checksumAuthoritativeFile(
+  filePath: string,
+  authoritativeRoot: string,
+  registeredName: string,
+  kind: "migration" | "rollback",
+  options: MigrationManifestLoadOptions,
+): Promise<string> {
+  const label = `${kind} file ${registeredName}`;
+  await requireRegularPath(filePath, label);
+
+  let handle: FileHandle;
+  try {
+    handle = await open(filePath, constants.O_RDONLY | constants.O_NOFOLLOW);
+  } catch {
+    throw new MigrationManifestError(
+      `${kind} file is missing, unreadable, or not a regular file: ${registeredName}`,
+    );
+  }
+
+  try {
+    const openedStats = await handle.stat();
+    if (!openedStats.isFile()) {
+      fail(`${label} must be a regular file`);
+    }
+
+    await options.afterFileOpenForTesting?.(filePath);
+    await assertOpenedPathIsAuthoritative(
+      filePath,
+      authoritativeRoot,
+      openedStats,
+      label,
+    );
+    const bytes = await handle.readFile();
+    await assertOpenedPathIsAuthoritative(
+      filePath,
+      authoritativeRoot,
+      openedStats,
+      label,
+    );
+    return createHash("sha256").update(bytes).digest("hex");
+  } catch (error) {
+    if (error instanceof MigrationManifestError) {
+      throw error;
+    }
+    throw new MigrationManifestError(`${label} changed during validation`);
+  } finally {
+    await handle.close();
+  }
+}
+
+async function assertOpenedPathIsAuthoritative(
+  filePath: string,
+  authoritativeRoot: string,
+  openedStats: Stats,
+  label: string,
+): Promise<void> {
+  const currentStats = await requireRegularPath(filePath, label);
+  if (!isSameFile(openedStats, currentStats)) {
+    fail(`${label} changed during validation`);
+  }
+
+  const canonicalPath = await realpath(filePath).catch(() => {
+    throw new MigrationManifestError(`${label} cannot be resolved`);
+  });
+  if (dirname(canonicalPath) !== authoritativeRoot) {
+    fail(`${label} resolves outside the manifest directory`);
+  }
+
+  const postResolutionStats = await requireRegularPath(filePath, label);
+  if (!isSameFile(openedStats, postResolutionStats)) {
+    fail(`${label} changed during validation`);
+  }
+}
+
+async function requireRegularPath(filePath: string, label: string): Promise<Stats> {
+  const stats = await lstat(filePath).catch(() => {
+    throw new MigrationManifestError(`${label} is missing or unreadable`);
+  });
+  if (stats.isSymbolicLink() || !stats.isFile()) {
+    fail(`${label} must be a regular file and must not be a symbolic link`);
+  }
+  return stats;
+}
+
+function isSameFile(openedStats: Stats, currentStats: Stats): boolean {
+  return openedStats.dev === currentStats.dev && openedStats.ino === currentStats.ino;
 }
 
 function requireRecord(input: unknown, label: string): Record<string, unknown> {
