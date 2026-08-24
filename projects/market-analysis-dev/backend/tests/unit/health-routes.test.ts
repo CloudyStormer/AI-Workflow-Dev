@@ -78,7 +78,7 @@ describe("health routes", () => {
 
   it("keeps a future listener constrained to loopback and validates its port", () => {
     expect(LOOPBACK_HOST).toBe("127.0.0.1");
-    expect(resolveLoopbackPort(undefined)).toBe(0);
+    expect(() => resolveLoopbackPort(undefined)).toThrow("缺少 PORT");
     expect(resolveLoopbackPort("0")).toBe(0);
     expect(resolveLoopbackPort("4178")).toBe(4178);
     expect(() => resolveLoopbackPort("not-a-port")).toThrow();
