@@ -2373,3 +2373,62 @@ artifacts:
     next_entry_authorization: approval-20260824-career-cr-be-101-fix-rereview-entry
     production_release: frozen
     auto_route: false
+  - id: "artifact-career-cr-be-101-fix-rereview-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: code-rereview-report
+    path: docs/06-code-review.md
+    version: "1.1"
+    sha256: d7f8a9c142c6d6e3e067b4e9e01ae0e91db371dfdd9c97e52c39cf848f0ebd5a
+    status: ready-for-review
+    owner: role-code-reviewer
+    role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+    role_task_title: "09 代码审查员"
+    project_id: market-analysis-dev
+    work_item: CR-BE-101-FIX-001.REV
+    change_id: rereview-20260824-career-cr-be-101-fix-001
+    authorization: approval-20260824-career-cr-be-101-fix-rereview-entry
+    upstream_approval: approval-20260824-career-cr-be-101-fix-delivery
+    input:
+      artifact: artifact-career-cr-be-101-fix-001
+      path: backend/
+      version: "1.0"
+      primary_sha256: 465b07f163ede46d9ccee2166a69eab1dc575aa4124331e2cc5d95cde564fa52
+      reviewed_source_commit: c6a9a1cc28d5251b57b4ce6375dd30ebe887fb11
+      diff_base: 01ed90bc1439cf7e707b1cd5d2b26d05f4bcc8cf
+      original_review_artifact: artifact-career-cr-be-101-code-review-001
+      original_review_sha256: cbf8e4970a24d72cd71f9f7ae845364f2ab8a35abb398373ca440474fdea3540
+    conclusion: passed
+    findings: {P0: 0, P1: 0, P2: 0}
+    finding_disposition:
+      CR-P1-001: closed
+      CR-P1-002: closed
+      CR-P2-001: closed
+      CR-P2-002: closed
+    validation:
+      node: 22.12.0
+      npm: 10.9.0
+      lint: passed
+      typecheck: passed
+      build: passed
+      unit_tests: 12-of-12-passed
+      aggregate_tests: 12-of-12-passed
+      request_id: 4-interleaved-inject-requests-non-empty-and-distinct
+      healthz: 200-ok-private-no-store
+      readyz: 503-not-ready-api-schema-not-ready-private-no-store
+      sqlite_sidecar_ignore_matrix: 9-of-9-passed
+      service_started: false
+      network_or_sqlite_implementation: absent-by-scope
+    exclusions:
+      - CR-BE-102-or-later
+      - SQLite-or-migrations
+      - source-collection-or-network-requests
+      - business-analysis-or-private-user-data
+      - frontend-changes
+      - service-start-or-deployment
+      - QA-or-any-downstream-route-before-user-review
+    completed_at: "2026-08-24T12:20:42+08:00"
+    result: passed-awaiting-user-review
+    stop_gate: code-rereview-conclusion-review
+    production_release: frozen
+    downstream_role_authorized: false
+    auto_route: false

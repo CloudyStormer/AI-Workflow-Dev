@@ -1,4 +1,58 @@
-# Frontend Career Radar（前端职业成长雷达）CR-BE-101 后端基座代码审查
+# Frontend Career Radar（前端职业成长雷达）CR-BE-101 后端基座代码审查与修复复审
+
+## v1.1 修复复审结论
+
+- project_id: `market-analysis-dev`
+- work_item: `CR-BE-101-FIX-001.REV`
+- change_id: `rereview-20260824-career-cr-be-101-fix-001`
+- authorization: `approval-20260824-career-cr-be-101-fix-rereview-entry`
+- input_artifact: `artifact-career-cr-be-101-fix-001`
+- reviewed_source_commit: `c6a9a1cc28d5251b57b4ce6375dd30ebe887fb11`
+- diff_base: `01ed90bc1439cf7e707b1cd5d2b26d05f4bcc8cf`
+- original_review_artifact: `artifact-career-cr-be-101-code-review-001`
+- original_review_sha256: `cbf8e4970a24d72cd71f9f7ae845364f2ab8a35abb398373ca440474fdea3540`
+- reviewer: 固定 `09 代码审查员`（`role-code-reviewer`）
+- rereviewed_at: `2026-08-24T12:20:42+08:00`
+- report_version: `1.1`
+- conclusion: `passed`
+- finding_counts: `P0=0 / P1=0 / P2=0`
+- stop_gate: `code-rereview-conclusion-review`
+
+**复审通过。** 原 2 项 P1 与 2 项 P2 均已真实关闭，未发现修复回归或新增问题；本结论只表示 `CR-BE-101-FIX-001` 可以提交超级无敌帅超超总审核，不代表 QA、`CR-BE-102+`、SQLite、来源运行、前端、部署或任何下游已获授权。
+
+| 原 finding | 复审状态 | 独立证据 |
+| --- | --- | --- |
+| `CR-P1-001` request_id 合同 | closed | `OperationEnvelope` 已要求 `request_id:string`；delivery 将逐请求 Fastify `request.id` 传入两个响应。独立交错 inject 四次得到 `req-1..req-4`，均非空且互不相同。 |
+| `CR-P1-002` api_schema 假 ready | closed | `api_schema=not_ready`，中文详情明确 JSON Schema/OpenAPI 尚未注册；`/readyz` 仍为 HTTP 503、`status/truth=not_ready`、`ready=false`。 |
+| `CR-P2-001` health/readiness 缓存边界 | closed | `/healthz` 与 `/readyz` 均精确返回 `Cache-Control: private, no-store`，源码、单测与独立 inject 一致。 |
+| `CR-P2-002` SQLite sidecar 忽略矩阵 | closed | 根 `.gitignore` 对 `.db/.sqlite/.sqlite3 × wal/shm/journal` 共 9 项全部覆盖；独立 `git check-ignore -v` 9/9 命中精确规则，无数据库或 sidecar 被跟踪。 |
+
+### v1.1 独立验证
+
+| 检查 | 结果 |
+| --- | --- |
+| Git 基线 | `HEAD == origin/main == a69dba8495d6059971c4f1153ec4b57836ce26d1`；工作树/缓存区干净，无 index lock |
+| 提交关系与源码漂移 | `01ed90bc…` 是 `c6a9a1cc…` 祖先；`c6a9a1cc…` 到路由基线的 `.gitignore` 与 `backend/` 无漂移 |
+| 修复产物哈希 | 7/7 登记输出 SHA-256 精确匹配；主文件为 `465b07f163ede46d9ccee2166a69eab1dc575aa4124331e2cc5d95cde564fa52` |
+| Node.js / npm | `v22.12.0` / `10.9.0`，精确覆盖项目 engine 下界 |
+| `npm run lint` | 通过，0 warning |
+| `npm run typecheck` | 通过 |
+| `npm run build` | 通过；只生成已忽略 `dist/` |
+| `npm run test:unit` | 2 个文件、12/12 通过 |
+| `npm test` | 聚合入口通过，12/12 |
+| 独立 Fastify inject | 4 次交错请求均为独立 request_id；healthz=200/ok，readyz=503/not_ready；两者均 no-store；未监听端口 |
+| SQLite sidecar | 9/9 `git check-ignore` 通过；未创建 SQLite、WAL、SHM 或 journal |
+| 范围静态检查 | 未发现来源网络客户端、SQLite 实现、迁移、业务分析、私有用户数据、前端或部署改动 |
+
+验证过程先由系统默认 Node.js 18.12.1 尝试 lint，因不满足 `engines >=22.12.0` 在加载 oxlint 时按预期失败；切换至项目合规 Node.js 22.12.0 后完整命令集全部通过。该首次失败属于运行时选择错误，不是业务回归。`npm test` 输出若干本机 npm mirror 配置弃用警告，不影响退出码和测试结果。
+
+### v1.1 停止门与审核选项
+
+- 当前停止门：`code-rereview-conclusion-review`。
+- 推荐审核选项：`通过` / `修改复审结论` / `打回复审`。
+- 本次交付不自动进入 QA，不启动 `CR-BE-102+`、SQLite/迁移、真实来源采集、业务分析、前端、服务监听、部署或生产发布。
+
+## v1.0 原始审查记录（保留追溯）
 
 ## 审查元数据
 
