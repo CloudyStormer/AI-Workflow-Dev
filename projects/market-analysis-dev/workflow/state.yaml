@@ -3,9 +3,9 @@ project_id: "market-analysis-dev"
 run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
-stage: code-review
-status: career-cr-be-101-code-review-ready-for-review
-current_role: role-code-reviewer
+stage: implementation
+status: career-cr-be-101-fix-ready-for-review
+current_role: role-backend-dev
 blocked: false
 ui_assets:
   directory: ui
@@ -214,26 +214,22 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
-  gate: code-review-conclusion-review
-  scope: "审核固定09对 CR-BE-101 本机 Fastify 后端基座的独立代码审查结论；本门不批准 CR-BE-102、SQLite/迁移、真实来源采集、业务分析、前端改动、部署或审查结论后的任何下游工作。"
+  gate: backend-fix-delivery-review
+  scope: "审核固定07对 CR-P1-001、CR-P1-002、CR-P2-001、CR-P2-002 的精确修复及自动化测试；本门不批准 CR-BE-102+、SQLite/迁移、真实来源采集、业务分析、前端改动、QA 或部署。"
   decision_owner: 超级无敌帅超超总
   decision: pending
   delivery_status: ready-for-review
-  expected_artifact: artifact-career-cr-be-101-code-review-001
-  expected_path: docs/06-code-review.md
+  expected_artifact: artifact-career-cr-be-101-fix-001
+  expected_path: backend/
   expected_version: "1.0"
-  work_item: CR-BE-101.REV
-  change_id: review-20260824-career-cr-be-101-001
-  entry_authorization: approval-20260824-career-cr-be-101-code-review-entry
-  upstream_approval: approval-20260824-career-cr-be-101-delivery
-  upstream_artifact: artifact-career-backend-foundation-001
-  upstream_sha256: e63d153c186259026a8c10d8d670522cd960d9acda0c045881a79b45ce17432b
-  upstream_source_commit: f90d10605819f07c8131338162ab7b9e4bae466e
-  artifact_sha256: cbf8e4970a24d72cd71f9f7ae845364f2ab8a35abb398373ca440474fdea3540
-  review_conclusion: changes-requested
-  finding_counts: {P0: 0, P1: 2, P2: 2}
-  on_approved: route-by-reviewed-conclusion-only
-  advance_limit: one-code-review-delivery-unit-only
+  work_item: CR-BE-101-FIX-001
+  change_id: fix-20260824-career-cr-be-101-review-findings-001
+  entry_authorization: approval-20260824-career-cr-be-101-fix-entry
+  upstream_artifact: artifact-career-cr-be-101-code-review-001
+  upstream_sha256: cbf8e4970a24d72cd71f9f7ae845364f2ab8a35abb398373ca440474fdea3540
+  upstream_source_commit: 01ed90bc1439cf7e707b1cd5d2b26d05f4bcc8cf
+  on_approved: route-only-CR-BE-101-FIX-001.REV-to-role-code-reviewer
+  advance_limit: one-backend-fix-delivery-unit-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
   gate: cross-project-real-product-delta-review
@@ -1560,4 +1556,98 @@ backend_foundation_code_review_assignment:
   stop_gate: code-review-conclusion-review
   production_release: frozen
   auto_route_beyond: false
-updated_at: "2026-08-24T11:13:22+08:00"
+backend_foundation_fix_assignment:
+  work_item: CR-BE-101-FIX-001
+  change_id: fix-20260824-career-cr-be-101-review-findings-001
+  role: role-backend-dev
+  role_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+  role_task_title: "07 后端工程师"
+  authorization: approval-20260824-career-cr-be-101-fix-entry
+  authorized_via: direct-user-command
+  source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+  original_workflow:
+    stage: code-review
+    status: career-cr-be-101-code-review-ready-for-review
+    current_role: role-code-reviewer
+    next_gate: code-review-conclusion-review
+    held_artifact: artifact-career-cr-be-101-code-review-001
+    held_artifact_decision: pending
+    review_conclusion: changes-requested
+  safe_checkpoint: 01ed90bc1439cf7e707b1cd5d2b26d05f4bcc8cf
+  worktree_status: clean
+  index_lock: absent
+  input:
+    artifact: artifact-career-cr-be-101-code-review-001
+    path: docs/06-code-review.md
+    version: "1.0"
+    sha256: cbf8e4970a24d72cd71f9f7ae845364f2ab8a35abb398373ca440474fdea3540
+  findings:
+    - CR-P1-001-request-id-contract
+    - CR-P1-002-api-schema-false-ready
+    - CR-P2-001-health-readiness-cache-control
+    - CR-P2-002-sqlite-sidecar-ignore-matrix
+  scope: "只修四项已登记审查问题并补自动化测试；保持 readyz=503/not_ready。"
+  exclusions:
+    - ai-english-learning
+    - CR-BE-102-or-later
+    - SQLite-or-migrations
+    - source-collection-or-network-requests
+    - business-analysis-or-private-user-data
+    - frontend-changes
+    - service-start-or-deployment
+    - QA-or-downstream-route
+  delivery_status: ready-for-review
+  started_at: "2026-08-24T11:54:19+08:00"
+  completed_at: "2026-08-24T12:00:25+08:00"
+  validated_at: "2026-08-24T12:00:25+08:00"
+  expected_output:
+    artifact: artifact-career-cr-be-101-fix-001
+    path: backend/
+    version: "1.0"
+  output:
+    artifact: artifact-career-cr-be-101-fix-001
+    primary_path: backend/src/modules/health/delivery/http-routes.ts
+    primary_sha256: 465b07f163ede46d9ccee2166a69eab1dc575aa4124331e2cc5d95cde564fa52
+    operation_contract_sha256: 88045eaeab9ef6e4ca91e116221db574bdb583dd7bb578cddc3014741b247a2f
+    health_service_sha256: dc397c80a925b021851763742ea0e493339880b27f32c7f79095fecdf7a6676b
+    health_domain_sha256: 8ecebd249ebd9b12d0496d3277143d164e58cc9c633b213e77829ff628ca3086
+    health_test_sha256: 719d6c2976adf9b9b9c8a88bc57221db283ecbbe7b8cf80ee3ff029c132e7068
+    sqlite_ignore_test_sha256: bdab9fdebcb56e18ae21e5908e2f8c39ddbacb194a36127e3f8e8c90d2be6563
+    root_gitignore_sha256: 9cf0cc2502d7119d8ba0b7323031c1c62242caa753007cb2189abad849c4908f
+  finding_disposition:
+    implemented_for_rereview:
+      - CR-P1-001
+      - CR-P1-002
+      - CR-P2-001
+      - CR-P2-002
+    closed_without_rereview: []
+  runtime_truth:
+    healthz: 200-process-alive-only
+    readyz: 503-not-ready
+    api_schema: not_ready
+    network_requests_permitted: 0
+    SQLite_or_migrations_implemented: false
+    service_started: false
+  validation:
+    node: 24.19.0
+    lint: passed
+    typecheck: passed
+    build: passed
+    unit_tests: 12-of-12-passed
+    aggregate_tests: 12-of-12-passed
+    request_id: non-empty-and-distinct-per-request
+    cache_control: private-no-store-on-healthz-and-readyz
+    api_schema_truth: not_ready
+    sqlite_sidecar_ignore_matrix: 9-of-9-passed
+    git_boundary: passed
+    diff_check: passed
+    service_started: false
+    network_or_sqlite_implementation: absent-by-scope
+  result: ready-for-backend-fix-delivery-review
+  stop_gate: backend-fix-delivery-review
+  return_point: backend-fix-delivery-review
+  next_role_if_approved: role-code-reviewer
+  next_work_item_if_approved: CR-BE-101-FIX-001.REV
+  production_release: frozen
+  auto_route_on_delivery: false
+updated_at: "2026-08-24T12:00:25+08:00"

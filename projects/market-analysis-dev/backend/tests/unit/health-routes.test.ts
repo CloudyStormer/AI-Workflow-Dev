@@ -20,9 +20,13 @@ describe("health routes", () => {
 
   it("reports process liveness without declaring dependencies ready", async () => {
     const response = await app.inject({ method: "GET", url: "/healthz" });
+    const secondResponse = await app.inject({ method: "GET", url: "/healthz" });
+    const body = response.json();
+    const secondBody = secondResponse.json();
 
     expect(response.statusCode).toBe(200);
-    expect(response.json()).toMatchObject({
+    expect(response.headers["cache-control"]).toBe("private, no-store");
+    expect(body).toMatchObject({
       project_id: "market-analysis-dev",
       status: "ok",
       data: {
@@ -30,6 +34,10 @@ describe("health routes", () => {
         network_requests_permitted: 0,
       },
     });
+    expect(body.request_id).toEqual(expect.any(String));
+    expect(body.request_id).not.toHaveLength(0);
+    expect(secondBody.request_id).toEqual(expect.any(String));
+    expect(secondBody.request_id).not.toBe(body.request_id);
   });
 
   it("truthfully blocks readiness until later dependencies exist", async () => {
@@ -37,6 +45,7 @@ describe("health routes", () => {
     const body = response.json();
 
     expect(response.statusCode).toBe(503);
+    expect(response.headers["cache-control"]).toBe("private, no-store");
     expect(body).toMatchObject({
       project_id: "market-analysis-dev",
       status: "not_ready",
@@ -52,8 +61,14 @@ describe("health routes", () => {
         },
       ],
     });
+    expect(body.request_id).toEqual(expect.any(String));
+    expect(body.request_id).not.toHaveLength(0);
     expect(body.data.components).toEqual(
       expect.arrayContaining([
+        expect.objectContaining({
+          id: "api_schema",
+          status: "not_ready",
+        }),
         expect.objectContaining({ id: "sqlite", status: "not_ready" }),
         expect.objectContaining({ id: "source_runtime", status: "not_ready" }),
         expect.objectContaining({ id: "worker", status: "not_ready" }),

@@ -2298,3 +2298,75 @@ artifacts:
     next_scope_if_approved: CR-BE-101-findings-only
     production_release: frozen
     auto_route: false
+  - id: "artifact-career-cr-be-101-fix-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: backend-review-findings-fix
+    path: backend/src/modules/health/delivery/http-routes.ts
+    version: "1.0"
+    sha256: 465b07f163ede46d9ccee2166a69eab1dc575aa4124331e2cc5d95cde564fa52
+    status: ready-for-review
+    owner: role-backend-dev
+    role_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+    role_task_title: "07 后端工程师"
+    project_id: market-analysis-dev
+    work_item: CR-BE-101-FIX-001
+    change_id: fix-20260824-career-cr-be-101-review-findings-001
+    authorization: approval-20260824-career-cr-be-101-fix-entry
+    authorization_source: direct-user-command
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    safe_checkpoint: 01ed90bc1439cf7e707b1cd5d2b26d05f4bcc8cf
+    input:
+      artifact: artifact-career-cr-be-101-code-review-001
+      path: docs/06-code-review.md
+      version: "1.0"
+      sha256: cbf8e4970a24d72cd71f9f7ae845364f2ab8a35abb398373ca440474fdea3540
+    outputs:
+      root_gitignore: {path: ../../.gitignore, sha256: 9cf0cc2502d7119d8ba0b7323031c1c62242caa753007cb2189abad849c4908f}
+      operation_contract: {path: backend/src/contracts/operation.ts, sha256: 88045eaeab9ef6e4ca91e116221db574bdb583dd7bb578cddc3014741b247a2f}
+      health_service: {path: backend/src/modules/health/application/health-service.ts, sha256: dc397c80a925b021851763742ea0e493339880b27f32c7f79095fecdf7a6676b}
+      health_routes: {path: backend/src/modules/health/delivery/http-routes.ts, sha256: 465b07f163ede46d9ccee2166a69eab1dc575aa4124331e2cc5d95cde564fa52}
+      health_domain: {path: backend/src/modules/health/domain/health-status.ts, sha256: 8ecebd249ebd9b12d0496d3277143d164e58cc9c633b213e77829ff628ca3086}
+      health_tests: {path: backend/tests/unit/health-routes.test.ts, sha256: 719d6c2976adf9b9b9c8a88bc57221db283ecbbe7b8cf80ee3ff029c132e7068}
+      sqlite_ignore_tests: {path: backend/tests/unit/sqlite-ignore.test.ts, sha256: bdab9fdebcb56e18ae21e5908e2f8c39ddbacb194a36127e3f8e8c90d2be6563}
+    finding_disposition:
+      implemented_for_rereview:
+        - CR-P1-001
+        - CR-P1-002
+        - CR-P2-001
+        - CR-P2-002
+      closed_without_rereview: []
+    validation:
+      node: 24.19.0
+      lint: passed
+      typecheck: passed
+      build: passed
+      unit_tests: 12-of-12-passed
+      aggregate_tests: 12-of-12-passed
+      request_id: non-empty-and-distinct-per-request
+      cache_control: private-no-store-on-healthz-and-readyz
+      api_schema_truth: not_ready
+      sqlite_sidecar_ignore_matrix: 9-of-9-passed
+      git_boundary: passed
+      diff_check: passed
+    runtime_truth:
+      healthz: 200-process-alive-only
+      readyz: 503-not-ready
+      api_schema: not_ready
+      SQLite_or_migrations_implemented: false
+      network_requests_permitted: 0
+      service_started: false
+    exclusions:
+      - ai-english-learning
+      - CR-BE-102-or-later
+      - source-collection-or-network-requests
+      - business-analysis-or-private-user-data
+      - frontend-changes
+      - deployment-or-QA
+    completed_at: "2026-08-24T12:00:25+08:00"
+    validated_at: "2026-08-24T12:00:25+08:00"
+    result: ready-for-backend-fix-delivery-review
+    stop_gate: backend-fix-delivery-review
+    next_role_if_approved: role-code-reviewer
+    next_work_item_if_approved: CR-BE-101-FIX-001.REV
+    production_release: frozen
+    auto_route: false

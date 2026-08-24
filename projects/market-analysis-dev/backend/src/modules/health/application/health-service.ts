@@ -10,10 +10,11 @@ import {
 } from "../domain/health-status";
 
 export class HealthService {
-  public getProcessHealth(): OperationEnvelope<ProcessHealth> {
+  public getProcessHealth(requestId: string): OperationEnvelope<ProcessHealth> {
     return {
       schema_version: API_SCHEMA_VERSION,
       project_id: PROJECT_ID,
+      request_id: requestId,
       request_mode: "private_control",
       data_mode: null,
       operation_id: null,
@@ -38,10 +39,11 @@ export class HealthService {
     };
   }
 
-  public getReadiness(): OperationEnvelope<ReadinessStatus> {
+  public getReadiness(requestId: string): OperationEnvelope<ReadinessStatus> {
     return {
       schema_version: API_SCHEMA_VERSION,
       project_id: PROJECT_ID,
+      request_id: requestId,
       request_mode: "private_control",
       data_mode: null,
       operation_id: null,
@@ -68,7 +70,7 @@ export class HealthService {
         {
           code: "DEPENDENCY_NOT_READY",
           message_zh_cn:
-            "后端基座已初始化，但 SQLite、迁移、来源运行时和 Worker 尚未就绪。",
+            "后端基座已初始化，但 API Schema、SQLite、迁移、来源运行时和 Worker 尚未就绪。",
           retryable: false,
         },
       ],

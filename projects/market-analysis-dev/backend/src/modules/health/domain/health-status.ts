@@ -21,8 +21,8 @@ export interface ReadinessStatus {
 export const NOT_READY_COMPONENTS: readonly ReadinessComponent[] = [
   {
     id: "api_schema",
-    status: "ready",
-    detail_zh_cn: "Fastify 本机后端基座已初始化。",
+    status: "not_ready",
+    detail_zh_cn: "JSON Schema/OpenAPI 尚未注册，不能宣称 API Schema 已就绪。",
   },
   {
     id: "sqlite",

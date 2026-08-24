@@ -1172,3 +1172,48 @@ approvals:
     production_release: frozen
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: "approval-20260824-career-cr-be-101-fix-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-entry
+    role: role-backend-dev
+    role_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+    role_task_title: "07 后端工程师"
+    project_id: market-analysis-dev
+    work_item: CR-BE-101-FIX-001
+    change_id: fix-20260824-career-cr-be-101-review-findings-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T11:54:19+08:00"
+    authorization_source: direct-user-command
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    safe_checkpoint: 01ed90bc1439cf7e707b1cd5d2b26d05f4bcc8cf
+    original_gate: code-review-conclusion-review
+    original_artifact: artifact-career-cr-be-101-code-review-001
+    original_artifact_decision: pending
+    input:
+      artifact: artifact-career-cr-be-101-code-review-001
+      path: docs/06-code-review.md
+      version: "1.0"
+      sha256: cbf8e4970a24d72cd71f9f7ae845364f2ab8a35abb398373ca440474fdea3540
+    scope:
+      - CR-P1-001-request-id-contract
+      - CR-P1-002-api-schema-false-ready
+      - CR-P2-001-health-readiness-cache-control
+      - CR-P2-002-sqlite-sidecar-ignore-matrix
+      - automated-tests-for-all-four-findings
+    exclusions:
+      - ai-english-learning
+      - CR-BE-102-or-later
+      - SQLite-or-migrations
+      - source-collection-or-network-requests
+      - business-analysis-or-private-user-data
+      - frontend-changes
+      - service-start-or-deployment
+      - QA-or-downstream-route
+    expected_output: artifact-career-cr-be-101-fix-001
+    expected_path: backend/
+    expected_version: "1.0"
+    stop_gate: backend-fix-delivery-review
+    production_release: frozen
+    advance_limit: one-backend-fix-delivery-unit-only
+    auto_advance_beyond_next: false

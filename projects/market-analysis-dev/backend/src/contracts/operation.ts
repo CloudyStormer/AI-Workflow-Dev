@@ -18,6 +18,7 @@ export interface OperationError {
 export interface OperationEnvelope<TData> {
   readonly schema_version: typeof API_SCHEMA_VERSION;
   readonly project_id: typeof PROJECT_ID;
+  readonly request_id: string;
   readonly request_mode: "private_control";
   readonly data_mode: null;
   readonly operation_id: null;
