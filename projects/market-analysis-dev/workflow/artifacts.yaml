@@ -2648,3 +2648,60 @@ artifacts:
     next_entry_authorization: approval-20260824-career-cr-data-101-code-review-entry
     production_release: frozen
     auto_route: false
+  - id: "artifact-career-cr-be-102-code-review-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: backend-local-runtime-contract-code-review
+    path: docs/06-code-review.md
+    version: "1.3"
+    sha256: ff4b320e87099b117b924fe44a4a08442a02ddd3cb75ba21be127b8a499b209b
+    status: ready-for-review
+    owner: role-code-reviewer
+    role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+    role_task_title: "09 代码审查员"
+    project_id: market-analysis-dev
+    work_item: CR-BE-102.REV
+    change_id: review-20260824-career-cr-be-102-001
+    authorization: approval-20260824-career-cr-be-102-code-review-entry
+    input_artifact: artifact-career-cr-be-102-001
+    input_primary_sha256: 39c665426982526cb6154e2232dc2906b564185157d8bc51c60f542bc886960d
+    reviewed_source_commit: b6b28a6767c07ae523c07120edeea34583b0877d
+    diff_base: 9cc64cc3fcb86a1c2715c3f2535f3d545ea885b8
+    repository_review_baseline: 37638942b59690f635ad1112bbe0bc0c198060dc
+    prior_report:
+      version: "1.2"
+      sha256: bfb3976ddb4d0ce4cea8806beaea06a3051a378eeb561252c09ffa834c1ad1f1
+      preservation: CR-DATA-101-changes-requested-and-CR-P1-003-preserved
+    conclusion: passed-with-minor
+    finding_counts: {P0: 0, P1: 0, P2: 1}
+    findings:
+      CR_P2_003:
+        status: open-non-blocking
+        evidence: authoritative-path-count-8-but-upstream-artifact-outputs-register-only-7-file-hashes
+        omitted_path: backend/tests/unit/health-routes.test.ts
+        omitted_path_sha256: e2ec44e59dd6bb0ef8dedae74252f6798c3bd158976177fad613f1646c6edb42
+    validation:
+      node: 24.19.0
+      lint: passed
+      typecheck: passed
+      build: passed
+      aggregate_tests: 41-of-41-passed
+      focused_runtime_lifecycle_tests: 15-of-15-passed
+      missing_config_compiled_entry: expected-exit-1
+      loopback_host_override: ignored-and-fixed-127-0-0-1
+      invalid_ports: 8-of-8-rejected
+      normalized_root_paths: 3-of-3-rejected
+      database_or_sidecar_files: 0
+      service_listener_started: false
+      network_collection: 0
+      business_writes: 0
+    truth_boundary:
+      CR_DATA_101_conclusion_changed: false
+      CR_DATA_101_P1_003_closed: false
+      SQLite_or_migrations_implemented: false
+      runtime_enabled: false
+      production_release: frozen
+    completed_at: "2026-08-24T16:09:38+08:00"
+    result: passed-with-minor-ready-for-code-review-conclusion-review
+    stop_gate: code-review-conclusion-review
+    downstream_role_authorized: false
+    auto_route: false

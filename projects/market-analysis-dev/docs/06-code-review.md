@@ -1,5 +1,89 @@
 # Frontend Career Radar（前端职业成长雷达）持续代码审查报告
 
+## v1.3 CR-BE-102 本地运行合同代码审查
+
+### 审查元数据
+
+- project_id: `market-analysis-dev`
+- work_item: `CR-BE-102.REV`
+- change_id: `review-20260824-career-cr-be-102-001`
+- authorization: `approval-20260824-career-cr-be-102-code-review-entry`
+- input_artifact: `artifact-career-cr-be-102-001`
+- artifact_version: `1.0`
+- primary_path: `backend/src/config/runtime-config.ts`
+- primary_sha256: `39c665426982526cb6154e2232dc2906b564185157d8bc51c60f542bc886960d`
+- reviewed_source_commit: `b6b28a6767c07ae523c07120edeea34583b0877d`
+- diff_base: `9cc64cc3fcb86a1c2715c3f2535f3d545ea885b8`
+- repository_review_baseline: `37638942b59690f635ad1112bbe0bc0c198060dc`
+- authoritative_path_count: `8`
+- reviewer: 固定 `09 代码审查员`（`role-code-reviewer`）
+- reviewed_at: `2026-08-24T16:09:38+08:00`
+- report_version: `1.3`
+- conclusion: `passed-with-minor`
+- finding_counts: `P0=0 / P1=0 / P2=1`
+- stop_gate: `code-review-conclusion-review`
+
+### 独立结论
+
+**CR-BE-102 代码审查通过，无 P0/P1 阻断问题。** dev/build/lint/typecheck/test 命令合同明确；`PORT` 与 `DATA_DIR` 不存在默认生产值，缺失或非法输入会在创建 Fastify app 前 fail closed；监听 host 固定为 `127.0.0.1` 且忽略任意 `HOST` 环境值；启动失败会清理已构建 app，正常或并发停止只调用一次 close，SIGINT/SIGTERM 共用同一 shutdown promise，关闭失败设置非零退出码并记录真实错误。
+
+本结论只覆盖 `CR-BE-102` 的 8 个权威路径，不改变上一节 `CR-DATA-101` 的 `changes-requested`、`CR-P1-003` 及其 QA 阻断。当前发现 1 项非阻断 P2 制品追溯缺口：上游声明 8 个权威路径，但 artifact outputs 只登记 7 个文件哈希。源码提交仍完整固定第 8 个文件，因此不影响本批运行正确性，但应补齐清单后再作为完整制品证据流转。
+
+| 严重级别 | 数量 | 门禁影响 |
+| --- | ---: | --- |
+| Blocker / P0 | 0 | 无 P0 |
+| Major / P1 | 0 | CR-BE-102 本批无 QA 阻断 |
+| Minor / P2 | 1 | 不阻断本批 QA；须补齐制品哈希登记 |
+
+### Minor
+
+#### CR-P2-003：8 路径交付中有 1 个修改文件未进入 artifact outputs 哈希清单
+
+- 位置：`workflow/artifacts.yaml` 的 `artifact-career-cr-be-102-001.outputs`
+- 问题：权威差异和入场授权均声明 `authoritative_path_count=8`，实际差异也正好包含 8 个文件；但 artifact outputs 只列出 runtime config、server、process lifecycle、main、两份新增测试和 README 共 7 项，遗漏本批同时修改的 `backend/tests/unit/health-routes.test.ts`。
+- 证据：遗漏文件的当前 SHA-256 为 `e2ec44e59dd6bb0ef8dedae74252f6798c3bd158976177fad613f1646c6edb42`；它在 `9cc64cc3…b8..b6b28a67…77d` 中将未提供 PORT 的旧默认 0 行为改为必须抛出“缺少 PORT”，属于本批配置合同的有效回归证据。
+- 影响：`source_commit` 仍可精确复原该文件，因此不影响代码执行与当前复核；但仅依赖 artifact outputs 的消费者会误以为交付只有 7 个完整性对象，无法做到 8/8 文件逐项验哈希。
+- 修复要求：由上游责任角色在不改变源码的前提下，将该路径及 SHA-256 补入 `artifact-career-cr-be-102-001.outputs`，同步校正任何声称 8/8 的验证记录，并增加 outputs 数量与 authoritative path count 一致性检查。
+
+### 已通过项
+
+- 权威差异严格为 8 个路径，未触碰 `backend/migrations`；`9cc64cc3…` 是 `b6b28a67…` 祖先，源码提交到路由基线的 8 个目标文件无漂移。
+- 已登记的 7 个输出 SHA-256 全部匹配；主产物 `runtime-config.ts` 精确匹配 `39c66542…960d`。
+- `package.json` 保持明确、非空的 `dev/build/lint/typecheck/test` 命令；lint、typecheck、build、聚合 test 均可执行并传播失败。
+- `resolveLoopbackPort` 要求显式十进制数字，允许明确的 `0` 临时端口和 `1..65535` 固定端口，拒绝缺失、空串、负数、小数、空白、符号、十六进制、非数字与越界值。
+- `resolveDataDirectory` 要求显式绝对路径，拒绝缺失、空串、相对路径、首尾空白、NUL 与规范化后的文件系统根；本单元不创建、不写入该目录。
+- `loadRuntimeConfig` 固定 `host=127.0.0.1`，环境中的 `HOST=0.0.0.0` 不会改变监听地址；结果对象被冻结。
+- 配置在构建 Fastify app 前加载；缺失配置不会构建 app 或尝试监听。监听失败时调用一次 close；若监听和回滚关闭同时失败，则以 `AggregateError` 保留两项原因。
+- `RunningLoopbackServer.stop()` 缓存同一 close promise，并发及重复调用只关闭一次。
+- SIGINT 与 SIGTERM 共用同一 shutdown promise；完成后移除两类监听。停止失败不会伪装成功，而是设置 `exitCode=1` 并记录错误。
+- `main` 的启动异常会记录错误并设置非零退出码；独立执行无配置的编译入口真实退出 1，未启动监听。
+- 代码没有新增 SQLite、migration、来源网络、业务分析、私有用户数据、前端或部署路径；项目内数据库及 sidecar 文件数为 0。
+
+### 独立验证
+
+| 检查 | 结果 |
+| --- | --- |
+| Git 基线 | `HEAD == origin/main == 37638942b59690f635ad1112bbe0bc0c198060dc`；工作树/缓存区干净，无 index lock |
+| 权威差异 | 8 个路径，`backend/migrations` 0 个；目标路径到路由基线无漂移 |
+| Node.js | `v24.19.0` |
+| `npm run lint` | 通过，0 warning |
+| `npm run typecheck` | 通过 |
+| `npm run build` | 通过，只生成已忽略 `dist/` |
+| `npm test` | 5 个文件、41/41 通过 |
+| runtime/lifecycle focused Vitest | 2 个文件、15/15 通过 |
+| 缺配置编译入口 | 未设置 PORT/DATA_DIR 时退出码 1；未监听、未写文件 |
+| 独立配置探针 | HOST override 被忽略；8 类非法 PORT 与 3 类根路径全部拒绝；规范化和对象冻结通过 |
+| 运行真相 | 未启动有效服务；DB/SQLite/sidecar=0，network collection=0，业务写入=0，runtime_enabled=false |
+| 制品追溯 | 7/7 已登记 SHA 匹配，但 8 路径中的 `health-routes.test.ts` 未登记，形成 `CR-P2-003` |
+
+`npm test` 输出本机 npm mirror 配置弃用警告，但退出码为 0，不影响测试结果。按授权未启动有效 Fastify 监听，也未执行联网依赖审计；因此不声明真实端口绑定或第三方依赖漏洞状态已由本轮验证。
+
+### 停止门与审核选项
+
+- 当前停止门：`code-review-conclusion-review`。
+- 审核选项：`通过 CR-BE-102 审查结论并仅授权固定 10 对本批执行 QA` / `修改审查结论` / `打回审查`。
+- 即使本批获批，`CR-DATA-101` 仍保持独立阻断，不自动进入其 QA；本轮也不启动 `CR-BE-103+`、SQLite/migrations、网络采集、业务分析、前端、服务监听、部署或任何下游。
+
 ## v1.2 CR-DATA-101 migration contract 代码审查
 
 ### 审查元数据

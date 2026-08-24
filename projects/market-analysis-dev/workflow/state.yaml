@@ -218,7 +218,7 @@ next_approval:
   scope: "审核固定09对 CR-BE-102 的独立代码审查结论；只覆盖 b6b28a6 的 8 个后端运行合同路径及相关回归证据，不合并审查 CR-DATA-101。本门不批准 QA、CR-BE-103+、SQLite/migrations 实施、网络采集、业务分析、前端或部署。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: authorized-awaiting-role-entry
+  delivery_status: ready-for-review
   expected_artifact: artifact-career-cr-be-102-code-review-001
   expected_path: docs/06-code-review.md
   expected_version: "1.3"
@@ -228,6 +228,10 @@ next_approval:
   upstream_artifact: artifact-career-cr-be-102-001
   upstream_sha256: 39c665426982526cb6154e2232dc2906b564185157d8bc51c60f542bc886960d
   upstream_source_commit: b6b28a6767c07ae523c07120edeea34583b0877d
+  delivered_artifact: artifact-career-cr-be-102-code-review-001
+  delivered_sha256: ff4b320e87099b117b924fe44a4a08442a02ddd3cb75ba21be127b8a499b209b
+  delivered_conclusion: passed-with-minor
+  delivered_finding_counts: {P0: 0, P1: 0, P2: 1}
   on_approved: route-by-code-review-conclusion-only
   advance_limit: one-code-review-delivery-unit-only
   auto_advance_beyond_next: false
@@ -1903,7 +1907,7 @@ backend_runtime_contract_code_review_assignment:
   authorized_via: user-approval-of-current-artifact-one-hop
   upstream_approval: approval-20260824-career-cr-be-102-delivery
   source_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
-  scheduling: authorized-awaiting-role-entry
+  scheduling: completed-ready-for-review
   input:
     artifact: artifact-career-cr-be-102-001
     path: backend/src/config/runtime-config.ts
@@ -1936,6 +1940,34 @@ backend_runtime_contract_code_review_assignment:
     artifact: artifact-career-cr-be-102-code-review-001
     path: docs/06-code-review.md
     version: "1.3"
+    sha256: ff4b320e87099b117b924fe44a4a08442a02ddd3cb75ba21be127b8a499b209b
+  conclusion: passed-with-minor
+  finding_counts: {P0: 0, P1: 0, P2: 1}
+  findings:
+    CR_P2_003:
+      status: open-non-blocking
+      omitted_upstream_output: backend/tests/unit/health-routes.test.ts
+      omitted_output_sha256: e2ec44e59dd6bb0ef8dedae74252f6798c3bd158976177fad613f1646c6edb42
+  validation:
+    node: 24.19.0
+    lint: passed
+    typecheck: passed
+    build: passed
+    aggregate_tests: 41-of-41-passed
+    focused_runtime_lifecycle_tests: 15-of-15-passed
+    missing_config_compiled_entry: expected-exit-1
+    host_override_ignored: true
+    database_or_sidecar_files: 0
+    listener_started: false
+    network_collection: 0
+    business_writes: 0
+  preserved_independent_review:
+    artifact: artifact-career-cr-data-101-code-review-001
+    conclusion: changes-requested
+    blocking_finding: CR-P1-003
+    changed_by_this_review: false
+  result: passed-with-minor-ready-for-code-review-conclusion-review
+  completed_at: "2026-08-24T16:09:38+08:00"
   stop_gate: code-review-conclusion-review
   production_release: frozen
   advance_limit: unique-next-stage-only
@@ -2064,4 +2096,4 @@ data_migration_manifest_code_review_assignment:
   downstream_role_authorized: false
   production_release: frozen
   auto_route_beyond: false
-updated_at: "2026-08-24T16:04:27+08:00"
+updated_at: "2026-08-24T16:09:38+08:00"
