@@ -1,4 +1,56 @@
-# AI Model Radar MR-DATA-001 代码审查报告
+# AI Model Radar MR-DATA-001 代码审查与修复复审报告
+
+## v1.1 修复复审结论
+
+- 项目：`ai-model-radar`
+- 工作项：`MR-DATA-001-FIX-001.REV`
+- 变更：`rereview-20260824-radar-mr-data-001-fix-001`
+- 授权：`approval-20260824-radar-mr-data-001-fix-rereview-entry`
+- 输入产物：`artifact-radar-mr-data-001-fix-001` v1.1
+- 修复源码提交：`69ee48262f447a58c5d6677ef6537ab21213bc85`
+- 权威修复差异：`673df8be92516c2185979a98e4f00ea4dee0a3a3..69ee48262f447a58c5d6677ef6537ab21213bc85`
+- 原审查产物：`artifact-radar-mr-data-001-code-review-001`
+- 原审查 SHA256：`5e835a649cad886112ee19210c8aa4c835fcd6a1326b3d1a8a508e9d2c1a66f7`
+- 审查角色：固定 `09 代码审查员`（`role-code-reviewer`）
+- 复审时间：`2026-08-24T15:11:42+08:00`
+- 报告版本：`1.1`
+- 结论：`passed`
+- 严重度：P0=0，P1=0，P2=0
+- 停止门：`code-rereview-conclusion-review`
+
+**复审通过。** 原 `CR-P1-001` 与 `CR-P2-001` 均已完整关闭，未发现修复回归或新增问题。本结论只表示当前复审产物可以提交超级无敌帅超超总审核，不代表 QA、`MR-DATA-002+`、connector/runtime/live、联网采集、SQLite、部署或任何下游已获授权。
+
+| 原 finding | 状态 | 独立证据 |
+| --- | --- | --- |
+| `CR-P1-001` 无损政策输入 | closed | `approvedPolicyInput` 显式映射 registry 全部 35 字段；对 29 个 endpoint 逐一复核均为 35/35 原值相等，完整结果可 JSON 往返且整树深度冻结。后续本地消费者可直接使用 loader 结果，不需要绕过 loader 重读 CSV。 |
+| `CR-P1-001` MR-DATA-002 边界 | closed | 生产结果整树不存在 `approvalId`、`generatedFromCommit`、`bundleSha256` 或 snake_case 等价字段；差异仅增加政策输入映射与测试，没有生成 bundle、审批身份或提交身份。 |
+| `CR-P2-001` 确定性回归门 | closed | 仓库测试已覆盖 BOM、CRLF、quoted comma/newline、escaped quote、三类异常引号、行宽、跨项目、非法绝对 URL、非 HTTPS 和全树不可变；错误码均精确断言。 |
+
+### v1.1 独立验证
+
+| 检查 | 结果 |
+| --- | --- |
+| Git 基线 | `HEAD == origin/main == 578a6b33f2e98733efcaef794f9ff1fc508e43a4`；工作树/缓存区干净，无 index lock |
+| 提交关系与源码漂移 | `673df8be…` 是 `69ee4826…` 祖先；`69ee4826…` 到路由基线的 `backend/src/policy` 无漂移 |
+| 修复产物完整性 | 登记的 7 个文件 SHA256 全部匹配；loader=`67f28609…`，tests=`865e3baf…` |
+| Node.js | `v22.12.0` |
+| `node projects/ai-model-radar/backend/src/policy/loader.test.mjs` | 21/21 通过，0 fail/skip/todo |
+| 全量政策输入探针 | 29/29 endpoint × 35/35 字段原值相等；完整树 JSON 往返通过、深度冻结通过 |
+| Bundle 边界 | `approvalId/generatedFromCommit/bundleSha256` 及 snake_case 等价字段不存在；`MR-DATA-002` 未启动 |
+| 独立 CSV 复算 | 72 行、35 列、29 endpoint；allow=22、conditional=4、manual_only=0、disabled=3；`AIR-END-030=false` |
+| 内容地址 | registry SHA256 仍为 `c303e79e1fa9f7a1664ac718a1678bbcb6610b5309a5d5e4006e6d4b1d438f91` |
+| 真相边界 | `approvalScope=research-only`、`runtimeEnabled=false`、live connectors=0、live snapshots=0 |
+| 静态范围检查 | policy 生产源码仅使用本地 `node:crypto`、`node:fs/promises`；无 HTTP/DNS/网络采集、SQLite、迁移、部署或跨项目实现 |
+
+长期“项目本地自带新闻服务”是未来产品实现边界，不构成本次联网、connector、runtime、live、SQLite 或 `MR-DATA-002` 授权；本复审没有扩张该边界。
+
+### v1.1 停止门与审核选项
+
+- 当前停止门：`code-rereview-conclusion-review`。
+- 审核选项：`通过` / `修改复审结论` / `打回复审`。
+- 本次交付不自动进入 QA，不启动 `MR-DATA-002+`、connector/runtime/live、网络采集、SQLite、English、Control、部署或生产发布。
+
+## v1.0 原始审查记录（保留追溯）
 
 - 项目：`ai-model-radar`
 - 工作项：`MR-DATA-001.REV`

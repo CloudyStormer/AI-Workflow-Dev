@@ -1465,7 +1465,7 @@ mr_data_001_fix_001_rereview_assignment:
   role_task_title: "09 代码审查员"
   authorization: approval-20260824-radar-mr-data-001-fix-rereview-entry
   authorization_source: approval-20260824-radar-mr-data-001-fix-001-delivery
-  scheduling: authorized-awaiting-role-entry
+  scheduling: completed-ready-for-review
   input:
     artifact: artifact-radar-mr-data-001-fix-001
     path: backend/src/policy
@@ -1480,6 +1480,7 @@ mr_data_001_fix_001_rereview_assignment:
     artifact: artifact-radar-mr-data-001-fix-rereview-001
     path: docs/06-code-review.md
     version: "1.1"
+    sha256: c911c06cb8d7c43dd824160fb69e4d41dc2f89ad229417fda8d001967ea83987
   scope:
     - rereview-CR-P1-001-complete-lossless-policy-input-and-MR-DATA-002-boundary
     - rereview-CR-P2-001-deterministic-boundary-regression-tests
@@ -1499,7 +1500,25 @@ mr_data_001_fix_001_rereview_assignment:
     - MR-DATA-002-and-later
     - English-project
     - Control-project
+  conclusion: passed
+  findings: {P0: 0, P1: 0, P2: 0}
+  dispositions:
+    CR_P1_001: closed
+    CR_P2_001: closed
+  validation:
+    policy_tests: 21-of-21-passed
+    approved_policy_input: 29-endpoints-times-35-of-35-fields-exact
+    json_serializable: passed
+    deep_immutability: passed
+    bundle_identity_fields: absent
+    registry_recompute: 72-rows-35-columns-29-endpoints-22-4-0-3
+    AIR_END_030_counted: false
+    network_collection_executed: false
+    SQLite_started: false
+    MR_DATA_002_started: false
+  result: passed-ready-for-code-rereview-conclusion-review
+  completed_at: "2026-08-24T15:11:42+08:00"
   stop_gate: code-rereview-conclusion-review
   downstream_role_authorized: false
   auto_route: false
-updated_at: "2026-08-24T15:08:42+08:00"
+updated_at: "2026-08-24T15:11:42+08:00"

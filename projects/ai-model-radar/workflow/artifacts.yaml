@@ -1645,3 +1645,64 @@ artifacts:
     authorized_next_work_item: MR-DATA-001-FIX-001.REV
     rereview_authorization: approval-20260824-radar-mr-data-001-fix-rereview-entry
     auto_route: true
+  - id: artifact-radar-mr-data-001-fix-rereview-001
+    run_id: run-20260731-intake-001
+    type: source-policy-loader-fix-code-rereview
+    project_id: ai-model-radar
+    work_item: MR-DATA-001-FIX-001.REV
+    change_id: rereview-20260824-radar-mr-data-001-fix-001
+    owner: role-code-reviewer
+    role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+    role_task_title: "09 代码审查员"
+    authorization: approval-20260824-radar-mr-data-001-fix-rereview-entry
+    input_artifact: artifact-radar-mr-data-001-fix-001
+    input_artifact_sha256: 20de761e854554e7caf29608803aeae888efd92e8dc0014ddfc71df62ca1c0b5
+    reviewed_source_commit: 69ee48262f447a58c5d6677ef6537ab21213bc85
+    diff_base: 673df8be92516c2185979a98e4f00ea4dee0a3a3
+    path: docs/06-code-review.md
+    version: "1.1"
+    sha256: c911c06cb8d7c43dd824160fb69e4d41dc2f89ad229417fda8d001967ea83987
+    status: ready-for-review
+    conclusion: passed
+    findings: {P0: 0, P1: 0, P2: 0}
+    dispositions:
+      CR_P1_001: closed
+      CR_P2_001: closed
+    validation:
+      command: node projects/ai-model-radar/backend/src/policy/loader.test.mjs
+      tests: 21
+      passed: 21
+      failed: 0
+      registry_columns: 35
+      endpoint_total: 29
+      approved_policy_input: 29-endpoints-times-35-of-35-fields-exact
+      json_serializable: passed
+      deep_immutability: passed
+      bundle_identity_fields: absent
+      four_state_counts: 22-4-0-3
+      AIR_END_030_counted: false
+      registry_sha256: c303e79e1fa9f7a1664ac718a1678bbcb6610b5309a5d5e4006e6d4b1d438f91
+    truth_boundary:
+      approval_scope: research-only
+      execution_authorized: false
+      runtime_enabled: false
+      live_connectors: 0
+      live_snapshots: 0
+      network_collection_executed: false
+      SQLite_started: false
+      MR_DATA_002_started: false
+      production_release: frozen
+    exclusions:
+      - business-code-or-registry-modification
+      - QA
+      - connector-runtime-live-or-network-collection
+      - SQLite
+      - MR-DATA-002-and-later
+      - deployment
+      - English-project
+      - Control-project
+    completed_at: "2026-08-24T15:11:42+08:00"
+    result: passed-ready-for-code-rereview-conclusion-review
+    stop_gate: code-rereview-conclusion-review
+    downstream_role_authorized: false
+    auto_route: false
