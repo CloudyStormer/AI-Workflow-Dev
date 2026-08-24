@@ -1599,9 +1599,100 @@ mr_data_001_qa_assignment:
     MR_DATA_002_started: false
     production_release: frozen
   completed_at: "2026-08-24T15:25:26+08:00"
-  result: passed-ready-for-test-report-review
-  stop_gate: test-report-review
+  approval: approval-20260824-radar-mr-data-001-qa-delivery
+  approved_at: "2026-08-24T17:03:14+08:00"
+  result: approved-and-routed-to-mr-data-002
+  stop_gate: atomic-delivery-review
   original_queue_return: ui-prompt-review-held-unchanged
-  downstream_role_authorized: false
+  downstream_role_authorized: true
+  next_role: role-data-engineer
+  next_work_item: MR-DATA-002
+  next_entry_authorization: approval-20260824-radar-mr-data-002-entry
   auto_route: false
-updated_at: "2026-08-24T15:25:26+08:00"
+mr_data_002_assignment:
+  work_item: MR-DATA-002
+  change_id: data-20260824-radar-content-addressed-policy-bundle-001
+  role: role-data-engineer
+  role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+  role_task_title: "08 数据工程师"
+  authorization: approval-20260824-radar-mr-data-002-entry
+  authorization_source: direct-user-command-forwarded-by-fixed-00
+  source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+  original_state:
+    stage: ui-ux
+    status: ai-developer-news-ui-prompt-ready-for-review
+    current_role: role-ui-designer
+    held_project_gate: ui-prompt-review
+    held_work_item: AMR-UI-NEWS-001
+    immediate_input_gate: test-report-review
+    input_artifact: artifact-radar-mr-data-001-test-report-001
+    input_artifact_decision: approved-for-this-data-unit-by-direct-user-command
+  safe_checkpoint: c20b328ee143992c5d31e6584e18781e8aaa6122
+  return_point: atomic-delivery-review
+  input:
+    artifact: artifact-radar-mr-data-001-test-report-001
+    path: docs/07-test-report.md
+    version: "1.0"
+    sha256: b624a9a5c6f0bca677c4c5bf8649c857298f91db5072edbeb22c7fd685d7c933
+    qa_commit: 9cc64cc3fcb86a1c2715c3f2535f3d545ea885b8
+    policy_source_commit: 69ee48262f447a58c5d6677ef6537ab21213bc85
+    registry_sha256: c303e79e1fa9f7a1664ac718a1678bbcb6610b5309a5d5e4006e6d4b1d438f91
+    registry_approval: approval-20260814-radar-source-allowlist-v1
+  scope:
+    - deterministic-canonical-json-and-sha256
+    - approved-identity-source-commit-and-registry-sha-preserved
+    - all-endpoint-policy-preserved
+    - empty-endpoint-and-identity-drift-fail-closed
+    - mutable-csv-not-a-runtime-switch
+    - deeply-frozen-and-recomputable-bundle
+  exclusions:
+    - MR-DATA-003-or-later
+    - SQLite-or-migrations
+    - connector-canary-runtime-live
+    - source-network-access
+    - frontend
+    - deployment-or-production-release
+    - Career-project
+    - English-project
+    - Control-project
+  truth_boundary:
+    runtime_enabled: false
+    live_connectors: 0
+    live_snapshots: 0
+    network_requests: 0
+    SQLite_started: false
+  started_at: "2026-08-24T17:03:14+08:00"
+  output:
+    artifact: artifact-radar-mr-data-002-policy-bundle-001
+    path: backend/src/policy/bundle.mjs
+    version: "1.0"
+    sha256: 9f48068c5801dabaa05de749907ac3de9c71aada731dcffa84ef49484bacf16c
+    source_commit: b33f407531177054bc1ecc450826674ba602786f
+    materialized_bundle:
+      path: backend/src/policy/bundle.approved.json
+      file_sha256: 9661fd285c5ac584ca9f8266459e59695c4c2864e49a4a023bbc503b304e973d
+      canonical_payload_sha256: 2c3005efa6b3397f1d085d5ed583bafcb99fc2c2d0849ac8455bded5f2ada2f8
+      endpoints: 29
+  validation:
+    node: 22.12.0
+    policy_tests: 33-of-33-passed
+    bundle_tests: 12-of-12-passed
+    loader_regression_tests: 21-of-21-passed
+    canonical_sha_recompute: matched
+    materialized_bundle_matches_generator: passed
+    endpoint_policy_preservation: 29-of-29-passed
+    fail_closed_probes:
+      empty_endpoint: rejected
+      endpoint_policy_drift: rejected
+      approval_or_commit_identity_drift: rejected
+      mutable_CSV_or_registry_as_runtime_switch: rejected
+      mismatched_bundle_sha: rejected
+  completed_at: "2026-08-24T17:11:04+08:00"
+  validated_at: "2026-08-24T17:11:04+08:00"
+  scheduling: completed-ready-for-review
+  result: ready-for-atomic-delivery-review
+  stop_gate: atomic-delivery-review
+  downstream_role_authorized: false
+  production_release: frozen
+  auto_route: false
+updated_at: "2026-08-24T17:11:04+08:00"

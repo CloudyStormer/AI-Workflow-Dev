@@ -1137,3 +1137,70 @@ approvals:
     stop_gate: test-report-review
     advance_limit: one-independent-QA-unit-only
     auto_advance_beyond_next: false
+  - id: approval-20260824-radar-mr-data-001-qa-delivery
+    run_id: run-20260731-intake-001
+    gate: test-report-review
+    role: role-qa
+    project_id: ai-model-radar
+    work_item: MR-DATA-001.QA
+    change_id: test-20260824-radar-mr-data-001-qa-001
+    artifact: artifact-radar-mr-data-001-test-report-001
+    path: docs/07-test-report.md
+    version: "1.0"
+    sha256: b624a9a5c6f0bca677c4c5bf8649c857298f91db5072edbeb22c7fd685d7c933
+    qa_commit: 9cc64cc3fcb86a1c2715c3f2535f3d545ea885b8
+    conclusion: passed
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T17:03:14+08:00"
+    authorization_source: direct-user-command-forwarded-by-fixed-00
+    effect: "批准 MR-DATA-001.QA 测试报告，并仅授权固定08执行 MR-DATA-002 内容寻址 policy bundle 原子单元；不授权后续、运行、联网或持久化。"
+    completed_gate: test-report-review
+    authorized_next_role: role-data-engineer
+    authorized_next_work_item: MR-DATA-002
+    next_entry_authorization: approval-20260824-radar-mr-data-002-entry
+    production_release: frozen
+    auto_advance_beyond_next: false
+  - id: approval-20260824-radar-mr-data-002-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    role: role-data-engineer
+    role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+    role_task_title: "08 数据工程师"
+    project_id: ai-model-radar
+    work_item: MR-DATA-002
+    change_id: data-20260824-radar-content-addressed-policy-bundle-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T17:03:14+08:00"
+    authorization_source: direct-user-command-forwarded-by-fixed-00
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    safe_checkpoint: c20b328ee143992c5d31e6584e18781e8aaa6122
+    input:
+      artifact: artifact-radar-mr-data-001-test-report-001
+      path: docs/07-test-report.md
+      version: "1.0"
+      sha256: b624a9a5c6f0bca677c4c5bf8649c857298f91db5072edbeb22c7fd685d7c933
+      qa_commit: 9cc64cc3fcb86a1c2715c3f2535f3d545ea885b8
+      policy_source_commit: 69ee48262f447a58c5d6677ef6537ab21213bc85
+      registry_sha256: c303e79e1fa9f7a1664ac718a1678bbcb6610b5309a5d5e4006e6d4b1d438f91
+      registry_approval: approval-20260814-radar-source-allowlist-v1
+    scope: "由已批准 policy loader 结果生成确定性 canonical JSON/SHA256 bundle，保留批准身份、来源提交、registry SHA 与全部 endpoint policy；拒绝空 endpoint、身份漂移和可变 CSV 直接作为运行开关，结果深冻结且可复算。"
+    exclusions:
+      - MR-DATA-003-or-later
+      - SQLite-or-migrations
+      - connector-canary-runtime-live
+      - source-network-access
+      - frontend
+      - deployment-or-production-release
+      - Career-project
+      - English-project
+      - Control-project
+    expected_output:
+      artifact: artifact-radar-mr-data-002-policy-bundle-001
+      path: backend/src/policy/bundle.mjs
+      version: "1.0"
+    stop_gate: atomic-delivery-review
+    production_release: frozen
+    advance_limit: one-data-delivery-unit-only
+    auto_advance_beyond_next: false
