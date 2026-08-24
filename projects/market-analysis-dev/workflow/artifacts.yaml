@@ -2577,7 +2577,7 @@ artifacts:
     version: "1.0"
     sha256: 8b4c06d783825f507f9cac81d44bdab2aa46b13a6d1c5929effe278d7f27c5ed
     sha256_contract: "SHA-256 over newline-terminated, path-sorted `shasum -a 256` records for the 15 registered files"
-    status: ready-for-review
+    status: approved-and-routed-to-code-review
     owner: role-data-engineer
     role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
     role_task_title: "08 数据工程师"
@@ -2635,8 +2635,13 @@ artifacts:
       - downstream-code-review-or-QA-route
     completed_at: "2026-08-24T15:29:19+08:00"
     validated_at: "2026-08-24T15:32:51+08:00"
-    result: ready-for-atomic-delivery-review
-    stop_gate: atomic-delivery-review
-    downstream_role_authorized: false
+    approval: approval-20260824-career-cr-data-101-delivery
+    approved_at: "2026-08-24T15:56:36+08:00"
+    result: approved-and-routed-to-cr-data-101-review
+    stop_gate: code-review-conclusion-review
+    downstream_role_authorized: true
+    next_role: role-code-reviewer
+    next_work_item: CR-DATA-101.REV
+    next_entry_authorization: approval-20260824-career-cr-data-101-code-review-entry
     production_release: frozen
     auto_route: false

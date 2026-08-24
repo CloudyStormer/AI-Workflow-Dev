@@ -1956,11 +1956,62 @@ data_migration_manifest_contract_assignment:
   started_at: "2026-08-24T15:25:22+08:00"
   completed_at: "2026-08-24T15:29:19+08:00"
   validated_at: "2026-08-24T15:32:51+08:00"
-  delivery_status: ready-for-review
-  result: ready-for-atomic-delivery-review
-  stop_gate: atomic-delivery-review
-  return_point: atomic-delivery-review
-  downstream_role_authorized: false
+  delivery_status: approved-and-routed-to-code-review
+  approval: approval-20260824-career-cr-data-101-delivery
+  approved_at: "2026-08-24T15:56:36+08:00"
+  result: approved-and-routed-to-cr-data-101-review
+  stop_gate: code-review-conclusion-review
+  return_point: code-review-conclusion-review
+  downstream_role_authorized: true
+  next_role: role-code-reviewer
+  next_work_item: CR-DATA-101.REV
+  next_entry_authorization: approval-20260824-career-cr-data-101-code-review-entry
   production_release: frozen
   auto_route_on_delivery: false
-updated_at: "2026-08-24T15:32:51+08:00"
+data_migration_manifest_code_review_assignment:
+  work_item: CR-DATA-101.REV
+  change_id: review-20260824-career-cr-data-101-001
+  role: role-code-reviewer
+  role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+  role_task_title: "09 代码审查员"
+  authorization: approval-20260824-career-cr-data-101-code-review-entry
+  authorization_source: approval-20260824-career-cr-data-101-delivery
+  source_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+  safe_checkpoint: afcbda0cb8af6fefea1ee3dc5727bbd67465973b
+  input:
+    artifact: artifact-career-cr-data-101-001
+    path: backend/migrations
+    version: "1.0"
+    sha256: 8b4c06d783825f507f9cac81d44bdab2aa46b13a6d1c5929effe278d7f27c5ed
+    code_commit: 2a688f6
+    diff_base: b6b28a6
+    workflow_commit: afcbda0cb8af6fefea1ee3dc5727bbd67465973b
+    path_count: 15
+  scope:
+    - five-independent-migration-manifest-contract-review
+    - exact-file-byte-sha256-loader-review
+    - fail-closed-boundary-review
+    - fixtures-and-tests-review
+    - contract-only-not-applied-truth-review
+  exclusions:
+    - code-or-workflow-modification
+    - CR-DATA-102-or-later
+    - QA
+    - source-network-access
+    - actual-database-or-business-data-write
+    - analysis
+    - frontend
+    - deployment
+    - downstream-route
+  expected_output:
+    artifact: artifact-career-cr-data-101-code-review-001
+    path: docs/06-code-review.md
+    version: "1.2"
+  authorized_at: "2026-08-24T15:56:36+08:00"
+  delivery_status: routed-awaiting-fixed-09-role-announcement
+  result: routed-awaiting-fixed-09-role-announcement
+  stop_gate: code-review-conclusion-review
+  downstream_role_authorized: false
+  production_release: frozen
+  auto_route_beyond: false
+updated_at: "2026-08-24T15:56:36+08:00"

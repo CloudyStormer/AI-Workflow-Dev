@@ -1466,3 +1466,75 @@ approvals:
     production_release: frozen
     advance_limit: one-data-delivery-unit-only
     auto_advance_beyond_next: false
+  - id: "approval-20260824-career-cr-data-101-delivery"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: atomic-delivery-review
+    role: role-data-engineer
+    role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+    role_task_title: "08 数据工程师"
+    project_id: market-analysis-dev
+    work_item: CR-DATA-101
+    change_id: data-20260824-career-cr-data-101-migration-contract-001
+    artifact: artifact-career-cr-data-101-001
+    path: backend/migrations
+    version: "1.0"
+    sha256: 8b4c06d783825f507f9cac81d44bdab2aa46b13a6d1c5929effe278d7f27c5ed
+    code_commit: 2a688f6
+    workflow_commit: afcbda0cb8af6fefea1ee3dc5727bbd67465973b
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T15:56:36+08:00"
+    user_reply: "通过并启动固定 09 代码审查员"
+    effect: "批准 CR-DATA-101，并自动授权唯一下一站固定09执行 CR-DATA-101.REV；仅覆盖一次独立代码审查，不授权 QA、CR-DATA-102 或任何再下一站。"
+    completed_gate: atomic-delivery-review
+    next_role: role-code-reviewer
+    next_work_item: CR-DATA-101.REV
+    next_entry_authorization: approval-20260824-career-cr-data-101-code-review-entry
+    next_stop_gate: code-review-conclusion-review
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+  - id: "approval-20260824-career-cr-data-101-code-review-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-entry
+    role: role-code-reviewer
+    role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+    role_task_title: "09 代码审查员"
+    project_id: market-analysis-dev
+    work_item: CR-DATA-101.REV
+    change_id: review-20260824-career-cr-data-101-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T15:56:36+08:00"
+    authorization_source: approval-20260824-career-cr-data-101-delivery
+    source_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+    safe_checkpoint: afcbda0cb8af6fefea1ee3dc5727bbd67465973b
+    input:
+      artifact: artifact-career-cr-data-101-001
+      path: backend/migrations
+      version: "1.0"
+      sha256: 8b4c06d783825f507f9cac81d44bdab2aa46b13a6d1c5929effe278d7f27c5ed
+      code_commit: 2a688f6
+      diff_base: b6b28a6
+      workflow_commit: afcbda0cb8af6fefea1ee3dc5727bbd67465973b
+      path_count: 15
+    scope: "独立审查 CR-DATA-101 的五域 migration manifest、精确字节 checksum loader、fail-closed 行为、fixture 与测试，以及 contract-only-not-applied 真相边界。"
+    exclusions:
+      - code-or-workflow-modification
+      - CR-DATA-102-or-later
+      - QA
+      - source-network-access
+      - actual-database-or-business-data-write
+      - analysis
+      - frontend
+      - deployment
+      - downstream-route
+    expected_output:
+      artifact: artifact-career-cr-data-101-code-review-001
+      path: docs/06-code-review.md
+      version: "1.2"
+    authorization_text: "已批准当前产物，并自动授权唯一下一站固定 09 / CR-DATA-101.REV。本次只覆盖该站一个交付单元；该角色交付后停止等待审核，不代表其产物、QA、CR-DATA-102 或后续角色已获批准。"
+    stop_gate: code-review-conclusion-review
+    production_release: frozen
+    advance_limit: one-code-review-delivery-unit-only
+    auto_advance_beyond_next: false
