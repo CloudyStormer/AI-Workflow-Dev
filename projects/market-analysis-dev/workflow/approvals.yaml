@@ -1289,3 +1289,73 @@ approvals:
     production_release: frozen
     advance_limit: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: "approval-20260824-career-cr-be-101-fix-rereview-conclusion"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: code-rereview-conclusion-review
+    role: role-code-reviewer
+    role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+    role_task_title: "09 代码审查员"
+    project_id: market-analysis-dev
+    work_item: CR-BE-101-FIX-001.REV
+    change_id: rereview-20260824-career-cr-be-101-fix-001
+    artifact: artifact-career-cr-be-101-fix-rereview-001
+    path: docs/06-code-review.md
+    version: "1.1"
+    sha256: d7f8a9c142c6d6e3e067b4e9e01ae0e91db371dfdd9c97e52c39cf848f0ebd5a
+    reviewed_source_commit: c6a9a1cc28d5251b57b4ce6375dd30ebe887fb11
+    rereview_delivery_commit: 673df8be92516c2185979a98e4f00ea4dee0a3a3
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T15:10:41+08:00"
+    authorization_source: direct-user-command
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    user_instruction: "当前 Career 修复复审已通过，本消息仅授权固定10执行唯一 CR-BE-101.QA，不外推 CR-BE-102+。"
+    effect: "批准当前 CR-BE-101 修复复审结论，并只授权固定10执行 CR-BE-101.QA；不批准未来测试报告、CR-BE-102+、部署或生产发布。"
+    completed_gate: code-rereview-conclusion-review
+    next_role: role-qa
+    next_work_item: CR-BE-101.QA
+    next_entry_authorization: approval-20260824-career-cr-be-101-qa-entry
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+  - id: "approval-20260824-career-cr-be-101-qa-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-entry
+    role: role-qa
+    role_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    role_task_title: "10 测试工程师"
+    project_id: market-analysis-dev
+    work_item: CR-BE-101.QA
+    change_id: test-20260824-career-cr-be-101-qa-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T15:10:41+08:00"
+    authorization_source: direct-user-command
+    upstream_approval: approval-20260824-career-cr-be-101-fix-rereview-conclusion
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    safe_checkpoint: 578a6b33f2e98733efcaef794f9ff1fc508e43a4
+    input:
+      artifact: artifact-career-cr-be-101-fix-rereview-001
+      path: docs/06-code-review.md
+      version: "1.1"
+      sha256: d7f8a9c142c6d6e3e067b4e9e01ae0e91db371dfdd9c97e52c39cf848f0ebd5a
+      source_commit: c6a9a1cc28d5251b57b4ce6375dd30ebe887fb11
+      rereview_commit: 673df8be92516c2185979a98e4f00ea4dee0a3a3
+    scope: "Node 22.12 本地后端基座 QA：静态门、构建、测试、健康/就绪契约、回环/配置失败、SQLite sidecar 9/9 与范围边界。"
+    exclusions:
+      - CR-BE-102-or-later
+      - SQLite-or-migrations
+      - source-collection-or-network-requests
+      - business-analysis-or-private-user-data
+      - frontend-changes
+      - service-deployment-or-production-release
+      - ai-english-learning
+      - control-center
+    expected_output:
+      artifact: artifact-career-cr-be-101-test-report-001
+      path: docs/07-test-report.md
+      version: "1.0"
+    stop_gate: test-report-review
+    production_release: frozen
+    advance_limit: one-qa-delivery-unit-only
+    auto_advance_beyond_next: false

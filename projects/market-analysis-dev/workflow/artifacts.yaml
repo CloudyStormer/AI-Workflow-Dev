@@ -2432,3 +2432,63 @@ artifacts:
     production_release: frozen
     downstream_role_authorized: false
     auto_route: false
+  - id: "artifact-career-cr-be-101-test-report-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: test-report
+    path: docs/07-test-report.md
+    version: "1.0"
+    sha256: 2083ecbba42962a7d6edb3414f5aae367ff231a989aa26902f1ccf9a44368ea6
+    status: ready-for-review
+    owner: role-qa
+    role_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    role_task_title: "10 测试工程师"
+    project_id: market-analysis-dev
+    work_item: CR-BE-101.QA
+    change_id: test-20260824-career-cr-be-101-qa-001
+    authorization: approval-20260824-career-cr-be-101-qa-entry
+    upstream_approval: approval-20260824-career-cr-be-101-fix-rereview-conclusion
+    input:
+      artifact: artifact-career-cr-be-101-fix-rereview-001
+      path: docs/06-code-review.md
+      version: "1.1"
+      sha256: d7f8a9c142c6d6e3e067b4e9e01ae0e91db371dfdd9c97e52c39cf848f0ebd5a
+      reviewed_source_commit: c6a9a1cc28d5251b57b4ce6375dd30ebe887fb11
+      rereview_delivery_commit: 673df8be92516c2185979a98e4f00ea4dee0a3a3
+      qa_baseline: 578a6b33f2e98733efcaef794f9ff1fc508e43a4
+    conclusion: passed
+    test_cases: 10-of-10-passed
+    findings: {P0: 0, P1: 0, P2: 0}
+    finding_disposition:
+      must_fix_this_round: 0
+      explicitly_accepted_legacy: 0
+    validation:
+      node: 22.12.0
+      npm: 10.9.0
+      lint: passed
+      typecheck: passed
+      build: passed
+      unit_tests: 12-of-12-passed
+      aggregate_tests: 12-of-12-passed
+      request_id: 4-interleaved-inject-requests-non-empty-and-distinct
+      healthz: 200-ok-private-no-store
+      readyz: 503-not-ready-api-schema-not-ready-private-no-store
+      loopback_and_port_validation: passed
+      invalid_port_main_entry: expected-exit-1
+      sqlite_sidecar_ignore_matrix: 9-of-9-passed
+      source_drift: none
+      service_started: false
+      network_requests: none
+      network_or_sqlite_implementation: absent-by-scope
+    truth_boundary:
+      real_data_available: false
+      api_schema: not_ready
+      SQLite_or_migrations_implemented: false
+      source_runtime_implemented: false
+      worker_implemented: false
+      deployment_authorized: false
+    completed_at: "2026-08-24T15:12:22+08:00"
+    result: passed-awaiting-user-review
+    stop_gate: test-report-review
+    production_release: frozen
+    downstream_role_authorized: false
+    auto_route: false

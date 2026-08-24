@@ -3,9 +3,9 @@ project_id: "market-analysis-dev"
 run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
-stage: code-rereview
-status: career-cr-be-101-fix-rereview-ready-for-review
-current_role: role-code-reviewer
+stage: testing
+status: career-cr-be-101-qa-ready-for-review
+current_role: role-qa
 blocked: false
 ui_assets:
   directory: ui
@@ -1722,4 +1722,76 @@ backend_foundation_fix_rereview_assignment:
   downstream_role_authorized: false
   advance_limit: unique-next-stage-only
   auto_route_beyond: false
-updated_at: "2026-08-24T12:20:42+08:00"
+backend_foundation_qa_assignment:
+  work_item: CR-BE-101.QA
+  change_id: test-20260824-career-cr-be-101-qa-001
+  role: role-qa
+  role_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+  role_task_title: "10 测试工程师"
+  authorization: approval-20260824-career-cr-be-101-qa-entry
+  authorized_via: direct-user-command
+  upstream_approval: approval-20260824-career-cr-be-101-fix-rereview-conclusion
+  source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+  original_workflow:
+    stage: code-rereview
+    status: career-cr-be-101-fix-rereview-ready-for-review
+    current_role: role-code-reviewer
+    next_gate: code-rereview-conclusion-review
+    held_artifact: artifact-career-cr-be-101-fix-rereview-001
+    held_artifact_decision: approved-by-direct-user-command
+  safe_checkpoint: 578a6b33f2e98733efcaef794f9ff1fc508e43a4
+  input:
+    artifact: artifact-career-cr-be-101-fix-rereview-001
+    path: docs/06-code-review.md
+    version: "1.1"
+    sha256: d7f8a9c142c6d6e3e067b4e9e01ae0e91db371dfdd9c97e52c39cf848f0ebd5a
+    reviewed_source_commit: c6a9a1cc28d5251b57b4ce6375dd30ebe887fb11
+    rereview_delivery_commit: 673df8be92516c2185979a98e4f00ea4dee0a3a3
+  scope: "独立验证 Node 22.12 静态质量门、构建与 12/12 回归、healthz/readyz 真相态、逐请求 request_id/no-store、回环与配置失败、SQLite sidecar 9/9 及无越界。"
+  exclusions:
+    - CR-BE-102-or-later
+    - SQLite-or-migrations
+    - source-collection-or-network-requests
+    - business-analysis-or-private-user-data
+    - frontend-changes
+    - service-deployment-or-production-release
+    - ai-english-learning
+    - control-center
+  output:
+    artifact: artifact-career-cr-be-101-test-report-001
+    path: docs/07-test-report.md
+    version: "1.0"
+    sha256: 2083ecbba42962a7d6edb3414f5aae367ff231a989aa26902f1ccf9a44368ea6
+  conclusion: passed
+  findings: {P0: 0, P1: 0, P2: 0}
+  finding_disposition:
+    must_fix_this_round: 0
+    explicitly_accepted_legacy: 0
+  validation:
+    node: 22.12.0
+    npm: 10.9.0
+    lint: passed
+    typecheck: passed
+    build: passed
+    unit_tests: 12-of-12-passed
+    aggregate_tests: 12-of-12-passed
+    request_id: 4-interleaved-inject-requests-non-empty-and-distinct
+    healthz: 200-ok-private-no-store
+    readyz: 503-not-ready-api-schema-not-ready-private-no-store
+    loopback_and_port_validation: passed
+    invalid_port_main_entry: expected-exit-1
+    sqlite_sidecar_ignore_matrix: 9-of-9-passed
+    source_drift: none
+    service_started: false
+    network_requests: none
+    network_or_sqlite_implementation: absent-by-scope
+  environment_observation: "外部共享 worktree 写入 dist 与真实端口绑定被桌面沙箱 EPERM 拒绝；已在可写隔离 worktree完成构建，并以 Fastify inject 独立覆盖接口契约。"
+  started_at: "2026-08-24T15:10:41+08:00"
+  completed_at: "2026-08-24T15:12:22+08:00"
+  result: passed-awaiting-user-review
+  stop_gate: test-report-review
+  return_point: test-report-review
+  production_release: frozen
+  downstream_role_authorized: false
+  auto_route_beyond: false
+updated_at: "2026-08-24T15:12:22+08:00"
