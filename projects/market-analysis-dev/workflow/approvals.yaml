@@ -1427,3 +1427,42 @@ approvals:
     production_release: frozen
     advance_limit: one-backend-delivery-unit-only
     auto_advance_beyond_next: false
+  - id: "approval-20260824-career-cr-data-101-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-entry
+    role: role-data-engineer
+    role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+    role_task_title: "08 数据工程师"
+    project_id: market-analysis-dev
+    work_item: CR-DATA-101
+    change_id: data-20260824-career-cr-data-101-migration-contract-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T15:25:22+08:00"
+    authorization_source: direct-user-command-forwarded-by-fixed-00
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    safe_checkpoint: b36911952151b911565331101b495e1de23ba79d
+    input:
+      artifact: artifact-career-cr-be-101-test-report-001
+      path: docs/07-test-report.md
+      version: "1.0"
+      sha256: 2083ecbba42962a7d6edb3414f5aae367ff231a989aa26902f1ccf9a44368ea6
+      qa_commit: b36911952151b911565331101b495e1de23ba79d
+    scope: "建立 governance/public/private/seed/ledger 五条独立 migration manifest、精确字节 SHA-256 校验规则及确定性 fixture；仅形成迁移合同，不创建或上线业务数据库。"
+    exclusions:
+      - CR-DATA-102-or-later
+      - actual-business-data-ingestion
+      - source-network-access
+      - analysis
+      - frontend
+      - deployment
+      - downstream-code-review-or-QA-route
+    expected_output:
+      artifact: artifact-career-cr-data-101-001
+      path: backend/migrations
+      version: "1.0"
+      code_commit: 2a688f6
+    stop_gate: atomic-delivery-review
+    production_release: frozen
+    advance_limit: one-data-delivery-unit-only
+    auto_advance_beyond_next: false

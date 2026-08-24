@@ -1890,4 +1890,77 @@ backend_runtime_contract_assignment:
   next_work_item_if_approved: CR-BE-102.REV
   production_release: frozen
   auto_route_on_delivery: false
-updated_at: "2026-08-24T15:28:11+08:00"
+data_migration_manifest_contract_assignment:
+  work_item: CR-DATA-101
+  change_id: data-20260824-career-cr-data-101-migration-contract-001
+  role: role-data-engineer
+  role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+  role_task_title: "08 数据工程师"
+  authorization: approval-20260824-career-cr-data-101-entry
+  authorized_via: direct-user-command-forwarded-by-fixed-00
+  source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+  original_workflow:
+    stage: testing
+    status: career-cr-be-101-qa-ready-for-review
+    current_role: role-qa
+    next_gate: test-report-review
+    held_artifact: artifact-career-cr-be-101-test-report-001
+    held_artifact_decision: approved-for-this-data-unit-by-direct-user-command
+  safe_checkpoint: b36911952151b911565331101b495e1de23ba79d
+  registration_baseline: 0814905e2a454b0a5889822313df9cfac8fae765
+  input:
+    artifact: artifact-career-cr-be-101-test-report-001
+    path: docs/07-test-report.md
+    version: "1.0"
+    sha256: 2083ecbba42962a7d6edb3414f5aae367ff231a989aa26902f1ccf9a44368ea6
+    qa_commit: b36911952151b911565331101b495e1de23ba79d
+  scope:
+    - five-independent-governance-public-private-seed-ledger-manifests
+    - exact-file-byte-sha256-contract
+    - fail-closed-manifest-loader
+    - deterministic-positive-and-negative-fixtures
+    - migration-contract-only
+  exclusions:
+    - CR-DATA-102-or-later
+    - actual-business-data-ingestion
+    - source-network-access
+    - analysis
+    - frontend
+    - deployment
+    - downstream-code-review-or-QA-route
+  output:
+    artifact: artifact-career-cr-data-101-001
+    path: backend/migrations
+    version: "1.0"
+    sha256: 8b4c06d783825f507f9cac81d44bdab2aa46b13a6d1c5929effe278d7f27c5ed
+    code_commit: 2a688f6
+    path_count: 15
+  validation:
+    node: 24.19.0
+    lint: passed
+    typecheck: passed
+    build: passed
+    test_files: 5-of-5-passed
+    aggregate_tests: 41-of-41-passed
+    focused_manifest_tests: 14-of-14-passed
+  truth_boundary:
+    governance: contract-only-not-applied
+    public: contract-only-not-applied
+    private: contract-only-not-applied
+    seed: contract-only-not-applied
+    ledger: contract-only-not-applied
+    database_files_created: 0
+    business_data_rows_written: 0
+    network_requests: 0
+    runtime_enabled: false
+  started_at: "2026-08-24T15:25:22+08:00"
+  completed_at: "2026-08-24T15:29:19+08:00"
+  validated_at: "2026-08-24T15:32:51+08:00"
+  delivery_status: ready-for-review
+  result: ready-for-atomic-delivery-review
+  stop_gate: atomic-delivery-review
+  return_point: atomic-delivery-review
+  downstream_role_authorized: false
+  production_release: frozen
+  auto_route_on_delivery: false
+updated_at: "2026-08-24T15:32:51+08:00"
