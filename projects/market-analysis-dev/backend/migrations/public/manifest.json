@@ -1,0 +1,21 @@
+{
+  "manifest_version": 1,
+  "project_id": "market-analysis-dev",
+  "database": {
+    "mode": "public",
+    "filename": "career-public.sqlite",
+    "stream_id": "career-public-migrations"
+  },
+  "checksum": {
+    "algorithm": "sha256",
+    "encoding": "lowercase-hex",
+    "scope": "exact-file-bytes"
+  },
+  "state": {
+    "database_materialized": false,
+    "applied_schema_version": 0,
+    "declared_schema_head": 0,
+    "contract_status": "contract-only-not-applied"
+  },
+  "migrations": []
+}

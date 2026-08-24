@@ -1,0 +1,33 @@
+{
+  "manifest_version": 1,
+  "project_id": "market-analysis-dev",
+  "database": {
+    "mode": "governance",
+    "filename": "career-governance.sqlite",
+    "stream_id": "career-governance-migrations"
+  },
+  "checksum": {
+    "algorithm": "sha256",
+    "encoding": "lowercase-hex",
+    "scope": "exact-file-bytes"
+  },
+  "state": {
+    "database_materialized": false,
+    "applied_schema_version": 0,
+    "declared_schema_head": 1,
+    "contract_status": "contract-only-not-applied"
+  },
+  "migrations": [
+    {
+      "id": "0001_contract_probe",
+      "version": 1,
+      "up_file": "0001_contract_probe.up.sql",
+      "up_sha256": "4a3f483928ca43b32f2c57bbcef5d10e88b39794a77d6ecc19c8aa976e61f99a",
+      "rollback": {
+        "strategy": "explicit-down",
+        "down_file": "0001_contract_probe.down.sql",
+        "down_sha256": "d1ca12b5fce5af68bde335021d21c59ebb5c756c8a4a71b7fbe8d3d252844780"
+      }
+    }
+  ]
+}
