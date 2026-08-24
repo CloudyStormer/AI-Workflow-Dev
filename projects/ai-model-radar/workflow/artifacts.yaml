@@ -1431,3 +1431,67 @@ artifacts:
     stop_gate: ui-prompt-review
     downstream_role_authorized: false
     auto_route: false
+  - id: artifact-radar-mr-data-001-policy-loader-001
+    run_id: run-20260731-intake-001
+    type: source-policy-loader
+    project_id: ai-model-radar
+    work_item: MR-DATA-001
+    change_id: data-20260824-radar-policy-loader-001
+    owner: role-data-engineer
+    role_task_title: "08 数据工程师"
+    authorization: approval-20260824-radar-mr-data-001-entry
+    path: backend/src/policy
+    version: "1.0"
+    sha256: 1d48faadd1398c3f7a965e89cee521b0ab6f9b8add31b14340fb6593cc6b7171
+    status: ready-for-review
+    files:
+      - {path: backend/src/policy/constants.mjs, sha256: 598da1d582030553d50bd562fdcf45fee3ed0174718666353988a08f218e9ada}
+      - {path: backend/src/policy/csv.mjs, sha256: 4043dede6d6a90ce7a7563baa3e2061b8274592597f2decedc601dda82472e95}
+      - {path: backend/src/policy/errors.mjs, sha256: 5de3929d4796662ca5fbd033ea84f75e0187ae79839b6fa9c969ebfd9e01618d}
+      - {path: backend/src/policy/fixtures/air-end-030-row.csv, sha256: d199f76e1a976d0d2f19529aa3dca6f5bfc1fe6448fea1c1a898552ff952695e}
+      - {path: backend/src/policy/index.mjs, sha256: fe5bbe5b20928c64a42e971f16201da09f7b3fc0526725c6cac95550a2ebe195}
+      - {path: backend/src/policy/loader.mjs, sha256: 529423f2b389cea71ef966ed23b1348dfc0fb7fa0530df3afe3f9bb554b031d3}
+      - {path: backend/src/policy/loader.test.mjs, sha256: e4237a6e5d7c7462747f83d469753dc7e99f5de255345d7655d23cd8c67885c1}
+    input:
+      task_breakdown_sha256: 8d878f9a4de7e5787a3f97030f65f944194bc5f9edd58e4a6ef46ae92f9c61c7
+      registry_sha256: c303e79e1fa9f7a1664ac718a1678bbcb6610b5309a5d5e4006e6d4b1d438f91
+      registry_content_address: sha256:c303e79e1fa9f7a1664ac718a1678bbcb6610b5309a5d5e4006e6d4b1d438f91
+    recomputed:
+      endpoint_total: 29
+      allow: 22
+      conditional: 4
+      manual_only: 0
+      disabled: 3
+      AIR_END_030: rejected-not-in-approved-registry
+    truth_boundary:
+      approval_scope: research-only
+      execution_authorized: false
+      runtime_enabled: false
+      live_connectors: 0
+      live_snapshots: 0
+    validation:
+      command: node backend/src/policy/loader.test.mjs
+      tests: 8
+      passed: 8
+      failed: 0
+      fail_closed_cases:
+        - unknown-policy-state
+        - duplicate-source-id
+        - composite-endpoint-bundle
+        - endpoint-template
+        - unknown-registry-field
+        - registry-content-address-mismatch
+        - AIR-END-030
+      git_boundary: passed
+      skill_drift: passed
+      diff_check: passed
+    exclusions:
+      - registry-mutation-or-policy-adjudication
+      - connector-runtime-live-or-network-collection
+      - deployment
+      - MR-DATA-002-and-later
+      - English-project
+    completed_at: "2026-08-24T11:58:54+08:00"
+    stop_gate: atomic-delivery-review
+    downstream_role_authorized: false
+    auto_route: false

@@ -883,3 +883,35 @@ approvals:
     stop_gate: ui-prompt-review
     advance_limit: one-ui-prompt-delivery-unit-only
     auto_advance_beyond_next: false
+  - id: approval-20260824-radar-mr-data-001-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    role: role-data-engineer
+    role_task_title: "08 数据工程师"
+    project_id: ai-model-radar
+    work_item: MR-DATA-001
+    change_id: data-20260824-radar-policy-loader-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T11:54:05+08:00"
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    evidence: "超级无敌帅超超总向固定 08 直接授权 MR-DATA-001：实现批准 registry policy loader、四态判定、N=22 复算与 fail-closed 测试；不得采集、启用 runtime 或夹带后续项。"
+    safe_checkpoint: 01ed90bc1439cf7e707b1cd5d2b26d05f4bcc8cf
+    original_stage: ui-ux
+    original_gate: ui-prompt-review
+    original_work_item: AMR-UI-NEWS-001
+    input:
+      path: docs/07-release-completeness-task-breakdown.md
+      sha256: 8d878f9a4de7e5787a3f97030f65f944194bc5f9edd58e4a6ef46ae92f9c61c7
+      registry_path: docs/00-source-registry.csv
+      registry_sha256: c303e79e1fa9f7a1664ac718a1678bbcb6610b5309a5d5e4006e6d4b1d438f91
+    scope: "只实现 approved registry 的 policy loader、allow/conditional/manual_only/disabled 四态判定、N=22 与 AIR-END-030 不计入的机械复算，以及重复 ID、组合束、模板、未知字段的 fail-closed；提供后续 SQLite/采集链可消费的内容寻址输入，不执行真实网络采集。"
+    exclusions:
+      - registry-mutation-or-policy-adjudication
+      - connector-runtime-live-or-network-collection
+      - deployment
+      - MR-DATA-002-and-later
+      - English-project
+    stop_gate: atomic-delivery-review
+    direct_user_command: true
+    auto_advance_beyond_next: false

@@ -1249,4 +1249,51 @@ ai_developer_news_ui_prompt_assignment:
     historical_ui_hashes: preserved
   result: ready-for-ui-prompt-review-no-downstream-route
   auto_route_on_delivery: false
-updated_at: "2026-08-21T17:43:11+08:00"
+direct_mr_data_001_assignment:
+  work_item: MR-DATA-001
+  change_id: data-20260824-radar-policy-loader-001
+  role: role-data-engineer
+  role_task_title: "08 数据工程师"
+  authorization: approval-20260824-radar-mr-data-001-entry
+  scheduling: completed-ready-for-review
+  safe_checkpoint: 01ed90bc1439cf7e707b1cd5d2b26d05f4bcc8cf
+  original_state:
+    stage: ui-ux
+    status: ai-developer-news-ui-prompt-ready-for-review
+    role: role-ui-designer
+    gate: ui-prompt-review
+    work_item: AMR-UI-NEWS-001
+  input:
+    path: docs/07-release-completeness-task-breakdown.md
+    sha256: 8d878f9a4de7e5787a3f97030f65f944194bc5f9edd58e4a6ef46ae92f9c61c7
+    registry_path: docs/00-source-registry.csv
+    registry_sha256: c303e79e1fa9f7a1664ac718a1678bbcb6610b5309a5d5e4006e6d4b1d438f91
+  scope: policy-loader-four-state-N22-and-fail-closed-tests-only
+  preserved_truth:
+    runtime_enabled: false
+    live_connectors: 0
+    live_snapshots: 0
+    production_release: frozen
+    AIR_END_030: pending-not-in-registry-not-counted
+  return_gate: ui-prompt-review
+  output:
+    artifact: artifact-radar-mr-data-001-policy-loader-001
+    path: backend/src/policy
+    version: "1.0"
+    sha256: 1d48faadd1398c3f7a965e89cee521b0ab6f9b8add31b14340fb6593cc6b7171
+    registry_content_address: sha256:c303e79e1fa9f7a1664ac718a1678bbcb6610b5309a5d5e4006e6d4b1d438f91
+    counts: {allow: 22, conditional: 4, manual_only: 0, disabled: 3, endpoint_total: 29}
+  validation:
+    policy_tests: 8-of-8-passed
+    task_and_registry_sha256: matched
+    AIR_END_030: negative-fixture-rejected
+    workflow_yaml_jsonl: passed-before-completion-registration
+    git_boundary: passed
+    skill_drift: passed
+    diff_check: passed
+  result: ready-for-atomic-delivery-review
+  completed_at: "2026-08-24T11:58:54+08:00"
+  stop_gate: atomic-delivery-review
+  downstream_role_authorized: false
+  auto_route: false
+updated_at: "2026-08-24T11:58:54+08:00"
