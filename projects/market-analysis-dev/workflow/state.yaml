@@ -2090,10 +2090,108 @@ data_migration_manifest_code_review_assignment:
     path: docs/06-code-review.md
     version: "1.2"
   authorized_at: "2026-08-24T15:56:36+08:00"
-  delivery_status: routed-awaiting-fixed-09-role-announcement
-  result: routed-awaiting-fixed-09-role-announcement
-  stop_gate: code-review-conclusion-review
+  delivery_status: approved-changes-requested-and-routed-to-fix
+  output:
+    artifact: artifact-career-cr-data-101-code-review-001
+    path: docs/06-code-review.md
+    version: "1.2-section"
+    sha256: bfb3976ddb4d0ce4cea8806beaea06a3051a378eeb561252c09ffa834c1ad1f1
+    report_commit: 085038f06c1110eb0e99125b7297fbcde75bd54c
+    reviewed_source_commit: 2a688f6267cc9dff40e90b0ac672553d5d7a8406
+    conclusion: changes-requested
+    blocking_finding: CR-P1-003
+  approval: approval-20260824-career-cr-data-101-review-conclusion
+  approved_at: "2026-08-24T16:55:18+08:00"
+  result: approved-changes-requested-and-routed-to-cr-data-101-fix-001
+  stop_gate: backend-data-fix-delivery-review
+  downstream_role_authorized: true
+  next_role: role-data-engineer
+  next_work_item: CR-DATA-101-FIX-001
+  next_entry_authorization: approval-20260824-career-cr-data-101-fix-entry
+  production_release: frozen
+  auto_route_beyond: false
+data_migration_manifest_symlink_fix_assignment:
+  work_item: CR-DATA-101-FIX-001
+  change_id: data-20260824-career-cr-data-101-symlink-fix-001
+  role: role-data-engineer
+  role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+  role_task_title: "08 数据工程师"
+  authorization: approval-20260824-career-cr-data-101-fix-entry
+  authorization_source: direct-user-command-forwarded-by-fixed-00
+  source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+  original_workflow:
+    stage: code-review
+    status: career-cr-data-101-changes-requested
+    current_role: role-code-reviewer
+    next_gate: code-review-conclusion-review
+    held_artifact: artifact-career-cr-data-101-code-review-001
+    held_artifact_decision: approved-for-this-fix-unit-by-direct-user-command
+  safe_checkpoint: ca9f15258de8406c806eab12bbb6c649dec56948
+  return_point: backend-data-fix-delivery-review
+  input:
+    artifact: artifact-career-cr-data-101-code-review-001
+    path: docs/06-code-review.md
+    version: "1.2-section"
+    sha256: bfb3976ddb4d0ce4cea8806beaea06a3051a378eeb561252c09ffa834c1ad1f1
+    report_commit: 085038f06c1110eb0e99125b7297fbcde75bd54c
+    reviewed_source_commit: 2a688f6267cc9dff40e90b0ac672553d5d7a8406
+    blocking_finding: CR-P1-003
+  scope:
+    - reject-up-and-down-symlinks
+    - reject-non-regular-migration-files
+    - canonical-parent-must-equal-authoritative-root
+    - same-no-follow-read-only-handle-for-content-and-sha
+    - deterministic-path-replacement-race-test
+  exclusions:
+    - CR-DATA-102-or-later
+    - actual-migration-or-SQLite
+    - source-network-access
+    - analysis
+    - frontend
+    - deployment
+    - ai-english-learning
+    - control-center
+    - CR-BE-102-P2
+  truth_boundary:
+    governance: contract-only-not-applied
+    public: contract-only-not-applied
+    private: contract-only-not-applied
+    seed: contract-only-not-applied
+    ledger: contract-only-not-applied
+    database_files_created: 0
+    business_data_rows_written: 0
+    network_requests: 0
+  started_at: "2026-08-24T16:55:18+08:00"
+  output:
+    artifact: artifact-career-cr-data-101-fix-001
+    path: backend/src/infrastructure/sqlite/migrations/manifest.ts
+    version: "1.0"
+    sha256: 34cd406dfb34a180cae8eecf25b9af1eb79769afc5d7fa3b4dc535bb50a919c8
+    source_commit: 9c6dd643ef74dea1edcf6b3e1fe80d6c22463d91
+    authoritative_paths:
+      - backend/src/infrastructure/sqlite/migrations/manifest.ts
+      - backend/tests/unit/migration-manifest.test.ts
+  finding_disposition:
+    CR_P1_003: implemented-awaiting-independent-rereview
+  validation:
+    node: 24.19.0
+    lint: passed
+    typecheck: passed
+    build: passed
+    test_files: 5-of-5-passed
+    aggregate_tests: 45-of-45-passed
+    focused_manifest_tests: 18-of-18-passed
+    negative_probes:
+      up_symlink: rejected
+      down_symlink: rejected
+      non_regular_file: rejected
+      post_open_replacement: rejected
+  completed_at: "2026-08-24T16:57:51+08:00"
+  validated_at: "2026-08-24T16:57:51+08:00"
+  delivery_status: ready-for-review
+  result: ready-for-backend-data-fix-delivery-review
+  stop_gate: backend-data-fix-delivery-review
   downstream_role_authorized: false
   production_release: frozen
   auto_route_beyond: false
-updated_at: "2026-08-24T16:09:38+08:00"
+updated_at: "2026-08-24T16:57:51+08:00"

@@ -1538,6 +1538,71 @@ approvals:
     production_release: frozen
     advance_limit: one-code-review-delivery-unit-only
     auto_advance_beyond_next: false
+  - id: "approval-20260824-career-cr-data-101-review-conclusion"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: code-review-conclusion-review
+    role: role-code-reviewer
+    project_id: market-analysis-dev
+    work_item: CR-DATA-101.REV
+    change_id: review-20260824-career-cr-data-101-001
+    artifact: artifact-career-cr-data-101-code-review-001
+    path: docs/06-code-review.md
+    version: "1.2-section"
+    sha256: bfb3976ddb4d0ce4cea8806beaea06a3051a378eeb561252c09ffa834c1ad1f1
+    report_commit: 085038f06c1110eb0e99125b7297fbcde75bd54c
+    reviewed_source_commit: 2a688f6267cc9dff40e90b0ac672553d5d7a8406
+    conclusion: changes-requested
+    blocking_finding: CR-P1-003
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T16:55:18+08:00"
+    effect: "批准 CR-DATA-101 changes-requested 审查结论及唯一阻断 CR-P1-003；仅授权固定08进入一个原子修复单元。"
+    next_role: role-data-engineer
+    next_work_item: CR-DATA-101-FIX-001
+    next_entry_authorization: approval-20260824-career-cr-data-101-fix-entry
+    production_release: frozen
+    auto_advance_beyond_next: false
+  - id: "approval-20260824-career-cr-data-101-fix-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-entry
+    role: role-data-engineer
+    role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+    role_task_title: "08 数据工程师"
+    project_id: market-analysis-dev
+    work_item: CR-DATA-101-FIX-001
+    change_id: data-20260824-career-cr-data-101-symlink-fix-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T16:55:18+08:00"
+    authorization_source: direct-user-command-forwarded-by-fixed-00
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    safe_checkpoint: ca9f15258de8406c806eab12bbb6c649dec56948
+    input:
+      artifact: artifact-career-cr-data-101-code-review-001
+      path: docs/06-code-review.md
+      version: "1.2-section"
+      sha256: bfb3976ddb4d0ce4cea8806beaea06a3051a378eeb561252c09ffa834c1ad1f1
+      report_commit: 085038f06c1110eb0e99125b7297fbcde75bd54c
+      reviewed_source_commit: 2a688f6267cc9dff40e90b0ac672553d5d7a8406
+    scope: "修复 migration up/down 文件 symlink escape：拒绝 symlink/非普通文件，真实父目录必须等于权威根，以同一 O_NOFOLLOW 只读句柄读取并计算 SHA，并增加确定性负向测试。"
+    exclusions:
+      - CR-DATA-102-or-later
+      - actual-migration-or-SQLite
+      - source-network-access
+      - analysis
+      - frontend
+      - deployment
+      - ai-english-learning
+      - control-center
+      - CR-BE-102-P2
+    expected_output:
+      artifact: artifact-career-cr-data-101-fix-001
+      path: backend/src/infrastructure/sqlite/migrations/manifest.ts
+      version: "1.0"
+    stop_gate: backend-data-fix-delivery-review
+    production_release: frozen
+    advance_limit: one-data-fix-delivery-unit-only
+    auto_advance_beyond_next: false
   - id: "approval-20260824-career-cr-be-102-delivery"
     run_id: "run-20260803-market-analysis-dev-init-001"
     gate: atomic-delivery-review
