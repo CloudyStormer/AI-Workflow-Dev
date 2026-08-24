@@ -3,9 +3,9 @@ project_id: "market-analysis-dev"
 run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
-stage: testing
-status: career-cr-be-101-qa-ready-for-review
-current_role: role-qa
+stage: implementation
+status: career-cr-be-102-ready-for-review
+current_role: role-backend-dev
 blocked: false
 ui_assets:
   directory: ui
@@ -214,25 +214,23 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
-  gate: code-rereview-conclusion-review
-  scope: "审核固定09对 CR-BE-101-FIX-001 的独立复审结论；只核验 CR-P1-001、CR-P1-002、CR-P2-001、CR-P2-002 是否关闭及是否引入回归。本门不预先批准 QA、CR-BE-102+、SQLite/迁移、真实来源采集、业务分析、前端改动或部署。"
+  gate: atomic-delivery-review
+  scope: "审核固定07的 CR-BE-102 原子后端交付：dev/build/lint/typecheck/test 命令合同、显式本地端口与数据目录配置校验、127.0.0.1 绑定、优雅启停和失败真相态；不批准 CR-BE-103+、SQLite/migrations、网络采集、业务分析、前端或部署。"
   decision_owner: 超级无敌帅超超总
   decision: pending
   delivery_status: ready-for-review
-  expected_artifact: artifact-career-cr-be-101-fix-rereview-001
-  expected_path: docs/06-code-review.md
-  expected_version: "1.1"
-  artifact_sha256: d7f8a9c142c6d6e3e067b4e9e01ae0e91db371dfdd9c97e52c39cf848f0ebd5a
-  conclusion: passed
-  finding_counts: {P0: 0, P1: 0, P2: 0}
-  work_item: CR-BE-101-FIX-001.REV
-  change_id: rereview-20260824-career-cr-be-101-fix-001
-  entry_authorization: approval-20260824-career-cr-be-101-fix-rereview-entry
-  upstream_artifact: artifact-career-cr-be-101-fix-001
-  upstream_sha256: 465b07f163ede46d9ccee2166a69eab1dc575aa4124331e2cc5d95cde564fa52
-  upstream_source_commit: c6a9a1cc28d5251b57b4ce6375dd30ebe887fb11
-  on_approved: route-by-rereview-conclusion-only
-  advance_limit: one-code-rereview-delivery-unit-only
+  expected_artifact: artifact-career-cr-be-102-001
+  expected_path: backend/src/config/runtime-config.ts
+  expected_version: "1.0"
+  work_item: CR-BE-102
+  change_id: dev-20260824-career-cr-be-102-runtime-contract-001
+  entry_authorization: approval-20260824-career-cr-be-102-entry
+  upstream_artifact: artifact-career-cr-be-101-test-report-001
+  upstream_sha256: 2083ecbba42962a7d6edb3414f5aae367ff231a989aa26902f1ccf9a44368ea6
+  upstream_source_commit: b36911952151b911565331101b495e1de23ba79d
+  artifact_sha256: 39c665426982526cb6154e2232dc2906b564185157d8bc51c60f542bc886960d
+  on_approved: route-only-CR-BE-102.REV-to-role-code-reviewer
+  advance_limit: one-backend-delivery-unit-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
   gate: cross-project-real-product-delta-review
@@ -1788,10 +1786,108 @@ backend_foundation_qa_assignment:
   environment_observation: "外部共享 worktree 写入 dist 与真实端口绑定被桌面沙箱 EPERM 拒绝；已在可写隔离 worktree完成构建，并以 Fastify inject 独立覆盖接口契约。"
   started_at: "2026-08-24T15:10:41+08:00"
   completed_at: "2026-08-24T15:12:22+08:00"
-  result: passed-awaiting-user-review
-  stop_gate: test-report-review
+  approval: approval-20260824-career-cr-be-101-qa-report
+  approved_at: "2026-08-24T15:24:35+08:00"
+  result: approved-and-routed-to-cr-be-102
+  stop_gate: atomic-delivery-review
   return_point: test-report-review
   production_release: frozen
-  downstream_role_authorized: false
+  downstream_role_authorized: true
+  next_role: role-backend-dev
+  next_work_item: CR-BE-102
+  next_entry_authorization: approval-20260824-career-cr-be-102-entry
   auto_route_beyond: false
-updated_at: "2026-08-24T15:12:22+08:00"
+backend_runtime_contract_assignment:
+  work_item: CR-BE-102
+  change_id: dev-20260824-career-cr-be-102-runtime-contract-001
+  role: role-backend-dev
+  role_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+  role_task_title: "07 后端工程师"
+  authorization: approval-20260824-career-cr-be-102-entry
+  authorized_via: direct-user-command
+  source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+  original_workflow:
+    stage: testing
+    status: career-cr-be-101-qa-ready-for-review
+    current_role: role-qa
+    next_gate: test-report-review
+    held_artifact: artifact-career-cr-be-101-test-report-001
+    held_artifact_decision: pending
+  safe_checkpoint: b36911952151b911565331101b495e1de23ba79d
+  worktree_status: clean
+  index_lock: absent
+  input:
+    artifact: artifact-career-cr-be-101-test-report-001
+    path: docs/07-test-report.md
+    version: "1.0"
+    sha256: 2083ecbba42962a7d6edb3414f5aae367ff231a989aa26902f1ccf9a44368ea6
+    qa_commit: b36911952151b911565331101b495e1de23ba79d
+  scope:
+    - backend-dev-build-lint-typecheck-test-command-contract
+    - explicit-local-port-validation
+    - explicit-local-data-directory-validation
+    - loopback-127.0.0.1-binding
+    - graceful-start-stop
+    - truthful-startup-and-shutdown-failure-state
+    - command-and-process-lifecycle-tests
+  exclusions:
+    - CR-BE-103-or-later
+    - SQLite-or-migrations
+    - backend/migrations
+    - source-collection-or-network-requests
+    - business-analysis-or-private-user-data
+    - frontend-changes
+    - service-deployment-or-production-release
+    - ai-english-learning
+  delivery_status: ready-for-review
+  expected_output:
+    artifact: artifact-career-cr-be-102-001
+    path: backend/src/config/runtime-config.ts
+    version: "1.0"
+  started_at: "2026-08-24T15:24:35+08:00"
+  completed_at: "2026-08-24T15:28:11+08:00"
+  validated_at: "2026-08-24T15:28:11+08:00"
+  output:
+    artifact: artifact-career-cr-be-102-001
+    path: backend/src/config/runtime-config.ts
+    version: "1.0"
+    sha256: 39c665426982526cb6154e2232dc2906b564185157d8bc51c60f542bc886960d
+    server_sha256: ba845558dba5f06bd2be4aa92afbcf54a4b9df620c3d415b5c1ddf08e5480133
+    process_lifecycle_sha256: 990b508ceeaeb6173e685cd2db41093a29a7e82f2261a04f3109142062765b22
+    main_sha256: f26d0ebdf22506cd5cf4a22b4134e5e636365d9149289d2abbe1a1b5b6522d17
+    runtime_config_test_sha256: d6754813f1e56ca93d31a20fb84e8f0d67391050c708d36334450d8dd45060d4
+    lifecycle_test_sha256: 4aa529933c9d8f6f2243e51a87b199b8bcc9440ecbab8a732e58b401a879f610
+    readme_sha256: 76fb7eeff923302620a04199f944d536bd78a622296abdfb472d40343ae42e69
+  validation:
+    node: 24.19.0
+    npm: 8.19.2
+    lint: passed
+    typecheck: passed
+    build: passed
+    unit_tests: 27-of-27-passed
+    aggregate_tests: 27-of-27-passed
+    required_command_contract: dev-build-lint-typecheck-test-present
+    missing_config_main_entry: expected-exit-1
+    loopback_binding: 127.0.0.1-only-by-contract
+    explicit_port_and_data_directory: passed
+    graceful_shutdown: SIGINT-and-SIGTERM-idempotent-stop-passed
+    startup_failure_cleanup: passed
+    shutdown_failure_exit_code: expected-exit-1
+    actual_loopback_bind: sandbox-EPERM-not-counted-as-product-result
+    filesystem_or_database_write: none
+    network_source_collection: none
+    migrations_paths_touched_by_role_backend_dev: false
+  runtime_truth:
+    real_data_available: false
+    readyz: 503-not-ready
+    SQLite_or_migrations_implemented: false
+    source_runtime_implemented: false
+    service_deployment_authorized: false
+  environment_observation: "本机默认 Node 18.12.1 低于项目 engines，首次 lint 未运行；切换内置 Node 24.19.0 后全部质量门通过。真实 127.0.0.1 端口绑定被桌面沙箱 EPERM 拒绝，未计作产品失败或通过；进程生命周期由无网络单元测试覆盖。"
+  result: ready-for-atomic-delivery-review
+  stop_gate: atomic-delivery-review
+  next_role_if_approved: role-code-reviewer
+  next_work_item_if_approved: CR-BE-102.REV
+  production_release: frozen
+  auto_route_on_delivery: false
+updated_at: "2026-08-24T15:28:11+08:00"

@@ -1359,3 +1359,71 @@ approvals:
     production_release: frozen
     advance_limit: one-qa-delivery-unit-only
     auto_advance_beyond_next: false
+  - id: "approval-20260824-career-cr-be-101-qa-report"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: test-report-review
+    role: role-qa
+    role_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    role_task_title: "10 测试工程师"
+    project_id: market-analysis-dev
+    work_item: CR-BE-101.QA
+    change_id: test-20260824-career-cr-be-101-qa-001
+    artifact: artifact-career-cr-be-101-test-report-001
+    path: docs/07-test-report.md
+    version: "1.0"
+    sha256: 2083ecbba42962a7d6edb3414f5aae367ff231a989aa26902f1ccf9a44368ea6
+    source_commit: b36911952151b911565331101b495e1de23ba79d
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T15:24:35+08:00"
+    user_reply: "继续"
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    evidence: "超级无敌帅超超总明确批准 artifact-career-cr-be-101-test-report-001，并授权固定07执行唯一 CR-BE-102 原子开发单元。"
+    effect: "批准 CR-BE-101 QA 报告，并只授权固定07执行 CR-BE-102；不批准 CR-BE-103+、SQLite/migrations、网络采集、业务分析、前端或部署。"
+    completed_gate: test-report-review
+    next_role: role-backend-dev
+    next_work_item: CR-BE-102
+    next_entry_authorization: approval-20260824-career-cr-be-102-entry
+    production_release: frozen
+    advance_limit: unique-next-stage-only
+    auto_advance_beyond_next: false
+  - id: "approval-20260824-career-cr-be-102-entry"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    gate: role-entry
+    role: role-backend-dev
+    role_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+    role_task_title: "07 后端工程师"
+    project_id: market-analysis-dev
+    work_item: CR-BE-102
+    change_id: dev-20260824-career-cr-be-102-runtime-contract-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T15:24:35+08:00"
+    authorization_source: direct-user-command
+    upstream_approval: approval-20260824-career-cr-be-101-qa-report
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    safe_checkpoint: b36911952151b911565331101b495e1de23ba79d
+    input:
+      artifact: artifact-career-cr-be-101-test-report-001
+      path: docs/07-test-report.md
+      version: "1.0"
+      sha256: 2083ecbba42962a7d6edb3414f5aae367ff231a989aa26902f1ccf9a44368ea6
+      qa_commit: b36911952151b911565331101b495e1de23ba79d
+    scope: "实现 backend dev/build/lint/typecheck/test 命令合同、显式本地端口/数据目录配置校验、127.0.0.1 绑定、优雅启动停止与失败真相态，并补命令和进程生命周期测试。"
+    exclusions:
+      - CR-BE-103-or-later
+      - SQLite-or-migrations
+      - backend/migrations
+      - source-collection-or-network-requests
+      - business-analysis-or-private-user-data
+      - frontend-changes
+      - service-deployment-or-production-release
+      - ai-english-learning
+    expected_output:
+      artifact: artifact-career-cr-be-102-001
+      path: backend/src/config/runtime-config.ts
+      version: "1.0"
+    stop_gate: atomic-delivery-review
+    production_release: frozen
+    advance_limit: one-backend-delivery-unit-only
+    auto_advance_beyond_next: false
