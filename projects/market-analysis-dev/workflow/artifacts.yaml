@@ -2244,3 +2244,57 @@ artifacts:
     stop_gate: code-review-conclusion-review
     production_release: frozen
     auto_route: false
+  - id: "artifact-career-cr-be-101-code-review-001"
+    run_id: "run-20260803-market-analysis-dev-init-001"
+    type: code-review-report
+    path: docs/06-code-review.md
+    version: "1.0"
+    sha256: cbf8e4970a24d72cd71f9f7ae845364f2ab8a35abb398373ca440474fdea3540
+    status: ready-for-review
+    owner: role-code-reviewer
+    role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+    role_task_title: "09 代码审查员"
+    project_id: market-analysis-dev
+    work_item: CR-BE-101.REV
+    change_id: review-20260824-career-cr-be-101-001
+    authorization: approval-20260824-career-cr-be-101-code-review-entry
+    upstream_approval: approval-20260824-career-cr-be-101-delivery
+    input:
+      artifact: artifact-career-backend-foundation-001
+      path: backend/
+      version: "1.0"
+      sha256: e63d153c186259026a8c10d8d670522cd960d9acda0c045881a79b45ce17432b
+      source_commit: f90d10605819f07c8131338162ab7b9e4bae466e
+      diff_base: 91c26a5c391c6edb738acb2637bd5498ae0856f4
+      repository_review_baseline: 4590d53b2e44cda24b36f7e869c43b9f7427da03
+    conclusion: changes-requested
+    findings:
+      P0: 0
+      P1: 2
+      P2: 2
+      items:
+        - CR-P1-001-missing-request-id-contract
+        - CR-P1-002-api-schema-false-ready-state
+        - CR-P2-001-health-readiness-cache-control-missing
+        - CR-P2-002-incomplete-sqlite-sidecar-ignore-matrix
+    validation:
+      input_hashes: 11-of-11-matched
+      source_drift: none
+      node: 24.19.0
+      lint: passed
+      typecheck: passed
+      build: passed
+      unit_tests: 3-of-3-passed
+      aggregate_tests: 3-of-3-passed
+      fastify_inject: healthz-200-readyz-503-not-ready
+      service_started: false
+      network_or_sqlite_implementation: absent-by-scope
+      sensitive_file_scan: passed
+      sqlite_ignore_matrix: partial-failed-for-db-and-sqlite3-sidecars
+    completed_at: "2026-08-24T11:13:22+08:00"
+    result: changes-requested-awaiting-user-review
+    stop_gate: code-review-conclusion-review
+    next_role_if_approved: role-backend-dev
+    next_scope_if_approved: CR-BE-101-findings-only
+    production_release: frozen
+    auto_route: false
