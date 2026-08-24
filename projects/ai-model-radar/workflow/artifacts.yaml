@@ -1555,3 +1555,85 @@ artifacts:
     stop_gate: code-review-conclusion-review
     downstream_role_authorized: false
     auto_route: false
+  - id: artifact-radar-mr-data-001-fix-001
+    run_id: run-20260731-intake-001
+    type: source-policy-loader-review-fix
+    project_id: ai-model-radar
+    work_item: MR-DATA-001-FIX-001
+    change_id: data-20260824-radar-policy-loader-review-fix-001
+    owner: role-data-engineer
+    role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+    role_task_title: "08 数据工程师"
+    authorization: approval-20260824-radar-mr-data-001-fix-001-entry
+    input_artifact: artifact-radar-mr-data-001-code-review-001
+    input_review_sha256: 5e835a649cad886112ee19210c8aa4c835fcd6a1326b3d1a8a508e9d2c1a66f7
+    reviewed_source_commit: a29e9c020a1d11cf9c8584af1edbcc481005169a
+    safe_checkpoint: 673df8be92516c2185979a98e4f00ea4dee0a3a3
+    path: backend/src/policy
+    version: "1.1"
+    sha256: 20de761e854554e7caf29608803aeae888efd92e8dc0014ddfc71df62ca1c0b5
+    status: ready-for-review
+    files:
+      - {path: backend/src/policy/constants.mjs, sha256: 598da1d582030553d50bd562fdcf45fee3ed0174718666353988a08f218e9ada}
+      - {path: backend/src/policy/csv.mjs, sha256: 4043dede6d6a90ce7a7563baa3e2061b8274592597f2decedc601dda82472e95}
+      - {path: backend/src/policy/errors.mjs, sha256: 5de3929d4796662ca5fbd033ea84f75e0187ae79839b6fa9c969ebfd9e01618d}
+      - {path: backend/src/policy/fixtures/air-end-030-row.csv, sha256: d199f76e1a976d0d2f19529aa3dca6f5bfc1fe6448fea1c1a898552ff952695e}
+      - {path: backend/src/policy/index.mjs, sha256: fe5bbe5b20928c64a42e971f16201da09f7b3fc0526725c6cac95550a2ebe195}
+      - {path: backend/src/policy/loader.mjs, sha256: 67f28609486ce5be8dd3aae95d5c7406c2c714e8c7ff64f407e8b31818029d41}
+      - {path: backend/src/policy/loader.test.mjs, sha256: 865e3baf9653b9e8868bbf5c33603a26bbafa31d24fdda66c88d34ca15fb6bfc}
+    fixes:
+      CR_P1_001:
+        status: resolved-in-delivery-awaiting-rereview
+        evidence: approvedPolicyInput-preserves-all-35-explicit-registry-fields-is-json-serializable-and-deep-frozen
+        MR_DATA_002_bundle_identity_fields_generated: false
+      CR_P2_001:
+        status: resolved-in-delivery-awaiting-rereview
+        deterministic_tests:
+          - UTF-8-BOM-and-CRLF
+          - quoted-comma
+          - quoted-newline
+          - escaped-quote
+          - malformed-quotes-three-cases
+          - row-width-mismatch
+          - cross-project-row
+          - invalid-absolute-URL
+          - non-HTTPS-URL
+          - complete-deep-immutability
+    validation:
+      command: node projects/ai-model-radar/backend/src/policy/loader.test.mjs
+      tests: 21
+      passed: 21
+      failed: 0
+      approved_registry_fields_preserved: 35-of-35
+      serializable_policy_input: passed
+      deep_immutability: passed
+      registry_sha256: c303e79e1fa9f7a1664ac718a1678bbcb6610b5309a5d5e4006e6d4b1d438f91
+      workflow_yaml_jsonl: passed-before-completion-registration
+      git_boundary: passed
+      skill_drift: passed
+      diff_check: passed
+      sensitive_value_scan: passed
+    truth_boundary:
+      approval_scope: research-only
+      execution_authorized: false
+      runtime_enabled: false
+      live_connectors: 0
+      live_snapshots: 0
+      production_release: frozen
+    long_term_implementation_boundary:
+      delivery_model: project-self-contained-local-services
+      user_supplied_third_party_news_service_database_or_server_required: false
+      current_work_item_scope_expanded: false
+    exclusions:
+      - registry-mutation-or-policy-adjudication
+      - network-collection
+      - SQLite
+      - MR-DATA-002-and-later
+      - deployment
+      - English-project
+      - Control-project
+    completed_at: "2026-08-24T15:03:00+08:00"
+    result: ready-for-backend-data-fix-delivery-review
+    stop_gate: backend-data-fix-delivery-review
+    downstream_role_authorized: false
+    auto_route: false

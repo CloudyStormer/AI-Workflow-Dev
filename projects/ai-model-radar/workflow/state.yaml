@@ -1365,4 +1365,88 @@ mr_data_001_code_review_assignment:
   stop_gate: code-review-conclusion-review
   downstream_role_authorized: false
   auto_route: false
-updated_at: "2026-08-24T12:11:29+08:00"
+mr_data_001_fix_001_assignment:
+  work_item: MR-DATA-001-FIX-001
+  change_id: data-20260824-radar-policy-loader-review-fix-001
+  role: role-data-engineer
+  role_task_title: "08 数据工程师"
+  authorization: approval-20260824-radar-mr-data-001-fix-001-entry
+  authorization_source: direct-user-command
+  scheduling: completed-ready-for-review
+  safe_checkpoint: 673df8be92516c2185979a98e4f00ea4dee0a3a3
+  shared_worktree_at_entry: clean
+  original_state:
+    review_gate: code-review-conclusion-review
+    review_artifact: artifact-radar-mr-data-001-code-review-001
+    review_path: docs/06-code-review.md
+    review_sha256: 5e835a649cad886112ee19210c8aa4c835fcd6a1326b3d1a8a508e9d2c1a66f7
+    review_conclusion: changes-requested
+    blocking_findings: [CR-P1-001]
+    non_blocking_findings: [CR-P2-001]
+    held_project_gate: ui-prompt-review
+  scope:
+    - preserve-complete-approved-registry-policy-input-for-later-local-consumers
+    - deep-freeze-explicitly-name-and-serialize-policy-input
+    - add-deterministic-csv-url-project-row-width-and-immutability-tests
+  long_term_implementation_boundary:
+    delivery_model: project-self-contained-local-services
+    user_supplied_third_party_news_service_database_or_server_required: false
+    project_owned_future_capabilities:
+      - source-adapters
+      - fetch
+      - parse
+      - deduplicate
+      - persistence
+      - scheduling
+      - snapshots
+      - query-api
+    allowed_external_inputs: public-legal-web-pages-rss-official-apis-and-open-source-repositories
+    compliance: robots-terms-rate-limits-and-login-boundaries
+    current_work_item_scope_expanded: false
+  preserved_truth:
+    approval_scope: research-only
+    runtime_enabled: false
+    live_connectors: 0
+    live_snapshots: 0
+    production_release: frozen
+    AIR_END_030: pending-not-in-registry-not-counted
+  exclusions:
+    - registry-mutation-or-policy-adjudication
+    - network-collection
+    - SQLite
+    - MR-DATA-002-and-later
+    - deployment
+    - English-project
+    - Control-project
+  output:
+    artifact: artifact-radar-mr-data-001-fix-001
+    path: backend/src/policy
+    version: "1.1"
+    sha256: 20de761e854554e7caf29608803aeae888efd92e8dc0014ddfc71df62ca1c0b5
+    fixes:
+      CR_P1_001: resolved-in-delivery-awaiting-rereview
+      CR_P2_001: resolved-in-delivery-awaiting-rereview
+  validation:
+    policy_tests: 21-of-21-passed
+    approved_registry_fields_preserved: 35-of-35
+    serializable_policy_input: passed
+    deep_immutability: passed
+    deterministic_boundary_tests: passed
+    registry_sha256: matched
+    review_sha256: matched
+    workflow_yaml_jsonl: passed-before-completion-registration
+    git_boundary: passed
+    skill_drift: passed
+    diff_check: passed
+    sensitive_value_scan: passed
+    network_collection_executed: false
+    SQLite_started: false
+    MR_DATA_002_started: false
+  result: ready-for-backend-data-fix-delivery-review
+  completed_at: "2026-08-24T15:03:00+08:00"
+  downstream_role_authorized: false
+  return_gate: backend-data-fix-delivery-review
+  original_queue_return: ui-prompt-review-held-unchanged
+  stop_gate: backend-data-fix-delivery-review
+  auto_route: false
+updated_at: "2026-08-24T15:03:00+08:00"

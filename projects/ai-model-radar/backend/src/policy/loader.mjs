@@ -63,6 +63,46 @@ function toRecord(headers, values, rowNumber) {
   return Object.fromEntries(headers.map((header, index) => [header, values[index]]));
 }
 
+function toApprovedPolicyInput(record) {
+  return {
+    sourceId: record.source_id,
+    projectId: record.project_id,
+    sourceName: record.source_name,
+    publisher: record.publisher,
+    category: record.category,
+    tier: record.tier,
+    region: record.region,
+    language: record.language,
+    canonicalUrl: record.canonical_url,
+    endpointUrl: record.endpoint_url,
+    accessMethod: record.access_method,
+    authRequired: record.auth_required,
+    loginRequired: record.login_required,
+    robotsUrl: record.robots_url,
+    robotsResult: record.robots_result,
+    termsUrl: record.terms_url,
+    rightsSummary: record.rights_summary,
+    allowedUse: record.allowed_use,
+    prohibitedUse: record.prohibited_use,
+    decision: record.decision,
+    decisionReason: record.decision_reason,
+    observedFrequency: record.observed_frequency,
+    recommendedPolling: record.recommended_polling,
+    rateLimit: record.rate_limit,
+    retentionPolicy: record.retention_policy,
+    attributionLinkback: record.attribution_linkback,
+    personalData: record.personal_data,
+    traceabilityFields: record.traceability_fields,
+    fallback: record.fallback,
+    disableCondition: record.disable_condition,
+    lastVerifiedAt: record.last_verified_at,
+    verificationResult: record.verification_result,
+    factOrInference: record.fact_or_inference,
+    confidence: record.confidence,
+    notes: record.notes,
+  };
+}
+
 function validateEndpoint(record, rowNumber) {
   if (!ENDPOINT_ID_PATTERN.test(record.source_id)) {
     fail("ENDPOINT_ID_INVALID", "Endpoint policy must use an atomic AIR-END-NNN identifier.", {
@@ -137,6 +177,7 @@ function validateEndpoint(record, rowNumber) {
     prohibitedUse: record.prohibited_use,
     disableCondition: record.disable_condition,
     lastVerifiedAt: record.last_verified_at,
+    approvedPolicyInput: toApprovedPolicyInput(record),
     policyDisposition: classifyPolicyState(record.decision),
   });
 }

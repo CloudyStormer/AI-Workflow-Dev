@@ -966,3 +966,46 @@ approvals:
     stop_gate: code-review-conclusion-review
     advance_limit: one-independent-code-review-unit-only
     auto_advance_beyond_next: false
+  - id: approval-20260824-radar-mr-data-001-fix-001-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    role: role-data-engineer
+    role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+    role_task_title: "08 数据工程师"
+    project_id: ai-model-radar
+    work_item: MR-DATA-001-FIX-001
+    change_id: data-20260824-radar-policy-loader-review-fix-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-24T15:00:22+08:00"
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    authorization_source: direct-user-command
+    evidence: "超级无敌帅超超总直接授权固定 08 修复 MR-DATA-001 审查报告中的 CR-P1-001 与 CR-P2-001，并要求自测、精确提交、普通 push 后停在 backend-data-fix-delivery-review。"
+    safe_checkpoint: 673df8be92516c2185979a98e4f00ea4dee0a3a3
+    original_gate: code-review-conclusion-review
+    original_review_artifact: artifact-radar-mr-data-001-code-review-001
+    original_review_sha256: 5e835a649cad886112ee19210c8aa4c835fcd6a1326b3d1a8a508e9d2c1a66f7
+    scope: "无损保留批准 registry 的后续本地 SQLite/采集链政策约束输入，深度冻结、显式命名、可序列化；补齐 CSV、项目、URL、行宽和深度不可变确定性测试；不得生成 MR-DATA-002 bundle 身份。"
+    long_term_implementation_boundary:
+      delivery_model: project-self-contained-local-services
+      user_supplied_third_party_news_service_database_or_server_required: false
+      future_project_owned_capabilities: [source-adapters, fetch, parse, deduplicate, persistence, scheduling, snapshots, query-api]
+      allowed_external_inputs: public-legal-web-pages-rss-official-apis-and-open-source-repositories
+      compliance: robots-terms-rate-limits-and-login-boundaries
+      current_scope_expanded: false
+    preserved_truth:
+      runtime_enabled: false
+      live_connectors: 0
+      live_snapshots: 0
+      production_release: frozen
+    exclusions:
+      - registry-mutation-or-policy-adjudication
+      - network-collection
+      - SQLite
+      - MR-DATA-002-and-later
+      - deployment
+      - English-project
+      - Control-project
+    stop_gate: backend-data-fix-delivery-review
+    direct_user_command: true
+    auto_advance_beyond_next: false
