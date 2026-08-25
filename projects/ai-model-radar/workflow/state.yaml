@@ -1696,3 +1696,39 @@ mr_data_002_assignment:
   production_release: frozen
   auto_route: false
 updated_at: "2026-08-24T17:11:04+08:00"
+temporary_daily_research_batch:
+  change_group_id: research-20260825-two-project-first-real-evidence-batch-001
+  change_id: research-20260825-two-project-first-real-evidence-batch-001
+  role: role-market-researcher
+  role_task_id: 019fb799-5686-7571-ab7f-25bf816128b0
+  authorization: direct-user-command-forwarded-by-fixed-00
+  safe_checkpoint: 45943ca1ddf4a2833b784cc84aff4961ebbd939f
+  original_workflow:
+    stage: ui-ux
+    status: ai-developer-news-ui-prompt-ready-for-review
+    current_role: role-ui-designer
+    held_gate: ui-prompt-review
+    preservation: "本研究批次不批准、不改写且不路由 UI 主门或并行数据工程审核门。"
+  outputs:
+    artifact: artifact-radar-daily-research-batch-20260825-001
+    markdown: docs/daily/2026-08-25.md
+    json: output/daily/2026-08-25.json
+    aggregate_sha256: 9fe4aa889cee25f0cfa027afad50d876f7f9145fb56b13d15909c059a8375bc2
+    verified_records: 6
+    same_day_records: 1
+  truth_boundary:
+    runtime_enabled: false
+    live_connectors: 0
+    live_snapshots: 0
+    scheduled_collection: false
+    SQLite_started: false
+    database_rows_written: 0
+    registry_modified: false
+  completed_at: "2026-08-25T16:19:09+08:00"
+  delivery_status: ready-for-review
+  result: ready-for-two-project-daily-research-batch-review
+  stop_gate: two-project-daily-research-batch-review
+  return_point: ui-prompt-review
+  downstream_role_authorized: false
+  production_release: frozen
+  auto_route: false

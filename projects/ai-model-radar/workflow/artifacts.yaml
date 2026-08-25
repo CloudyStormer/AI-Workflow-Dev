@@ -586,6 +586,55 @@ artifacts:
     completed_gate: product-release-scope-review
     next_gate: cross-project-replanning-direction
     auto_route: false
+  - id: artifact-radar-daily-research-batch-20260825-001
+    run_id: run-20260731-intake-001
+    type: daily-public-evidence-batch
+    path: docs/daily/2026-08-25.md
+    version: "1.0"
+    sha256: 9fe4aa889cee25f0cfa027afad50d876f7f9145fb56b13d15909c059a8375bc2
+    sha256_contract: "SHA-256 over shasum output for the Markdown then JSON paths in outputs order"
+    status: ready-for-review
+    owner: role-market-researcher
+    role_task_id: 019fb799-5686-7571-ab7f-25bf816128b0
+    change_group_id: research-20260825-two-project-first-real-evidence-batch-001
+    change_id: research-20260825-two-project-first-real-evidence-batch-001
+    authorization: direct-user-command-forwarded-by-fixed-00
+    safe_checkpoint: 45943ca1ddf4a2833b784cc84aff4961ebbd939f
+    outputs:
+      markdown:
+        path: docs/daily/2026-08-25.md
+        sha256: 4242377fe27121b6c5d5afdd4af5e7d1a973e573ecb30f772b6f0308d1becbd4
+      json:
+        path: output/daily/2026-08-25.json
+        sha256: 76d8f93aeac9a57f4e8fba959750a43e2775ca9da41eacb48de4de64f605be6c
+        schema_version: "1.0"
+    content:
+      verified_records: 6
+      same_day_records: 1
+      domestic_publishers: 2
+      international_publishers: 4
+      failed_or_gap_surfaces: 5
+      observed_at: "2026-08-25T16:19:09+08:00"
+    validation:
+      json_parse: passed
+      required_fields: passed
+      canonical_links_present: passed
+      facts_and_role_assessments_separated: passed
+      stale_news_not_presented_as_today: passed
+    truth_boundary:
+      runtime_enabled: false
+      live_connectors: 0
+      live_snapshots: 0
+      scheduled_collection: false
+      SQLite_started: false
+      database_rows_written: 0
+      source_registry_modified: false
+    completed_at: "2026-08-25T16:19:09+08:00"
+    result: ready-for-two-project-daily-research-batch-review
+    stop_gate: two-project-daily-research-batch-review
+    downstream_role_authorized: false
+    production_release: frozen
+    auto_route: false
   - id: artifact-radar-source-allowlist-001
     run_id: run-20260731-intake-001
     type: source-allowlist-research

@@ -2268,3 +2268,43 @@ backend_runtime_contract_qa_assignment:
   production_release: frozen
   auto_route_beyond: false
 updated_at: "2026-08-24T17:05:11+08:00"
+temporary_daily_research_batch:
+  change_group_id: research-20260825-two-project-first-real-evidence-batch-001
+  change_id: research-20260825-two-project-first-real-evidence-batch-001
+  role: role-market-researcher
+  role_task_id: "019fb799-5686-7571-ab7f-25bf816128b0"
+  authorization: direct-user-command-forwarded-by-fixed-00
+  safe_checkpoint: 45943ca1ddf4a2833b784cc84aff4961ebbd939f
+  original_workflow:
+    stage: code-review
+    status: career-cr-be-102-approved-awaiting-fixed-09-review-entry
+    current_role: role-code-reviewer
+    preservation: "本研究批次不批准、不改写且不路由现有代码复审、QA 或数据工程审核门。"
+  outputs:
+    artifact: artifact-career-daily-research-batch-20260825-001
+    markdown: docs/daily/2026-08-25.md
+    json: output/daily/2026-08-25.json
+    aggregate_sha256: bdd97d123a71ff27224447270f117031b7c1b784f44ef102e4ead8438ed50e5b
+    technology_records: 4
+    recruitment_records: 4
+    mainland_china_recruitment_samples: 0
+    user_input_records: 0
+  truth_boundary:
+    R: 0
+    runtime_enabled: false
+    approved_concrete_recruiting_instances: 0
+    live_connectors: 0
+    scheduled_collection: false
+    SQLite_started: false
+    database_rows_written: 0
+    CAR_END_017: rights-unresolved
+    CR_CONN_002: blocked-not-instantiated
+    registry_modified: false
+  completed_at: "2026-08-25T16:19:09+08:00"
+  delivery_status: ready-for-review
+  result: ready-for-two-project-daily-research-batch-review
+  stop_gate: two-project-daily-research-batch-review
+  return_point: preserved-current-project-gates
+  downstream_role_authorized: false
+  production_release: frozen
+  auto_route: false
