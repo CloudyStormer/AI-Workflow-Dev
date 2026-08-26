@@ -2985,3 +2985,74 @@ artifacts:
     production_release: frozen
     auto_route: unique-next-stage-queued
     auto_advance_beyond_next: false
+  - id: artifact-career-daily-web-user-analysis-ui-prompt-increment-001
+    run_id: run-20260803-market-analysis-dev-init-001
+    type: daily-web-user-analysis-ui-prompt-increment
+    project_id: market-analysis-dev
+    work_item: CFR-UI-DAILY-WEB-001
+    change_id: ui-prompt-20260826-career-daily-web-user-analysis-001
+    owner: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    authorization: approval-20260826-career-daily-web-user-analysis-ui-prompt-entry
+    product_approval: approval-20260826-career-daily-web-user-analysis-product-v1
+    path: ui/13-daily-web-user-analysis-ui-prompt-increment.md
+    version: "1.0"
+    sha256: ef2307dd4b4ca0130def2b6ae3b31f381d4bac0f7f63f829b8e829edad8a7bac
+    upstream:
+      artifact: artifact-career-daily-web-user-analysis-product-delta-001
+      path: docs/02-daily-web-user-analysis-product-delta.md
+      version: "1.0"
+      sha256: 6f3319cdabad6dfcaf24f2ad9cba2b67e2fdde4b2596b64c177f17cf55ef5f7a
+      approval: approval-20260826-career-daily-web-user-analysis-product-v1
+    inherited_ui:
+      release_prompt:
+        path: ui/04-release-completeness-ui-prompt.md
+        version: "1.0"
+        sha256: 983638cb6a802effe4148281233aa381802a7d542ce12e8c694640eee04f3900
+        mode: approved-inherited-base
+      historical_designs:
+        path: ui/
+        mode: preserved-not-modified
+    coverage:
+      - fixed-directions-then-technology-stack-information-architecture
+      - real-daily-published-snapshot-history-revision-and-failure-retains-last-success
+      - user-raw-input-persistence-versioning-two-axis-confirmation-and-analysis-recovery
+      - evidence-mapping-market-comparison-gap-priority-route-and-history
+      - public-and-private-truth-layers-and-no-market-share-or-capability-fabrication
+      - simplified-chinese-1440-1024-390-320-soft-keyboard-200-percent-accessibility
+    truth_boundary:
+      source_workbench_real_service_loop: false
+      user_input_records: 0
+      business_database_rows_written: 0
+      runtime_enabled: false
+      live_connectors: 0
+      mainland_china_recruitment_samples: 0
+      production_release: frozen
+    ui_index:
+      path: ui/README.md
+      sha256: 48c6185c35731e99f67851f21e4af51f31c86405b6b64913eed150504dffa2b7
+    validation_status: passed
+    validation:
+      upstream_product_sha256: matched
+      inherited_prompt_sha256: matched
+      prompt_and_ui_index_sha256: matched
+      prompt_markers: 1-start-and-1-end
+      acceptance_mapping: AC-CFR-DW-01-through-18
+      required_coverage: passed-fixed-two-level-ia-daily-history-user-versioning-analysis-evidence-gap-route-truth-states-responsive-accessibility
+      workflow_yaml: 4-of-4-valid
+      events_jsonl_before_validation_event: 188-of-188-valid-and-unique
+      project_structure: passed-with-0-warnings
+      git_boundary: passed
+      skill_drift: passed
+      diff_check: passed
+      generated_ui_design: false
+      implementation_modified: false
+    validated_at: "2026-08-26T14:55:01+08:00"
+    completed_at: "2026-08-26T14:49:14+08:00"
+    status: ready-for-review
+    review_status: ready-for-review
+    result: validated-ready-for-ui-prompt-review-no-downstream-route
+    stop_gate: ui-prompt-review
+    downstream_role_authorized: false
+    auto_route: false
