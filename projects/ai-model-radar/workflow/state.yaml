@@ -4,7 +4,7 @@ run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
 stage: task-breakdown
-status: radar-daily-web-architecture-approved-task-breakdown-routed
+status: radar-daily-web-real-data-task-breakdown-ready-for-review
 current_role: role-pm
 blocked: false
 ui_assets:
@@ -115,7 +115,7 @@ next_approval:
   scope: "审核 Radar 真实日更数据最短纵切任务拆解；必须明确唯一首个开发工作项、真实来源与持久化验收，不授权自动开发、联网采集、数据库写入、服务重启或部署。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: not-created
+  delivery_status: ready-for-review
   expected_artifact: artifact-radar-daily-web-real-data-task-breakdown-001
   expected_path: docs/09-daily-web-real-data-task-breakdown.md
   expected_version: "1.0"
@@ -1951,9 +1951,51 @@ daily_web_real_data_task_breakdown_assignment:
     artifact: artifact-radar-daily-web-real-data-task-breakdown-001
     path: docs/09-daily-web-real-data-task-breakdown.md
     version: "1.0"
-  scheduling: authorized-active-first
-  delivery_status: not-created
+    sha256: e8b2d2f9a80bbf28dab7b7763ac71b34c45c3f25bcc66cd16df51568bce45069
+  write_baseline: f3b0abe8cec2fd8bfff0f12cd818a4708bce8ee7
+  scope:
+    - verified-batch-import-sqlite-identity-revision-evidence-and-snapshot
+    - snapshot-bound-query-api-and-complete-simplified-chinese-web
+    - failure-retains-last-success-and-runtime-fail-closed
+  scheduling: completed-ready-for-review
+  started_at: "2026-08-26T18:06:00+08:00"
+  completed_at: "2026-08-26T18:06:00+08:00"
+  direct_task_count: 21
+  atomic_effort_hours: {minimum: 3, maximum: 4}
+  unique_first_work_item:
+    id: AMR-BE-101
+    role: role-backend-dev
+    role_task_title: "07 后端工程师"
+    status: proposed-first-planned-not-authorized
+  truth_boundary:
+    runtime_enabled: false
+    live_connectors: 0
+    live_snapshots: 0
+    database_rows_written: 0
+    verified_batch_imported: false
+  delivery_status: ready-for-review
+  validation_status: passed
+  validated_at: "2026-08-26T18:08:56+08:00"
+  validation:
+    authoritative_input_sha256: matched-6-of-6
+    task_structure: 21-unique-direct-items-3-to-4-hours
+    unique_first_work_item: AMR-BE-101-only
+    planned_authorization_boundary: passed
+    truth_boundary: manual-batch-not-imported-runtime-false
+    workflow_yaml: 4-of-4-valid
+    events_jsonl_before_validation_event: 177-of-177-valid-and-unique
+    project_structure: passed-required-authoritative-paths-exist
+    git_boundary: passed
+    skill_drift: passed
+    diff_check: passed
+  proposed_on_approved:
+    next_role: role-backend-dev
+    next_role_task_title: "07 后端工程师"
+    next_work_item: AMR-BE-101
+    status: proposed-only-not-routed
+    advance_limit: one-atomic-delivery-unit-only
+    auto_route: false
   stop_gate: task-breakdown-review
   production_release: frozen
   auto_advance_beyond_next: false
-updated_at: "2026-08-26T17:57:24+08:00"
+updated_at: "2026-08-26T18:08:56+08:00"

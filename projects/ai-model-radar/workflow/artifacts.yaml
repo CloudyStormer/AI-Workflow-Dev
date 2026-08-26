@@ -2209,3 +2209,96 @@ artifacts:
     stop_gate: architecture-review
     downstream_role_authorized: false
     auto_route: false
+  - id: artifact-radar-daily-web-real-data-task-breakdown-001
+    run_id: run-20260731-intake-001
+    type: daily-web-real-data-task-breakdown
+    project_id: ai-model-radar
+    work_item: AMR-PM-DAILY-WEB-001
+    change_id: plan-20260826-radar-daily-web-real-data-001
+    owner: role-pm
+    role_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
+    role_task_title: "02 项目经理"
+    authorization: approval-20260826-radar-daily-web-task-breakdown-entry
+    authorization_source: approval-20260826-radar-daily-web-architecture-v1
+    write_baseline: f3b0abe8cec2fd8bfff0f12cd818a4708bce8ee7
+    path: docs/09-daily-web-real-data-task-breakdown.md
+    version: "1.0"
+    sha256: e8b2d2f9a80bbf28dab7b7763ac71b34c45c3f25bcc66cd16df51568bce45069
+    upstream:
+      architecture:
+        artifact: artifact-radar-daily-web-architecture-assessment-001
+        path: docs/08-daily-web-architecture-assessment.md
+        version: "1.0"
+        sha256: 83a94b0cc83fa0e6c6a2080aedbfd0fa891a36c79af559ae1111bc7b240a56e5
+        approval: approval-20260826-radar-daily-web-architecture-v1
+      product_delta:
+        path: docs/02-daily-data-web-product-delta.md
+        version: "1.0"
+        sha256: 2661cfc4bcaecdd7eb57523b840f3f59f1befd88cb1311368371542b470700b2
+      ui_design:
+        artifact: artifact-radar-daily-web-ui-design-001
+        path: ui/08-daily-web-ui-design.md
+        version: "1.0"
+        sha256: 5505f08f181ffea782e681d388fa8e73b45d6b888ca5b2695b3349b9e827cc3f
+      release_architecture:
+        path: docs/06-release-completeness-architecture.md
+        version: "1.5"
+        sha256: 1529a866855eb1b5cbf34b349d38a7e2f50be8c8f914aeb7f8ed114fd2d99c10
+      verified_batch:
+        path: output/daily/2026-08-25.json
+        sha256: 76d8f93aeac9a57f4e8fba959750a43e2775ca9da41eacb48de4de64f605be6c
+        status: exact-input-not-imported
+      research_evidence:
+        path: docs/daily/2026-08-25.md
+        sha256: 4242377fe27121b6c5d5afdd4af5e7d1a973e573ecb30f772b6f0308d1becbd4
+    scope:
+      - verified-batch-import-validation-and-sqlite-persistence
+      - stable-identity-append-only-revision-evidence-and-immutable-snapshot
+      - snapshot-bound-query-api-and-api-driven-complete-simplified-chinese-web
+      - failure-retains-last-success-recovery-and-runtime-fail-closed
+      - atomic-role-owned-work-items-with-rev-and-qa-companions
+    direct_task_count: 21
+    atomic_effort_hours: {minimum: 3, maximum: 4}
+    unique_first_work_item:
+      id: AMR-BE-101
+      owner: role-backend-dev
+      role_task_title: "07 后端工程师"
+      estimate_hours: 4
+      status: proposed-first-planned-not-authorized
+      conditions:
+        - task-breakdown-review-approved
+        - authoritative-input-sha256-unchanged
+        - clean-git-worktree-and-no-index-lock
+    frozen_truth:
+      runtime_enabled: false
+      live_connectors: 0
+      live_snapshots: 0
+      database_rows_written: 0
+      verified_batch_imported: false
+      collection_mode: manual_public_web_verification
+    exclusions:
+      - no-business-code-or-database-write
+      - no-network-collection-or-connector-runtime
+      - no-service-start-or-deployment
+      - no-source-policy-registry-or-approval-change
+      - no-downstream-role-route-by-this-artifact
+    validation_status: passed
+    validation:
+      authoritative_input_sha256: matched-6-of-6
+      task_structure: 21-unique-direct-items-3-to-4-hours
+      unique_first_work_item: AMR-BE-101-only
+      planned_authorization_boundary: passed
+      truth_boundary: manual-batch-not-imported-runtime-false
+      workflow_yaml: 4-of-4-valid
+      events_jsonl_before_validation_event: 177-of-177-valid-and-unique
+      project_structure: passed-required-authoritative-paths-exist
+      git_boundary: passed
+      skill_drift: passed
+      diff_check: passed
+    completed_at: "2026-08-26T18:06:00+08:00"
+    validated_at: "2026-08-26T18:08:56+08:00"
+    status: ready-for-review
+    review_status: pending
+    stop_gate: task-breakdown-review
+    downstream_role_authorized: false
+    auto_route: false
