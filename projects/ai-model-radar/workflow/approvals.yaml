@@ -1204,3 +1204,38 @@ approvals:
     production_release: frozen
     advance_limit: one-data-delivery-unit-only
     auto_advance_beyond_next: false
+  - id: approval-20260826-radar-daily-web-product-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    role: role-product-manager
+    role_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
+    role_task_title: "03 产品经理"
+    project_id: ai-model-radar
+    work_item: AMR-PM-DAILY-WEB-001
+    change_id: product-20260825-two-project-daily-data-web-display-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-26T11:37:57+08:00"
+    authorization_source: direct-user-command-forwarded-by-fixed-00
+    safe_checkpoint: 061b87a8d7e39625aa87b6052369336856530af7
+    original_state:
+      stage: ui-ux
+      status: ai-developer-news-ui-prompt-ready-for-review
+      current_role: role-ui-designer
+      held_gate: ui-prompt-review
+      held_artifact: artifact-radar-ai-developer-news-ui-prompt-increment-001
+    scope: "仅定义 2026-08-25 已核验真实批次进入 /today 的页面化产品契约：去 Demo、持久化发布、追加历史、失败保旧、每日首次互动幂等刷新、真相状态、阻断 AC 与 UI/架构影响。"
+    exclusions:
+      - UI-or-architecture-changes
+      - frontend-backend-data-or-runtime-changes
+      - live-network-collection
+      - database-writes-or-service-start
+      - deployment-cloud-paid-accounts-or-credentials
+      - Career-project-file-changes
+    expected_output:
+      artifact: artifact-radar-daily-web-product-delta-001
+      path: docs/02-daily-data-web-product-delta.md
+      version: "1.0"
+    stop_gate: product-change-review
+    advance_limit: one-product-delivery-unit-only
+    auto_advance_beyond_next: false

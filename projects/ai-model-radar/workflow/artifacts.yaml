@@ -1908,3 +1908,55 @@ artifacts:
     downstream_role_authorized: false
     production_release: frozen
     auto_route: false
+  - id: artifact-radar-daily-web-product-delta-001
+    run_id: run-20260731-intake-001
+    type: product-change-increment
+    project_id: ai-model-radar
+    work_item: AMR-PM-DAILY-WEB-001
+    change_id: product-20260825-two-project-daily-data-web-display-001
+    owner: role-product-manager
+    role_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
+    role_task_title: "03 产品经理"
+    authorization: approval-20260826-radar-daily-web-product-entry
+    path: docs/02-daily-data-web-product-delta.md
+    version: "1.0"
+    sha256: 2661cfc4bcaecdd7eb57523b840f3f59f1befd88cb1311368371542b470700b2
+    inputs:
+      daily_batch_artifact: artifact-radar-daily-research-batch-20260825-001
+      daily_json: output/daily/2026-08-25.json
+      daily_batch_aggregate_sha256: 9fe4aa889cee25f0cfa027afad50d876f7f9145fb56b13d15909c059a8375bc2
+      verified_records: 6
+      same_day_records: 1
+    product_decisions:
+      demo_replacement: blocking-acceptance-condition
+      web_page_is_user_entry: true
+      direct_frontend_json_read: prohibited
+      history_append_only: true
+      published_snapshot_immutable: true
+      failed_batch_keeps_last_success: true
+      first_daily_user_interaction_refresh: idempotent-local-product-rule
+      date_boundary: "2026-08-25 records must not be labeled today on 2026-08-26 without a new successful snapshot"
+    truth_boundary:
+      today_page_real_data_connected: false
+      runtime_enabled: false
+      live_connectors: 0
+      live_snapshots: 0
+      scheduled_collection: false
+      database_rows_written: 0
+      UI_or_architecture_modified: false
+      implementation_started: false
+      production_release: frozen
+    validation:
+      markdown_structure: passed
+      required_product_markers: passed
+      AC_count: 15
+      demo_replacement_blocker_present: true
+      append_revision_snapshot_failure_rules_present: true
+      roles_and_non_goals_present: true
+    completed_at: "2026-08-26T11:37:57+08:00"
+    validated_at: "2026-08-26T11:37:57+08:00"
+    status: ready-for-review
+    result: ready-for-product-change-review
+    stop_gate: product-change-review
+    downstream_role_authorized: false
+    auto_route: false
