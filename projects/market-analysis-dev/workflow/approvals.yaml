@@ -1789,3 +1789,74 @@ approvals:
     stop_gate: product-change-review
     advance_limit: one-product-delivery-unit-only
     auto_advance_beyond_next: false
+  - id: approval-20260826-career-daily-web-user-analysis-product-v1
+    run_id: run-20260803-market-analysis-dev-init-001
+    gate: product-change-review
+    role: role-product-manager
+    project_id: market-analysis-dev
+    work_item: CFR-PM-DAILY-WEB-001
+    change_id: product-20260825-two-project-daily-data-web-display-001
+    artifact: artifact-career-daily-web-user-analysis-product-delta-001
+    path: docs/02-daily-web-user-analysis-product-delta.md
+    version: "1.0"
+    sha256: 6f3319cdabad6dfcaf24f2ad9cba2b67e2fdde4b2596b64c177f17cf55ef5f7a
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-26T14:28:18+08:00"
+    user_reply: "继续"
+    authorization_source: explicit-dual-product-approval-and-canonical-fixed-04-selection-forwarded-by-fixed-00
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    effect: "批准 Career 日更网页与用户输入分析闭环产品增量，并仅授权同一权威固定04在 Radar UI Prompt 交付后执行一个 Career UI Prompt 增量。"
+    completed_gate: product-change-review
+    authorized_next_role: role-ui-designer
+    authorized_next_work_item: CFR-UI-DAILY-WEB-001
+    next_entry_authorization: approval-20260826-career-daily-web-user-analysis-ui-prompt-entry
+    canonical_next_role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    excluded_duplicate_task_id: "01a00b3d-89e7-7fa0-a963-5a2bf0ef6c51"
+    production_release: frozen
+    advance_limit: one-ui-prompt-delivery-unit-only
+    auto_advance_beyond_next: false
+  - id: approval-20260826-career-daily-web-user-analysis-ui-prompt-entry
+    run_id: run-20260803-market-analysis-dev-init-001
+    gate: role-entry
+    role: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    project_id: market-analysis-dev
+    work_item: CFR-UI-DAILY-WEB-001
+    change_id: ui-prompt-20260826-career-daily-web-user-analysis-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-26T14:28:18+08:00"
+    authorization_source: approval-20260826-career-daily-web-user-analysis-product-v1
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    safe_checkpoint: 9cfb6ca76c9dfa0d524d5b34278772b8408f19ca
+    queue_dependency:
+      project_id: ai-model-radar
+      work_item: AMR-UI-DAILY-WEB-001
+      required_state: delivered-and-stopped-at-ui-prompt-review
+    input:
+      artifact: artifact-career-daily-web-user-analysis-product-delta-001
+      path: docs/02-daily-web-user-analysis-product-delta.md
+      version: "1.0"
+      sha256: 6f3319cdabad6dfcaf24f2ad9cba2b67e2fdde4b2596b64c177f17cf55ef5f7a
+      product_approval: approval-20260826-career-daily-web-user-analysis-product-v1
+    scope: "仅形成 Career 日更真实证据网页化与用户原文版本化分析闭环 UI Prompt 增量，覆盖事实分层、证据映射、市场对照、差距／路线、失败恢复、简体中文与可访问性。"
+    exclusions:
+      - concurrent-start-before-Radar-UI-Prompt-delivery
+      - UI-design-or-visual-assets
+      - architecture-or-task-breakdown
+      - frontend-backend-data-or-runtime-changes
+      - network-collection-or-database-writes
+      - deployment-or-production-release
+      - old-worktree-fixed-04-delivery
+    expected_output:
+      artifact: artifact-career-daily-web-user-analysis-ui-prompt-increment-001
+      path: ui/13-daily-web-user-analysis-ui-prompt-increment.md
+      version: "1.0"
+    scheduling: authorized-queued-after-radar-ui-prompt
+    authorization_text: "已批准当前产物，并自动授权唯一下一站固定 04 / CFR-UI-DAILY-WEB-001。本次只覆盖该站一个 UI Prompt 交付单元；该角色必须在 Radar UI Prompt 交付并停门后再开始，交付后停止等待审核，不代表其产物或后续角色已获批准。"
+    stop_gate: ui-prompt-review
+    production_release: frozen
+    advance_limit: one-ui-prompt-delivery-unit-only
+    auto_advance_beyond_next: false

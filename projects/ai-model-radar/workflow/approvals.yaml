@@ -1239,3 +1239,70 @@ approvals:
     stop_gate: product-change-review
     advance_limit: one-product-delivery-unit-only
     auto_advance_beyond_next: false
+  - id: approval-20260826-radar-daily-web-product-v1
+    run_id: run-20260731-intake-001
+    gate: product-change-review
+    role: role-product-manager
+    project_id: ai-model-radar
+    work_item: AMR-PM-DAILY-WEB-001
+    change_id: product-20260825-two-project-daily-data-web-display-001
+    artifact: artifact-radar-daily-web-product-delta-001
+    path: docs/02-daily-data-web-product-delta.md
+    version: "1.0"
+    sha256: 2661cfc4bcaecdd7eb57523b840f3f59f1befd88cb1311368371542b470700b2
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-26T14:28:18+08:00"
+    user_reply: "继续"
+    authorization_source: explicit-dual-product-approval-and-canonical-fixed-04-selection-forwarded-by-fixed-00
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    effect: "批准 Radar 日更真实数据网页化产品增量，并仅授权权威固定04完成一个 UI Prompt 增量；不授权 UI 设计、架构、数据、前后端或部署。"
+    completed_gate: product-change-review
+    authorized_next_role: role-ui-designer
+    authorized_next_work_item: AMR-UI-DAILY-WEB-001
+    next_entry_authorization: approval-20260826-radar-daily-web-ui-prompt-entry
+    canonical_next_role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    excluded_duplicate_task_id: "01a00b3d-89e7-7fa0-a963-5a2bf0ef6c51"
+    production_release: frozen
+    advance_limit: one-ui-prompt-delivery-unit-only
+    auto_advance_beyond_next: false
+  - id: approval-20260826-radar-daily-web-ui-prompt-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    role: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    project_id: ai-model-radar
+    work_item: AMR-UI-DAILY-WEB-001
+    change_id: ui-prompt-20260826-radar-daily-web-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-26T14:28:18+08:00"
+    authorization_source: approval-20260826-radar-daily-web-product-v1
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    safe_checkpoint: 9cfb6ca76c9dfa0d524d5b34278772b8408f19ca
+    input:
+      artifact: artifact-radar-daily-web-product-delta-001
+      path: docs/02-daily-data-web-product-delta.md
+      version: "1.0"
+      sha256: 2661cfc4bcaecdd7eb57523b840f3f59f1befd88cb1311368371542b470700b2
+      product_approval: approval-20260826-radar-daily-web-product-v1
+    scope: "仅形成 Radar 日更真实数据网页化 UI Prompt 增量，覆盖 /today 去 Demo、真实数据生命周期、历史追加、失败保旧、刷新与真相状态的页面行为；必须保持简体中文与可访问性。"
+    exclusions:
+      - UI-design-or-visual-assets
+      - architecture-or-task-breakdown
+      - frontend-backend-data-or-runtime-changes
+      - network-collection-or-database-writes
+      - deployment-or-production-release
+      - Career-UI-Prompt-before-Radar-delivery
+      - old-worktree-fixed-04-delivery
+    expected_output:
+      artifact: artifact-radar-daily-web-ui-prompt-increment-001
+      path: ui/07-daily-web-ui-prompt-increment.md
+      version: "1.0"
+    scheduling: authorized-ready-for-canonical-fixed-04-delivery
+    authorization_text: "已批准当前产物，并自动授权唯一下一站固定 04 / AMR-UI-DAILY-WEB-001。本次只覆盖该站一个 UI Prompt 交付单元；该角色交付后停止等待审核，不代表其产物或后续角色已获批准。"
+    stop_gate: ui-prompt-review
+    production_release: frozen
+    advance_limit: one-ui-prompt-delivery-unit-only
+    auto_advance_beyond_next: false

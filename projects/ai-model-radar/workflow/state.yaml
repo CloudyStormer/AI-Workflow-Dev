@@ -3,9 +3,9 @@ project_id: ai-model-radar
 run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
-stage: product-definition
-status: radar-daily-web-product-delta-ready-for-review
-current_role: role-product-manager
+stage: ui-ux
+status: radar-daily-web-ui-prompt-authorized-awaiting-fixed-04-entry
+current_role: role-ui-designer
 blocked: false
 ui_assets:
   directory: ui
@@ -111,22 +111,27 @@ completed_release_completeness_architecture_review:
   advance_limit: unique-next-stage-only
   auto_advance_beyond_next: false
 next_approval:
-  gate: product-change-review
-  scope: "审核 2026-08-25 真实批次进入 /today、替换 Demo、追加历史、失败保旧与每日首次互动幂等刷新产品增量；本门不自动批准 UI、架构、数据、前后端、运行或部署。"
+  gate: ui-prompt-review
+  scope: "权威固定04仅交付 Radar 日更真实数据网页化 UI Prompt 增量；覆盖 /today 去 Demo、真实数据生命周期、历史追加、失败保旧、刷新与真相状态，不做 UI 设计、架构、数据、前后端、运行或部署。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
-  expected_artifact: artifact-radar-daily-web-product-delta-001
-  expected_path: docs/02-daily-data-web-product-delta.md
+  delivery_status: authorized-awaiting-canonical-fixed-04-entry
+  expected_artifact: artifact-radar-daily-web-ui-prompt-increment-001
+  expected_path: ui/07-daily-web-ui-prompt-increment.md
   expected_version: "1.0"
-  artifact_sha256: 2661cfc4bcaecdd7eb57523b840f3f59f1befd88cb1311368371542b470700b2
-  work_item: AMR-PM-DAILY-WEB-001
-  change_id: product-20260825-two-project-daily-data-web-display-001
-  entry_authorization: approval-20260826-radar-daily-web-product-entry
-  role: role-product-manager
-  role_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
-  safe_checkpoint: 061b87a8d7e39625aa87b6052369336856530af7
-  advance_limit: one-product-delivery-unit-only
+  input_artifact: artifact-radar-daily-web-product-delta-001
+  input_path: docs/02-daily-data-web-product-delta.md
+  input_version: "1.0"
+  input_sha256: 2661cfc4bcaecdd7eb57523b840f3f59f1befd88cb1311368371542b470700b2
+  product_approval: approval-20260826-radar-daily-web-product-v1
+  work_item: AMR-UI-DAILY-WEB-001
+  change_id: ui-prompt-20260826-radar-daily-web-001
+  entry_authorization: approval-20260826-radar-daily-web-ui-prompt-entry
+  role: role-ui-designer
+  role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+  excluded_duplicate_task_id: "01a00b3d-89e7-7fa0-a963-5a2bf0ef6c51"
+  safe_checkpoint: 9cfb6ca76c9dfa0d524d5b34278772b8408f19ca
+  advance_limit: one-ui-prompt-delivery-unit-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
   gate: cross-project-real-product-delta-review
@@ -1764,9 +1769,39 @@ daily_web_product_change_assignment:
     database_rows_written: 0
     production_release: frozen
   completed_at: "2026-08-26T11:37:57+08:00"
-  delivery_status: ready-for-review
-  result: ready-for-product-change-review
-  stop_gate: product-change-review
-  downstream_role_authorized: false
-  auto_route: false
-updated_at: "2026-08-26T11:37:57+08:00"
+  delivery_status: approved
+  review_approval: approval-20260826-radar-daily-web-product-v1
+  approved_at: "2026-08-26T14:28:18+08:00"
+  result: approved-and-canonical-fixed-04-ui-prompt-authorized
+  completed_gate: product-change-review
+  next_gate: ui-prompt-review
+  downstream_role_authorized: true
+  authorized_next_work_item: AMR-UI-DAILY-WEB-001
+  next_entry_authorization: approval-20260826-radar-daily-web-ui-prompt-entry
+  auto_route: unique-next-stage-only
+  auto_advance_beyond_next: false
+daily_web_ui_prompt_assignment:
+  work_item: AMR-UI-DAILY-WEB-001
+  change_id: ui-prompt-20260826-radar-daily-web-001
+  role: role-ui-designer
+  role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+  role_task_title: "04 UI/UX设计师"
+  authorization: approval-20260826-radar-daily-web-ui-prompt-entry
+  product_approval: approval-20260826-radar-daily-web-product-v1
+  safe_checkpoint: 9cfb6ca76c9dfa0d524d5b34278772b8408f19ca
+  input:
+    artifact: artifact-radar-daily-web-product-delta-001
+    path: docs/02-daily-data-web-product-delta.md
+    version: "1.0"
+    sha256: 2661cfc4bcaecdd7eb57523b840f3f59f1befd88cb1311368371542b470700b2
+  expected_output:
+    artifact: artifact-radar-daily-web-ui-prompt-increment-001
+    path: ui/07-daily-web-ui-prompt-increment.md
+    version: "1.0"
+  scheduling: authorized-ready-for-canonical-fixed-04-delivery
+  delivery_status: awaiting-fixed-04-role-announcement
+  excluded_duplicate_task_id: "01a00b3d-89e7-7fa0-a963-5a2bf0ef6c51"
+  stop_gate: ui-prompt-review
+  production_release: frozen
+  auto_advance_beyond_next: false
+updated_at: "2026-08-26T14:28:18+08:00"

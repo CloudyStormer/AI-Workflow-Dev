@@ -2967,8 +2967,21 @@ artifacts:
       roles_and_non_goals_present: true
     completed_at: "2026-08-26T12:04:58+08:00"
     validated_at: "2026-08-26T12:04:58+08:00"
-    status: ready-for-review
-    result: ready-for-product-change-review
-    stop_gate: product-change-review
-    downstream_role_authorized: false
-    auto_route: false
+    status: approved
+    review_decision: approved
+    review_approval: approval-20260826-career-daily-web-user-analysis-product-v1
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-26T14:28:18+08:00"
+    source_commit: 9cfb6ca76c9dfa0d524d5b34278772b8408f19ca
+    result: approved-and-canonical-fixed-04-ui-prompt-queued-after-radar
+    completed_gate: product-change-review
+    next_gate: ui-prompt-review
+    downstream_role_authorized: true
+    authorized_next_role: role-ui-designer
+    authorized_next_work_item: CFR-UI-DAILY-WEB-001
+    next_entry_authorization: approval-20260826-career-daily-web-user-analysis-ui-prompt-entry
+    canonical_next_role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    scheduling: authorized-queued-after-radar-ui-prompt
+    production_release: frozen
+    auto_route: unique-next-stage-queued
+    auto_advance_beyond_next: false
