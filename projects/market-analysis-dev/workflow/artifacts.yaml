@@ -2917,3 +2917,58 @@ artifacts:
     downstream_role_authorized: false
     production_release: frozen
     auto_route: false
+  - id: artifact-career-daily-web-user-analysis-product-delta-001
+    run_id: run-20260803-market-analysis-dev-init-001
+    type: product-change-increment
+    project_id: market-analysis-dev
+    work_item: CFR-PM-DAILY-WEB-001
+    change_id: product-20260825-two-project-daily-data-web-display-001
+    owner: role-product-manager
+    role_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
+    role_task_title: "03 产品经理"
+    authorization: approval-20260826-career-daily-web-product-entry
+    path: docs/02-daily-web-user-analysis-product-delta.md
+    version: "1.0"
+    sha256: 6f3319cdabad6dfcaf24f2ad9cba2b67e2fdde4b2596b64c177f17cf55ef5f7a
+    inputs:
+      daily_batch_artifact: artifact-career-daily-research-batch-20260825-001
+      daily_json: output/daily/2026-08-25.json
+      daily_batch_aggregate_sha256: bdd97d123a71ff27224447270f117031b7c1b784f44ef102e4ead8438ed50e5b
+      technology_records: 4
+      recruitment_records: 4
+      mainland_china_recruitment_samples: 0
+      user_input_records: 0
+    product_decisions:
+      information_architecture_first_two_layers: career-directions-then-technology-landscape
+      web_page_is_user_entry: true
+      daily_evidence_append_only: true
+      direct_frontend_JSON_read: prohibited
+      browser_memory_fake_save: prohibited
+      raw_text_and_analysis_versioning: required
+      classification_extraction_dedup_evidence_mapping_market_comparison_gap_route: blocking-scope
+      facts_user_statements_system_assessments_model_inferences: strictly-separated
+      failed_or_uncertain_analysis: no-fabricated-conclusion
+    truth_boundary:
+      source_workbench_real_service_loop: false
+      runtime_enabled: false
+      live_connectors: 0
+      business_database_rows_written: 0
+      mainland_china_recruitment_samples: 0
+      user_input_records: 0
+      UI_or_architecture_modified: false
+      implementation_started: false
+      production_release: frozen
+    validation:
+      markdown_structure: passed
+      AC_count: 18
+      daily_web_and_history_rules_present: true
+      raw_and_analysis_version_lifecycle_present: true
+      evidence_market_gap_route_and_truth_layers_present: true
+      roles_and_non_goals_present: true
+    completed_at: "2026-08-26T12:04:58+08:00"
+    validated_at: "2026-08-26T12:04:58+08:00"
+    status: ready-for-review
+    result: ready-for-product-change-review
+    stop_gate: product-change-review
+    downstream_role_authorized: false
+    auto_route: false

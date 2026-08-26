@@ -1755,3 +1755,37 @@ approvals:
     production_release: frozen
     advance_limit: one-QA-delivery-unit-only
     auto_advance_beyond_next: false
+  - id: approval-20260826-career-daily-web-product-entry
+    run_id: run-20260803-market-analysis-dev-init-001
+    gate: role-entry
+    role: role-product-manager
+    role_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
+    role_task_title: "03 产品经理"
+    project_id: market-analysis-dev
+    work_item: CFR-PM-DAILY-WEB-001
+    change_id: product-20260825-two-project-daily-data-web-display-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-26T12:04:58+08:00"
+    authorization_source: direct-user-command-forwarded-by-fixed-00
+    safe_checkpoint: c0c63eca9a1d65eaed3afc1f38ed66a7ada6ab89
+    original_state:
+      stage: code-review
+      status: career-cr-be-102-approved-awaiting-fixed-09-review-entry
+      current_role: role-code-reviewer
+      held_gate: code-review-conclusion-review
+      held_artifact: artifact-career-cr-be-102-code-review-001
+    scope: "定义真实技术／招聘日更证据进入网页，以及用户原文版本、结构化分析、证据映射、市场对照、差距优先级和学习路线的完整产品闭环。"
+    exclusions:
+      - Radar-project-files
+      - UI-or-architecture-changes
+      - frontend-backend-data-or-runtime-changes
+      - live-network-collection-or-business-database-writes
+      - deployment-cloud-paid-accounts-credentials-or-external-user-data-transfer
+    expected_output:
+      artifact: artifact-career-daily-web-user-analysis-product-delta-001
+      path: docs/02-daily-web-user-analysis-product-delta.md
+      version: "1.0"
+    stop_gate: product-change-review
+    advance_limit: one-product-delivery-unit-only
+    auto_advance_beyond_next: false

@@ -3,9 +3,9 @@ project_id: "market-analysis-dev"
 run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
-stage: code-review
-status: career-cr-be-102-approved-awaiting-fixed-09-review-entry
-current_role: role-code-reviewer
+stage: product-definition
+status: career-daily-web-user-analysis-product-delta-ready-for-review
+current_role: role-product-manager
 blocked: false
 ui_assets:
   directory: ui
@@ -214,26 +214,22 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
-  gate: code-review-conclusion-review
-  scope: "审核固定09对 CR-BE-102 的独立代码审查结论；只覆盖 b6b28a6 的 8 个后端运行合同路径及相关回归证据，不合并审查 CR-DATA-101。本门不批准 QA、CR-BE-103+、SQLite/migrations 实施、网络采集、业务分析、前端或部署。"
+  gate: product-change-review
+  scope: "审核 Career 真实日更证据进入网页及用户原文版本化分析闭环产品增量；本门不自动批准 UI、架构、数据、前后端、运行或部署。"
   decision_owner: 超级无敌帅超超总
   decision: pending
   delivery_status: ready-for-review
-  expected_artifact: artifact-career-cr-be-102-code-review-001
-  expected_path: docs/06-code-review.md
-  expected_version: "1.3"
-  work_item: CR-BE-102.REV
-  change_id: review-20260824-career-cr-be-102-001
-  entry_authorization: approval-20260824-career-cr-be-102-code-review-entry
-  upstream_artifact: artifact-career-cr-be-102-001
-  upstream_sha256: 39c665426982526cb6154e2232dc2906b564185157d8bc51c60f542bc886960d
-  upstream_source_commit: b6b28a6767c07ae523c07120edeea34583b0877d
-  delivered_artifact: artifact-career-cr-be-102-code-review-001
-  delivered_sha256: ff4b320e87099b117b924fe44a4a08442a02ddd3cb75ba21be127b8a499b209b
-  delivered_conclusion: passed-with-minor
-  delivered_finding_counts: {P0: 0, P1: 0, P2: 1}
-  on_approved: route-by-code-review-conclusion-only
-  advance_limit: one-code-review-delivery-unit-only
+  expected_artifact: artifact-career-daily-web-user-analysis-product-delta-001
+  expected_path: docs/02-daily-web-user-analysis-product-delta.md
+  expected_version: "1.0"
+  artifact_sha256: 6f3319cdabad6dfcaf24f2ad9cba2b67e2fdde4b2596b64c177f17cf55ef5f7a
+  work_item: CFR-PM-DAILY-WEB-001
+  change_id: product-20260825-two-project-daily-data-web-display-001
+  entry_authorization: approval-20260826-career-daily-web-product-entry
+  role: role-product-manager
+  role_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
+  safe_checkpoint: c0c63eca9a1d65eaed3afc1f38ed66a7ada6ab89
+  advance_limit: one-product-delivery-unit-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
   gate: cross-project-real-product-delta-review
@@ -2267,7 +2263,6 @@ backend_runtime_contract_qa_assignment:
   downstream_role_authorized: false
   production_release: frozen
   auto_route_beyond: false
-updated_at: "2026-08-24T17:05:11+08:00"
 temporary_daily_research_batch:
   change_group_id: research-20260825-two-project-first-real-evidence-batch-001
   change_id: research-20260825-two-project-first-real-evidence-batch-001
@@ -2308,3 +2303,37 @@ temporary_daily_research_batch:
   downstream_role_authorized: false
   production_release: frozen
   auto_route: false
+daily_web_user_analysis_product_assignment:
+  work_item: CFR-PM-DAILY-WEB-001
+  change_id: product-20260825-two-project-daily-data-web-display-001
+  role: role-product-manager
+  role_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
+  authorization: approval-20260826-career-daily-web-product-entry
+  safe_checkpoint: c0c63eca9a1d65eaed3afc1f38ed66a7ada6ab89
+  original_state:
+    stage: code-review
+    status: career-cr-be-102-approved-awaiting-fixed-09-review-entry
+    current_role: role-code-reviewer
+    held_gate: code-review-conclusion-review
+    held_artifact: artifact-career-cr-be-102-code-review-001
+    preservation: held-awaiting-product-reconciliation
+  output:
+    artifact: artifact-career-daily-web-user-analysis-product-delta-001
+    path: docs/02-daily-web-user-analysis-product-delta.md
+    version: "1.0"
+    sha256: 6f3319cdabad6dfcaf24f2ad9cba2b67e2fdde4b2596b64c177f17cf55ef5f7a
+  truth_boundary:
+    source_workbench_real_service_loop: false
+    runtime_enabled: false
+    live_connectors: 0
+    business_database_rows_written: 0
+    mainland_china_recruitment_samples: 0
+    user_input_records: 0
+    production_release: frozen
+  completed_at: "2026-08-26T12:04:58+08:00"
+  delivery_status: ready-for-review
+  result: ready-for-product-change-review
+  stop_gate: product-change-review
+  downstream_role_authorized: false
+  auto_route: false
+updated_at: "2026-08-26T12:04:58+08:00"
