@@ -2124,3 +2124,88 @@ artifacts:
     authorized_next_work_item: AMR-ARCH-DAILY-WEB-001
     next_entry_authorization: approval-20260826-radar-daily-web-architecture-entry
     auto_route: unique-next-stage
+  - id: artifact-radar-daily-web-architecture-assessment-001
+    run_id: run-20260731-intake-001
+    type: daily-real-data-web-architecture-assessment
+    project_id: ai-model-radar
+    work_item: AMR-ARCH-DAILY-WEB-001
+    change_id: architecture-20260826-radar-daily-web-001
+    owner: role-architect
+    role_task_id: "01a00c4e-cdb4-7bc3-9ade-310e0fb9aef0"
+    role_task_title: "05 架构师"
+    authorization: approval-20260826-radar-daily-web-architecture-entry
+    safe_checkpoint: a00f7443ef66e3eb2a6b042b022f85ceb2fc4259
+    write_baseline: b2158c699396e0b04d2c23b8035b3389cf898b47
+    path: docs/08-daily-web-architecture-assessment.md
+    version: "1.0"
+    sha256: 83a94b0cc83fa0e6c6a2080aedbfd0fa891a36c79af559ae1111bc7b240a56e5
+    upstream:
+      product_delta:
+        path: docs/02-daily-data-web-product-delta.md
+        version: "1.0"
+        sha256: 2661cfc4bcaecdd7eb57523b840f3f59f1befd88cb1311368371542b470700b2
+      ui_design:
+        artifact: artifact-radar-daily-web-ui-design-001
+        path: ui/08-daily-web-ui-design.md
+        version: "1.0"
+        sha256: 5505f08f181ffea782e681d388fa8e73b45d6b888ca5b2695b3349b9e827cc3f
+        approval: approval-20260826-radar-daily-web-ui-design-v1
+      architecture_baseline:
+        path: docs/06-release-completeness-architecture.md
+        version: "1.5"
+        sha256: 1529a866855eb1b5cbf34b349d38a7e2f50be8c8f914aeb7f8ed114fd2d99c10
+      verified_batch:
+        path: output/daily/2026-08-25.json
+        sha256: 76d8f93aeac9a57f4e8fba959750a43e2775ca9da41eacb48de4de64f605be6c
+        status: exact-input-not-imported
+      research_evidence:
+        path: docs/daily/2026-08-25.md
+        sha256: 4242377fe27121b6c5d5afdd4af5e7d1a973e573ecb30f772b6f0308d1becbd4
+    decisions:
+      web_stack: inherit-react-typescript-vite-plus-planned-fastify-modular-monolith
+      persistence: sqlite-wal-foreign-keys-with-append-only-evidence-and-revisions
+      identity: stable-event-identity-plus-append-only-event-revision
+      import: exact-sha-content-addressed-one-time-verified-batch
+      snapshot: immutable-manifest-plus-atomic-current-pointer-cas
+      refresh: daily-first-and-manual-idempotent-request-run-fetch-chain
+      query: snapshot-bound-cursors-and-separate-content-operation-envelopes
+      failure_recovery: retain-last-success-and-never-silent-demo-fallback
+      runtime_gate: approved-seven-step-sequence-before-runtime-enabled
+    coverage:
+      - real-persistence-and-one-time-batch-import-validation
+      - stable-identity-revision-evidence-and-immutable-snapshot
+      - current-pointer-cas-and-idempotent-refresh
+      - source-runtime-query-health-readiness-and-error-apis
+      - history-failure-retains-last-success-and-restart-recovery
+      - data-backend-frontend-review-and-qa-implementation-seams
+      - security-privacy-observability-cost-and-deployment-boundaries
+    truth_boundary:
+      architecture_conditionally_feasible: true
+      current_runtime_no_go: true
+      verified_batch_imported: false
+      database_rows_written: 0
+      runtime_enabled: false
+      live_connectors: 0
+      live_snapshots: 0
+      service_started: false
+      implementation_modified: false
+      production_release: frozen
+    validation_status: passed
+    validation:
+      authoritative_input_sha256: matched-5-of-5
+      required_architecture_coverage: passed
+      markdown_fences: 12-even
+      trailing_whitespace: none
+      workflow_yaml: 4-of-4-valid
+      events_jsonl_before_validation_event: 171-of-171-valid-and-unique
+      project_structure: passed-required-authoritative-paths-exist
+      git_boundary: passed
+      skill_drift: passed
+      diff_check: passed
+    completed_at: "2026-08-26T16:43:10+08:00"
+    validated_at: "2026-08-26T16:44:22+08:00"
+    status: ready-for-review
+    review_status: pending
+    stop_gate: architecture-review
+    downstream_role_authorized: false
+    auto_route: false

@@ -4,7 +4,7 @@ run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
 stage: architecture
-status: radar-daily-web-architecture-assessment-in-progress
+status: radar-daily-web-architecture-assessment-ready-for-review
 current_role: role-architect
 blocked: false
 ui_assets:
@@ -115,10 +115,13 @@ next_approval:
   scope: "审核 Radar 日更网页架构评估，冻结一次性导入、identity/revision、不可变快照、current pointer、幂等刷新、查询与失败保旧边界；不自动启动重新拆解、数据、后端、前端或部署。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: in-progress
+  delivery_status: ready-for-review
   expected_artifact: artifact-radar-daily-web-architecture-assessment-001
   expected_path: docs/08-daily-web-architecture-assessment.md
   expected_version: "1.0"
+  artifact_sha256: 83a94b0cc83fa0e6c6a2080aedbfd0fa891a36c79af559ae1111bc7b240a56e5
+  completed_at: "2026-08-26T16:43:10+08:00"
+  validated_at: "2026-08-26T16:44:22+08:00"
   input_artifact: artifact-radar-daily-web-ui-design-001
   input_path: ui/08-daily-web-ui-design.md
   input_version: "1.0"
@@ -1903,16 +1906,35 @@ daily_web_architecture_assessment_assignment:
     artifact: artifact-radar-daily-web-architecture-assessment-001
     path: docs/08-daily-web-architecture-assessment.md
     version: "1.0"
+    sha256: 83a94b0cc83fa0e6c6a2080aedbfd0fa891a36c79af559ae1111bc7b240a56e5
   scope:
     - batch-import-and-validation-boundary
     - stable-identity-revision-and-immutable-snapshot
     - current-pointer-and-idempotent-refresh
     - real-query-failure-retains-last-success
     - data-backend-frontend-contract-and-security-boundary
-  scheduling: active-first
-  started_at: pending-fixed-05-role-report
-  delivery_status: in-progress
+  scheduling: completed-ready-for-review
+  started_at: "2026-08-26T16:43:10+08:00"
+  completed_at: "2026-08-26T16:43:10+08:00"
+  delivery_status: ready-for-review
+  validation_status: passed
+  validation:
+    authoritative_input_sha256: matched-5-of-5
+    required_architecture_coverage: passed
+    stable-identity-revision-immutable-snapshot: passed
+    idempotent-refresh-and-failure-retains-last-success: passed
+    source-runtime-fail-closed: passed
+    no-code-data-service-or-deployment: confirmed
+    markdown_fences: 12-even
+    trailing_whitespace: none
+    workflow_yaml: 4-of-4-valid
+    events_jsonl_before_validation_event: 171-of-171-valid-and-unique
+    project_structure: passed-required-authoritative-paths-exist
+    git_boundary: passed
+    skill_drift: passed
+    diff_check: passed
   stop_gate: architecture-review
   production_release: frozen
+  downstream_role_authorized: false
   auto_advance_beyond_next: false
-updated_at: "2026-08-26T16:18:28+08:00"
+updated_at: "2026-08-26T16:43:10+08:00"
