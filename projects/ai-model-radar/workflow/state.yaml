@@ -4,7 +4,7 @@ run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
 stage: ui-ux
-status: radar-daily-web-ui-prompt-authorized-awaiting-fixed-04-entry
+status: radar-daily-web-ui-prompt-ready-for-review
 current_role: role-ui-designer
 blocked: false
 ui_assets:
@@ -115,10 +115,12 @@ next_approval:
   scope: "权威固定04仅交付 Radar 日更真实数据网页化 UI Prompt 增量；覆盖 /today 去 Demo、真实数据生命周期、历史追加、失败保旧、刷新与真相状态，不做 UI 设计、架构、数据、前后端、运行或部署。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: authorized-awaiting-canonical-fixed-04-entry
+  delivery_status: ready-for-review
   expected_artifact: artifact-radar-daily-web-ui-prompt-increment-001
   expected_path: ui/07-daily-web-ui-prompt-increment.md
   expected_version: "1.0"
+  artifact_sha256: 04b05f43bae2e6ae6f3fd0a33a0bce284f85c41508dc8ce7b374690ced83c679
+  ui_index_sha256: b565a48d261257fb1da812ab44d08db3e7a519aa62fde26faf0b463ee7c57b08
   input_artifact: artifact-radar-daily-web-product-delta-001
   input_path: docs/02-daily-data-web-product-delta.md
   input_version: "1.0"
@@ -1798,10 +1800,29 @@ daily_web_ui_prompt_assignment:
     artifact: artifact-radar-daily-web-ui-prompt-increment-001
     path: ui/07-daily-web-ui-prompt-increment.md
     version: "1.0"
-  scheduling: authorized-ready-for-canonical-fixed-04-delivery
-  delivery_status: awaiting-fixed-04-role-announcement
+    sha256: 04b05f43bae2e6ae6f3fd0a33a0bce284f85c41508dc8ce7b374690ced83c679
+    ui_index_sha256: b565a48d261257fb1da812ab44d08db3e7a519aa62fde26faf0b463ee7c57b08
+  scheduling: completed-ready-for-review
+  delivery_status: ready-for-review
   excluded_duplicate_task_id: "01a00b3d-89e7-7fa0-a963-5a2bf0ef6c51"
+  started_at: "2026-08-26T14:28:18+08:00"
+  completed_at: "2026-08-26T14:39:04+08:00"
+  validation_status: passed
+  validated_at: "2026-08-26T14:40:27+08:00"
+  validation:
+    upstream_product_sha256: matched
+    prompt_and_ui_index_sha256: matched
+    prompt_markers: 1-start-and-1-end
+    acceptance_mapping: AC-AMR-DW-01-through-15
+    workflow_yaml: 4-of-4-valid
+    events_jsonl_before_validation_event: 159-of-159-valid-and-unique
+    project_structure: passed-with-0-warnings
+    git_boundary: passed
+    skill_drift: passed
+    diff_check: passed
+  result: ready-for-ui-prompt-review-no-downstream-route
   stop_gate: ui-prompt-review
   production_release: frozen
+  downstream_role_authorized: false
   auto_advance_beyond_next: false
-updated_at: "2026-08-26T14:28:18+08:00"
+updated_at: "2026-08-26T14:40:27+08:00"

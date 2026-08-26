@@ -41,8 +41,8 @@ artifacts:
     path: ui/README.md
     status: active
     owner: role-ui-designer
-    sha256: b2a3d85b68b85197d6c5038ecf4474ca34e0c376c16692cfe04656b1ae9d0c55
-    updated_at: "2026-08-21T17:43:11+08:00"
+    sha256: b565a48d261257fb1da812ab44d08db3e7a519aa62fde26faf0b463ee7c57b08
+    updated_at: "2026-08-26T14:39:04+08:00"
   - id: artifact-project-plan-001
     run_id: run-20260731-intake-001
     type: project-plan
@@ -1972,3 +1972,75 @@ artifacts:
     production_release: frozen
     auto_route: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: artifact-radar-daily-web-ui-prompt-increment-001
+    run_id: run-20260731-intake-001
+    type: daily-real-data-web-ui-prompt-increment
+    project_id: ai-model-radar
+    work_item: AMR-UI-DAILY-WEB-001
+    change_id: ui-prompt-20260826-radar-daily-web-001
+    owner: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    authorization: approval-20260826-radar-daily-web-ui-prompt-entry
+    product_approval: approval-20260826-radar-daily-web-product-v1
+    path: ui/07-daily-web-ui-prompt-increment.md
+    version: "1.0"
+    sha256: 04b05f43bae2e6ae6f3fd0a33a0bce284f85c41508dc8ce7b374690ced83c679
+    upstream:
+      artifact: artifact-radar-daily-web-product-delta-001
+      path: docs/02-daily-data-web-product-delta.md
+      version: "1.0"
+      sha256: 2661cfc4bcaecdd7eb57523b840f3f59f1befd88cb1311368371542b470700b2
+      approval: approval-20260826-radar-daily-web-product-v1
+    inherited_ui:
+      news_prompt: {path: ui/06-ai-developer-news-ui-prompt-increment.md, version: "1.0", sha256: f43050320c6091aee3ceffc077d5c568e6558f2cac9136c543e285ed992d39d1, mode: preserved-history}
+      live_daily_prompt: {path: ui/03-ui-prompt.md, version: "1.2", sha256: 967090f3ac97e0a0bb00070eb39a5af9b6efcd629ac1517e78bffa4f8f7605bd, mode: preserved-history}
+      release_prompt: {path: ui/04-release-completeness-ui-prompt.md, version: "1.0", sha256: a8a4b3b66cdaf31f5d43910d36aeb630f751ced1dfb9959a583603abbee12be7, mode: preserved-history}
+    coverage:
+      - today-zero-demo-and-real-published-snapshot-truth
+      - immutable-snapshot-history-and-event-revision-chain
+      - idempotent-refresh-failure-keeps-last-success
+      - today-history-detail-refresh-source-quality-and-snapshot-detail
+      - not-ready-refreshing-live-no-new-empty-degraded-stale-failed
+      - simplified-chinese-1440-1024-390-320-200-percent-accessibility
+    truth_boundary:
+      today_page_still_demo: true
+      real_batch_connected_to_web: false
+      runtime_enabled: false
+      live_connectors: 0
+      live_snapshots: 0
+      database_rows_written: 0
+      production_release: frozen
+    exclusions:
+      - ui-design-prototype-or-image-generation
+      - architecture-task-breakdown-frontend-backend-data-or-runtime
+      - network-collection-database-write-service-start-or-deployment
+      - existing-ui-prompt-design-or-asset-overwrite
+      - Career-UI-Prompt-start
+    ui_index:
+      path: ui/README.md
+      sha256: b565a48d261257fb1da812ab44d08db3e7a519aa62fde26faf0b463ee7c57b08
+    validation_status: passed
+    validation:
+      upstream_product_sha256: matched
+      prompt_and_ui_index_sha256: matched
+      prompt_markers: 1-start-and-1-end
+      acceptance_mapping: AC-AMR-DW-01-through-15
+      required_coverage: passed-today-snapshot-history-revision-refresh-source-quality-eight-truth-states-responsive-accessibility
+      workflow_yaml: 4-of-4-valid
+      events_jsonl_before_validation_event: 159-of-159-valid-and-unique
+      project_structure: passed-with-0-warnings
+      git_boundary: passed
+      skill_drift: passed
+      diff_check: passed
+      scoped_paths: model-ui-and-essential-workflow-only
+      generated_ui_design: false
+      implementation_modified: false
+    validated_at: "2026-08-26T14:40:27+08:00"
+    completed_at: "2026-08-26T14:39:04+08:00"
+    status: ready-for-review
+    review_status: ready-for-review
+    result: ready-for-ui-prompt-review-no-downstream-route
+    stop_gate: ui-prompt-review
+    downstream_role_authorized: false
+    auto_route: false
