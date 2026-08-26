@@ -1887,3 +1887,40 @@ approvals:
     production_release: frozen
     auto_route: false
     auto_advance_beyond_next: false
+  - id: approval-20260826-career-daily-web-user-analysis-ui-design-entry
+    run_id: run-20260803-market-analysis-dev-init-001
+    gate: role-entry
+    role: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    project_id: market-analysis-dev
+    work_item: CFR-UI-DAILY-WEB-002
+    change_id: ui-design-20260826-career-daily-web-user-analysis-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-26T16:09:36+08:00"
+    authorization_source: direct-user-correction-cancel-external-asset-wait
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    safe_checkpoint: bbf0ed2699f09e9b5c0dcd2871993b0eb5bc3bd9
+    input:
+      artifact: artifact-career-daily-web-user-analysis-ui-prompt-increment-001
+      path: ui/13-daily-web-user-analysis-ui-prompt-increment.md
+      version: "1.0"
+      sha256: ef2307dd4b4ca0130def2b6ae3b31f381d4bac0f7f63f829b8e829edad8a7bac
+      prompt_approval: approval-20260826-career-daily-web-user-analysis-ui-prompt-v1
+    scope: "形成无需外部图片的 Career 日更真实证据、用户原文版本化、结构化分析、市场对照、差距与路线实现级 UI 设计。"
+    exclusions:
+      - architecture-or-task-breakdown
+      - frontend-backend-data-or-runtime-changes
+      - network-collection-or-database-writes
+      - deployment-or-production-release
+      - downstream-auto-route
+    expected_output:
+      artifact: artifact-career-daily-web-user-analysis-ui-design-001
+      path: ui/14-daily-web-user-analysis-ui-design.md
+      version: "1.0"
+    authorization_text: "用户明确取消等待外部资产；已批准 Prompt 授权同一固定04完成一个实现级 UI 设计单元，交付后停 ui-design-review。"
+    stop_gate: ui-design-review
+    production_release: frozen
+    advance_limit: one-ui-design-delivery-unit-only
+    auto_advance_beyond_next: false

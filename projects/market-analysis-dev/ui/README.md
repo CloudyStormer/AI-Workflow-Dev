@@ -6,7 +6,8 @@
 
 | 产物 | 版本 | 状态 | SHA256 | 用途 |
 |---|---:|---|---|---|
-| `13-daily-web-user-analysis-ui-prompt-increment.md` | 1.0 | approved | `ef2307dd4b4ca0130def2b6ae3b31f381d4bac0f7f63f829b8e829edad8a7bac` | CFR-UI-DAILY-WEB-001：已批准的真实日更网页、历史快照、用户材料持久化、分类/分析/证据/差距/路线闭环增量设计提示词；等待超级无敌帅超超总使用专业 UI 模型生成新版资产 |
+| `14-daily-web-user-analysis-ui-design.md` | 1.0 | ready-for-review | `a084faf2dbcc4a5eae2489017706119c1ada68a46ca25da1aa10f40a19126ede` | CFR-UI-DAILY-WEB-002：无需外部图片的实现级九页设计说明，覆盖真实日更证据、用户原文版本、结构化分析、市场对照、差距/路线、状态、响应式与无障碍 |
+| `13-daily-web-user-analysis-ui-prompt-increment.md` | 1.0 | approved | `ef2307dd4b4ca0130def2b6ae3b31f381d4bac0f7f63f829b8e829edad8a7bac` | CFR-UI-DAILY-WEB-001：已批准的真实日更网页、历史快照、用户材料持久化、分类/分析/证据/差距/路线闭环增量设计提示词；已作为本轮实现级设计输入 |
 | `12-release-completeness-ui-design-v1.7.md` | 1.7 | machine-passed-independent-review-pending | `636d3fcecc3266b8cdc3234614dda68222f67294016d9f22129f87fd552d7fae` | CR-UI-002 v1.7 设计说明；关闭第七轮 3 组 P1，等待第八轮独立视觉审查 |
 | `release-completeness-v1.7/resolved-manifest.json` | 1.7 | machine-passed-independent-review-pending | `e075431cbe55764ad4959a55702272bbfea52d3318847284146d7a8dbe863474` | 49 张完整解析包：29 张 v1.7 修订 + 20 张按 SHA 复用 v1.6 resolved |
 | `release-completeness-v1.7/review-manifest.json` | 1.7 | machine-passed-independent-review-pending | `1752413f09362e3b41e07798da3cbcb87d79f00e70e2cc57cb0acc5425281a13` | 1,851 个可见节点扩展扫描、文档 ID/ARIA 完整性、25-13 真实依赖拓扑、20 个按钮 PNG 字形中心；独立视觉审查 pending |
@@ -68,7 +69,7 @@
 | `grok-db65d339-3eb2-494f-9372-b4f003942a45.jpg` | 1728×1152 | `46c726017092a2992028c1604391d5b378b652ee6667d83a7c0ca09c0cde6e29` |
 | `grok-eb8b0476-0f04-42b3-afb0-df34e861f252.jpg` | 1728×1152 | `263610cbf127683647ffb6a9aed5dd92816cea09be2911ed4275bca3e77752b1` |
 
-当前日更网页与用户分析增量的权威输入为已批准 `docs/02-daily-web-user-analysis-product-delta.md` v1.0；对应权威设计输入 `ui/13-daily-web-user-analysis-ui-prompt-increment.md` v1.0 已由超级无敌帅超超总批准。按本次 Prompt 与用户已明确的职责边界，固定 04 不自行生成图片；当前等待超级无敌帅超超总使用专业 UI 设计大模型生成新版资产并放入 `ui/`，资产形成后再独立登记和审核，不自动启动开发。该 Prompt 继承已批准 `ui/04-release-completeness-ui-prompt.md`，不覆盖既有 Prompt、设计说明或视觉资产；当前信息源工作台真实服务闭环、用户输入、业务数据库写入、运行时来源/连接器和中国大陆招聘有效样本仍均为 0。
+当前日更网页与用户分析增量的权威输入为已批准 `docs/02-daily-web-user-analysis-product-delta.md` v1.0；对应权威设计输入 `ui/13-daily-web-user-analysis-ui-prompt-increment.md` v1.0 已由超级无敌帅超超总批准。2026-08-26 的最新直接指令取消了“等待用户使用专业 UI 模型生成资产”的旧等待点，并授权同一固定 04 形成无需外部图片的实现级设计；当前权威设计交付为 `ui/14-daily-web-user-analysis-ui-design.md` v1.0，停在 `ui-design-review`，不自动启动开发。该设计继承已批准 `ui/04-release-completeness-ui-prompt.md` 与十张历史视觉基线，不覆盖既有 Prompt、设计说明或视觉资产；当前信息源工作台真实服务闭环、用户输入、业务数据库写入、运行时来源/连接器和中国大陆招聘有效样本仍均为 0。
 
 此前发布完整性权威顺序为：已批准 `docs/02-prd.md` v1.3 + 已批准来源 allowlist/registry v1.0 → 已批准 `ui/04-release-completeness-ui-prompt.md` v1.0 → CR-UI-002 v1.0–v1.6 七轮独立视觉审查均为 `changes-requested` → 固定 04 完成 `ui/12-release-completeness-ui-design-v1.7.md` 与 resolved 49 张设计包（29 张新 overlay + 20 张 v1.6 resolved SHA 复用），机器门通过，重新停在 `ui-design-review` 等待根协调第八轮独立视觉审查。v1.0–v1.6 说明、全部历史画板、旧 `ui/03-ui-prompt.md` v1.1 与 10 张早期图片全部保留，不覆盖或删除。
 
