@@ -1860,3 +1860,30 @@ approvals:
     production_release: frozen
     advance_limit: one-ui-prompt-delivery-unit-only
     auto_advance_beyond_next: false
+  - id: approval-20260826-career-daily-web-user-analysis-ui-prompt-v1
+    run_id: run-20260803-market-analysis-dev-init-001
+    gate: ui-prompt-review
+    role: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    project_id: market-analysis-dev
+    work_item: CFR-UI-DAILY-WEB-001
+    change_id: ui-prompt-20260826-career-daily-web-user-analysis-001
+    artifact: artifact-career-daily-web-user-analysis-ui-prompt-increment-001
+    path: ui/13-daily-web-user-analysis-ui-prompt-increment.md
+    version: "1.0"
+    sha256: ef2307dd4b4ca0130def2b6ae3b31f381d4bac0f7f63f829b8e829edad8a7bac
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-26T15:12:28+08:00"
+    source_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    source_reply: 通过
+    result: approved
+    completed_gate: ui-prompt-review
+    next_state: awaiting-user-professional-ui-model-assets
+    next_asset_location: ui/
+    role_boundary: fixed-04-stops-at-prompt-no-image-generation
+    downstream_role_authorized: false
+    production_release: frozen
+    auto_route: false
+    auto_advance_beyond_next: false

@@ -3031,7 +3031,7 @@ artifacts:
       production_release: frozen
     ui_index:
       path: ui/README.md
-      sha256: 48c6185c35731e99f67851f21e4af51f31c86405b6b64913eed150504dffa2b7
+      sha256: bd245a490c33727497900a2fa94fc05eb6b0e33bb8ee974ed3b893307c0161dd
     validation_status: passed
     validation:
       upstream_product_sha256: matched
@@ -3050,9 +3050,16 @@ artifacts:
       implementation_modified: false
     validated_at: "2026-08-26T14:55:01+08:00"
     completed_at: "2026-08-26T14:49:14+08:00"
-    status: ready-for-review
-    review_status: ready-for-review
-    result: validated-ready-for-ui-prompt-review-no-downstream-route
+    status: approved
+    review_status: approved
+    review_decision: approved
+    review_approval: approval-20260826-career-daily-web-user-analysis-ui-prompt-v1
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-26T15:12:28+08:00"
+    result: approved-awaiting-user-professional-ui-model-assets
     stop_gate: ui-prompt-review
+    completed_gate: ui-prompt-review
+    next_state: awaiting-user-professional-ui-model-assets
+    role_boundary: fixed-04-stops-at-prompt-no-image-generation
     downstream_role_authorized: false
     auto_route: false

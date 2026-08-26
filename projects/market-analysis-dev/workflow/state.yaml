@@ -4,7 +4,7 @@ run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
 stage: ui-ux
-status: career-daily-web-user-analysis-ui-prompt-ready-for-review
+status: career-daily-web-user-analysis-ui-prompt-approved-awaiting-user-generated-assets
 current_role: role-ui-designer
 blocked: false
 ui_assets:
@@ -214,15 +214,19 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
-  gate: ui-prompt-review
-  scope: "同一权威固定04在 Radar UI Prompt 交付并停门后，仅交付 Career 日更真实证据网页化与用户原文版本化分析闭环 UI Prompt 增量；不做 UI 设计、架构、数据、前后端、运行或部署。"
+  gate: ui-design-review
+  scope: "等待超级无敌帅超超总使用已批准 Prompt 与专业 UI 设计大模型生成新版资产并放入 ui/；固定04不自行生成图片，资产形成后只登记、核对并停 ui-design-review，不自动启动开发。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
-  expected_artifact: artifact-career-daily-web-user-analysis-ui-prompt-increment-001
-  expected_path: ui/13-daily-web-user-analysis-ui-prompt-increment.md
-  expected_version: "1.0"
-  expected_sha256: ef2307dd4b4ca0130def2b6ae3b31f381d4bac0f7f63f829b8e829edad8a7bac
+  delivery_status: awaiting-user-professional-ui-model-assets
+  expected_artifact: user-provided-career-daily-web-user-analysis-ui-assets
+  expected_path: ui/
+  expected_version: pending
+  approved_prompt_artifact: artifact-career-daily-web-user-analysis-ui-prompt-increment-001
+  approved_prompt_path: ui/13-daily-web-user-analysis-ui-prompt-increment.md
+  approved_prompt_version: "1.0"
+  approved_prompt_sha256: ef2307dd4b4ca0130def2b6ae3b31f381d4bac0f7f63f829b8e829edad8a7bac
+  prompt_approval: approval-20260826-career-daily-web-user-analysis-ui-prompt-v1
   input_artifact: artifact-career-daily-web-user-analysis-product-delta-001
   input_path: docs/02-daily-web-user-analysis-product-delta.md
   input_version: "1.0"
@@ -2377,8 +2381,8 @@ daily_web_user_analysis_ui_prompt_assignment:
     version: "1.0"
     sha256: ef2307dd4b4ca0130def2b6ae3b31f381d4bac0f7f63f829b8e829edad8a7bac
     ui_index_sha256: 48c6185c35731e99f67851f21e4af51f31c86405b6b64913eed150504dffa2b7
-  scheduling: completed-ready-for-review
-  delivery_status: ready-for-review
+  scheduling: completed-approved-awaiting-user-assets
+  delivery_status: approved
   excluded_duplicate_task_id: "01a00b3d-89e7-7fa0-a963-5a2bf0ef6c51"
   started_at: "2026-08-26T14:49:14+08:00"
   completed_at: "2026-08-26T14:49:14+08:00"
@@ -2396,9 +2400,16 @@ daily_web_user_analysis_ui_prompt_assignment:
     git_boundary: passed
     skill_drift: passed
     diff_check: passed
-  result: validated-ready-for-ui-prompt-review-no-downstream-route
+  review_approval: approval-20260826-career-daily-web-user-analysis-ui-prompt-v1
+  approved_by: 超级无敌帅超超总
+  approved_at: "2026-08-26T15:12:28+08:00"
+  result: approved-awaiting-user-professional-ui-model-assets
   stop_gate: ui-prompt-review
+  completed_gate: ui-prompt-review
   production_release: frozen
+  next_state: awaiting-user-professional-ui-model-assets
+  next_asset_location: ui/
+  role_boundary: fixed-04-stops-at-prompt-no-image-generation
   downstream_role_authorized: false
   auto_advance_beyond_next: false
-updated_at: "2026-08-26T14:55:01+08:00"
+updated_at: "2026-08-26T15:12:28+08:00"
