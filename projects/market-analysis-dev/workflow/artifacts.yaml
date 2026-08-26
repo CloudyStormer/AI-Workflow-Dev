@@ -3241,3 +3241,103 @@ artifacts:
     stop_gate: architecture-review
     downstream_role_authorized: false
     auto_route: false
+  - id: artifact-career-daily-web-user-analysis-task-breakdown-001
+    run_id: run-20260803-market-analysis-dev-init-001
+    type: daily-web-user-analysis-task-breakdown
+    project_id: market-analysis-dev
+    work_item: CFR-PM-DAILY-WEB-001
+    change_id: plan-20260826-career-daily-web-user-analysis-001
+    owner: role-pm
+    role_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
+    role_task_title: "02 项目经理"
+    authorization: approval-20260826-career-daily-web-user-analysis-task-breakdown-entry
+    authorization_source: approval-20260826-career-daily-web-user-analysis-architecture-v1
+    write_baseline: d9af434985646675715ac2b8adce7b1f95e00673
+    queue_dependency:
+      project_id: ai-model-radar
+      work_item: AMR-PM-DAILY-WEB-001
+      commit: d9af434985646675715ac2b8adce7b1f95e00673
+      result: fulfilled-and-submitted-by-fixed-00
+    path: docs/09-daily-web-user-analysis-task-breakdown.md
+    version: "1.0"
+    sha256: 2e2bb5da5a56736ba0decc39e5ea40b476618b27d7a623d237bb4f806ed8e38b
+    upstream:
+      architecture:
+        artifact: artifact-career-daily-web-user-analysis-architecture-assessment-001
+        path: docs/08-daily-web-user-analysis-architecture-assessment.md
+        version: "1.0"
+        sha256: d2993ba8a8be4a57d0f9188028f4e982c70d0c355d9464a8758cc4dd969c4e31
+        approval: approval-20260826-career-daily-web-user-analysis-architecture-v1
+      product_delta:
+        path: docs/02-daily-web-user-analysis-product-delta.md
+        version: "1.0"
+        sha256: 6f3319cdabad6dfcaf24f2ad9cba2b67e2fdde4b2596b64c177f17cf55ef5f7a
+      ui_design:
+        artifact: artifact-career-daily-web-user-analysis-ui-design-001
+        path: ui/14-daily-web-user-analysis-ui-design.md
+        version: "1.0"
+        sha256: a084faf2dbcc4a5eae2489017706119c1ada68a46ca25da1aa10f40a19126ede
+      release_architecture:
+        path: docs/06-release-completeness-architecture.md
+        version: "1.0"
+        sha256: 0f6cebe45056ea5171805348f1ecc92bb5ac97b7ee3b6404aa4e05cfad9e6029
+      verified_batch:
+        path: output/daily/2026-08-25.json
+        sha256: 0bbc8c56794e5e14dea5780616b40729464ffdb6fa6f20ab6df25f604b9d5c6f
+        status: exact-input-not-imported
+      source_runtime_readiness:
+        path: docs/00-source-runtime-readiness.md
+        sha256: ee6f32549187ed51939a3b2c11accf4c9cd67b9e50d3c5fbcc70c29949536dbd
+    scope:
+      - private-material-version-classification-confirmation-analysis-job-and-history
+      - public-approved-static-snapshot-reference-with-runtime-fail-closed
+      - complete-simplified-chinese-api-driven-workbench-integration
+      - export-delete-recovery-and-continuous-review-qa-gates
+    direct_task_count: 27
+    atomic_effort_hours: {minimum: 3, maximum: 4}
+    unique_first_work_item:
+      id: CFR-DW-DATA-201
+      owner: role-data-engineer
+      role_task_title: "08 数据工程师"
+      estimate_hours: 4
+      status: proposed-first-planned-not-authorized
+      conditions:
+        - task-breakdown-review-approved
+        - authoritative-input-sha256-unchanged
+        - clean-git-worktree-and-no-index-lock
+        - fixed-08-wip-slot-available
+    frozen_truth:
+      source_workbench_real_service_loop: false
+      user_input_records: 0
+      business_database_rows_written: 0
+      sqlite_database_materialized: false
+      runtime_enabled: false
+      live_connectors: 0
+      mainland_china_recruitment_samples: 0
+      external_processing_enabled: false
+    exclusions:
+      - no-business-code-or-database-write-by-this-artifact
+      - no-real-user-material-or-external-analysis
+      - no-network-collection-or-connector-runtime
+      - no-service-start-or-deployment
+      - no-source-policy-registry-or-approval-change
+      - no-downstream-role-route-by-this-artifact
+    validation_status: passed
+    validation:
+      authoritative_input_sha256: matched-9-of-9
+      task_structure: 27-unique-direct-items-3-to-4-hours
+      unique_first_work_item: CFR-DW-DATA-201-only
+      planned_authorization_and-truth-boundary: passed
+      workflow_yaml: 4-of-4-valid
+      events_jsonl_before_validation_event: 207-of-207-valid-and-unique
+      project_structure: passed-required-authoritative-paths-exist
+      git_boundary: passed
+      skill_drift: passed
+      diff_check: passed
+    completed_at: "2026-08-26T18:18:49+08:00"
+    validated_at: "2026-08-26T18:20:46+08:00"
+    status: ready-for-review
+    review_status: pending
+    stop_gate: task-breakdown-review
+    downstream_role_authorized: false
+    auto_route: false

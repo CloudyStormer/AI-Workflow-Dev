@@ -4,7 +4,7 @@ run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
 stage: task-breakdown
-status: career-daily-web-user-analysis-architecture-approved-task-breakdown-queued
+status: career-daily-web-user-analysis-task-breakdown-ready-for-review
 current_role: role-pm
 blocked: false
 ui_assets:
@@ -218,7 +218,7 @@ next_approval:
   scope: "审核 Career 真实用户输入分析最短纵切任务拆解；必须明确唯一首个开发工作项、真实入库与分析验收，不授权自动开发、外部分析、数据库写入、服务重启或部署。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: not-created
+  delivery_status: ready-for-review
   expected_artifact: artifact-career-daily-web-user-analysis-task-breakdown-001
   expected_path: docs/09-daily-web-user-analysis-task-breakdown.md
   expected_version: "1.0"
@@ -236,7 +236,8 @@ next_approval:
     project_id: ai-model-radar
     work_item: AMR-PM-DAILY-WEB-001
     required_state: delivered-and-stopped-at-task-breakdown-review
-    fulfilled: false
+    fulfilled: true
+    fulfilled_by_commit: d9af434985646675715ac2b8adce7b1f95e00673
   safe_checkpoint: 92a5347a1ac5a51a1a242d52ea42b72bbcfe6203
   advance_limit: one-task-breakdown-delivery-unit-only
   auto_advance_beyond_next: false
@@ -2549,7 +2550,8 @@ daily_web_user_analysis_task_breakdown_assignment:
     project_id: ai-model-radar
     work_item: AMR-PM-DAILY-WEB-001
     required_state: delivered-and-stopped-at-task-breakdown-review
-    fulfilled: false
+    fulfilled: true
+    fulfilled_by_commit: d9af434985646675715ac2b8adce7b1f95e00673
   input:
     artifact: artifact-career-daily-web-user-analysis-architecture-assessment-001
     path: docs/08-daily-web-user-analysis-architecture-assessment.md
@@ -2559,9 +2561,60 @@ daily_web_user_analysis_task_breakdown_assignment:
     artifact: artifact-career-daily-web-user-analysis-task-breakdown-001
     path: docs/09-daily-web-user-analysis-task-breakdown.md
     version: "1.0"
-  scheduling: authorized-queued-after-radar
-  delivery_status: not-created
+    sha256: 2e2bb5da5a56736ba0decc39e5ea40b476618b27d7a623d237bb4f806ed8e38b
+  write_baseline: d9af434985646675715ac2b8adce7b1f95e00673
+  queue_dependency:
+    project_id: ai-model-radar
+    work_item: AMR-PM-DAILY-WEB-001
+    required_state: delivered-and-stopped-at-task-breakdown-review
+    fulfilled: true
+    fulfilled_by_commit: d9af434985646675715ac2b8adce7b1f95e00673
+  scope:
+    - private-material-version-classification-confirmation-analysis-and-history
+    - public-approved-static-snapshot-reference-and-runtime-fail-closed
+    - api-driven-complete-simplified-chinese-workbench
+    - export-delete-recovery-and-review-qa-gates
+  scheduling: completed-ready-for-review
+  started_at: "2026-08-26T18:18:49+08:00"
+  completed_at: "2026-08-26T18:18:49+08:00"
+  direct_task_count: 27
+  atomic_effort_hours: {minimum: 3, maximum: 4}
+  unique_first_work_item:
+    id: CFR-DW-DATA-201
+    role: role-data-engineer
+    role_task_title: "08 数据工程师"
+    status: proposed-first-planned-not-authorized
+  truth_boundary:
+    source_workbench_real_service_loop: false
+    user_input_records: 0
+    business_database_rows_written: 0
+    sqlite_database_materialized: false
+    runtime_enabled: false
+    live_connectors: 0
+    mainland_china_recruitment_samples: 0
+    external_processing_enabled: false
+  delivery_status: ready-for-review
+  validation_status: passed
+  validated_at: "2026-08-26T18:20:46+08:00"
+  validation:
+    authoritative_input_sha256: matched-9-of-9
+    task_structure: 27-unique-direct-items-3-to-4-hours
+    unique_first_work_item: CFR-DW-DATA-201-only
+    planned_authorization_and-truth-boundary: passed
+    workflow_yaml: 4-of-4-valid
+    events_jsonl_before_validation_event: 207-of-207-valid-and-unique
+    project_structure: passed-required-authoritative-paths-exist
+    git_boundary: passed
+    skill_drift: passed
+    diff_check: passed
+  proposed_on_approved:
+    next_role: role-data-engineer
+    next_role_task_title: "08 数据工程师"
+    next_work_item: CFR-DW-DATA-201
+    status: proposed-only-not-routed
+    advance_limit: one-atomic-delivery-unit-only
+    auto_route: false
   stop_gate: task-breakdown-review
   production_release: frozen
   auto_advance_beyond_next: false
-updated_at: "2026-08-26T17:57:24+08:00"
+updated_at: "2026-08-26T18:20:46+08:00"
