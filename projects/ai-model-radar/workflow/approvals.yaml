@@ -1435,3 +1435,60 @@ approvals:
     stop_gate: architecture-review
     production_release: frozen
     auto_advance_beyond_next: false
+  - id: approval-20260826-radar-daily-web-architecture-v1
+    run_id: run-20260731-intake-001
+    gate: architecture-review
+    role: role-architect
+    project_id: ai-model-radar
+    work_item: AMR-ARCH-DAILY-WEB-001
+    change_id: architecture-20260826-radar-daily-web-001
+    artifact: artifact-radar-daily-web-architecture-assessment-001
+    path: docs/08-daily-web-architecture-assessment.md
+    version: "1.0"
+    sha256: 83a94b0cc83fa0e6c6a2080aedbfd0fa891a36c79af559ae1111bc7b240a56e5
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-26T17:57:24+08:00"
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    source_reply: "radar和career继续，其他两个不管了，快速完成，让我看到这两个项目能看到实质的真实的数据"
+    result: approved
+    completed_gate: architecture-review
+    authorized_next_role: role-pm
+    authorized_next_work_item: AMR-PM-DAILY-WEB-001
+    next_entry_authorization: approval-20260826-radar-daily-web-task-breakdown-entry
+    production_release: frozen
+    advance_limit: one-task-breakdown-delivery-unit-only
+    auto_advance_beyond_next: false
+  - id: approval-20260826-radar-daily-web-task-breakdown-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    role: role-pm
+    role_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
+    role_task_title: "02 项目经理"
+    project_id: ai-model-radar
+    work_item: AMR-PM-DAILY-WEB-001
+    change_id: plan-20260826-radar-daily-web-real-data-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-26T17:57:24+08:00"
+    authorization_source: approval-20260826-radar-daily-web-architecture-v1
+    input:
+      artifact: artifact-radar-daily-web-architecture-assessment-001
+      path: docs/08-daily-web-architecture-assessment.md
+      version: "1.0"
+      sha256: 83a94b0cc83fa0e6c6a2080aedbfd0fa891a36c79af559ae1111bc7b240a56e5
+    scope: "把真实来源采集、SQLite 持久化、不可变快照、查询 API、失败保旧和中文版页面联调拆成最短可执行纵切，明确唯一首个开发工作项与真实数据验收。"
+    exclusions:
+      - implementation-or-database-write
+      - connector-or-network-collection
+      - service-restart-or-deployment
+      - automatic-development-route
+    expected_output:
+      artifact: artifact-radar-daily-web-real-data-task-breakdown-001
+      path: docs/09-daily-web-real-data-task-breakdown.md
+      version: "1.0"
+    authorization_text: "已批准当前架构，并自动授权唯一下一站固定02 / AMR-PM-DAILY-WEB-001。本次只覆盖任务拆解一个交付单元；交付后停止等待审核，不代表开发产物或后续角色已获批准。"
+    scheduling: active-first
+    stop_gate: task-breakdown-review
+    production_release: frozen
+    auto_advance_beyond_next: false

@@ -3,9 +3,9 @@ project_id: "market-analysis-dev"
 run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
-stage: architecture
-status: career-daily-web-user-analysis-architecture-assessment-ready-for-review
-current_role: role-architect
+stage: task-breakdown
+status: career-daily-web-user-analysis-architecture-approved-task-breakdown-queued
+current_role: role-pm
 blocked: false
 ui_assets:
   directory: ui
@@ -214,37 +214,31 @@ release_scope_review:
   evidence: "超级无敌帅超超总对固定 03 上一条四项目明确交付回复‘同意’。"
   effect: approve-release-scope-only-no-downstream-route
 next_approval:
-  gate: architecture-review
-  scope: "审核 Career 日更证据与用户分析架构评估，冻结公共快照与私有用户资料、版本/证据、分析任务、幂等重试、历史引用和数据权利边界；不自动启动重新拆解、数据、后端、前端或部署。"
+  gate: task-breakdown-review
+  scope: "审核 Career 真实用户输入分析最短纵切任务拆解；必须明确唯一首个开发工作项、真实入库与分析验收，不授权自动开发、外部分析、数据库写入、服务重启或部署。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
-  expected_artifact: artifact-career-daily-web-user-analysis-architecture-assessment-001
-  expected_path: docs/08-daily-web-user-analysis-architecture-assessment.md
+  delivery_status: not-created
+  expected_artifact: artifact-career-daily-web-user-analysis-task-breakdown-001
+  expected_path: docs/09-daily-web-user-analysis-task-breakdown.md
   expected_version: "1.0"
-  artifact_sha256: d2993ba8a8be4a57d0f9188028f4e982c70d0c355d9464a8758cc4dd969c4e31
-  completed_at: "2026-08-26T16:54:00+08:00"
-  validated_at: "2026-08-26T16:55:10+08:00"
-  input_artifact: artifact-career-daily-web-user-analysis-ui-design-001
-  input_path: ui/14-daily-web-user-analysis-ui-design.md
+  input_artifact: artifact-career-daily-web-user-analysis-architecture-assessment-001
+  input_path: docs/08-daily-web-user-analysis-architecture-assessment.md
   input_version: "1.0"
-  input_sha256: a084faf2dbcc4a5eae2489017706119c1ada68a46ca25da1aa10f40a19126ede
-  design_approval: approval-20260826-career-daily-web-user-analysis-ui-design-v1
-  work_item: CFR-ARCH-DAILY-WEB-001
-  change_id: architecture-20260826-career-daily-web-user-analysis-001
-  entry_authorization: approval-20260826-career-daily-web-user-analysis-architecture-entry
-  role: role-architect
-  role_task_id: "01a00c4e-cdb4-7bc3-9ade-310e0fb9aef0"
+  input_sha256: d2993ba8a8be4a57d0f9188028f4e982c70d0c355d9464a8758cc4dd969c4e31
+  architecture_approval: approval-20260826-career-daily-web-user-analysis-architecture-v1
+  work_item: CFR-PM-DAILY-WEB-001
+  change_id: plan-20260826-career-daily-web-user-analysis-001
+  entry_authorization: approval-20260826-career-daily-web-user-analysis-task-breakdown-entry
+  role: role-pm
+  role_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
   queue_dependency:
     project_id: ai-model-radar
-    work_item: AMR-ARCH-DAILY-WEB-001
-    required_state: delivered-and-stopped-at-architecture-review
-    entry_authorization: approval-20260826-radar-daily-web-architecture-entry
-    fulfilled: true
-    artifact_sha256: 83a94b0cc83fa0e6c6a2080aedbfd0fa891a36c79af559ae1111bc7b240a56e5
-    commit: 966ef74518a097cd0412a83ae9ee2f48a2886314
-  safe_checkpoint: e4e70576fe40b2c06896beb5f06358c0bbf38701
-  advance_limit: one-architecture-assessment-delivery-unit-only
+    work_item: AMR-PM-DAILY-WEB-001
+    required_state: delivered-and-stopped-at-task-breakdown-review
+    fulfilled: false
+  safe_checkpoint: 92a5347a1ac5a51a1a242d52ea42b72bbcfe6203
+  advance_limit: one-task-breakdown-delivery-unit-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
   gate: cross-project-real-product-delta-review
@@ -2543,4 +2537,31 @@ daily_web_user_analysis_architecture_assessment_assignment:
   production_release: frozen
   downstream_role_authorized: false
   auto_advance_beyond_next: false
-updated_at: "2026-08-26T16:54:00+08:00"
+daily_web_user_analysis_task_breakdown_assignment:
+  work_item: CFR-PM-DAILY-WEB-001
+  change_id: plan-20260826-career-daily-web-user-analysis-001
+  role: role-pm
+  role_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
+  role_task_title: "02 项目经理"
+  authorization: approval-20260826-career-daily-web-user-analysis-task-breakdown-entry
+  authorization_source: approval-20260826-career-daily-web-user-analysis-architecture-v1
+  queue_dependency:
+    project_id: ai-model-radar
+    work_item: AMR-PM-DAILY-WEB-001
+    required_state: delivered-and-stopped-at-task-breakdown-review
+    fulfilled: false
+  input:
+    artifact: artifact-career-daily-web-user-analysis-architecture-assessment-001
+    path: docs/08-daily-web-user-analysis-architecture-assessment.md
+    version: "1.0"
+    sha256: d2993ba8a8be4a57d0f9188028f4e982c70d0c355d9464a8758cc4dd969c4e31
+  expected_output:
+    artifact: artifact-career-daily-web-user-analysis-task-breakdown-001
+    path: docs/09-daily-web-user-analysis-task-breakdown.md
+    version: "1.0"
+  scheduling: authorized-queued-after-radar
+  delivery_status: not-created
+  stop_gate: task-breakdown-review
+  production_release: frozen
+  auto_advance_beyond_next: false
+updated_at: "2026-08-26T17:57:24+08:00"
