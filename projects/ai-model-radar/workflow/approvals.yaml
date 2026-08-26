@@ -1333,3 +1333,38 @@ approvals:
     production_release: frozen
     advance_limit: one-ui-prompt-delivery-unit-only
     auto_advance_beyond_next: false
+  - id: approval-20260826-radar-daily-web-ui-design-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    role: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    project_id: ai-model-radar
+    work_item: AMR-UI-DAILY-WEB-002
+    change_id: ui-design-20260826-radar-daily-web-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-26T16:04:02+08:00"
+    authorization_source: direct-user-correction-via-fixed-00
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    safe_checkpoint: c8ba57127e78e95a2863b92c2b361abbbcad899f
+    input:
+      artifact: artifact-radar-daily-web-ui-prompt-increment-001
+      path: ui/07-daily-web-ui-prompt-increment.md
+      version: "1.0"
+      sha256: 04b05f43bae2e6ae6f3fd0a33a0bce284f85c41508dc8ce7b374690ced83c679
+      approval: approval-20260826-radar-daily-web-ui-prompt-v1
+    scope: "只交付 Radar 真实日更网页实现级设计说明、线框、组件、状态、响应式和无障碍；不依赖外部图片。"
+    exclusions:
+      - architecture-data-frontend-backend-or-deployment
+      - connectors-services-runtime-or-news-collection
+      - production-release
+      - downstream-auto-route
+    expected_output:
+      artifact: artifact-radar-daily-web-ui-design-001
+      path: ui/08-daily-web-ui-design.md
+      version: "1.0"
+    authorization_text: "已批准当前 Prompt，并授权同一固定 04 / AMR-UI-DAILY-WEB-002 完成一个设计交付单元；设计交付后停止等待审核，不代表其产物或后续角色已获批准。"
+    stop_gate: ui-design-review
+    production_release: frozen
+    auto_advance_beyond_next: false

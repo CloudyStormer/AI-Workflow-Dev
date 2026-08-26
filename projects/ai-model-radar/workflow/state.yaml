@@ -4,7 +4,7 @@ run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
 stage: ui-ux
-status: radar-daily-web-ui-prompt-ready-for-review
+status: radar-daily-web-ui-design-ready-for-review
 current_role: role-ui-designer
 blocked: false
 ui_assets:
@@ -111,29 +111,29 @@ completed_release_completeness_architecture_review:
   advance_limit: unique-next-stage-only
   auto_advance_beyond_next: false
 next_approval:
-  gate: ui-prompt-review
-  scope: "权威固定04仅交付 Radar 日更真实数据网页化 UI Prompt 增量；覆盖 /today 去 Demo、真实数据生命周期、历史追加、失败保旧、刷新与真相状态，不做 UI 设计、架构、数据、前后端、运行或部署。"
+  gate: ui-design-review
+  scope: "审核 Radar 日更真实数据网页实现级设计；不自动批准架构、数据、前后端、连接器、服务或部署。"
   decision_owner: 超级无敌帅超超总
   decision: pending
   delivery_status: ready-for-review
-  expected_artifact: artifact-radar-daily-web-ui-prompt-increment-001
-  expected_path: ui/07-daily-web-ui-prompt-increment.md
+  expected_artifact: artifact-radar-daily-web-ui-design-001
+  expected_path: ui/08-daily-web-ui-design.md
   expected_version: "1.0"
-  artifact_sha256: 04b05f43bae2e6ae6f3fd0a33a0bce284f85c41508dc8ce7b374690ced83c679
-  ui_index_sha256: b565a48d261257fb1da812ab44d08db3e7a519aa62fde26faf0b463ee7c57b08
-  input_artifact: artifact-radar-daily-web-product-delta-001
-  input_path: docs/02-daily-data-web-product-delta.md
+  artifact_sha256: 5505f08f181ffea782e681d388fa8e73b45d6b888ca5b2695b3349b9e827cc3f
+  ui_index_sha256: 08c6d08604313c669262549e13b4544a2fc83ba9f8dcdfb95bcd99c27a4054b9
+  input_artifact: artifact-radar-daily-web-ui-prompt-increment-001
+  input_path: ui/07-daily-web-ui-prompt-increment.md
   input_version: "1.0"
-  input_sha256: 2661cfc4bcaecdd7eb57523b840f3f59f1befd88cb1311368371542b470700b2
-  product_approval: approval-20260826-radar-daily-web-product-v1
-  work_item: AMR-UI-DAILY-WEB-001
-  change_id: ui-prompt-20260826-radar-daily-web-001
-  entry_authorization: approval-20260826-radar-daily-web-ui-prompt-entry
+  input_sha256: 04b05f43bae2e6ae6f3fd0a33a0bce284f85c41508dc8ce7b374690ced83c679
+  prompt_approval: approval-20260826-radar-daily-web-ui-prompt-v1
+  work_item: AMR-UI-DAILY-WEB-002
+  change_id: ui-design-20260826-radar-daily-web-001
+  entry_authorization: approval-20260826-radar-daily-web-ui-design-entry
   role: role-ui-designer
   role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
   excluded_duplicate_task_id: "01a00b3d-89e7-7fa0-a963-5a2bf0ef6c51"
   safe_checkpoint: 9cfb6ca76c9dfa0d524d5b34278772b8408f19ca
-  advance_limit: one-ui-prompt-delivery-unit-only
+  advance_limit: one-ui-design-delivery-unit-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
   gate: cross-project-real-product-delta-review
@@ -1833,4 +1833,46 @@ daily_web_ui_prompt_assignment:
   authorized_next_work_item: CFR-UI-DAILY-WEB-001
   next_entry_authorization: approval-20260826-career-daily-web-user-analysis-ui-prompt-entry
   auto_advance_beyond_next: false
-updated_at: "2026-08-26T14:49:14+08:00"
+daily_web_ui_design_assignment:
+  work_item: AMR-UI-DAILY-WEB-002
+  change_id: ui-design-20260826-radar-daily-web-001
+  role: role-ui-designer
+  role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+  authorization: approval-20260826-radar-daily-web-ui-design-entry
+  safe_checkpoint: c8ba57127e78e95a2863b92c2b361abbbcad899f
+  input:
+    artifact: artifact-radar-daily-web-ui-prompt-increment-001
+    path: ui/07-daily-web-ui-prompt-increment.md
+    version: "1.0"
+    sha256: 04b05f43bae2e6ae6f3fd0a33a0bce284f85c41508dc8ce7b374690ced83c679
+    approval: approval-20260826-radar-daily-web-ui-prompt-v1
+  output:
+    artifact: artifact-radar-daily-web-ui-design-001
+    path: ui/08-daily-web-ui-design.md
+    version: "1.0"
+    sha256: 5505f08f181ffea782e681d388fa8e73b45d6b888ca5b2695b3349b9e827cc3f
+    ui_index_sha256: 08c6d08604313c669262549e13b4544a2fc83ba9f8dcdfb95bcd99c27a4054b9
+  scheduling: completed-ready-for-review
+  delivery_status: ready-for-review
+  started_at: "2026-08-26T16:04:02+08:00"
+  completed_at: "2026-08-26T16:04:02+08:00"
+  validation_status: passed
+  validated_at: "2026-08-26T16:07:23+08:00"
+  validation:
+    approved_prompt_sha256: matched
+    design_and_ui_index_sha256: matched
+    truth_states: 8-of-8
+    semantic_chart_contracts: 8-of-8
+    acceptance_mapping: AC-AMR-DW-01-through-15
+    workflow_yaml: 4-of-4-valid
+    events_jsonl_before_validation_event: 165-of-165-valid-and-unique
+    project_structure: passed-with-0-warnings
+    git_boundary: passed
+    skill_drift: passed
+    diff_check: passed
+  result: validated-ready-for-ui-design-review-no-downstream-route
+  stop_gate: ui-design-review
+  production_release: frozen
+  downstream_role_authorized: false
+  auto_advance_beyond_next: false
+updated_at: "2026-08-26T16:07:23+08:00"

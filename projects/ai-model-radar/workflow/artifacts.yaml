@@ -2053,3 +2053,66 @@ artifacts:
     next_entry_authorization: approval-20260826-career-daily-web-user-analysis-ui-prompt-entry
     downstream_role_authorized: true
     auto_route: unique-pre-authorized-serial-next-unit
+  - id: artifact-radar-daily-web-ui-design-001
+    run_id: run-20260731-intake-001
+    type: daily-real-data-web-ui-design
+    project_id: ai-model-radar
+    work_item: AMR-UI-DAILY-WEB-002
+    change_id: ui-design-20260826-radar-daily-web-001
+    owner: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    authorization: approval-20260826-radar-daily-web-ui-design-entry
+    path: ui/08-daily-web-ui-design.md
+    version: "1.0"
+    sha256: 5505f08f181ffea782e681d388fa8e73b45d6b888ca5b2695b3349b9e827cc3f
+    upstream:
+      artifact: artifact-radar-daily-web-ui-prompt-increment-001
+      path: ui/07-daily-web-ui-prompt-increment.md
+      version: "1.0"
+      sha256: 04b05f43bae2e6ae6f3fd0a33a0bce284f85c41508dc8ce7b374690ced83c679
+      approval: approval-20260826-radar-daily-web-ui-prompt-v1
+    coverage:
+      - five-primary-routes-and-six-context-routes
+      - p0-page-wireframes-and-implementation-grade-component-specs
+      - eight-truth-states-and-eight-semantic-chart-contracts
+      - 1440-1024-390-320-and-200-percent-reflow
+      - keyboard-screen-reader-focus-live-region-and-non-color-coding
+    truth_boundary:
+      today_page_still_demo: true
+      real_batch_connected_to_web: false
+      runtime_enabled: false
+      live_connectors: 0
+      live_snapshots: 0
+      database_rows_written: 0
+      external_images_generated: false
+      implementation_modified: false
+      production_release: frozen
+    ui_index:
+      path: ui/README.md
+      sha256: 08c6d08604313c669262549e13b4544a2fc83ba9f8dcdfb95bcd99c27a4054b9
+    validation_status: passed
+    validation:
+      approved_prompt_sha256: matched
+      design_and_ui_index_sha256: matched
+      required_sections: passed
+      truth_states: 8-of-8
+      semantic_chart_contracts: 8-of-8
+      acceptance_mapping: AC-AMR-DW-01-through-15
+      responsive: 1440-1024-390-320-and-200-percent
+      accessibility: keyboard-screen-reader-focus-live-region-non-color
+      workflow_yaml: 4-of-4-valid
+      events_jsonl_before_validation_event: 165-of-165-valid-and-unique
+      project_structure: passed-with-0-warnings
+      git_boundary: passed
+      skill_drift: passed
+      diff_check: passed
+      external_images_generated: false
+      implementation_modified: false
+    validated_at: "2026-08-26T16:07:23+08:00"
+    completed_at: "2026-08-26T16:04:02+08:00"
+    status: ready-for-review
+    review_status: ready-for-review
+    result: validated-ready-for-ui-design-review-no-downstream-route
+    stop_gate: ui-design-review
+    downstream_role_authorized: false
+    auto_route: false
