@@ -2089,7 +2089,7 @@ artifacts:
       production_release: frozen
     ui_index:
       path: ui/README.md
-      sha256: 08c6d08604313c669262549e13b4544a2fc83ba9f8dcdfb95bcd99c27a4054b9
+      sha256: eff406ffe0bf9af3125bd185a04215e6f2267362cbaf0c32f59e67acd8cbc381
     validation_status: passed
     validation:
       approved_prompt_sha256: matched
@@ -2110,9 +2110,17 @@ artifacts:
       implementation_modified: false
     validated_at: "2026-08-26T16:07:23+08:00"
     completed_at: "2026-08-26T16:04:02+08:00"
-    status: ready-for-review
-    review_status: ready-for-review
-    result: validated-ready-for-ui-design-review-no-downstream-route
+    status: approved
+    review_status: approved
+    review_decision: approved
+    review_approval: approval-20260826-radar-daily-web-ui-design-v1
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-26T16:18:28+08:00"
+    result: approved-and-fixed-05-architecture-assessment-routed
     stop_gate: ui-design-review
-    downstream_role_authorized: false
-    auto_route: false
+    completed_gate: ui-design-review
+    downstream_role_authorized: true
+    authorized_next_role: role-architect
+    authorized_next_work_item: AMR-ARCH-DAILY-WEB-001
+    next_entry_authorization: approval-20260826-radar-daily-web-architecture-entry
+    auto_route: unique-next-stage

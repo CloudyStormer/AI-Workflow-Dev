@@ -1368,3 +1368,70 @@ approvals:
     stop_gate: ui-design-review
     production_release: frozen
     auto_advance_beyond_next: false
+  - id: approval-20260826-radar-daily-web-ui-design-v1
+    run_id: run-20260731-intake-001
+    gate: ui-design-review
+    role: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    project_id: ai-model-radar
+    work_item: AMR-UI-DAILY-WEB-002
+    change_id: ui-design-20260826-radar-daily-web-001
+    artifact: artifact-radar-daily-web-ui-design-001
+    path: ui/08-daily-web-ui-design.md
+    version: "1.0"
+    sha256: 5505f08f181ffea782e681d388fa8e73b45d6b888ca5b2695b3349b9e827cc3f
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-26T16:18:28+08:00"
+    source_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    source_reply: 通过
+    result: approved
+    completed_gate: ui-design-review
+    authorized_next_role: role-architect
+    authorized_next_work_item: AMR-ARCH-DAILY-WEB-001
+    next_entry_authorization: approval-20260826-radar-daily-web-architecture-entry
+    authorization_basis: docs/02-daily-data-web-product-delta.md-explicit-architecture-assessment-after-ui-design
+    production_release: frozen
+    advance_limit: one-architecture-assessment-delivery-unit-only
+    auto_advance_beyond_next: false
+  - id: approval-20260826-radar-daily-web-architecture-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    role: role-architect
+    role_task_id: "01a00c4e-cdb4-7bc3-9ade-310e0fb9aef0"
+    role_task_title: "05 架构师"
+    project_id: ai-model-radar
+    work_item: AMR-ARCH-DAILY-WEB-001
+    change_id: architecture-20260826-radar-daily-web-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-26T16:18:28+08:00"
+    authorization_source: approval-20260826-radar-daily-web-ui-design-v1
+    source_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    safe_checkpoint: a00f7443ef66e3eb2a6b042b022f85ceb2fc4259
+    input:
+      product:
+        path: docs/02-daily-data-web-product-delta.md
+        version: "1.0"
+        sha256: 2661cfc4bcaecdd7eb57523b840f3f59f1befd88cb1311368371542b470700b2
+      ui_design:
+        artifact: artifact-radar-daily-web-ui-design-001
+        path: ui/08-daily-web-ui-design.md
+        version: "1.0"
+        sha256: 5505f08f181ffea782e681d388fa8e73b45d6b888ca5b2695b3349b9e827cc3f
+        approval: approval-20260826-radar-daily-web-ui-design-v1
+    scope: "评估并冻结 Radar 日更网页的一次性导入、identity/revision、不可变快照、current pointer、幂等刷新、真实查询、失败保旧及数据/后端/前端接缝。"
+    exclusions:
+      - task-breakdown-or-implementation
+      - data-import-or-database-write
+      - frontend-backend-or-connector-changes
+      - service-start-or-deployment
+    expected_output:
+      artifact: artifact-radar-daily-web-architecture-assessment-001
+      path: docs/08-daily-web-architecture-assessment.md
+      version: "1.0"
+    authorization_text: "已批准当前产物，并自动授权唯一下一站固定05 / AMR-ARCH-DAILY-WEB-001。本次只覆盖该站一个交付单元；该角色交付后停止等待审核，不代表其产物或后续角色已获批准。"
+    scheduling: active-first
+    stop_gate: architecture-review
+    production_release: frozen
+    auto_advance_beyond_next: false
