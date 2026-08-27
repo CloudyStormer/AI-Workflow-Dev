@@ -99,7 +99,7 @@ export function App() {
 
           <div className={styles.localOnly}>
             <LockKeyhole size={15} strokeWidth={1.9} aria-hidden="true" />
-            本地交互预览
+            本地真实服务
           </div>
         </div>
 
@@ -147,8 +147,8 @@ export function App() {
       </main>
 
       <footer className={styles.footer}>
-        <p>当前开放职业方向首条纵切，以及信息源输入、校验和分类确认 UI 预览；其余内容属于后续独立任务。</p>
-        <p>用户正文只在当前标签页内存中处理，不连接后端、第三方模型或浏览器持久存储。</p>
+        <p>信息源工作台连接本机私有 SQLite 服务，保存不可变材料版本、分类确认、结构化分析与历史。</p>
+        <p>用户正文不写入网址或浏览器持久存储，不发送给第三方；公共研究与个人材料保持分域。</p>
       </footer>
 
       <nav className={styles.mobileNavigation} aria-label="移动端一级导航">

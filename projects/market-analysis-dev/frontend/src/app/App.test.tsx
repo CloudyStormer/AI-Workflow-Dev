@@ -1,6 +1,6 @@
 import { cleanup, render, screen } from '@testing-library/react'
 import { createMemoryRouter, RouterProvider } from 'react-router-dom'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { RouteLoadingState } from './App'
 import { RouteErrorPage, routes } from './router'
@@ -11,6 +11,12 @@ function renderAt(path: string) {
 }
 
 afterEach(() => cleanup())
+
+beforeEach(() => {
+  vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify({ data: [] }), { status: 200, headers: { 'Content-Type': 'application/json' } })))
+})
+
+afterEach(() => vi.unstubAllGlobals())
 
 describe('Frontend Career Radar 应用壳', () => {
   it('展示完整中文快照条和首条职业方向内容', async () => {
@@ -53,7 +59,7 @@ describe('Frontend Career Radar 应用壳', () => {
     expect(
       screen.getByLabelText('粘贴文章、招聘／面试要求、简历、项目材料或其他正文'),
     ).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: '分析并建议分类' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: '保存并建议分类' })).toBeInTheDocument()
   })
 
   it('根路径重定向到职业方向总览', async () => {

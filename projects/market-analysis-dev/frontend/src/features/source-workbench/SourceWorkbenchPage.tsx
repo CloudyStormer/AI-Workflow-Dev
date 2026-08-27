@@ -23,6 +23,14 @@ import {
 } from 'react'
 
 import {
+  careerApi,
+  createMaterialId,
+  type AnalysisRevision,
+  type ClassificationSuggestion,
+  type MaterialHistory,
+  type MaterialVersion,
+} from '../../api/career'
+import {
   MAX_SOURCE_CHARACTERS,
   createPlainTextPreview,
   validateSourceInput,
@@ -33,28 +41,31 @@ type WorkbenchStage = 'editing' | 'classification-review' | 'classification-conf
 type FieldError = 'source-body' | 'rights-confirmation' | null
 
 const sourceChannelOptions = [
-  '未知',
-  '搜索引擎结果',
-  '公司／机构官方来源',
-  '招聘平台／ATS',
-  '媒体／长文平台',
-  '政府／标准／研究机构',
-  '社区／社交平台',
-  '用户简历／个人材料',
-  '其他',
+  { value: 'unknown', label: '未知' },
+  { value: 'search_result', label: '搜索引擎结果' },
+  { value: 'official_source', label: '公司／机构官方来源' },
+  { value: 'recruiting_platform', label: '招聘平台／ATS' },
+  { value: 'longform_media', label: '媒体／长文平台' },
+  { value: 'research_institution', label: '政府／标准／研究机构' },
+  { value: 'professional_network', label: '社区／社交平台' },
+  { value: 'user_input', label: '用户输入／个人材料' },
+  { value: 'other', label: '其他' },
 ] as const
 
 const contentTypeOptions = [
-  '未知',
-  '行业／技术文章',
-  '招聘职位',
-  '面试要求',
-  '面试经验',
-  '简历／个人证据',
-  '项目／案例',
-  '学习资料',
-  '其他',
+  { value: 'unknown', label: '未知' },
+  { value: 'article_or_note', label: '行业／技术文章或笔记' },
+  { value: 'job_description', label: '招聘职位' },
+  { value: 'interview_requirement', label: '面试要求' },
+  { value: 'interview_note', label: '面试经验' },
+  { value: 'resume', label: '简历／个人证据' },
+  { value: 'project_record', label: '项目／案例' },
+  { value: 'learning_material', label: '学习资料' },
+  { value: 'other', label: '其他' },
 ] as const
+
+type SourceChannel = (typeof sourceChannelOptions)[number]['value']
+type ContentType = (typeof contentTypeOptions)[number]['value']
 
 const workbenchSteps = [
   { number: '1', label: '粘贴内容' },
@@ -64,7 +75,82 @@ const workbenchSteps = [
 ] as const
 
 function getActiveStep(stage: WorkbenchStage) {
-  return stage === 'editing' ? 1 : 2
+  if (stage === 'editing') return 1
+  if (stage === 'classification-review') return 2
+  return 3
+}
+
+function formValue(formData: FormData, key: string) {
+  const value = formData.get(key)
+  return typeof value === 'string' && value.trim() ? value.trim() : undefined
+}
+
+function asSourceChannel(value: string): SourceChannel {
+  return sourceChannelOptions.find((option) => option.value === value)?.value ?? 'unknown'
+}
+
+function asContentType(value: string): ContentType {
+  return contentTypeOptions.find((option) => option.value === value)?.value ?? 'unknown'
+}
+
+function sourceChannelLabel(value: SourceChannel): string {
+  return sourceChannelOptions.find((option) => option.value === value)?.label ?? '未知'
+}
+
+function contentTypeLabel(value: ContentType): string {
+  return contentTypeOptions.find((option) => option.value === value)?.label ?? '未知'
+}
+
+function formatConfidence(value?: number) {
+  return typeof value === 'number' ? `${Math.round(value * 100)}%` : '未知'
+}
+
+const factLayerLabels = {
+  'externally-verifiable': '外部可核验事实',
+  'user-stated': '用户陈述',
+  'system-inference': '系统推断',
+  UNKNOWN: '未知',
+} as const
+
+function AnalysisResult({ analysis }: { readonly analysis: AnalysisRevision }) {
+  return (
+    <section className={styles.analysisResult} aria-labelledby="analysis-result-title">
+      <div className={styles.sectionHeading}>
+        <span className={styles.sectionIcon} aria-hidden="true"><ScanSearch size={22} /></span>
+        <div><p>步骤 3</p><h2 id="analysis-result-title">结构化分析结果</h2></div>
+      </div>
+      <div className={styles.analysisTruth} role="note">
+        <strong>{analysis.status === 'completed' ? '分析完成' : '分析存在未知项'}</strong>
+        <span>规则版本 {analysis.ruleBundleVersion} · 分析修订 {analysis.revisionNo}</span>
+        <p>{analysis.summary.truthNotice}</p>
+      </div>
+      {analysis.summary.strongestSignals.length ? <div className={styles.signalList}><h3>最强信号</h3><ul>{analysis.summary.strongestSignals.map((signal) => <li key={signal}>{signal}</li>)}</ul></div> : null}
+      <div className={styles.findingGrid}>
+        {analysis.findings.map((finding) => (
+          <article key={finding.findingId}>
+            <div><span>{finding.kind}</span><strong>{formatConfidence(finding.confidence)}</strong></div>
+            <h3>{finding.label}</h3>
+            <p className={styles.factLayer}>{factLayerLabels[finding.factLayer]}</p>
+            <p>{finding.evidence?.snippet ?? '没有足够的原文证据片段。'}</p>
+            <small>规则 {finding.ruleRevision}{finding.evidence ? ` · 字符 ${finding.evidence.startCodepoint}–${finding.evidence.endCodepoint}` : ''}</small>
+          </article>
+        ))}
+      </div>
+      <p className={styles.publicBoundary}>{analysis.publicSnapshotId ? `已对照公共研究快照 ${analysis.publicSnapshotId}` : '公共研究快照未就绪：结果仅基于本次用户材料，不声称代表市场事实。'}</p>
+    </section>
+  )
+}
+
+function HistoryPanel({ items, loading }: { readonly items: readonly MaterialHistory[]; readonly loading: boolean }) {
+  return (
+    <section className={styles.historyPanel} aria-labelledby="history-title">
+      <div className={styles.sectionHeading}><span className={styles.sectionIcon} aria-hidden="true"><RotateCcw size={22} /></span><div><p>服务端历史</p><h2 id="history-title">已保存材料与分析版本</h2></div></div>
+      {loading ? <p role="status">正在从本地 SQLite 读取历史…</p> : items.length === 0 ? <p>尚无已保存记录，或本地服务暂不可用。</p> : <div className={styles.historyList}>{items.map((item) => {
+        const latest = item.analyses.at(-1)
+        return <article key={item.materialId}><div><strong>材料 {item.materialId}</strong><span>材料版本 {item.currentVersionNo} · 分类修订 {item.currentClassificationRevision} · 分析修订 {item.currentAnalysisRevision}</span></div>{latest ? <><p>{latest.summary.headline}</p><small>{new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(latest.createdAt))} · 规则 {latest.ruleBundleVersion}</small></> : <p>已保存正文，尚无完成的分析修订。</p>}</article>
+      })}</div>}
+    </section>
+  )
 }
 
 export function SourceWorkbenchPage() {
@@ -74,8 +160,15 @@ export function SourceWorkbenchPage() {
   const [fieldError, setFieldError] = useState<FieldError>(null)
   const [liveMessage, setLiveMessage] = useState('')
   const [clearDialogOpen, setClearDialogOpen] = useState(false)
-  const [sourceChannel, setSourceChannel] = useState<(typeof sourceChannelOptions)[number]>('未知')
-  const [contentType, setContentType] = useState<(typeof contentTypeOptions)[number]>('未知')
+  const [sourceChannel, setSourceChannel] = useState<SourceChannel>('unknown')
+  const [contentType, setContentType] = useState<ContentType>('unknown')
+  const [busy, setBusy] = useState(false)
+  const [serviceError, setServiceError] = useState<string | null>(null)
+  const [material, setMaterial] = useState<MaterialVersion | null>(null)
+  const [suggestion, setSuggestion] = useState<ClassificationSuggestion | null>(null)
+  const [analysis, setAnalysis] = useState<AnalysisRevision | null>(null)
+  const [history, setHistory] = useState<readonly MaterialHistory[]>([])
+  const [historyLoading, setHistoryLoading] = useState(true)
 
   const formRef = useRef<HTMLFormElement>(null)
   const sourceBodyRef = useRef<HTMLTextAreaElement>(null)
@@ -96,6 +189,18 @@ export function SourceWorkbenchPage() {
     return () => {
       document.title = previousTitle
     }
+  }, [])
+
+  useEffect(() => {
+    let cancelled = false
+    careerApi.history().then((items) => {
+      if (!cancelled) setHistory(Array.isArray(items) ? items : [])
+    }).catch(() => {
+      if (!cancelled) setHistory([])
+    }).finally(() => {
+      if (!cancelled) setHistoryLoading(false)
+    })
+    return () => { cancelled = true }
   }, [])
 
   useEffect(() => {
@@ -124,7 +229,7 @@ export function SourceWorkbenchPage() {
     }
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const nextValidation = validateSourceInput(sourceBody)
 
@@ -143,13 +248,79 @@ export function SourceWorkbenchPage() {
     }
 
     setFieldError(null)
-    setStage('classification-review')
-    setLiveMessage('输入校验已通过，已进入分类确认界面。')
+    setServiceError(null)
+    setBusy(true)
+    setLiveMessage('正在保存到本地私有数据库并生成分类建议。')
+    try {
+      const formData = new FormData(event.currentTarget)
+      const metadata = {
+        title: formValue(formData, 'source-title'),
+        userProvidedUrl: formValue(formData, 'source-url'),
+        publisher: formValue(formData, 'source-publisher'),
+        author: formValue(formData, 'source-author'),
+        publishedDate: formValue(formData, 'published-date'),
+        collectedDate: formValue(formData, 'collected-date'),
+        region: formValue(formData, 'source-region'),
+        level: formValue(formData, 'source-level'),
+        notes: formValue(formData, 'source-notes'),
+      }
+      const saved = await careerApi.saveMaterial({
+        materialId: material?.materialId ?? createMaterialId(),
+        body: sourceBody,
+        sourceChannel,
+        contentType,
+        metadata,
+        rightsConfirmation: {
+          userHasRights: rightsConfirmed,
+          sensitiveDataAcknowledged: rightsConfirmed,
+        },
+      })
+      const nextSuggestion = await careerApi.classify(saved.materialId, saved.versionId)
+      setMaterial(saved)
+      setSuggestion(nextSuggestion)
+      setSourceChannel(asSourceChannel(nextSuggestion.sourceChannel))
+      setContentType(asContentType(nextSuggestion.contentType))
+      setStage('classification-review')
+      setLiveMessage(`已保存材料版本 ${saved.versionNo}，请确认服务端分类建议。`)
+    } catch (error) {
+      const message = error instanceof Error ? error.message : '本地服务处理失败。'
+      setServiceError(message)
+      setLiveMessage(message)
+    } finally {
+      setBusy(false)
+    }
   }
 
-  function handleClassificationConfirm() {
-    setStage('classification-confirmed')
-    setLiveMessage('分类已在当前标签页确认；本地整合引擎尚未启用。')
+  async function handleClassificationConfirm() {
+    if (!material || !suggestion) return
+    setBusy(true)
+    setServiceError(null)
+    setLiveMessage('正在保存分类确认并运行本地确定性分析。')
+    try {
+      const decision = await careerApi.confirmClassification({
+        materialId: material.materialId,
+        versionId: material.versionId,
+        sourceChannel,
+        contentType,
+        expectedRevision: 0,
+      })
+      const nextAnalysis = await careerApi.analyze({
+        materialId: material.materialId,
+        versionId: material.versionId,
+        classificationDecisionId: decision.decisionId,
+      })
+      setAnalysis(nextAnalysis)
+      setStage('classification-confirmed')
+      setLiveMessage('分类与分析已保存，可刷新后从历史记录恢复。')
+      const latestHistory = await careerApi.history()
+      setHistory(Array.isArray(latestHistory) ? latestHistory : [])
+    } catch (error) {
+      const message = error instanceof Error ? error.message : '分析失败，已保留已保存的材料版本。'
+      setServiceError(message)
+      setLiveMessage(message)
+    } finally {
+      setBusy(false)
+    }
   }
 
   function returnToEditing() {
@@ -164,8 +335,12 @@ export function SourceWorkbenchPage() {
     setRightsConfirmed(false)
     setStage('editing')
     setFieldError(null)
-    setSourceChannel('未知')
-    setContentType('未知')
+    setSourceChannel('unknown')
+    setContentType('unknown')
+    setMaterial(null)
+    setSuggestion(null)
+    setAnalysis(null)
+    setServiceError(null)
     setClearDialogOpen(false)
     setLiveMessage('本次标签页中的输入与分类选择已清空。')
     requestAnimationFrame(() => sourceBodyRef.current?.focus())
@@ -183,14 +358,14 @@ export function SourceWorkbenchPage() {
           <p className={styles.eyebrow}>05 · 信息源工作台</p>
           <h1>把新材料带进职业研究</h1>
           <p className={styles.intro}>
-            先粘贴正文并确认分类。当前只开放输入、校验与分类确认预览，不会生成摘要、新方向或外部分析结果。
+            粘贴正文后保存到本机私有 SQLite，确认双轴分类，并查看带证据片段、置信度和事实分层的结构化分析。
           </p>
         </div>
         <div className={styles.sessionBadge}>
           <LockKeyhole size={18} strokeWidth={1.9} aria-hidden="true" />
           <span>
-            <strong>用户提供 · 本次标签页</strong>
-            <small>刷新或关闭后不恢复</small>
+            <strong>本地私有存储 · 真实服务</strong>
+            <small>刷新后可从历史恢复</small>
           </span>
         </div>
       </header>
@@ -199,7 +374,7 @@ export function SourceWorkbenchPage() {
         {workbenchSteps.map((step) => {
           const stepNumber = Number(step.number)
           const isActive = stepNumber === activeStep
-          const isUnavailable = stepNumber > 2
+          const isUnavailable = stepNumber > 3
 
           return (
             <li
@@ -224,9 +399,9 @@ export function SourceWorkbenchPage() {
         <span aria-hidden="true">≠</span>
         <span>
           <Tags size={17} strokeWidth={1.9} aria-hidden="true" />
-          <strong>用户提供 · 本次标签页</strong>
+          <strong>用户提供 · 私有 SQLite</strong>
         </span>
-        <p>两类内容不会静默合并；本批尚未启用整合结果。</p>
+        <p>个人材料与公共研究保持分域；所有结果标注事实、推断或未知。</p>
       </div>
 
       <form ref={formRef} className={styles.workspace} onSubmit={handleSubmit} noValidate>
@@ -348,7 +523,7 @@ export function SourceWorkbenchPage() {
             <div>
               <h3 id="privacy-title">先脱敏，再处理</h3>
               <p>
-                建议先删除姓名、联系方式、证件、详细地址和雇主机密。正文只保留在当前 React 标签页内存，不会写入网址、浏览器存储、缓存、日志或网络请求。
+                建议先删除姓名、联系方式、证件、详细地址和雇主机密。正文只发送到本机服务并保存于私有 SQLite，不写入网址、浏览器存储、日志、第三方服务或公共研究库。
               </p>
               <small>本地提示不能识别所有敏感信息，请自行复核后再继续。</small>
             </div>
@@ -370,7 +545,7 @@ export function SourceWorkbenchPage() {
               />
               <span>
                 <strong>我确认有权将此内容用于个人研究</strong>
-                <small id="rights-help">提交不代表获得再发布权；当前不会把内容发送给第三方。</small>
+                <small id="rights-help">提交不代表获得再发布权；内容仅发送到本机私有服务。</small>
               </span>
             </label>
             {fieldError === 'rights-confirmation' ? (
@@ -381,9 +556,9 @@ export function SourceWorkbenchPage() {
           </div>
 
           <div className={styles.formActions}>
-            <button className={styles.primaryButton} type="submit">
+            <button className={styles.primaryButton} type="submit" disabled={busy}>
               <ScanSearch size={19} strokeWidth={2} aria-hidden="true" />
-              分析并建议分类
+              {busy ? '正在保存…' : '保存并建议分类'}
             </button>
             <button
               ref={clearButtonRef}
@@ -395,17 +570,18 @@ export function SourceWorkbenchPage() {
               <Trash2 size={18} strokeWidth={1.9} aria-hidden="true" />
               清空
             </button>
-            <p>本按钮当前只进行本地校验并打开分类确认 UI，不运行整合引擎。</p>
+            <p>提交后会创建不可变材料版本，并由本地确定性规则生成分类建议。</p>
           </div>
+          {serviceError ? <p className={styles.errorMessage} role="alert"><CircleAlert size={17} />{serviceError}</p> : null}
         </section>
 
         {stage !== 'editing' ? (
           <section className={styles.classificationPanel} aria-labelledby="classification-title">
             <div className={styles.previewNotice} role="note">
-              <AlertTriangle size={20} strokeWidth={2} aria-hidden="true" />
+              <ShieldCheck size={20} strokeWidth={2} aria-hidden="true" />
               <div>
-                <strong>本地整合引擎尚未启用</strong>
-                <p>当前不会自动分类、生成摘要或整合出新方向。两个分类字段默认“未知”，你可以手动确认本次会话的分类。</p>
+                <strong>材料版本已保存 · 等待分类确认</strong>
+                <p>{material ? `版本 ${material.versionNo} · ${material.unicodeCount.toLocaleString('zh-CN')} 字符 · SHA-256 ${material.bodySha256.slice(0, 12)}…` : '正在读取保存结果。'}</p>
               </div>
             </div>
 
@@ -431,29 +607,29 @@ export function SourceWorkbenchPage() {
                 来源渠道
                 <select
                   value={sourceChannel}
-                  onChange={(event) => setSourceChannel(event.target.value as (typeof sourceChannelOptions)[number])}
+                  onChange={(event) => setSourceChannel(event.target.value as SourceChannel)}
                 >
-                  {sourceChannelOptions.map((option) => <option key={option}>{option}</option>)}
+                  {sourceChannelOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
                 </select>
-                <small>系统建议：未运行 · 置信度：未运行</small>
+                <small>系统建议：{sourceChannelLabel(asSourceChannel(suggestion?.sourceChannel ?? 'unknown'))} · 置信度：{formatConfidence(suggestion?.confidence)}</small>
               </label>
               <label>
                 内容类型
                 <select
                   value={contentType}
-                  onChange={(event) => setContentType(event.target.value as (typeof contentTypeOptions)[number])}
+                  onChange={(event) => setContentType(event.target.value as ContentType)}
                 >
-                  {contentTypeOptions.map((option) => <option key={option}>{option}</option>)}
+                  {contentTypeOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
                 </select>
-                <small>识别依据：本地整合引擎属于后续任务</small>
+                <small>识别依据：{suggestion?.basis.join('；') || '规则没有足够依据，保持未知'}</small>
               </label>
             </div>
 
             {stage === 'classification-review' ? (
               <div className={styles.classificationActions}>
-                <button className={styles.primaryButton} type="button" onClick={handleClassificationConfirm}>
+                <button className={styles.primaryButton} type="button" disabled={busy} onClick={() => void handleClassificationConfirm()}>
                   <CheckCircle2 size={19} strokeWidth={2} aria-hidden="true" />
-                  确认本次分类
+                  {busy ? '正在分析…' : '确认分类并分析'}
                 </button>
                 <button className={styles.secondaryButton} type="button" onClick={returnToEditing}>
                   <ArrowLeft size={18} strokeWidth={1.9} aria-hidden="true" />
@@ -464,9 +640,9 @@ export function SourceWorkbenchPage() {
               <div className={styles.confirmedState} role="status">
                 <CheckCircle2 size={23} strokeWidth={2} aria-hidden="true" />
                 <div>
-                  <h3 ref={confirmedHeadingRef} tabIndex={-1}>分类已在本次标签页确认</h3>
-                  <p>来源渠道：{sourceChannel} · 内容类型：{contentType}</p>
-                  <p>摘要、六类研究关系和新方向整合仍未启用，也没有任何内容被发送或保存。</p>
+                  <h3 ref={confirmedHeadingRef} tabIndex={-1}>分类与分析已保存</h3>
+                  <p>来源渠道：{sourceChannelLabel(sourceChannel)} · 内容类型：{contentTypeLabel(contentType)}</p>
+                  <p>{analysis?.summary.headline ?? '服务未返回摘要标题。'}</p>
                 </div>
                 <button className={styles.secondaryButton} type="button" onClick={returnToEditing}>
                   <RotateCcw size={18} strokeWidth={1.9} aria-hidden="true" />
@@ -474,9 +650,12 @@ export function SourceWorkbenchPage() {
                 </button>
               </div>
             )}
+            {analysis ? <AnalysisResult analysis={analysis} /> : null}
           </section>
         ) : null}
       </form>
+
+      <HistoryPanel items={history} loading={historyLoading} />
 
       <p className={styles.liveRegion} aria-live="polite" aria-atomic="true">
         {liveMessage}
