@@ -1,6 +1,7 @@
 import { XMLParser } from "fast-xml-parser";
 
 import type { CollectedEvent, SourceDefinition, SourceRunResult } from "../domain/types.js";
+import { filterAiDevelopmentEvents } from "../relevance/ai-development.js";
 
 const ALLOWED_HOSTS = new Set([
   "openai.com",
@@ -171,10 +172,11 @@ export class PublicSourceCollector {
         const body = await response.text();
         if (body.length > 5_000_000) throw new Error("SOURCE_RESPONSE_TOO_LARGE");
         const collectedAt = new Date().toISOString();
-        const events =
+        const parsedEvents =
           source.sourceKind === "rss"
             ? parseRss(source, body, collectedAt)
             : parseGitHub(source, body, collectedAt);
+        const events = filterAiDevelopmentEvents(parsedEvents, source.sourceKind);
         return {
           source,
           outcome: "success",

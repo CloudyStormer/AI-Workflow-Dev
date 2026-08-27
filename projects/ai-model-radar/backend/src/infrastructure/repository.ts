@@ -10,6 +10,10 @@ import type {
   SourceRunResult,
   Truth,
 } from "../domain/types.js";
+import {
+  AI_DEVELOPMENT_RELEVANCE_POLICY_VERSION,
+  assessAiDevelopmentRelevance,
+} from "../relevance/ai-development.js";
 import { applyMigrations, type MigrationResult } from "./migrations.js";
 
 function sha256(value: string): string {
@@ -275,20 +279,38 @@ export class RadarRepository {
         newRevisions += outcome.revisionAdded ? 1 : 0;
       }
 
-      const rows = this.live
-        .prepare(`SELECT event_id, current_revision, current_payload_sha256, published_at
-          FROM events ORDER BY published_at DESC, event_id ASC LIMIT 200`)
+      const sourceKinds = new Map(
+        (
+          this.governance
+            .prepare("SELECT source_id, source_kind FROM sources WHERE enabled=1")
+            .all() as Array<{ source_id: string; source_kind: "rss" | "github_releases" }>
+        ).map((source) => [source.source_id, source.source_kind] as const),
+      );
+      const rows = (this.live
+        .prepare(`SELECT event_id, current_revision, current_payload_sha256, published_at,
+            source_id, title, summary
+          FROM events ORDER BY published_at DESC, event_id ASC LIMIT 1000`)
         .all() as Array<{
         event_id: string;
         current_revision: number;
         current_payload_sha256: string;
         published_at: string;
-      }>;
+        source_id: string;
+        title: string;
+        summary: string;
+      }>).filter((row) =>
+        assessAiDevelopmentRelevance({
+          sourceKind: sourceKinds.get(row.source_id) ?? null,
+          title: row.title,
+          summary: row.summary,
+        }).relevant,
+      ).slice(0, 200);
       const pointer = this.live
         .prepare("SELECT snapshot_id, revision FROM current_snapshot_pointer WHERE pointer_scope='live'")
         .get() as { snapshot_id: string; revision: number } | undefined;
       const manifest = stableJson({
         acquisitionMode: "runtime_connector",
+        relevancePolicyVersion: AI_DEVELOPMENT_RELEVANCE_POLICY_VERSION,
         events: rows.map((row, index) => ({
           eventId: row.event_id,
           revision: Number(row.current_revision),

@@ -126,4 +126,93 @@ describe("snapshot publication", () => {
       repository.close();
     }
   });
+
+  it("preserves legacy unrelated events but excludes them from a newly published safe snapshot", () => {
+    const directory = mkdtempSync(path.join(tmpdir(), "amr-relevance-snapshot-"));
+    temporaryDirectories.push(directory);
+    const repository = new RadarRepository(directory);
+    const googleSource: SourceDefinition = {
+      sourceId: "google-ai-blog-rss",
+      name: "Google AI Blog RSS",
+      publisher: "Google",
+      region: "GLOBAL",
+      sourceKind: "rss",
+      endpointUrl: "https://blog.google/technology/ai/rss/",
+      homepageUrl: "https://blog.google/technology/ai/",
+      pollIntervalMinutes: 120,
+    };
+    try {
+      repository.migrate();
+      repository.seedSources([googleSource]);
+      repository.live
+        .prepare(`INSERT INTO events
+          (event_id, canonical_url, source_id, publisher, region, title, summary, category,
+           event_kind, version_label, published_at, first_seen_at, last_seen_at,
+           current_revision, current_payload_sha256, confidence)
+          VALUES (?, ?, ?, ?, ?, ?, ?, 'ai_news', 'news', NULL, ?, ?, ?, 1, ?, 'high')`)
+        .run(
+          "event_legacy_google_home_decor",
+          "https://blog.google/products/search/home-decor/",
+          googleSource.sourceId,
+          googleSource.publisher,
+          googleSource.region,
+          "5 ways to upgrade your home decor with Google Search",
+          "Google product tips for decorating a home.",
+          "2026-08-26T01:00:00.000Z",
+          "2026-08-26T02:00:00.000Z",
+          "2026-08-26T02:00:00.000Z",
+          "legacy-payload-sha",
+        );
+      repository.live
+        .prepare(`INSERT INTO event_revisions
+          (event_id, revision, previous_revision, payload_json, payload_sha256, observed_at,
+           revision_reason) VALUES (?, 1, NULL, '{}', ?, ?, 'initial_observation')`)
+        .run(
+          "event_legacy_google_home_decor",
+          "legacy-payload-sha",
+          "2026-08-26T02:00:00.000Z",
+        );
+
+      const collectedAt = "2026-08-27T08:00:00.000Z";
+      const reservation = repository.reserveRefresh("snapshot-relevance-001", "manual");
+      const publication = repository.publish(reservation.requestId, [
+        {
+          source: googleSource,
+          outcome: "success",
+          startedAt: collectedAt,
+          finishedAt: collectedAt,
+          durationMs: 4,
+          httpStatus: 200,
+          bytesReceived: 200,
+          retryCount: 0,
+          events: [
+            {
+              sourceId: googleSource.sourceId,
+              publisher: googleSource.publisher,
+              region: googleSource.region,
+              canonicalUrl: "https://blog.google/technology/ai/gemini-api-structured-output/",
+              title: "Gemini API adds structured outputs for AI developers",
+              summary: "A new language model API capability for developers.",
+              category: "ai_news",
+              eventKind: "news",
+              versionLabel: null,
+              publishedAt: "2026-08-27T07:00:00.000Z",
+              collectedAt,
+              confidence: "high",
+            },
+          ],
+          safeError: null,
+        },
+      ]);
+
+      expect(publication?.eventCount).toBe(1);
+      expect(repository.listEvents()).toHaveLength(1);
+      expect(repository.listEvents()[0]?.title).toBe(
+        "Gemini API adds structured outputs for AI developers",
+      );
+      expect(repository.getEvent("event_legacy_google_home_decor")).not.toBeNull();
+    } finally {
+      repository.close();
+    }
+  });
 });
