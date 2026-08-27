@@ -2376,3 +2376,70 @@ artifacts:
     stop_gate: task-breakdown-review
     downstream_role_authorized: false
     auto_route: false
+  - id: artifact-radar-real-local-backend-001
+    run_id: run-20260731-intake-001
+    type: real-local-backend-runtime
+    project_id: ai-model-radar
+    work_items:
+      - AMR-DATA-101
+      - AMR-BE-102
+      - AMR-BE-103
+      - AMR-BE-104
+      - AMR-BE-105
+      - AMR-BE-106
+      - AMR-BE-107
+      - AMR-DATA-102
+      - AMR-SRC-101
+    change_id: dev-20260827-radar-real-local-backend-001
+    owner: role-backend-dev
+    role_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+    authorization: approval-20260827-radar-direct-development-integration
+    source_commit: e86d25ef3084053ba1306a6aad2dfb8175bcfafa
+    aggregate_sha256: 31e7141fee06bdef612d0feb35dbd8f7e7fbc12580efe190b1c51f07da89bc52
+    authoritative_paths:
+      - backend/migrations
+      - backend/src/application
+      - backend/src/cli
+      - backend/src/domain
+      - backend/src/http
+      - backend/src/infrastructure
+      - backend/src/sources
+      - backend/tests
+      - backend/package.json
+      - backend/package-lock.json
+    capabilities:
+      - sqlite-live-and-governance-wal-foreign-keys-busy-timeout
+      - checksummed-forward-migrations-and-old-schema-restore-test
+      - verified-batch-import-with-exact-path-and-sha
+      - six-allowlisted-official-public-source-connectors
+      - immutable-event-revisions-snapshots-and-source-watermarks
+      - transactional-publication-and-current-pointer-cas
+      - idempotent-manual-refresh-and-failure-retains-last-safe-snapshot
+      - today-events-history-sources-source-quality-trends-open-source-api
+      - loopback-cors-timeout-retry-rate-limit-no-store-and-error-envelope
+    validation:
+      node: 24.19.0
+      lint: passed
+      typecheck: passed
+      build: passed
+      unit: 45-of-45-passed
+      integration: 2-of-2-passed
+      contract: 2-of-2-passed
+      migration_restore: 1-of-1-passed
+      snapshot_replay_publish: 2-of-2-passed
+      real_network_refresh_first: {sources_succeeded: 6, sources_failed: 0, inserted_events: 70, new_revisions: 70}
+      real_network_refresh_repeat: {sources_succeeded: 6, sources_failed: 0, inserted_events: 0, new_revisions: 0}
+      api_refresh_smoke: {status: completed, sources_succeeded: 6, sources_failed: 0, inserted_events: 0, new_revisions: 0}
+    local_runtime_evidence:
+      service_url: http://127.0.0.1:4317
+      snapshot_id: snapshot_e42a34d1e60bee33838a1f98
+      truth: live
+      event_count: 76
+      runtime_source_count: 6
+      runtime_source_success_count: 6
+      latest_event_date_asia_shanghai: "2026-08-27"
+      database_committed: false
+      database_gitignored: true
+    completed_at: "2026-08-27T15:37:18+08:00"
+    status: delivered-local-integration
+    production_release: frozen

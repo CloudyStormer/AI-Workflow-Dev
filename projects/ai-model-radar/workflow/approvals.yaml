@@ -1545,3 +1545,32 @@ approvals:
       stop_gate: atomic-delivery-review
     production_release: frozen
     auto_advance_beyond_next: false
+  - id: approval-20260827-radar-direct-development-integration
+    run_id: run-20260731-intake-001
+    gate: direct-development-integration
+    project_id: ai-model-radar
+    role: role-backend-dev
+    role_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+    change_id: dev-20260827-radar-real-local-backend-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-27"
+    recorded_at: "2026-08-27T15:37:18+08:00"
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    scope:
+      - AMR-DATA-101
+      - AMR-BE-102-through-AMR-BE-107
+      - AMR-DATA-102
+      - AMR-SRC-101-minimum-backend-data-responsibility
+      - local-development-integration-and-loopback-service-start
+    authorization_text: "今天 AI Model Radar 不走常规审核流程，不中途请求审批；直接开发、联网验证、联调并启动本地服务。"
+    exclusions:
+      - frontend-modification-by-role-backend-dev
+      - production-deployment
+      - deletion-or-irreversible-action
+    expected_output:
+      artifact: artifact-radar-real-local-backend-001
+      stop_gate: local-integration-delivery
+    production_release: frozen
+    intermediate_review_required: false
+    auto_advance_beyond_authorized_scope: false
