@@ -8,12 +8,21 @@ import {
 } from "../../src/config/runtime-config";
 
 describe("runtime configuration", () => {
+  const VALID_ENV = {
+    PORT: "4318",
+    DATA_DIR: "/tmp/career-radar-data",
+    CORS_ORIGINS: "http://127.0.0.1:4177,http://127.0.0.1:5173",
+    LOCAL_TENANT_ID: "local-career-owner",
+    LOCAL_ACCOUNT_ID: "local-career-account",
+    MATERIAL_ENCRYPTION_KEY_HEX: "5a".repeat(32),
+  } as const;
+
   it("requires explicit local port and data directory values", () => {
     expect(() => loadRuntimeConfig({})).toThrow(RuntimeConfigError);
-    expect(() => loadRuntimeConfig({ DATA_DIR: "/tmp/career-radar" })).toThrow(
+    expect(() => loadRuntimeConfig({ ...VALID_ENV, PORT: undefined })).toThrow(
       "缺少 PORT",
     );
-    expect(() => loadRuntimeConfig({ PORT: "4178" })).toThrow("缺少 DATA_DIR");
+    expect(() => loadRuntimeConfig({ ...VALID_ENV, DATA_DIR: undefined })).toThrow("缺少 DATA_DIR");
   });
 
   it("accepts an explicit ephemeral or fixed local port", () => {
@@ -40,16 +49,29 @@ describe("runtime configuration", () => {
   });
 
   it("builds an immutable loopback-only runtime contract without touching the filesystem", () => {
-    const config = loadRuntimeConfig({
-      PORT: "4178",
-      DATA_DIR: "/tmp/career-radar-data",
-    });
+    const config = loadRuntimeConfig(VALID_ENV);
 
     expect(config).toEqual({
       host: "127.0.0.1",
-      port: 4178,
+      port: 4318,
       dataDirectory: "/tmp/career-radar-data",
+      corsOrigins: ["http://127.0.0.1:4177", "http://127.0.0.1:5173"],
+      tenantId: "local-career-owner",
+      accountId: "local-career-account",
+      encryptionKeyHex: "5a".repeat(32),
     });
     expect(Object.isFrozen(config)).toBe(true);
+  });
+
+  it("fails closed on CORS expansion, incomplete identity, or invalid key material", () => {
+    expect(() => loadRuntimeConfig({ ...VALID_ENV, CORS_ORIGINS: "*" })).toThrow(
+      "必须且只能包含",
+    );
+    expect(() => loadRuntimeConfig({ ...VALID_ENV, LOCAL_ACCOUNT_ID: "" })).toThrow(
+      "LOCAL_ACCOUNT_ID",
+    );
+    expect(() => loadRuntimeConfig({ ...VALID_ENV, MATERIAL_ENCRYPTION_KEY_HEX: "00" })).toThrow(
+      "32 字节",
+    );
   });
 });

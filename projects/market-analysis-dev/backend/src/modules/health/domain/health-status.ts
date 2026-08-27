@@ -2,7 +2,7 @@ import type { ReadinessTruth } from "../../../contracts/operation";
 
 export interface ReadinessComponent {
   readonly id: "api_schema" | "sqlite" | "source_runtime" | "worker";
-  readonly status: "ready" | ReadinessTruth;
+  readonly status: ReadinessTruth | "not_applicable";
   readonly detail_zh_cn: string;
 }
 
@@ -12,7 +12,7 @@ export interface ProcessHealth {
 }
 
 export interface ReadinessStatus {
-  readonly ready: false;
+  readonly ready: boolean;
   readonly truth: ReadinessTruth;
   readonly components: readonly ReadinessComponent[];
   readonly network_requests_permitted: 0;
@@ -40,3 +40,18 @@ export const NOT_READY_COMPONENTS: readonly ReadinessComponent[] = [
     detail_zh_cn: "Worker 尚未实施。",
   },
 ] as const;
+
+export const READY_COMPONENTS: readonly ReadinessComponent[] = NOT_READY_COMPONENTS.map(
+  (component) => ({
+    ...component,
+    status: component.id === "source_runtime" ? "not_applicable" : "ready",
+    detail_zh_cn:
+      component.id === "api_schema"
+        ? "私有材料 HTTP 契约与 Zod 校验已注册。"
+        : component.id === "sqlite"
+          ? "本地 SQLite 迁移、WAL、外键、加密密钥与已批准静态快照已验证。"
+          : component.id === "source_runtime"
+            ? "私有材料能力不执行网络采集；network_requests_permitted=0。"
+            : "本地确定性分类与分析执行器已就绪。",
+  }),
+);

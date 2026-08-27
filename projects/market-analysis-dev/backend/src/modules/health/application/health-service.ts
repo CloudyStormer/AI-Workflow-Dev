@@ -5,11 +5,14 @@ import {
 } from "../../../contracts/operation";
 import {
   NOT_READY_COMPONENTS,
+  READY_COMPONENTS,
   type ProcessHealth,
   type ReadinessStatus,
 } from "../domain/health-status";
 
 export class HealthService {
+  public constructor(private readonly runtimeReady = false) {}
+
   public getProcessHealth(requestId: string): OperationEnvelope<ProcessHealth> {
     return {
       schema_version: API_SCHEMA_VERSION,
@@ -40,6 +43,33 @@ export class HealthService {
   }
 
   public getReadiness(requestId: string): OperationEnvelope<ReadinessStatus> {
+    if (this.runtimeReady) {
+      return {
+        schema_version: API_SCHEMA_VERSION,
+        project_id: PROJECT_ID,
+        request_id: requestId,
+        request_mode: "private_control",
+        data_mode: null,
+        operation_id: null,
+        status: "ok",
+        status_revision: 0,
+        impact_scope: { project_id: PROJECT_ID, domain: "readiness" },
+        source: null,
+        version: "0.1.0",
+        as_of: null,
+        observed_at: null,
+        last_success_at: null,
+        freshness: "ready",
+        coverage: null,
+        data: {
+          ready: true,
+          truth: "ready",
+          components: READY_COMPONENTS,
+          network_requests_permitted: 0,
+        },
+        errors: [],
+      };
+    }
     return {
       schema_version: API_SCHEMA_VERSION,
       project_id: PROJECT_ID,

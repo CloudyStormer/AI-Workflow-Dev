@@ -4,6 +4,7 @@ import {
   loadRuntimeConfig,
   type RuntimeConfig,
 } from "../../config/runtime-config";
+import { initializeCareerRuntime } from "../../runtime/career-runtime";
 import { buildApiApp } from "./app";
 
 export {
@@ -18,7 +19,7 @@ export interface LoopbackApp {
 
 export interface RunningLoopbackServer {
   readonly address: string;
-  readonly config: RuntimeConfig;
+  readonly config: Omit<RuntimeConfig, "encryptionKeyHex">;
   stop(): Promise<void>;
 }
 
@@ -35,7 +36,7 @@ export async function startLoopbackServer(
   options: StartLoopbackServerOptions = {},
 ): Promise<RunningLoopbackServer> {
   const config = loadRuntimeConfig(options.environment);
-  const app = await (options.buildApp ?? (async () => asLoopbackApp(await buildApiApp())))();
+  const app = options.buildApp === undefined ? await buildRuntimeApp(config) : await options.buildApp();
 
   let address: string;
   try {
@@ -56,10 +57,35 @@ export async function startLoopbackServer(
 
   return Object.freeze({
     address,
-    config,
+    config: Object.freeze({
+      host: config.host,
+      port: config.port,
+      dataDirectory: config.dataDirectory,
+      corsOrigins: config.corsOrigins,
+      tenantId: config.tenantId,
+      accountId: config.accountId,
+    }),
     stop(): Promise<void> {
       stopPromise ??= app.close();
       return stopPromise;
     },
   });
+}
+
+async function buildRuntimeApp(config: RuntimeConfig): Promise<LoopbackApp> {
+  const runtime = await initializeCareerRuntime(config);
+  try {
+    return asLoopbackApp(
+      await buildApiApp({
+        runtime,
+        tenantId: config.tenantId,
+        accountId: config.accountId,
+        corsOrigins: config.corsOrigins,
+        logger: true,
+      }),
+    );
+  } catch (error) {
+    runtime.close();
+    throw error;
+  }
 }

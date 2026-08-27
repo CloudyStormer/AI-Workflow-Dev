@@ -1,16 +1,16 @@
 export const PROJECT_ID = "market-analysis-dev" as const;
 export const API_SCHEMA_VERSION = 1 as const;
 
-export type ReadinessTruth = "not_ready";
+export type ReadinessTruth = "not_ready" | "ready";
 
 export interface ImpactScope {
   readonly project_id: typeof PROJECT_ID;
-  readonly domain: "process" | "readiness";
+  readonly domain: "process" | "readiness" | "material_analysis";
   readonly component?: string;
 }
 
 export interface OperationError {
-  readonly code: "DEPENDENCY_NOT_READY";
+  readonly code: string;
   readonly message_zh_cn: string;
   readonly retryable: boolean;
 }
@@ -22,7 +22,7 @@ export interface OperationEnvelope<TData> {
   readonly request_mode: "private_control";
   readonly data_mode: null;
   readonly operation_id: null;
-  readonly status: "ok" | ReadinessTruth;
+  readonly status: "ok" | "not_ready";
   readonly status_revision: 0;
   readonly impact_scope: ImpactScope;
   readonly source: null;

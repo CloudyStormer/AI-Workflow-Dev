@@ -34,21 +34,28 @@ function createLogger(): LifecycleLogger {
 }
 
 describe("server lifecycle", () => {
+  const runtimeEnvironment = {
+    PORT: "4178",
+    DATA_DIR: "/tmp/career-radar-data",
+    CORS_ORIGINS: "http://127.0.0.1:4177,http://127.0.0.1:5173",
+    LOCAL_TENANT_ID: "local-career-owner",
+    LOCAL_ACCOUNT_ID: "local-career-account",
+    MATERIAL_ENCRYPTION_KEY_HEX: "5a".repeat(32),
+  } as const;
+
   it("starts only on configured loopback and stops idempotently", async () => {
     const listen = vi.fn(async () => "http://127.0.0.1:4178");
     const close = vi.fn(async () => undefined);
     const app: LoopbackApp = { listen, close };
 
     const server = await startLoopbackServer({
-      environment: {
-        PORT: "4178",
-        DATA_DIR: "/tmp/career-radar-data",
-      },
+      environment: runtimeEnvironment,
       buildApp: async () => app,
     });
 
     expect(listen).toHaveBeenCalledWith({ host: "127.0.0.1", port: 4178 });
     expect(server.address).toBe("http://127.0.0.1:4178");
+    expect(server.config).not.toHaveProperty("encryptionKeyHex");
     await Promise.all([server.stop(), server.stop()]);
     expect(close).toHaveBeenCalledTimes(1);
   });
@@ -59,10 +66,7 @@ describe("server lifecycle", () => {
 
     await expect(
       startLoopbackServer({
-        environment: {
-          PORT: "4178",
-          DATA_DIR: "/tmp/career-radar-data",
-        },
+        environment: runtimeEnvironment,
         buildApp: async () => ({
           listen: vi.fn(async () => {
             throw startError;

@@ -1,11 +1,19 @@
 import { isAbsolute, normalize, parse } from "node:path";
 
 export const LOOPBACK_HOST = "127.0.0.1" as const;
+export const APPROVED_CORS_ORIGINS = Object.freeze([
+  "http://127.0.0.1:4177",
+  "http://127.0.0.1:5173",
+] as const);
 
 export interface RuntimeConfig {
   readonly host: typeof LOOPBACK_HOST;
   readonly port: number;
   readonly dataDirectory: string;
+  readonly corsOrigins: readonly string[];
+  readonly tenantId: string;
+  readonly accountId: string;
+  readonly encryptionKeyHex: string;
 }
 
 export class RuntimeConfigError extends Error {
@@ -53,9 +61,50 @@ export function resolveDataDirectory(rawDirectory: string | undefined): string {
 export function loadRuntimeConfig(
   environment: NodeJS.ProcessEnv = process.env,
 ): RuntimeConfig {
+  const configuredOrigins = requireValue(environment.CORS_ORIGINS, "CORS_ORIGINS")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter((origin) => origin !== "");
+  const uniqueOrigins = new Set(configuredOrigins);
+  if (
+    uniqueOrigins.size !== APPROVED_CORS_ORIGINS.length ||
+    !APPROVED_CORS_ORIGINS.every((origin) => uniqueOrigins.has(origin))
+  ) {
+    throw new RuntimeConfigError(
+      `CORS_ORIGINS 必须且只能包含 ${APPROVED_CORS_ORIGINS.join(",")}`,
+    );
+  }
+  const tenantId = requireIdentifier(environment.LOCAL_TENANT_ID, "LOCAL_TENANT_ID");
+  const accountId = requireIdentifier(environment.LOCAL_ACCOUNT_ID, "LOCAL_ACCOUNT_ID");
+  const encryptionKeyHex = requireValue(
+    environment.MATERIAL_ENCRYPTION_KEY_HEX,
+    "MATERIAL_ENCRYPTION_KEY_HEX",
+  );
+  if (!/^[0-9a-f]{64}$/u.test(encryptionKeyHex)) {
+    throw new RuntimeConfigError("MATERIAL_ENCRYPTION_KEY_HEX 必须是 32 字节的小写十六进制密钥。");
+  }
   return Object.freeze({
     host: LOOPBACK_HOST,
     port: resolveLoopbackPort(environment.PORT),
     dataDirectory: resolveDataDirectory(environment.DATA_DIR),
+    corsOrigins: APPROVED_CORS_ORIGINS,
+    tenantId,
+    accountId,
+    encryptionKeyHex,
   });
+}
+
+function requireValue(value: string | undefined, name: string): string {
+  if (value === undefined || value === "" || value.trim() !== value) {
+    throw new RuntimeConfigError(`缺少或无效的 ${name}；必须显式提供。`);
+  }
+  return value;
+}
+
+function requireIdentifier(value: string | undefined, name: string): string {
+  const identifier = requireValue(value, name);
+  if (!/^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$/u.test(identifier)) {
+    throw new RuntimeConfigError(`${name} 格式无效。`);
+  }
+  return identifier;
 }
