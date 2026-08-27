@@ -4,7 +4,7 @@ run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
 stage: implementation
-status: career-daily-web-task-breakdown-approved-cfr-dw-data-201-routed
+status: career-cfr-dw-data-201-ready-for-atomic-delivery-review
 current_role: role-data-engineer
 blocked: false
 ui_assets:
@@ -218,7 +218,7 @@ next_approval:
   scope: "审核 CFR-DW-DATA-201 本地 SQLite 迁移执行基线；只验收五条迁移流可校验、可应用、可重放及 WAL/外键/busy timeout/隔离目录，不代表真实来源导入、用户内容写入、分析服务、前后端联调或部署已完成。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: not-created
+  delivery_status: ready-for-review
   expected_artifact: artifact-career-cfr-dw-data-201-migration-runtime-001
   input_artifact: artifact-career-daily-web-user-analysis-task-breakdown-001
   input_path: docs/09-daily-web-user-analysis-task-breakdown.md
@@ -230,7 +230,7 @@ next_approval:
   entry_authorization: approval-20260827-career-cfr-dw-data-201-entry
   role: role-data-engineer
   role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
-  safe_checkpoint: 0e649ed25b2378e431f016672bb8cc16ad530d6b
+  safe_checkpoint: 2c547ba3236b5b0b2708ef19fc8212f182e3d761
   advance_limit: one-atomic-delivery-unit-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
@@ -2618,9 +2618,42 @@ cfr_dw_data_201_assignment:
   input_artifact: artifact-career-daily-web-user-analysis-task-breakdown-001
   input_sha256: 2e2bb5da5a56736ba0decc39e5ea40b476618b27d7a623d237bb4f806ed8e38b
   expected_artifact: artifact-career-cfr-dw-data-201-migration-runtime-001
-  delivery_status: routed
+  write_baseline: 2c547ba3236b5b0b2708ef19fc8212f182e3d761
+  scheduling: completed-ready-for-review
+  delivery_status: ready-for-review
+  started_at: "2026-08-27T14:27:58+08:00"
+  completed_at: "2026-08-27T14:32:11+08:00"
+  output:
+    artifact: artifact-career-cfr-dw-data-201-migration-runtime-001
+    path: backend/src/infrastructure/sqlite/migrations/runtime.ts
+    version: "1.0"
+    sha256: 985f7337c8a8ecdf37717bd371e6b51bdf5bd1174bb279913d65ba884d77da76
+    authoritative_path_count: 9
+  runtime_truth:
+    migration_streams: 5
+    temporary_sqlite_files_materialized_in_tests: 5
+    repository_sqlite_files: 0
+    business_schema_head: 0
+    business_data_rows_written: 0
+    real_source_imported: false
+    user_content_written: false
+    external_analysis_executed: false
+    service_started: false
+    network_requests: 0
+  validation:
+    node: 22.12.0
+    lint: passed
+    typecheck: passed
+    build: passed
+    migration_tests: 26-of-26-passed
+    integration_tests: 8-of-8-passed
+    aggregate_tests: 53-of-53-passed
+    git_boundary: passed
+    skill_drift: passed
+    repository_database_files: 0
+  result: ready-for-atomic-delivery-review
   stop_gate: atomic-delivery-review
   authorized_at: "2026-08-27T14:20:14+08:00"
   production_release: frozen
   auto_advance_beyond_next: false
-updated_at: "2026-08-27T14:20:14+08:00"
+updated_at: "2026-08-27T14:32:11+08:00"

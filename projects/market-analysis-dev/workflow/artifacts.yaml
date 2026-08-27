@@ -3341,3 +3341,75 @@ artifacts:
     stop_gate: task-breakdown-review
     downstream_role_authorized: false
     auto_route: false
+  - id: artifact-career-cfr-dw-data-201-migration-runtime-001
+    run_id: run-20260803-market-analysis-dev-init-001
+    type: sqlite-migration-runtime-baseline
+    project_id: market-analysis-dev
+    work_item: CFR-DW-DATA-201
+    change_id: dev-20260827-career-cfr-dw-data-201-001
+    owner: role-data-engineer
+    role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+    role_task_title: "08 数据工程师"
+    authorization: approval-20260827-career-cfr-dw-data-201-entry
+    input:
+      artifact: artifact-career-daily-web-user-analysis-task-breakdown-001
+      path: docs/09-daily-web-user-analysis-task-breakdown.md
+      version: "1.0"
+      sha256: 2e2bb5da5a56736ba0decc39e5ea40b476618b27d7a623d237bb4f806ed8e38b
+    path: backend/src/infrastructure/sqlite/migrations/runtime.ts
+    version: "1.0"
+    sha256: 985f7337c8a8ecdf37717bd371e6b51bdf5bd1174bb279913d65ba884d77da76
+    sha256_contract: "SHA-256 over newline-terminated, path-sorted `shasum -a 256` records for the 9 authoritative delivery files"
+    authoritative_paths:
+      - backend/migrations/README.md
+      - backend/package.json
+      - backend/src/infrastructure/sqlite/migrations/manifest.ts
+      - backend/src/infrastructure/sqlite/migrations/runtime.ts
+      - backend/tests/fixtures/migrations/failing-up/0001_failing_up.up.sql
+      - backend/tests/fixtures/migrations/failing-up/manifest.json
+      - backend/tests/fixtures/migrations/forbidden-attach/0001_forbidden_attach.up.sql
+      - backend/tests/fixtures/migrations/forbidden-attach/manifest.json
+      - backend/tests/integration/migration-runtime.test.ts
+    capabilities:
+      - five-mode-isolated-data-directories
+      - exact-byte-manifest-and-sql-validation
+      - transactional-up-and-explicit-down
+      - deterministic-idempotent-replay
+      - wal-foreign-keys-and-busy-timeout
+      - restore-only-fail-closed
+      - attach-and-symlink-fail-closed
+    truth_boundary:
+      current_manifest_schema_head: 0
+      temporary_sqlite_files_materialized_in_tests: 5
+      repository_sqlite_files: 0
+      real_source_imported: false
+      user_content_written: false
+      business_data_rows_written: 0
+      external_analysis_executed: false
+      network_requests: 0
+      service_started: false
+      production_release: frozen
+    validation:
+      node: 22.12.0
+      lint: passed
+      typecheck: passed
+      build: passed
+      migration_test_files: 2-of-2-passed
+      migration_tests: 26-of-26-passed
+      integration_test_files: 1-of-1-passed
+      integration_tests: 8-of-8-passed
+      aggregate_test_files: 6-of-6-passed
+      aggregate_tests: 53-of-53-passed
+      git_boundary: passed
+      skill_drift: passed
+      repository_database_files: 0
+    known_limits:
+      - node-sqlite-requires-explicit-experimental-flag-on-node-22
+      - current-authoritative-manifests-remain-empty-at-schema-head-zero
+      - no-business-schema-user-content-source-import-service-or-deployment
+    completed_at: "2026-08-27T14:32:11+08:00"
+    status: ready-for-review
+    review_status: pending
+    stop_gate: atomic-delivery-review
+    downstream_role_authorized: false
+    auto_route: false

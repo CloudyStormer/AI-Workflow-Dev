@@ -106,6 +106,52 @@ export interface MigrationManifestLoadOptions {
   readonly afterFileOpenForTesting?: (filePath: string) => Promise<void>;
 }
 
+export async function readMigrationSql(
+  manifestPath: string,
+  migration: MigrationEntry,
+  direction: "up" | "down",
+): Promise<string> {
+  const root = resolve(dirname(manifestPath));
+  const authoritativeRoot = await requireAuthoritativeDirectory(root);
+  const file = direction === "up"
+    ? { name: migration.up_file, checksum: migration.up_sha256, kind: "migration" as const }
+    : migration.rollback.strategy === "explicit-down"
+      ? {
+          name: migration.rollback.down_file,
+          checksum: migration.rollback.down_sha256,
+          kind: "rollback" as const,
+        }
+      : fail(`migration ${migration.id} requires restore-only rollback`);
+  const filePath = resolve(root, file.name);
+  requireDirectChild(filePath, root, file.name, file.kind);
+  const bytes = await readAuthoritativeFile(
+    filePath,
+    authoritativeRoot,
+    file.name,
+    file.kind,
+    {},
+  );
+  const checksum = createHash("sha256").update(bytes).digest("hex");
+  if (checksum !== file.checksum) {
+    fail(`checksum mismatch for ${file.kind} ${migration.id}`);
+  }
+
+  try {
+    const sql = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+    if (sql.includes("\0")) {
+      fail(`${file.kind} ${migration.id} contains a NUL byte`);
+    }
+    return sql;
+  } catch (error) {
+    if (error instanceof MigrationManifestError) {
+      throw error;
+    }
+    throw new MigrationManifestError(
+      `${file.kind} ${migration.id} must contain valid UTF-8 SQL`,
+    );
+  }
+}
+
 export async function loadMigrationManifest(
   manifestPath: string,
   expectedMode: MigrationDatabaseMode,
@@ -260,30 +306,19 @@ async function verifyMigrationFiles(
   options: MigrationManifestLoadOptions,
 ): Promise<void> {
   const root = resolve(manifestDirectory);
-  const authoritativeRoot = await realpath(root).catch(() => {
-    throw new MigrationManifestError(
-      "manifest directory is missing or unreadable",
-    );
-  });
-  const rootStats = await lstat(authoritativeRoot).catch(() => {
-    throw new MigrationManifestError(
-      "manifest directory is missing or unreadable",
-    );
-  });
-  if (!rootStats.isDirectory()) {
-    fail("manifest directory must be a directory");
-  }
+  const authoritativeRoot = await requireAuthoritativeDirectory(root);
 
   for (const migration of manifest.migrations) {
     const filePath = resolve(root, migration.up_file);
     requireDirectChild(filePath, root, migration.up_file, "migration");
-    const actualChecksum = await checksumAuthoritativeFile(
+    const bytes = await readAuthoritativeFile(
       filePath,
       authoritativeRoot,
       migration.up_file,
       "migration",
       options,
     );
+    const actualChecksum = createHash("sha256").update(bytes).digest("hex");
     if (actualChecksum !== migration.up_sha256) {
       fail(`checksum mismatch for migration ${migration.id}`);
     }
@@ -291,18 +326,35 @@ async function verifyMigrationFiles(
       const rollback = migration.rollback;
       const downFilePath = resolve(root, rollback.down_file);
       requireDirectChild(downFilePath, root, rollback.down_file, "rollback");
-      const actualDownChecksum = await checksumAuthoritativeFile(
+      const downBytes = await readAuthoritativeFile(
         downFilePath,
         authoritativeRoot,
         rollback.down_file,
         "rollback",
         options,
       );
+      const actualDownChecksum = createHash("sha256").update(downBytes).digest("hex");
       if (actualDownChecksum !== rollback.down_sha256) {
         fail(`checksum mismatch for rollback ${migration.id}`);
       }
     }
   }
+}
+
+async function requireAuthoritativeDirectory(root: string): Promise<string> {
+  const rootStats = await lstat(root).catch(() => {
+    throw new MigrationManifestError(
+      "manifest directory is missing or unreadable",
+    );
+  });
+  if (rootStats.isSymbolicLink() || !rootStats.isDirectory()) {
+    fail("manifest directory must be a real directory");
+  }
+  return realpath(root).catch(() => {
+    throw new MigrationManifestError(
+      "manifest directory is missing or unreadable",
+    );
+  });
 }
 
 function requireDirectChild(
@@ -316,13 +368,13 @@ function requireDirectChild(
   }
 }
 
-async function checksumAuthoritativeFile(
+async function readAuthoritativeFile(
   filePath: string,
   authoritativeRoot: string,
   registeredName: string,
   kind: "migration" | "rollback",
   options: MigrationManifestLoadOptions,
-): Promise<string> {
+): Promise<Buffer> {
   const label = `${kind} file ${registeredName}`;
   await requireRegularPath(filePath, label);
 
@@ -355,7 +407,7 @@ async function checksumAuthoritativeFile(
       openedStats,
       label,
     );
-    return createHash("sha256").update(bytes).digest("hex");
+    return bytes;
   } catch (error) {
     if (error instanceof MigrationManifestError) {
       throw error;
