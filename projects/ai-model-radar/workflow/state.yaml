@@ -4,7 +4,7 @@ run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
 stage: implementation
-status: radar-daily-web-task-breakdown-approved-amr-be-101-routed
+status: amr-be-101-ready-for-atomic-delivery-review
 current_role: role-backend-dev
 blocked: false
 ui_assets:
@@ -115,7 +115,7 @@ next_approval:
   scope: "审核 AMR-BE-101 后端基础骨架；只验收 Fastify/TypeScript strict 工程、配置与脚本、health/live 和迁移前 not_ready，不代表真实采集、业务写库、前端联调、服务重启或部署已完成。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: not-created
+  delivery_status: ready-for-review
   expected_artifact: artifact-radar-amr-be-101-backend-foundation-001
   input_artifact: artifact-radar-daily-web-real-data-task-breakdown-001
   input_path: docs/09-daily-web-real-data-task-breakdown.md
@@ -2005,9 +2005,38 @@ amr_be_101_assignment:
   input_artifact: artifact-radar-daily-web-real-data-task-breakdown-001
   input_sha256: e8b2d2f9a80bbf28dab7b7763ac71b34c45c3f25bcc66cd16df51568bce45069
   expected_artifact: artifact-radar-amr-be-101-backend-foundation-001
-  delivery_status: routed
+  routing_checkpoint: 0e649ed25b2378e431f016672bb8cc16ad530d6b
+  implementation_baseline: 2c547ba3236b5b0b2708ef19fc8212f182e3d761
+  original_gate: task-breakdown-review-approved-amr-be-101-routed
+  return_point: atomic-delivery-review
+  output:
+    artifact: artifact-radar-amr-be-101-backend-foundation-001
+    version: "1.0"
+    aggregate_sha256: 5e479e735f587ca1d935532f54ab786d0e28ed17e11d849d849dd7386de7a7b2
+    source_commit: 40e35e5b4505142d2e11f7229aa278ea5f9fd7bb
+  delivery_status: ready-for-review
+  validation_status: passed
+  validation:
+    node: 24.19.0
+    lint: passed
+    typecheck: passed
+    build: passed
+    test_unit: 44-of-44-passed
+    test_aggregate: 44-of-44-passed
+    fastify_listener_opened: false
+  truth_boundary:
+    service_started: false
+    database_rows_written: 0
+    verified_batch_imported: false
+    network_collection_executed: false
+    runtime_enabled: false
+    live_connectors: 0
+    live_snapshots: 0
+    frontend_modified: false
+  started_at: "2026-08-27T14:32:53+08:00"
+  completed_at: "2026-08-27T14:34:09+08:00"
   stop_gate: atomic-delivery-review
   authorized_at: "2026-08-27T14:20:14+08:00"
   production_release: frozen
   auto_advance_beyond_next: false
-updated_at: "2026-08-27T14:20:14+08:00"
+updated_at: "2026-08-27T14:34:09+08:00"
