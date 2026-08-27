@@ -2056,3 +2056,56 @@ approvals:
     stop_gate: task-breakdown-review
     production_release: frozen
     auto_advance_beyond_next: false
+  - id: approval-20260827-career-daily-web-user-analysis-task-breakdown-v1
+    run_id: run-20260803-market-analysis-dev-init-001
+    gate: task-breakdown-review
+    project_id: market-analysis-dev
+    work_item: CFR-PM-DAILY-WEB-001
+    change_id: plan-20260826-career-daily-web-user-analysis-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-27T14:20:14+08:00"
+    source_reply: "到什么进度了，未完成就继续"
+    artifact:
+      id: artifact-career-daily-web-user-analysis-task-breakdown-001
+      path: docs/09-daily-web-user-analysis-task-breakdown.md
+      version: "1.0"
+      sha256: 2e2bb5da5a56736ba0decc39e5ea40b476618b27d7a623d237bb4f806ed8e38b
+    result: approved-and-route-unique-first-work-item
+    authorized_next_role: role-data-engineer
+    authorized_next_work_item: CFR-DW-DATA-201
+    next_entry_authorization: approval-20260827-career-cfr-dw-data-201-entry
+    advance_limit: one-atomic-delivery-unit-only
+    production_release: frozen
+    auto_advance_beyond_next: false
+  - id: approval-20260827-career-cfr-dw-data-201-entry
+    run_id: run-20260803-market-analysis-dev-init-001
+    gate: role-entry
+    project_id: market-analysis-dev
+    role: role-data-engineer
+    role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+    role_task_title: "08 数据工程师"
+    work_item: CFR-DW-DATA-201
+    change_id: dev-20260827-career-cfr-dw-data-201-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-27T14:20:14+08:00"
+    authorization_source: approval-20260827-career-daily-web-user-analysis-task-breakdown-v1
+    input:
+      artifact: artifact-career-daily-web-user-analysis-task-breakdown-001
+      path: docs/09-daily-web-user-analysis-task-breakdown.md
+      version: "1.0"
+      sha256: 2e2bb5da5a56736ba0decc39e5ea40b476618b27d7a623d237bb4f806ed8e38b
+    scope: "把 governance/public/private/seed/ledger 五条迁移流整理为可校验、可应用、可重放的本地 SQLite 迁移执行基线；启用 WAL、外键、busy timeout 与隔离目录。"
+    exclusions:
+      - real-source-import
+      - user-content-write
+      - external-analysis
+      - backend-or-frontend-change
+      - service-restart-or-deployment
+      - CFR-DW-DATA-202-and-later-work-items
+    expected_output:
+      artifact: artifact-career-cfr-dw-data-201-migration-runtime-001
+      stop_gate: atomic-delivery-review
+    production_release: frozen
+    auto_advance_beyond_next: false

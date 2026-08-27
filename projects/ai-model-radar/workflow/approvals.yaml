@@ -1492,3 +1492,56 @@ approvals:
     stop_gate: task-breakdown-review
     production_release: frozen
     auto_advance_beyond_next: false
+  - id: approval-20260827-radar-daily-web-real-data-task-breakdown-v1
+    run_id: run-20260731-intake-001
+    gate: task-breakdown-review
+    project_id: ai-model-radar
+    work_item: AMR-PM-DAILY-WEB-001
+    change_id: plan-20260826-radar-daily-web-real-data-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-27T14:20:14+08:00"
+    source_reply: "到什么进度了，未完成就继续"
+    artifact:
+      id: artifact-radar-daily-web-real-data-task-breakdown-001
+      path: docs/09-daily-web-real-data-task-breakdown.md
+      version: "1.0"
+      sha256: e8b2d2f9a80bbf28dab7b7763ac71b34c45c3f25bcc66cd16df51568bce45069
+    result: approved-and-route-unique-first-work-item
+    authorized_next_role: role-backend-dev
+    authorized_next_work_item: AMR-BE-101
+    next_entry_authorization: approval-20260827-radar-amr-be-101-entry
+    advance_limit: one-atomic-delivery-unit-only
+    production_release: frozen
+    auto_advance_beyond_next: false
+  - id: approval-20260827-radar-amr-be-101-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    project_id: ai-model-radar
+    role: role-backend-dev
+    role_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+    role_task_title: "07 后端工程师"
+    work_item: AMR-BE-101
+    change_id: dev-20260827-radar-amr-be-101-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-27T14:20:14+08:00"
+    authorization_source: approval-20260827-radar-daily-web-real-data-task-breakdown-v1
+    input:
+      artifact: artifact-radar-daily-web-real-data-task-breakdown-001
+      path: docs/09-daily-web-real-data-task-breakdown.md
+      version: "1.0"
+      sha256: e8b2d2f9a80bbf28dab7b7763ac71b34c45c3f25bcc66cd16df51568bce45069
+    scope: "创建 Node.js、TypeScript strict、Fastify 后端基础骨架，补齐明确配置与 dev/build/lint/typecheck/test/test:unit 脚本；health/live 只证明进程存活，查询 readiness 在迁移完成前必须返回 not_ready。"
+    exclusions:
+      - real-data-import
+      - database-business-write
+      - network-collection
+      - frontend-change
+      - service-restart-or-deployment
+      - AMR-BE-102-and-later-work-items
+    expected_output:
+      artifact: artifact-radar-amr-be-101-backend-foundation-001
+      stop_gate: atomic-delivery-review
+    production_release: frozen
+    auto_advance_beyond_next: false
