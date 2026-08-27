@@ -2492,3 +2492,64 @@ artifacts:
     completed_at: "2026-08-27T16:15:58+08:00"
     status: fixed-tested-pushed-and-running
     production_release: frozen
+  - id: artifact-radar-bilingual-chinese-counterpart-product-delta-001
+    run_id: run-20260731-intake-001
+    type: product-change-increment
+    project_id: ai-model-radar
+    work_item: AMR-PM-BILINGUAL-001
+    change_id: chg-20260827-radar-bilingual-chinese-counterpart-v1
+    owner: role-product-manager
+    role_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
+    role_task_title: "03 产品经理"
+    authorization: approval-20260827-radar-bilingual-chinese-counterpart-product-entry
+    path: docs/02-bilingual-chinese-counterpart-product-delta.md
+    version: "1.0"
+    sha256: 2497164c07c2e434f99e0b5e1374e47475b1f8f538fb7a7c444ff6914c86109e
+    product_decisions:
+      original_is_fact_root: true
+      chinese_counterpart_is_additive: true
+      per-event-visible-translation-state: required
+      translation_provenance_labels:
+        - human_translation
+        - machine_translation
+        - rule_generated
+        - untranslated
+      specialist_terms_versions_code_links: preserve_verbatim
+      server_persisted_versioned_counterpart: required
+      browser_implicit_translation: prohibited
+      repeated_refresh_idempotent: true
+      published_snapshots_immutable: true
+      translation_failure_blocks_real_news: false
+      static_demo_as_completion: prohibited
+    affected_surfaces:
+      - today
+      - all-events
+      - event-detail
+      - trends-version-drilldown
+      - open-source-releases
+      - historical-snapshots
+      - source-quality-explanations
+    validation:
+      markdown_structure: passed
+      AC_count: 18
+      required_product_topics: 8-of-8-covered
+      original_and_chinese_separation: passed
+      provenance_and_fact_layering: passed
+      failure_history_idempotency_persistence: passed
+      simplified_chinese_mobile_accessibility: passed
+      implementation_boundary: passed
+    truth_boundary:
+      current_runtime_preserved: true
+      frontend_modified: false
+      backend_modified: false
+      database_modified: false
+      service_restarted: false
+      current_chinese_counterpart_implemented: false
+      production_release: frozen
+    completed_at: "2026-08-27T19:07:10+08:00"
+    validated_at: "2026-08-27T19:07:10+08:00"
+    status: ready-for-review
+    result: ready-for-product-change-review
+    stop_gate: product-change-review
+    downstream_role_authorized: false
+    auto_route: false

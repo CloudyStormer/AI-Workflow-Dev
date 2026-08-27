@@ -1594,3 +1594,43 @@ approvals:
     intermediate_review_required: false
     production_release: frozen
     auto_route: false
+  - id: approval-20260827-radar-bilingual-chinese-counterpart-product-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    project_id: ai-model-radar
+    role: role-product-manager
+    role_task_id: "019fb74a-9dbd-7e13-823f-80584d8ac1b7"
+    role_task_title: "03 产品经理"
+    work_item: AMR-PM-BILINGUAL-001
+    change_id: chg-20260827-radar-bilingual-chinese-counterpart-v1
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-27T19:07:10+08:00"
+    authorization_source: direct-user-requirement-confirmed-and-forwarded-by-fixed-00
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    safe_checkpoint: e8367a7021afc4f1e522218482068450d1d3bea3
+    original_state:
+      stage: implementation
+      status: real-local-backend-relevance-filtered-snapshot-running
+      current_role: role-backend-dev
+      recorded_gate: atomic-delivery-review
+      runtime_truth: live
+      runtime_sources: 6
+      successful_sources: 6
+    scope: "定义每条真实 AI 开发事件保留原文并增加可追溯中文标题、摘要、关键变化、形成标签、版本、失败不阻断、持久化与无障碍产品契约。"
+    exclusions:
+      - UI-prompt-or-UI-design
+      - architecture-or-task-breakdown
+      - frontend-backend-database-or-runtime-changes
+      - source-collection-or-service-restart
+      - production-deployment
+      - automatic-downstream-route
+    expected_output:
+      artifact: artifact-radar-bilingual-chinese-counterpart-product-delta-001
+      path: docs/02-bilingual-chinese-counterpart-product-delta.md
+      version: "1.0"
+    stop_gate: product-change-review
+    return_point: held-current-live-integration-after-product-review
+    production_release: frozen
+    advance_limit: one-product-delivery-unit-only
+    auto_advance_beyond_next: false
