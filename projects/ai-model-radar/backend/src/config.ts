@@ -1,12 +1,16 @@
 import path from "node:path";
 
 const LOOPBACK_HOST = "127.0.0.1" as const;
+const APPROVED_CORS_ORIGINS = Object.freeze([
+  "http://127.0.0.1:5173",
+  "http://127.0.0.1:4174",
+] as const);
 
 export interface ServerConfig {
   readonly host: typeof LOOPBACK_HOST;
   readonly port: number;
   readonly dataDir: string;
-  readonly corsOrigin: string;
+  readonly corsOrigins: readonly string[];
   readonly sourceTimeoutMs: number;
   readonly sourceRetries: number;
 }
@@ -26,7 +30,7 @@ function requireValue(
     | "AMR_API_HOST"
     | "AMR_API_PORT"
     | "AMR_DATA_DIR"
-    | "AMR_CORS_ORIGIN"
+    | "AMR_CORS_ORIGINS"
     | "AMR_SOURCE_TIMEOUT_MS"
     | "AMR_SOURCE_RETRIES",
 ): string {
@@ -65,23 +69,18 @@ export function readServerConfig(
     throw new ConfigurationError("AMR_DATA_DIR must be an absolute child of the backend directory");
   }
 
-  const corsOrigin = requireValue(environment, "AMR_CORS_ORIGIN");
-  let parsedOrigin: URL;
-  try {
-    parsedOrigin = new URL(corsOrigin);
-  } catch {
-    throw new ConfigurationError("AMR_CORS_ORIGIN must be an absolute loopback HTTP origin");
-  }
+  const configuredOrigins = requireValue(environment, "AMR_CORS_ORIGINS")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter((origin) => origin !== "");
+  const uniqueOrigins = new Set(configuredOrigins);
   if (
-    parsedOrigin.protocol !== "http:" ||
-    parsedOrigin.hostname !== LOOPBACK_HOST ||
-    parsedOrigin.username !== "" ||
-    parsedOrigin.password !== "" ||
-    parsedOrigin.pathname !== "/" ||
-    parsedOrigin.search !== "" ||
-    parsedOrigin.hash !== ""
+    uniqueOrigins.size !== APPROVED_CORS_ORIGINS.length ||
+    !APPROVED_CORS_ORIGINS.every((origin) => uniqueOrigins.has(origin))
   ) {
-    throw new ConfigurationError("AMR_CORS_ORIGIN must be an absolute loopback HTTP origin");
+    throw new ConfigurationError(
+      `AMR_CORS_ORIGINS must contain only ${APPROVED_CORS_ORIGINS.join(",")}`,
+    );
   }
 
   const sourceTimeoutMs = parseBoundedInteger(
@@ -101,7 +100,7 @@ export function readServerConfig(
     host,
     port,
     dataDir,
-    corsOrigin: parsedOrigin.origin,
+    corsOrigins: APPROVED_CORS_ORIGINS,
     sourceTimeoutMs,
     sourceRetries,
   });

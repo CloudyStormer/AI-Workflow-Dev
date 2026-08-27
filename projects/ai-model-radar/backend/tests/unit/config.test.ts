@@ -6,7 +6,7 @@ const VALID_ENV = {
   AMR_API_HOST: "127.0.0.1",
   AMR_API_PORT: "4317",
   AMR_DATA_DIR: `${process.cwd()}/.local-data-test`,
-  AMR_CORS_ORIGIN: "http://127.0.0.1:5173",
+  AMR_CORS_ORIGINS: "http://127.0.0.1:5173,http://127.0.0.1:4174",
   AMR_SOURCE_TIMEOUT_MS: "12000",
   AMR_SOURCE_RETRIES: "2",
 } as const;
@@ -41,7 +41,7 @@ describe("readServerConfig", () => {
       host: "127.0.0.1",
       port: 4317,
       dataDir: `${process.cwd()}/.local-data-test`,
-      corsOrigin: "http://127.0.0.1:5173",
+      corsOrigins: ["http://127.0.0.1:5173", "http://127.0.0.1:4174"],
       sourceTimeoutMs: 12_000,
       sourceRetries: 2,
     });
@@ -53,7 +53,10 @@ describe("readServerConfig", () => {
       "must be an absolute child",
     );
     expect(() =>
-      readServerConfig({ ...VALID_ENV, AMR_CORS_ORIGIN: "https://example.com" }),
-    ).toThrowError("absolute loopback HTTP origin");
+      readServerConfig({ ...VALID_ENV, AMR_CORS_ORIGINS: "http://127.0.0.1:5173,*" }),
+    ).toThrowError("must contain only");
+    expect(() =>
+      readServerConfig({ ...VALID_ENV, AMR_CORS_ORIGINS: "http://127.0.0.1:4174" }),
+    ).toThrowError("must contain only");
   });
 });

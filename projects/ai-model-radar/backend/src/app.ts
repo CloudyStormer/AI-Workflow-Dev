@@ -9,7 +9,7 @@ import { registerRadarRoutes } from "./http/radar.js";
 export interface AppOptions {
   readonly logger?: boolean;
   readonly service?: RadarService;
-  readonly corsOrigin?: string;
+  readonly corsOrigins?: readonly string[];
 }
 
 export async function createApp(options: AppOptions = {}): Promise<FastifyInstance> {
@@ -28,9 +28,9 @@ export async function createApp(options: AppOptions = {}): Promise<FastifyInstan
   });
 
   await app.register(rateLimit, { max: 120, timeWindow: "1 minute" });
-  if (options.corsOrigin !== undefined) {
+  if (options.corsOrigins !== undefined) {
     await app.register(cors, {
-      origin: options.corsOrigin,
+      origin: [...options.corsOrigins],
       methods: ["GET", "POST", "OPTIONS"],
       allowedHeaders: ["content-type", "idempotency-key", "x-request-id"],
       exposedHeaders: ["x-request-id"],

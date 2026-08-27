@@ -12,7 +12,7 @@ export async function startServer(): Promise<void> {
     new PublicSourceCollector(config.sourceTimeoutMs, config.sourceRetries),
   );
   service.initialize();
-  const app = await createApp({ logger: true, service, corsOrigin: config.corsOrigin });
+  const app = await createApp({ logger: true, service, corsOrigins: config.corsOrigins });
   app.addHook("onClose", async () => {
     repository.close();
   });

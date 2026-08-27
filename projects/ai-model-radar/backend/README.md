@@ -20,7 +20,7 @@ loopback frontend origin:
 export AMR_API_HOST=127.0.0.1
 export AMR_API_PORT=4317
 export AMR_DATA_DIR="$PWD/.local-data"
-export AMR_CORS_ORIGIN=http://127.0.0.1:5173
+export AMR_CORS_ORIGINS=http://127.0.0.1:5173,http://127.0.0.1:4174
 export AMR_SOURCE_TIMEOUT_MS=12000
 export AMR_SOURCE_RETRIES=2
 ```
@@ -28,6 +28,10 @@ export AMR_SOURCE_RETRIES=2
 SQLite uses foreign keys, WAL, and a 5000 ms busy timeout. Local database and
 sidecar files are ignored by Git. The process exits before listening when any
 required configuration is missing or invalid.
+
+`AMR_CORS_ORIGINS` is fail-closed: it must contain exactly the Vite development
+origin on port 5173 and the fixed local integration origin on port 4174. Wildcard,
+non-loopback, extra, or missing origins are rejected at startup.
 
 ## Commands
 

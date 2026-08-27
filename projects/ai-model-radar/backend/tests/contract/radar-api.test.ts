@@ -62,7 +62,10 @@ async function setup(): Promise<{ app: FastifyInstance; repository: RadarReposit
   const repository = new RadarRepository(directory);
   const service = new RadarService(repository, new DeterministicCollector());
   service.initialize();
-  const app = await createApp({ service, corsOrigin: "http://127.0.0.1:5173" });
+  const app = await createApp({
+    service,
+    corsOrigins: ["http://127.0.0.1:5173", "http://127.0.0.1:4174"],
+  });
   resources.push({ app, repository, directory });
   return { app, repository };
 }
@@ -92,6 +95,21 @@ describe("Radar HTTP contract", () => {
     expect(todayPayload.truth).toBe("live");
     expect(todayPayload.data.events).toHaveLength(6);
     expect(today.headers["cache-control"]).toBe("private, no-store");
+
+    const fixedLocalFrontend = await app.inject({
+      method: "GET",
+      url: "/api/v1/radar/today",
+      headers: { origin: "http://127.0.0.1:4174" },
+    });
+    expect(fixedLocalFrontend.headers["access-control-allow-origin"]).toBe(
+      "http://127.0.0.1:4174",
+    );
+    const rejectedOrigin = await app.inject({
+      method: "GET",
+      url: "/api/v1/radar/today",
+      headers: { origin: "http://localhost:4174" },
+    });
+    expect(rejectedOrigin.headers["access-control-allow-origin"]).toBeUndefined();
 
     const eventId = todayPayload.data.events[0].event_id as string;
     const snapshotId = todayPayload.snapshot_id as string;
