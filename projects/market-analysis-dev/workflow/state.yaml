@@ -4,8 +4,8 @@ run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
 stage: implementation
-status: career-data-202-203-analysis-delivered-for-integration
-current_role: role-data-engineer
+status: career-local-http-api-delivered-and-running
+current_role: role-backend-dev
 blocked: false
 ui_assets:
   directory: ui
@@ -2719,4 +2719,48 @@ career_data_continuous_integration_assignment:
   production_release: frozen
   real_deletion_authorized: false
   auto_route: false
-updated_at: "2026-08-27T15:41:02+08:00"
+career_backend_http_integration_delivery:
+  change_id: dev-20260827-career-local-http-integration-001
+  work_item: career-local-http-integration
+  role: role-backend-dev
+  role_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+  authorization: approval-20260827-career-backend-http-continuous-entry
+  authorization_source: direct-user-command-forwarded-by-fixed-00
+  safe_checkpoint: c6907525c54e5e6c5e73fc2621d1a9576be4698b
+  data_dependency_commit: c6907525c54e5e6c5e73fc2621d1a9576be4698b
+  frontend_integration_commit: 67d88a5
+  code_commit: 4b1d44e3352426e92bf82b55f4c910e32d5a242c
+  scope: "在 127.0.0.1:4318 暴露真实健康、材料版本、分类确认、确定性分析与历史 API；使用固定08本地 SQLite 数据层、服务端 subject 边界、Zod、幂等键、统一错误信封与精确 loopback CORS。"
+  exclusions:
+    - frontend-changes
+    - production-deployment
+    - real-deletion-or-irreversible-action
+    - external-network-processing
+    - fixed-08-authoritative-data-path-changes
+  runtime_truth:
+    listener: http://127.0.0.1:4318
+    ready: true
+    persisted_materials: 1
+    persisted_versions: 1
+    classification_revisions: 1
+    analysis_revisions: 1
+    findings: 9
+    evidence_records: 9
+    approved_static_public_records: 8
+    network_requests: 0
+    production_release: frozen
+  validation:
+    node: 24.19.0
+    lint: passed
+    typecheck: passed
+    build: passed
+    aggregate_test_files: 9-of-9-passed
+    aggregate_tests: 63-of-63-passed
+    api_smoke: passed-save-restart-recover-classify-confirm-analyze-history
+    cors: passed-4177-and-5173-allowed-localhost-rejected
+    git_boundary: passed
+  result: delivered-for-frontend-integration
+  stop_gate: development-integration-handoff
+  production_release: frozen
+  auto_route: false
+updated_at: "2026-08-27T16:04:08+08:00"
