@@ -2045,6 +2045,7 @@ direct_development_integration_assignment:
   authorized_scope: AMR-DATA-101-AMR-BE-102-through-107-AMR-DATA-102-AMR-SRC-101-minimum
   backend_artifact: artifact-radar-real-local-backend-001
   backend_source_commit: e86d25ef3084053ba1306a6aad2dfb8175bcfafa
+  backend_integration_patch_commit: 1067f59c
   backend_delivery_status: completed-and-running-local
   frontend_integration_status: active-by-role-frontend-dev
   local_runtime:
@@ -2056,5 +2057,8 @@ direct_development_integration_assignment:
     latest_event_date_asia_shanghai: "2026-08-27"
     snapshot_id: snapshot_e42a34d1e60bee33838a1f98
     persistence: local-gitignored-not-portable
+    cors_origins:
+      - http://127.0.0.1:5173
+      - http://127.0.0.1:4174
   production_release: frozen
 updated_at: "2026-08-27T15:37:18+08:00"

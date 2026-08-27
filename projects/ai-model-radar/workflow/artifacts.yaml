@@ -2395,6 +2395,7 @@ artifacts:
     role_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
     authorization: approval-20260827-radar-direct-development-integration
     source_commit: e86d25ef3084053ba1306a6aad2dfb8175bcfafa
+    integration_patch_commit: 1067f59c
     aggregate_sha256: 31e7141fee06bdef612d0feb35dbd8f7e7fbc12580efe190b1c51f07da89bc52
     authoritative_paths:
       - backend/migrations
@@ -2430,6 +2431,13 @@ artifacts:
       real_network_refresh_first: {sources_succeeded: 6, sources_failed: 0, inserted_events: 70, new_revisions: 70}
       real_network_refresh_repeat: {sources_succeeded: 6, sources_failed: 0, inserted_events: 0, new_revisions: 0}
       api_refresh_smoke: {status: completed, sources_succeeded: 6, sources_failed: 0, inserted_events: 0, new_revisions: 0}
+      cors_allowlist_smoke:
+        allowed:
+          - http://127.0.0.1:5173
+          - http://127.0.0.1:4174
+        rejected:
+          - http://localhost:4174
+        wildcard: rejected
     local_runtime_evidence:
       service_url: http://127.0.0.1:4317
       snapshot_id: snapshot_e42a34d1e60bee33838a1f98
