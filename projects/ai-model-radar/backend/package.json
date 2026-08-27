@@ -8,13 +8,24 @@
   },
   "scripts": {
     "dev": "tsx watch src/server.ts",
+    "start": "node dist/server.js",
     "build": "tsc -p tsconfig.build.json",
     "lint": "oxlint src tests vitest.config.ts --ignore-pattern 'src/policy/**' --deny-warnings",
     "typecheck": "tsc --noEmit --pretty false",
-    "test": "npm run test:unit",
-    "test:unit": "node --test src/policy/*.test.mjs && vitest run --config vitest.config.ts"
+    "test": "npm run test:unit && npm run test:integration && npm run test:contract",
+    "test:unit": "node --test src/policy/*.test.mjs && vitest run --config vitest.config.ts tests/unit",
+    "test:integration": "vitest run --config vitest.config.ts tests/integration",
+    "test:contract": "vitest run --config vitest.config.ts tests/contract",
+    "test:migration-up-down": "vitest run --config vitest.config.ts tests/migration",
+    "test:snapshot-replay-publish": "vitest run --config vitest.config.ts tests/integration/snapshot.test.ts",
+    "db:migrate": "tsx src/cli/migrate.ts",
+    "refresh:now": "tsx src/cli/refresh.ts",
+    "import:verified": "tsx src/cli/import-verified.ts"
   },
   "dependencies": {
+    "@fastify/cors": "11.3.0",
+    "@fastify/rate-limit": "11.2.0",
+    "fast-xml-parser": "5.11.1",
     "fastify": "5.12.1"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 export const OPERATION_SCHEMA_VERSION = "1.0";
 
-export type ControlOperationState = "healthy" | "not_ready";
+export type ControlOperationState = "healthy" | "ready" | "not_ready" | "completed" | "failed";
 
 export interface RadarError {
   readonly schema_version: typeof OPERATION_SCHEMA_VERSION;

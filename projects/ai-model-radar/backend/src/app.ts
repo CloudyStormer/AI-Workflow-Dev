@@ -1,9 +1,15 @@
+import cors from "@fastify/cors";
+import rateLimit from "@fastify/rate-limit";
 import Fastify, { type FastifyInstance } from "fastify";
 
+import type { RadarService } from "./application/radar-service.js";
 import { registerHealthRoutes } from "./http/health.js";
+import { registerRadarRoutes } from "./http/radar.js";
 
 export interface AppOptions {
   readonly logger?: boolean;
+  readonly service?: RadarService;
+  readonly corsOrigin?: string;
 }
 
 export async function createApp(options: AppOptions = {}): Promise<FastifyInstance> {
@@ -21,6 +27,20 @@ export async function createApp(options: AppOptions = {}): Promise<FastifyInstan
     return payload;
   });
 
-  await registerHealthRoutes(app);
+  await app.register(rateLimit, { max: 120, timeWindow: "1 minute" });
+  if (options.corsOrigin !== undefined) {
+    await app.register(cors, {
+      origin: options.corsOrigin,
+      methods: ["GET", "POST", "OPTIONS"],
+      allowedHeaders: ["content-type", "idempotency-key", "x-request-id"],
+      exposedHeaders: ["x-request-id"],
+      credentials: false,
+    });
+  }
+
+  await registerHealthRoutes(app, options.service ?? null);
+  if (options.service !== undefined) {
+    await registerRadarRoutes(app, options.service);
+  }
   return app;
 }

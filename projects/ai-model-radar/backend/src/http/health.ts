@@ -1,5 +1,7 @@
 import type { FastifyInstance } from "fastify";
 
+import type { RadarService } from "../application/radar-service.js";
+
 import {
   OPERATION_SCHEMA_VERSION,
   createControlEnvelope,
@@ -42,7 +44,10 @@ const healthResponseSchema = {
     operation_id: { type: "string", minLength: 1 },
     refresh_run_id: { type: "null" },
     fetch_run_id: { type: "null" },
-    operation_state: { type: "string", enum: ["healthy", "not_ready"] },
+    operation_state: {
+      type: "string",
+      enum: ["healthy", "ready", "not_ready", "completed", "failed"],
+    },
     status_revision: { type: "null" },
     observed_at: { type: "string", format: "date-time" },
     data: { type: "object", additionalProperties: true },
@@ -80,7 +85,10 @@ function createNotReadyError(input: {
   };
 }
 
-export async function registerHealthRoutes(app: FastifyInstance): Promise<void> {
+export async function registerHealthRoutes(
+  app: FastifyInstance,
+  service: RadarService | null,
+): Promise<void> {
   app.get(
     "/health/live",
     {
@@ -115,15 +123,37 @@ export async function registerHealthRoutes(app: FastifyInstance): Promise<void> 
             capability: { type: "string", enum: CAPABILITIES, default: "query" },
           },
         },
-        response: { 503: healthResponseSchema },
+        response: { 200: healthResponseSchema, 503: healthResponseSchema },
       },
     },
     async (request, reply) => {
       const capability = request.query.capability ?? "query";
       const observedAt = new Date().toISOString();
+      const migrated = service?.repository.isMigrated() ?? false;
+      const hasSnapshot = service !== null && service.repository.getCurrentSnapshot() !== null;
+      const ready = capability === "query" ? migrated && hasSnapshot : migrated && service !== null;
+      if (ready) {
+        return reply.status(200).send(
+          createControlEnvelope({
+            requestId: request.id,
+            operationId: `health-ready-${capability}`,
+            operationState: "ready",
+            observedAt,
+            data: {
+              capability,
+              readiness: "ready",
+              migration_state: "applied",
+              snapshot_available: hasSnapshot,
+            },
+          }),
+        );
+      }
       const missingGates =
         capability === "query"
-          ? ["schema_migrations", "live_database", "snapshot_pointer"]
+          ? [
+              ...(migrated ? [] : ["schema_migrations", "live_database"]),
+              ...(hasSnapshot ? [] : ["snapshot_pointer"]),
+            ]
           : [
               "schema_migrations",
               "governance_consistency",
@@ -148,7 +178,8 @@ export async function registerHealthRoutes(app: FastifyInstance): Promise<void> 
           data: {
             capability,
             readiness: "not_ready",
-            migration_state: "not_applied",
+            migration_state: migrated ? "applied" : "not_applied",
+            snapshot_available: hasSnapshot,
             missing_gates: missingGates,
           },
           errors: [error],

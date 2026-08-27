@@ -2,6 +2,15 @@ import { describe, expect, it } from "vitest";
 
 import { ConfigurationError, readServerConfig } from "../../src/config.js";
 
+const VALID_ENV = {
+  AMR_API_HOST: "127.0.0.1",
+  AMR_API_PORT: "4317",
+  AMR_DATA_DIR: `${process.cwd()}/.local-data-test`,
+  AMR_CORS_ORIGIN: "http://127.0.0.1:5173",
+  AMR_SOURCE_TIMEOUT_MS: "12000",
+  AMR_SOURCE_RETRIES: "2",
+} as const;
+
 describe("readServerConfig", () => {
   it("requires host and port to be provided explicitly", () => {
     expect(() => readServerConfig({})).toThrowError(ConfigurationError);
@@ -12,7 +21,7 @@ describe("readServerConfig", () => {
 
   it("accepts only the approved loopback host", () => {
     expect(() =>
-      readServerConfig({ AMR_API_HOST: "0.0.0.0", AMR_API_PORT: "4317" }),
+      readServerConfig({ ...VALID_ENV, AMR_API_HOST: "0.0.0.0" }),
     ).toThrowError("non-loopback binding is not approved");
   });
 
@@ -20,18 +29,31 @@ describe("readServerConfig", () => {
     "rejects invalid port %s",
     (port) => {
       expect(() =>
-        readServerConfig({ AMR_API_HOST: "127.0.0.1", AMR_API_PORT: port }),
+        readServerConfig({ ...VALID_ENV, AMR_API_PORT: port }),
       ).toThrowError("AMR_API_PORT must be an integer from 1 to 65535");
     },
   );
 
   it("returns an immutable validated configuration", () => {
-    const config = readServerConfig({
-      AMR_API_HOST: "127.0.0.1",
-      AMR_API_PORT: "4317",
-    });
+    const config = readServerConfig(VALID_ENV);
 
-    expect(config).toEqual({ host: "127.0.0.1", port: 4317 });
+    expect(config).toEqual({
+      host: "127.0.0.1",
+      port: 4317,
+      dataDir: `${process.cwd()}/.local-data-test`,
+      corsOrigin: "http://127.0.0.1:5173",
+      sourceTimeoutMs: 12_000,
+      sourceRetries: 2,
+    });
     expect(Object.isFrozen(config)).toBe(true);
+  });
+
+  it("rejects data outside the backend and non-loopback CORS", () => {
+    expect(() => readServerConfig({ ...VALID_ENV, AMR_DATA_DIR: "/tmp/radar" })).toThrowError(
+      "must be an absolute child",
+    );
+    expect(() =>
+      readServerConfig({ ...VALID_ENV, AMR_CORS_ORIGIN: "https://example.com" }),
+    ).toThrowError("absolute loopback HTTP origin");
   });
 });
