@@ -420,7 +420,7 @@ export function SourceWorkbenchPage() {
             粘贴文章、招聘／面试要求、简历、项目材料或其他正文
           </label>
           <p id="source-body-help" className={styles.fieldHelp}>
-            1–100,000 个 Unicode 字符；只输入网址不会自动抓取；默认不长期保存。
+            1–100,000 个 Unicode 字符；只输入网址不会自动抓取；提交后加密保存到本机私有 SQLite，可从历史恢复。
           </p>
           <div
             className={`${styles.textareaFrame} ${fieldError === 'source-body' ? styles.fieldInvalid : ''}`}

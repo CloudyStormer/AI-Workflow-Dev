@@ -16,19 +16,19 @@ import { NavLink, Outlet } from 'react-router-dom'
 import styles from './App.module.css'
 
 const navigationItems = [
-  { number: '01', label: '职业方向总览', path: '/directions', enabled: true, icon: ChartNoAxesCombined },
-  { number: '02', label: '技术栈全景', path: '/stacks', enabled: false, icon: Layers3 },
-  { number: '03', label: '招聘证据', path: '/evidence', enabled: false, icon: BriefcaseBusiness },
-  { number: '04', label: 'AI 增量', path: '/ai-increment', enabled: false, icon: Bot },
-  { number: '05', label: '信息源工作台', path: '/source-workbench', enabled: true, icon: FileSearch },
-  { number: '06', label: '个人证据准备', path: '/personal-evidence', enabled: false, icon: UserRoundSearch },
+  { number: '01', label: '职业方向总览', path: '/directions', icon: ChartNoAxesCombined },
+  { number: '02', label: '技术栈全景', path: '/stacks', icon: Layers3 },
+  { number: '03', label: '招聘证据', path: '/evidence', icon: BriefcaseBusiness },
+  { number: '04', label: 'AI 增量', path: '/ai-increment', icon: Bot },
+  { number: '05', label: '信息源工作台', path: '/source-workbench', icon: FileSearch },
+  { number: '06', label: '个人证据准备', path: '/personal-evidence', icon: UserRoundSearch },
 ] as const
 
 const mobileNavigationItems = [
-  { number: '01', label: '方向', path: '/directions', enabled: true, icon: ChartNoAxesCombined },
-  { number: '02', label: '技术栈', path: '/stacks', enabled: false, icon: Layers3 },
-  { number: '05', label: '信息源', path: '/source-workbench', enabled: true, icon: FileSearch },
-  { number: '—', label: '更多', path: '/more', enabled: false, icon: BriefcaseBusiness },
+  { number: '01', label: '方向', path: '/directions', icon: ChartNoAxesCombined },
+  { number: '02', label: '技术栈', path: '/stacks', icon: Layers3 },
+  { number: '05', label: '信息源', path: '/source-workbench', icon: FileSearch },
+  { number: '…', label: '更多', path: '/more', icon: BriefcaseBusiness },
 ] as const
 
 export function RouteLoadingState() {
@@ -110,29 +110,16 @@ export function App() {
 
               return (
                 <li key={item.path}>
-                  {item.enabled ? (
-                    <NavLink
-                      className={({ isActive }) =>
-                        `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`
-                      }
-                      to={item.path}
-                      end
-                    >
-                      <Icon size={17} strokeWidth={1.9} aria-hidden="true" />
-                      <span><b>{item.number}</b> {item.label}</span>
-                    </NavLink>
-                  ) : (
-                    <button
-                      className={styles.navLink}
-                      type="button"
-                      disabled
-                      aria-label={`${item.number} ${item.label}，后续任务`}
-                    >
-                      <Icon size={17} strokeWidth={1.9} aria-hidden="true" />
-                      <span><b>{item.number}</b> {item.label}</span>
-                      <small>后续任务</small>
-                    </button>
-                  )}
+                  <NavLink
+                    className={({ isActive }) =>
+                      `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`
+                    }
+                    to={item.path}
+                    end
+                  >
+                    <Icon size={17} strokeWidth={1.9} aria-hidden="true" />
+                    <span><b>{item.number}</b> {item.label}</span>
+                  </NavLink>
                 </li>
               )
             })}
@@ -158,30 +145,17 @@ export function App() {
 
             return (
               <li key={item.path}>
-                {item.enabled ? (
-                  <NavLink
-                    className={({ isActive }) =>
-                      `${styles.mobileNavItem} ${isActive ? styles.mobileNavItemActive : ''}`
-                    }
-                    to={item.path}
-                    end
-                  >
-                    <Icon size={20} strokeWidth={1.9} aria-hidden="true" />
-                    <span>{item.label}</span>
-                    <small>{item.number}</small>
-                  </NavLink>
-                ) : (
-                  <button
-                    className={styles.mobileNavItem}
-                    type="button"
-                    disabled
-                    aria-label={`${item.label}，后续任务`}
-                  >
-                    <Icon size={20} strokeWidth={1.9} aria-hidden="true" />
-                    <span>{item.label}</span>
-                    <small>{item.number}</small>
-                  </button>
-                )}
+                <NavLink
+                  className={({ isActive }) =>
+                    `${styles.mobileNavItem} ${isActive ? styles.mobileNavItemActive : ''}`
+                  }
+                  to={item.path}
+                  end
+                >
+                  <Icon size={20} strokeWidth={1.9} aria-hidden="true" />
+                  <span>{item.label}</span>
+                  <small>{item.number}</small>
+                </NavLink>
               </li>
             )
           })}

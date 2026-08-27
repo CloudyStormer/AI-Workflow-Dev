@@ -33,21 +33,43 @@ describe('Frontend Career Radar 应用壳', () => {
     ).toBeInTheDocument()
   })
 
-  it('开放 01 与 05，其他导航明确标为后续任务', async () => {
+  it('六个桌面模块全部开放，移动端更多入口可达', async () => {
     const { container } = renderAt('/directions')
 
     expect(await screen.findByRole('link', { name: /01 职业方向总览/ })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /02 技术栈全景/ })).toHaveAttribute('href', '/stacks')
+    expect(screen.getByRole('link', { name: /03 招聘证据/ })).toHaveAttribute('href', '/evidence')
+    expect(screen.getByRole('link', { name: /04 AI 增量/ })).toHaveAttribute('href', '/ai-increment')
     expect(screen.getByRole('link', { name: /05 信息源工作台/ })).toHaveAttribute(
       'href',
       '/source-workbench',
     )
-    expect(screen.getByRole('button', { name: '02 技术栈全景，后续任务' })).toBeDisabled()
-    expect(screen.getByRole('button', { name: '06 个人证据准备，后续任务' })).toBeDisabled()
+    expect(screen.getByRole('link', { name: /06 个人证据准备/ })).toHaveAttribute('href', '/personal-evidence')
     expect(container.querySelector('nav[aria-label="移动端一级导航"]')).toBeInTheDocument()
     expect(container.querySelector('a[href="/source-workbench"]')).toBeInTheDocument()
-    expect(
-      container.querySelector('button[aria-label="技术栈，后续任务"]'),
-    ).toBeDisabled()
+    expect(container.querySelector('a[href="/more"]')).toBeInTheDocument()
+  })
+
+  it.each([
+    ['/stacks', '从真实材料汇总技术栈'],
+    ['/evidence', '查看材料中的招聘与要求证据'],
+    ['/ai-increment', '识别前端工作的 AI 能力增量'],
+    ['/personal-evidence', '整理可回链的个人能力证据'],
+  ])('%s 真实分析视图可达且不使用 Demo 补空', async (path, heading) => {
+    renderAt(path)
+
+    expect(await screen.findByRole('heading', { name: heading })).toBeInTheDocument()
+    expect(await screen.findByText('当前没有符合条件的真实证据')).toBeInTheDocument()
+    expect(screen.getByText('这里不会用 Demo 补空。', { exact: false })).toBeInTheDocument()
+  })
+
+  it('移动端更多页提供其余真实分析模块入口', async () => {
+    const { container } = renderAt('/more')
+
+    expect(await screen.findByRole('heading', { name: '选择要查看的真实分析视图' })).toBeInTheDocument()
+    expect(container.querySelector('main a[href="/evidence"]')).toBeInTheDocument()
+    expect(container.querySelector('main a[href="/ai-increment"]')).toBeInTheDocument()
+    expect(container.querySelector('main a[href="/personal-evidence"]')).toBeInTheDocument()
   })
 
   it('信息源工作台路由可达并显示完整中文输入入口', async () => {

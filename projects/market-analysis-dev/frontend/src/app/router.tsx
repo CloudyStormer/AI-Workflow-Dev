@@ -18,12 +18,14 @@ const SourceWorkbenchPage = lazy(() =>
   })),
 )
 
+const CareerInsightsPages = lazy(() => import('../features/career-insights/CareerInsightsPages'))
+
 export function NotFoundPage() {
   return (
     <section aria-labelledby="not-found-title">
       <p>页面状态 · 404</p>
       <h1 id="not-found-title">没有找到这个页面</h1>
-      <p>当前预览开放职业方向总览与信息源工作台，其他模块将在各自任务获批后实现。</p>
+      <p>六个业务模块均已开放；当前地址不存在，请从导航重新进入。</p>
       <a href="/directions">返回职业方向总览</a>
     </section>
   )
@@ -64,6 +66,26 @@ export const routes = [
             <SourceWorkbenchPage />
           </Suspense>
         ),
+      },
+      {
+        path: 'stacks',
+        element: <Suspense fallback={<RouteLoadingState />}><CareerInsightsPages page="stacks" /></Suspense>,
+      },
+      {
+        path: 'evidence',
+        element: <Suspense fallback={<RouteLoadingState />}><CareerInsightsPages page="evidence" /></Suspense>,
+      },
+      {
+        path: 'ai-increment',
+        element: <Suspense fallback={<RouteLoadingState />}><CareerInsightsPages page="ai" /></Suspense>,
+      },
+      {
+        path: 'personal-evidence',
+        element: <Suspense fallback={<RouteLoadingState />}><CareerInsightsPages page="personal" /></Suspense>,
+      },
+      {
+        path: 'more',
+        element: <Suspense fallback={<RouteLoadingState />}><CareerInsightsPages page="more" /></Suspense>,
       },
       { path: '*', element: <NotFoundPage /> },
     ],
