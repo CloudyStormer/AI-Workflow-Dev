@@ -78,7 +78,7 @@ async function streamFileToNodeResponse(filePath, response, method = 'GET') {
   response.statusCode = 200
   response.setHeader('Content-Type', contentType(filePath))
   response.setHeader('Content-Length', metadata.size)
-  response.setHeader('Cache-Control', filePath.endsWith('.html') ? 'no-cache' : 'public, max-age=3600')
+  response.setHeader('Cache-Control', 'no-cache')
   if (method === 'HEAD') {
     response.end()
     return
@@ -95,7 +95,7 @@ async function fileResponse(filePath) {
     headers: {
       'Content-Type': contentType(filePath),
       'Content-Length': String(metadata.size),
-      'Cache-Control': filePath.endsWith('.html') ? 'no-cache' : 'public, max-age=3600',
+      'Cache-Control': 'no-cache',
     },
   })
 }

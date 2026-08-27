@@ -13,29 +13,55 @@ readonly LOG_DIR="$HOME/Library/Logs/AIWorkFlow/local-services"
 readonly LABEL_PREFIX="com.cloudystormer.aiworkflow.local"
 readonly SERVER_SOURCE="$ROOT_DIR/scripts/local-service-server.mjs"
 readonly SERVER_RUNTIME="$RUNTIME_DIR/bin/local-service-server.mjs"
+readonly API_RUNNER_SOURCE="$ROOT_DIR/scripts/local-api-service-runner.mjs"
+readonly API_RUNNER_RUNTIME="$RUNTIME_DIR/bin/local-api-service-runner.mjs"
 
-typeset -a SERVICE_IDS=(english radar control-center career)
-typeset -A SERVICE_NAME SERVICE_CWD SERVICE_PORT SERVICE_URL
+typeset -a WEB_SERVICE_IDS=(english radar control-center career)
+typeset -a API_SERVICE_IDS=(radar-api career-api)
+typeset -a SERVICE_IDS=(english radar-api radar control-center career-api career)
+typeset -A SERVICE_NAME SERVICE_CWD SERVICE_PORT SERVICE_URL SERVICE_KIND SERVICE_HEALTH
 
 SERVICE_NAME[english]="AI English Learning"
 SERVICE_CWD[english]="$ROOT_DIR/projects/ai-english-learning/frontend"
 SERVICE_PORT[english]="4173"
 SERVICE_URL[english]="http://127.0.0.1:4173/word"
+SERVICE_KIND[english]="static"
+SERVICE_HEALTH[english]="html"
 
 SERVICE_NAME[radar]="AI Model Radar"
 SERVICE_CWD[radar]="$ROOT_DIR/projects/ai-model-radar/frontend"
 SERVICE_PORT[radar]="4174"
 SERVICE_URL[radar]="http://127.0.0.1:4174/today"
+SERVICE_KIND[radar]="static"
+SERVICE_HEALTH[radar]="html"
+
+SERVICE_NAME[radar-api]="AI Model Radar API"
+SERVICE_CWD[radar-api]="$ROOT_DIR/projects/ai-model-radar/backend"
+SERVICE_PORT[radar-api]="4317"
+SERVICE_URL[radar-api]="http://127.0.0.1:4317/health/ready?capability=query"
+SERVICE_KIND[radar-api]="api"
+SERVICE_HEALTH[radar-api]="json"
 
 SERVICE_NAME[control-center]="AI Workflow Control Center"
 SERVICE_CWD[control-center]="$ROOT_DIR/control-center"
 SERVICE_PORT[control-center]="4175"
 SERVICE_URL[control-center]="http://127.0.0.1:4175/?view=overview"
+SERVICE_KIND[control-center]="vinext"
+SERVICE_HEALTH[control-center]="html"
 
 SERVICE_NAME[career]="Frontend Career Radar"
 SERVICE_CWD[career]="$ROOT_DIR/projects/market-analysis-dev/frontend"
 SERVICE_PORT[career]="4177"
 SERVICE_URL[career]="http://127.0.0.1:4177/directions"
+SERVICE_KIND[career]="static"
+SERVICE_HEALTH[career]="html"
+
+SERVICE_NAME[career-api]="Frontend Career Radar API"
+SERVICE_CWD[career-api]="$ROOT_DIR/projects/market-analysis-dev/backend"
+SERVICE_PORT[career-api]="4318"
+SERVICE_URL[career-api]="http://127.0.0.1:4318/health/ready"
+SERVICE_KIND[career-api]="api"
+SERVICE_HEALTH[career-api]="json"
 
 export PATH="$NODE_BIN_DIR:/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 export NO_UPDATE_NOTIFIER=1
@@ -52,16 +78,17 @@ fail() {
 
 usage() {
   cat <<'EOF'
-Usage: scripts/local-services.sh <command> [service]
+Usage: scripts/local-services.sh <command> [target]
 
 Commands:
-  start                 Build all projects, install/load LaunchAgents, and verify health
-  stop                  Disable and stop all four LaunchAgents
-  restart               Rebuild and replace all four running LaunchAgents
-  status                Show launchd, listener, and HTTP state
-  health                Require HTTP 200 and <html lang="zh-CN"> for all services
+  start [target]        Build and start all services or one exact target
+  stop [target]         Stop all services or one exact target
+  restart [target]      Rebuild and replace all services or one exact target
+  status [target]       Show launchd, listener, and HTTP state
+  health [target]       Require HTML zh-CN or JSON readiness for the target
   logs [service] [n]    Show the last n lines (default 80) for all or one service
-Service IDs: english, radar, control-center, career
+Service IDs: english, radar, radar-api, control-center, career, career-api
+Stack targets: radar-stack, career-stack
 EOF
 }
 
@@ -72,6 +99,23 @@ require_command() {
 validate_service_id() {
   local service_id="$1"
   [[ -n "${SERVICE_NAME[$service_id]-}" ]] || fail "Unknown service ID: $service_id"
+}
+
+target_services() {
+  local target="${1:-all}"
+  case "$target" in
+    all) print -rl -- $SERVICE_IDS ;;
+    radar-stack) print -rl -- radar-api radar ;;
+    career-stack) print -rl -- career-api career ;;
+    *)
+      validate_service_id "$target"
+      print -r -- "$target"
+      ;;
+  esac
+}
+
+is_web_service() {
+  [[ "${SERVICE_KIND[$1]}" != "api" ]]
 }
 
 label_for() {
@@ -106,16 +150,33 @@ xml_escape() {
 
 write_plist() {
   local service_id="$1"
-  local label plist node_executable server_runtime cwd stdout_log stderr_log mode
+  local label plist cwd stdout_log stderr_log argument
+  local -a program_arguments
   label="$(label_for "$service_id")"
   plist="$(plist_for "$service_id")"
-  node_executable="$(xml_escape "$NODE_BIN_DIR/node")"
-  server_runtime="$(xml_escape "$SERVER_RUNTIME")"
-  cwd="$(xml_escape "$RUNTIME_DIR/current/$service_id")"
-  stdout_log="$(xml_escape "$(stdout_log_for "$service_id")")"
-  stderr_log="$(xml_escape "$(stderr_log_for "$service_id")")"
-  mode="static"
-  [[ "$service_id" == "control-center" ]] && mode="vinext"
+  stdout_log="$(stdout_log_for "$service_id")"
+  stderr_log="$(stderr_log_for "$service_id")"
+
+  if is_web_service "$service_id"; then
+    cwd="$RUNTIME_DIR/current/$service_id"
+    program_arguments=(
+      "$NODE_BIN_DIR/node"
+      "$SERVER_RUNTIME"
+      --service "$service_id"
+      --mode "${SERVICE_KIND[$service_id]}"
+      --root "$cwd"
+      --host 127.0.0.1
+      --port "${SERVICE_PORT[$service_id]}"
+    )
+  else
+    cwd="${SERVICE_CWD[$service_id]}"
+    program_arguments=(
+      "$NODE_BIN_DIR/node"
+      "$API_RUNNER_RUNTIME"
+      --service "$service_id"
+      --root "$cwd"
+    )
+  fi
 
   mkdir -p "$LAUNCH_AGENTS_DIR" "$RUNTIME_DIR" "$LOG_DIR"
   {
@@ -127,21 +188,12 @@ write_plist() {
     print -r -- "  <string>$label</string>"
     print -r -- '  <key>ProgramArguments</key>'
     print -r -- '  <array>'
-    print -r -- "    <string>$node_executable</string>"
-    print -r -- "    <string>$server_runtime</string>"
-    print -r -- '    <string>--service</string>'
-    print -r -- "    <string>$service_id</string>"
-    print -r -- '    <string>--mode</string>'
-    print -r -- "    <string>$mode</string>"
-    print -r -- '    <string>--root</string>'
-    print -r -- "    <string>$cwd</string>"
-    print -r -- '    <string>--host</string>'
-    print -r -- '    <string>127.0.0.1</string>'
-    print -r -- '    <string>--port</string>'
-    print -r -- "    <string>${SERVICE_PORT[$service_id]}</string>"
+    for argument in $program_arguments; do
+      print -r -- "    <string>$(xml_escape "$argument")</string>"
+    done
     print -r -- '  </array>'
     print -r -- '  <key>WorkingDirectory</key>'
-    print -r -- "  <string>$cwd</string>"
+    print -r -- "  <string>$(xml_escape "$cwd")</string>"
     print -r -- '  <key>EnvironmentVariables</key>'
     print -r -- '  <dict>'
     print -r -- '    <key>PATH</key>'
@@ -158,9 +210,9 @@ write_plist() {
     print -r -- '  <key>ThrottleInterval</key>'
     print -r -- '  <integer>5</integer>'
     print -r -- '  <key>StandardOutPath</key>'
-    print -r -- "  <string>$stdout_log</string>"
+    print -r -- "  <string>$(xml_escape "$stdout_log")</string>"
     print -r -- '  <key>StandardErrorPath</key>'
-    print -r -- "  <string>$stderr_log</string>"
+    print -r -- "  <string>$(xml_escape "$stderr_log")</string>"
     print -r -- '</dict>'
     print -r -- '</plist>'
   } >| "$plist"
@@ -266,31 +318,48 @@ build_service() {
   (cd "$cwd" && npm run build)
 }
 
-build_all() {
+build_targets() {
   local service_id
+  local -a services=("$@")
   require_command node
   require_command npm
   [[ "$(command -v node)" == "$NODE_BIN_DIR/node" ]] || fail "Bundled Node is not first on PATH: $(command -v node)"
   info "Using Node $(node --version) from $(command -v node)"
-  for service_id in $SERVICE_IDS; do
+  for service_id in $services; do
     build_service "$service_id"
   done
 }
 
-stage_release() {
-  local release_id release_root previous_target service_id source_dist target_dist next_link
+install_runtime_helpers() {
+  mkdir -p "$RUNTIME_DIR/bin"
+  [[ -f "$SERVER_SOURCE" ]] || fail "Missing local service server: $SERVER_SOURCE"
+  [[ -f "$API_RUNNER_SOURCE" ]] || fail "Missing local API service runner: $API_RUNNER_SOURCE"
+  ditto "$SERVER_SOURCE" "$SERVER_RUNTIME"
+  ditto "$API_RUNNER_SOURCE" "$API_RUNNER_RUNTIME"
+  chmod 700 "$SERVER_RUNTIME" "$API_RUNNER_RUNTIME"
+}
+
+stage_web_release() {
+  local release_id release_root previous_target service_id source_dist target_dist next_link current_source
+  local -a selected_services=("$@")
   release_id="$(date '+%Y%m%dT%H%M%S')-$$"
   release_root="$RUNTIME_DIR/releases/$release_id"
-  mkdir -p "$release_root" "$RUNTIME_DIR/bin"
-  [[ -f "$SERVER_SOURCE" ]] || fail "Missing local service server: $SERVER_SOURCE"
-  ditto "$SERVER_SOURCE" "$SERVER_RUNTIME"
-  chmod 700 "$SERVER_RUNTIME"
+  mkdir -p "$release_root"
+  install_runtime_helpers
 
-  for service_id in $SERVICE_IDS; do
+  for service_id in $WEB_SERVICE_IDS; do
     source_dist="${SERVICE_CWD[$service_id]}/dist"
     target_dist="$release_root/$service_id"
-    [[ -d "$source_dist" ]] || fail "Build output missing for $service_id: $source_dist"
-    ditto "$source_dist" "$target_dist"
+    current_source="$RUNTIME_DIR/current/$service_id"
+    if (( ${selected_services[(Ie)$service_id]} )); then
+      [[ -d "$source_dist" ]] || fail "Build output missing for $service_id: $source_dist"
+      ditto "$source_dist" "$target_dist"
+    elif [[ -d "$current_source" ]]; then
+      ditto "$current_source" "$target_dist"
+    else
+      [[ -d "$source_dist" ]] || fail "No current release or build output for $service_id"
+      ditto "$source_dist" "$target_dist"
+    fi
   done
 
   if [[ -L "$RUNTIME_DIR/current" ]]; then
@@ -306,23 +375,25 @@ stage_release() {
 health_result() {
   local service_id="$1"
   local url="${SERVICE_URL[$service_id]}"
-  local body http_code lang_status
+  local body http_code health_status
   body="$(mktemp -t aiworkflow-health.XXXXXX)"
-  http_code="$(curl --location --silent --show-error --connect-timeout 2 --max-time 8 --output "$body" --write-out '%{http_code}' "$url" 2>/dev/null || true)"
-  if grep -Eiq '<html[^>]*lang="zh-CN"' "$body"; then
-    lang_status="zh-CN"
+  http_code="$(curl --noproxy '*' --location --silent --show-error --connect-timeout 2 --max-time 8 --output "$body" --write-out '%{http_code}' "$url" 2>/dev/null || true)"
+  if [[ "${SERVICE_HEALTH[$service_id]}" == "html" ]] && grep -Eiq '<html[^>]*lang="zh-CN"' "$body"; then
+    health_status="zh-CN"
+  elif [[ "${SERVICE_HEALTH[$service_id]}" == "json" ]] && grep -Eq '"(readiness|truth)"[[:space:]]*:[[:space:]]*"ready"|"ready"[[:space:]]*:[[:space:]]*true' "$body"; then
+    health_status="ready"
   else
-    lang_status="missing"
+    health_status="not-ready"
   fi
   rm -f "$body"
-  print -r -- "$http_code $lang_status"
+  print -r -- "$http_code $health_status"
 }
 
 service_healthy() {
   local service_id="$1"
   local result
   result="$(health_result "$service_id")"
-  [[ "$result" == "200 zh-CN" ]]
+  [[ "$result" == "200 zh-CN" || "$result" == "200 ready" ]]
 }
 
 wait_for_service_health() {
@@ -356,19 +427,31 @@ start_service() {
   info "Healthy: ${SERVICE_NAME[$service_id]} -> ${SERVICE_URL[$service_id]}"
 }
 
-start_all() {
+start_targets() {
+  local target="${1:-all}"
   local service_id
+  local -a services web_services
+  services=("${(@f)$(target_services "$target")}")
+  web_services=()
   require_command launchctl
   require_command lsof
   require_command curl
   require_command plutil
   require_command ditto
-  build_all
-  stage_release
-  for service_id in $SERVICE_IDS; do
+  build_targets $services
+  install_runtime_helpers
+  for service_id in $services; do
+    if is_web_service "$service_id"; then
+      web_services+=("$service_id")
+    fi
+  done
+  if (( ${#web_services} > 0 )); then
+    stage_web_release $web_services
+  fi
+  for service_id in $services; do
     start_service "$service_id"
   done
-  health_all
+  health_targets "$target"
 }
 
 stop_service() {
@@ -384,18 +467,21 @@ stop_service() {
   info "Stopped: ${SERVICE_NAME[$service_id]}"
 }
 
-stop_all() {
+stop_targets() {
+  local target="${1:-all}"
   local service_id
+  local -a services
+  services=("${(@f)$(target_services "$target")}")
   require_command launchctl
   require_command lsof
-  for service_id in $SERVICE_IDS; do
+  for service_id in $services; do
     stop_service "$service_id"
   done
 }
 
 status_service() {
   local service_id="$1"
-  local label launch_state launch_pid listeners result http_code lang_status
+  local label launch_state launch_pid listeners result http_code health_status
   label="$(label_for "$service_id")"
   launch_state="unloaded"
   launch_pid="-"
@@ -411,17 +497,20 @@ status_service() {
   [[ -n "$listeners" ]] || listeners="-"
   result="$(health_result "$service_id")"
   http_code="${result%% *}"
-  lang_status="${result#* }"
-  printf '%-16s launchd=%-9s job_pid=%-7s listener_pid=%-9s http=%-3s lang=%s\n' \
-    "$service_id" "$launch_state" "$launch_pid" "${listeners//$'\n'/,}" "$http_code" "$lang_status"
+  health_status="${result#* }"
+  printf '%-16s launchd=%-9s job_pid=%-7s listener_pid=%-9s http=%-3s health=%s\n' \
+    "$service_id" "$launch_state" "$launch_pid" "${listeners//$'\n'/,}" "$http_code" "$health_status"
 }
 
-status_all() {
+status_targets() {
+  local target="${1:-all}"
   local service_id
+  local -a services
+  services=("${(@f)$(target_services "$target")}")
   require_command launchctl
   require_command lsof
   require_command curl
-  for service_id in $SERVICE_IDS; do
+  for service_id in $services; do
     status_service "$service_id"
   done
 }
@@ -430,18 +519,21 @@ health_service() {
   local service_id="$1"
   local result
   result="$(health_result "$service_id")"
-  if [[ "$result" == "200 zh-CN" ]]; then
-    print -r -- "PASS  $service_id  ${SERVICE_URL[$service_id]}  HTTP 200  lang=zh-CN"
+  if [[ "$result" == "200 zh-CN" || "$result" == "200 ready" ]]; then
+    print -r -- "PASS  $service_id  ${SERVICE_URL[$service_id]}  HTTP 200  health=${result#* }"
   else
-    print -ru2 -- "FAIL  $service_id  ${SERVICE_URL[$service_id]}  HTTP ${result%% *}  lang=${result#* }"
+    print -ru2 -- "FAIL  $service_id  ${SERVICE_URL[$service_id]}  HTTP ${result%% *}  health=${result#* }"
     return 1
   fi
 }
 
-health_all() {
+health_targets() {
+  local target="${1:-all}"
   local service_id failed=0
+  local -a services
+  services=("${(@f)$(target_services "$target")}")
   require_command curl
-  for service_id in $SERVICE_IDS; do
+  for service_id in $services; do
     health_service "$service_id" || failed=1
   done
   return "$failed"
@@ -451,12 +543,10 @@ show_logs() {
   local requested="${1:-all}"
   local lines="${2:-80}"
   local service_id
+  local -a services
   [[ "$lines" == <-> ]] || fail "Log line count must be a positive integer"
-  if [[ "$requested" != "all" ]]; then
-    validate_service_id "$requested"
-    SERVICE_IDS=("$requested")
-  fi
-  for service_id in $SERVICE_IDS; do
+  services=("${(@f)$(target_services "$requested")}")
+  for service_id in $services; do
     print -r -- "===== ${SERVICE_NAME[$service_id]} ($service_id) ====="
     for log_file in "$(stdout_log_for "$service_id")" "$(stderr_log_for "$service_id")"; do
       print -r -- "--- $log_file ---"
@@ -471,26 +561,27 @@ show_logs() {
 
 main() {
   local command="${1:-}"
+  local target="${2:-all}"
   case "$command" in
     start)
-      [[ $# -eq 1 ]] || fail "start does not accept a service argument"
-      start_all
+      [[ $# -le 2 ]] || fail "start accepts at most one target"
+      start_targets "$target"
       ;;
     stop)
-      [[ $# -eq 1 ]] || fail "stop does not accept a service argument"
-      stop_all
+      [[ $# -le 2 ]] || fail "stop accepts at most one target"
+      stop_targets "$target"
       ;;
     restart)
-      [[ $# -eq 1 ]] || fail "restart does not accept a service argument"
-      start_all
+      [[ $# -le 2 ]] || fail "restart accepts at most one target"
+      start_targets "$target"
       ;;
     status)
-      [[ $# -eq 1 ]] || fail "status does not accept a service argument"
-      status_all
+      [[ $# -le 2 ]] || fail "status accepts at most one target"
+      status_targets "$target"
       ;;
     health)
-      [[ $# -eq 1 ]] || fail "health does not accept a service argument"
-      health_all
+      [[ $# -le 2 ]] || fail "health accepts at most one target"
+      health_targets "$target"
       ;;
     logs)
       show_logs "${2:-all}" "${3:-80}"
