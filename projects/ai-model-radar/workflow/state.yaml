@@ -4,8 +4,8 @@ run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
 stage: implementation
-status: real-local-backend-delivered-frontend-integration-active
-current_role: role-frontend-dev
+status: real-local-backend-relevance-filtered-snapshot-running
+current_role: role-backend-dev
 blocked: false
 ui_assets:
   directory: ui
@@ -2061,4 +2061,38 @@ direct_development_integration_assignment:
       - http://127.0.0.1:5173
       - http://127.0.0.1:4174
   production_release: frozen
-updated_at: "2026-08-27T15:37:18+08:00"
+relevance_qa_fix:
+  change_id: fix-20260827-radar-ai-development-relevance-001
+  authorization: approval-20260827-radar-relevance-qa-fix-entry
+  source: real-browser-qa-forwarded-by-fixed-00
+  safe_checkpoint: a19cef3df3baa167b138fd1c8e668bc19e925fca
+  code_commit: 4e37500a37d128066e698459fa0ca925b258c789
+  policy_version: ai-development-relevance-1.0.0
+  scope: "在采集入库与快照发布两层应用可解释的 AI 开发相关性规则；保留无关历史事件但禁止进入新当前快照。"
+  validation:
+    node: 24.19.0
+    lint: passed
+    typecheck: passed
+    build: passed
+    policy_tests: 33-of-33-passed
+    unit_tests: 23-of-23-passed
+    integration_tests: 3-of-3-passed
+    contract_tests: 2-of-2-passed
+    aggregate_tests: 61-of-61-passed
+    real_refresh_sources: 6-of-6-succeeded
+    historical_events_retained: 76
+    filtered_snapshot_events: 40
+    google_filtered_events: 5
+    known_irrelevant_current_membership: 0
+  local_runtime:
+    url: http://127.0.0.1:4317
+    truth: live
+    snapshot_id: snapshot_93e1870512e7706275092103
+    service_running: true
+  exclusions:
+    - historical-event-deletion
+    - frontend-modification
+    - production-deployment
+  result: fixed-tested-pushed-and-running
+  production_release: frozen
+updated_at: "2026-08-27T16:15:58+08:00"

@@ -2451,3 +2451,44 @@ artifacts:
     completed_at: "2026-08-27T15:37:18+08:00"
     status: delivered-local-integration
     production_release: frozen
+  - id: artifact-radar-ai-development-relevance-fix-001
+    run_id: run-20260731-intake-001
+    type: source-and-snapshot-relevance-filter
+    project_id: ai-model-radar
+    change_id: fix-20260827-radar-ai-development-relevance-001
+    owner: role-backend-dev
+    role_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+    authorization: approval-20260827-radar-relevance-qa-fix-entry
+    path: backend/src/relevance/ai-development.ts
+    version: "1.0.0"
+    aggregate_sha256: b7f4b3b6581500317d4d2062caec40169339f088b3e65e11e85a5463321becf8
+    source_commit: 4e37500a37d128066e698459fa0ca925b258c789
+    capabilities:
+      - explainable-high-precision-ai-development-term-policy
+      - collector-pre-ingest-filter
+      - historical-event-snapshot-publication-filter
+      - immutable-history-preserved
+      - relevance-policy-version-in-snapshot-manifest
+    validation:
+      node: 24.19.0
+      lint: passed
+      typecheck: passed
+      build: passed
+      policy_tests: 33-of-33-passed
+      unit_tests: 23-of-23-passed
+      integration_tests: 3-of-3-passed
+      contract_tests: 2-of-2-passed
+      aggregate_tests: 61-of-61-passed
+      real_refresh: {sources_succeeded: 6, sources_failed: 0, snapshot_events: 40}
+    local_runtime_evidence:
+      service_url: http://127.0.0.1:4317
+      snapshot_id: snapshot_93e1870512e7706275092103
+      truth: live
+      historical_events_retained: 76
+      current_snapshot_events: 40
+      google_current_events: 5
+      known_irrelevant_current_membership: 0
+      legacy_irrelevant_event_http: 200
+    completed_at: "2026-08-27T16:15:58+08:00"
+    status: fixed-tested-pushed-and-running
+    production_release: frozen

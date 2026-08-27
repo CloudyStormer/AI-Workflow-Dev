@@ -1574,3 +1574,23 @@ approvals:
     production_release: frozen
     intermediate_review_required: false
     auto_advance_beyond_authorized_scope: false
+  - id: approval-20260827-radar-relevance-qa-fix-entry
+    run_id: run-20260731-intake-001
+    gate: direct-real-browser-qa-fix
+    project_id: ai-model-radar
+    role: role-backend-dev
+    role_task_id: "019fb74a-a6f7-7e31-826f-799d3e713642"
+    change_id: fix-20260827-radar-ai-development-relevance-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-27T16:08:00+08:00"
+    authorization_source: real-browser-qa-forwarded-by-fixed-00
+    source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+    scope: "直接修复公开来源 AI 开发相关性门，补测试并真实刷新生成过滤快照；保留历史事件。"
+    exclusions:
+      - historical-event-deletion
+      - frontend-modification
+      - production-deployment
+    intermediate_review_required: false
+    production_release: frozen
+    auto_route: false
