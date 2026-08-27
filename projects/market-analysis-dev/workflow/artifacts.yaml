@@ -3413,3 +3413,93 @@ artifacts:
     stop_gate: atomic-delivery-review
     downstream_role_authorized: false
     auto_route: false
+  - id: artifact-career-cfr-dw-data-202-203-analysis-001
+    run_id: run-20260803-market-analysis-dev-init-001
+    type: career-local-material-persistence-and-deterministic-analysis-data-core
+    project_id: market-analysis-dev
+    work_items:
+      - CFR-DW-DATA-202
+      - CFR-DW-DATA-203
+      - career-local-deterministic-analysis-data-core
+    change_id: data-20260827-career-cfr-dw-data-202-203-analysis-001
+    owner: role-data-engineer
+    role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+    role_task_title: "08 数据工程师"
+    authorization: approval-20260827-career-direct-data-integration-continuous-entry
+    path: backend/src/infrastructure/sqlite/materials/material-analysis-store.ts
+    contract_path: backend/docs/material-analysis-data-contract.md
+    version: "1.0.0"
+    sha256: d911a70f29d38117e784c5f2a5682471a97f349e89b1bf210f6fcaada5f457ec
+    sha256_contract: "SHA-256 over newline-terminated, path-sorted `shasum -a 256` records for the 23 authoritative delivery files"
+    authoritative_paths:
+      - backend/docs/material-analysis-data-contract.md
+      - backend/migrations/README.md
+      - backend/migrations/ledger/0001_deletion_ledger.down.sql
+      - backend/migrations/ledger/0001_deletion_ledger.up.sql
+      - backend/migrations/ledger/manifest.json
+      - backend/migrations/private/0001_material_analysis.down.sql
+      - backend/migrations/private/0001_material_analysis.up.sql
+      - backend/migrations/private/manifest.json
+      - backend/migrations/public/0001_public_snapshot.down.sql
+      - backend/migrations/public/0001_public_snapshot.up.sql
+      - backend/migrations/public/manifest.json
+      - backend/package.json
+      - backend/scripts/data-smoke.ts
+      - backend/src/contracts/material-analysis.ts
+      - backend/src/infrastructure/sqlite/materials/material-analysis-store.ts
+      - backend/src/infrastructure/sqlite/migrations/runtime.ts
+      - backend/src/infrastructure/sqlite/public/verified-batch-importer.ts
+      - backend/src/modules/material-analysis/deterministic-analyzer.ts
+      - backend/tests/integration/material-analysis-store.test.ts
+      - backend/tests/integration/migration-runtime.test.ts
+      - backend/tests/integration/verified-batch-importer.test.ts
+      - backend/tests/unit/migration-manifest.test.ts
+      - backend/tsconfig.json
+    capabilities:
+      - five-stream-versioned-sqlite-schema-heads
+      - aes-256-gcm-private-material-version-persistence
+      - rights-receipt-and-account-scoped-history
+      - idempotent-classification-confirmation
+      - deterministic-versioned-analysis-findings-and-codepoint-evidence
+      - exact-byte-approved-static-public-batch-import
+      - restart-safe-history-and-data-smoke
+    schema_heads:
+      governance: 0
+      public: 1
+      private: 1
+      seed: 0
+      ledger: 1
+    truth_boundary:
+      private_body_committed_to_git: false
+      repository_sqlite_files: 0
+      approved_static_public_records_in_smoke: 8
+      network_requests: 0
+      live_connectors: 0
+      real_deletions: 0
+      production_release: frozen
+    validation:
+      node: 24.19.0
+      lint: passed
+      typecheck: passed
+      build: passed
+      migration_test_files: 2-of-2-passed
+      migration_tests: 29-of-29-passed
+      data_test_files: 2-of-2-passed
+      data_tests: 5-of-5-passed
+      aggregate_test_files: 8-of-8-passed
+      aggregate_tests: 61-of-61-passed
+      data_smoke: passed-save-restart-list-classify-analyze-history
+      private_smoke_records: material-1-version-1-rights-1-suggestion-1-decision-1-analysis-1-findings-9-evidence-9-sync-3
+      public_smoke_records: batch-1-events-8-revisions-8-evidence-8-snapshot-1-items-8-pointer-1
+      repository_database_files: 0
+    known_limits:
+      - fixed-07-must-expose-http-api-and-provide-runtime-secret
+      - fixed-06-consumes-http-only-and-does-not-read-sqlite-directly
+      - public-input-is-approved-static-not-live-runtime
+      - ledger-schema-does-not-authorize-or-execute-real-deletion
+    completed_at: "2026-08-27T15:41:02+08:00"
+    status: ready-for-integration
+    review_status: direct-development-day-no-intermediate-review
+    stop_gate: development-integration-handoff
+    downstream_role_authorized: false
+    auto_route: false

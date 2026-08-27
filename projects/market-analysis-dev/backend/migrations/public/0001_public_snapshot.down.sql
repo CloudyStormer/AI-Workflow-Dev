@@ -1,0 +1,9 @@
+DROP TRIGGER public_snapshots_immutable_update;
+DROP TRIGGER public_event_revisions_immutable_update;
+DROP TABLE public_snapshot_pointers;
+DROP TABLE public_snapshot_items;
+DROP TABLE public_snapshots;
+DROP TABLE public_evidence;
+DROP TABLE public_event_revisions;
+DROP TABLE public_events;
+DROP TABLE import_batches;

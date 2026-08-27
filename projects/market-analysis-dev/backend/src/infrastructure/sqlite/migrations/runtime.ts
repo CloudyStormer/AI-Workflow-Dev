@@ -15,7 +15,9 @@ import {
 
 const DEFAULT_BUSY_TIMEOUT_MS = 5_000;
 const HISTORY_TABLE = "__career_migration_history";
-const FORBIDDEN_SQL = /\b(?:ATTACH|DETACH|VACUUM|PRAGMA|BEGIN|COMMIT|ROLLBACK|SAVEPOINT|RELEASE)\b/iu;
+const FORBIDDEN_SQL = /\b(?:ATTACH|DETACH|VACUUM|PRAGMA)\b/iu;
+const FORBIDDEN_TRANSACTION_SQL =
+  /(?:^|;)\s*(?:BEGIN|COMMIT|ROLLBACK|SAVEPOINT|RELEASE)\b/iu;
 
 export class MigrationRuntimeError extends Error {
   public constructor(message: string) {
@@ -315,7 +317,9 @@ function requireRuntimeSafeSql(
     .replace(/\/\*[\s\S]*?\*\//gu, " ")
     .replace(/'(?:''|[^'])*'/gu, "''")
     .replace(/"(?:""|[^"])*"/gu, '""');
-  const forbidden = FORBIDDEN_SQL.exec(executableTokens)?.[0];
+  const forbidden =
+    FORBIDDEN_SQL.exec(executableTokens)?.[0] ??
+    FORBIDDEN_TRANSACTION_SQL.exec(executableTokens)?.[0]?.trim();
   if (forbidden !== undefined) {
     throw new MigrationRuntimeError(
       `${direction} migration ${migration.id} contains forbidden SQL token ${forbidden.toUpperCase()}`,

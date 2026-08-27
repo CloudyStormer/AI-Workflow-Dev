@@ -54,7 +54,7 @@ afterEach(async () => {
 
 describe("CR-DATA-101 migration manifest contract", () => {
   it.each(MIGRATION_DATABASE_MODES)(
-    "loads the independent %s contract without claiming a materialized database",
+    "loads the independent %s contract without claiming a pre-materialized database",
     async (mode) => {
       const manifest = await loadMigrationManifest(
         join(MIGRATIONS_ROOT, mode, "manifest.json"),
@@ -62,13 +62,16 @@ describe("CR-DATA-101 migration manifest contract", () => {
       );
 
       expect(manifest.database.mode).toBe(mode);
+      const declaredHead = mode === "private" || mode === "ledger" || mode === "public"
+        ? 1
+        : 0;
       expect(manifest.state).toEqual({
         database_materialized: false,
         applied_schema_version: 0,
-        declared_schema_head: 0,
+        declared_schema_head: declaredHead,
         contract_status: "contract-only-not-applied",
       });
-      expect(manifest.migrations).toEqual([]);
+      expect(manifest.migrations).toHaveLength(declaredHead);
       expect(Object.isFrozen(manifest)).toBe(true);
       expect(Object.isFrozen(manifest.database)).toBe(true);
       expect(Object.isFrozen(manifest.migrations)).toBe(true);

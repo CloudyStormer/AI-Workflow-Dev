@@ -1,0 +1,4 @@
+DROP TRIGGER deletion_tombstones_immutable_delete;
+DROP TRIGGER deletion_tombstones_immutable_update;
+DROP TABLE deletion_tombstones;
+DROP TABLE deletion_generations;

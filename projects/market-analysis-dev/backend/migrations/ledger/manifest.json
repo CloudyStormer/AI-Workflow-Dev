@@ -14,8 +14,20 @@
   "state": {
     "database_materialized": false,
     "applied_schema_version": 0,
-    "declared_schema_head": 0,
+    "declared_schema_head": 1,
     "contract_status": "contract-only-not-applied"
   },
-  "migrations": []
+  "migrations": [
+    {
+      "id": "0001_deletion_ledger",
+      "version": 1,
+      "up_file": "0001_deletion_ledger.up.sql",
+      "up_sha256": "89c8b0c28b11e7ce0174f3ae97650d7c02c46d4291955fe9500395eb1488b8f4",
+      "rollback": {
+        "strategy": "explicit-down",
+        "down_file": "0001_deletion_ledger.down.sql",
+        "down_sha256": "791b23194fb1d0481c116fdb75ca5558ff11aceee91a65a0fe5637cd1db8d1f0"
+      }
+    }
+  ]
 }

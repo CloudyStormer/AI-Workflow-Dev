@@ -14,8 +14,20 @@
   "state": {
     "database_materialized": false,
     "applied_schema_version": 0,
-    "declared_schema_head": 0,
+    "declared_schema_head": 1,
     "contract_status": "contract-only-not-applied"
   },
-  "migrations": []
+  "migrations": [
+    {
+      "id": "0001_material_analysis",
+      "version": 1,
+      "up_file": "0001_material_analysis.up.sql",
+      "up_sha256": "2e37d12cc991002b48652164601cccac3414e16a4692d9767a162c649f15596f",
+      "rollback": {
+        "strategy": "explicit-down",
+        "down_file": "0001_material_analysis.down.sql",
+        "down_sha256": "38ce154c0bd50e2087b73d134a84272cf02e1cd49ec04fa0f54e2a39e5787446"
+      }
+    }
+  ]
 }

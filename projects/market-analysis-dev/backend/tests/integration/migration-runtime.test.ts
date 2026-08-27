@@ -26,7 +26,7 @@ afterEach(async () => {
 });
 
 describe("CFR-DW-DATA-201 SQLite migration runtime", () => {
-  it("materializes five isolated empty stream baselines with required pragmas", async () => {
+  it("materializes five isolated stream baselines with required pragmas", async () => {
     const dataRoot = await temporaryDataRoot();
     const results = await applyAllMigrationStreams(MIGRATIONS_ROOT, dataRoot, 7_500);
 
@@ -34,13 +34,16 @@ describe("CFR-DW-DATA-201 SQLite migration runtime", () => {
     expect(new Set(results.map((result) => dirname(result.databasePath))).size).toBe(5);
     for (const result of results) {
       expect(dirname(result.databasePath)).toBe(join(dataRoot, result.mode));
+      const expectedHead = result.mode === "private" || result.mode === "ledger" || result.mode === "public"
+        ? 1
+        : 0;
       expect(result).toMatchObject({
-        schemaVersion: 0,
-        appliedMigrationIds: [],
+        schemaVersion: expectedHead,
         journalMode: "wal",
         foreignKeys: true,
         busyTimeoutMs: 7_500,
       });
+      expect(result.appliedMigrationIds).toHaveLength(expectedHead);
       expect((await lstat(result.databasePath)).isFile()).toBe(true);
 
       const database = new DatabaseSync(result.databasePath);
@@ -50,7 +53,7 @@ describe("CFR-DW-DATA-201 SQLite migration runtime", () => {
           database
             .prepare("SELECT COUNT(*) AS count FROM __career_migration_history")
             .get(),
-        ).toEqual({ count: 0 });
+        ).toEqual({ count: expectedHead });
       } finally {
         database.close();
       }
@@ -135,6 +138,27 @@ describe("CFR-DW-DATA-201 SQLite migration runtime", () => {
         busyTimeoutMs: 0,
       }),
     ).rejects.toThrow("busy timeout");
+  });
+
+  it.each([
+    ["private", "materials"],
+    ["public", "public_snapshots"],
+    ["ledger", "deletion_tombstones"],
+  ] as const)("rolls the %s schema down without touching another stream", async (mode, table) => {
+    const dataRoot = await temporaryDataRoot();
+    const options = {
+      manifestPath: join(MIGRATIONS_ROOT, mode, "manifest.json"),
+      dataRoot,
+      mode,
+    };
+    const applied = await applyMigrationStream(options);
+    expect(applied.schemaVersion).toBe(1);
+    expect(tableExists(applied.databasePath, table)).toBe(true);
+
+    const rolledBack = await rollbackLastMigration(options);
+    expect(rolledBack.schemaVersion).toBe(0);
+    expect(tableExists(rolledBack.databasePath, table)).toBe(false);
+    expect(historyCount(rolledBack.databasePath)).toBe(0);
   });
 });
 

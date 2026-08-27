@@ -4,7 +4,7 @@ run_id: "run-20260803-market-analysis-dev-init-001"
 structure_status: normalized
 project_skill: "skills/project-market-analysis-dev/SKILL.md"
 stage: implementation
-status: career-cfr-dw-data-201-ready-for-atomic-delivery-review
+status: career-data-202-203-analysis-delivered-for-integration
 current_role: role-data-engineer
 blocked: false
 ui_assets:
@@ -2656,4 +2656,67 @@ cfr_dw_data_201_assignment:
   authorized_at: "2026-08-27T14:20:14+08:00"
   production_release: frozen
   auto_advance_beyond_next: false
-updated_at: "2026-08-27T14:32:11+08:00"
+career_data_continuous_integration_assignment:
+  change_id: data-20260827-career-cfr-dw-data-202-203-analysis-001
+  work_items:
+    - CFR-DW-DATA-202
+    - CFR-DW-DATA-203
+    - career-local-deterministic-analysis-data-core
+  role: role-data-engineer
+  role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+  authorization: approval-20260827-career-direct-data-integration-continuous-entry
+  authorization_source: direct-user-command-forwarded-by-fixed-00
+  source_task_id: "019fb746-5875-77b3-809a-08a16100d950"
+  safe_checkpoint: d30d7e1e6ff385ee068218c83e23f7e1f7cf4f00
+  original_gate: atomic-delivery-review
+  original_artifact: artifact-career-cfr-dw-data-201-migration-runtime-001
+  scope: "连续完成 private/ledger/public schema、真实加密材料版本、分类确认、确定性分析、证据与历史以及固定07/06数据契约，不按原子项中停。"
+  exclusions:
+    - frontend-changes
+    - production-deployment
+    - real-deletion-or-irreversible-action
+    - radar-backend-and-workflow-paths
+  expected_artifact: artifact-career-cfr-dw-data-202-203-analysis-001
+  scheduling: completed-for-development-integration-handoff
+  delivery_status: delivered
+  started_at: "2026-08-27T15:03:05+08:00"
+  completed_at: "2026-08-27T15:41:02+08:00"
+  output:
+    artifact: artifact-career-cfr-dw-data-202-203-analysis-001
+    path: backend/src/infrastructure/sqlite/materials/material-analysis-store.ts
+    contract_path: backend/docs/material-analysis-data-contract.md
+    version: "1.0.0"
+    sha256: d911a70f29d38117e784c5f2a5682471a97f349e89b1bf210f6fcaada5f457ec
+    authoritative_path_count: 23
+  schema_heads:
+    governance: 0
+    public: 1
+    private: 1
+    seed: 0
+    ledger: 1
+  runtime_truth:
+    encrypted_private_material_persistence: true
+    deterministic_local_analysis: true
+    restart_history_smoke: passed
+    approved_static_public_records: 8
+    repository_sqlite_files: 0
+    network_requests: 0
+    real_deletions: 0
+    production_release: frozen
+  validation:
+    node: 24.19.0
+    lint: passed
+    typecheck: passed
+    build: passed
+    migration_tests: 29-of-29-passed
+    data_tests: 5-of-5-passed
+    aggregate_tests: 61-of-61-passed
+    data_smoke: passed-save-restart-list-classify-analyze-history
+    private_smoke_records: material-1-version-1-rights-1-decision-1-analysis-1-findings-9-evidence-9
+    public_smoke_records: batch-1-events-8-revisions-8-evidence-8-snapshot-1-items-8-pointer-1
+  result: ready-for-development-integration-handoff
+  stop_gate: development-integration-handoff
+  production_release: frozen
+  real_deletion_authorized: false
+  auto_route: false
+updated_at: "2026-08-27T15:41:02+08:00"
