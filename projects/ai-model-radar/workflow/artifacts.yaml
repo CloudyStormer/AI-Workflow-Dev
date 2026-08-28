@@ -2046,6 +2046,83 @@ artifacts:
     production_release: frozen
     auto_route: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: artifact-radar-bilingual-chinese-counterpart-ui-prompt-001
+    run_id: run-20260731-intake-001
+    type: ui-prompt-increment
+    project_id: ai-model-radar
+    work_item: AMR-UI-BILINGUAL-001
+    change_id: ui-prompt-20260828-radar-bilingual-chinese-counterpart-v1
+    owner: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    authorization: approval-20260828-radar-bilingual-chinese-counterpart-ui-prompt-entry
+    input_artifact: artifact-radar-bilingual-chinese-counterpart-product-delta-001
+    input_path: docs/02-bilingual-chinese-counterpart-product-delta.md
+    input_version: "1.0"
+    input_sha256: 2497164c07c2e434f99e0b5e1374e47475b1f8f538fb7a7c444ff6914c86109e
+    path: ui/09-bilingual-chinese-counterpart-ui-prompt.md
+    version: "1.0"
+    sha256: bd5f10e014c9b9e9a9c750dd0d3756f1191dbfac40f8ee92c33710dde8605407
+    ui_index_path: ui/README.md
+    ui_index_sha256: d70a05e5f1074be17faec6db86cb25552fb7b8965d6f0fc23523d9ca2f6b88b5
+    coverage:
+      surfaces:
+        - today
+        - all-events
+        - event-detail
+        - trends-version-drilldown
+        - open-source-releases
+        - historical-snapshots-and-revisions
+        - source-and-quality
+      original_and_chinese_parallel: required
+      translation_provenance_labels:
+        - human_translation
+        - machine_translation
+        - rule_generated
+        - untranslated
+      processing_states:
+        - processing
+        - pending_update
+        - partial_failed
+        - failed
+        - timeout
+        - unavailable
+        - historical_backfill_pending
+        - term_confirmation_pending
+      responsive:
+        - 1440
+        - 1024
+        - 390
+        - 320
+        - 200-percent-zoom
+      AC_count: 18
+    truth_boundary:
+      original_is_fact_root: true
+      chinese_counterpart_is_additive: true
+      current_chinese_counterpart_implemented: false
+      ui_design_generated: false
+      frontend_modified: false
+      backend_modified: false
+      database_modified: false
+      service_restarted: false
+      local_runtime_4174_4317_preserved: true
+      production_release: frozen
+    validation:
+      markdown_structure: passed
+      core_surfaces: 7-of-7-covered
+      provenance_states: 4-of-4-covered
+      processing_states: 8-of-8-covered
+      AC_count: 18
+      simplified_chinese_mobile_accessibility: passed
+      implementation_boundary: passed
+    completed_at: "2026-08-28T10:23:42+08:00"
+    validated_at: "2026-08-28T10:23:42+08:00"
+    status: ready-for-review
+    review_decision: pending
+    next_gate: ui-prompt-review
+    downstream_role_authorized: false
+    production_release: frozen
+    auto_route: false
   - id: artifact-radar-daily-web-ui-prompt-increment-001
     run_id: run-20260731-intake-001
     type: daily-real-data-web-ui-prompt-increment

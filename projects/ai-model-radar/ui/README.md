@@ -6,6 +6,7 @@
 
 | 产物 | 版本 | 状态 | SHA256 | 说明 |
 |---|---|---|---|---|
+| [`09-bilingual-chinese-counterpart-ui-prompt.md`](09-bilingual-chinese-counterpart-ui-prompt.md) | `1.0` | `ready-for-review` | `bd5f10e014c9b9e9a9c750dd0d3756f1191dbfac40f8ee92c33710dde8605407` | AMR-UI-BILINGUAL-001 逐条中文对照 UI Prompt 增量；覆盖今日、全部事件、详情、趋势下钻、开源发布、历史修订中的原文/中文并列、四类形成方式、待更新/失败/无译文、专有名词保真、1440/1024/390/320、200% 与无障碍；当前中文对照能力尚未实现 |
 | [`08-daily-web-ui-design.md`](08-daily-web-ui-design.md) | `1.0` | `approved` | `5505f08f181ffea782e681d388fa8e73b45d6b888ca5b2695b3349b9e827cc3f` | AMR-UI-DAILY-WEB-002 实现级设计已批准；唯一下一站为固定 05 的日更网页架构评估，不直接解冻前端 |
 | [`07-daily-web-ui-prompt-increment.md`](07-daily-web-ui-prompt-increment.md) | `1.0` | `approved` | `04b05f43bae2e6ae6f3fd0a33a0bce284f85c41508dc8ce7b374690ced83c679` | AMR-UI-DAILY-WEB-001 已批准的真实日更批次网页化 UI Prompt 增量；覆盖 `/today` 去 Demo、真实批次生命周期、不可变快照与 revision、历史追加、失败保旧、幂等刷新、八种真相态、简中、多端和无障碍；当前真实网页仍未接入该批次 |
 | [`06-ai-developer-news-ui-prompt-increment.md`](06-ai-developer-news-ui-prompt-increment.md) | `1.0` | `ready-for-review` | `f43050320c6091aee3ceffc077d5c568e6558f2cac9136c543e285ed992d39d1` | AMR-UI-NEWS-001 AI 开发圈新闻 UI Prompt 增量；覆盖国内外真实新闻、08:30 每日摘要、小时级增量、今日/事件/趋势/开源/来源质量/详情证据、六个真相态、1440/1024/390/320、200% 与无障碍；当前真实运行仍为来源/连接器/live 快照 0 |
@@ -32,4 +33,4 @@
 
 PRD v1.2 与 Prompt v1.2 的真实性边界优先于图片示例：图片中出现的“真实连接”“活动源”“系统运行中”或混用日期只能作为历史视觉占位，设计、架构和实现不得据此声称真实服务已接入。
 
-Prompt v1.2、发布完整性 Prompt/设计及其历史审批链继续保留，不被新文件覆盖。2026-08-21 已批准的产品增量将主定位改为“真实国内外 AI 开发圈新闻”，对应 `06-ai-developer-news-ui-prompt-increment.md` v1.0；2026-08-26 的 `07-daily-web-ui-prompt-increment.md` v1.0 与 `08-daily-web-ui-design.md` v1.0 均已批准。按权威产品增量，唯一下一站是固定 05 完成一次性导入、identity/revision、不可变快照、current pointer、幂等刷新、查询与失败保旧的架构评估；不直接解冻前端。真实批次仍未接入网页与业务库，`artifact-radar-frontend-001` 与 `MR-PM-101` 继续冻结，不授权开发、真实来源接入、服务或部署。
+Prompt v1.2、发布完整性 Prompt/设计及其历史审批链继续保留，不被新文件覆盖。2026-08-21 已批准的产品增量将主定位改为“真实国内外 AI 开发圈新闻”，对应 `06-ai-developer-news-ui-prompt-increment.md` v1.0；2026-08-26 的 `07-daily-web-ui-prompt-increment.md` v1.0 与 `08-daily-web-ui-design.md` v1.0 均已批准。2026-08-28 新增 `09-bilingual-chinese-counterpart-ui-prompt.md` v1.0，只定义原文事实根之上的逐条中文对照目标态；当前中文对照尚未实现，既有真实新闻、来源与 4174/4317 服务不得因此被改写或重启。本次交付停在 `ui-prompt-review`，不授权设计、架构、开发、数据库、采集、服务或部署。
