@@ -2548,8 +2548,20 @@ artifacts:
       production_release: frozen
     completed_at: "2026-08-27T19:07:10+08:00"
     validated_at: "2026-08-27T19:07:10+08:00"
-    status: ready-for-review
-    result: ready-for-product-change-review
-    stop_gate: product-change-review
-    downstream_role_authorized: false
-    auto_route: false
+    status: approved
+    review_decision: approved
+    review_approval: approval-20260828-radar-bilingual-chinese-counterpart-product-v1
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-28T10:17:42+08:00"
+    source_commit: 0d7d43a3ef936d76fd6e46ac1b3c088299977c12
+    result: approved-and-canonical-fixed-04-ui-prompt-authorized
+    completed_gate: product-change-review
+    next_gate: ui-prompt-review
+    downstream_role_authorized: true
+    authorized_next_role: role-ui-designer
+    authorized_next_work_item: AMR-UI-BILINGUAL-001
+    next_entry_authorization: approval-20260828-radar-bilingual-chinese-counterpart-ui-prompt-entry
+    canonical_next_role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    production_release: frozen
+    auto_route: unique-next-stage-only
+    auto_advance_beyond_next: false
