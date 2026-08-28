@@ -2046,6 +2046,71 @@ artifacts:
     production_release: frozen
     auto_route: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: artifact-radar-bilingual-chinese-counterpart-task-breakdown-001
+    run_id: run-20260731-intake-001
+    type: bilingual-chinese-counterpart-task-breakdown
+    project_id: ai-model-radar
+    work_item: AMR-PM-BILINGUAL-TASKS-001
+    change_id: plan-20260828-radar-bilingual-chinese-counterpart-task-breakdown-v1
+    owner: role-pm
+    role_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
+    role_task_title: "02 项目经理"
+    disabled_duplicate_task_id: "01a02335-2d63-7e63-bd36-b63017115d77"
+    authorization: approval-20260828-radar-bilingual-chinese-counterpart-task-breakdown-entry
+    path: docs/11-bilingual-chinese-counterpart-task-breakdown.md
+    version: "1.0"
+    sha256: ab295a08209925c58486fe6d22897a5fb2222a9b8ab4a2f659488a255e747961
+    upstream:
+      artifact: artifact-radar-bilingual-chinese-counterpart-architecture-impact-001
+      path: docs/10-bilingual-chinese-counterpart-architecture-impact.md
+      version: "1.0"
+      sha256: e6b33a062727d84d1b0199d194820899276f6394bdd3ccdd2bde2d752a7c8b3a
+      approval: approval-20260828-radar-bilingual-chinese-counterpart-architecture-v1
+      product_delta_sha256: 2497164c07c2e434f99e0b5e1374e47475b1f8f538fb7a7c444ff6914c86109e
+      ui_design_sha256: b453bd0d6aae23cdd01210336cdcf51f87cd20ae21d913e83ab22a83e4924b40
+    unique_conclusion: backend-and-data-changes-required-before-frontend-integration
+    required_sequence:
+      - data-migration-and-original-chinese-revision-foundation
+      - backend-4317-contract-and-idempotence
+      - frontend-4174-integration
+      - independent-review-and-qa
+    task_plan:
+      direct_work_items: 17
+      implementation_work_items: 14
+      planned_companion_review_qa_items: 28
+      estimates: all-3-or-4-hours
+      unique_first_candidate:
+        work_item: AMR-BI-DATA-101
+        role: role-data-engineer
+        role_task_title: "08 数据工程师"
+        estimated_hours: 4
+        status: planned-not-authorized
+    frozen_truth:
+      original_revision_is_fact_root: true
+      chinese_counterpart_is_server_persisted_and_versioned: required
+      current_sqlite_translation_revision_tables: absent
+      current_snapshot_manifest_translation_binding: absent
+      legacy_manual_chinese_without_original: legacy_original_unavailable
+      external_translation: tbd-disabled
+      production_release: frozen
+    validation:
+      architecture_input_sha256: passed
+      product_and_ui_input_sha256: 2-of-2-passed
+      dependency_order: passed
+      task_estimates: 17-of-17-are-3-or-4-hours
+      unique_first_candidate: present
+      required_topics: 4-of-4-covered
+      implementation_boundary: passed
+    completed_at: "2026-08-28T17:28:17+08:00"
+    validated_at: "2026-08-28T17:28:17+08:00"
+    status: ready-for-review
+    review_status: pending
+    result: ready-for-task-breakdown-review-no-downstream-route
+    stop_gate: task-breakdown-review
+    downstream_role_authorized: false
+    production_release: frozen
+    auto_route: false
+    auto_advance_beyond_next: false
   - id: artifact-radar-bilingual-chinese-counterpart-architecture-impact-001
     run_id: run-20260731-intake-001
     type: bilingual-chinese-counterpart-architecture-impact-assessment

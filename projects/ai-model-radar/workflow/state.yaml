@@ -3,8 +3,8 @@ project_id: ai-model-radar
 run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
-stage: task-breakdown-entry
-status: radar-bilingual-chinese-counterpart-task-breakdown-entry-authorized-routed
+stage: task-breakdown-review
+status: radar-bilingual-chinese-counterpart-task-breakdown-ready-for-review
 current_role: role-pm
 blocked: false
 blocker: null
@@ -129,10 +129,11 @@ next_approval:
   scope: "固定02仅将已批准架构拆成依赖有序、可唯一路由的小任务，覆盖原文/中文 revision 数据迁移、4317 契约与幂等处理、4174 接入、审查和 QA 验证；必须明确首个唯一工作项，不执行实现。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: routed-awaiting-fixed-02-role-entry
+  delivery_status: ready-for-review
   expected_artifact: artifact-radar-bilingual-chinese-counterpart-task-breakdown-001
   expected_path: docs/11-bilingual-chinese-counterpart-task-breakdown.md
   expected_version: "1.0"
+  artifact_sha256: ab295a08209925c58486fe6d22897a5fb2222a9b8ab4a2f659488a255e747961
   input_artifact: artifact-radar-bilingual-chinese-counterpart-architecture-impact-001
   input_path: docs/10-bilingual-chinese-counterpart-architecture-impact.md
   input_version: "1.0"
@@ -146,7 +147,15 @@ next_approval:
   disabled_duplicate_task_id: "01a02335-2d63-7e63-bd36-b63017115d77"
   unique_conclusion: backend-and-data-changes-required-before-frontend-integration
   downstream_role_authorized: false
-  dispatch_status: routed-awaiting-canonical-fixed-02-role-entry
+  dispatch_status: delivered-awaiting-user-review
+  completed_at: "2026-08-28T17:28:17+08:00"
+  validated_at: "2026-08-28T17:28:17+08:00"
+  proposed_on_approved:
+    role: role-data-engineer
+    work_item: AMR-BI-DATA-101
+    owner: "08 数据工程师"
+    estimated_hours: 4
+    status: planned-not-authorized
   advance_limit: one-task-breakdown-delivery-unit-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
@@ -2367,10 +2376,30 @@ bilingual_chinese_counterpart_task_breakdown_assignment:
     - service-start-stop-or-restart
     - production-deployment
     - automatic-development-route
-  scheduling: routed-awaiting-role-entry
+  scheduling: ready-for-review
+  delivery_status: ready-for-review
+  artifact_sha256: ab295a08209925c58486fe6d22897a5fb2222a9b8ab4a2f659488a255e747961
+  direct_work_items: 17
+  planned_companion_review_qa_items: 28
+  unique_first_candidate:
+    work_item: AMR-BI-DATA-101
+    role: role-data-engineer
+    role_task_title: "08 数据工程师"
+    estimated_hours: 4
+    status: planned-not-authorized
+  completed_at: "2026-08-28T17:28:17+08:00"
+  validated_at: "2026-08-28T17:28:17+08:00"
+  validation:
+    workflow_yaml: passed
+    workflow_jsonl: passed
+    task_structure: 17-direct-items-all-3-or-4-hours
+    unique_first_candidate: AMR-BI-DATA-101
+    git_boundary: passed
+    skill_drift: passed
+    implementation_boundary: passed
   unique_conclusion: backend-and-data-changes-required-before-frontend-integration
   stop_gate: task-breakdown-review
   downstream_role_authorized: false
   production_release: frozen
   auto_advance_beyond_next: false
-updated_at: "2026-08-28T17:19:25+08:00"
+updated_at: "2026-08-28T17:28:17+08:00"
