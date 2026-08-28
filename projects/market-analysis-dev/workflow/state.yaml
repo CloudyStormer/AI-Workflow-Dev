@@ -2763,4 +2763,29 @@ career_backend_http_integration_delivery:
   stop_gate: development-integration-handoff
   production_release: frozen
   auto_route: false
-updated_at: "2026-08-27T16:04:08+08:00"
+career_real_analysis_frontend_integration_delivery:
+  change_id: dev-20260828-career-real-analysis-frontend-integration-v1
+  work_item: CFR-FE-REAL-INTEGRATION-001
+  role: role-frontend-dev
+  role_task_id: "019fb74a-a427-7101-9941-442c34b157e3"
+  authorization: "超级无敌帅超超总本轮‘前两个项目继续’"
+  input_artifact: artifact-career-local-http-integration-001
+  output_artifact: artifact-career-real-analysis-frontend-integration-001
+  frontend_source_commits:
+    - 67d88a5
+    - 45dc3c4
+  code_change_required: false
+  runtime_truth:
+    frontend_url: http://127.0.0.1:4177/source-workbench
+    backend_url: http://127.0.0.1:4318
+    backend_ready: true
+    persisted_materials_after_validation: 4
+    real_history_restored_after_refresh: true
+    insight_views_read_real_history: true
+    demo_fallback: false
+  result: ready-for-frontend-delivery-review
+  stop_gate: frontend-delivery-review
+  next: "超级无敌帅超超总 review: 通过 / 修改 / 打回"
+  production_release: frozen
+  auto_route: false
+updated_at: "2026-08-28T15:34:36+08:00"

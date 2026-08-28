@@ -2486,6 +2486,60 @@ artifacts:
     production_release: frozen
     downstream_role_authorized: false
     auto_route: false
+  - id: artifact-career-real-analysis-frontend-integration-001
+    run_id: run-20260803-market-analysis-dev-init-001
+    type: career-real-analysis-frontend-integration-evidence
+    project_id: market-analysis-dev
+    work_item: CFR-FE-REAL-INTEGRATION-001
+    change_id: dev-20260828-career-real-analysis-frontend-integration-v1
+    owner: role-frontend-dev
+    role_task_id: "019fb74a-a427-7101-9941-442c34b157e3"
+    role_task_title: "06 前端工程师"
+    authorization: "超级无敌帅超超总本轮‘前两个项目继续’"
+    backend_input_artifact: artifact-career-local-http-integration-001
+    backend_code_commit: 4b1d44e3352426e92bf82b55f4c910e32d5a242c
+    frontend_source_commits:
+      - 67d88a5
+      - 45dc3c4
+    browser_url: http://127.0.0.1:4177/source-workbench
+    backend_url: http://127.0.0.1:4318
+    authoritative_paths:
+      - frontend/src/api/career.ts
+      - frontend/src/features/source-workbench/SourceWorkbenchPage.tsx
+      - frontend/src/features/career-insights/CareerInsightsPages.tsx
+    sha256:
+      career_api: e7af68950ae34b63d4825c577fb28f4fb649401485be0b2dfab546a313053733
+      source_workbench: 47a0f6e8db94edc52e915d14f7676ec5e22253962591078d33ccabf9213c25b5
+      career_insights: 70e7b44f0742ef921952df883cd3f35fd39e6b402e954bf8a91f466a5282618e
+    validation:
+      node: 24.19.0
+      typecheck: passed
+      lint: passed
+      tests: 25-of-25-passed
+      build: passed
+      backend_readiness: ready
+      real_browser_flow: passed-save-classify-confirm-analyze-refresh-history
+      persisted_history_after_validation: 4-materials
+      real_insight_views:
+        stacks: 19-results
+        evidence: 26-results
+        ai_increment: 6-results
+        personal_evidence: 23-results
+      browser_320: passed-no-horizontal-overflow
+      browser_390: covered-by-existing-regression-and-responsive-contract
+      complete_simplified_chinese: passed
+      demo_fallback: absent
+      git_boundary: passed
+    truth_boundary:
+      local_sqlite_via_http_only: true
+      browser_persistent_storage_used: false
+      external_paid_model_used: false
+      production_deployment: frozen
+    code_change_required: false
+    result: ready-for-review
+    completed_at: "2026-08-28T15:34:36+08:00"
+    stop_gate: frontend-delivery-review
+    auto_route: false
   - id: artifact-career-local-http-integration-001
     run_id: run-20260803-market-analysis-dev-init-001
     type: career-local-fastify-http-integration
