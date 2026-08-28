@@ -6,7 +6,7 @@
 
 | 产物 | 版本 | 状态 | SHA256 | 说明 |
 |---|---|---|---|---|
-| [`10-bilingual-chinese-counterpart-ui-design.md`](10-bilingual-chinese-counterpart-ui-design.md) | `1.0` | `ready-for-review` | `b453bd0d6aae23cdd01210336cdcf51f87cd20ae21d913e83ab22a83e4924b40` | AMR-UI-BILINGUAL-002 逐条中文对照实现级设计；配套 [`bilingual-chinese-counterpart-v1.0/prototype.html`](bilingual-chinese-counterpart-v1.0/prototype.html)、5 张已目检响应式截图、manifest 与 78 项静态机器门；独立视觉与真实辅助技术审查仍待后续，当前中文对照尚未实现 |
+| [`10-bilingual-chinese-counterpart-ui-design.md`](10-bilingual-chinese-counterpart-ui-design.md) | `1.0` | `approved` | `b453bd0d6aae23cdd01210336cdcf51f87cd20ae21d913e83ab22a83e4924b40` | AMR-UI-BILINGUAL-002 逐条中文对照实现级设计已由超级无敌帅超超总于 2026-08-28 通过；配套 [`bilingual-chinese-counterpart-v1.0/prototype.html`](bilingual-chinese-counterpart-v1.0/prototype.html)、5 张已目检响应式截图、manifest 与 78 项静态机器门；该批准自动授权固定 05 架构影响评估，任务目录存在两个同名固定 05，实际消息路由交由固定 00 先完成唯一入口协调；当前中文对照仍未实现 |
 | [`09-bilingual-chinese-counterpart-ui-prompt.md`](09-bilingual-chinese-counterpart-ui-prompt.md) | `1.0` | `approved` | `bd5f10e014c9b9e9a9c750dd0d3756f1191dbfac40f8ee92c33710dde8605407` | AMR-UI-BILINGUAL-001 逐条中文对照 UI Prompt 增量已由超级无敌帅超超总于 2026-08-28 通过；覆盖今日、全部事件、详情、趋势下钻、开源发布、历史修订中的原文/中文并列、四类形成方式、待更新/失败/无译文、专有名词保真、1440/1024/390/320、200% 与无障碍；当前中文对照能力尚未实现 |
 | [`08-daily-web-ui-design.md`](08-daily-web-ui-design.md) | `1.0` | `approved` | `5505f08f181ffea782e681d388fa8e73b45d6b888ca5b2695b3349b9e827cc3f` | AMR-UI-DAILY-WEB-002 实现级设计已批准；唯一下一站为固定 05 的日更网页架构评估，不直接解冻前端 |
 | [`07-daily-web-ui-prompt-increment.md`](07-daily-web-ui-prompt-increment.md) | `1.0` | `approved` | `04b05f43bae2e6ae6f3fd0a33a0bce284f85c41508dc8ce7b374690ced83c679` | AMR-UI-DAILY-WEB-001 已批准的真实日更批次网页化 UI Prompt 增量；覆盖 `/today` 去 Demo、真实批次生命周期、不可变快照与 revision、历史追加、失败保旧、幂等刷新、八种真相态、简中、多端和无障碍；当前真实网页仍未接入该批次 |
@@ -34,4 +34,4 @@
 
 PRD v1.2 与 Prompt v1.2 的真实性边界优先于图片示例：图片中出现的“真实连接”“活动源”“系统运行中”或混用日期只能作为历史视觉占位，设计、架构和实现不得据此声称真实服务已接入。
 
-Prompt v1.2、发布完整性 Prompt/设计及其历史审批链继续保留，不被新文件覆盖。2026-08-21 已批准的产品增量将主定位改为“真实国内外 AI 开发圈新闻”，对应 `06-ai-developer-news-ui-prompt-increment.md` v1.0；2026-08-26 的 `07-daily-web-ui-prompt-increment.md` v1.0 与 `08-daily-web-ui-design.md` v1.0 均已批准。2026-08-28 的 `09-bilingual-chinese-counterpart-ui-prompt.md` v1.0 已通过；其唯一获授权设计单元已形成 `10-bilingual-chinese-counterpart-ui-design.md` v1.0 与版本化原型包，当前停在 `ui-design-review`。该设计只定义原文事实根之上的逐条中文对照目标态；中文对照尚未实现，既有真实新闻、来源与 4174/4317 服务未被改写或重启，也未授权架构、开发、数据库、采集、服务或部署。
+Prompt v1.2、发布完整性 Prompt/设计及其历史审批链继续保留，不被新文件覆盖。2026-08-21 已批准的产品增量将主定位改为“真实国内外 AI 开发圈新闻”，对应 `06-ai-developer-news-ui-prompt-increment.md` v1.0；2026-08-26 的 `07-daily-web-ui-prompt-increment.md` v1.0 与 `08-daily-web-ui-design.md` v1.0 均已批准。2026-08-28 的 `09-bilingual-chinese-counterpart-ui-prompt.md` v1.0 与 `10-bilingual-chinese-counterpart-ui-design.md` v1.0 均已通过；设计通过只自动授权固定 05 执行一个架构影响评估单元。由于角色目录存在两个同名“05 架构师”，实际消息路由暂由固定 00 处理唯一入口协调，不要求用户重复批准。该设计只定义原文事实根之上的逐条中文对照目标态；中文对照尚未实现，既有真实新闻、来源与 4174/4317 服务未被改写或重启，也未授权开发、数据库、采集、服务或部署。

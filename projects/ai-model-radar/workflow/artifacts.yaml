@@ -2094,7 +2094,7 @@ artifacts:
       production_release: frozen
     ui_index:
       path: ui/README.md
-      sha256: fd1fc812f7804378a9a0e0fab50c85d1d2e6cac7a207453dd9ec13c550544287
+      sha256: 9a8794e8a2e113ab113eefcfac2c9b4b474829f9250b7c9bef06881accd8c50d
     validation_status: machine_passed
     validation:
       static_machine_gate: 78-of-78-passed
@@ -2107,12 +2107,21 @@ artifacts:
       implementation_boundary: passed
     validated_at: "2026-08-28T15:45:55+08:00"
     completed_at: "2026-08-28T15:45:55+08:00"
-    status: ready-for-review
-    review_status: pending
-    result: ready-for-ui-design-review
+    status: approved
+    review_status: approved
+    review_decision: approved
+    review_approval: approval-20260828-radar-bilingual-chinese-counterpart-ui-design-v1
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-28T16:00:56+08:00"
+    result: approved-and-fixed-05-architecture-impact-authorized
     stop_gate: ui-design-review
-    downstream_role_authorized: false
-    auto_route: false
+    completed_gate: ui-design-review
+    downstream_role_authorized: true
+    authorized_next_role: role-architect
+    authorized_next_work_item: AMR-ARCH-BILINGUAL-001
+    next_entry_authorization: approval-20260828-radar-bilingual-chinese-counterpart-architecture-entry
+    routing_status: blocked-duplicate-fixed-05-title
+    auto_route: authorized-but-dispatch-blocked
     auto_advance_beyond_next: false
   - id: artifact-radar-bilingual-chinese-counterpart-ui-prompt-001
     run_id: run-20260731-intake-001
