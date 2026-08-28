@@ -2783,9 +2783,25 @@ career_real_analysis_frontend_integration_delivery:
     real_history_restored_after_refresh: true
     insight_views_read_real_history: true
     demo_fallback: false
-  result: ready-for-frontend-delivery-review
-  stop_gate: frontend-delivery-review
-  next: "超级无敌帅超超总 review: 通过 / 修改 / 打回"
+  result: approved-and-routed-to-code-review
+  review_status: approved
+  approval_id: approval-20260828-career-real-analysis-frontend-integration
+  approved_at: "2026-08-28T16:00:21+08:00"
+  stop_gate: code-review-conclusion-review
+  next: fixed-09-code-reviewer
   production_release: frozen
   auto_route: false
-updated_at: "2026-08-28T15:34:36+08:00"
+career_real_analysis_code_review_route:
+  change_id: review-20260828-career-real-analysis-frontend-integration-v1
+  work_item: CFR-CR-REAL-INTEGRATION-001
+  role: role-code-reviewer
+  role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+  authorization: approval-20260828-career-real-analysis-code-review-entry
+  input_artifact: artifact-career-real-analysis-frontend-integration-001
+  expected_artifact: artifact-career-real-analysis-frontend-code-review-001
+  status: routed-awaiting-fixed-09-entry
+  stop_gate: code-review-conclusion-review
+  qa_authorized: false
+  production_release: frozen
+  auto_route: false
+updated_at: "2026-08-28T16:00:21+08:00"

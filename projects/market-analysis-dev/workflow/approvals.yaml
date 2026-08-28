@@ -2174,3 +2174,45 @@ approvals:
     intermediate_atomic_review_required: false
     production_release: frozen
     auto_route: false
+  - id: approval-20260828-career-real-analysis-frontend-integration
+    run_id: run-20260803-market-analysis-dev-init-001
+    gate: frontend-delivery-review
+    project_id: market-analysis-dev
+    artifact: artifact-career-real-analysis-frontend-integration-001
+    change_id: dev-20260828-career-real-analysis-frontend-integration-v1
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-28T16:00:21+08:00"
+    decision_source: "用户在固定 06 前端工程师任务明确回复‘通过’"
+    source_commit: e6447088d868b9ecf3e00c639e37ab41d806c5a6
+    effect: "已批准当前产物，并自动授权唯一下一站固定 09 代码审查员执行一个代码审查单元；该角色交付后停止等待审核，不代表其产物或后续角色已获批准。"
+    production_release: frozen
+    auto_advance_beyond_next: false
+  - id: approval-20260828-career-real-analysis-code-review-entry
+    run_id: run-20260803-market-analysis-dev-init-001
+    gate: code-review-entry
+    project_id: market-analysis-dev
+    role: role-code-reviewer
+    role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+    role_task_title: "09 代码审查员"
+    work_item: CFR-CR-REAL-INTEGRATION-001
+    change_id: review-20260828-career-real-analysis-frontend-integration-v1
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-28T16:00:21+08:00"
+    authorization_source: approval-20260828-career-real-analysis-frontend-integration
+    input_artifact: artifact-career-real-analysis-frontend-integration-001
+    reviewed_source_commits:
+      - 67d88a5
+      - 45dc3c4
+      - e6447088d868b9ecf3e00c639e37ab41d806c5a6
+    scope: "审查 Career 真实前端联调的 API 契约、真实性边界、错误/空状态、简体中文、响应式、可访问性和测试证据。"
+    exclusions:
+      - qa-execution
+      - production-deployment
+      - backend-or-data-scope-expansion
+      - external-paid-models
+    expected_output:
+      artifact: artifact-career-real-analysis-frontend-code-review-001
+      stop_gate: code-review-conclusion-review
+    auto_advance_beyond_next: false
