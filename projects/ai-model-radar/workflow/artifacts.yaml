@@ -2046,6 +2046,68 @@ artifacts:
     production_release: frozen
     auto_route: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: artifact-radar-bilingual-chinese-counterpart-architecture-impact-001
+    run_id: run-20260731-intake-001
+    type: bilingual-chinese-counterpart-architecture-impact-assessment
+    project_id: ai-model-radar
+    work_item: AMR-ARCH-BILINGUAL-001
+    change_id: architecture-impact-20260828-radar-bilingual-chinese-counterpart-v1
+    owner: role-architect
+    role_task_id: "019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db"
+    disabled_duplicate_task_id: "01a00c4e-cdb4-7bc3-9ade-310e0fb9aef0"
+    authorization: approval-20260828-radar-bilingual-chinese-counterpart-architecture-entry
+    path: docs/10-bilingual-chinese-counterpart-architecture-impact.md
+    version: "1.0"
+    sha256: e6b33a062727d84d1b0199d194820899276f6394bdd3ccdd2bde2d752a7c8b3a
+    assessment_baseline: e92b9d15951c431e27bf374b98530390fcb238a4
+    upstream:
+      artifact: artifact-radar-bilingual-chinese-counterpart-ui-design-001
+      path: ui/10-bilingual-chinese-counterpart-ui-design.md
+      version: "1.0"
+      sha256: b453bd0d6aae23cdd01210336cdcf51f87cd20ae21d913e83ab22a83e4924b40
+      approval: approval-20260828-radar-bilingual-chinese-counterpart-ui-design-v1
+    decision:
+      unique_conclusion: backend-and-data-changes-required-before-frontend-integration
+      frontend_only_implementation_allowed: false
+      data_model_migration_required: true
+      backend_api_change_required: true
+      frontend_contract_change_required_after_backend_data: true
+      collector_change_required_by_assessment: false
+    frozen_contracts:
+      - original-revision-remains-fact-root
+      - chinese-counterpart-is-separately-versioned-and-server-persisted
+      - translation-job-is-content-addressed-and-idempotent
+      - published-snapshot-binds-original-and-chinese-revisions-or-explicit-status
+      - translation-failure-never-blocks-original-news
+      - news-truth-and-translation-health-remain-separate
+      - browser-and-demo-never-form-authoritative-translation
+      - third-party-translation-remains-tbd-disabled-with-separate-authorization
+    current_truth:
+      current_4174_has_single-title-summary-view: true
+      current_4317_has_single-title-summary-contract: true
+      current_sqlite_has_translation_revision_tables: false
+      current_snapshot_manifest_binds_translation_revision: false
+      legacy_manual_import_preserves_original_title: false
+      bilingual_chinese_counterpart_implemented: false
+    validation:
+      input_sha256_verified: true
+      approved_product_and_ui_inputs_cross_checked: true
+      frontend_4174_contract_inspected: true
+      backend_4317_contract_inspected: true
+      sqlite_migration_repository_and_snapshot_contract_inspected: true
+      cache_revision_translation_failure_traceability_performance_security_accessibility_covered: true
+      required_topics: 9-of-9-covered
+      implementation_boundary: passed
+      service_restart: not-performed
+    completed_at: "2026-08-28T16:11:00+08:00"
+    validated_at: "2026-08-28T16:11:00+08:00"
+    status: ready-for-review
+    review_decision: pending
+    result: ready-for-architecture-review
+    stop_gate: architecture-review
+    downstream_role_authorized: false
+    production_release: frozen
+    auto_advance_beyond_next: false
   - id: artifact-radar-bilingual-chinese-counterpart-ui-design-001
     run_id: run-20260731-intake-001
     type: bilingual-chinese-counterpart-ui-design

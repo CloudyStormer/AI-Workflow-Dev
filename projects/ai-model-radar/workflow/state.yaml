@@ -3,11 +3,12 @@ project_id: ai-model-radar
 run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
-stage: architecture-entry
-status: radar-bilingual-chinese-counterpart-architecture-entry-authorized-routing-blocked
+stage: architecture-review
+status: radar-bilingual-chinese-counterpart-architecture-impact-ready-for-review
 current_role: role-architect
-blocked: true
-blocker:
+blocked: false
+blocker: null
+resolved_blocker:
   kind: duplicate-fixed-role-task-title
   role_title: "05 架构师"
   detected_at: "2026-08-28T16:00:56+08:00"
@@ -16,6 +17,10 @@ blocker:
     - "01a00c4e-cdb4-7bc3-9ade-310e0fb9aef0"
   required_resolution: fixed-00-confirm-single-canonical-role-entry
   user_reapproval_required: false
+  resolved_at: "2026-08-28T16:07:21+08:00"
+  canonical_role_task_id: "019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db"
+  disabled_duplicate_task_id: "01a00c4e-cdb4-7bc3-9ade-310e0fb9aef0"
+  result: canonical-fixed-05-confirmed-and-work-resumed
 ui_assets:
   directory: ui
   index: ui/README.md
@@ -124,7 +129,7 @@ next_approval:
   scope: "固定05仅评估逐条中文对照对事件读取契约、版本化持久化、快照只追加、幂等刷新、失败不阻断、前后端接口与安全边界的影响；不修改代码、数据库、采集器、4174/4317 服务或部署。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: authorized-routing-blocked-duplicate-fixed-05-title
+  delivery_status: ready-for-review
   expected_artifact: artifact-radar-bilingual-chinese-counterpart-architecture-impact-001
   expected_path: docs/10-bilingual-chinese-counterpart-architecture-impact.md
   expected_version: "1.0"
@@ -137,13 +142,16 @@ next_approval:
   change_id: architecture-impact-20260828-radar-bilingual-chinese-counterpart-v1
   entry_authorization: approval-20260828-radar-bilingual-chinese-counterpart-architecture-entry
   role: role-architect
-  role_task_id: unresolved-due-duplicate-fixed-05-title
-  role_task_candidates:
-    - "019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db"
-    - "01a00c4e-cdb4-7bc3-9ade-310e0fb9aef0"
+  role_task_id: "019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db"
+  disabled_duplicate_task_id: "01a00c4e-cdb4-7bc3-9ade-310e0fb9aef0"
   safe_checkpoint: 1e052d3b1a8daa4ed2bdbab18f32b2d734cabc38
-  downstream_role_authorized: true
-  dispatch_status: blocked-pending-fixed-00-single-entry-resolution
+  assessment_baseline: e92b9d15951c431e27bf374b98530390fcb238a4
+  artifact_sha256: e6b33a062727d84d1b0199d194820899276f6394bdd3ccdd2bde2d752a7c8b3a
+  unique_conclusion: backend-and-data-changes-required-before-frontend-integration
+  completed_at: "2026-08-28T16:11:00+08:00"
+  validated_at: "2026-08-28T16:11:00+08:00"
+  downstream_role_authorized: false
+  dispatch_status: completed-awaiting-architecture-review
   advance_limit: one-architecture-impact-delivery-unit-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
@@ -2276,6 +2284,7 @@ bilingual_chinese_counterpart_architecture_assignment:
     artifact: artifact-radar-bilingual-chinese-counterpart-architecture-impact-001
     path: docs/10-bilingual-chinese-counterpart-architecture-impact.md
     version: "1.0"
+    sha256: e6b33a062727d84d1b0199d194820899276f6394bdd3ccdd2bde2d752a7c8b3a
   scope:
     - event-read-contract-impact
     - server-persisted-and-versioned-chinese-counterpart
@@ -2288,16 +2297,32 @@ bilingual_chinese_counterpart_architecture_assignment:
     - service-restart-4174-or-4317
     - task-breakdown-or-development
     - production-deployment
-  scheduling: authorized-routing-blocked
-  routing_blocker:
-    kind: duplicate-fixed-role-task-title
-    role_title: "05 架构师"
-    candidates:
-      - "019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db"
-      - "01a00c4e-cdb4-7bc3-9ade-310e0fb9aef0"
-    resolution_owner: fixed-00
-    user_reapproval_required: false
+  scheduling: completed-awaiting-review
+  routing_resolution:
+    canonical_role_task_id: "019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db"
+    disabled_duplicate_task_id: "01a00c4e-cdb4-7bc3-9ade-310e0fb9aef0"
+    resolved_at: "2026-08-28T16:07:21+08:00"
+  assessment_baseline: e92b9d15951c431e27bf374b98530390fcb238a4
+  unique_conclusion: backend-and-data-changes-required-before-frontend-integration
+  impact:
+    frontend_contract_change: required-after-backend-data-contract
+    backend_api_change: required
+    data_model_migration: required
+    collector_change: not-required-by-this-assessment
+    service_or_deployment_change: not-performed
+  validation:
+    input_sha256_verified: true
+    current_4174_contract_inspected: true
+    current_4317_contract_inspected: true
+    sqlite_schema_and_snapshot_binding_inspected: true
+    legacy_manual_chinese_input_gap_confirmed: true
+    required_topics: 9-of-9-covered
+    unique_conclusion_present: true
+    implementation_boundary: passed
+  completed_at: "2026-08-28T16:11:00+08:00"
+  validated_at: "2026-08-28T16:11:00+08:00"
+  result: ready-for-architecture-review
   stop_gate: architecture-review
   production_release: frozen
   auto_advance_beyond_next: false
-updated_at: "2026-08-28T16:00:56+08:00"
+updated_at: "2026-08-28T16:11:00+08:00"
