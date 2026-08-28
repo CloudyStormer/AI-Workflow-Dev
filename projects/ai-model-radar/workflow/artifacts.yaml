@@ -2046,6 +2046,74 @@ artifacts:
     production_release: frozen
     auto_route: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: artifact-radar-bilingual-chinese-counterpart-ui-design-001
+    run_id: run-20260731-intake-001
+    type: bilingual-chinese-counterpart-ui-design
+    project_id: ai-model-radar
+    work_item: AMR-UI-BILINGUAL-002
+    change_id: ui-design-20260828-radar-bilingual-chinese-counterpart-v1
+    owner: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    authorization: approval-20260828-radar-bilingual-chinese-counterpart-ui-design-entry
+    path: ui/10-bilingual-chinese-counterpart-ui-design.md
+    version: "1.0"
+    sha256: b453bd0d6aae23cdd01210336cdcf51f87cd20ae21d913e83ab22a83e4924b40
+    upstream:
+      artifact: artifact-radar-bilingual-chinese-counterpart-ui-prompt-001
+      path: ui/09-bilingual-chinese-counterpart-ui-prompt.md
+      version: "1.0"
+      sha256: bd5f10e014c9b9e9a9c750dd0d3756f1191dbfac40f8ee92c33710dde8605407
+      approval: approval-20260828-radar-bilingual-chinese-counterpart-ui-prompt-v1
+    bundle:
+      prototype:
+        path: ui/bilingual-chinese-counterpart-v1.0/prototype.html
+        sha256: 100ac0e3442c8d01b73b2ea067509b9e439ec21074d6897608b6e7e50ecc6e86
+      manifest:
+        path: ui/bilingual-chinese-counterpart-v1.0/manifest.json
+        sha256: 390b0ccb9d7dde2164ff7172b21bcf7a27bd8a3055abe33b49f3eea57c0530fd
+      verifier:
+        path: ui/bilingual-chinese-counterpart-v1.0/verify-assets.mjs
+        sha256: ed1c0dc3b624dbfc16e53520a9c596bc626b3cb189da8b5e2cd35b5a95c0edbd
+      screenshots: 5
+      views: 8
+    coverage:
+      - today-events-detail-trends-open-source-history-sources-and-states
+      - original-and-chinese-side-by-side-with-version-pairing
+      - four-provenance-types-and-twelve-processing-states
+      - 1440-1024-390-320-and-browser-200-percent-reflow
+      - keyboard-focus-language-live-region-and-non-color-specification
+    truth_boundary:
+      target_state_design: true
+      current_chinese_counterpart_implemented: false
+      original_news_remains_fact_root: true
+      translation_failure_blocks_news: false
+      frontend_modified: false
+      backend_modified: false
+      database_modified: false
+      service_restarted: false
+      production_release: frozen
+    ui_index:
+      path: ui/README.md
+      sha256: fd1fc812f7804378a9a0e0fab50c85d1d2e6cac7a207453dd9ec13c550544287
+    validation_status: machine_passed
+    validation:
+      static_machine_gate: 78-of-78-passed
+      screenshot_sha_and_ihdr_dimensions: 5-of-5-passed
+      fixed04_visual_self_review: five-listed-screenshots-completed
+      browser_spot_checks: 1440-1024-390-320-and-720-css-px
+      page_horizontal_scroll_at_720_css_px: none
+      independent_visual_review: pending
+      assistive_technology_review: pending-frontend-and-qa
+      implementation_boundary: passed
+    validated_at: "2026-08-28T15:45:55+08:00"
+    completed_at: "2026-08-28T15:45:55+08:00"
+    status: ready-for-review
+    review_status: pending
+    result: ready-for-ui-design-review
+    stop_gate: ui-design-review
+    downstream_role_authorized: false
+    auto_route: false
+    auto_advance_beyond_next: false
   - id: artifact-radar-bilingual-chinese-counterpart-ui-prompt-001
     run_id: run-20260731-intake-001
     type: ui-prompt-increment

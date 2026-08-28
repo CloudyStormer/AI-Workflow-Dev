@@ -1723,3 +1723,41 @@ approvals:
     production_release: frozen
     auto_route: false
     auto_advance_beyond_next: false
+  - id: approval-20260828-radar-bilingual-chinese-counterpart-ui-design-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    project_id: ai-model-radar
+    role: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    work_item: AMR-UI-BILINGUAL-002
+    change_id: ui-design-20260828-radar-bilingual-chinese-counterpart-v1
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-28T15:30:19+08:00"
+    authorization_source: "direct-user-continuation-forwarded-by-fixed-00"
+    user_instruction: "前两个项目继续"
+    safe_checkpoint: eeec212b8c2f13ceb89927dcb73cae9d0fc8e3a3
+    input:
+      artifact: artifact-radar-bilingual-chinese-counterpart-ui-prompt-001
+      path: ui/09-bilingual-chinese-counterpart-ui-prompt.md
+      version: "1.0"
+      sha256: bd5f10e014c9b9e9a9c750dd0d3756f1191dbfac40f8ee92c33710dde8605407
+      approval: approval-20260828-radar-bilingual-chinese-counterpart-ui-prompt-v1
+    scope: "完成逐条中文对照实现级 UI 设计说明与 ui/ 内响应式原型，覆盖核心页面、形成标签、失败／待更新／修订、移动端和无障碍。"
+    exclusions:
+      - frontend-backend-or-database-code
+      - source-collector-or-runtime-change
+      - service-restart-4174-or-4317
+      - architecture-or-task-breakdown
+      - production-deployment
+      - old-worktree-fixed-04-delivery
+    expected_output:
+      artifact: artifact-radar-bilingual-chinese-counterpart-ui-design-001
+      path: ui/10-bilingual-chinese-counterpart-ui-design.md
+      version: "1.0"
+      prototype: ui/bilingual-chinese-counterpart-v1.0/prototype.html
+    stop_gate: ui-design-review
+    production_release: frozen
+    advance_limit: one-ui-design-delivery-unit-only
+    auto_advance_beyond_next: false

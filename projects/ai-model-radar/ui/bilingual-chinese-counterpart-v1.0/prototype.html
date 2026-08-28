@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23312e81'/%3E%3Cpath d='M8 22V10h4l4 7 4-7h4v12h-4v-6l-4 6-4-6v6z' fill='white'/%3E%3C/svg%3E">
+  <title>AI Model Radar｜逐条中文对照设计原型</title>
+  <style>
+    :root {
+      --canvas:#f5f7fa; --surface:#fff; --muted:#eef2f7; --primary:#312e81;
+      --primary-hover:#26236b; --link:#174ea6; --success:#087f5b; --info:#1d4ed8;
+      --warning:#7a4108; --danger:#a61b32; --text:#172033; --secondary:#475467;
+      --border:#cbd3df; --focus:#1d4ed8; --shadow:0 12px 32px rgba(23,32,51,.14);
+      --r-sm:6px; --r-md:8px; --r-lg:12px;
+    }
+    * { box-sizing:border-box; }
+    html { color-scheme:light; }
+    body { margin:0; min-width:320px; background:var(--canvas); color:var(--text); font-family:"PingFang SC","Source Han Sans SC",Inter,system-ui,sans-serif; font-size:15px; line-height:1.6; }
+    button,input,select { font:inherit; color:inherit; }
+    button,a,input,select { outline:none; }
+    button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible { box-shadow:0 0 0 3px var(--focus); border-color:var(--focus)!important; }
+    a { color:var(--link); text-decoration-thickness:1px; text-underline-offset:3px; }
+    code,.mono { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; overflow-wrap:anywhere; }
+    .skip { position:fixed; left:16px; top:-80px; z-index:100; background:var(--surface); padding:12px 16px; border:2px solid var(--focus); border-radius:8px; }
+    .skip:focus { top:16px; }
+    .app { min-height:100vh; display:grid; grid-template-columns:248px minmax(0,1fr); }
+    .sidebar { position:sticky; top:0; height:100vh; padding:24px 16px; background:#17164a; color:#fff; display:flex; flex-direction:column; gap:24px; }
+    .brand { padding:0 12px; }
+    .brand strong { display:block; font-size:18px; letter-spacing:.01em; }
+    .brand span { display:block; color:#c9c8ef; font-size:13px; margin-top:2px; }
+    .nav { display:grid; gap:5px; }
+    .nav button { width:100%; min-height:44px; border:0; border-radius:8px; padding:10px 12px; text-align:left; color:#deddfa; background:transparent; cursor:pointer; display:flex; align-items:center; gap:10px; }
+    .nav button:hover { background:#262560; color:#fff; }
+    .nav button[aria-current="page"] { background:#fff; color:#201f67; font-weight:650; }
+    .nav .glyph { width:22px; height:22px; border:1.5px solid currentColor; border-radius:6px; display:grid; place-items:center; font-size:11px; flex:none; }
+    .sidebar-note { margin-top:auto; padding:12px; border:1px solid #454482; border-radius:10px; color:#d6d5f3; font-size:13px; }
+    .shell { min-width:0; }
+    .demo-banner { min-height:42px; padding:8px 28px; background:#fff3df; color:#6c3705; border-bottom:1px solid #e2b878; display:flex; align-items:center; justify-content:center; gap:8px; font-weight:650; text-align:center; }
+    .demo-banner .shape { width:13px; height:13px; border:2px solid currentColor; transform:rotate(45deg); flex:none; }
+    .topbar { min-height:72px; padding:14px 32px; background:var(--surface); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px; position:sticky; top:0; z-index:10; }
+    .search { position:relative; flex:1; max-width:520px; }
+    .search input { width:100%; min-height:44px; border:1px solid var(--border); border-radius:8px; padding:9px 42px 9px 14px; background:#fff; }
+    .search kbd { position:absolute; right:11px; top:10px; min-width:26px; text-align:center; border:1px solid var(--border); border-radius:5px; color:var(--secondary); font-size:12px; background:var(--canvas); }
+    .control { min-height:44px; border:1px solid var(--border); border-radius:8px; background:#fff; padding:9px 12px; cursor:pointer; }
+    .control:hover { border-color:#8f9aaa; background:#fafbfc; }
+    .control.primary { background:var(--primary); color:#fff; border-color:var(--primary); }
+    .control.primary:hover { background:var(--primary-hover); }
+    .content { max-width:1248px; margin:0 auto; padding:28px 32px 80px; }
+    .truth { background:#eef4ff; border:1px solid #b7c8eb; border-left:5px solid var(--info); border-radius:10px; padding:14px 16px; display:flex; gap:18px; align-items:flex-start; margin-bottom:22px; }
+    .truth strong { white-space:nowrap; }
+    .truth dl { margin:0; display:flex; flex-wrap:wrap; gap:8px 22px; }
+    .truth dl div { display:flex; gap:6px; }
+    .truth dt { color:var(--secondary); }
+    .truth dd { margin:0; font-weight:600; }
+    .page-head { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; margin-bottom:22px; }
+    .page-head h1 { margin:0; font-size:30px; line-height:1.3; }
+    .page-head p { margin:5px 0 0; color:var(--secondary); }
+    .actions { display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end; }
+    .grid { display:grid; gap:16px; }
+    .cols-4 { grid-template-columns:repeat(4,minmax(0,1fr)); }
+    .cols-3 { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .cols-2 { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .main-aside { grid-template-columns:minmax(0,2fr) minmax(280px,1fr); }
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px; min-width:0; }
+    .card h2,.card h3 { margin:0 0 8px; line-height:1.45; }
+    .card h2 { font-size:20px; }
+    .card h3 { font-size:16px; }
+    .card p { margin:6px 0; }
+    .metric b { display:block; font-size:26px; line-height:1.25; margin-top:4px; }
+    .metric small { color:var(--secondary); }
+    .section-title { display:flex; align-items:center; justify-content:space-between; gap:16px; margin:28px 0 12px; }
+    .section-title h2 { margin:0; font-size:20px; }
+    .section-title p { color:var(--secondary); margin:0; }
+    .tag-row { display:flex; flex-wrap:wrap; gap:7px; align-items:center; }
+    .tag { display:inline-flex; align-items:center; gap:6px; min-height:28px; padding:3px 9px; border:1px solid var(--border); border-radius:6px; background:#fff; color:#344054; font-size:13px; font-weight:600; }
+    .tag::before { content:""; width:8px; height:8px; border:1.5px solid currentColor; border-radius:2px; }
+    .tag.human { color:#5c2f91; background:#f8f0ff; border-color:#d3b6ed; }
+    .tag.machine { color:#1d4ed8; background:#edf4ff; border-color:#b7c8eb; }
+    .tag.rule { color:#08634a; background:#eaf8f2; border-color:#a8d8c8; }
+    .tag.none { color:#5b6573; background:#f2f4f7; }
+    .tag.warn { color:#7a4108; background:#fff4e8; border-color:#d9ab78; }
+    .tag.danger { color:#a61b32; background:#fff0f2; border-color:#e3a7b2; }
+    .tag.fact { color:#28557c; background:#f1f7fc; border-style:dashed; }
+    .event-card { padding:20px; }
+    .event-top { display:flex; justify-content:space-between; gap:16px; align-items:flex-start; }
+    .event-card h2 { font-size:19px; margin:10px 0 3px; }
+    .original-title { margin:0!important; color:var(--secondary); font-family:Inter,system-ui,sans-serif; line-height:1.45; }
+    .summary { padding-top:14px; margin-top:14px; border-top:1px solid #e2e7ee; }
+    .summary-label { display:block; font-size:13px; color:var(--secondary); font-weight:650; }
+    .meta { display:flex; flex-wrap:wrap; gap:7px 16px; color:var(--secondary); font-size:13px; margin-top:14px; }
+    .text-button { border:0; background:transparent; padding:4px 0; color:var(--link); cursor:pointer; text-decoration:underline; text-underline-offset:3px; }
+    .original-summary { margin-top:10px; padding:12px; background:#f7f9fb; border-left:3px solid #8d97a8; color:#344054; }
+    .hidden { display:none!important; }
+    .status-panel { border-left:5px solid var(--warning); background:#fff8ef; }
+    .status-panel.danger { border-left-color:var(--danger); background:#fff2f4; }
+    .status-panel.info { border-left-color:var(--info); background:#f2f6ff; }
+    .split { display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:start; }
+    .split .card { height:100%; }
+    .pane-label { text-transform:none; color:var(--secondary); font-size:13px; font-weight:700; letter-spacing:.02em; }
+    .key-points { margin:10px 0 0; padding-left:20px; }
+    .system-eval { margin-top:16px; padding:14px; border:1px dashed #8aa1cc; border-radius:9px; background:#f4f7ff; }
+    .timeline { position:relative; display:grid; gap:15px; padding-left:26px; }
+    .timeline::before { content:""; position:absolute; left:8px; top:7px; bottom:7px; border-left:2px solid #bdc6d3; }
+    .timeline-item { position:relative; }
+    .timeline-item::before { content:""; position:absolute; left:-23px; top:6px; width:10px; height:10px; border:2px solid var(--primary); background:#fff; border-radius:50%; }
+    .timeline-item.current::before { background:var(--primary); }
+    .timeline-item.failed::before { border-color:var(--danger); border-radius:1px; transform:rotate(45deg); }
+    .timeline-item time { display:block; color:var(--secondary); font-size:13px; }
+    .chart { min-height:280px; display:flex; align-items:flex-end; gap:14px; padding:38px 12px 36px; border-left:1px solid var(--border); border-bottom:1px solid var(--border); position:relative; }
+    .bar { flex:1; min-width:20px; max-width:58px; height:var(--h); background:var(--primary); border:2px solid #211f6d; border-radius:7px 7px 0 0; position:relative; }
+    .bar span { position:absolute; left:50%; transform:translateX(-50%); bottom:-29px; white-space:nowrap; font-size:12px; color:var(--secondary); }
+    .bar b { position:absolute; left:50%; transform:translateX(-50%); top:-29px; font-size:13px; }
+    .chart-note { position:absolute; top:4px; left:12px; color:var(--secondary); font-size:13px; }
+    table { width:100%; border-collapse:collapse; font-size:14px; }
+    th,td { text-align:left; padding:10px 12px; border-bottom:1px solid #dce2ea; vertical-align:top; }
+    th { background:#f1f4f8; font-weight:700; }
+    .filter-row { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+    .filter-row button { min-height:40px; border:1px solid var(--border); background:#fff; border-radius:8px; padding:7px 11px; cursor:pointer; }
+    .filter-row button[aria-pressed="true"] { color:#fff; background:var(--primary); border-color:var(--primary); }
+    .source-row { display:grid; grid-template-columns:1.3fr .8fr .8fr 1fr; gap:12px; align-items:center; padding:14px 0; border-bottom:1px solid #e1e6ed; }
+    .source-row:last-child { border-bottom:0; }
+    .state-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .state-swatch { border-top:4px solid var(--border); }
+    .state-swatch.warn { border-top-color:var(--warning); }
+    .state-swatch.danger { border-top-color:var(--danger); }
+    .state-swatch.info { border-top-color:var(--info); }
+    .state-swatch.success { border-top-color:var(--success); }
+    .empty { text-align:center; padding:44px 20px; border:1px dashed #9ca7b5; border-radius:10px; background:#fafbfc; }
+    .empty .shape { width:34px; height:34px; border:2px solid #667085; border-radius:8px; margin:0 auto 12px; display:grid; place-items:center; }
+    .mobile-only { display:none; }
+    .toast { position:fixed; right:24px; bottom:24px; z-index:50; max-width:360px; padding:13px 16px; color:#fff; background:#25304a; border-radius:9px; box-shadow:var(--shadow); }
+    footer { margin-top:30px; color:var(--secondary); font-size:13px; text-align:center; }
+
+    @media (max-width:1100px) {
+      .app { grid-template-columns:68px minmax(0,1fr); }
+      .sidebar { padding:20px 8px; align-items:center; }
+      .brand strong { font-size:0; }
+      .brand strong::after { content:"AMR"; font-size:15px; }
+      .brand span,.nav .label,.sidebar-note { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+      .nav button { padding:10px; justify-content:center; }
+      .topbar { padding-inline:24px; }
+      .content { padding-inline:24px; }
+      .cols-4 { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    }
+    @media (max-width:760px) {
+      body { font-size:16px; line-height:1.5; }
+      .app { display:block; }
+      .sidebar { position:fixed; z-index:30; left:0; right:0; bottom:0; top:auto; height:72px; padding:7px 6px env(safe-area-inset-bottom); display:block; border-top:1px solid #454482; }
+      .brand,.sidebar-note { display:none; }
+      .nav { grid-template-columns:repeat(5,1fr); gap:2px; height:100%; }
+      .nav button { min-height:56px; padding:5px 2px; border-radius:7px; flex-direction:column; gap:2px; font-size:14px; text-align:center; }
+      .nav .label { position:static; width:auto; height:auto; overflow:visible; clip:auto; line-height:1.1; }
+      .nav button:nth-child(n+6) { display:none; }
+      .nav .glyph { width:22px; height:22px; }
+      .demo-banner { min-height:50px; padding:8px 14px; font-size:14px; }
+      .topbar { position:static; padding:10px 16px; flex-wrap:wrap; }
+      .search { flex-basis:100%; max-width:none; order:2; }
+      .topbar .desktop-control { display:none; }
+      .mobile-only { display:inline-flex; }
+      .content { padding:20px 16px 100px; }
+      .truth { display:block; padding:13px 14px; }
+      .truth strong { display:block; white-space:normal; margin-bottom:7px; }
+      .truth dl { display:grid; grid-template-columns:1fr 1fr; gap:6px 10px; }
+      .truth dl div { display:block; }
+      .truth dt,.truth dd { font-size:14px; }
+      .page-head { display:block; }
+      .page-head h1 { font-size:24px; line-height:1.35; }
+      .actions { justify-content:flex-start; margin-top:14px; }
+      .control { min-height:44px; }
+      .grid,.cols-4,.cols-3,.cols-2,.main-aside,.state-grid,.split { grid-template-columns:1fr; }
+      .card { padding:16px; }
+      .event-top { display:block; }
+      .event-top .tag-row { margin-top:10px; }
+      .event-card h2 { font-size:18px; }
+      .original-title { font-size:16px; }
+      .meta { font-size:14px; }
+      .source-row { grid-template-columns:1fr; gap:4px; }
+      .source-row > *:not(:first-child) { padding-left:12px; border-left:2px solid #d7dde6; }
+      .chart { overflow-x:auto; gap:10px; }
+      .bar { min-width:38px; }
+      .toast { left:16px; right:16px; bottom:90px; }
+      th,td { padding:9px 10px; }
+    }
+    @media (max-width:350px) {
+      .content { padding-inline:12px; }
+      .topbar { padding-inline:12px; }
+      .truth dl { grid-template-columns:1fr; }
+      .nav button { font-size:14px; }
+      .card { padding:14px; }
+      .tag { font-size:12px; }
+    }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition:none!important; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">跳到主要内容</a>
+  <div class="app">
+    <aside class="sidebar" aria-label="主导航">
+      <div class="brand"><strong>AI Model Radar</strong><span>AI 开发圈新闻雷达</span></div>
+      <nav class="nav">
+        <button data-view="today"><span class="glyph">今</span><span class="label">今日雷达</span></button>
+        <button data-view="events"><span class="glyph">全</span><span class="label">全部事件</span></button>
+        <button data-view="detail"><span class="glyph">详</span><span class="label">事件详情</span></button>
+        <button data-view="trends"><span class="glyph">趋</span><span class="label">趋势版本</span></button>
+        <button data-view="open"><span class="glyph">开</span><span class="label">开源发布</span></button>
+        <button data-view="history"><span class="glyph">史</span><span class="label">历史修订</span></button>
+        <button data-view="sources"><span class="glyph">源</span><span class="label">来源质量</span></button>
+        <button data-view="states"><span class="glyph">态</span><span class="label">状态组件</span></button>
+      </nav>
+      <div class="sidebar-note">只读设计原型<br>无编辑、生成、发布或删除能力</div>
+    </aside>
+    <div class="shell">
+      <div class="demo-banner"><span class="shape" aria-hidden="true"></span>目标态界面示例 · 逐条中文对照尚未接通 · 下列译文均为界面演示内容</div>
+      <header class="topbar">
+        <div class="search"><label class="hidden" for="global-search">搜索中文与原文</label><input id="global-search" type="search" placeholder="搜索中文标题、原文标题、版本或来源"><kbd>/</kbd></div>
+        <button class="control desktop-control" data-view="history">快照历史</button>
+        <button class="control desktop-control" data-view="sources">来源质量</button>
+        <button class="control mobile-only" data-view="states">状态</button>
+      </header>
+      <main id="main" class="content" tabindex="-1">
+        <div class="truth" aria-label="数据真相状态">
+          <strong>真实新闻服务保持运行</strong>
+          <dl>
+            <div><dt>中文对照</dt><dd>尚未接通</dd></div>
+            <div><dt>原文事实根</dt><dd>始终保留</dd></div>
+            <div><dt>失败行为</dt><dd>不阻断新闻</dd></div>
+            <div><dt>原型性质</dt><dd>目标态演示</dd></div>
+          </dl>
+        </div>
+        <div id="view"></div>
+        <footer>设计原型 v1.0 · 静态原型不能证明真实数据接入、读屏播报或服务实现</footer>
+      </main>
+    </div>
+  </div>
+  <div id="announcer" class="hidden" aria-live="polite"></div>
+
+  <template id="today-view">
+    <section>
+      <header class="page-head"><div><h1>今日雷达</h1><p>先读中文，再核对原文；新闻真实性不由译文状态决定。</p></div><div class="actions"><button class="control" data-filter="all">全部状态</button><button class="control" data-view="history">查看历史</button></div></header>
+      <div class="grid cols-4">
+        <article class="card metric"><small>正式事件 · 界面演示</small><b>12</b><span>真实数量须由当前快照提供</span></article>
+        <article class="card metric"><small>中文内容可用</small><b>9</b><span>覆盖率不等于质量</span></article>
+        <article class="card metric"><small>译文待更新</small><b>2</b><span>原文 revision 已变化</span></article>
+        <article class="card metric"><small>暂无译文</small><b>1</b><span>原文仍完整可读</span></article>
+      </div>
+      <div class="section-title"><h2>事件</h2><p id="result-label">3 条界面演示内容</p></div>
+      <div class="filter-row" aria-label="中文状态筛选">
+        <button data-status="all" aria-pressed="true">全部</button><button data-status="available" aria-pressed="false">有中文</button><button data-status="pending" aria-pressed="false">待更新</button><button data-status="failed" aria-pressed="false">失败/无译文</button>
+      </div>
+      <div class="grid" data-event-list>
+        <article class="card event-card" data-status-value="available" data-search-value="anthropic model context protocol sdk typescript">
+          <div class="event-top"><span class="tag fact">来源事实</span><div class="tag-row"><span class="tag machine">机器翻译</span><span class="tag">中文 v2</span></div></div>
+          <h2>Anthropic 更新 Model Context Protocol TypeScript SDK</h2>
+          <p class="original-title" lang="en">Anthropic updates the Model Context Protocol TypeScript SDK</p>
+          <div class="summary"><span class="summary-label">中文事实摘要</span><p>Anthropic 更新了 Model Context Protocol 的 TypeScript SDK；版本号与变更范围应以原始发布证据为准。</p><ul class="key-points"><li>保留 <span class="mono">Model Context Protocol</span> 与 <span class="mono">TypeScript SDK</span> 原名</li><li>不把代码更新描述为未经证实的正式发布</li></ul></div>
+          <button class="text-button" data-toggle-original aria-expanded="false">展开原文摘要</button>
+          <div class="original-summary hidden" lang="en">Original excerpt placeholder for layout only. Refer to the canonical source for the complete statement.</div>
+          <div class="meta"><span>发布方：Anthropic</span><span>原文 revision：r3</span><span>中文 revision：zh-r2</span><span>界面演示内容</span></div>
+          <div class="actions"><button class="control" data-view="detail">查看事件详情</button><a class="control" href="https://example.com" target="_blank" rel="noreferrer" aria-label="查看 example.com 原文证据，新标签页打开">查看原文证据 ↗</a></div>
+        </article>
+        <article class="card event-card" data-status-value="pending" data-search-value="openai api deprecation responses api">
+          <div class="event-top"><span class="tag fact">来源事实</span><div class="tag-row"><span class="tag warn">译文待更新</span><span class="tag none">旧版译文</span></div></div>
+          <h2>OpenAI API 弃用时间说明已更新</h2>
+          <p class="original-title" lang="en">OpenAI updates API deprecation timeline guidance</p>
+          <div class="status-panel card"><strong>原文已更新，译文待更新</strong><p>当前原文为 <span class="mono">r5</span>；下方旧版译文对应 <span class="mono">r4</span>，不能作为当前译文。</p></div>
+          <div class="meta"><span>发布时间：界面演示</span><span>原文 r5 → 中文 zh-r4</span><span>不改变新闻快照</span></div>
+          <button class="control" data-view="detail">查看版本关系</button>
+        </article>
+        <article class="card event-card" data-status-value="failed" data-search-value="github copilot agent release">
+          <div class="event-top"><span class="tag fact">来源事实</span><div class="tag-row"><span class="tag danger">译文生成失败</span><span class="tag none">暂无译文</span></div></div>
+          <h2>暂无中文标题</h2>
+          <p class="original-title" lang="en">GitHub announces an update to Copilot coding agent</p>
+          <div class="status-panel danger card"><strong>中文对照暂不可用</strong><p>原文与证据仍可阅读。失败不会清空事件列表、替换快照或回退 Demo。</p></div>
+          <div class="meta"><span>形成方式：无译文</span><span>失败原因：安全说明可见</span><span>界面演示内容</span></div>
+          <button class="control" data-view="detail">只读查看原文</button>
+        </article>
+      </div>
+      <div id="no-results" class="empty hidden"><div class="shape">0</div><h2>没有符合当前条件的事件</h2><p>这是筛选结果为空，不代表今日真实事件为 0。</p><button class="control" data-clear-filter>清除筛选</button></div>
+    </section>
+  </template>
+
+  <template id="events-view">
+    <section><header class="page-head"><div><h1>全部事件</h1><p>中文与原文使用同一事件身份和 revision 链。</p></div><div class="actions"><button class="control">筛选（3）</button><button class="control">紧凑密度</button></div></header>
+      <div class="card"><div class="filter-row"><button aria-pressed="true">全部日期</button><button aria-pressed="false">中文可用</button><button aria-pressed="false">待更新</button><button aria-pressed="false">无译文</button><button aria-pressed="false">人工译文</button><button aria-pressed="false">机器翻译</button></div><p class="meta">搜索会同时匹配中文标题、原文标题、公开版本字段和来源；结果需标明“命中中文”或“命中原文”。</p></div>
+      <div class="section-title"><h2>搜索结果</h2><p>界面演示 · 3 条</p></div>
+      <div class="grid cols-2"><article class="card event-card"><span class="tag machine">机器翻译</span><h2>Model Context Protocol SDK 更新</h2><p class="original-title" lang="en">Model Context Protocol SDK update</p><p><mark>命中中文</mark> · Model Context Protocol 保留原名</p><button class="control" data-view="detail">打开详情</button></article><article class="card event-card"><span class="tag human">人工译文</span><h2>模型版本说明已发布</h2><p class="original-title" lang="en">New model release notes published</p><p><mark>命中原文</mark> · release notes</p><button class="control" data-view="detail">打开详情</button></article></div>
+    </section>
+  </template>
+
+  <template id="detail-view">
+    <section><header class="page-head"><div><h1>事件详情</h1><p>事件 <span class="mono">evt_demo_001</span> · 原文与中文版本明确配对。</p></div><div class="actions"><button class="control" data-view="today">返回今日上下文</button><button class="control" data-view="history">修订历史</button></div></header>
+      <div class="status-panel info card"><strong>原文已更新，译文待更新</strong><p>当前原文 <span class="mono">r5</span>；当前可见旧版译文对应 <span class="mono">r4</span>。下列内容为目标态界面示例。</p></div>
+      <div class="split" style="margin-top:16px"><article class="card"><span class="pane-label">中文对照</span><div class="tag-row"><span class="tag warn">译文待更新</span><span class="tag machine">机器翻译</span><span class="tag">中文 zh-r4</span></div><h2>OpenAI API 弃用时间说明已更新</h2><span class="summary-label">中文事实摘要 · 对应原文 r4</span><p>OpenAI 更新了 API 弃用时间说明。具体端点、版本和生效日期必须以右侧原文证据为准。</p><h3>中文关键变化</h3><ul class="key-points"><li><span class="mono">Responses API</span> 名称保持不变</li><li>旧版译文不得冒充 r5 的当前译文</li></ul><div class="system-eval"><strong>系统评估</strong><p>开发者应检查受影响端点；这是系统评估，不是发布方原文观点。</p></div></article>
+      <article class="card"><span class="pane-label">原文与证据</span><div class="tag-row"><span class="tag fact">来源事实</span><span class="tag">原文 r5</span></div><h2 lang="en">OpenAI updates API deprecation timeline guidance</h2><p lang="en">Original excerpt placeholder for the target layout. Canonical facts, dates, endpoints and version identifiers remain unchanged.</p><dl><dt>发布方</dt><dd>OpenAI</dd><dt>版本字段</dt><dd><span class="mono">Responses API</span></dd><dt>规范链接</dt><dd><a href="https://example.com" target="_blank" rel="noreferrer">example.com 原文证据，新标签页打开 ↗</a></dd></dl></article></div>
+      <div class="section-title"><h2>原文与中文修订链</h2><p>只追加，不覆盖历史</p></div><div class="card timeline"><div class="timeline-item"><strong>原文 r4 首次发布</strong><time>界面演示时间</time></div><div class="timeline-item"><strong>中文 zh-r4 形成</strong><time>机器翻译 · 策略版本示例</time></div><div class="timeline-item current"><strong>原文 r5 当前版本</strong><time>新增变更 · 中文待更新</time></div><div class="timeline-item failed"><strong>中文 zh-r5 处理失败</strong><time>原文仍可阅读 · 快照不变</time></div></div>
+    </section>
+  </template>
+
+  <template id="trends-view">
+    <section><header class="page-head"><div><h1>趋势与版本</h1><p>图表数值保持原样；下钻事件使用统一中文对照契约。</p></div><div class="actions"><select class="control" aria-label="趋势周期"><option>过去 7 日</option><option>过去 30 日</option><option>过去 90 日</option></select><button class="control" data-table-toggle aria-expanded="false">显示等价表</button></div></header>
+      <div class="grid main-aside"><article class="card"><h2>本雷达已接入来源样本趋势</h2><p class="meta">界面演示数据 · 样本 N=32 · 缺失日 1 · 规则版本示例</p><div class="chart" role="img" aria-label="七日事件样本柱状图；完整数据见等价表"><span class="chart-note">单位：事件数（界面演示）</span><div class="bar" style="--h:42%"><b>4</b><span>周一</span></div><div class="bar" style="--h:65%"><b>7</b><span>周二</span></div><div class="bar" style="--h:54%"><b>5</b><span>周三</span></div><div class="bar" style="--h:0%;border-style:dashed"><b>缺失</b><span>周四</span></div><div class="bar" style="--h:78%"><b>9</b><span>周五</span></div><div class="bar" style="--h:50%"><b>5</b><span>周六</span></div><div class="bar" style="--h:34%"><b>2</b><span>周日</span></div></div><div data-equivalent-table class="hidden"><table><caption class="hidden">趋势图完整等价数据</caption><thead><tr><th>ID</th><th>日期</th><th>事件数</th><th>状态</th></tr></thead><tbody><tr><td>d1</td><td>周一</td><td>4</td><td>有样本</td></tr><tr><td>d2</td><td>周二</td><td>7</td><td>有样本</td></tr><tr><td>d3</td><td>周三</td><td>5</td><td>有样本</td></tr><tr><td>d4</td><td>周四</td><td>—</td><td>样本缺失</td></tr><tr><td>d5</td><td>周五</td><td>9</td><td>有样本</td></tr><tr><td>d6</td><td>周六</td><td>5</td><td>有样本</td></tr><tr><td>d7</td><td>周日</td><td>2</td><td>有样本</td></tr></tbody></table></div></article><aside class="card"><h2>标记下钻</h2><span class="tag rule">规则生成</span><h3>模型版本事件</h3><p class="original-title" lang="en">Model version event</p><p>中文只解释事件事实，不翻译模型名、tag 或 commit。</p><button class="control" data-view="detail">查看双语详情</button></aside></div>
+    </section>
+  </template>
+
+  <template id="open-view">
+    <section><header class="page-head"><div><h1>开源与发布</h1><p>开放语义、许可证、tag 与 commit 原样保留。</p></div><div class="actions"><button class="control">开放语义筛选</button><button class="control">版本状态</button></div></header>
+      <div class="grid cols-2"><article class="card event-card"><div class="tag-row"><span class="tag human">人工译文</span><span class="tag fact">来源事实</span></div><h2>示例项目发布新版本</h2><p class="original-title" lang="en">Example project publishes a new release</p><table><tbody><tr><th>仓库</th><td><span class="mono">owner/repository</span></td></tr><tr><th>tag</th><td><span class="mono">v2.4.0</span></td></tr><tr><th>commit</th><td><span class="mono">8a3f…d19c</span></td></tr><tr><th>开放语义</th><td>开源 · <span class="mono">Apache-2.0</span></td></tr></tbody></table><div class="system-eval"><strong>系统评估</strong><p>是否需要迁移须由证据和 breaking 字段决定。</p></div></article><article class="card event-card"><div class="tag-row"><span class="tag none">暂无译文</span><span class="tag warn">译法待确认</span></div><h2>暂无中文标题</h2><p class="original-title" lang="en">Open-weights model release with source-available tooling</p><p>“open-weights” 与 “source-available” 保留原词，不能合并为“开源”。</p><button class="control" data-view="detail">查看原文与状态</button></article></div>
+    </section>
+  </template>
+
+  <template id="history-view">
+    <section><header class="page-head"><div><h1>历史快照与修订</h1><p>每个快照固定当时的原文 revision 与中文 revision。</p></div><div class="actions"><button class="control">选择日期</button><button class="control">比较相邻快照</button></div></header>
+      <div class="grid main-aside"><article class="card"><h2>事件修订时间线</h2><div class="timeline"><div class="timeline-item"><strong>原文 r1 首次发布</strong><time>界面演示时间 · 快照 snap-01</time></div><div class="timeline-item"><strong>中文 zh-r1 形成</strong><time>规则生成 · 对应原文 r1</time></div><div class="timeline-item"><strong>原文 r2 修订</strong><time>新增版本字段 · 快照 snap-02</time></div><div class="timeline-item failed"><strong>中文 zh-r2 处理失败</strong><time>历史旧译文仍留在 snap-01</time></div><div class="timeline-item current"><strong>中文 zh-r2 后续补齐</strong><time>追加快照 snap-03 · 不覆盖旧快照</time></div></div></article><aside class="card"><h2>版本配对</h2><table><thead><tr><th>快照</th><th>原文</th><th>中文</th></tr></thead><tbody><tr><td>snap-01</td><td>r1</td><td>zh-r1</td></tr><tr><td>snap-02</td><td>r2</td><td>无译文</td></tr><tr><td>snap-03</td><td>r2</td><td>zh-r2</td></tr></tbody></table><p class="meta">界面演示内容 · PublishedSnapshot 只追加</p></aside></div>
+    </section>
+  </template>
+
+  <template id="sources-view">
+    <section><header class="page-head"><div><h1>来源与质量</h1><p>新闻来源健康与中文处理健康分开呈现。</p></div><div class="actions"><button class="control">查看数据口径</button><button class="control" data-view="states">中文状态说明</button></div></header>
+      <div class="grid cols-2"><article class="card"><h2>新闻来源健康</h2><p>真实来源、连接、新鲜度与证据质量仍按现有服务口径读取。</p><div class="source-row"><strong>官方文档</strong><span>政策允许</span><span class="tag fact">来源事实</span><span>真实状态由服务提供</span></div><div class="source-row"><strong>代码仓库</strong><span>政策允许</span><span class="tag fact">主源</span><span>真实状态由服务提供</span></div></article><article class="card"><h2>中文处理健康</h2><p>目标态组件，不得反写新闻来源状态。</p><div class="source-row"><strong>中文覆盖状态</strong><span>目标态</span><span class="tag warn">尚未接通</span><span>不冒充成功</span></div><div class="source-row"><strong>失败不阻断</strong><span>产品规则</span><span class="tag rule">规则明确</span><span>原文继续可读</span></div></article></div>
+      <div class="section-title"><h2>质量说明</h2><p>短句、可追溯、无营销话术</p></div><div class="card"><ul><li>人工译文、机器翻译、规则生成、无译文是形成方式，不是事实层级。</li><li>原文发生变化后，旧译文必须标为旧版，不能冒充当前译文。</li><li>专有名词、版本、代码、URL、数值和单位保持原样。</li><li>中文处理失败不会清空真实新闻或改变最近成功快照。</li></ul></div>
+    </section>
+  </template>
+
+  <template id="states-view">
+    <section><header class="page-head"><div><h1>中文对照状态组件</h1><p>十二种状态均使用文字、图形和边框，不只依赖颜色。</p></div><div class="actions"><button class="control" data-view="today">返回今日</button></div></header>
+      <div class="grid state-grid"><article class="card state-swatch success"><span class="tag human">人工译文</span><h3>人工译文已形成</h3><p>显示译文版本、复核时间和对应原文 revision。</p></article><article class="card state-swatch info"><span class="tag machine">机器翻译</span><h3>机器生成</h3><p>不能使用“人工复核”或“发布方原文”暗示。</p></article><article class="card state-swatch success"><span class="tag rule">规则生成</span><h3>结构化表述</h3><p>只根据版本、日期等已核验字段生成。</p></article><article class="card state-swatch"><span class="tag none">暂无译文</span><h3>明确空态</h3><p>不是加载中；原文与证据继续完整展示。</p></article><article class="card state-swatch info"><span class="tag machine">译文生成中</span><h3>局部处理</h3><p>不显示伪进度，不阻塞新闻列表。</p></article><article class="card state-swatch warn"><span class="tag warn">译文待更新</span><h3>原文已修订</h3><p>展示原文 revision，旧译文显著标旧版。</p></article><article class="card state-swatch warn"><span class="tag warn">部分译文生成失败</span><h3>局部失败</h3><p>已成功字段照常显示，缺失字段不猜填。</p></article><article class="card state-swatch danger"><span class="tag danger">译文生成失败</span><h3>单条失败</h3><p>原文可读，中文区显示安全原因。</p></article><article class="card state-swatch danger"><span class="tag danger">译文处理超时</span><h3>超时</h3><p>有旧有效版本时保留并标旧版。</p></article><article class="card state-swatch warn"><span class="tag warn">服务暂不可用</span><h3>中文服务不可用</h3><p>新闻来源健康与该状态分开展示。</p></article><article class="card state-swatch"><span class="tag none">历史译文待补齐</span><h3>历史回填</h3><p>不修改旧快照，也不伪装当前失败。</p></article><article class="card state-swatch warn"><span class="tag warn">译法待确认</span><h3>术语不确定</h3><p>保留原词，不输出低可信猜译。</p></article></div>
+    </section>
+  </template>
+
+  <script>
+    const labels={today:'今日雷达',events:'全部事件',detail:'事件详情',trends:'趋势与版本',open:'开源与发布',history:'历史快照与修订',sources:'来源与质量',states:'状态组件'};
+    const view=document.querySelector('#view'); const announce=document.querySelector('#announcer');
+    function showToast(message){ const old=document.querySelector('.toast'); if(old) old.remove(); const toast=document.createElement('div'); toast.className='toast'; toast.setAttribute('role','status'); toast.textContent=message; document.body.appendChild(toast); setTimeout(()=>toast.remove(),2600); }
+    function render(name, push=true){ if(!labels[name]) name='today'; view.replaceChildren(document.querySelector(`#${name}-view`).content.cloneNode(true)); document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-current',b.dataset.view===name?'page':'false')); if(push) history.replaceState(null,'',`#${name}`); document.title=`${labels[name]}｜AI Model Radar 设计原型`; announce.textContent=`已切换到${labels[name]}`; bindView(); document.querySelector('#main').focus({preventScroll:true}); }
+    function bindView(){
+      document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>render(b.dataset.view));
+      document.querySelectorAll('[data-toggle-original]').forEach(b=>b.onclick=()=>{const p=b.nextElementSibling; const open=b.getAttribute('aria-expanded')==='true'; b.setAttribute('aria-expanded',String(!open)); p.classList.toggle('hidden',open); b.textContent=open?'展开原文摘要':'收起原文摘要'; announce.textContent=open?'原文摘要已收起':'原文摘要已展开';});
+      document.querySelectorAll('[data-status]').forEach(b=>b.onclick=()=>filterEvents(b.dataset.status,b));
+      document.querySelectorAll('[data-clear-filter]').forEach(b=>b.onclick=()=>filterEvents('all',document.querySelector('[data-status="all"]')));
+      document.querySelectorAll('[data-table-toggle]').forEach(b=>b.onclick=()=>{const t=document.querySelector('[data-equivalent-table]'); const open=b.getAttribute('aria-expanded')==='true'; b.setAttribute('aria-expanded',String(!open)); t.classList.toggle('hidden',open); b.textContent=open?'显示等价表':'隐藏等价表'; announce.textContent=open?'等价表已隐藏':'等价表已显示';});
+    }
+    function filterEvents(status,button){ const cards=[...document.querySelectorAll('[data-status-value]')]; if(!cards.length)return; document.querySelectorAll('[data-status]').forEach(x=>x.setAttribute('aria-pressed',String(x===button))); let count=0; cards.forEach(c=>{const show=status==='all'||c.dataset.statusValue===status; c.classList.toggle('hidden',!show); if(show)count++;}); const empty=document.querySelector('#no-results'); if(empty)empty.classList.toggle('hidden',count>0); const label=document.querySelector('#result-label'); if(label)label.textContent=`${count} 条界面演示内容`; announce.textContent=`筛选完成，共 ${count} 条结果`; }
+    document.querySelector('#global-search').addEventListener('input',e=>{ const q=e.target.value.trim().toLowerCase(); const cards=[...document.querySelectorAll('[data-search-value]')]; if(!cards.length)return; let count=0; cards.forEach(c=>{const show=!q||c.dataset.searchValue.includes(q)||c.textContent.toLowerCase().includes(q); c.classList.toggle('hidden',!show); if(show)count++;}); const label=document.querySelector('#result-label'); if(label)label.textContent=`${count} 条匹配结果`; announce.textContent=`搜索完成，共 ${count} 条匹配结果`; });
+    document.addEventListener('keydown',e=>{ if(e.key==='/' && document.activeElement.tagName!=='INPUT'){ e.preventDefault(); document.querySelector('#global-search').focus(); } if(e.key==='Escape' && document.activeElement===document.querySelector('#global-search')){ document.querySelector('#global-search').value=''; document.querySelector('#global-search').dispatchEvent(new Event('input')); document.querySelector('#global-search').blur(); showToast('搜索已清除'); }});
+    window.addEventListener('hashchange',()=>render(location.hash.slice(1)||'today',false));
+    render(location.hash.slice(1)||'today',false);
+  </script>
+</body>
+</html>
