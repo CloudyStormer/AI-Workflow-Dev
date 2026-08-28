@@ -2064,7 +2064,7 @@ artifacts:
     version: "1.0"
     sha256: bd5f10e014c9b9e9a9c750dd0d3756f1191dbfac40f8ee92c33710dde8605407
     ui_index_path: ui/README.md
-    ui_index_sha256: d70a05e5f1074be17faec6db86cb25552fb7b8965d6f0fc23523d9ca2f6b88b5
+    ui_index_sha256: f66ffc10c9c1d83886ea693d6e345b249270f90781f0e47d0029141857197609
     coverage:
       surfaces:
         - today
@@ -2117,9 +2117,14 @@ artifacts:
       implementation_boundary: passed
     completed_at: "2026-08-28T10:23:42+08:00"
     validated_at: "2026-08-28T10:23:42+08:00"
-    status: ready-for-review
-    review_decision: pending
-    next_gate: ui-prompt-review
+    status: approved
+    review_decision: approved
+    review_approval: approval-20260828-radar-bilingual-chinese-counterpart-ui-prompt-v1
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-28T10:44:21+08:00"
+    user_reply: "通过"
+    completed_gate: ui-prompt-review
+    next_action: await-explicit-ui-design-or-other-authorized-route
     downstream_role_authorized: false
     production_release: frozen
     auto_route: false

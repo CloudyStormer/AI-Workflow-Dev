@@ -1698,3 +1698,28 @@ approvals:
     production_release: frozen
     advance_limit: one-ui-prompt-delivery-unit-only
     auto_advance_beyond_next: false
+  - id: approval-20260828-radar-bilingual-chinese-counterpart-ui-prompt-v1
+    run_id: run-20260731-intake-001
+    gate: ui-prompt-review
+    project_id: ai-model-radar
+    role: role-ui-designer
+    role_task_id: "019fb74a-9f5f-7433-999e-2e30012296a0"
+    role_task_title: "04 UI/UX设计师"
+    work_item: AMR-UI-BILINGUAL-001
+    change_id: ui-prompt-20260828-radar-bilingual-chinese-counterpart-v1
+    artifact: artifact-radar-bilingual-chinese-counterpart-ui-prompt-001
+    path: ui/09-bilingual-chinese-counterpart-ui-prompt.md
+    version: "1.0"
+    sha256: bd5f10e014c9b9e9a9c750dd0d3756f1191dbfac40f8ee92c33710dde8605407
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-28T10:44:21+08:00"
+    user_reply: "通过"
+    authorization_source: direct-user-approval-in-canonical-fixed-04-task
+    effect: "批准逐条中文对照 UI Prompt v1.0；依本工作单元明确边界不自动生成 UI 设计，不授权架构、开发、数据库、采集、服务或部署。"
+    completed_gate: ui-prompt-review
+    downstream_role_authorized: false
+    next_action: await-explicit-ui-design-or-other-authorized-route
+    production_release: frozen
+    auto_route: false
+    auto_advance_beyond_next: false

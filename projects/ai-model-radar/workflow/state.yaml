@@ -4,7 +4,7 @@ run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
 stage: ui-ux
-status: radar-bilingual-chinese-counterpart-ui-prompt-ready-for-review
+status: radar-bilingual-chinese-counterpart-ui-prompt-approved-no-auto-route
 current_role: role-ui-designer
 blocked: false
 ui_assets:
@@ -114,13 +114,15 @@ next_approval:
   gate: ui-prompt-review
   scope: "权威固定04仅交付逐条中文对照 UI Prompt 增量；覆盖原文与中文并列、形成标签、待更新／失败、历史修订、移动端与无障碍，不做 UI 设计、架构、开发、数据库、服务或部署。"
   decision_owner: 超级无敌帅超超总
-  decision: pending
-  delivery_status: ready-for-review
+  decision: approved
+  approval: approval-20260828-radar-bilingual-chinese-counterpart-ui-prompt-v1
+  decided_at: "2026-08-28T10:44:21+08:00"
+  delivery_status: approved
   expected_artifact: artifact-radar-bilingual-chinese-counterpart-ui-prompt-001
   expected_path: ui/09-bilingual-chinese-counterpart-ui-prompt.md
   expected_version: "1.0"
   artifact_sha256: bd5f10e014c9b9e9a9c750dd0d3756f1191dbfac40f8ee92c33710dde8605407
-  ui_index_sha256: d70a05e5f1074be17faec6db86cb25552fb7b8965d6f0fc23523d9ca2f6b88b5
+  ui_index_sha256: f66ffc10c9c1d83886ea693d6e345b249270f90781f0e47d0029141857197609
   input_artifact: artifact-radar-bilingual-chinese-counterpart-product-delta-001
   input_path: docs/02-bilingual-chinese-counterpart-product-delta.md
   input_version: "1.0"
@@ -136,6 +138,10 @@ next_approval:
   write_baseline: 104daaa726d5e84e64bd6d587c2e7afc80d14cdd
   completed_at: "2026-08-28T10:23:42+08:00"
   validated_at: "2026-08-28T10:23:42+08:00"
+  completed_gate: ui-prompt-review
+  effect: approved-prompt-only-no-automatic-ui-design-route
+  next_action: await-explicit-ui-design-or-other-authorized-route
+  downstream_role_authorized: false
   advance_limit: one-ui-prompt-delivery-unit-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
@@ -2171,13 +2177,18 @@ bilingual_chinese_counterpart_ui_prompt_assignment:
     path: ui/09-bilingual-chinese-counterpart-ui-prompt.md
     version: "1.0"
     sha256: bd5f10e014c9b9e9a9c750dd0d3756f1191dbfac40f8ee92c33710dde8605407
-    ui_index_sha256: d70a05e5f1074be17faec6db86cb25552fb7b8965d6f0fc23523d9ca2f6b88b5
+    ui_index_sha256: f66ffc10c9c1d83886ea693d6e345b249270f90781f0e47d0029141857197609
   scheduling: authorized-ready-for-canonical-fixed-04-delivery
-  delivery_status: ready-for-review
+  delivery_status: approved
   write_baseline: 104daaa726d5e84e64bd6d587c2e7afc80d14cdd
   started_at: "2026-08-28T10:20:00+08:00"
   completed_at: "2026-08-28T10:23:42+08:00"
   validated_at: "2026-08-28T10:23:42+08:00"
+  approved_at: "2026-08-28T10:44:21+08:00"
+  review_approval: approval-20260828-radar-bilingual-chinese-counterpart-ui-prompt-v1
+  review_decision: approved
+  completed_gate: ui-prompt-review
+  next_action: await-explicit-ui-design-or-other-authorized-route
   validation:
     markdown_structure: passed
     AC_count: 18
@@ -2190,4 +2201,4 @@ bilingual_chinese_counterpart_ui_prompt_assignment:
   stop_gate: ui-prompt-review
   production_release: frozen
   auto_advance_beyond_next: false
-updated_at: "2026-08-28T10:23:42+08:00"
+updated_at: "2026-08-28T10:44:21+08:00"
