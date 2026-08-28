@@ -1825,3 +1825,65 @@ approvals:
     production_release: frozen
     advance_limit: one-architecture-impact-delivery-unit-only
     auto_advance_beyond_next: false
+  - id: approval-20260828-radar-bilingual-chinese-counterpart-architecture-v1
+    run_id: run-20260731-intake-001
+    gate: architecture-review
+    project_id: ai-model-radar
+    work_item: AMR-ARCH-BILINGUAL-001
+    change_id: architecture-impact-20260828-radar-bilingual-chinese-counterpart-v1
+    artifact: artifact-radar-bilingual-chinese-counterpart-architecture-impact-001
+    path: docs/10-bilingual-chinese-counterpart-architecture-impact.md
+    version: "1.0"
+    sha256: e6b33a062727d84d1b0199d194820899276f6394bdd3ccdd2bde2d752a7c8b3a
+    source_commit: fee2fc1ec3b880ee4a139fb51ad118e02fc01162
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-28T17:19:25+08:00"
+    user_reply: "通过"
+    authorization_source: direct-user-approval-in-canonical-fixed-05-task
+    effect: "已批准当前架构影响评估，并自动授权唯一下一站固定02／AMR-PM-BILINGUAL-TASKS-001。本次只覆盖任务与验收拆解一个交付单元；该角色交付后停止等待审核，不代表其产物、数据、后端、前端、翻译服务或部署已获批准。"
+    completed_gate: architecture-review
+    downstream_role_authorized: true
+    authorized_next_role: role-pm
+    authorized_next_work_item: AMR-PM-BILINGUAL-TASKS-001
+    next_entry_authorization: approval-20260828-radar-bilingual-chinese-counterpart-task-breakdown-entry
+    canonical_next_role_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
+    production_release: frozen
+    auto_route: unique-next-stage-only
+    auto_advance_beyond_next: false
+  - id: approval-20260828-radar-bilingual-chinese-counterpart-task-breakdown-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    project_id: ai-model-radar
+    role: role-pm
+    role_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
+    role_task_title: "02 项目经理"
+    disabled_duplicate_task_id: "01a02335-2d63-7e63-bd36-b63017115d77"
+    work_item: AMR-PM-BILINGUAL-TASKS-001
+    change_id: plan-20260828-radar-bilingual-chinese-counterpart-task-breakdown-v1
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-28T17:19:25+08:00"
+    authorization_source: approval-20260828-radar-bilingual-chinese-counterpart-architecture-v1
+    input:
+      artifact: artifact-radar-bilingual-chinese-counterpart-architecture-impact-001
+      path: docs/10-bilingual-chinese-counterpart-architecture-impact.md
+      version: "1.0"
+      sha256: e6b33a062727d84d1b0199d194820899276f6394bdd3ccdd2bde2d752a7c8b3a
+      approval: approval-20260828-radar-bilingual-chinese-counterpart-architecture-v1
+    scope: "只将已批准架构拆成依赖有序、可唯一路由的小任务，覆盖原文/中文 revision 数据迁移、4317 契约与幂等处理、4174 接入、审查和 QA 验证；必须明确首个唯一工作项。"
+    exclusions:
+      - frontend-backend-data-or-database-implementation
+      - collector-runtime-or-real-translation-execution
+      - third-party-provider-account-credential-or-payment
+      - service-start-stop-or-restart
+      - production-deployment
+      - automatic-development-route
+    expected_output:
+      artifact: artifact-radar-bilingual-chinese-counterpart-task-breakdown-001
+      path: docs/11-bilingual-chinese-counterpart-task-breakdown.md
+      version: "1.0"
+    stop_gate: task-breakdown-review
+    production_release: frozen
+    advance_limit: one-task-breakdown-delivery-unit-only
+    auto_advance_beyond_next: false

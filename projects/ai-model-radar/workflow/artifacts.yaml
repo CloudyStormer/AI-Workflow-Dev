@@ -2101,12 +2101,24 @@ artifacts:
       service_restart: not-performed
     completed_at: "2026-08-28T16:11:00+08:00"
     validated_at: "2026-08-28T16:11:00+08:00"
-    status: ready-for-review
-    review_decision: pending
-    result: ready-for-architecture-review
+    status: approved
+    review_status: approved
+    review_decision: approved
+    review_approval: approval-20260828-radar-bilingual-chinese-counterpart-architecture-v1
+    approved_by: 超级无敌帅超超总
+    approved_at: "2026-08-28T17:19:25+08:00"
+    source_commit: fee2fc1ec3b880ee4a139fb51ad118e02fc01162
+    result: approved-and-fixed-02-task-breakdown-authorized
     stop_gate: architecture-review
-    downstream_role_authorized: false
+    completed_gate: architecture-review
+    downstream_role_authorized: true
+    authorized_next_role: role-pm
+    authorized_next_work_item: AMR-PM-BILINGUAL-TASKS-001
+    next_entry_authorization: approval-20260828-radar-bilingual-chinese-counterpart-task-breakdown-entry
+    canonical_next_role_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
+    disabled_duplicate_task_id_for_next_role: "01a02335-2d63-7e63-bd36-b63017115d77"
     production_release: frozen
+    auto_route: unique-next-stage-only
     auto_advance_beyond_next: false
   - id: artifact-radar-bilingual-chinese-counterpart-ui-design-001
     run_id: run-20260731-intake-001

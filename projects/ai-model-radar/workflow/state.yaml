@@ -3,9 +3,9 @@ project_id: ai-model-radar
 run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
-stage: architecture-review
-status: radar-bilingual-chinese-counterpart-architecture-impact-ready-for-review
-current_role: role-architect
+stage: task-breakdown-entry
+status: radar-bilingual-chinese-counterpart-task-breakdown-entry-authorized-routed
+current_role: role-pm
 blocked: false
 blocker: null
 resolved_blocker:
@@ -125,34 +125,29 @@ completed_release_completeness_architecture_review:
   advance_limit: unique-next-stage-only
   auto_advance_beyond_next: false
 next_approval:
-  gate: architecture-review
-  scope: "固定05仅评估逐条中文对照对事件读取契约、版本化持久化、快照只追加、幂等刷新、失败不阻断、前后端接口与安全边界的影响；不修改代码、数据库、采集器、4174/4317 服务或部署。"
+  gate: task-breakdown-review
+  scope: "固定02仅将已批准架构拆成依赖有序、可唯一路由的小任务，覆盖原文/中文 revision 数据迁移、4317 契约与幂等处理、4174 接入、审查和 QA 验证；必须明确首个唯一工作项，不执行实现。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
-  expected_artifact: artifact-radar-bilingual-chinese-counterpart-architecture-impact-001
-  expected_path: docs/10-bilingual-chinese-counterpart-architecture-impact.md
+  delivery_status: routed-awaiting-fixed-02-role-entry
+  expected_artifact: artifact-radar-bilingual-chinese-counterpart-task-breakdown-001
+  expected_path: docs/11-bilingual-chinese-counterpart-task-breakdown.md
   expected_version: "1.0"
-  input_artifact: artifact-radar-bilingual-chinese-counterpart-ui-design-001
-  input_path: ui/10-bilingual-chinese-counterpart-ui-design.md
+  input_artifact: artifact-radar-bilingual-chinese-counterpart-architecture-impact-001
+  input_path: docs/10-bilingual-chinese-counterpart-architecture-impact.md
   input_version: "1.0"
-  input_sha256: b453bd0d6aae23cdd01210336cdcf51f87cd20ae21d913e83ab22a83e4924b40
-  input_approval: approval-20260828-radar-bilingual-chinese-counterpart-ui-design-v1
-  work_item: AMR-ARCH-BILINGUAL-001
-  change_id: architecture-impact-20260828-radar-bilingual-chinese-counterpart-v1
-  entry_authorization: approval-20260828-radar-bilingual-chinese-counterpart-architecture-entry
-  role: role-architect
-  role_task_id: "019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db"
-  disabled_duplicate_task_id: "01a00c4e-cdb4-7bc3-9ade-310e0fb9aef0"
-  safe_checkpoint: 1e052d3b1a8daa4ed2bdbab18f32b2d734cabc38
-  assessment_baseline: e92b9d15951c431e27bf374b98530390fcb238a4
-  artifact_sha256: e6b33a062727d84d1b0199d194820899276f6394bdd3ccdd2bde2d752a7c8b3a
+  input_sha256: e6b33a062727d84d1b0199d194820899276f6394bdd3ccdd2bde2d752a7c8b3a
+  input_approval: approval-20260828-radar-bilingual-chinese-counterpart-architecture-v1
+  work_item: AMR-PM-BILINGUAL-TASKS-001
+  change_id: plan-20260828-radar-bilingual-chinese-counterpart-task-breakdown-v1
+  entry_authorization: approval-20260828-radar-bilingual-chinese-counterpart-task-breakdown-entry
+  role: role-pm
+  role_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
+  disabled_duplicate_task_id: "01a02335-2d63-7e63-bd36-b63017115d77"
   unique_conclusion: backend-and-data-changes-required-before-frontend-integration
-  completed_at: "2026-08-28T16:11:00+08:00"
-  validated_at: "2026-08-28T16:11:00+08:00"
   downstream_role_authorized: false
-  dispatch_status: completed-awaiting-architecture-review
-  advance_limit: one-architecture-impact-delivery-unit-only
+  dispatch_status: routed-awaiting-canonical-fixed-02-role-entry
+  advance_limit: one-task-breakdown-delivery-unit-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
   gate: cross-project-real-product-delta-review
@@ -2297,7 +2292,7 @@ bilingual_chinese_counterpart_architecture_assignment:
     - service-restart-4174-or-4317
     - task-breakdown-or-development
     - production-deployment
-  scheduling: completed-awaiting-review
+  scheduling: approved-and-routed-to-fixed-02
   routing_resolution:
     canonical_role_task_id: "019fb74a-a1a4-7a90-9a35-ebb4f3d9d6db"
     disabled_duplicate_task_id: "01a00c4e-cdb4-7bc3-9ade-310e0fb9aef0"
@@ -2321,8 +2316,61 @@ bilingual_chinese_counterpart_architecture_assignment:
     implementation_boundary: passed
   completed_at: "2026-08-28T16:11:00+08:00"
   validated_at: "2026-08-28T16:11:00+08:00"
-  result: ready-for-architecture-review
+  review_approval: approval-20260828-radar-bilingual-chinese-counterpart-architecture-v1
+  review_decision: approved
+  approved_by: 超级无敌帅超超总
+  approved_at: "2026-08-28T17:19:25+08:00"
+  completed_gate: architecture-review
+  downstream_role_authorized: true
+  authorized_next_role: role-pm
+  authorized_next_work_item: AMR-PM-BILINGUAL-TASKS-001
+  next_entry_authorization: approval-20260828-radar-bilingual-chinese-counterpart-task-breakdown-entry
+  canonical_next_role_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
+  disabled_duplicate_task_id_for_next_role: "01a02335-2d63-7e63-bd36-b63017115d77"
+  result: approved-and-fixed-02-task-breakdown-authorized
   stop_gate: architecture-review
   production_release: frozen
   auto_advance_beyond_next: false
-updated_at: "2026-08-28T16:11:00+08:00"
+bilingual_chinese_counterpart_task_breakdown_assignment:
+  change_id: plan-20260828-radar-bilingual-chinese-counterpart-task-breakdown-v1
+  work_item: AMR-PM-BILINGUAL-TASKS-001
+  role: role-pm
+  role_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
+  role_task_title: "02 项目经理"
+  disabled_duplicate_task_id: "01a02335-2d63-7e63-bd36-b63017115d77"
+  authorization: approval-20260828-radar-bilingual-chinese-counterpart-task-breakdown-entry
+  authorization_source: approval-20260828-radar-bilingual-chinese-counterpart-architecture-v1
+  input:
+    artifact: artifact-radar-bilingual-chinese-counterpart-architecture-impact-001
+    path: docs/10-bilingual-chinese-counterpart-architecture-impact.md
+    version: "1.0"
+    sha256: e6b33a062727d84d1b0199d194820899276f6394bdd3ccdd2bde2d752a7c8b3a
+    approval: approval-20260828-radar-bilingual-chinese-counterpart-architecture-v1
+  expected_output:
+    artifact: artifact-radar-bilingual-chinese-counterpart-task-breakdown-001
+    path: docs/11-bilingual-chinese-counterpart-task-breakdown.md
+    version: "1.0"
+  required_sequence:
+    - data-migration-and-revision-foundation
+    - backend-4317-contract-and-idempotence
+    - frontend-4174-integration
+    - independent-review-and-qa
+  requirements:
+    - dependency-ordered-small-work-items
+    - explicit-acceptance-and-evidence-per-work-item
+    - unique-first-work-item-and-role
+    - failure-and-rollback-boundaries
+  exclusions:
+    - frontend-backend-data-or-database-implementation
+    - collector-runtime-or-real-translation-execution
+    - third-party-provider-account-credential-or-payment
+    - service-start-stop-or-restart
+    - production-deployment
+    - automatic-development-route
+  scheduling: routed-awaiting-role-entry
+  unique_conclusion: backend-and-data-changes-required-before-frontend-integration
+  stop_gate: task-breakdown-review
+  downstream_role_authorized: false
+  production_release: frozen
+  auto_advance_beyond_next: false
+updated_at: "2026-08-28T17:19:25+08:00"
