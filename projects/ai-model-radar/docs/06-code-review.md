@@ -1,4 +1,106 @@
-# AI Model Radar MR-DATA-001 代码审查与修复复审报告
+# AI Model Radar 持续代码审查报告
+
+## v2.0 AMR-BI-DATA-101 双语 revision 数据基座代码审查
+
+### 审查元数据
+
+- project_id: `ai-model-radar`
+- work_item: `AMR-BI-DATA-101.REV`
+- change_id: `review-20260831-radar-bilingual-data-revision-foundation-001`
+- authorization: `approval-20260831-radar-bilingual-data-revision-foundation-code-review-entry`
+- input_artifact: `artifact-radar-bilingual-data-revision-foundation-001` v1.0
+- input_aggregate_sha256: `36da55aaac3daa717c4ea387958dbcb46b5773a0cb425c5016d379fbed8ba995`
+- reviewed_source_commit: `b24615e71501030d940365f75b16eb98a8e60237`
+- diff_base: `94562e5a7390a6f96aa3256d325b619ff56fa6ee`
+- delivery_commit: `12c4e25a58fe7c42b8f7c5d45542121407b18cbc`
+- routing_baseline: `3983110308ee89e4d953fb11e3232dc4828a858d`
+- reviewer: 固定 `09 代码审查员`（`role-code-reviewer`）
+- reviewed_at: `2026-08-31T15:38:05+08:00`
+- report_version: `2.0`
+- conclusion: `changes-requested`
+- finding_counts: `P0=0 / P1=3 / P2=1`
+- stop_gate: `code-review-conclusion-review`
+
+### 独立结论
+
+**请求修改，阻断 QA 与 `AMR-BI-DATA-102+`。** 本批六个权威路径、aggregate SHA-256、前进式编号、migration 文件校验和、事务回滚、原文／中文字段物理分表、复合主键、外键、`locale=zh-CN`、唯一索引与 UPDATE/DELETE 不可变触发器均已真实落地。Node.js 24.19.0 下 lint、typecheck、build、后端 61/61 和专项 migration 4/4 全部通过。
+
+但独立内存 SQLite 负向探针确认 3 项 Major：原文层的 `payload_sha256` 没有绑定父 `event_revisions` 的真实 payload；query readiness 只核对 migration 账本与文件哈希，双语表已缺失仍返回 true；当前状态 CHECK 可持久化 `formation_kind=none + status=stale + 中文正文` 等自相矛盾的事实。另有 1 项 Minor：`source_language` 的 SQL CHECK 接受 `--` 等非法语言标签。现有 4 个 migration 测试没有覆盖这些反例，因此绿灯不能推翻 findings。
+
+| 严重级别 | 数量 | 门禁影响 |
+| --- | ---: | --- |
+| Blocker / P0 | 0 | 无 P0 |
+| Major / P1 | 3 | 阻断 QA 和所有后续双语数据、后端、前端工作项 |
+| Minor / P2 | 1 | 与 P1 修复一并进入回归门 |
+
+### Major
+
+#### CR-AMR-BI-P1-001：原文 revision 地址存在，但内容哈希可与父 revision 脱钩
+
+- 位置：`backend/migrations/live/0002_bilingual_revision_foundation.sql:11-23`；`backend/tests/migration/migrations.test.ts:106-125`。
+- 问题：外键只约束 `(event_id, original_revision)` 指向 `event_revisions(event_id, revision)`，没有约束 `event_original_revisions.payload_sha256` 等于所引用父 revision 的 `payload_sha256`。当前 64 位小写十六进制 CHECK 只验证格式，不验证 lineage 内容身份。
+- 独立复现：在内存库中写入父 `event_revisions.payload_sha256=aaaa…`，随后以同一 `(event_id, revision)` 写入 `event_original_revisions.payload_sha256=bbbb…`，INSERT 成功；查询同时返回两个不同哈希。
+- 影响：下游可把错误或伪造的原文 payload 标为既有 revision 的事实根，中文 `input_sha256`、幂等作业、快照 manifest 和恢复复算会建立在错误 lineage 上。地址可寻址不等于内容可追溯。
+- 修复要求：在不改写已提交 migration 的前提下新增前进式修复 migration，以复合外键、不可变父哈希引用或等价的 INSERT 防护触发器强制两层哈希一致；为匹配与不匹配两条路径增加确定性测试。
+
+#### CR-AMR-BI-P1-002：迁移表或触发器缺失时 query readiness 仍可报告已就绪
+
+- 位置：`backend/src/infrastructure/migrations.ts:28-50`；`backend/src/infrastructure/repository.ts:95-100`。
+- 问题：`verifyMigrations()` 只比较 migration 目录文件列表与 `schema_migrations` 的 ID/SHA，完全不检查 migration 声明的表、索引、触发器、外键启用状态或 `foreign_key_check`。账本行仍在时，schema 丢失或恢复不完整不会让 readiness fail closed。
+- 独立复现：内存库正常应用 0001/0002 后 `verifyMigrations=true`；执行 `DROP TABLE chinese_counterpart_revisions` 后表数量为 0，但 `verifyMigrations` 仍返回 true。
+- 影响：`/health/ready?capability=query` 可能把无法执行双语查询或已丢失不可变保护的库标为 `migration_state=applied`；恢复、文件损坏或错误运维后的真相态不可信。
+- 修复要求：为每个 migration 保存并验证确定性 schema contract/fingerprint，至少核对本批两张表、索引、四个触发器、`PRAGMA foreign_keys=1` 与 `PRAGMA foreign_key_check`；任一缺失或漂移必须返回 false。增加删表、删触发器、禁用外键和孤儿行的 readiness 负测。
+
+#### CR-AMR-BI-P1-003：状态 CHECK 可接受相互矛盾或实际为空的中文 revision
+
+- 位置：`backend/migrations/live/0002_bilingual_revision_foundation.sql:39-84`。
+- 问题：末尾 `OR status IN ('stale', 'needs_review')` 绕过这些状态的正文和形成方式一致性；`partial` 只判断字段非 NULL，不判断 trim 后非空。数据库因此接受 `formation_kind='none' + status='stale' + title_zh='不应存在的中文'`，也接受 `status='partial' + title_zh=''`。
+- 影响：持久化状态、形成方式和真实内容可互相冲突，下游无法可靠计算 translation coverage、形成方式、旧 revision 与空态；这会重新制造架构明确禁止的“第三套业务真相”。
+- 修复要求：在前进式修复 migration 中把每个当前允许状态定义为互斥真值表：`none` 只允许无译文／原文已是中文的组合；`ready/partial/stale/needs_review` 明确规定非空字段和允许的 formation kind；所有文本按 trim 后非空判断。为每个合法组合和跨组合反例建立表驱动测试。
+
+### Minor
+
+#### CR-AMR-BI-P2-001：`source_language` CHECK 接受非法 BCP 47 形态
+
+- 位置：`backend/migrations/live/0002_bilingual_revision_foundation.sql:4-7`。
+- 问题：当前约束只限制长度与字符集，因此 `--`、`12`、`-en`、`en-` 都能通过。架构要求未知语言使用明确 `und`，后续前端还会把该字段用于原文容器 `lang`。
+- 修复要求：在写入边界使用经过验证的 BCP 47 canonicalization/allowlist，并由数据库保存规范化值；至少固化 `en`、`zh-CN`、`und` 正例和上述非法值反例。不要用“看起来像语言”的字符检查代替语义校验。
+
+### 已通过项
+
+- 权威差异严格为 `94562e5…b619..b24615e…237` 的 6 个 AI Model Radar 后端路径；`b24615e..HEAD` 对这些路径无漂移。
+- aggregate SHA-256 独立复算为 `36da55aa…995`，迁移文件 SHA-256 为 `8b27857c…e7ec`，均与 artifact 登记一致。
+- 0001 未被改写；0002 按文件名顺序前进应用，SQL 与 migration ledger 写入同一 `BEGIN IMMEDIATE` 事务，失败会回滚并保持对应 migration set 的 readiness=false。
+- 原文和中文字段分属两张 STRICT 表；主键分别固定 `(event_id, original_revision)` 与 `(event_id, original_revision, locale, chinese_revision)`；中文外键、`zh-CN` 精确 locale、复合唯一键、查找索引和四个不可变触发器有效。
+- 合法 fixture 可单独寻址原文与中文 revision；非法 locale、孤儿原文、重复中文内容、原文 UPDATE 和中文 DELETE 均由当前测试拒绝。
+- checksum 内容漂移会被拒绝，已应用 migration 不会被静默重写；故意失败的 0003 不留下测试表或 migration 账本行。
+- 差异未引入联网翻译、真实事件导入、4317/4174 接入、服务启停、活动数据库迁移、QA、`AMR-BI-DATA-102+` 或部署。
+
+### 独立验证
+
+| 检查 | 结果 |
+| --- | --- |
+| Git 基线 | `HEAD == origin/main == 3983110308ee89e4d953fb11e3232dc4828a858d`；工作树/暂存区干净，无 index lock |
+| 权威路径与哈希 | 6/6 路径匹配；aggregate SHA-256=`36da55aa…995`；输入至 HEAD 无业务漂移 |
+| Node.js | `v24.19.0` |
+| `npm run lint` | 通过，0 warning |
+| `npm run typecheck` | 通过 |
+| `npm run build` | 通过，只生成已忽略构建产物 |
+| `npm test` | policy 33 + Vitest unit 23 + integration 3 + contract 2 = 61/61 通过 |
+| `npm run test:migration-up-down` | 1 文件、4/4 通过 |
+| 原文 payload lineage 探针 | 父 `aaaa…` / 原文 `bbbb…` 被同时接受，失败 |
+| schema readiness 探针 | 正常为 true；删除 `chinese_counterpart_revisions` 后仍为 true，失败 |
+| 状态矩阵探针 | `none/stale/中文正文` 与空字符串 `partial` 均被接受，失败 |
+| 语言标签探针 | `source_language='--'` 被接受，失败 |
+| 数据与外部动作边界 | 自定义探针均为内存 SQLite；未执行 `db:migrate`、未启停服务、network=0、真实事件=0 |
+
+Node 命令受本机 Homebrew 初始化影响输出一次 `/bin/ps: Operation not permitted`，但目标命令均正常执行并返回退出码 0；这不是业务测试失败。仓库中既有已忽略 `.local-data` 数据库现场未作为输入、未迁移、未修改或暂存。
+
+### 停止门与审核选项
+
+- 当前停止门：`code-review-conclusion-review`。
+- 推荐审核选项：`通过审查结论并仅授权固定 08 数据工程师修复 CR-AMR-BI-P1-001..003 与 CR-AMR-BI-P2-001` / `修改审查结论` / `打回审查`。
+- 本次审查不自动批准修复、QA、`AMR-BI-DATA-102+`、4317/4174、联网翻译、真实事件导入、服务操作或生产部署；修复交付后必须回固定 `09` 复审。
 
 ## v1.1 修复复审结论
 

@@ -2948,3 +2948,65 @@ artifacts:
     production_release: frozen
     auto_route: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: artifact-radar-bilingual-data-revision-foundation-code-review-001
+    run_id: run-20260731-intake-001
+    type: bilingual-data-revision-foundation-code-review
+    project_id: ai-model-radar
+    work_item: AMR-BI-DATA-101.REV
+    change_id: review-20260831-radar-bilingual-data-revision-foundation-001
+    owner: role-code-reviewer
+    role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+    role_task_title: "09 代码审查员"
+    authorization: approval-20260831-radar-bilingual-data-revision-foundation-code-review-entry
+    input:
+      artifact: artifact-radar-bilingual-data-revision-foundation-001
+      version: "1.0"
+      aggregate_sha256: 36da55aaac3daa717c4ea387958dbcb46b5773a0cb425c5016d379fbed8ba995
+      reviewed_source_commit: b24615e71501030d940365f75b16eb98a8e60237
+      diff_base: 94562e5a7390a6f96aa3256d325b619ff56fa6ee
+      delivery_commit: 12c4e25a58fe7c42b8f7c5d45542121407b18cbc
+      routing_baseline: 3983110308ee89e4d953fb11e3232dc4828a858d
+    path: docs/06-code-review.md
+    version: "2.0"
+    sha256: 40679f6d1f9d96e598852d921fd64e6e4c0b458adad7ff42a48cc9b4f6d4afaa
+    conclusion: changes-requested
+    finding_counts: {P0: 0, P1: 3, P2: 1}
+    findings:
+      - CR-AMR-BI-P1-001
+      - CR-AMR-BI-P1-002
+      - CR-AMR-BI-P1-003
+      - CR-AMR-BI-P2-001
+    validation:
+      node: 24.19.0
+      lint: passed
+      typecheck: passed
+      build: passed
+      backend_tests: 61-of-61-passed
+      migration_tests: 4-of-4-passed
+      aggregate_sha256: matched
+      payload_lineage_probe: failed-mismatch-accepted
+      schema_readiness_probe: failed-missing-table-reported-ready
+      status_matrix_probe: failed-contradictory-state-accepted
+      source_language_probe: failed-invalid-tag-accepted
+    truth_boundary:
+      real_or_active_database_migrated: false
+      real_or_active_database_written: false
+      in_memory_sqlite_probes_only: true
+      external_translation_calls: 0
+      network_requests: 0
+      real_events_imported: 0
+      service_started_stopped_or_restarted: false
+      backend_4317_contract_modified: false
+      frontend_4174_modified: false
+      QA_started: false
+      AMR_BI_DATA_102_started: false
+      production_release: frozen
+    completed_at: "2026-08-31T15:38:05+08:00"
+    status: ready-for-review
+    review_status: pending
+    stop_gate: code-review-conclusion-review
+    recommended_fix_role_if_approved: role-data-engineer
+    fix_authorized: false
+    qa_authorized: false
+    downstream_role_authorized: false
+    auto_route: false
