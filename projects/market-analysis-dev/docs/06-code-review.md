@@ -1,5 +1,142 @@
 # Frontend Career Radar（前端职业成长雷达）持续代码审查报告
 
+## v1.4 Career 真实分析前端联调代码审查
+
+### 审查元数据
+
+- project_id: `market-analysis-dev`
+- work_item: `CFR-CR-REAL-INTEGRATION-001`
+- change_id: `review-20260828-career-real-analysis-frontend-integration-v1`
+- authorization: `approval-20260828-career-real-analysis-code-review-entry`
+- input_artifact: `artifact-career-real-analysis-frontend-integration-001`
+- backend_input_artifact: `artifact-career-local-http-integration-001`
+- frontend_source_commits: `67d88a5`、`45dc3c4`
+- integration_evidence_commit: `e6447088d868b9ecf3e00c639e37ab41d806c5a6`
+- routing_commit: `993295318b391f2515026c10ef05a4804b17249e`
+- diff_base: `c6907525c54e5e6c5e73fc2621d1a9576be4698b`
+- review_repository_baseline: `c8a0b436f1df0b1d29dec81a52451cc9434845da`
+- reviewer: 固定 `09 代码审查员`（`role-code-reviewer`）
+- reviewed_at: `2026-08-31T15:04:06+08:00`
+- report_version: `1.4`
+- conclusion: `changes-requested`
+- finding_counts: `P0=0 / P1=5 / P2=3`
+- stop_gate: `code-review-conclusion-review`
+
+### 独立结论
+
+**请求修改，阻断进入 QA。** 本批确实把前端接到 `127.0.0.1:4318` 的真实本地 API，首次保存→分类建议→人工确认→确定性分析可以完成；四个洞察路由、简体中文主体、320px 无横向溢出、错误/空状态基础框架和代码分割也已落地。Node.js 24.19.0 下 lint、typecheck、build、25/25 前端测试均通过，真实浏览器控制台 0 error / 0 warning。
+
+但独立源码、合同探针和真实浏览器核验确认 5 项 Major：同一材料第二版本必然因固定 CAS 修订号失败；招聘与个人洞察页没有按材料分类隔离；前端把“权利确认”伪造成“敏感数据已确认”；“刷新后可从历史恢复”实际只有不可交互的摘要列表；清空模态框焦点可逃逸到背景。另有 3 项 Minor：洞察卡暴露英文内部类型、工作台把历史读取失败吞成空列表、四个洞察路由沿用错误页面标题。
+
+| 严重级别 | 数量 | 门禁影响 |
+| --- | ---: | --- |
+| Blocker / P0 | 0 | 无 P0 |
+| Major / P1 | 5 | 阻断 QA，须由固定 `06 前端工程师`修复并回到固定 `09` 复审 |
+| Minor / P2 | 3 | 与本批修复一起回归，不能继续宣称完整简中/无障碍已通过 |
+
+### Major
+
+#### CR-REAL-P1-001：第二次修改同一材料后，分类确认稳定触发 CAS 冲突
+
+- 位置：`frontend/src/features/source-workbench/SourceWorkbenchPage.tsx:267-318`，尤其 `expectedRevision: 0`。
+- 问题：第一次分类确认会把材料的 `currentClassificationRevision` 从 0 推进到 1；页面的“继续修改”保留原 `materialId`，再次保存会创建版本 2，但确认请求仍固定发送 `If-Match: 0` / `expectedBaseRevision: 0`。后端按材料级 revision CAS 校验，必然返回 `REVISION_CONFLICT`。
+- 独立复现：临时 SQLite 合同探针完成版本 1 的首次确认后保存版本 2，再按前端参数确认；输出 `firstDecisionRevision=1`、`secondVersionNo=2`、`classification base revision 0 is stale`。临时目录已清理。
+- 影响：用户可见的“继续修改”不能完成第二轮分析；错误后只能保留已保存版本，无法通过当前 UI 正常恢复确认。
+- 修复要求：保存/读取材料后携带服务端当前分类修订，确认时使用真实 `expectedBaseRevision`；409 时重新读取材料历史、明确显示冲突和可恢复动作，禁止盲目覆盖。
+- 回归要求：新增“版本 1 已确认→继续修改→保存版本 2→确认 revision 2→分析 revision 2”以及并发 409 的前端合同测试和真实浏览器门。
+
+#### CR-REAL-P1-002：四个洞察页按 finding 类型过滤，却没有按材料双轴分类隔离
+
+- 位置：`frontend/src/features/career-insights/CareerInsightsPages.tsx:32-51`。
+- 问题：`latestFindings()` 丢弃每份历史的 `classifications`，`filterFindings()` 只按 finding kind/evidence/关键词过滤。结果是“招聘证据”接收所有带 evidence 的文章、项目和个人材料；“个人证据准备”接收所有 `user-stated` 以及 responsibility/project/outcome，包括招聘职位描述。
+- 真实浏览器证据：`/evidence` 的 26 条结果包含“联调验收材料”和个人项目成果；`/personal-evidence` 的 23 条结果包含“招聘要求：负责 React 与 TypeScript…”及其 responsibility/outcome。页面却分别标称招聘证据和个人能力证据。
+- 影响：用户提供的目的样本、招聘要求与个人证据发生跨域混淆，可能把岗位要求误导为个人能力，或把个人项目冒充招聘市场证据，违反双轴分类、事实分层和个人/市场分域契约。
+- 修复要求：基于每个 analysis 对应 material version 的已确认 `contentType`、`sourceChannel` 和必要的个人事实状态构造视图；招聘页只纳入明确允许的招聘/面试材料，个人页只纳入个人材料候选且不得把 `user-stated` 等同个人已确认事实。卡片必须显示材料类型与来源。
+- 回归要求：用 job description、project record、resume、article 四份非空历史建立互斥矩阵，断言每个页面包含/排除集合和计数均正确。
+
+#### CR-REAL-P1-003：权利确认被静默写成敏感数据已确认，审计回执失真
+
+- 位置：`frontend/src/features/source-workbench/SourceWorkbenchPage.tsx:267-276`、`:521-555`；`frontend/src/api/career.ts:135-136`。
+- 问题：界面只有“我确认有权将此内容用于个人研究”一个复选框，但提交时同时发送 `userHasRights: true` 和 `sensitiveDataAcknowledged: true`。用户没有看到检测类别、影响范围或独立敏感信息确认，却在服务端 `material_rights_receipts` 中被记录为已确认。
+- 证据：当前单测明确断言这两个字段都为 true，因此测试是在固化错误审计语义；批准 PRD/UI 要求检测到敏感信息后、处理前单独阻断并再次确认，且不得默认勾选。
+- 影响：简历、联系方式或雇主机密的处理授权不可证明，隐私审计记录与用户真实操作不一致。
+- 修复要求：拆分权利确认与敏感信息确认状态；未检测/未确认时如实发送 false 或按批准合同阻断，只有用户完成独立、可见、未默认勾选的敏感确认后才记录 true。不得仅靠通用“先脱敏”提示代替确认。
+- 回归要求：覆盖无敏感内容、检测到敏感内容后返回脱敏、明确继续、取消四条路径，并逐项断言请求 payload 与服务端 receipt。
+
+#### CR-REAL-P1-004：“刷新后可从历史恢复”的交付声明没有对应恢复能力
+
+- 位置：`frontend/src/features/source-workbench/SourceWorkbenchPage.tsx:144-151`、`:194-203`、`:314`、`:367-368`、`:658`；`frontend/src/api/career.ts:141`。
+- 问题：刷新后只调用 `/api/v1/history` 并渲染静态 `<article>` 摘要。历史卡没有链接、按钮或键盘操作；`materialHistory()` 从未调用，历史也不会重新填充正文、元数据、分类、分析或 `WorkbenchStage`。
+- 真实浏览器证据：页面加载出 4 份材料的版本/修订/标题，但所有历史项均不可聚焦、不可打开；刷新后的表单和分析区仍是空白编辑态。上游 workflow 却登记 `real_history_restored_after_refresh: true`。
+- 影响：用户无法从历史重开“当时依据”或继续修订；“可恢复”文案和交付证据高估了当前能力。
+- 修复要求：实现明确的历史详情/恢复入口，按 material/version 读取并恢复可公开的元数据、确认记录与分析；私有正文若合同不返回，必须改为“查看历史摘要”并明确正文不可恢复，不能继续声称完整恢复。
+- 回归要求：真实刷新后从历史打开指定材料，核对版本、分类修订、分析、规则、证据偏移和焦点；同时覆盖不存在/损坏/服务不可用。
+
+#### CR-REAL-P1-005：`aria-modal` 清空弹窗没有焦点锁，键盘可进入背景页面
+
+- 位置：`frontend/src/features/source-workbench/SourceWorkbenchPage.tsx:664-697`。
+- 问题：弹窗打开时只聚焦“取消清空”，没有焦点循环、背景 `inert` 或等价隔离。真实 320px 浏览器中，初始焦点为“取消清空”；一次 `Shift+Tab` 后焦点落到背景“清空”按钮，`insideDialog=false`。
+- 影响：键盘和屏幕阅读器用户可在模态状态下操作不可见/被遮挡背景，与 `aria-modal=true` 的语义冲突；批准设计明确要求弹窗焦点锁定。
+- 修复要求：采用经过验证的 dialog/focus-trap 实现，打开时聚焦标题或首个安全操作，Tab/Shift+Tab 在弹窗内循环，背景不可交互，Escape 关闭后焦点返回触发器。
+- 回归要求：增加正反向 Tab 循环、Escape、关闭回焦和背景不可点击的真实浏览器测试；不能只测初始焦点。
+
+### Minor
+
+#### CR-REAL-P2-001：核心洞察卡直接展示英文内部 finding kind
+
+- 位置：`frontend/src/features/career-insights/CareerInsightsPages.tsx:54`；`frontend/src/features/source-workbench/SourceWorkbenchPage.tsx:131`。
+- 问题：用户可见标签显示 `framework`、`tool`、`skill`、`responsibility`、`outcome` 等内部枚举。真实浏览器的四个洞察页均可见该问题，上游“完整简体中文通过”不成立。
+- 修复要求：建立完整中文映射；如需保留内部键，按批准设计明确标为“内部键”，不能把英文枚举当主标签。
+
+#### CR-REAL-P2-002：工作台把历史服务失败静默降级为空列表
+
+- 位置：`frontend/src/features/source-workbench/SourceWorkbenchPage.tsx:194-203`、`:144-151`。
+- 问题：history 请求失败只执行 `setHistory([])`，最终展示“尚无已保存记录，或本地服务暂不可用”，没有独立错误状态、错误原因或重试动作。
+- 修复要求：分离 loading / empty / unavailable / failed，失败使用可感知的中文 alert/status 并提供重试；不得把“零记录”和“读取失败”合并为不可判定状态。
+
+#### CR-REAL-P2-003：四个洞察路由沿用“职业方向总览”页面标题
+
+- 位置：`frontend/src/features/career-insights/CareerInsightsPages.tsx`。
+- 问题：真实浏览器进入 `/evidence`、`/personal-evidence` 等路由时，`document.title` 仍是“前端职业成长雷达｜职业方向总览”。这会误导标签页、历史记录和读屏用户。
+- 修复要求：按 page kind 设置并在卸载时恢复准确中文标题，增加路由级断言。
+
+### 已通过项
+
+- 权威前端差异为 `c6907525…68b..45dc3c4` 的 10 个 Career 前端路径；三个权威文件 SHA-256 精确匹配 artifact 登记，源提交至审查基线无前端漂移。
+- API 默认只指向 `http://127.0.0.1:4318`；源码未引入外部 fetch、WebSocket、EventSource、sendBeacon、service worker、localStorage、sessionStorage、IndexedDB、Cache API、`dangerouslySetInnerHTML` 或业务 console 输出。
+- 首次保存、分类建议、首次确认和首次分析的 API 路径、幂等头、If-Match 头及中文错误信封基本匹配本地后端合同。
+- 用户正文以 React 文本节点和 `<pre>` 呈现，`<script>` 输入不会执行；空白、URL-only、超长和权利未确认有前端阻断。
+- 四个真实洞察路由可达，真实读取 4 份本地历史；无 Demo fallback。320px 下 `innerWidth=documentScrollWidth=bodyScrollWidth=320`，移动端四入口可达。
+- 跳转主内容、标题层级、表单 label/description、状态 live region、错误 alert、初始阶段焦点和 Escape 关闭路径已实现；模态焦点锁问题单列 P1。
+- 本轮未改业务代码，未启动外部网络采集、付费模型、生产部署、QA 或后端/数据扩展。
+
+### 独立验证
+
+| 检查 | 结果 |
+| --- | --- |
+| Git 起始基线 | 入场时 `HEAD == origin/main == 993295318b391f2515026c10ef05a4804b17249e`，无 index lock；并发协调后写入基线为 `c8a0b436f1df0b1d29dec81a52451cc9434845da` |
+| 前端源码漂移 | `45dc3c4..HEAD` 对 `projects/market-analysis-dev/frontend` 无差异 |
+| 权威哈希 | `career.ts=e7af6895…3733`、`SourceWorkbenchPage.tsx=47a0f6e8…25b5`、`CareerInsightsPages.tsx=70e7b44f…618e`，3/3 匹配 |
+| Node.js | `v24.19.0` |
+| `npm run lint` | 通过，0 warning |
+| `npm run typecheck` | 通过 |
+| `npm run build` | 通过；主入口 285.32 kB / gzip 91.46 kB，洞察与工作台保持懒加载 |
+| `npm test` | 4 个文件、25/25 通过；未覆盖本报告 5 个 P1 的关键负向路径 |
+| CAS 合同探针 | 版本 1 确认成功；版本 2 使用前端固定 revision 0 返回 `REVISION_CONFLICT` |
+| 本地 readiness | `127.0.0.1:4318/readyz` 返回 200/ready，network_requests_permitted=0 |
+| 真实浏览器 | 4 份历史；stacks 19、evidence 26、AI 6、personal 23 与上游计数一致；同时复现跨视图污染和历史不可打开 |
+| 320px | 无横向溢出；移动导航可达 |
+| 模态键盘 | 初始焦点正确；一次 Shift+Tab 逃逸背景，失败 |
+| 浏览器 console | 0 error / 0 warning |
+
+浏览器审查使用既有本地 4177/4318 服务，只读取已有历史；用于焦点核验的临时文字未提交。Playwright 临时证据已移至 `/private/tmp/career-real-analysis-code-review-playwright-20260831`，未进入仓库。没有执行联网依赖审计，也没有新增、删除或修改任何服务端材料。
+
+### 停止门与审核选项
+
+- 当前停止门：`code-review-conclusion-review`。
+- 推荐审核选项：`通过审查结论并仅授权固定 06 前端工程师修复 CR-REAL-P1-001..005 与 CR-REAL-P2-001..003` / `修改审查结论` / `打回审查`。
+- 本次审查结论不自动批准修复、QA、后端或数据扩展、外部付费模型、部署或任何下游；修复交付后必须回到固定 `09` 复审。
+
 ## v1.3 CR-BE-102 本地运行合同代码审查
 
 ### 审查元数据

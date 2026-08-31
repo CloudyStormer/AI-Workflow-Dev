@@ -2799,9 +2799,40 @@ career_real_analysis_code_review_route:
   authorization: approval-20260828-career-real-analysis-code-review-entry
   input_artifact: artifact-career-real-analysis-frontend-integration-001
   expected_artifact: artifact-career-real-analysis-frontend-code-review-001
-  status: routed-awaiting-fixed-09-entry
+  output_artifact: artifact-career-real-analysis-frontend-code-review-001
+  report_path: docs/06-code-review.md
+  report_version: "1.4"
+  report_sha256: 1f7c565657738e8c27eb7d6c69c8a6625d5698cece0234040f77652ba5e2718b
+  status: completed-ready-for-review
+  conclusion: changes-requested
+  finding_counts:
+    p0: 0
+    p1: 5
+    p2: 3
+  findings:
+    - CR-REAL-P1-001
+    - CR-REAL-P1-002
+    - CR-REAL-P1-003
+    - CR-REAL-P1-004
+    - CR-REAL-P1-005
+    - CR-REAL-P2-001
+    - CR-REAL-P2-002
+    - CR-REAL-P2-003
+  validation:
+    node: 24.19.0
+    lint: passed
+    typecheck: passed
+    build: passed
+    frontend_tests: 25-of-25-passed
+    real_browser_console: 0-errors-0-warnings
+    browser_320: passed-no-horizontal-overflow
+    cas_second-version: failed-revision-conflict
+    modal_focus_trap: failed-focus-escaped-to-background
+  completed_at: "2026-08-31T15:04:06+08:00"
+  next_role_if_approved: role-frontend-dev
+  frontend_fix_authorized: false
   stop_gate: code-review-conclusion-review
   qa_authorized: false
   production_release: frozen
   auto_route: false
-updated_at: "2026-08-28T16:00:21+08:00"
+updated_at: "2026-08-31T15:04:06+08:00"

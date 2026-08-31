@@ -3608,3 +3608,65 @@ artifacts:
     stop_gate: development-integration-handoff
     downstream_role_authorized: false
     auto_route: false
+  - id: artifact-career-real-analysis-frontend-code-review-001
+    run_id: run-20260803-market-analysis-dev-init-001
+    type: career-real-analysis-frontend-code-review
+    project_id: market-analysis-dev
+    work_item: CFR-CR-REAL-INTEGRATION-001
+    change_id: review-20260828-career-real-analysis-frontend-integration-v1
+    owner: role-code-reviewer
+    role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+    role_task_title: "09 代码审查员"
+    authorization: approval-20260828-career-real-analysis-code-review-entry
+    input_artifact: artifact-career-real-analysis-frontend-integration-001
+    backend_input_artifact: artifact-career-local-http-integration-001
+    backend_code_commit: 4b1d44e3352426e92bf82b55f4c910e32d5a242c
+    frontend_source_commits:
+      - 67d88a5
+      - 45dc3c4
+    integration_evidence_commit: e6447088d868b9ecf3e00c639e37ab41d806c5a6
+    routing_commit: 993295318b391f2515026c10ef05a4804b17249e
+    review_repository_baseline: c8a0b436f1df0b1d29dec81a52451cc9434845da
+    path: docs/06-code-review.md
+    version: "1.4"
+    sha256: 1f7c565657738e8c27eb7d6c69c8a6625d5698cece0234040f77652ba5e2718b
+    conclusion: changes-requested
+    finding_counts:
+      p0: 0
+      p1: 5
+      p2: 3
+    findings:
+      - CR-REAL-P1-001
+      - CR-REAL-P1-002
+      - CR-REAL-P1-003
+      - CR-REAL-P1-004
+      - CR-REAL-P1-005
+      - CR-REAL-P2-001
+      - CR-REAL-P2-002
+      - CR-REAL-P2-003
+    validation:
+      node: 24.19.0
+      lint: passed
+      typecheck: passed
+      build: passed
+      frontend_tests: 25-of-25-passed
+      real_browser_console: 0-errors-0-warnings
+      browser_320: passed-no-horizontal-overflow
+      cas_second-version: failed-revision-conflict
+      modal_focus_trap: failed-focus-escaped-to-background
+    truth_boundary:
+      local_loopback_api_only: true
+      external_network_collection: false
+      external_paid_model_used: false
+      business_implementation_modified: false
+      qa_executed: false
+      production_deployment: frozen
+    completed_at: "2026-08-31T15:04:06+08:00"
+    status: ready-for-review
+    review_status: pending
+    stop_gate: code-review-conclusion-review
+    recommended_next_role_if_approved: role-frontend-dev
+    frontend_fix_authorized: false
+    qa_authorized: false
+    downstream_role_authorized: false
+    auto_route: false
