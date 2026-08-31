@@ -1,7 +1,9 @@
 import { createHash } from "node:crypto";
 import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
-import type { DatabaseSync } from "node:sqlite";
+import { DatabaseSync } from "node:sqlite";
+
+import { registerLanguageTagFunctions } from "./language-tags.js";
 
 export interface MigrationResult {
   readonly applied: readonly string[];
@@ -25,6 +27,72 @@ function listMigrationFiles(migrationDirectory: string): readonly string[] {
     .sort();
 }
 
+interface SchemaObjectRow {
+  readonly type: string;
+  readonly name: string;
+  readonly table_name: string;
+  readonly sql: string;
+}
+
+const expectedSchemaFingerprints = new Map<string, string>();
+
+function schemaFingerprint(database: DatabaseSync): string {
+  const rows = database
+    .prepare(
+      `SELECT type, name, tbl_name AS table_name, sql
+       FROM sqlite_schema
+       WHERE sql IS NOT NULL
+       ORDER BY type, name, tbl_name`,
+    )
+    .all() as unknown as readonly SchemaObjectRow[];
+  return sha256(JSON.stringify(rows));
+}
+
+function migrationSetIdentity(
+  migrationDirectory: string,
+  migrationFiles: readonly string[],
+): string {
+  return migrationFiles
+    .map((migrationId) => {
+      const sql = readFileSync(path.join(migrationDirectory, migrationId), "utf8");
+      return `${migrationId}:${sha256(sql)}`;
+    })
+    .join("|");
+}
+
+function expectedSchemaFingerprint(
+  migrationDirectory: string,
+  migrationFiles: readonly string[],
+): string {
+  const identity = migrationSetIdentity(migrationDirectory, migrationFiles);
+  const cached = expectedSchemaFingerprints.get(identity);
+  if (cached !== undefined) {
+    return cached;
+  }
+
+  const expected = new DatabaseSync(":memory:");
+  try {
+    registerLanguageTagFunctions(expected);
+    expected.exec("PRAGMA foreign_keys=ON");
+    applyMigrations(expected, migrationDirectory);
+    const fingerprint = schemaFingerprint(expected);
+    expectedSchemaFingerprints.set(identity, fingerprint);
+    return fingerprint;
+  } finally {
+    expected.close();
+  }
+}
+
+function hasValidForeignKeys(database: DatabaseSync): boolean {
+  const enabled = database.prepare("PRAGMA foreign_keys").get() as
+    | { readonly foreign_keys: number }
+    | undefined;
+  if (enabled?.foreign_keys !== 1) {
+    return false;
+  }
+  return database.prepare("PRAGMA foreign_key_check").all().length === 0;
+}
+
 export function verifyMigrations(
   database: DatabaseSync,
   migrationDirectory: string,
@@ -40,7 +108,7 @@ export function verifyMigrations(
     if (rows.length !== migrationFiles.length) {
       return false;
     }
-    return migrationFiles.every((migrationId, index) => {
+    const ledgerMatches = migrationFiles.every((migrationId, index) => {
       const row = rows[index];
       if (row?.migration_id !== migrationId) {
         return false;
@@ -48,6 +116,11 @@ export function verifyMigrations(
       const sql = readFileSync(path.join(migrationDirectory, migrationId), "utf8");
       return row.sha256 === sha256(sql);
     });
+    return (
+      ledgerMatches &&
+      hasValidForeignKeys(database) &&
+      schemaFingerprint(database) === expectedSchemaFingerprint(migrationDirectory, migrationFiles)
+    );
   } catch {
     return false;
   }

@@ -19,6 +19,7 @@ import {
   type MigrationResult,
   verifyMigrations,
 } from "./migrations.js";
+import { registerLanguageTagFunctions } from "./language-tags.js";
 
 function sha256(value: string): string {
   return createHash("sha256").update(value).digest("hex");
@@ -73,6 +74,7 @@ export class RadarRepository {
 
   private openDatabase(databasePath: string): DatabaseSync {
     const database = new DatabaseSync(databasePath);
+    registerLanguageTagFunctions(database);
     database.exec("PRAGMA foreign_keys=ON; PRAGMA journal_mode=WAL; PRAGMA busy_timeout=5000;");
     return database;
   }
