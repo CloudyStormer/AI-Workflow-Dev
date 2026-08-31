@@ -966,6 +966,81 @@ approvals:
     stop_gate: code-review-conclusion-review
     advance_limit: one-independent-code-review-unit-only
     auto_advance_beyond_next: false
+  - id: approval-20260831-radar-bilingual-data-revision-foundation-code-review-conclusion
+    run_id: run-20260731-intake-001
+    gate: code-review-conclusion-review
+    role: role-code-reviewer
+    role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+    role_task_title: "09 代码审查员"
+    project_id: ai-model-radar
+    work_item: AMR-BI-DATA-101.REV
+    change_id: review-20260831-radar-bilingual-data-revision-foundation-001
+    artifact: artifact-radar-bilingual-data-revision-foundation-code-review-001
+    path: docs/06-code-review.md
+    version: "2.0"
+    sha256: 40679f6d1f9d96e598852d921fd64e6e4c0b458adad7ff42a48cc9b4f6d4afaa
+    reviewed_source_commit: b24615e71501030d940365f75b16eb98a8e60237
+    conclusion: changes-requested
+    finding_counts: {P0: 0, P1: 3, P2: 1}
+    findings:
+      - CR-AMR-BI-P1-001
+      - CR-AMR-BI-P1-002
+      - CR-AMR-BI-P1-003
+      - CR-AMR-BI-P2-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-31T16:29:04+08:00"
+    user_reply: "通过"
+    effect: "已批准当前代码审查结论，并自动授权唯一下一站固定08／AMR-BI-DATA-101-FIX-001 仅修复已登记的 3 项 P1 与 1 项 P2。本次只覆盖一个修复交付单元；固定08交付后停止等待审核，不代表修复产物、复审、QA、AMR-BI-DATA-102+、服务接入或部署已获批准。"
+    completed_gate: code-review-conclusion-review
+    downstream_role_authorized: true
+    authorized_next_role: role-data-engineer
+    authorized_next_work_item: AMR-BI-DATA-101-FIX-001
+    next_entry_authorization: approval-20260831-radar-bilingual-data-revision-foundation-fix-entry
+    production_release: frozen
+    auto_route: unique-next-stage-only
+    auto_advance_beyond_next: false
+  - id: approval-20260831-radar-bilingual-data-revision-foundation-fix-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    role: role-data-engineer
+    role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+    role_task_title: "08 数据工程师"
+    project_id: ai-model-radar
+    work_item: AMR-BI-DATA-101-FIX-001
+    change_id: fix-20260831-radar-bilingual-data-revision-foundation-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-31T16:29:04+08:00"
+    authorization_source: approval-20260831-radar-bilingual-data-revision-foundation-code-review-conclusion
+    input:
+      artifact: artifact-radar-bilingual-data-revision-foundation-code-review-001
+      path: docs/06-code-review.md
+      version: "2.0"
+      sha256: 40679f6d1f9d96e598852d921fd64e6e4c0b458adad7ff42a48cc9b4f6d4afaa
+      reviewed_source_commit: b24615e71501030d940365f75b16eb98a8e60237
+      findings:
+        - CR-AMR-BI-P1-001
+        - CR-AMR-BI-P1-002
+        - CR-AMR-BI-P1-003
+        - CR-AMR-BI-P2-001
+    scope: "只用新的前进式 migration 与必要的 repository／migration 校验及测试，修复 payload SHA 事实链一致性、物理 schema readiness fail-closed、中文 revision 状态／内容真值矩阵与 source_language BCP47 写入边界。"
+    exclusions:
+      - rewrite-or-delete-existing-migration-0002
+      - real-or-active-database-migration-or-write
+      - external-translation-network-or-real-event-import
+      - service-start-stop-or-restart
+      - backend-4317-or-frontend-4174-integration
+      - QA-AMR-BI-DATA-102-or-any-later-work-item
+      - production-deployment
+    expected_output:
+      artifact: artifact-radar-bilingual-data-revision-foundation-fix-001
+      path: backend
+      version: "1.1"
+    stop_gate: data-fix-delivery-review
+    production_release: frozen
+    advance_limit: one-data-fix-delivery-unit-only
+    auto_advance_beyond_next: false
   - id: approval-20260824-radar-mr-data-001-fix-001-entry
     run_id: run-20260731-intake-001
     gate: role-entry

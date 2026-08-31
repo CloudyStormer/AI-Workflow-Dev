@@ -3002,11 +3002,16 @@ artifacts:
       AMR_BI_DATA_102_started: false
       production_release: frozen
     completed_at: "2026-08-31T15:38:05+08:00"
-    status: ready-for-review
-    review_status: pending
+    status: approved-with-fix-required
+    review_status: approved
+    review_approval: approval-20260831-radar-bilingual-data-revision-foundation-code-review-conclusion
+    reviewed_at: "2026-08-31T16:29:04+08:00"
     stop_gate: code-review-conclusion-review
     recommended_fix_role_if_approved: role-data-engineer
-    fix_authorized: false
+    fix_authorized: true
+    authorized_fix_work_item: AMR-BI-DATA-101-FIX-001
+    fix_entry_authorization: approval-20260831-radar-bilingual-data-revision-foundation-fix-entry
     qa_authorized: false
-    downstream_role_authorized: false
-    auto_route: false
+    downstream_role_authorized: true
+    auto_route: unique-fix-role-only
+    auto_advance_beyond_next: false
