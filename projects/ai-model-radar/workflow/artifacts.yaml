@@ -3087,8 +3087,16 @@ artifacts:
       production_release: frozen
     completed_at: "2026-08-31T16:43:42+08:00"
     validated_at: "2026-08-31T16:43:42+08:00"
-    status: ready-for-review
-    review_status: pending
+    status: approved-rereview-authorized
+    review_status: approved
+    review_approval: approval-20260831-radar-bilingual-data-revision-foundation-fix-v1-1
+    reviewed_by: 超级无敌帅超超总
+    reviewed_at: "2026-08-31T17:17:01+08:00"
+    completed_gate: data-fix-delivery-review
     stop_gate: data-fix-delivery-review
-    downstream_role_authorized: false
-    auto_route: false
+    downstream_role_authorized: true
+    authorized_next_role: role-code-reviewer
+    authorized_next_work_item: AMR-BI-DATA-101-FIX-001.REV
+    next_entry_authorization: approval-20260831-radar-bilingual-data-revision-foundation-fix-rereview-entry
+    auto_route: unique-rereview-role-only
+    auto_advance_beyond_next: false
