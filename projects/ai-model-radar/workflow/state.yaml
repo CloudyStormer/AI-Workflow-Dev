@@ -3,9 +3,9 @@ project_id: ai-model-radar
 run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
-stage: atomic-delivery-review
-status: radar-bilingual-data-revision-foundation-ready-for-review
-current_role: role-data-engineer
+stage: code-review
+status: radar-bilingual-data-revision-foundation-code-review-authorized
+current_role: role-code-reviewer
 blocked: false
 blocker: null
 resolved_blocker:
@@ -125,38 +125,39 @@ completed_release_completeness_architecture_review:
   advance_limit: unique-next-stage-only
   auto_advance_beyond_next: false
 next_approval:
-  gate: atomic-delivery-review
-  scope: "固定08仅完成 AMR-BI-DATA-101：在隔离 SQLite fixture 中建立可校验、前进式的原文／中文 revision 数据迁移基础；不得触及真实库、翻译、真实事件、服务或联网。"
+  gate: code-review-conclusion-review
+  scope: "固定09仅独立审查 AMR-BI-DATA-101 的 migration、revision schema、checksum/readiness fail-closed、约束与隔离测试；不得修改源码、执行真实库迁移、进入 QA 或启动后续实现。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
-  expected_artifact: artifact-radar-bilingual-data-revision-foundation-001
-  expected_path: backend/migrations/live/0002_bilingual_revision_foundation.sql
-  expected_version: "1.0"
-  artifact_sha256: 36da55aaac3daa717c4ea387958dbcb46b5773a0cb425c5016d379fbed8ba995
-  input_artifact: artifact-radar-bilingual-chinese-counterpart-task-breakdown-001
-  input_path: docs/11-bilingual-chinese-counterpart-task-breakdown.md
+  delivery_status: authorized-awaiting-fixed-09-role-entry
+  expected_artifact: artifact-radar-bilingual-data-revision-foundation-code-review-001
+  expected_path: docs/06-code-review.md
+  expected_version: "2.0"
+  artifact_sha256: null
+  input_artifact: artifact-radar-bilingual-data-revision-foundation-001
   input_version: "1.0"
-  input_sha256: ab295a08209925c58486fe6d22897a5fb2222a9b8ab4a2f659488a255e747961
-  input_approval: approval-20260828-radar-bilingual-chinese-counterpart-task-breakdown-v1
-  work_item: AMR-BI-DATA-101
-  change_id: data-20260828-radar-bilingual-original-chinese-revision-foundation-001
-  entry_authorization: approval-20260828-radar-bilingual-revision-foundation-entry
-  role: role-data-engineer
-  role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
-  role_task_title: "08 数据工程师"
-  unique_conclusion: backend-and-data-changes-required-before-frontend-integration
+  input_aggregate_sha256: 36da55aaac3daa717c4ea387958dbcb46b5773a0cb425c5016d379fbed8ba995
+  input_approval: approval-20260831-radar-bilingual-data-revision-foundation-v1
+  reviewed_source_commit: b24615e71501030d940365f75b16eb98a8e60237
+  diff_base: 94562e5a7390a6f96aa3256d325b619ff56fa6ee
+  work_item: AMR-BI-DATA-101.REV
+  change_id: review-20260831-radar-bilingual-data-revision-foundation-001
+  entry_authorization: approval-20260831-radar-bilingual-data-revision-foundation-code-review-entry
+  role: role-code-reviewer
+  role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+  role_task_title: "09 代码审查员"
   downstream_role_authorized: false
-  dispatch_status: fixed-08-delivered-awaiting-user-review
+  dispatch_status: routing-registered-awaiting-fixed-09-role-entry
   approved_artifact:
-    artifact: artifact-radar-bilingual-chinese-counterpart-task-breakdown-001
-    path: docs/11-bilingual-chinese-counterpart-task-breakdown.md
+    artifact: artifact-radar-bilingual-data-revision-foundation-001
     version: "1.0"
-    sha256: ab295a08209925c58486fe6d22897a5fb2222a9b8ab4a2f659488a255e747961
-    approval: approval-20260828-radar-bilingual-chinese-counterpart-task-breakdown-v1
-  authorized_at: "2026-08-28T18:09:53+08:00"
-  safe_checkpoint: c8a0b436f1df0b1d29dec81a52451cc9434845da
-  advance_limit: one-atomic-delivery-unit-only
+    aggregate_sha256: 36da55aaac3daa717c4ea387958dbcb46b5773a0cb425c5016d379fbed8ba995
+    source_commit: b24615e71501030d940365f75b16eb98a8e60237
+    delivery_commit: 12c4e25a58fe7c42b8f7c5d45542121407b18cbc
+    approval: approval-20260831-radar-bilingual-data-revision-foundation-v1
+  authorized_at: "2026-08-31T15:30:35+08:00"
+  safe_checkpoint: 12c4e25a58fe7c42b8f7c5d45542121407b18cbc
+  advance_limit: one-code-review-delivery-unit-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
   gate: cross-project-real-product-delta-review
@@ -2453,8 +2454,8 @@ bilingual_chinese_counterpart_data_revision_foundation_assignment:
     - AMR-BI-DATA-102-or-any-later-work-item
     - fixed-07-fixed-06-fixed-09-fixed-10-or-any-other-role-route
     - production-deployment
-  scheduling: completed-ready-for-review
-  delivery_status: ready-for-review
+  scheduling: completed-approved-and-review-routed
+  delivery_status: approved
   started_at: "2026-08-31T15:04:14+08:00"
   completed_at: "2026-08-31T15:09:57+08:00"
   validated_at: "2026-08-31T15:09:57+08:00"
@@ -2483,7 +2484,56 @@ bilingual_chinese_counterpart_data_revision_foundation_assignment:
     service_started_stopped_or_restarted: false
     downstream_roles_started: 0
     production_release: frozen
+  review_decision: approved
+  review_approval: approval-20260831-radar-bilingual-data-revision-foundation-v1
+  approved_by: 超级无敌帅超超总
+  approved_at: "2026-08-31T15:30:35+08:00"
+  completed_gate: atomic-delivery-review
+  downstream_role_authorized: true
+  authorized_next_role: role-code-reviewer
+  authorized_next_work_item: AMR-BI-DATA-101.REV
+  next_entry_authorization: approval-20260831-radar-bilingual-data-revision-foundation-code-review-entry
+  canonical_next_role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
   stop_gate: atomic-delivery-review
   production_release: frozen
   auto_advance_beyond_next: false
-updated_at: "2026-08-31T15:09:57+08:00"
+bilingual_chinese_counterpart_data_revision_foundation_code_review_assignment:
+  change_id: review-20260831-radar-bilingual-data-revision-foundation-001
+  work_item: AMR-BI-DATA-101.REV
+  role: role-code-reviewer
+  role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+  role_task_title: "09 代码审查员"
+  authorization: approval-20260831-radar-bilingual-data-revision-foundation-code-review-entry
+  authorization_source: approval-20260831-radar-bilingual-data-revision-foundation-v1
+  safe_checkpoint: 12c4e25a58fe7c42b8f7c5d45542121407b18cbc
+  input:
+    artifact: artifact-radar-bilingual-data-revision-foundation-001
+    version: "1.0"
+    aggregate_sha256: 36da55aaac3daa717c4ea387958dbcb46b5773a0cb425c5016d379fbed8ba995
+    reviewed_source_commit: b24615e71501030d940365f75b16eb98a8e60237
+    diff_base: 94562e5a7390a6f96aa3256d325b619ff56fa6ee
+    delivery_commit: 12c4e25a58fe7c42b8f7c5d45542121407b18cbc
+  scope:
+    - independent-migration-and-schema-code-review
+    - checksum-and-query-readiness-fail-closed-review
+    - foreign-key-unique-locale-and-immutability-review
+    - isolated-fixture-and-test-truth-review
+  exclusions:
+    - source-code-or-migration-modification
+    - real-or-active-database-migration-or-write
+    - external-translation-network-or-real-event-import
+    - service-start-stop-or-restart
+    - backend-4317-or-frontend-4174-integration
+    - QA-AMR-BI-DATA-102-or-any-later-work-item
+    - production-deployment
+  expected_output:
+    artifact: artifact-radar-bilingual-data-revision-foundation-code-review-001
+    path: docs/06-code-review.md
+    version: "2.0"
+  scheduling: authorized-awaiting-fixed-09-role-entry
+  delivery_status: authorized
+  authorized_at: "2026-08-31T15:30:35+08:00"
+  stop_gate: code-review-conclusion-review
+  production_release: frozen
+  auto_advance_beyond_next: false
+updated_at: "2026-08-31T15:30:35+08:00"

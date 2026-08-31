@@ -1204,6 +1204,69 @@ approvals:
     production_release: frozen
     advance_limit: one-data-delivery-unit-only
     auto_advance_beyond_next: false
+  - id: approval-20260831-radar-bilingual-data-revision-foundation-v1
+    run_id: run-20260731-intake-001
+    gate: atomic-delivery-review
+    project_id: ai-model-radar
+    work_item: AMR-BI-DATA-101
+    change_id: data-20260828-radar-bilingual-original-chinese-revision-foundation-001
+    artifact: artifact-radar-bilingual-data-revision-foundation-001
+    version: "1.0"
+    aggregate_sha256: 36da55aaac3daa717c4ea387958dbcb46b5773a0cb425c5016d379fbed8ba995
+    source_commit: b24615e71501030d940365f75b16eb98a8e60237
+    delivery_commit: 12c4e25a58fe7c42b8f7c5d45542121407b18cbc
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-31T15:30:35+08:00"
+    user_reply: "通过"
+    authorization_source: direct-user-approval-in-canonical-fixed-08-task
+    effect: "已批准当前产物，并自动授权唯一下一站固定09／AMR-BI-DATA-101.REV。本次只覆盖该站一个代码审查交付单元；该角色交付后停止等待审核，不代表其审查结论、QA、AMR-BI-DATA-102+、服务接入或部署已获批准。"
+    completed_gate: atomic-delivery-review
+    downstream_role_authorized: true
+    authorized_next_role: role-code-reviewer
+    authorized_next_work_item: AMR-BI-DATA-101.REV
+    next_entry_authorization: approval-20260831-radar-bilingual-data-revision-foundation-code-review-entry
+    canonical_next_role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+    production_release: frozen
+    auto_route: unique-next-stage-only
+    auto_advance_beyond_next: false
+  - id: approval-20260831-radar-bilingual-data-revision-foundation-code-review-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    project_id: ai-model-radar
+    role: role-code-reviewer
+    role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+    role_task_title: "09 代码审查员"
+    work_item: AMR-BI-DATA-101.REV
+    change_id: review-20260831-radar-bilingual-data-revision-foundation-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-31T15:30:35+08:00"
+    authorization_source: approval-20260831-radar-bilingual-data-revision-foundation-v1
+    input:
+      artifact: artifact-radar-bilingual-data-revision-foundation-001
+      version: "1.0"
+      aggregate_sha256: 36da55aaac3daa717c4ea387958dbcb46b5773a0cb425c5016d379fbed8ba995
+      reviewed_source_commit: b24615e71501030d940365f75b16eb98a8e60237
+      diff_base: 94562e5a7390a6f96aa3256d325b619ff56fa6ee
+      delivery_commit: 12c4e25a58fe7c42b8f7c5d45542121407b18cbc
+    scope: "独立审查 AMR-BI-DATA-101 的前进式 checksum migration、原文／中文 revision 物理隔离与可寻址性、外键／唯一／locale=zh-CN／不可变约束、checksum 漂移拒绝、失败回滚和 query readiness fail-closed，以及测试真实性与范围合规。"
+    exclusions:
+      - source-code-or-migration-modification
+      - real-or-active-database-migration-or-write
+      - external-translation-network-or-real-event-import
+      - service-start-stop-or-restart
+      - backend-4317-or-frontend-4174-integration
+      - QA-AMR-BI-DATA-102-or-any-later-work-item
+      - production-deployment
+    expected_output:
+      artifact: artifact-radar-bilingual-data-revision-foundation-code-review-001
+      path: docs/06-code-review.md
+      version: "2.0"
+    stop_gate: code-review-conclusion-review
+    production_release: frozen
+    advance_limit: one-code-review-delivery-unit-only
+    auto_advance_beyond_next: false
   - id: approval-20260826-radar-daily-web-product-entry
     run_id: run-20260731-intake-001
     gate: role-entry
