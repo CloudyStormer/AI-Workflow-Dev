@@ -4,7 +4,7 @@ run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
 stage: data-fix
-status: radar-bilingual-data-revision-foundation-review-approved-fix-authorized
+status: radar-bilingual-data-revision-foundation-fix-ready-for-review
 current_role: role-data-engineer
 blocked: false
 blocker: null
@@ -129,7 +129,7 @@ next_approval:
   scope: "固定08仅修复 AMR-BI-DATA-101 代码审查已登记的 CR-AMR-BI-P1-001..003 与 CR-AMR-BI-P2-001；只能使用新的前进式 migration 和必要校验／测试，不得重写 0002、操作真实库、联网、启停服务、进入 QA 或 AMR-BI-DATA-102+。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: authorized-awaiting-fixed-08-role-entry
+  delivery_status: ready-for-review
   expected_artifact: artifact-radar-bilingual-data-revision-foundation-fix-001
   expected_path: backend
   expected_version: "1.1"
@@ -150,7 +150,7 @@ next_approval:
   role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
   role_task_title: "08 数据工程师"
   downstream_role_authorized: false
-  dispatch_status: authorized-awaiting-fixed-08-role-entry
+  dispatch_status: fixed-08-delivered-awaiting-review
   approved_artifact:
     artifact: artifact-radar-bilingual-data-revision-foundation-code-review-001
     path: docs/06-code-review.md
@@ -158,7 +158,7 @@ next_approval:
     sha256: 40679f6d1f9d96e598852d921fd64e6e4c0b458adad7ff42a48cc9b4f6d4afaa
     approval: approval-20260831-radar-bilingual-data-revision-foundation-code-review-conclusion
   authorized_at: "2026-08-31T16:29:04+08:00"
-  safe_checkpoint: 21e5bc05bbffe0bb3acb8a4311f0acd8dd4c1c8e
+  safe_checkpoint: fbc8c397894131aada405801a5cd068af5232ac8
   advance_limit: one-data-fix-delivery-unit-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
@@ -2591,7 +2591,7 @@ bilingual_chinese_counterpart_data_revision_foundation_fix_assignment:
   role_task_title: "08 数据工程师"
   authorization: approval-20260831-radar-bilingual-data-revision-foundation-fix-entry
   authorization_source: approval-20260831-radar-bilingual-data-revision-foundation-code-review-conclusion
-  safe_checkpoint: 21e5bc05bbffe0bb3acb8a4311f0acd8dd4c1c8e
+  safe_checkpoint: fbc8c397894131aada405801a5cd068af5232ac8
   input:
     artifact: artifact-radar-bilingual-data-revision-foundation-code-review-001
     path: docs/06-code-review.md
@@ -2621,11 +2621,36 @@ bilingual_chinese_counterpart_data_revision_foundation_fix_assignment:
     artifact: artifact-radar-bilingual-data-revision-foundation-fix-001
     path: backend
     version: "1.1"
-  scheduling: authorized-awaiting-canonical-fixed-08-role-entry
-  delivery_status: pending
+  scheduling: completed
+  delivery_status: ready-for-review
   authorized_at: "2026-08-31T16:29:04+08:00"
+  started_at: "2026-08-31T16:34:17+08:00"
+  completed_at: "2026-08-31T16:43:42+08:00"
+  output:
+    artifact: artifact-radar-bilingual-data-revision-foundation-fix-001
+    version: "1.1"
+    source_commit: d260bb0777b3d975e28d5ff6c024bf85b2f2df06
+    aggregate_sha256: 307168e0ecfcc999057b31c260aba26e22d8285f966c88753e4e42aee91c7b28
+    migration: backend/migrations/live/0003_bilingual_revision_integrity.sql
+    authoritative_paths: 5
+  validation:
+    lint: passed
+    typecheck: passed
+    build: passed
+    backend_tests: 61-of-61-passed
+    migration_tests: 8-of-8-passed
+    existing_migration_0002_unchanged: true
+  truth_boundary:
+    real_or_active_database_migrated: false
+    real_or_active_database_written: false
+    isolated_in_memory_sqlite_probes_only: true
+    network_requests: 0
+    service_started_stopped_or_restarted: false
+    QA_started: false
+    AMR_BI_DATA_102_started: false
+    production_release: frozen
   stop_gate: data-fix-delivery-review
   qa_authorized: false
   production_release: frozen
   auto_advance_beyond_next: false
-updated_at: "2026-08-31T16:29:04+08:00"
+updated_at: "2026-08-31T16:43:42+08:00"

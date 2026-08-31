@@ -3015,3 +3015,80 @@ artifacts:
     downstream_role_authorized: true
     auto_route: unique-fix-role-only
     auto_advance_beyond_next: false
+  - id: artifact-radar-bilingual-data-revision-foundation-fix-001
+    run_id: run-20260731-intake-001
+    type: sqlite-bilingual-revision-foundation-fix
+    project_id: ai-model-radar
+    work_item: AMR-BI-DATA-101-FIX-001
+    change_id: fix-20260831-radar-bilingual-data-revision-foundation-001
+    owner: role-data-engineer
+    role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+    role_task_title: "08 数据工程师"
+    authorization: approval-20260831-radar-bilingual-data-revision-foundation-fix-entry
+    authorization_source: approval-20260831-radar-bilingual-data-revision-foundation-code-review-conclusion
+    input:
+      artifact: artifact-radar-bilingual-data-revision-foundation-code-review-001
+      path: docs/06-code-review.md
+      version: "2.0"
+      sha256: 40679f6d1f9d96e598852d921fd64e6e4c0b458adad7ff42a48cc9b4f6d4afaa
+      reviewed_source_commit: b24615e71501030d940365f75b16eb98a8e60237
+    version: "1.1"
+    source_commit: d260bb0777b3d975e28d5ff6c024bf85b2f2df06
+    aggregate_sha256: 307168e0ecfcc999057b31c260aba26e22d8285f966c88753e4e42aee91c7b28
+    aggregate_rule: sha256-of-sorted-lines-each-containing-file-sha256-two-spaces-project-relative-path
+    authoritative_paths:
+      - backend/migrations/live/0003_bilingual_revision_integrity.sql
+      - backend/src/infrastructure/language-tags.ts
+      - backend/src/infrastructure/migrations.ts
+      - backend/src/infrastructure/repository.ts
+      - backend/tests/migration/migrations.test.ts
+    migration:
+      id: 0003_bilingual_revision_integrity.sql
+      sha256: 05147759cb37ea16feaa942ad94c42f2f8df76284624cdb596942ab63647ef53
+      direction: forward-only
+      target: isolated-in-memory-sqlite-fixture-only
+      rewrites_existing_migration_0002: false
+    finding_closures:
+      CR-AMR-BI-P1-001: parent-revision-payload-sha-lineage-enforced
+      CR-AMR-BI-P1-002: schema-fingerprint-foreign-key-config-and-integrity-readiness-fail-closed
+      CR-AMR-BI-P1-003: explicit-mutually-exclusive-chinese-status-formation-content-matrix
+      CR-AMR-BI-P2-001: bcp47-validated-canonical-source-language-write-boundary
+    validation:
+      node: 24.19.0
+      lint: passed
+      typecheck: passed
+      build: passed
+      backend_tests: 61-of-61-passed
+      migration_tests: 8-of-8-passed
+      migration_replay: passed
+      legacy-invalid-row-migration_rollback: passed
+      checksum_and_query_readiness_failure: false
+      table_index_trigger_drift_probes: rejected
+      foreign_keys_disabled_probe: rejected
+      foreign_key_check_orphan_probe: rejected
+      payload_lineage_mismatch_probe: rejected
+      contradictory_or_blank_chinese_revision_probes: rejected
+      invalid_bcp47_probes: rejected
+      canonical_bcp47_storage_probe: en-US
+      git_boundary: passed
+      diff_check: passed
+    truth_boundary:
+      real_or_active_database_migrated: false
+      real_or_active_database_written: false
+      isolated_in_memory_sqlite_probes_only: true
+      external_translation_calls: 0
+      network_requests: 0
+      real_events_imported: 0
+      service_started_stopped_or_restarted: false
+      backend_4317_contract_modified: false
+      frontend_4174_modified: false
+      QA_started: false
+      AMR_BI_DATA_102_started: false
+      production_release: frozen
+    completed_at: "2026-08-31T16:43:42+08:00"
+    validated_at: "2026-08-31T16:43:42+08:00"
+    status: ready-for-review
+    review_status: pending
+    stop_gate: data-fix-delivery-review
+    downstream_role_authorized: false
+    auto_route: false
