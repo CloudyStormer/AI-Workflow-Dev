@@ -1887,3 +1887,67 @@ approvals:
     production_release: frozen
     advance_limit: one-task-breakdown-delivery-unit-only
     auto_advance_beyond_next: false
+  - id: approval-20260828-radar-bilingual-chinese-counterpart-task-breakdown-v1
+    run_id: run-20260731-intake-001
+    gate: task-breakdown-review
+    project_id: ai-model-radar
+    work_item: AMR-PM-BILINGUAL-TASKS-001
+    change_id: plan-20260828-radar-bilingual-chinese-counterpart-task-breakdown-v1
+    artifact: artifact-radar-bilingual-chinese-counterpart-task-breakdown-001
+    path: docs/11-bilingual-chinese-counterpart-task-breakdown.md
+    version: "1.0"
+    sha256: ab295a08209925c58486fe6d22897a5fb2222a9b8ab4a2f659488a255e747961
+    source_commit: bb3b5deba3eefa71f81e49e39782493ed85ea20d
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-28T18:09:53+08:00"
+    user_reply: "通过"
+    authorization_source: direct-user-approval-in-canonical-fixed-02-task
+    effect: "已批准当前产物，并自动授权唯一下一站固定08／AMR-BI-DATA-101。本次只覆盖该站一个原子交付单元；该角色交付后停止等待审核，不代表其产物或后续角色已获批准。"
+    completed_gate: task-breakdown-review
+    downstream_role_authorized: true
+    authorized_next_role: role-data-engineer
+    authorized_next_work_item: AMR-BI-DATA-101
+    next_entry_authorization: approval-20260828-radar-bilingual-revision-foundation-entry
+    canonical_next_role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+    production_release: frozen
+    auto_route: unique-next-stage-only
+    auto_advance_beyond_next: false
+  - id: approval-20260828-radar-bilingual-revision-foundation-entry
+    run_id: run-20260731-intake-001
+    gate: role-entry
+    project_id: ai-model-radar
+    role: role-data-engineer
+    role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+    role_task_title: "08 数据工程师"
+    work_item: AMR-BI-DATA-101
+    change_id: data-20260828-radar-bilingual-original-chinese-revision-foundation-001
+    decision: approved
+    decided_by: 超级无敌帅超超总
+    decided_at: "2026-08-28T18:09:53+08:00"
+    authorization_source: approval-20260828-radar-bilingual-chinese-counterpart-task-breakdown-v1
+    input:
+      artifact: artifact-radar-bilingual-chinese-counterpart-task-breakdown-001
+      path: docs/11-bilingual-chinese-counterpart-task-breakdown.md
+      version: "1.0"
+      sha256: ab295a08209925c58486fe6d22897a5fb2222a9b8ab4a2f659488a255e747961
+      approval: approval-20260828-radar-bilingual-chinese-counterpart-task-breakdown-v1
+    scope: "只在隔离 SQLite fixture 中建立前进式、带 checksum 的 migration，以及原文／中文 revision 最小可寻址 schema、物理字段分离、外键／唯一与 locale=zh-CN 约束。"
+    exclusions:
+      - real-database-migration-or-write
+      - external-translation-or-provider-access
+      - real-event-import-or-collection
+      - service-start-stop-or-restart
+      - backend-4317-contract-or-frontend-4174-integration
+      - AMR-BI-DATA-102-or-any-later-work-item
+      - fixed-07-fixed-06-fixed-09-fixed-10-or-any-other-role-route
+      - production-deployment
+    expected_output:
+      artifact: artifact-radar-bilingual-data-revision-foundation-001
+      path: "backend/（具体 migration 与隔离 fixture 路径由固定08在其交付中登记）"
+      version: "1.0"
+    validation_command: "cd backend && npm run test:migration-up-down"
+    stop_gate: atomic-delivery-review
+    production_release: frozen
+    advance_limit: one-data-delivery-unit-only
+    auto_advance_beyond_next: false

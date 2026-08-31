@@ -3,9 +3,9 @@ project_id: ai-model-radar
 run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
-stage: task-breakdown-review
-status: radar-bilingual-chinese-counterpart-task-breakdown-ready-for-review
-current_role: role-pm
+stage: atomic-delivery-entry
+status: radar-bilingual-data-revision-foundation-entry-authorized-awaiting-fixed-08-role-entry
+current_role: role-data-engineer
 blocked: false
 blocker: null
 resolved_blocker:
@@ -125,38 +125,38 @@ completed_release_completeness_architecture_review:
   advance_limit: unique-next-stage-only
   auto_advance_beyond_next: false
 next_approval:
-  gate: task-breakdown-review
-  scope: "固定02仅将已批准架构拆成依赖有序、可唯一路由的小任务，覆盖原文/中文 revision 数据迁移、4317 契约与幂等处理、4174 接入、审查和 QA 验证；必须明确首个唯一工作项，不执行实现。"
+  gate: atomic-delivery-review
+  scope: "固定08仅完成 AMR-BI-DATA-101：在隔离 SQLite fixture 中建立可校验、前进式的原文／中文 revision 数据迁移基础；不得触及真实库、翻译、真实事件、服务或联网。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: ready-for-review
-  expected_artifact: artifact-radar-bilingual-chinese-counterpart-task-breakdown-001
-  expected_path: docs/11-bilingual-chinese-counterpart-task-breakdown.md
+  delivery_status: authorized-awaiting-fixed-08-role-entry
+  expected_artifact: artifact-radar-bilingual-data-revision-foundation-001
+  expected_path: "backend/（具体 migration 与隔离 fixture 路径由固定08在其交付中登记）"
   expected_version: "1.0"
-  artifact_sha256: ab295a08209925c58486fe6d22897a5fb2222a9b8ab4a2f659488a255e747961
-  input_artifact: artifact-radar-bilingual-chinese-counterpart-architecture-impact-001
-  input_path: docs/10-bilingual-chinese-counterpart-architecture-impact.md
+  artifact_sha256: null
+  input_artifact: artifact-radar-bilingual-chinese-counterpart-task-breakdown-001
+  input_path: docs/11-bilingual-chinese-counterpart-task-breakdown.md
   input_version: "1.0"
-  input_sha256: e6b33a062727d84d1b0199d194820899276f6394bdd3ccdd2bde2d752a7c8b3a
-  input_approval: approval-20260828-radar-bilingual-chinese-counterpart-architecture-v1
-  work_item: AMR-PM-BILINGUAL-TASKS-001
-  change_id: plan-20260828-radar-bilingual-chinese-counterpart-task-breakdown-v1
-  entry_authorization: approval-20260828-radar-bilingual-chinese-counterpart-task-breakdown-entry
-  role: role-pm
-  role_task_id: "019fb738-5706-7552-849f-35c8a124e2f0"
-  disabled_duplicate_task_id: "01a02335-2d63-7e63-bd36-b63017115d77"
+  input_sha256: ab295a08209925c58486fe6d22897a5fb2222a9b8ab4a2f659488a255e747961
+  input_approval: approval-20260828-radar-bilingual-chinese-counterpart-task-breakdown-v1
+  work_item: AMR-BI-DATA-101
+  change_id: data-20260828-radar-bilingual-original-chinese-revision-foundation-001
+  entry_authorization: approval-20260828-radar-bilingual-revision-foundation-entry
+  role: role-data-engineer
+  role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+  role_task_title: "08 数据工程师"
   unique_conclusion: backend-and-data-changes-required-before-frontend-integration
   downstream_role_authorized: false
-  dispatch_status: delivered-awaiting-user-review
-  completed_at: "2026-08-28T17:28:17+08:00"
-  validated_at: "2026-08-28T17:28:17+08:00"
-  proposed_on_approved:
-    role: role-data-engineer
-    work_item: AMR-BI-DATA-101
-    owner: "08 数据工程师"
-    estimated_hours: 4
-    status: planned-not-authorized
-  advance_limit: one-task-breakdown-delivery-unit-only
+  dispatch_status: routing-registered-awaiting-canonical-fixed-08-role-entry
+  approved_artifact:
+    artifact: artifact-radar-bilingual-chinese-counterpart-task-breakdown-001
+    path: docs/11-bilingual-chinese-counterpart-task-breakdown.md
+    version: "1.0"
+    sha256: ab295a08209925c58486fe6d22897a5fb2222a9b8ab4a2f659488a255e747961
+    approval: approval-20260828-radar-bilingual-chinese-counterpart-task-breakdown-v1
+  authorized_at: "2026-08-28T18:09:53+08:00"
+  safe_checkpoint: bb3b5deba3eefa71f81e49e39782493ed85ea20d
+  advance_limit: one-atomic-delivery-unit-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
   gate: cross-project-real-product-delta-review
@@ -2376,8 +2376,8 @@ bilingual_chinese_counterpart_task_breakdown_assignment:
     - service-start-stop-or-restart
     - production-deployment
     - automatic-development-route
-  scheduling: ready-for-review
-  delivery_status: ready-for-review
+  scheduling: approved-and-routed-to-fixed-08
+  delivery_status: approved
   artifact_sha256: ab295a08209925c58486fe6d22897a5fb2222a9b8ab4a2f659488a255e747961
   direct_work_items: 17
   planned_companion_review_qa_items: 28
@@ -2386,9 +2386,15 @@ bilingual_chinese_counterpart_task_breakdown_assignment:
     role: role-data-engineer
     role_task_title: "08 数据工程师"
     estimated_hours: 4
-    status: planned-not-authorized
+    status: authorized-unique-first-work-item
   completed_at: "2026-08-28T17:28:17+08:00"
   validated_at: "2026-08-28T17:28:17+08:00"
+  review_approval: approval-20260828-radar-bilingual-chinese-counterpart-task-breakdown-v1
+  review_decision: approved
+  approved_by: 超级无敌帅超超总
+  approved_at: "2026-08-28T18:09:53+08:00"
+  source_commit: bb3b5deba3eefa71f81e49e39782493ed85ea20d
+  completed_gate: task-breakdown-review
   validation:
     workflow_yaml: passed
     workflow_jsonl: passed
@@ -2399,7 +2405,56 @@ bilingual_chinese_counterpart_task_breakdown_assignment:
     implementation_boundary: passed
   unique_conclusion: backend-and-data-changes-required-before-frontend-integration
   stop_gate: task-breakdown-review
-  downstream_role_authorized: false
+  downstream_role_authorized: true
+  authorized_next_role: role-data-engineer
+  authorized_next_work_item: AMR-BI-DATA-101
+  next_entry_authorization: approval-20260828-radar-bilingual-revision-foundation-entry
+  canonical_next_role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+  result: approved-and-fixed-08-data-revision-foundation-authorized
   production_release: frozen
   auto_advance_beyond_next: false
-updated_at: "2026-08-28T17:28:17+08:00"
+bilingual_chinese_counterpart_data_revision_foundation_assignment:
+  change_id: data-20260828-radar-bilingual-original-chinese-revision-foundation-001
+  work_item: AMR-BI-DATA-101
+  role: role-data-engineer
+  role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+  role_task_title: "08 数据工程师"
+  authorization: approval-20260828-radar-bilingual-revision-foundation-entry
+  authorization_source: approval-20260828-radar-bilingual-chinese-counterpart-task-breakdown-v1
+  safe_checkpoint: bb3b5deba3eefa71f81e49e39782493ed85ea20d
+  original_state:
+    stage: task-breakdown-review
+    status: radar-bilingual-chinese-counterpart-task-breakdown-ready-for-review
+    current_role: role-pm
+    completed_gate: task-breakdown-review
+  input:
+    artifact: artifact-radar-bilingual-chinese-counterpart-task-breakdown-001
+    path: docs/11-bilingual-chinese-counterpart-task-breakdown.md
+    version: "1.0"
+    sha256: ab295a08209925c58486fe6d22897a5fb2222a9b8ab4a2f659488a255e747961
+    approval: approval-20260828-radar-bilingual-chinese-counterpart-task-breakdown-v1
+  scope:
+    - forward-only-checksummed-migration-in-isolated-sqlite-fixture
+    - minimally-addressable-original-and-chinese-revision-schema
+    - physical-original-and-chinese-field-separation
+    - foreign-key-unique-and-locale-zh-CN-constraints
+  expected_output:
+    artifact: artifact-radar-bilingual-data-revision-foundation-001
+    delivery_paths: "固定08在其实现交付中登记具体 migration 与隔离 fixture 路径"
+    version: "1.0"
+  validation_command: "cd backend && npm run test:migration-up-down"
+  failure_boundary: "migration 失败时 query readiness 保持 false；保留既有 migration；禁止对真实或活动数据库执行迁移。"
+  exclusions:
+    - real-database-migration-or-write
+    - external-translation-or-provider-access
+    - real-event-import-or-collection
+    - service-start-stop-or-restart
+    - backend-4317-contract-or-frontend-4174-integration
+    - AMR-BI-DATA-102-or-any-later-work-item
+    - fixed-07-fixed-06-fixed-09-fixed-10-or-any-other-role-route
+    - production-deployment
+  scheduling: authorized-awaiting-canonical-fixed-08-role-entry
+  stop_gate: atomic-delivery-review
+  production_release: frozen
+  auto_advance_beyond_next: false
+updated_at: "2026-08-28T18:09:53+08:00"
