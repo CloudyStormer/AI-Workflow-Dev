@@ -3100,3 +3100,66 @@ artifacts:
     next_entry_authorization: approval-20260831-radar-bilingual-data-revision-foundation-fix-rereview-entry
     auto_route: unique-rereview-role-only
     auto_advance_beyond_next: false
+  - id: artifact-radar-bilingual-data-revision-foundation-fix-rereview-001
+    run_id: run-20260731-intake-001
+    type: bilingual-data-revision-foundation-fix-code-rereview
+    project_id: ai-model-radar
+    work_item: AMR-BI-DATA-101-FIX-001.REV
+    change_id: rereview-20260831-radar-bilingual-data-revision-foundation-fix-001
+    owner: role-code-reviewer
+    role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
+    role_task_title: "09 代码审查员"
+    authorization: approval-20260831-radar-bilingual-data-revision-foundation-fix-rereview-entry
+    authorization_source: approval-20260831-radar-bilingual-data-revision-foundation-fix-v1-1
+    input:
+      artifact: artifact-radar-bilingual-data-revision-foundation-fix-001
+      version: "1.1"
+      aggregate_sha256: 307168e0ecfcc999057b31c260aba26e22d8285f966c88753e4e42aee91c7b28
+      source_commit: d260bb0777b3d975e28d5ff6c024bf85b2f2df06
+      diff_base: fbc8c397894131aada405801a5cd068af5232ac8
+      delivery_commit: 9dcae96506e7e21cdb8ebb2f1535c32ef3ec1955
+    path: docs/06-code-review.md
+    version: "2.1"
+    sha256: 5b979624b9b4e555537bfb77794520c39e7225a28bc65c686f51a2093e2baadf
+    conclusion: changes-requested
+    finding_counts: {P0: 0, P1: 1, P2: 0}
+    findings:
+      - CR-AMR-BI-P1-003-R1
+    finding_dispositions:
+      CR-AMR-BI-P1-001: closed
+      CR-AMR-BI-P1-002: closed
+      CR-AMR-BI-P1-003: open-residual-unicode-and-control-whitespace-bypass
+      CR-AMR-BI-P2-001: closed
+    validation:
+      node: 24.19.0
+      lint: passed
+      typecheck: passed
+      build: passed
+      backend_tests: 61-of-61-passed
+      migration_tests: 8-of-8-passed
+      aggregate_sha256: matched
+      existing_migration_0002_unchanged: true
+      tab_only_chinese_title_probe: accepted-failed
+      newline_only_chinese_title_probe: accepted-failed
+      ideographic_space_only_chinese_title_probe: accepted-failed
+    truth_boundary:
+      real_or_active_database_migrated: false
+      real_or_active_database_written: false
+      in_memory_sqlite_probes_only: true
+      external_translation_calls: 0
+      network_requests: 0
+      real_events_imported: 0
+      service_started_stopped_or_restarted: false
+      backend_4317_contract_modified: false
+      frontend_4174_modified: false
+      QA_started: false
+      AMR_BI_DATA_102_started: false
+      production_release: frozen
+    completed_at: "2026-08-31T17:27:57+08:00"
+    status: changes-requested-awaiting-user-review
+    stop_gate: code-rereview-conclusion-review
+    fix_authorized: false
+    qa_authorized: false
+    downstream_role_authorized: false
+    auto_route: false
+    auto_advance_beyond_next: false

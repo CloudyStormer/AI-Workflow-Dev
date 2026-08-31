@@ -1,5 +1,86 @@
 # AI Model Radar 持续代码审查报告
 
+## v2.1 AMR-BI-DATA-101-FIX-001 修复复审
+
+### 复审元数据
+
+- project_id: `ai-model-radar`
+- work_item: `AMR-BI-DATA-101-FIX-001.REV`
+- change_id: `rereview-20260831-radar-bilingual-data-revision-foundation-fix-001`
+- authorization: `approval-20260831-radar-bilingual-data-revision-foundation-fix-rereview-entry`
+- authorization_source: `approval-20260831-radar-bilingual-data-revision-foundation-fix-v1-1`
+- input_artifact: `artifact-radar-bilingual-data-revision-foundation-fix-001` v1.1
+- input_aggregate_sha256: `307168e0ecfcc999057b31c260aba26e22d8285f966c88753e4e42aee91c7b28`
+- reviewed_source_commit: `d260bb0777b3d975e28d5ff6c024bf85b2f2df06`
+- authoritative_fix_diff: `fbc8c397894131aada405801a5cd068af5232ac8..d260bb0777b3d975e28d5ff6c024bf85b2f2df06`
+- delivery_commit: `9dcae96506e7e21cdb8ebb2f1535c32ef3ec1955`
+- routing_baseline: `2792ef3d74dc821e4111a5518915bd93c9694fe0`
+- original_review_artifact: `artifact-radar-bilingual-data-revision-foundation-code-review-001`
+- original_review_sha256: `40679f6d1f9d96e598852d921fd64e6e4c0b458adad7ff42a48cc9b4f6d4afaa`
+- reviewer: 固定 `09 代码审查员`（`role-code-reviewer`）
+- reviewed_at: `2026-08-31T17:27:57+08:00`
+- report_version: `2.1`
+- conclusion: `changes-requested`
+- finding_counts: `P0=0 / P1=1 / P2=0`
+- stop_gate: `code-rereview-conclusion-review`
+
+### 独立结论
+
+**复审仍请求修改，继续阻断 QA 与 `AMR-BI-DATA-102+`。** `CR-AMR-BI-P1-001`、`CR-AMR-BI-P1-002` 和 `CR-AMR-BI-P2-001` 已完整关闭：新的前进式 `0003` 以 INSERT 防护解决父 revision payload SHA 事实链；query readiness 已同时核验 migration 账本、实际 schema fingerprint、`foreign_keys=1` 与 `foreign_key_check`；`source_language` 在数据库写入边界通过 `Intl.getCanonicalLocales` 规范化并 fail closed。
+
+但 `CR-AMR-BI-P1-003` 仍有一个可复现的剩余缺口：新真值矩阵用 SQLite 默认 `trim()` 判定中文文本非空，而它默认只去除 ASCII 空格。固定 09 的独立内存 SQLite 探针确认，`title_zh` 分别为制表符、换行和全角空格时，三条 `partial` revision 全部插入成功。这些记录在用户可见语义上仍没有任何中文内容，因此原 Major 尚未完整关闭。
+
+| 严重级别 | 数量 | 门禁影响 |
+| --- | ---: | --- |
+| Blocker / P0 | 0 | 无 P0 |
+| Major / P1 | 1 | 阻断 QA 和 `AMR-BI-DATA-102+` |
+| Minor / P2 | 0 | 无新增 P2 |
+
+### 未关闭 finding
+
+#### CR-AMR-BI-P1-003-R1：非 ASCII／控制空白可绕过中文 revision 非空真值矩阵
+
+- 位置：`backend/migrations/live/0003_bilingual_revision_integrity.sql:124-139`；`backend/tests/migration/migrations.test.ts:283-319`。
+- 问题：`length(trim(...)) > 0` 仅能拒绝普通半角空格，不会去除 `\t`、`\n`、`\r`、不间断空格或全角空格等用户不可见空白。仓库负测只固化了普通空格 `"   "`，没有覆盖这些反例。
+- 独立复现：在 Node.js 24.19.0 的 `:memory:` SQLite 中应用 0001–0003，对同一英文原文 revision 写入 `formation_kind=machine/status=partial`，并分别以制表符、换行、全角空格作为唯一 `title_zh`，结果均为 `ACCEPTED`。
+- 影响：数据库可将实际无中文内容的 revision 持久化为 `partial/stale/needs_review`，下游 coverage、状态、读屏和失败保旧逻辑仍无法把“有字节”与“有可见内容”区分。
+- 修复要求：在不改写 0002/0003 的前提下新增前进式 migration，使用可确定处理全部目标 Unicode／控制空白的非空规则；表驱动覆盖 tab、CR/LF、NBSP、全角空格、混合空白和真实非空中文正例。迁移时对既有空白欺骗记录 fail closed 并回滚。
+
+### 原 findings 处置
+
+| 原 finding | 状态 | 独立证据 |
+| --- | --- | --- |
+| `CR-AMR-BI-P1-001` payload lineage | `closed` | `0003` 先拒绝旧库不一致行，再建立 parent payload identity 索引和 INSERT 防护；不匹配哈希的内存回归已拒绝。 |
+| `CR-AMR-BI-P1-002` readiness | `closed` | `verifyMigrations()` 已同时比对账本哈希、完整 `sqlite_schema` fingerprint、`foreign_keys=1` 和 `foreign_key_check`；删表、删索引、删触发器、禁用外键及孤儿行全部返回 false。 |
+| `CR-AMR-BI-P1-003` truth matrix | `open` | 矛盾 formation/status、普通空格和无正文组合已拒绝；但制表符、换行与全角空格仍被接受，见 `CR-AMR-BI-P1-003-R1`。 |
+| `CR-AMR-BI-P2-001` BCP 47 | `closed` | 数据库触发器调用确定性 `canonical_bcp47`；`--/12/-en/en-` 拒绝，`EN-us` 未规范写入拒绝，经写入边界规范化后以 `en-US` 保存。 |
+
+### 独立验证
+
+| 检查 | 结果 |
+| --- | --- |
+| Git 基线 | `HEAD == origin/main == 2792ef3d74dc821e4111a5518915bd93c9694fe0`；入场时工作树／暂存区干净，无 index lock |
+| 权威修复差异 | `fbc8c39..d260bb0` 严格为 5 个登记路径；`d260bb0..HEAD` 的 backend 无漂移 |
+| aggregate SHA-256 | 独立复算=`307168e0ecfcc999057b31c260aba26e22d8285f966c88753e4e42aee91c7b28`，匹配 |
+| 0002 零改写 | `b24615e` 与 `d260bb0` 字节 SHA-256 均为 `8b27857c1e61895bdcec5bd90dd8bc88a8a077bedd245b2e9c29bbc84f9ce7ec` |
+| 0003 | SHA-256=`05147759cb37ea16feaa942ad94c42f2f8df76284624cdb596942ab63647ef53`，前进式、失败事务回滚 |
+| Node.js | `v24.19.0` |
+| `npm run lint` | 通过，0 warning |
+| `npm run typecheck` | 通过 |
+| `npm run build` | 通过，只生成已忽略构建产物 |
+| `npm test` | policy 33 + unit 23 + integration 3 + contract 2 = 61/61 通过 |
+| `npm run test:migration-up-down` | 1 文件、8/8 通过 |
+| 额外空白负向探针 | tab=`ACCEPTED`，newline=`ACCEPTED`，全角空格=`ACCEPTED`，失败 |
+| 真实性边界 | 所有额外探针仅使用 `:memory:` SQLite；真实／活动数据库写入=0，network=0，服务启停=0，QA=0，`AMR-BI-DATA-102+`=0 |
+
+Node 命令仍因本机 Homebrew 初始化输出一次 `/bin/ps: Operation not permitted`，但目标命令均返回退出码 0；这不是业务失败。npm 另报告既有 mirror/metrics 配置将在下一个主版本停止支持，本批测试未因此降级或跳过。
+
+### 停止门与审核选项
+
+- 当前停止门：`code-rereview-conclusion-review`。
+- 推荐审核选项：`通过复审结论并仅授权固定 08 修复 CR-AMR-BI-P1-003-R1` / `修改复审结论` / `打回复审`。
+- 本次复审不自动批准再修复、QA、`AMR-BI-DATA-102+`、4317/4174、联网翻译、真实事件导入、服务操作或生产部署。
+
 ## v2.0 AMR-BI-DATA-101 双语 revision 数据基座代码审查
 
 ### 审查元数据

@@ -4,7 +4,7 @@ run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
 stage: code-rereview
-status: radar-bilingual-data-revision-foundation-fix-approved-rereview-authorized
+status: radar-bilingual-data-revision-foundation-fix-rereview-changes-requested
 current_role: role-code-reviewer
 blocked: false
 blocker: null
@@ -129,7 +129,7 @@ next_approval:
   scope: "固定09仅独立复审 artifact-radar-bilingual-data-revision-foundation-fix-001 对 CR-AMR-BI-P1-001..003 与 CR-AMR-BI-P2-001 的关闭完整性、修复回归和范围边界；不得修改业务代码、操作真实库、联网、启停服务、进入 QA 或 AMR-BI-DATA-102+。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: authorized-awaiting-fixed-09-role-entry
+  delivery_status: changes-requested-awaiting-user-review
   expected_artifact: artifact-radar-bilingual-data-revision-foundation-fix-rereview-001
   expected_path: docs/06-code-review.md
   expected_version: "2.1"
@@ -153,7 +153,11 @@ next_approval:
   role_task_id: "019fb74a-b82f-76c3-ae1c-bef178d2939b"
   role_task_title: "09 代码审查员"
   downstream_role_authorized: false
-  dispatch_status: authorized-awaiting-fixed-09-role-entry
+  dispatch_status: completed-awaiting-user-review
+  report_sha256: 5b979624b9b4e555537bfb77794520c39e7225a28bc65c686f51a2093e2baadf
+  conclusion: changes-requested
+  finding_counts: {P0: 0, P1: 1, P2: 0}
+  residual_finding: CR-AMR-BI-P1-003-R1
   approved_artifact:
     artifact: artifact-radar-bilingual-data-revision-foundation-fix-001
     version: "1.1"
@@ -2675,7 +2679,7 @@ bilingual_chinese_counterpart_data_revision_foundation_fix_rereview_assignment:
   role_task_title: "09 代码审查员"
   authorization: approval-20260831-radar-bilingual-data-revision-foundation-fix-rereview-entry
   authorization_source: approval-20260831-radar-bilingual-data-revision-foundation-fix-v1-1
-  scheduling: authorized-awaiting-canonical-fixed-09-role-entry
+  scheduling: completed-awaiting-code-rereview-conclusion-review
   input:
     artifact: artifact-radar-bilingual-data-revision-foundation-fix-001
     version: "1.1"
@@ -2705,8 +2709,45 @@ bilingual_chinese_counterpart_data_revision_foundation_fix_rereview_assignment:
     artifact: artifact-radar-bilingual-data-revision-foundation-fix-rereview-001
     path: docs/06-code-review.md
     version: "2.1"
+  started_at: "2026-08-31T17:27:57+08:00"
+  completed_at: "2026-08-31T17:27:57+08:00"
+  output:
+    artifact: artifact-radar-bilingual-data-revision-foundation-fix-rereview-001
+    path: docs/06-code-review.md
+    version: "2.1"
+    sha256: 5b979624b9b4e555537bfb77794520c39e7225a28bc65c686f51a2093e2baadf
+    conclusion: changes-requested
+    finding_counts: {P0: 0, P1: 1, P2: 0}
+    residual_finding: CR-AMR-BI-P1-003-R1
+    finding_dispositions:
+      CR-AMR-BI-P1-001: closed
+      CR-AMR-BI-P1-002: closed
+      CR-AMR-BI-P1-003: open-residual-unicode-and-control-whitespace-bypass
+      CR-AMR-BI-P2-001: closed
+  validation:
+    node: 24.19.0
+    lint: passed
+    typecheck: passed
+    build: passed
+    backend_tests: 61-of-61-passed
+    migration_tests: 8-of-8-passed
+    aggregate_sha256: matched
+    existing_migration_0002_unchanged: true
+    tab_only_chinese_title_probe: accepted-failed
+    newline_only_chinese_title_probe: accepted-failed
+    ideographic_space_only_chinese_title_probe: accepted-failed
+  truth_boundary:
+    real_or_active_database_migrated: false
+    real_or_active_database_written: false
+    in_memory_sqlite_probes_only: true
+    network_requests: 0
+    service_started_stopped_or_restarted: false
+    QA_started: false
+    AMR_BI_DATA_102_started: false
+    production_release: frozen
   stop_gate: code-rereview-conclusion-review
+  fix_authorized: false
   qa_authorized: false
   production_release: frozen
   auto_advance_beyond_next: false
-updated_at: "2026-08-31T17:17:01+08:00"
+updated_at: "2026-08-31T17:27:57+08:00"
