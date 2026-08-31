@@ -14,7 +14,11 @@ import {
   AI_DEVELOPMENT_RELEVANCE_POLICY_VERSION,
   assessAiDevelopmentRelevance,
 } from "../relevance/ai-development.js";
-import { applyMigrations, type MigrationResult } from "./migrations.js";
+import {
+  applyMigrations,
+  type MigrationResult,
+  verifyMigrations,
+} from "./migrations.js";
 
 function sha256(value: string): string {
   return createHash("sha256").update(value).digest("hex");
@@ -88,18 +92,11 @@ export class RadarRepository {
     this.governance.close();
   }
 
-  isMigrated(): boolean {
-    try {
-      const live = this.live.prepare("SELECT COUNT(*) AS count FROM schema_migrations").get() as {
-        count: number;
-      };
-      const governance = this.governance
-        .prepare("SELECT COUNT(*) AS count FROM schema_migrations")
-        .get() as { count: number };
-      return Number(live.count) > 0 && Number(governance.count) > 0;
-    } catch {
-      return false;
-    }
+  isMigrated(migrationsRoot = path.resolve(process.cwd(), "migrations")): boolean {
+    return (
+      verifyMigrations(this.live, path.join(migrationsRoot, "live")) &&
+      verifyMigrations(this.governance, path.join(migrationsRoot, "governance"))
+    );
   }
 
   seedSources(sources: readonly SourceDefinition[], now = new Date().toISOString()): void {

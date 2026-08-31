@@ -19,13 +19,45 @@ function hasMigrationTable(database: DatabaseSync): boolean {
   return row?.present === 1;
 }
 
+function listMigrationFiles(migrationDirectory: string): readonly string[] {
+  return readdirSync(migrationDirectory)
+    .filter((name) => /^\d{4}_[a-z0-9_]+\.sql$/.test(name))
+    .sort();
+}
+
+export function verifyMigrations(
+  database: DatabaseSync,
+  migrationDirectory: string,
+): boolean {
+  try {
+    const migrationFiles = listMigrationFiles(migrationDirectory);
+    if (migrationFiles.length === 0 || !hasMigrationTable(database)) {
+      return false;
+    }
+    const rows = database
+      .prepare("SELECT migration_id, sha256 FROM schema_migrations ORDER BY migration_id")
+      .all() as Array<{ readonly migration_id: string; readonly sha256: string }>;
+    if (rows.length !== migrationFiles.length) {
+      return false;
+    }
+    return migrationFiles.every((migrationId, index) => {
+      const row = rows[index];
+      if (row?.migration_id !== migrationId) {
+        return false;
+      }
+      const sql = readFileSync(path.join(migrationDirectory, migrationId), "utf8");
+      return row.sha256 === sha256(sql);
+    });
+  } catch {
+    return false;
+  }
+}
+
 export function applyMigrations(
   database: DatabaseSync,
   migrationDirectory: string,
 ): MigrationResult {
-  const migrationFiles = readdirSync(migrationDirectory)
-    .filter((name) => /^\d{4}_[a-z0-9_]+\.sql$/.test(name))
-    .sort();
+  const migrationFiles = listMigrationFiles(migrationDirectory);
   if (migrationFiles.length === 0) {
     throw new Error(`no migrations found in ${path.basename(migrationDirectory)}`);
   }
