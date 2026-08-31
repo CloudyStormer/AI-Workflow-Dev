@@ -2046,6 +2046,82 @@ artifacts:
     production_release: frozen
     auto_route: unique-next-stage-only
     auto_advance_beyond_next: false
+  - id: artifact-radar-bilingual-data-revision-foundation-001
+    run_id: run-20260731-intake-001
+    type: sqlite-bilingual-revision-migration-foundation
+    project_id: ai-model-radar
+    work_item: AMR-BI-DATA-101
+    change_id: data-20260828-radar-bilingual-original-chinese-revision-foundation-001
+    owner: role-data-engineer
+    role_task_id: "019fb74a-a99a-7731-9f95-ecaac1e96e99"
+    role_task_title: "08 数据工程师"
+    authorization: approval-20260828-radar-bilingual-revision-foundation-entry
+    input:
+      artifact: artifact-radar-bilingual-chinese-counterpart-task-breakdown-001
+      path: docs/11-bilingual-chinese-counterpart-task-breakdown.md
+      version: "1.0"
+      sha256: ab295a08209925c58486fe6d22897a5fb2222a9b8ab4a2f659488a255e747961
+      approval: approval-20260828-radar-bilingual-chinese-counterpart-task-breakdown-v1
+    version: "1.0"
+    source_commit: b24615e71501030d940365f75b16eb98a8e60237
+    aggregate_sha256: 36da55aaac3daa717c4ea387958dbcb46b5773a0cb425c5016d379fbed8ba995
+    aggregate_rule: sha256-of-sorted-lines-each-containing-file-sha256-two-spaces-repo-relative-path
+    authoritative_paths:
+      - backend/migrations/live/0002_bilingual_revision_foundation.sql
+      - backend/src/infrastructure/migrations.ts
+      - backend/src/infrastructure/repository.ts
+      - backend/tests/fixtures/bilingual-revisions/invalid-locale.sql
+      - backend/tests/fixtures/bilingual-revisions/valid.sql
+      - backend/tests/migration/migrations.test.ts
+    migration:
+      id: 0002_bilingual_revision_foundation.sql
+      sha256: 8b27857c1e61895bdcec5bd90dd8bc88a8a077bedd245b2e9c29bbc84f9ce7ec
+      direction: forward-only
+      target: isolated-sqlite-fixture-only
+      rewrites_existing_migrations: false
+    schema_contract:
+      original_revision_address: [event_id, original_revision]
+      chinese_revision_address: [event_id, original_revision, locale, chinese_revision]
+      locale: zh-CN-only
+      original_and_chinese_fields_physically_separate: true
+      foreign_keys: enforced
+      unique_constraints: enforced
+      revisions_immutable: true
+      legacy_original_unavailable: explicit-quality-state
+    validation:
+      node: 24.19.0
+      lint: passed
+      typecheck: passed
+      build: passed
+      existing_backend_tests: 61-of-61-passed
+      migration_tests: 4-of-4-passed
+      migration_replay: passed
+      checksum_drift_rejection: passed
+      zh_CN_foreign_key_unique_immutability_negative_probes: passed
+      failed_migration_transaction_rollback: passed
+      failed_migration_query_readiness: false
+      git_boundary: passed
+      diff_check: passed
+    truth_boundary:
+      real_or_active_database_migrated: false
+      real_or_active_database_written: false
+      persistent_fixture_database_created: false
+      external_translation_calls: 0
+      network_requests: 0
+      real_events_imported: 0
+      service_started_stopped_or_restarted: false
+      backend_4317_contract_modified: false
+      frontend_4174_modified: false
+      AMR_BI_DATA_102_started: false
+      downstream_roles_started: 0
+      production_release: frozen
+    completed_at: "2026-08-31T15:09:57+08:00"
+    validated_at: "2026-08-31T15:09:57+08:00"
+    status: ready-for-review
+    review_status: pending
+    stop_gate: atomic-delivery-review
+    downstream_role_authorized: false
+    auto_route: false
   - id: artifact-radar-bilingual-chinese-counterpart-task-breakdown-001
     run_id: run-20260731-intake-001
     type: bilingual-chinese-counterpart-task-breakdown

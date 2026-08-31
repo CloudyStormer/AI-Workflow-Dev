@@ -3,8 +3,8 @@ project_id: ai-model-radar
 run_id: run-20260731-intake-001
 structure_status: normalized
 project_skill: skills/project-ai-model-radar/SKILL.md
-stage: atomic-delivery-entry
-status: radar-bilingual-data-revision-foundation-entry-authorized-awaiting-fixed-08-role-entry
+stage: atomic-delivery-review
+status: radar-bilingual-data-revision-foundation-ready-for-review
 current_role: role-data-engineer
 blocked: false
 blocker: null
@@ -129,11 +129,11 @@ next_approval:
   scope: "固定08仅完成 AMR-BI-DATA-101：在隔离 SQLite fixture 中建立可校验、前进式的原文／中文 revision 数据迁移基础；不得触及真实库、翻译、真实事件、服务或联网。"
   decision_owner: 超级无敌帅超超总
   decision: pending
-  delivery_status: authorized-awaiting-fixed-08-role-entry
+  delivery_status: ready-for-review
   expected_artifact: artifact-radar-bilingual-data-revision-foundation-001
-  expected_path: "backend/（具体 migration 与隔离 fixture 路径由固定08在其交付中登记）"
+  expected_path: backend/migrations/live/0002_bilingual_revision_foundation.sql
   expected_version: "1.0"
-  artifact_sha256: null
+  artifact_sha256: 36da55aaac3daa717c4ea387958dbcb46b5773a0cb425c5016d379fbed8ba995
   input_artifact: artifact-radar-bilingual-chinese-counterpart-task-breakdown-001
   input_path: docs/11-bilingual-chinese-counterpart-task-breakdown.md
   input_version: "1.0"
@@ -147,7 +147,7 @@ next_approval:
   role_task_title: "08 数据工程师"
   unique_conclusion: backend-and-data-changes-required-before-frontend-integration
   downstream_role_authorized: false
-  dispatch_status: routing-registered-awaiting-canonical-fixed-08-role-entry
+  dispatch_status: fixed-08-delivered-awaiting-user-review
   approved_artifact:
     artifact: artifact-radar-bilingual-chinese-counterpart-task-breakdown-001
     path: docs/11-bilingual-chinese-counterpart-task-breakdown.md
@@ -155,7 +155,7 @@ next_approval:
     sha256: ab295a08209925c58486fe6d22897a5fb2222a9b8ab4a2f659488a255e747961
     approval: approval-20260828-radar-bilingual-chinese-counterpart-task-breakdown-v1
   authorized_at: "2026-08-28T18:09:53+08:00"
-  safe_checkpoint: bb3b5deba3eefa71f81e49e39782493ed85ea20d
+  safe_checkpoint: c8a0b436f1df0b1d29dec81a52451cc9434845da
   advance_limit: one-atomic-delivery-unit-only
   auto_advance_beyond_next: false
 cross_project_real_product_delta_review:
@@ -2421,7 +2421,7 @@ bilingual_chinese_counterpart_data_revision_foundation_assignment:
   role_task_title: "08 数据工程师"
   authorization: approval-20260828-radar-bilingual-revision-foundation-entry
   authorization_source: approval-20260828-radar-bilingual-chinese-counterpart-task-breakdown-v1
-  safe_checkpoint: bb3b5deba3eefa71f81e49e39782493ed85ea20d
+  safe_checkpoint: c8a0b436f1df0b1d29dec81a52451cc9434845da
   original_state:
     stage: task-breakdown-review
     status: radar-bilingual-chinese-counterpart-task-breakdown-ready-for-review
@@ -2453,8 +2453,37 @@ bilingual_chinese_counterpart_data_revision_foundation_assignment:
     - AMR-BI-DATA-102-or-any-later-work-item
     - fixed-07-fixed-06-fixed-09-fixed-10-or-any-other-role-route
     - production-deployment
-  scheduling: authorized-awaiting-canonical-fixed-08-role-entry
+  scheduling: completed-ready-for-review
+  delivery_status: ready-for-review
+  started_at: "2026-08-31T15:04:14+08:00"
+  completed_at: "2026-08-31T15:09:57+08:00"
+  validated_at: "2026-08-31T15:09:57+08:00"
+  output:
+    artifact: artifact-radar-bilingual-data-revision-foundation-001
+    version: "1.0"
+    source_commit: b24615e71501030d940365f75b16eb98a8e60237
+    aggregate_sha256: 36da55aaac3daa717c4ea387958dbcb46b5773a0cb425c5016d379fbed8ba995
+    migration_path: backend/migrations/live/0002_bilingual_revision_foundation.sql
+    fixture_paths:
+      - backend/tests/fixtures/bilingual-revisions/valid.sql
+      - backend/tests/fixtures/bilingual-revisions/invalid-locale.sql
+  validation:
+    node: 24.19.0
+    lint: passed
+    typecheck: passed
+    build: passed
+    existing_backend_tests: 61-of-61-passed
+    migration_tests: 4-of-4-passed
+    checksum_and_replay: passed
+    failure_rollback_and_readiness_false: passed
+  truth_boundary:
+    real_or_active_database_migrated: false
+    real_or_active_database_written: false
+    network_requests: 0
+    service_started_stopped_or_restarted: false
+    downstream_roles_started: 0
+    production_release: frozen
   stop_gate: atomic-delivery-review
   production_release: frozen
   auto_advance_beyond_next: false
-updated_at: "2026-08-28T18:09:53+08:00"
+updated_at: "2026-08-31T15:09:57+08:00"
