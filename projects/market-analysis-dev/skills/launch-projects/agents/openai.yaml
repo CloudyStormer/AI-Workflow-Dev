@@ -1,0 +1,4 @@
+interface:
+  display_name: "项目启动器"
+  short_description: "动态展示全部项目，并按选择启动完整本地服务"
+  default_prompt: "Use $launch-projects to list all registered AIWorkFlow projects and let me choose one to start."
